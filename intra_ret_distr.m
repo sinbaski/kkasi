@@ -9,7 +9,7 @@ company = 'nordea_bank';
 
 get_data = 0;
 
-ret = get_intra_ret_simple(company, '2012-01-16', '2012-04-20', interval);
+[ret, sig] = get_intra_ret_simple(company, '2012-01-16', '2012-04-20', interval);
 r = (ret - mean(ret))./std(ret);
 
 q1 = [-2.1, -0.7, 0.7, 2.1];

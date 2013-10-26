@@ -1,18 +1,36 @@
-function ret = get_intra_ret_simple(company, first_day, last_day, dt)
+function [ret, sig] = get_intra_ret_simple(company, first_day, last_day, dt)
 
     days = get_recorded_days(company, first_day, last_day);
 
-    ret = NaN(1e6, 1);
-    m = 1;
+    num = ceil(60/dt*8.5);
+
+    ret = NaN(length(days) * num, 1);
+    sig = NaN(length(days) * num, 1);
+    N = NaN(length(days), 1);
+    n = 1;
     for d = 1:length(days)
         price = get_interpolated_prices(company, days{d}, 'minute', 1);
-        N = length(price);
-        if N <= dt
+        if length(price) <= dt
             continue;
         end
-        ret(m : m + N - dt - 1) = ...
-            log(price(1 + dt : end) ./ price(1:end - dt));
-        m = m + (N - dt);
+        price = price(1:dt:length(price));
+        r = price2ret(price);
+        N(d) = length(r);
+        ret(n: n + N(d) - 1) = r;
+        n = n + N(d);
     end
-    ret = ret(1:m-1);
+    ret = ret(1: n-1);
 
+    n = 1;
+    for d = 1:length(days)
+        % A price observation every 30s.
+        price = get_interpolated_prices(company, days{d}, ...
+                                                 'second', 30);
+        for k = 1:N(d)
+            % In each dt min, there are dt*2 intervals of 30s.
+            r = price2ret(price((k-1) * dt*2 + 1 : k * dt*2));
+            sig(n+k-1) = norm(r);
+        end
+        n = n + N(d);
+    end
+    sig = sig(1:n-1);

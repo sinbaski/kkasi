@@ -4,7 +4,7 @@ close all
 % Volvo B 2009-01-01 -- 2010-12-31 up
 xi = 2.0512;
 
-% ret = get_intra_ret_simple('ericsson_b', '2012-01-16', '2012-03-30', 50);
+% [ret, sig] = get_intra_ret_simple('ericsson_b', '2012-01-16', '2012-03-30', 50);
 ret = get_intra_ret('ericsson_b', '2012-01-16', '2012-03-30', 45*60, ...
                                   1/60, 1, 0);
 r = (ret - mean(ret))/std(ret);
