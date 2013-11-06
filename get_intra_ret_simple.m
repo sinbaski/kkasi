@@ -1,4 +1,5 @@
-function [ret, sig] = get_intra_ret_simple(company, first_day, last_day, dt)
+function [ret, sig] = get_intra_ret_simple(...
+    company, first_day, last_day, dt, delta)
 
     days = get_recorded_days(company, first_day, last_day);
 
@@ -23,14 +24,15 @@ function [ret, sig] = get_intra_ret_simple(company, first_day, last_day, dt)
 
     n = 1;
     for d = 1:length(days)
-        % A price observation every 30s.
-        price = get_interpolated_prices(company, days{d}, ...
-                                                 'second', 30);
+        % A price observation every delta sec.
+        price = get_interpolated_prices(...
+            company, days{d}, 'second', delta);
         for k = 1:N(d)
             % In each dt min, there are dt*2 intervals of 30s.
-            r = price2ret(price((k-1) * dt*2 + 1 : k * dt*2));
+            r = price2ret(price((k-1)*dt*60/delta+1 : k*dt*60/delta));
             sig(n+k-1) = norm(r);
         end
         n = n + N(d);
     end
     sig = sig(1:n-1);
+    
