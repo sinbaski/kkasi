@@ -23,7 +23,8 @@ $\mathbb{E}(x)$
 \section{Stylized facts}
 
 \section{GARCH models}
-The Auto-correlation function of $\epsilon_t^2$ is given by (c.f. \cite{Bollerslev87})
+The Auto-correlation function of $\epsilon_t^2$ is given by
+(c.f. \cite{Bollerslev87})
 $$
 \rho_n = \sum_{i=1}^{max(p,q)} (\alpha_i + \beta_i) \rho_{n-i}
 \;n > p
@@ -38,7 +39,7 @@ auto-correlation function cuts off at $max(p, q)$.
 \begin{figure}[ht]
   \centering
   \includegraphics[scale=0.5, clip=true, trim=103 236 118
-  130]{../pics/nordea_price_20120116-20120420.pdf}
+  200]{../pics/nordea_price_20120116-20120420.pdf}
   \caption{Nordea Bank paid prices 2012/01/16-2012/04/20}
   \label{fig:Nordea}
 \end{figure}
@@ -59,28 +60,29 @@ intervals. This again points to a GARCH model.
   \centering
   \subfigure[ACF of squared returns]{
     \includegraphics[scale=0.4, clip=true, trim=95 236 118
-    130]{../pics/nordea_15min_acf.pdf}
+    200]{../pics/nordea_15min_acf.pdf}
     \label{fig:nordea_15min_acf}
   }
   \subfigure[ACF of volatilities]{
     \includegraphics[scale=0.4, clip=true, trim=95 236 118
-    130]{../pics/nordea_15min_vlt_acf.pdf}
+    200]{../pics/nordea_15min_vlt_acf.pdf}
     \label{fig:nordea_15min_vlt_acf}
   }
   \caption{Nordea Bank 15m autocorrelations}
 \end{figure}
 
 To obtain the functional form of the conditional distribution of
-$\epsilon_t$, we look at the qq-plot of $\epsilon_t/\sigma_t$
-\ref{fig:nordea_15min_epOversig_qq}, which is consistent with a
-standard Gaussian distribution except for a few outliers at the two
-ends. Hence the fat tails of the probability density function can be
-entirely accounted for by GARCH effects, implying a Gaussian
-conditional distribution is appropriate for $\epsilon_t$. 
+$\epsilon_t$ \footnote{We use the realized volatility as an estimate of the
+conditional volatility. See \cite{Andersen03}.}, we look at the
+qq-plot of $\epsilon_t/\sigma_t$ \ref{fig:nordea_15min_epOversig_qq},
+which is consistent with a standard Gaussian distribution except for a
+few outliers at the two ends. Hence the fat tails of the probability
+density function can be entirely accounted for by GARCH effects,
+implying a Gaussian conditional distribution is appropriate for $\epsilon_t$.
 \begin{figure}[htb!]
   \centering
     \includegraphics[scale=0.6, clip=true, trim=100 236 118
-    130]{../pics/nordea_15min_epOversig_qq.pdf}
+    200]{../pics/nordea_15min_epOversig_qq.pdf}
   \caption{QQ-plot of $\epsilon_t / \sigma_t$. $\epsilon_t$ are
     derived from Nordea Bank 15m returns while $\sigma_t$ are realized
     volatilities calculated using 30s returns within each 15m
@@ -112,7 +114,99 @@ parameters, we obtain a GARCH(1, 3) model
   \label{tab:nordea_15min_garch}
 \end{table}
 
-\subsection{15min Returns}
+\subsubsection{ARFIMA(p,d,q) volatility model}
+With the availability of transactional data, estimating conditional
+volatility using returns sampled at a higher frequency (realized
+volatility) gives superior acuracy and reliability. However, at which
+frequency the time series should be sampled in order to give an
+unbiased and consistent estimate of the volatility is not a trivial
+question. Naively one would argue by the doctrine of statistics that
+the often the series is sampled, the better the estimate. This is also
+well supported in theory, since the quadratic variation which is the
+theoretial variance of the time series (see \cite{Andersen03}, theorem
+1 and corollary 1), is approximated as (see \cite{Protter05}, ch.II,
+sec.6, theorem 22):
+\[
+\var(p_{t+h} - p_t) = [r, r]_{t+h} - [r, r]_t = \lim_{n \to \infty}
+\sum_{T^i \in \pi_n} (p^{T_{i+1}} - p^{T_i})^2
+\]
+where $p_t$ is the log price process and $r_t = p_t - p_0$. $\pi_n$
+is a refining partition of the interval $[t, t+h]$.
+
+However, due to the noise introduced by market micro-structure, there
+is actually an optimal sampling frequency relative to $h$. While the
+method to determine this optimal frequency is a subject of debate (see
+for example \cite{Sahalia05}), it is not difficult to find a fairly
+satisfactory frequency in practice.
+
+Andersen and Bollerslev et al proved in \cite{Andersen03} that, with
+the conditional volatility well approximated by the realized
+volatility, $r_{t+h, h} = p_{t+h} - p_t$ is governed by a Gaussian
+distribution (see theorem 2 of \cite{Andersen03}):
+\[
+r_{t+h, h} | \sigma(\mu_{t+s}, \sigma_{t+s})_{s \in [0, h]} \sim
+N(\int_{0}^h \mu_{t+s} ds, \int_{0}^h \sigma_{t+s}^2 ds)
+\]
+
+Thus one can try a few frequencies and compare the distribution of
+$r_{t+h, h}/\hat{\sigma_{t+h, h}}$ with the standard Gaussian. If the
+two match, $\hat{\sigma_{t+h, h}}$ is a good estimate of $\sigma_{t+h,
+  h}$, the volatility of $r_{t+h, h}$.
+
+For the present case with $h = 15\text{min}$, a reasonally good
+sampling frequency is 1/30sec, as confirmed by the QQ-plot
+\ref{fig:nordea_15min_epOversig_qq} as well as by the auto-correlation
+functions of $r_{t+h, h} / \sigma_{t+h, h}$ and of $(r_{t+h, h} /
+\sigma_{t+h, h})^2$ which are shown in
+\ref{fig:nordea_15min_quotient_acf} and
+\ref{fig:nordea_15min_quotient_squared_acf} respectively.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[ACF of $r_{t+h, h} / \sigma_{t+h, h}$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_quotient_acf.pdf}
+    \label{fig:nordea_15min_quotient_acf}
+  }
+  \subfigure[ACF of $(r_{t+h, h} / \sigma_{t+h, h})^2$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_quotient_squared_acf.pdf}
+    \label{fig:nordea_15min_quotient_squared_acf}
+  }
+\end{figure}
+
+We see in figure \ref{fig:nordea_15min_quotient_acf} and
+\ref{fig:nordea_15min_quotient_squared_acf} there is essentially no
+auto-correlation in the series $r_{t+h, h} / \sigma_{t+h, h}$ and
+$(r_{t+h, h} / \sigma_{t+h, h})^2$, supporting the assumption that the
+series is i.i.d Gaussian distributed. As a result, the problem of
+modeling $r_{t+h, h}$ boils down to modeling $\sigma_{t+h,
+  h}$. Andersen and Bollerslev et al reported (See \cite{Andersen03})
+that, for the exchange rates between Deutch mark, yen and dollar, $\ln
+\sigma_{t+h, h}$ is gaussian distributed. This is, however, not the
+case for our series in question. In fact, in our case, $\ln
+\sigma_{t+h, h}$ is right skewed (skewness 0.3342) and leptokurtic
+(kurtosis 6.1006). See figure \ref{fig:nordea_15min_logvol_pdf} and
+\ref{fig:nordea_15min_logvol_qq}
+\begin{figure}[htb!]
+  \centering
+  \subfigure[PDF of $\ln\sigma_{t+h,h}$]{
+    \includegraphics[scale=0.32, clip=true, trim=52 173 46
+    43]{../pics/nordea_15min_logvol_hist.pdf}
+    \label{fig:nordea_15min_logvol_pdf}
+  }
+  \subfigure[QQ-plot of $\ln\sigma_{t+h,h}$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_logvol_qq.pdf}
+    \label{fig:nordea_15min_logvol_qq}
+  }
+\end{figure}
+
+Moreover, the auto-correlation function of $\ln\sigma_{t+h, h}$
+shows a long memory of the time series (see figure
+\ref{fig:nordea_15min_logvol_acf} and
+\ref{fig:nordea_15min_logvol_pcf}.
+
+\subsection{45min Returns}
 
 
 \bibliographystyle{plain}
