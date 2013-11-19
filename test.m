@@ -25,60 +25,56 @@ acf = autocorr(w, 120) .* var(w);
 acf = acf(2:end);
 
 % Nordea
-theta = zeros(1, s+1);
-theta(1) = 0.6263;
-theta(s) = 0.5870;
-theta(s+1) = theta(1)*theta(s);
-aV = mean([acf(s-1), acf(s+1)])/theta(1)/theta(s);
 
-% Assume Gaussian distribution to obtain
-% a preliminary parameter estimation
-% model = arima('D', 1, 'Seasonality', s, 'MALags', 1, 'SMALags', 1, ...
-%               'Constant', 0);
-% model.Distribution = struct('Name', 'Gaussian');
-% model = estimate(model, lv);
-% [y, yV] = infer(model, lv);
-% theta = cell2mat(model.MA);
+if 1
+    theta = zeros(1, s+1);
+    % theta(1) = 0.6263;
+    % theta(s) = 0.5870;
+    theta(1) = 0.845552;
+    theta(s) = 0.804139;
+    % theta(1) = 0.878236;
+    % theta(s) = 0.912821;
+    theta(s+1) = theta(1)*theta(s);
+    theta(s-1) = theta(s+1);
+    V = mean([acf(s-1), acf(s+1)])/theta(1)/theta(s);
+    
+    y = ma_infer(w, theta(1), theta(s), s);
 
-% Now infer the innovations
-n = length(w);
-y = NaN(n, 1);
-done = 0;
-for t = n:-1:1
-    k = 1;
-    x = 0;
-    while 1
-        m = floor(k/s);
-        j = 0:m;
-        coef = sum(theta(1).^(k - s.*j) .* theta(s).^j);
-        if coef < 5.0e-2
-            break;
-        end
-        if t - k <= 0
-            done = 1;
-            break;
-        end
-        x = x + w(t - k) * coef;
-        k = k + 1;
-    end
-    if done
-        break;
-    end
-    y(t) = w(t) + x;
+else
+
+    % Assume Gaussian distribution to obtain
+    % a preliminary parameter estimation
+    model = arima('MALags', [1], 'SMALags', [33], ...
+                  'Constant', 0);
+    model.Distribution = struct('Name', 'Gaussian');
+    model = estimate(model, w);
+    [y, yV] = infer(model, w);
+    % theta = cell2mat(model.MA);
 end
-y = y(t+1:n);
-
-
-
-type = cmp_johnson_su(y);
-
-% match the moments of the infered residuals to the corresponding
-% formula of Johnson Su. so as to estimate the parameters a, b, c, m
-func = @(x) -loglikelihood(x, w);
 
 param = NaN(1, 6);
-param([5,6]) = -theta([1, s]);
-coef = fmincon(func, coef, [], [], [], [], -0.99, 0.99);
+param(5) = model.MA{1};
+param(6) = model.SMA{33};
+mmt = [mean(y), var(y), skewness(y), kurtosis(y)];
+
+func = @(x) johnson_su_moments34(x) - mmt(3:4);
+param([1:2]) = fsolve(func, [-0.1922, 1.445]);
+m = johnson_su_moments12([param([1:2]), 1, 0]);
+param(3) = sqrt(mmt(2)/m(2));
+param(4) = mmt(1) - m(1)*param(3);
+type = cmp_johnson_su(y);
+
+func = @(x) objective(x, w);
+
+lb = -ones(1, 6) .* Inf;
+lb(5:6) = [-0.99, -0.99];
+ub = ones(1, 6) .* Inf;
+ub(5:6) = [0.99, 0.99];
+
+% options = optimoptions('fmincon','GradObj','on');
+% problem = struct('objective', func, 'x0', param, 'lb', lb, 'ub', ub, ...
+%                  'options', options);
+sltn = fmincon(func, param, [], [], [], [], lb, ub, []);
 
 
 % [acf, x] = autocorr(ret.^2);
