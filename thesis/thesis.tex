@@ -23,7 +23,7 @@ $\mathbb{E}(x)$
 \section{Stylized facts}
 
 \section{GARCH models}
-The Auto-correlation function of $\epsilon_t^2$ is given by
+The autocorrelation function of $\epsilon_t^2$ is given by
 (c.f. \cite{Bollerslev87})
 $$
 \rho_n = \sum_{i=1}^{max(p,q)} (\alpha_i + \beta_i) \rho_{n-i}
@@ -31,7 +31,7 @@ $$
 $$
 where $\alpha_i$ with $i > q$ and $\beta_i$ with $i > p$ are taken as
 zeros. From these equations, it is clear that the partial
-auto-correlation function cuts off at $max(p, q)$.
+autocorrelation function cuts off at $max(p, q)$.
 
 
 \chapter{Case Study of Stocks}
@@ -48,13 +48,13 @@ Figure \ref{fig:Nordea} shows the paid prices of Nordea Bank from
 
 \subsection{15min Returns}
 \subsubsection{GARCH model}
-The auto-correlation function (ACF) of $\epsilon_t^2$ are shown in figure
+The autocorrelation function (ACF) of $\epsilon_t^2$ are shown in figure
 \ref{fig:nordea_15min_acf}. At the absence of GARCH effects, the ACF
 will have an asymptotic Gaussian distribution with mean 0 and variance
-1/T. The first 5 auto-correlations have considerable sizes and do not
+1/T. The first 5 autocorrelations have considerable sizes and do not
 fall off as in the Gaussian case. This observation suggests a GARCH
 model. Moreover, from \ref{fig:nordea_15min_vlt_acf}, one sees
-apparent auto-correlations between volatilities of consecutive time
+apparent autocorrelations between volatilities of consecutive time
 intervals. This again points to a GARCH model.
 \begin{figure}[htb!]
   \centering
@@ -91,8 +91,8 @@ implying a Gaussian conditional distribution is appropriate for $\epsilon_t$.
 \end{figure}
 
 To determine the orders p and q of the GARCH model, we again check
-the partial auto-correlation function of $\epsilon_t^2$. As just
-mentioned, the first 5 partial auto-correlations are significant. Thus
+the partial autocorrelation function of $\epsilon_t^2$. As just
+mentioned, the first 5 partial autocorrelations are significant. Thus
 we can tentatively estimate a GARCH(1, 5) model. Then by applying the
 Lagrange multiplier test and accordingly removing insignificant
 parameters, we obtain a GARCH(1, 3) model
@@ -114,7 +114,7 @@ parameters, we obtain a GARCH(1, 3) model
   \label{tab:nordea_15min_garch}
 \end{table}
 
-\subsubsection{ARFIMA(p,d,q) volatility model}
+\subsubsection{$(0,1,1)\times(0, 1, 1)$ seasonal volatility model}
 With the availability of transactional data, estimating conditional
 volatility using returns sampled at a higher frequency (realized
 volatility) gives superior acuracy and reliability. However, at which
@@ -155,7 +155,7 @@ two match, $\hat{\sigma_{t+h, h}}$ is a good estimate of $\sigma_{t+h,
 
 For the present case with $h = 15\text{min}$, a reasonally good
 sampling frequency is 1/30sec, as confirmed by the QQ-plot
-\ref{fig:nordea_15min_epOversig_qq} as well as by the auto-correlation
+\ref{fig:nordea_15min_epOversig_qq} as well as by the autocorrelation
 functions of $r_{t+h, h} / \sigma_{t+h, h}$ and of $(r_{t+h, h} /
 \sigma_{t+h, h})^2$ which are shown in
 \ref{fig:nordea_15min_quotient_acf} and
@@ -172,20 +172,21 @@ functions of $r_{t+h, h} / \sigma_{t+h, h}$ and of $(r_{t+h, h} /
     200]{../pics/nordea_15min_quotient_squared_acf.pdf}
     \label{fig:nordea_15min_quotient_squared_acf}
   }
+  \caption{Nordea 15min $r_t/\sigma_t$ and $(r_t/\sigma_t)^2$ ACF.}
 \end{figure}
 
 We see in figure \ref{fig:nordea_15min_quotient_acf} and
 \ref{fig:nordea_15min_quotient_squared_acf} there is essentially no
-auto-correlation in the series $r_{t+h, h} / \sigma_{t+h, h}$ and
+autocorrelation in the series $r_{t+h, h} / \sigma_{t+h, h}$ and
 $(r_{t+h, h} / \sigma_{t+h, h})^2$, supporting the assumption that the
 series is i.i.d Gaussian distributed. As a result, the problem of
 modeling $r_{t+h, h}$ boils down to modeling $\sigma_{t+h,
-  h}$. Andersen and Bollerslev et al reported (See \cite{Andersen03})
-that, for the exchange rates between Deutch mark, yen and dollar, $\ln
-\sigma_{t+h, h}$ is gaussian distributed. This is, however, not the
-case for our series in question. In fact, in our case, $\ln
-\sigma_{t+h, h}$ is right skewed (skewness 0.3342) and leptokurtic
-(kurtosis 6.1006). See figure \ref{fig:nordea_15min_logvol_pdf} and
+  h}$. Andersen and Bollerslev et al reported that, for the exchange
+rates between Deutch mark, yen and dollar, $\ln \sigma_{t+h, h}$ is
+gaussian distributed \cite{Andersen03}. This is, however, not the case
+for our series in question. In fact, in our case, $\ln \sigma_{t+h,
+  h}$ is right skewed (skewness 0.3342) and leptokurtic (kurtosis
+6.1006). See figure \ref{fig:nordea_15min_logvol_pdf} and
 \ref{fig:nordea_15min_logvol_qq}
 \begin{figure}[htb!]
   \centering
@@ -199,13 +200,115 @@ case for our series in question. In fact, in our case, $\ln
     200]{../pics/nordea_15min_logvol_qq.pdf}
     \label{fig:nordea_15min_logvol_qq}
   }
+  \caption{Nordea 15min $\ln\sigma_{t+h, h}$ unconditional
+    distribution}
 \end{figure}
 
-Moreover, the auto-correlation function of $\ln\sigma_{t+h, h}$
-shows a long memory of the time series (see figure
-\ref{fig:nordea_15min_logvol_acf} and
-\ref{fig:nordea_15min_logvol_pcf}.
+Moreover, the autocorrelation function of $\ln\sigma_{t+h, h}$
+shows long-lasting and periodic autocorrelations in the time series
+with an apparent period of 33 (see figure
+\ref{fig:nordea_15min_logvol_acf}). This suggests simplifying the
+series by differencing \cite{BoxJenkins94}:
+\[
+w_t = (1-B)(1-B^s)\ln\sigma_{t+h, h}
+\]
+where $B$ is the back-shift operator. The length of the time interval
+h, which is 15min in the present case, is left implicit.
 
+The autocorrelation function of the differenced process $w_t$, as shown in
+figure \ref{fig:nordea_15min_w_acf}, clearly points to a seasonal $(0,
+0, 1)\times(0, 0, 1)$ model: There are only 4 non-zero
+autocorrelations in the plot, located at lags 1, 32, 33, 34,
+respectively; furthermore, the two at 32 and 34 are approximately
+equal. Thus we can write down the model as
+\begin{eqnarray*}
+  w_t = (1 - \theta B)(1 - \Theta B^s) y_t
+\end{eqnarray*}
+where $\theta$ and $\Theta$ are parameters to be determined and $y_t$
+is a noise process with constant variance $\sigma_y^2$ and mean
+0. $y_t$ is often refered to as the residuals.
+
+The above $(0, 0, 1)\times(0, 0, 1)$ model has the following
+autocovariance structure \cite{BoxJenkins94}:
+\begin{eqnarray*}
+  \gamma_0 &=& \sigma_y^2 (1 + \theta^2)(1 + \Theta^2) \\
+  \gamma_1 &=& -\sigma_y^2\theta(1 + \Theta^2) \\
+  \gamma_s &=& -\sigma_y^2\Theta(1 + \theta^2) \\
+  \gamma_{s+1} &=& \gamma_{s-1}\;=\;\sigma_y^2\theta\Theta
+\end{eqnarray*}
+These equations together with the measured autocorrelations make
+possible an initial estimate of the parameters $\theta$ and $\Theta$:
+\begin{eqnarray*}
+  {\rho_{s+1}/\rho_s} &=& {\gamma_{s+1}/\gamma_s} \;=\; -{\theta \over
+    1 + \theta^2} \\
+  {\rho_{s+1}/\rho_1} &=& {\gamma_{s+1}/\gamma_1} \;=\; -{\Theta \over
+    1 + \Theta^2} \\
+\end{eqnarray*}
+Substituting in the measured values shown in table
+\ref{tab:nordea_15min_w_acf},
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{c|c|c|c}
+    $\rho_1$ & $\rho_{s-1}$ & $\rho_s$ & $\rho_{s+1}$ \\
+    \hline
+    -0.4703 &  0.2053 & -0.4564 &  0.2212
+  \end{tabular}
+  \caption{Nordea 15min $w_t$ autocorrelations}
+  \label{tab:nordea_15min_w_acf}
+\end{table}
+we get
+\begin{eqnarray*}
+  \theta &=& 0.6890 \\
+  \Theta &=& 0.6378
+\end{eqnarray*}
+Among the two roots of each of the 2nd order equations in the above,
+we have chosen the one in the range $(-1, 1)$ so as to ensure
+invertibility of the model \cite{BoxJenkins94}.
+
+By inverting the seasonal moving average model of $w_t$ we can then
+infer the noise process $y_t$ \footnotemark, i.e. the residuals:
+\begin{eqnarray*}
+  y_t &=& {1 \over 1 - \theta B}{1 \over 1 - \Theta B^s} w_t \\
+  &=& \sum_{i=0}^{\infty}\sum_{j=0}^{\infty} \theta^i \Theta^j B^{i+j}
+  w_t \\
+  &=& w_t + \sum_{k=1}^{\infty} \sum_{j=0}^{\bot(k/s)} \theta^{k-sj} \Theta^j
+  w_{t-k}
+\end{eqnarray*}
+where $\bot(\cdot)$ denotes the floor function, i.e. the largest
+integer smaller than its argument.
+
+In order to forecst the $w_t$ process, and hence the price process
+itself, we must also know the distribution of $y_t$. Moreover, to
+properly estimate the parameters of the model in the sense of maximum
+likelihood, we are also in need of the distribution of $y_t$.
+
+If $y_t$ is indeed i.i.d random variables as we assumed, we only need
+to work out its unconditional distribution.
+
+\footnotetext{
+  The autoregressive process resulting from the inversion is inifinite
+  in extent. Hence one must choose a cut-off value for k. For the
+  present case of Nordea 15min log-volatility, I choose the value
+  $k=sj$ for which $|\Theta|^j < 0.02$. This value of k, call it
+  $k_{\top}$, is around 550. To avoid data reduction of this amount,
+  we add to the beginning of $\{w_t\}_{t=1}^n$ $k_{\top}$ zeros
+  corresponding to t=0, -1, ..., -$k_{\top}$+1. Recall $E(w_t) = E(y_t
+  - \theta y_{t-1} - \Theta y_{t-s} + \theta \Theta y_{t-s-1}) = 0$.
+}
+\begin{figure}[htb!]
+  \centering
+  \subfigure[ACF of $\ln\sigma_{t+h,h}$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 230 112
+    210]{../pics/nordea_15min_logvol_acf.pdf}
+    \label{fig:nordea_15min_logvol_acf}
+  }
+  \subfigure[ACF of $w_t$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 230 112
+    210]{../pics/nordea_15min_w_acf.pdf}
+    \label{fig:nordea_15min_w_acf}
+  }
+  \caption{Nordea 15min $\ln\sigma_{t+h, h}$ and $w_t$ autocorrelations}
+\end{figure}
 \subsection{45min Returns}
 
 

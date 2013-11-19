@@ -5,7 +5,6 @@ Delta = args(2);
 Lambda = args(3);
 Xi = args(4);
 
-
 w = exp(1 ./ Delta.^2);
 Omega = Gamma ./ Delta;
 

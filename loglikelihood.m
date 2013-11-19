@@ -12,13 +12,9 @@ c = param(3);
 m = param(4);
 theta = param(5);
 Theta = param(6);
-mmt = johnson_su_moments12(param);
+% mmt = johnson_su_moments12(param);
 
-model = arima('MALags', [1], 'MA', theta, 'SMALags', [s], 'SMA', Theta, ...
-              'Constant', 0, 'Variance', mmt(2));
-model.Distribution = struct('Name', 'Gaussian');
-
-[y, yV] = infer(model, obs);
+y = ma_infer(obs, theta, Theta, s);
 
 z = b*asinh((y - m)/c) + a;
 l = -z'*z/2 -sum(log(1 + ((y - m)/c).^2))/2;
