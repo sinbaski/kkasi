@@ -2,33 +2,70 @@ clear all
 close all
 % Volvo B 2007-06-01 -- 2008-12-31 down
 % Volvo B 2009-01-01 -- 2010-12-31 up
-xi = 2.0512;
+% filename = 'data/volvo_b_20121203-20131202.csv';
 
-filename = 'data/ericsson_b.csv';
-price = dlmread(filename, ',', [1, 4, 3560, 4]);
+%% daily returns
+filename = 'data/nasdaq.csv';
+price = dlmread(filename, ',', [1, 4, 10807, 4]);
+% filename = 'data/sp.csv';
+% price = dlmread(filename, ',', [1, 4, 16084, 4]);
 price = flipud(price); 
-
-
 ret = price2ret(price);
 r = (ret - mean(ret))/std(ret);
 
-figure
-[f, x] = ecdf(r);
-plot(x, f, 'b');
-R = randn(1e4, 1);
-hold on
-[f, x] = ecdf(R);
-plot(x, f, 'r');
-hold off
-grid on
-title('CDF of volvo daily ret. dist.');
 
-figure
-qqplot(r);
-grid on
+%% intraday returns
+% company = 'volvo_b';
+% first_day = '2013-10-10';
+% last_day = '2013-12-04';
+% dt = 5;
+% % interval for calculating realized volatility. in seconds
+% delta = 10;
+% [ret, v] = get_intra_ret_simple(...
+%     company, first_day, last_day, dt, delta);
+% r = (ret - mean(ret))/std(ret);
 
-[p1, p2] = extract_xpnt(r);
-fprintf('xpnt1=%f, xpnt2=%f\n', p1, p2);
+[p1, p2] = extract_xpnt(r, 2.56e-2/std(ret), 5.0e-2/std(ret));
+% [p1, p2] = extract_xpnt(r, 0.045/std(ret));
+fprintf('Left tail exponent: %.4f\nRight tail exponent: %.4f\n', ...
+        p1, p2);
+
+% figure;
+
+% p = hist(r, x)/length(r)/(x(2) - x(1));
+% plot(x, p);
+
+% js = johnson_su_params([mean(r), var(r), skewness(r), ...
+%                     kurtosis(r)]);
+% pt = johnson_su_pdf(johnson_su_struct(js), x);
+% plot(x, pt, 'g');
+
+
+% param = mle(r, 'pdf',...
+%             @(x, xi1, xi2)...
+%             NormalPowerLaw_pdf([xi1, xi2], x),...
+%             'start', sqrt([1.5, 1.42]), ...
+%             'lowerbound', [1.0, 1.0]);
+% powerlaw = NormalPowerLaw_cdf(param, x);
+
+% figure;
+% I1 = x < -param(1);
+% plot(log(-x(I1)), log(p(I1)),...
+%      log(-x(I1)), log(powerlaw(I1)));
+% legend('empirical', 'power-law fit', ...
+%        'Location', 'Southwest');
+% title('S&P daily returns left tail');
+% grid on;
+
+
+% figure;
+% I2 = x > param(2);
+% plot(log(x(I2)), log(1-p(I2)),...
+%      log(x(I2)), log(1-powerlaw(I2)));
+% legend('empirical', 'power-law fit', ...
+%        'Location', 'Northwest');
+% title('S&P daily returns right tail');
+% grid on
 
 
 

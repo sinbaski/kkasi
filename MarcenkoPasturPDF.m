@@ -1,5 +1,6 @@
 %function rho = MarcenkoPasturPDF(lambda, q, var)
 function rho = MarcenkoPasturPDF(prmt, lambda)
+% a = N/T, i.e. # series / # observations 
 q = abs(real(prmt(1)));
 var = abs(real(prmt(2)));
 

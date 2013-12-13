@@ -6,18 +6,34 @@ function l = loglikelihood(param, obs)
 n = length(obs);
 s = 33;
 
-a = param(1);
-b = param(2);
-c = param(3);
-m = param(4);
-theta = param(5);
-Theta = param(6);
+% a: gamma
+% b: delta
+% c: lambda
+% m: xi
+% a = param(1);
+% b = param(2);
+% c = param(3);
+% m = param(4);
+theta = param(1);
+Theta = param(2);
 % mmt = johnson_su_moments12(param);
 
 y = ma_infer(obs, theta, Theta, s);
+moments = [mean(y), var(y), skewness(y), kurtosis(y)];
+if (moments(3) < 0 || moments(3) > 0.5 ||...
+    moments(4) < 3.6 || moments(4) > 8.0)
+    l = -Inf;
+    return;
+end
+
+jsp = johnson_su_params(moments);
+a = jsp(1);
+b = jsp(2);
+c = jsp(3);
+m = jsp(4);
 
 z = b*asinh((y - m)/c) + a;
-l = -z'*z/2 -sum(log(1 + ((y - m)/c).^2))/2;
+l = n*log(b/c) - z'*z/2  - sum(log(1 + ((y - m)/c).^2))/2 - n*log(2*pi)/2;
 
 % gradz = johnson_su_grad(param([1:4]), y, z);
 % grad = NaN(4, 1);

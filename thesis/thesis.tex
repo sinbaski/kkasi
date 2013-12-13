@@ -26,12 +26,13 @@ $\mathbb{E}(x)$
 The autocorrelation function of $\epsilon_t^2$ is given by
 (c.f. \cite{Bollerslev87})
 $$
-\rho_n = \sum_{i=1}^{max(p,q)} (\alpha_i + \beta_i) \rho_{n-i}
+\rho_n = \sum_{i=1}^{p \vee q} (\alpha_i + \beta_i) \rho_{n-i}
 \;n > p
 $$
 where $\alpha_i$ with $i > q$ and $\beta_i$ with $i > p$ are taken as
-zeros. From these equations, it is clear that the partial
-autocorrelation function cuts off at $max(p, q)$.
+zeros. $p \vee q$ denotes the maximum of p and q. From these
+equations, it is clear that the partial autocorrelation function cuts
+off at $max(p, q)$.
 
 
 \chapter{Case Study of Stocks}
@@ -51,11 +52,12 @@ Figure \ref{fig:Nordea} shows the paid prices of Nordea Bank from
 The autocorrelation function (ACF) of $\epsilon_t^2$ are shown in figure
 \ref{fig:nordea_15min_acf}. At the absence of GARCH effects, the ACF
 will have an asymptotic Gaussian distribution with mean 0 and variance
-1/T. The first 5 autocorrelations have considerable sizes and do not
-fall off as in the Gaussian case. This observation suggests a GARCH
-model. Moreover, from \ref{fig:nordea_15min_vlt_acf}, one sees
-apparent autocorrelations between volatilities of consecutive time
-intervals. This again points to a GARCH model.
+1/T \cite{Bollerslev86, Bollerslev87}. The first 5 autocorrelations
+have considerable sizes and do not fall off as in the Gaussian
+case. This observation suggests a GARCH model. Moreover, from
+\ref{fig:nordea_15min_vlt_acf}, one sees apparent autocorrelations
+between volatilities of consecutive time intervals. This again points
+to a GARCH model.
 \begin{figure}[htb!]
   \centering
   \subfigure[ACF of squared returns]{
@@ -68,7 +70,7 @@ intervals. This again points to a GARCH model.
     200]{../pics/nordea_15min_vlt_acf.pdf}
     \label{fig:nordea_15min_vlt_acf}
   }
-  \caption{Nordea Bank 15m autocorrelations}
+  \caption{Nordea Bank 15min autocorrelations}
 \end{figure}
 
 To obtain the functional form of the conditional distribution of
@@ -84,8 +86,8 @@ implying a Gaussian conditional distribution is appropriate for $\epsilon_t$.
     \includegraphics[scale=0.6, clip=true, trim=100 236 118
     200]{../pics/nordea_15min_epOversig_qq.pdf}
   \caption{QQ-plot of $\epsilon_t / \sigma_t$. $\epsilon_t$ are
-    derived from Nordea Bank 15m returns while $\sigma_t$ are realized
-    volatilities calculated using 30s returns within each 15m
+    derived from Nordea Bank 15min returns while $\sigma_t$ are realized
+    volatilities calculated using 30s returns within each 15min
     interval.}
   \label{fig:nordea_15min_epOversig_qq}
 \end{figure}
@@ -110,7 +112,7 @@ parameters, we obtain a GARCH(1, 3) model
      \hline
      $\alpha_3$ &    0.0568022  &   0.0301503   &    1.88397
   \end{tabular}
-  \caption{GARCH(1, 3) model of Nordea Bank 15m returns}
+  \caption{GARCH(1, 3) model of Nordea Bank 15min returns}
   \label{tab:nordea_15min_garch}
 \end{table}
 
@@ -192,12 +194,12 @@ for our series in question. In fact, in our case, $\ln \sigma_{t+h,
   \centering
   \subfigure[PDF of $\ln\sigma_{t+h,h}$]{
     \includegraphics[scale=0.32, clip=true, trim=52 173 46
-    43]{../pics/nordea_15min_logvol_hist.pdf}
+    113]{../pics/nordea_15min_logvol_hist.pdf}
     \label{fig:nordea_15min_logvol_pdf}
   }
   \subfigure[QQ-plot of $\ln\sigma_{t+h,h}$]{
     \includegraphics[scale=0.4, clip=true, trim=95 236 118
-    200]{../pics/nordea_15min_logvol_qq.pdf}
+    220]{../pics/nordea_15min_logvol_qq.pdf}
     \label{fig:nordea_15min_logvol_qq}
   }
   \caption{Nordea 15min $\ln\sigma_{t+h, h}$ unconditional
@@ -227,6 +229,20 @@ equal. Thus we can write down the model as
 where $\theta$ and $\Theta$ are parameters to be determined and $y_t$
 is a noise process with constant variance $\sigma_y^2$ and mean
 0. $y_t$ is often refered to as the residuals.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[ACF of $\ln\sigma_{t+h,h}$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 230 112
+    235]{../pics/nordea_15min_logvol_acf.pdf}
+    \label{fig:nordea_15min_logvol_acf}
+  }
+  \subfigure[ACF of $w_t$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 230 112
+    235]{../pics/nordea_15min_w_acf.pdf}
+    \label{fig:nordea_15min_w_acf}
+  }
+  \caption{Nordea 15min $\ln\sigma_{t+h, h}$ and $w_t$ autocorrelations}
+\end{figure}
 
 The above $(0, 0, 1)\times(0, 0, 1)$ model has the following
 autocovariance structure \cite{BoxJenkins94}:
@@ -265,17 +281,35 @@ Among the two roots of each of the 2nd order equations in the above,
 we have chosen the one in the range $(-1, 1)$ so as to ensure
 invertibility of the model \cite{BoxJenkins94}.
 
-By inverting the seasonal moving average model of $w_t$ we can then
-infer the noise process $y_t$ \footnotemark, i.e. the residuals:
-\begin{eqnarray*}
-  y_t &=& {1 \over 1 - \theta B}{1 \over 1 - \Theta B^s} w_t \\
-  &=& \sum_{i=0}^{\infty}\sum_{j=0}^{\infty} \theta^i \Theta^j B^{i+j}
-  w_t \\
-  &=& w_t + \sum_{k=1}^{\infty} \sum_{j=0}^{\bot(k/s)} \theta^{k-sj} \Theta^j
-  w_{t-k}
-\end{eqnarray*}
-where $\bot(\cdot)$ denotes the floor function, i.e. the largest
-integer smaller than its argument.
+With an estimate of $\theta$ and $\Theta$, one can then infer the
+noise process i.e. the residuals $y_t$:
+\begin{equation}
+  \label{eq:infer_y}
+  y_t = w_t + \theta y_{t-1} + \Theta y_{t-s} - \theta \Theta y_{t-s-1}  
+\end{equation}
+where we substitute $y_t\;(t \leq 0)$ with their unconditional
+expectation 0.
+% By inverting the seasonal moving average model of $w_t$ we can then
+% infer the noise process $y_t$ \footnotemark, i.e. the residuals:
+% \begin{eqnarray*}
+%   y_t &=& {1 \over 1 - \theta B}{1 \over 1 - \Theta B^s} w_t \\
+%   &=& \sum_{i=0}^{\infty}\sum_{j=0}^{\infty} \theta^i \Theta^j B^{i+j}
+%   w_t \\
+%   &=& w_t + \sum_{k=1}^{\infty} \sum_{j=0}^{\bot(k/s)} \theta^{k-sj} \Theta^j
+%   w_{t-k}
+% \end{eqnarray*}
+% where $\bot(\cdot)$ denotes the floor function, i.e. the largest
+% integer smaller than its argument.
+% \footnotetext{
+%   The autoregressive process resulting from the inversion is inifinite
+%   in extent. Hence one must choose a cut-off value for k. For the
+%   present case of Nordea 15min log-volatility, I choose the value
+%   $k=sj$ for which $|\Theta|^j < 0.02$. This value of k, call it
+%   $k_{\top}$, is around 550. To avoid data reduction of this amount,
+%   we add to the beginning of $\{w_t\}_{t=1}^n$ $k_{\top}$ zeros
+%   corresponding to t=0, -1, ..., -$k_{\top}$+1. Recall $E(w_t) = E(y_t
+%   - \theta y_{t-1} - \Theta y_{t-s} + \theta \Theta y_{t-s-1}) = 0$.
+% }
 
 In order to forecst the $w_t$ process, and hence the price process
 itself, we must also know the distribution of $y_t$. Moreover, to
@@ -283,32 +317,121 @@ properly estimate the parameters of the model in the sense of maximum
 likelihood, we are also in need of the distribution of $y_t$.
 
 If $y_t$ is indeed i.i.d random variables as we assumed, we only need
-to work out its unconditional distribution.
-
-\footnotetext{
-  The autoregressive process resulting from the inversion is inifinite
-  in extent. Hence one must choose a cut-off value for k. For the
-  present case of Nordea 15min log-volatility, I choose the value
-  $k=sj$ for which $|\Theta|^j < 0.02$. This value of k, call it
-  $k_{\top}$, is around 550. To avoid data reduction of this amount,
-  we add to the beginning of $\{w_t\}_{t=1}^n$ $k_{\top}$ zeros
-  corresponding to t=0, -1, ..., -$k_{\top}$+1. Recall $E(w_t) = E(y_t
-  - \theta y_{t-1} - \Theta y_{t-s} + \theta \Theta y_{t-s-1}) = 0$.
-}
+to work out its unconditional distribution. This is shown in figure
+\ref{fig:nordea_15min_y_qq} and \ref{fig:nordea_15min_y_acf}.
 \begin{figure}[htb!]
   \centering
-  \subfigure[ACF of $\ln\sigma_{t+h,h}$]{
+  \subfigure[QQ-plot of $y_t$]{
     \includegraphics[scale=0.4, clip=true, trim=95 230 112
-    210]{../pics/nordea_15min_logvol_acf.pdf}
-    \label{fig:nordea_15min_logvol_acf}
+    210]{../pics/nordea_15min_y_qq.pdf}
+    \label{fig:nordea_15min_y_qq}
   }
-  \subfigure[ACF of $w_t$]{
+  \subfigure[ACF of $y_t$]{
     \includegraphics[scale=0.4, clip=true, trim=95 230 112
-    210]{../pics/nordea_15min_w_acf.pdf}
-    \label{fig:nordea_15min_w_acf}
+    210]{../pics/nordea_15min_y_acf.pdf}
+    \label{fig:nordea_15min_y_acf}
   }
-  \caption{Nordea 15min $\ln\sigma_{t+h, h}$ and $w_t$ autocorrelations}
+  \caption{Nordea 15min $y_t$ QQ-plot and autocorrelations}
 \end{figure}
+In addition, the measured moments of $y_t$ are shown in table
+\ref{tab:nordea_15min_y_moments}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{c|c|c|c}
+    mean & variance & skewness & kurtosis \\
+    \hline
+    0.0012 & 0.0935 & 0.2988 & 6.8691
+  \end{tabular}
+  \caption{Nordea 15min $y_t$ moments}
+  \label{tab:nordea_15min_y_moments}
+\end{table}
+
+If we ignore the weak autocorrelations in this crude estimate of
+$y_t$ and assume $y_t$ to be i.i.d random variables governed
+by a skewed and leptokertic distribution, the parameters of this
+distribution together with $\theta$ and $\Theta$ can be determined via
+maximum likelihood estimate (MLE).
+
+It turns out that $y_t$ can be well described by a Johnson Su
+distribution \cite{Shang2004}:
+\[
+  y_t = \xi + \lambda\sinh{z_t - \gamma \over \delta}
+\]
+where $\gamma, \delta, \lambda, \xi$ are parameters to be determined
+and $z_t \sim N(0, 1)$. The goodness of fitting is demonstrated in
+figure \ref{fig:nordea_15min_y_js_fit} by the
+empirical cummulative distribution function in comparison to the
+theoretical one.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=112 272 107
+    140]{../pics/nordea_15min_y_js_fit.pdf}
+    \caption{Nordea 15min $y_t$ fitted to a Johnson Su distribution}
+    \label{fig:nordea_15min_y_js_fit}
+\end{figure}
+
+The first 4 moments of the Johnson Su distribution are expressible
+in closed form in $\gamma, \delta, \lambda, \xi$ \cite{Shang2004}:
+\begin{eqnarray*}
+  w &=& \exp{1 \over \delta^2} \\
+  \Omega &=& {\gamma \over \delta} \\
+  \text{E}(y) &=& -w^{1/2} \lambda \sinh\Omega + \xi\\
+  \text{std}(y) &=& \lambda \left[{1 \over 2}(w-1)(w\cosh 2\Omega +
+    1)\right]^{1/2} \\
+  \text{skewness}(y) &=& {
+    \sqrt{(1/2)w(w-1)} [w(w+2)\sinh 3\Omega + 3\sinh\Omega]
+    \over
+    (w\cosh 2\Omega + 1)^{3/2}} \\
+  \text{kurtosis}(y) &=& {
+    w^2(w^4 + 2w^3 + 3w^2 - 3)\cosh 4\Omega + 4w^2 (w+2) \cosh 2\Omega
+    + 3(2w+1) \over
+    2(w\cosh 2\Omega + 1)^2 }
+\end{eqnarray*}
+By matching the theoretical expressions of the moments with their
+measured values, and taking help from published tables
+\cite{Johnson1965}, one can solve for the parameters $\gamma, \delta,
+\lambda, \xi$.
+
+Under the assumption of i.i.d Johnson Su distributed residuals, the
+log-likelihood function of the parameters $\gamma, \delta$
+conditional on the sample $w_t$ can be written as
+\[
+L(\theta, \Theta) = -{1 \over 2}\sum_{t=1}^n z_t^2 + n \ln{\delta
+  \over \lambda \sqrt{2\pi}} - {1 \over 2}\sum_{t=1}^n \ln\left[
+  1 + \left({y_t - \xi \over \lambda}\right)^2
+\right]
+\]
+where $y_t$ are infered from $w_t$ using eq.\ref{eq:infer_y}
+and $z_t$ from $y_t$ using
+\[
+z_t = \delta \sinh^{-1}{y - \xi \over \lambda} + \gamma
+\]
+Note that $\gamma, \delta, \lambda, \xi$ are not really free
+parameters but rather are implied by $\theta$ and $\Theta$: Once the
+latter have been chosen and the corresponding $y_t$ infered, the
+former are determined by the moments of $y_t$.
+
+The eventual MLE is done in Matlab with the ``active set''
+algorithm. The initial as well as the final estimation results are
+listed in table \ref{tab:nordea_15min_js_param}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{c|c|c|c|c|c|c}
+    & $\gamma$ & $\delta$ & $\lambda$ & $\xi$ & $\theta$ & $\Theta$ \\
+    \hline
+    initial estimate & 0.1476 & 1.5121 & 0.3633 & 0.0454 & 0.6890 &
+    0.6378 \\
+    \hline
+    MLE estimate & 0.1319 & 1.5266 & 0.3735 & 0.0410 & 0.6639 & 0.6025
+  \end{tabular}
+  \caption{Nordea 15min estimation results}
+  \label{tab:nordea_15min_js_param}
+\end{table}
+
+The probability density function of the residuals $y_t$ that result
+from the MLE estimate is shown in figure
+\ref{fig:nordea_15min_y1_hist} together with its counterpart from the
+initial estimate. 
 \subsection{45min Returns}
 
 

@@ -22,6 +22,9 @@ function [ret, sig] = get_intra_ret_simple(...
     end
     ret = ret(1: n-1);
 
+    if isnan(delta) || isinf(abs(delta))
+        return;
+    end
     n = 1;
     for d = 1:length(days)
         % A price observation every delta sec.
@@ -35,4 +38,3 @@ function [ret, sig] = get_intra_ret_simple(...
         n = n + N(d);
     end
     sig = sig(1:n-1);
-    
