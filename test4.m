@@ -1,30 +1,16 @@
 clear all
 close all
-load('/tmp/models.mat');
+f1 = @(v, xi) exp(-(v+1).^2/2 - xi^2 .* exp(-2*v) ./ 2 + 1/2) ./ ...
+     (2*pi);
+f2 = @(xi) integral(@(v) f1(v, xi), -Inf, Inf);
 
-T = 1e6;
-[LV, E, V] = simulate(model0, T, 'numPaths', 1);
-ret = exp(LV) .* randn(size(LV));
-r = (ret - mean(ret))/std(ret);
-[p, x] = ecdf(r);
-
-%% Fit to Gaussian + power-law tails
-% param = mle(r, 'pdf',...
-%             @(x, xi1, xi2)...
-%             NormalPowerLaw_pdf([xi1, xi2], x),...
-%             'start', sqrt([1.4, 1.42]), ...
-%             'lowerbound', [1.0, 1.0]);
-% powerlaw = NormalPowerLaw_cdf(param, x);
-
-
-%% Fit to Johnson Su dist.
-% js = johnson_su_params([mean(r), var(r), skewness(r), ...
-%                     kurtosis(r)]);
-% johnson = johnson_su_cdf(johnson_su_struct(js), x);
-% plot(x, pt, 'g');
-
-
-% [p1, p2] = extract_xpnt(r, 0.046/std(ret));
-[p1, p2] = extract_xpnt(r, 0.045/std(ret));
-fprintf('Left tail exponent: %.4f\nRight tail exponent: %.4f\n', ...
-        p1, p2);
+xi = [-3:0.1:3]';
+y = NaN(length(xi), 1);
+for i = 1:length(xi)
+    if xi(i) == 0
+        y(i) = exp(1/2) / sqrt(2*pi);
+    else
+        y(i) = f2(xi(i));
+    end
+end
+plot(xi, y, xi, normpdf(xi, 0, 1));

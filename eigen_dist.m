@@ -12,31 +12,33 @@ ev = NaN(1, N*fold);
 %% model.
 
 spec = ['b', 'c', 'g', 'm', 'r', 'k'];
-for i = [1:5]
-    load(sprintf('./eigen-%d.mat', i));
-    ev = reshape(ev, N, fold);
-    maxeig = max(ev);
-    [y, x] = ecdf(maxeig);
-    y1 = diff(y) ./ diff(x);
-    x1 = (x(1:end-1) + x(2:end))/2;
-    plot(log(x1), log(y1), spec(i));
-    hold on
-end
-hold off
-grid on
+% for i = [1:5]
+%     load(sprintf('./eigen-%d.mat', i));
+%     ev = reshape(ev, N, fold);
+%     maxeig = max(ev);
+%     [y, x] = ecdf(maxeig);
+%     y1 = diff(y) ./ diff(x);
+%     x1 = (x(1:end-1) + x(2:end))/2;
+%     plot(log(x1), log(y1), spec(i));
+%     hold on
+% end
+% hold off
+% grid on
 
 
 %% White Wishart matrix eigen values
-% for i = 1:fold
-%     A = randn(N, T);
-%     C = A*A';
-%     ev(N*(i-1)+1 : N*i) = eig(C);
-% end
+for i = 1:fold
+    A = randn(N, T);
+    C = A*A'./T;
+    ev(N*(i-1)+1 : N*i) = eig(C);
+end
 
-% ev = reshape(ev, N, fold);
-% maxeig = max(ev);
-% p = RealWishartCDF(x, N, T);
-% plot(x, y, x, p);
+ev = reshape(ev, N, fold);
+maxeig = max(ev);
+[y, x] = ecdf(maxeig);
+p = RealWishartCDF(x(1:10:end), N, T);
+
+plot(x, y, x(1:10:end), p);
 
 %% Approximation of the Tracy-Widom with a Gamma dist.
 % a1 = -1/2;
@@ -56,7 +58,7 @@ grid on
 % % x = linspace(min(maxeig1), max(maxeig1), 60);
 % % y = hist(maxeig1, x) / length(maxeig1) / (x(2) - x(1));
 
-% [y, x] = ecdf(maxeig1);
+
 
 % y1 = cdf('Gamma', x, k, theta);
 % % plot(x, y);
