@@ -1,5 +1,5 @@
 function p = RealWishartCDF(x, N, T)
-Gamma = @(m, a) pi^(m*(m-1)/4) .* prod(gamma(a - ([1:m] - 1)./2));
+% Gamma = @(m, a) pi^(m*(m-1)/4) .* prod(gamma(a - ([1:m] - 1)./2));
 P = @RealWishart_P;
 
 % I = @(a, b, x1) 1./gamma(a) .* integral(@(t) t.^(a-1) .* exp(-t) .* ...
@@ -14,12 +14,12 @@ else
 end
 alpha = (nmax - nmin - 1) / 2;
 
-K = pi^(nmin^2/2);
-K = K/2^(nmin*nmax/2);
-K = K/Gamma(nmin, nmax/2);
-K = K/Gamma(nmin, nmin/2);
-
-K1 = K*2^(alpha*nmat + nmat*(nmat+1)/2) * prod(alpha + [1:nmat]);
+% K = pi^(nmin^2/2);
+% K = K/2^(nmin*nmax/2);
+% K = K/Gamma(nmin, nmax/2);
+% K = K/Gamma(nmin, nmin/2);
+% K1 = K*2^(alpha*nmat + nmat*(nmat+1)/2) * prod(alpha + [1:nmat]);
+[nf, df] = RealWishart_K1(nmin, nmax);
 A = zeros(nmat, nmat, length(x));
 b = NaN(length(x), nmin);
 for u = 1:nmin
@@ -77,9 +77,17 @@ if mod(nmin, 2) == 1
     end
     A(nmat, nmat, :) = 0;
 end
+
+pf = NaN(1, length(x));
+n = length(nf);
 for k = 1:length(x)
     A(:, :, k) = A(:, :, k) - A(:, :, k)';
-end
-for k = 1 : length(x)
-    p(k) = K1 * sqrt(det(A(:, :, k)));
+    A(:, :, k) = A(:, :, k) .* prod((nf./df).^(1/nmat));
+    pf(k) = sqrt(det(A(:, :, k)));
+    if pf(k) ~= 0
+        p(k) = prod(nf .* pf(k)^(1/2/n) ./ df);
+    else
+        p(k) = 0;
+        continue;
+    end
 end

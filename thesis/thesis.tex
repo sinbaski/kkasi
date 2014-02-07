@@ -1,7 +1,10 @@
 \documentclass{book}
 \usepackage{graphicx}
 \usepackage{subfigure}
+\usepackage{wrapfig}
 \usepackage{amssymb}
+\usepackage{amsfonts, amsmath}
+\usepackage{mathrsfs}
 \usepackage{enumerate}
 \usepackage[bookmarks=true]{hyperref}
 \usepackage{bookmark}
@@ -18,9 +21,237 @@
 \tableofcontents
 
 \chapter{Introduction}
-$\mathbb{E}(x)$
+The mathematics of the financial market has always been a topic that
+arouses interest and imagination, and with little doubt, has been
+studied from many aspects and in many different ways.
 
-\section{Stylized facts}
+Central to all these studies are the concepts of probability
+distributions and correlations. The values of stocks, futures,
+options, etc. are stochastic in nature and are governed by the laws of
+stochastic processes, which are expressed in terms of probability
+distributions and correlations.
+
+On the other hand, the observables of the market are prices, volumes,
+turn-over (the amount of money paid in a trade), names of the brokers,
+and time of the trades. These quantities don't make much sense
+by themselves but do reveal the probabilistic dynamics of the market
+when put together and turned into statistics.
+
+Here by dynamics we mean how the value of an asset is affected by its
+own history as well as by the histories and current values of other
+assets in the market. The influence from the asset's own history is
+termed autocorrelations, i.e. correlations in time, while
+the influence from other assets are termed cross correlations.
+
+Mathematical models that describe the aforementioned observables in
+terms of probability distributions, autocorrelations and cross
+correlations give predictive power and help determine a fair price of
+a given asset. Hence they are a central topic of the mathematics of
+the financial market.
+
+Once a model has been tentatively constructed, it must be
+verified. The verification again relies on the statistics of the
+observables. Over the years, a number of phenomena have been
+consistently reported and become generally accepted. These are referred
+to as stylized facts, which are detailed in \S
+\ref{sec:StylizedFacts} and constitute a standardized test suit for
+model verification.
+
+In \S \ref{sec:FundamentalConcepts} we present a few very
+important concepts and notations that we will often refer to in later
+chapters. Then the rest of this thesis is organized as follows:
+
+\section{Fundamental Concepts \& Notations}\label{sec:FundamentalConcepts}
+This section is a list of a few concepts that may be unfamiliar to the
+reader and that we will often refer to later in the thesis:
+\begin{itemize}
+\item Return. Given a fixed time interval $[t, t']$, for example, a
+  day, a week, a month, etc, and a particular asset, for example, a
+  share in company ABC, the return of this asset over the time
+  interval is defined as
+  \begin{eqnarray*}
+    r_{t', \Delta t} &=& \ln p_{t'} - \ln p_t \\
+    &=& \ln \left(1 + {p_{t'} - p_t \over p_t}\right) \\
+    &\approx& {p_{t'} - p_t \over p_t}
+  \end{eqnarray*}
+  where $p_t$ is the price of the asset at time $t$ and $\Delta t = t'
+  - t$ is sometimes called the time-lag of the return. Quite often,
+  where confusion is not possible, we will just write $r_t$ to mean
+  $r_{t, \Delta t}$, the time lag either does not matter or is clear
+  from the context.
+
+\item Autocorrelation. By autocorrelation, denoted $\rho_k$ here, we
+  mean the correlation between two temporally separated observations
+  of the same time series:
+  \begin{eqnarray*}
+    \rho_k &=& {
+      E\left[(a_t -E(a_t))(a_{t-k} - E(a_{t-k})\right]
+      \over
+      \sqrt{\text{var}(a_t)}\sqrt{\text{var}(a_{t-k})}
+    }
+  \end{eqnarray*}
+  Here $E(x)$ stands for the expectation value of $x$, and
+  $\text{var}(x)$ stands for the variance of $x$. $k$ is called the
+  time-lag and is the temporal seperation of the two observations
+  measured by the number of observations in between. For example, the
+  time-lag between the 1st and 3rd observation is 2.
+
+\item Cross-Correlation Matrix. Correlations between the returns of a
+  group of assets are described by the cross-correlation matrix. When
+  the asset returns are described by a stable distribution law with
+  L\'evy index $\alpha$, the empirical cross-correlation matrix is
+  constructed as
+  \begin{equation}
+    \label{eq:cross-correlation}
+    \begin{aligned}
+      C_{ij} &= {1 \over T^{2/\alpha}} \sum_{t=1}^T [r_{i,t}-E(r_i)]
+      [r_{j,t}-E(r_j)] \\
+      &= {1 \over T^{2/\alpha}} RR'
+    \end{aligned}
+  \end{equation}
+  where $r_{i,t}$ is the return of the i-th asset at time t and is
+  placed at the entry (i, t) of matrix R; $R'$ denotes the
+  transpose of R. In most practical situations, one has abundant data
+  for each and every asset. Thus $T \geq N$ is assumed throughout this
+  thesis.
+
+\item Auto-regressive processes. A time series $r_t$ is called an
+  auto-regressive process of order $p$ and denoted AR(p), if it can be
+  written in the following form:
+  \begin{eqnarray*}
+    r_t &=& \sum_{i=1}^p \phi_i r_{t-i} + a_t
+  \end{eqnarray*}
+  where, for all $i$, $\phi_i \in (-1, 1)$, and the $a_t$'s are
+  independent and identically distributed (iid.) random variables with
+  zero mean. Obviously this implies the mean of $r_t$ is zero
+  too. Apart from this, their distribution of $a_t$ is not restricted
+  to any particular form.
+  
+  Of particular interest to this thesis is the AR(1) process:
+  \begin{eqnarray*}
+    r_t = \phi r_{t-1} + a_t
+  \end{eqnarray*}
+  Its autocorrelation function $\rho_k = \text{corr}(r_t, r_{t-k})$
+  ($k = 0, 1, 2, \cdots$) can be easily shown to fall off
+  exponentially:
+  \begin{eqnarray*}
+    \rho_k &=& {E(r_tr_{t-k}) - E(r_{t-k})E(r_{t}) \over
+      \sqrt{\var(r_t) \var(r_{t-k})}} \\
+    &=& {\phi E(r_{t-1}r_{t-k}) + E(a_t r_{t-k})
+      \over
+      \sqrt{\var(r_t) \var(r_{t-k})}
+    } \\
+    &=& \phi \rho_{k-1}
+  \end{eqnarray*}
+  where $E(a_t r_{t-k}) = 0$ follows from the fact that any return
+  $r_{t1}$ must not depend on disturbances $a_{t2}$ that occur later
+  in time. The last equation means $\rho_k$ is a geometric series. Since
+  $\rho_0 = 1$, we have
+  \begin{eqnarray*}
+    \rho_k &=& \phi^k \\
+    |\rho_k| &=& e^{k\ln|\phi|} \\
+  \end{eqnarray*}
+  Note that $|\phi| < 1$ and hence $\ln|\phi| < 0$.
+
+  Although $k$ can only take integer values, it is still useful to
+  define a correlation time $\tau$ such that $\phi^\tau = 1/2$. Such a
+  quantity is more intuitive and constitutes a measure of
+  autocorrelations that is universal and comparable among different
+  time series' models. From the definition of $\tau$ we get
+  \begin{equation}
+    \label{eq:tau_def}
+    \begin{aligned}
+      \phi^\tau &= 1/2 \\
+      \tau &= -{\ln 2 \over \ln\phi} \\
+      \phi &= 2^{-1/\tau}
+    \end{aligned}
+  \end{equation}
+  Figure \ref{fig:AR1-autocorrelation} shows the autocorrelation
+  function of the AR(1) model. As proven above, this function decays
+  exponentially.
+  \begin{figure}[htb!]
+    \vspace{-15mm}
+    \centering
+    \includegraphics[scale=0.5, clip=true, trim=113 229 115
+    139]{../pics/AR1-autocorrelation.pdf}
+    \caption{\footnotesize Autocorrelation function of the AR(1) model
+      with $\phi=1/\sqrt{2}$. Red circles: autocorrelations at $k=0, 1,
+      2, \cdots$. Blue line: $e^{t\ln\phi}$.}
+    \label{fig:AR1-autocorrelation}
+  \end{figure}
+  For more details about conventional time series' models, see
+  \cite{BoxJenkins94}.
+\end{itemize}
+
+For purposes of later reference, we also list some notations that may
+cause confusion to the reader:
+\begin{itemize}
+\item $E(x)$ or $\mean{x}$: The expectation value of $x$.
+\item $\var(x)$: the variance of $x$.
+\item $\text{cov}(x,y)$: the covariance of $x$ and $y$.
+\item $\text{corr}(x,y)$: the correlation between $x$ and $y$, i.e.
+  \begin{equation*}
+    \text{corr}(x,y) = {\text{cov}(x,y) \over \sqrt{\var(x)\var(y)}}
+  \end{equation*}
+\end{itemize}
+
+\section{Stylized facts}\label{sec:StylizedFacts}
+This section presents and explains a few ``stylized facts'',
+i.e. phenomena that are widely observed and accepted as true.
+\begin{itemize}
+\item Fat tails. It has been consistently reported by various studies
+  - for example \cite{Potters2003} and \cite{Mantegna2000} - that the
+  probability density function (PDF) of stock/index returns are not
+  Gaussian. Unlike the Gaussian PDF, which is symmetric and falls off
+  very quickly as its argument moves from the center to the outskirts
+  (tails), the PDF of stock/index returns are higher on the tails,
+  i.e. the probability of large fluctuations is higher than is dictated
+  by a Gaussian distribution - in fact, even higher than dictated by
+  an exponential function. Empirical studies suggest the PDF of the
+  returns follows a power-law on the tails; the exponent of the power
+  is around 4, depending on the specific stock/index.
+
+  Figure \ref{fig:FatTail} illustrates this feature.
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.5, clip=true, trim=92 229 110
+    140]{../pics/FatTail.pdf}
+    \caption{\footnotesize Fat tails. Blue: empirical PDF of 15min returns of
+      {\it Nordea Bank}. The returns are computed using paid
+      prices on the Stockholm OMX market during the period between
+      2013-10-10 and 2014-01-29. Red: Gaussian distribution with equal
+      mean and variance.}
+    \label{fig:FatTail}
+  \end{figure}
+
+\item Non-zero skewness. Apart from fat tails, the PDF of stock/index
+  returns are often also skewed. If the skewness is positive
+  (negative), the probability of very large positive (negative)
+  returns is higher than that of very large negative (positive)
+  returns, even though the mean of the returns is 0 or extremely
+  close to 0.
+
+  Table \ref{tab:EmpiricalSkewness} lists the skewness of a few
+  Swedish stocks traded on the Stockholm OMX market.
+  \begin{table}[htb!]
+    \footnotesize
+    \centering
+    \begin{tabular}{c|c|c|c|c|c|c}
+      Nordea Bank & Volvo B & Boliden & ABB Ltd & H\&M & Scania
+      B & Ericsson B \\
+      \hline
+      0.1362 & 0.0471 & 0.0567 & -0.0364 & -0.0168 &
+      -1.1554 & 0.2086 \\
+    \end{tabular}
+    \caption{\footnotesize Skewness of Stock Returns. All the returns
+      have time-lag of 15 minutes and are computed using paid prices
+      between 2013-10-10 and 2014-01-29. }
+    \label{tab:EmpiricalSkewness}
+  \end{table}
+
+\item Higher-order autocorrelation. 
+\end{itemize}
+
 
 \section{GARCH models}
 The autocorrelation function of $\epsilon_t^2$ is given by
@@ -32,16 +263,15 @@ $$
 where $\alpha_i$ with $i > q$ and $\beta_i$ with $i > p$ are taken as
 zeros. $p \vee q$ denotes the maximum of p and q. From these
 equations, it is clear that the partial autocorrelation function cuts
-off at $max(p, q)$.
+off at $\max(p, q)$.
 
-
-\chapter{Case Study of Stocks}
+\chapter{Price Models}
 \section{Nordea Bank}
-\begin{figure}[ht]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.5, clip=true, trim=103 236 118
   200]{../pics/nordea_price_20120116-20120420.pdf}
-  \caption{Nordea Bank paid prices 2012/01/16-2012/04/20}
+  \caption{\footnotesize Nordea Bank paid prices 2012/01/16-2012/04/20}
   \label{fig:Nordea}
 \end{figure}
 Figure \ref{fig:Nordea} shows the paid prices of Nordea Bank from
@@ -70,27 +300,29 @@ to a GARCH model.
     200]{../pics/nordea_15min_vlt_acf.pdf}
     \label{fig:nordea_15min_vlt_acf}
   }
-  \caption{Nordea Bank 15min autocorrelations}
+  \caption{\footnotesize Nordea Bank 15min autocorrelations}
 \end{figure}
 
 To obtain the functional form of the conditional distribution of
 $\epsilon_t$ \footnote{We use the realized volatility as an estimate of the
 conditional volatility. See \cite{Andersen03}.}, we look at the
-qq-plot of $\epsilon_t/\sigma_t$ \ref{fig:nordea_15min_epOversig_qq},
-which is consistent with a standard Gaussian distribution except for a
-few outliers at the two ends. Hence the fat tails of the probability
-density function can be entirely accounted for by GARCH effects,
-implying a Gaussian conditional distribution is appropriate for $\epsilon_t$.
-\begin{figure}[htb!]
+qq-plot of $\epsilon_t/\sigma_t$ (figure
+\ref{fig:nordea_15min_epOversig_qq}), which is consistent with a
+standard Gaussian distribution except for a few outliers at the two
+ends. Hence the fat tails of the probability density function can be
+entirely accounted for by GARCH effects, implying a Gaussian
+conditional distribution is appropriate for $\epsilon_t$.
+% \begin{figure}[htb!]
+\begin{wrapfigure}{r}{0.5\textwidth}
   \centering
-    \includegraphics[scale=0.6, clip=true, trim=100 236 118
+    \includegraphics[scale=0.35, clip=true, trim=100 236 118
     200]{../pics/nordea_15min_epOversig_qq.pdf}
-  \caption{QQ-plot of $\epsilon_t / \sigma_t$. $\epsilon_t$ are
+  \caption{\scriptsize{QQ-plot of $\epsilon_t / \sigma_t$. $\epsilon_t$ are
     derived from Nordea Bank 15min returns while $\sigma_t$ are realized
     volatilities calculated using 30s returns within each 15min
-    interval.}
+    interval.}}
   \label{fig:nordea_15min_epOversig_qq}
-\end{figure}
+\end{wrapfigure}
 
 To determine the orders p and q of the GARCH model, we again check
 the partial autocorrelation function of $\epsilon_t^2$. As just
@@ -112,7 +344,7 @@ parameters, we obtain a GARCH(1, 3) model
      \hline
      $\alpha_3$ &    0.0568022  &   0.0301503   &    1.88397
   \end{tabular}
-  \caption{GARCH(1, 3) model of Nordea Bank 15min returns}
+  \caption{\footnotesize GARCH(1, 3) model of Nordea Bank 15min returns}
   \label{tab:nordea_15min_garch}
 \end{table}
 
@@ -174,7 +406,7 @@ functions of $r_{t+h, h} / \sigma_{t+h, h}$ and of $(r_{t+h, h} /
     200]{../pics/nordea_15min_quotient_squared_acf.pdf}
     \label{fig:nordea_15min_quotient_squared_acf}
   }
-  \caption{Nordea 15min $r_t/\sigma_t$ and $(r_t/\sigma_t)^2$ ACF.}
+  \caption{\footnotesize Nordea 15min $r_t/\sigma_t$ and $(r_t/\sigma_t)^2$ ACF.}
 \end{figure}
 
 We see in figure \ref{fig:nordea_15min_quotient_acf} and
@@ -202,7 +434,7 @@ for our series in question. In fact, in our case, $\ln \sigma_{t+h,
     220]{../pics/nordea_15min_logvol_qq.pdf}
     \label{fig:nordea_15min_logvol_qq}
   }
-  \caption{Nordea 15min $\ln\sigma_{t+h, h}$ unconditional
+  \caption{\footnotesize Nordea 15min $\ln\sigma_{t+h, h}$ unconditional
     distribution}
 \end{figure}
 
@@ -241,7 +473,7 @@ is a noise process with constant variance $\sigma_y^2$ and mean
     235]{../pics/nordea_15min_w_acf.pdf}
     \label{fig:nordea_15min_w_acf}
   }
-  \caption{Nordea 15min $\ln\sigma_{t+h, h}$ and $w_t$ autocorrelations}
+  \caption{\footnotesize Nordea 15min $\ln\sigma_{t+h, h}$ and $w_t$ autocorrelations}
 \end{figure}
 
 The above $(0, 0, 1)\times(0, 0, 1)$ model has the following
@@ -269,7 +501,7 @@ Substituting in the measured values shown in table
     \hline
     -0.4703 &  0.2053 & -0.4564 &  0.2212
   \end{tabular}
-  \caption{Nordea 15min $w_t$ autocorrelations}
+  \caption{\footnotesize Nordea 15min $w_t$ autocorrelations}
   \label{tab:nordea_15min_w_acf}
 \end{table}
 we get
@@ -285,7 +517,7 @@ With an estimate of $\theta$ and $\Theta$, one can then infer the
 noise process i.e. the residuals $y_t$:
 \begin{equation}
   \label{eq:infer_y}
-  y_t = w_t + \theta y_{t-1} + \Theta y_{t-s} - \theta \Theta y_{t-s-1}  
+  y_t = w_t + \theta y_{t-1} + \Theta y_{t-s} - \theta \Theta y_{t-s-1}
 \end{equation}
 where we substitute $y_t\;(t \leq 0)$ with their unconditional
 expectation 0.
@@ -331,7 +563,7 @@ to work out its unconditional distribution. This is shown in figure
     210]{../pics/nordea_15min_y_acf.pdf}
     \label{fig:nordea_15min_y_acf}
   }
-  \caption{Nordea 15min $y_t$ QQ-plot and autocorrelations}
+  \caption{\footnotesize Nordea 15min $y_t$ QQ-plot and autocorrelations}
 \end{figure}
 In addition, the measured moments of $y_t$ are shown in table
 \ref{tab:nordea_15min_y_moments}:
@@ -342,7 +574,7 @@ In addition, the measured moments of $y_t$ are shown in table
     \hline
     0.0012 & 0.0935 & 0.2988 & 6.8691
   \end{tabular}
-  \caption{Nordea 15min $y_t$ moments}
+  \caption{\footnotesize Nordea 15min $y_t$ moments}
   \label{tab:nordea_15min_y_moments}
 \end{table}
 
@@ -363,10 +595,11 @@ figure \ref{fig:nordea_15min_y_js_fit} by the
 empirical cummulative distribution function in comparison to the
 theoretical one.
 \begin{figure}[htb!]
+  \vspace{-18mm}
   \centering
-    \includegraphics[scale=0.5, clip=true, trim=112 272 107
+    \includegraphics[scale=0.35, clip=true, trim=112 272 107
     140]{../pics/nordea_15min_y_js_fit.pdf}
-    \caption{Nordea 15min $y_t$ fitted to a Johnson Su distribution}
+    \caption{\footnotesize Nordea 15min $y_t$ fitted to a Johnson Su distribution}
     \label{fig:nordea_15min_y_js_fit}
 \end{figure}
 
@@ -424,17 +657,1318 @@ listed in table \ref{tab:nordea_15min_js_param}:
     \hline
     MLE estimate & 0.1319 & 1.5266 & 0.3735 & 0.0410 & 0.6639 & 0.6025
   \end{tabular}
-  \caption{Nordea 15min estimation results}
+  \caption{\footnotesize Nordea 15min estimation results}
   \label{tab:nordea_15min_js_param}
 \end{table}
 
-The probability density function of the residuals $y_t$ that result
-from the MLE estimate is shown in figure
-\ref{fig:nordea_15min_y1_hist} together with its counterpart from the
-initial estimate. 
+% The probability density function of the residuals $y_t$ that result
+% from the MLE estimate is shown in figure
+% \ref{fig:nordea_15min_y1_hist} together with its counterpart from the
+% initial estimate.
 \subsection{45min Returns}
+\section{Fat tail and stochastic volatility}
+In this section we show that fat tails of the unconditional PDF are
+the results of stochasticity in volatility.
 
+Specifically we consider the model
+\begin{equation}  \label{eq:UnconditionalPdf}
+  \begin{aligned}
+    r_t &= e^{\bar{v} + v_t} b_t \\
+    &= e^{\bar{v}} e^{v_t} b_t \\
+    &= e^{\bar{v}} r'_t
+  \end{aligned}
+\end{equation}
+where $b_t \sim N(0, 1)$, $\bar{v}$ is a constant and $v_t \sim N(0,
+\sigma)$ if there is no auto-correlation in $\{v_t\}$. If there is
+auto-correlation, $v_t$ is described by an appropriate time series
+model. For example, in the case of Volvo B 102min returns, $v_t$ is
+represented by a seasonal auto-regressive model with 5 orders of
+auto-regression and 6 orders of seasonal auto-regression with a
+seasonality of 4.
 
+Here we note that any stationary ARMA model can be represented as a
+pure moving average model, which is infinite in extent if
+auto-regressive components are present. Therefore auto-correlations in
+$\{v_t\}$ influence the unconditional distribution of $r_t$ only
+through $\sigma$.
+
+In the following we derive the unconditional PDF of $r'_t$, denoted
+$f_{r'}(x)$. Then the PDF of $r_t$ is $e^{-\bar{v}}f_{r'}(e^{-\bar{v}}x)$.
+\begin{eqnarray*}
+  P(r'_t < x) &=& P(b_t < xe^{-v_t}) \\
+  f_{r'}(x) &=& f_b(xe^{-v_t}) e^{-v_t}
+\end{eqnarray*}
+Averaging over all $v_t$, we get
+\begin{equation}\label{eq:UncondPDFSymmetric}
+  \begin{aligned}
+    f_{r'}(x) =& \int_{-\infty}^{\infty} dv (2\pi\sigma^2)^{-1/2}
+    e^{-v^2/2\sigma^2}(2\pi)^{-1/2} \exp(-x^2e^{-2v}/2) e^{-v} \\
+    =& {1 \over 2\pi\sigma} \int_{-\infty}^{\infty} dv
+    \exp\left(
+      -{1 \over 2\sigma^2} v^2 - v -{1 \over 2} x^2 e^{-2v}
+    \right)
+  \end{aligned}
+  \end{equation}
+The last part of the integrand, $e^{-x^2 e^{-2v} / 2}$, is plotted in
+figure \ref{fig:DoubleExp}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=85 252 100
+  231]{../pics/DoubleExp.pdf}
+  \caption{\footnotesize Plot of $\exp(-{1 \over 2} x^2 e^{-2v})$}
+  \label{fig:DoubleExp}
+\end{figure}
+Therefore we make the following approximation:
+\[
+\exp\left(-{1 \over 2} x^2 e^{-2v}\right) \approx \left\{
+  \begin{array}{lr}
+    0 & \text{if } v < \ln|x| -{1 \over 2} \ln(2\ln 2) \\
+    1 & \text{otherwise}
+  \end{array}
+\right.
+\]
+Here we note that $\exp\left(-{1 \over 2} x^2 e^{-2v}\right) = 1/2$ at
+$v = \ln|x| -{1 \over 2} \ln(2\ln 2)$.
+
+With this approximation we have
+\begin{eqnarray*}
+  f_{r'}(x) &=& {1\over C}{1 \over 2\pi\sigma} \int_{\ln(|x|/\sqrt{\ln
+      4})}^{\infty} dv
+  \exp\left(-{1 \over 2\sigma^2} v^2 - v\right) \\
+  &=& {1\over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}} \text{erfc} \left(
+    {1 \over \sqrt{2}\sigma} \ln{|x| \over \sqrt{\ln 4}} + {\sigma
+      \over \sqrt{2}}
+  \right)
+\end{eqnarray*}
+where $1/C$ has been added for the purpose of normalization.
+
+At large $x$, we may use the asymptotic expansion of $\mathrm{erfc}$
+to write
+\begin{eqnarray*}
+  Cf_{r'}(x) &=& {e^{\sigma^2 / 2} \over \sqrt{8\pi}} \mathrm{erfc}(\xi) \\
+  &=& {e^{\sigma^2 / 2} \over \sqrt{8 \pi}}
+  \frac{e^{-\xi^2}}{\xi\sqrt{\pi}}\left[
+    1 +
+    \sum_{n=1}^N (-1)^n \frac{(2n-1)!!}{(2\xi^2)^n} \right] +
+  O(\xi^{-2N-1} e^{-\xi^2})
+\end{eqnarray*}
+where $\xi = {1 \over \sqrt{2}\sigma} \ln{|x| \over \sqrt{\ln 4}} +
+{\sigma \over \sqrt{2}}$. The slowest-decaying term is
+\[
+f_{r,0}(x) = {e^{\sigma^2 / 2} \over \sqrt{8\pi}}
+\frac{e^{-\xi^2}}{\xi\sqrt{\pi}}
+\]
+Let $\zeta = {|x| \over \sqrt{\ln 4}}$. With a bit manipulation one
+obtains
+\begin{equation}
+  f_{r,0}(x) = {1 \over \pi \sqrt{8}}{1 \over
+    \left(\ln\zeta/\sigma\sqrt{2} +
+      \sigma/\sqrt{2}\right)\zeta\zeta^{\ln \zeta / 2\sigma^2}
+  }
+\end{equation}
+From the last equation one can see that, at any neighborhood of large
+$x$, $f_{r'}(x)$ may be approximated by $C/|x|^\alpha$, i.e. a power law.
+
+In the following we work out the normalization constant C.
+\begin{eqnarray*}
+  \int_{-\infty}^{\infty} f_{r'}(x) dx &=& {1 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} \text{erfc} \left({1 \over
+      \sqrt{2}\sigma} \ln{|x| \over \sqrt{\ln 4}} + {\sigma \over
+      \sqrt{2}} \right) dx\\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{0}^{\infty} \text{erfc} \left({1 \over
+      \sqrt{2}\sigma} \ln{x \over \sqrt{\ln 4}} + {\sigma \over
+      \sqrt{2}} \right) dx\\
+\end{eqnarray*}
+Let
+\begin{eqnarray*}
+  a &=& {1 \over \sigma \sqrt 2} \\
+  b &=& -{1 \over 2 \sigma \sqrt 2}\ln\ln 4 + {\sigma \over \sqrt 2} \\
+  y &=& a\ln|x|+b \\
+\end{eqnarray*}
+Then
+\begin{eqnarray*}
+  \int_{-\infty}^{\infty} f_{r'}(x) dx &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} dy {e^{(y-b)/a} \over a}
+  \text{erfc}(y) \\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \left.e^{(y-b)/a}
+    \text{erfc}(y)\right|_{y=-\infty}^{\infty}
+  + {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} dy {2 \over \sqrt \pi}
+  e^{(y-b)/a} e^{-y^2} \\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}}  2 e^{\ln\ln 4/2
+    - \sigma^2/2}\\
+  C &=& \sqrt{2 \ln 4\over \pi} \\
+  &\approx& 0.9394
+\end{eqnarray*}
+Thus we can write in summary:
+\begin{eqnarray*}
+  f_r(x) &=& e^{-\bar{v}} f_{r'}(e^{-\bar{v}} x) \\
+    &=& {e^{-\bar{v}} \over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}}
+    \text{erfc} \left({1 \over \sqrt{2}\sigma} \ln{|e^{-\bar{v}}x| \over \sqrt{\ln
+          4}} + {\sigma \over \sqrt{2}}
+    \right) \\
+\end{eqnarray*}
+Using the same technique of integration as for normalization, the
+cummulative distribution function of $r_t$ is found to be $F(x)$,
+which is the following:
+\begin{enumerate}
+\item if $x < 0$
+  \begin{eqnarray*}
+    F(x) &=& {\sqrt{\ln 4} \over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}}
+    \left[
+      {e^{-\bar{v}}x \over \sqrt{\ln 4}}\text{erfc}\left(
+        {1 \over \sigma \sqrt 2} \ln{-e^{-\bar{v}}x \over \sqrt{\ln
+            4}} + {\sigma \over \sqrt 2}
+      \right) \right.\\
+      && \left. + e^{-\sigma^2 / 2} \text{erfc}\left(
+        {1 \over \sigma \sqrt 2} \ln{-e^{-\bar{v}}x \over \sqrt{\ln 4}}
+      \right)
+    \right]
+  \end{eqnarray*}
+\item if $x \geq 0$
+  \begin{eqnarray*}
+    F(x) &=& \frac{1}{2} + {\sqrt{\ln 4} \over C}{e^{\sigma^2 / 2} \over
+      \sqrt{8\pi}} \left[
+      {e^{-\bar{v}}x \over \sqrt{\ln 4}} \text{erfc}\left(
+        {1 \over \sigma \sqrt 2} \ln{e^{-\bar{v}}x \over \sqrt{\ln
+            4}} + {\sigma \over \sqrt 2}
+      \right) \right. \\
+      && \left. + e^{-\sigma^2/2} \text{erfc}\left(
+        -{1 \over \sigma \sqrt 2} \ln{e^{-\bar{v}}x \over \sqrt{\ln 4}}
+      \right)
+    \right]
+  \end{eqnarray*}
+\end{enumerate}
+
+To verify the validity of the model, we fit the above probability
+density function to the de-meaned\footnote{By ``de-meaned returns'' we
+  mean the quantity $r_t - \mean{r_t}$, where $r_t$ are the measured
+  returns and $\mean{r_t}$ is their mean over time.} 30min returns of
+Volvo B by means of maximum likelihood estimate using the MATLAB
+function ``mle''. Then for the parameters $\sigma$ and $\bar{v}$ we
+get
+\begin{eqnarray*}
+  \sigma &=& 0.6355 \\
+  \bar{v} &=& -6.0308
+\end{eqnarray*}
+Then we plot $P(r'_t > x)$ of the model against its empirical
+counterpart on a log-log scale, as shown in figure
+\ref{fig:volvo_30min_ret}.
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \vspace{-20mm}
+%\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.4, clip=true, trim=98 231 116
+    126]{../pics/volvo_30min_ret.pdf}
+  \end{center}
+  \vspace{-5mm}
+  \caption{\footnotesize{$P(r'_t > x)$ for $x > 0$. Blue: empirical
+      probabilities. Red: probabilities predicted by the model.}}
+  \label{fig:volvo_30min_ret}
+\end{wrapfigure}
+
+In general figure \ref{fig:volvo_30min_ret} shows a good fit, but a
+closer look reveals that deviations are significant in the regions $r
+\in (0, \sigma_r)$ and $r \in (2\sigma_r, 3\sigma_r)$, where
+$\sigma_r$ stands for the empirical standard deviation of the
+de-meaned returns. These observations are
+shown in greater details in figure \ref{fig:volvo_30min_ret2}.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[$\ln(P(r > x))$ with $x \in (0, \sigma_r)$]{
+    \includegraphics[scale=0.4, clip=true, trim=93 224 115
+    125]{../pics/volvo_30min_ret_0-sigma.pdf}
+  }
+  \subfigure[$\ln(P(r > x))$ with $x \in (2\sigma_r, 3\sigma_r)$]{
+    \includegraphics[scale=0.4, clip=true, trim=93 224 115
+    125]{../pics/volvo_30min_ret_2sigma-3sigma.pdf}
+  }
+  \caption{\footnotesize Surviving probabilities. Blue: empirical values of $\ln(P(r
+    > x))$. Red: Predicted values of $\ln(P(r > x))$.}
+  \label{fig:volvo_30min_ret2}
+\end{figure}
+
+Moreover, the inefficiency of the model is also manifest in the
+skewness of the data. For the Volvo 30min returns, the data has a
+skewness of 0.2419, but our model is strictly symmetric, since
+$x$ appears in equation \ref{eq:UncondPDFSymmetric} only as $x^2$.
+
+Hence the above model needs to be improved to accommodate the non-zero
+skewness as well as to account for the discrepancies shown in figure
+\ref{fig:volvo_30min_ret2}.
+
+It has long been hypothesized in the liturature that skewness is the
+result of price-volatility correlation (for example
+\cite{Potters2003}). Therefore, the most apparent modification is to
+allow $v_t$ and $b_t$ to be correlated. For convenience we decompose
+$v_t \sim N(0, \sigma)$ as $v_t = \sigma a_t$ and assume
+\begin{eqnarray*}
+  \begin{pmatrix}
+    a_t \\
+    b_t
+  \end{pmatrix} \sim N(0, \Sigma)
+\end{eqnarray*}
+with a covariance matrix
+\begin{eqnarray*}
+    \Sigma &=&
+  \begin{pmatrix}
+    1 & \psi \\
+    \psi & 1
+  \end{pmatrix}
+\end{eqnarray*}
+where $|\psi| < 1$. Then we rewrite equation \ref{eq:UnconditionalPdf}
+as
+\begin{eqnarray*}
+    r_t &=& e^{\bar{v} + \sigma a_t} b_t \\
+    &=& e^{\bar{v}} r'_t \\
+    r'_t &=& e^{\sigma a_t} b_t \\
+\end{eqnarray*}
+Then
+\begin{eqnarray*}
+  && P(r'_t < x)\\
+  &=& P(b_t < e^{-a_t\sigma}x) \\
+  &=& {1 \over 2\pi |\det(\Sigma)|^{1/2}}
+  \int_{-\infty}^{\infty} da \int_{-\infty}^{e^{-a\sigma}x} db
+  \exp\left[
+    -{1 \over 2} (a, b) \Sigma^{-1}
+    \begin{pmatrix}
+      a \\
+      b
+    \end{pmatrix}
+  \right] \\
+\end{eqnarray*}
+After some manipulations we get
+\begin{equation}\label{eq:UncondCDFAsymmetric}
+  \begin{aligned}
+    & P(r'_t < x) \\  
+    &= {1 \over 2\pi \sqrt{1 - \psi^2}} \int_{-\infty}^{\infty} da
+    e^{-a^2/2} \int_{-\infty}^{e^{-a\sigma}x} db
+    \exp\left[
+      - {(b - a\psi)^2 \over 2(1 - \psi^2)}
+    \right] \\
+    &= {1 \over 2\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-a^2/2}
+    \text{erfc}{a\psi - e^{-a\sigma} x \over \sqrt{2(1-\psi^2)}} da
+  \end{aligned}
+\end{equation}
+% To evaluate the above integral we taylor-expand $\erfc(u)$ around $u =
+% 0$:
+% \begin{eqnarray*}
+%   \erfc(u) &=& 1 - {2 \over \sqrt \pi} \sum_{k=0}^\infty (-1)^k
+%   {x^{2k+1} \over (1 + 2k) k!}
+% \end{eqnarray*}
+% Substitution in equation \ref{eq:UncondCDFAsymmetric} gives
+% \begin{eqnarray*}
+%   && P(r'_t < x) \\
+%   &=& {1 \over 2} - {1 \over \pi\sqrt{2}} \sum_{k=0}^\infty (-1)^k {1 \over
+%     (2k+1)k!} {1 \over \left[2(1 - \psi^2)\right]^{k+1/2}}
+%   \int_{-\infty}^\infty da e^{-a^2/2}(a\psi - e^{-a\sigma}x)^{2k+1} \\
+%   &=& 
+% \end{eqnarray*}
+% Binomial expansion of $(a\psi - e^{-a\sigma}x)^{2k+1}$ yields
+% \begin{eqnarray*}
+%   && P(r'_t < x) \\
+%   &=& {1 \over 2} - {1 \over \pi\sqrt{2}} \sum_{k=0}^\infty
+%   (-1)^k {1 \over (2k+1)k!} {1 \over \left[2(1 -
+%       \psi^2)\right]^{k+1/2}} \sum_{i=0}^{2k+1} {2k+1 \choose i}
+%   \psi^i x^{2k+1-i} \times \\
+%   && \exp{\sigma^2 (2k+1-i)^2 \over 2} \int_{-\infty}^\infty da a^i
+%   \exp\left\{
+%     -{1 \over 2} [a + \sigma(2k+1-i)]^2
+%     \right\} \\
+%   \end{eqnarray*}
+%   The trailing integral can be also evaluated by binomial expansion:
+%   \begin{eqnarray*}
+%     && \int_{-\infty}^\infty da a^i
+%     \exp\left\{
+%       -{1 \over 2} [a + \sigma(2k+1-i)]^2
+%     \right\}\\
+%     &=& \int_{-\infty}^\infty \sqrt{2} da \left[
+%     \sqrt{2} a - \sigma(2k+1-i)
+%   \right]^i e^{-a^2} \\
+%   &=& \sum_{j=0}^i {i \choose j} 2^{j/2} \sigma^{i-j} (2k+1-i)^{i-j}
+%   \sqrt{2} \int_{-\infty}^\infty a^j e^{-a^2} da \\
+%   &=& \sum_{j=0}^i {i \choose j} 2^{j/2} \sigma^{i-j} (2k+1-i)^{i-j}
+%   \sqrt{2} \Gamma\left(
+%     {j+1 \over 2}
+%   \right)
+% \end{eqnarray*}
+% Finally we get
+% \begin{eqnarray*}
+%     && P(r'_t < x) \\
+%   &=& {1 \over 2} - {1 \over \pi\sqrt{2}} \sum_{k=0}^\infty
+%   (-1)^k {1 \over (2k+1)k!} {1 \over \left[2(1 -
+%       \psi^2)\right]^{k+1/2}} \sum_{i=0}^{2k+1} {2k+1 \choose i}
+%   \psi^i x^{2k+1-i} \times \\
+%   && \exp{\sigma^2 (2k+1-i)^2 \over 2} \sum_{j=0}^i {i \choose j}
+%   2^{j/2} \sigma^{i-j} (2k+1-i)^{i-j} \sqrt{2} \Gamma\left(
+%     {j+1 \over 2}
+%   \right)
+% \end{eqnarray*}
+% The above expression is not in a closed form but nonetheless suffices
+% for numerical evaluation. For that purpose we re-arrange the i index
+% and rewrite the above expression as
+% \begin{eqnarray*}
+%     && P(r'_t < x) \\
+%   &=& {1 \over 2} - {1 \over \pi\sqrt{2}} \sum_{k=0}^\infty
+%   (-1)^k {1 \over (2k+1)k!} {1 \over \left[2(1 -
+%       \psi^2)\right]^{k+1/2}} \sum_{i=0}^{2k+1} {2k+1 \choose i}
+%   \psi^{2k+1-i} x^i \times \\
+%   && \exp{\sigma^2 i^2 \over 2} \sum_{j=0}^{2k+1-i} {2k+1-i \choose j}
+%   2^{j/2} (\sigma i)^{2k+1-i-j} \sqrt{2} \Gamma\left(
+%     {j+1 \over 2}
+%   \right)
+% \end{eqnarray*}
+% To compare the model with empirical return distributions we need $P(r_t
+% < x)$:
+% \begin{eqnarray*}
+%   P(r_t < x) &=& P(e^{\bar{v}} r'_t < x) \\
+%   &=& P(r'_t < e^{-\bar{v}} x) \\
+% \end{eqnarray*}
+To evaluate this integral we make an approximation of $\erfc(x)$:
+\begin{equation*}
+  \erfc(u) \approx \left\{
+  \begin{array}{ll}
+    2 & \text{if } u \leq u_1 \\
+    Au^3 + Bu + 1 & \text{if } u_1 < u \leq u_2 \\
+    0 & \text{if } u > u_2
+  \end{array}
+  \right.
+\end{equation*}
+where $u_1$ and $u_2$ are constants to be determined by OLE methods.
+
+The 3 intervals of $u$ translate to 3 corresponding intervals of $a$:
+\begin{enumerate}[I]
+\item
+  \begin{equation*}
+    (-\infty, u_1) \Leftrightarrow \left\{
+    \begin{array}{ll}
+      (-\infty, a_1) & \text{ if } \psi > 0 \\
+      (a_1, \infty) & \text{ if } \psi < 0 \\
+    \end{array}
+    \right.
+  \end{equation*}
+  where $a_1$ is defined as the root of the
+  transcendental equation $a_1\psi - e^{-a_1\sigma}x = u_1 \sqrt{2(1-\psi^2)}$.
+\item
+  \begin{equation}\label{eq:RegionI}
+    (u_1, u_2) \Leftrightarrow \left\{
+    \begin{array}{ll}
+      (a_1, a_2) & \text{ if } \psi > 0 \\
+      (a_2, a_1) & \text{ if } \psi < 0 \\
+    \end{array}
+    \right.
+  \end{equation}
+  where $a_2$ is defined as the root of the
+  transcendental equation $a_2\psi - e^{-a_2\sigma}x = u_1 \sqrt{2(1-\psi^2)}$.
+\item
+  \begin{equation}\label{eq:RegionII}
+    (u_2, \infty) \Leftrightarrow \left\{
+    \begin{array}{ll}
+      (a_2, \infty) & \text{ if } \psi > 0 \\
+      (-\infty, a_2) & \text{ if } \psi < 0 \\
+    \end{array}
+    \right.
+  \end{equation}
+\end{enumerate}
+We denote the parts of the integral \ref{eq:UncondCDFAsymmetric} in
+these intervals with I, II and III correspondingly. Then we can write
+\begin{equation}\label{eq:DeducedCDF}
+    P(r'_t < x) = {1 \over 2\sqrt{2\pi}} \left(
+      \text{I + II}
+    \right)
+\end{equation}
+In the following we first consider the case $\psi > 0$. In this case
+$a_1 < a_2$
+\begin{eqnarray*}
+  \text{I} &=& 2 \int_{-\infty}^{a_1} e^{-a^2/2} da \\
+  &=& \sqrt{2\pi} \erfc(-a_1/\sqrt 2)
+\end{eqnarray*}
+\begin{eqnarray*}
+  \text{II} &=& \int_{a_1}^{a_2} da e^{-a^2/2} \left[
+    A {(a\psi - e^{-a\sigma} x)^3\over 2^{3/2} (1 - \psi^2)^{3/2}} +
+    B{a\psi - e^{-a\sigma}x \over \sqrt{2(1-\psi^2)}} + 1
+  \right] \\
+  &=& \int_{a_1}^{a_2} da e^{-a^2/2} \left[
+    A{-e^{-3a\sigma}x^3 - 3a^2\psi^2 x e^{-a\sigma}
+      +3 a \psi x^2 e^{-2a\sigma} + a^3\psi^3
+      \over
+      2^{3/2} (1 - \psi^2)^{3/2}
+    } + \right.\\
+    && \left. B{a\psi - e^{-a\sigma}x
+    \over
+    \sqrt{2(1 - \psi^2)}
+  } + 1
+\right] \\
+&=& \text{II1} + \text{II2} + \text{II3} + \text{II4} + \text{II5} + \text{II6} + \text{II7}
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+  \text{II1} &=& -{Ax^3 \over 2^{3/2} (1 -
+    \psi^2)^{3/2}}\int_{a_1}^{a_2} da e^{-a^2/2} e^{-3a\sigma}x^3 \\
+  &=& -{Ax^3e^{9\sigma^2/2}\sqrt{2\pi} \over 2^{5/2} (1 -
+    \psi^2)^{3/2}} \left[
+    \erfc\left(a_1 + 3\sigma \over \sqrt 2\right)
+    - \erfc\left(a_2 + 3\sigma \over \sqrt 2\right)
+  \right]
+\end{eqnarray*}
+\begin{eqnarray*}
+  \text{II2} &=& -{3A\psi^2 x \over 2^{3/2} (1 - \psi^2)^{3/2}}
+  \int_{a_1}^{a_2} e^{-a^2/2 - a\sigma} a^2 \\
+  &=& -{3A\psi^2 x \over 2^{3/2} (1 - \psi^2)^{3/2}} e^{\sigma^2/2}
+  \sqrt 2 \int_{(a_1+\sigma)/\sqrt 2}^{(a_2+\sigma)/\sqrt 2} da \left[
+    2a^2 - 2\sqrt{2}\sigma a + \sigma^2
+  \right] e^{-a^2} \\
+  &=& -{3A\psi^2 x \over 2^{3/2} (1 - \psi^2)^{3/2}} e^{\sigma^2/2}
+  \sqrt 2 \left[
+    2\times\text{II2.1} -2\sqrt{2}\sigma\times\text{II2.2} + \sigma^2\text{II2.3}
+  \right]
+\end{eqnarray*}
+\begin{itemize}
+\item II2.1
+  \begin{itemize}
+  \item if $(a_1 + \sigma)(a_2 + \sigma) < 0$
+    \begin{equation*}
+      \text{II2.1} =  {1 \over 2} \left\{
+        \gamma\left[ 3/2, {(a_2 + \sigma)^2 \over 2} \right] +
+        \gamma\left[ 3/2, {(a_1 + \sigma)^2 \over 2} \right]
+      \right\}
+    \end{equation*}
+  \item if $(a_1 + \sigma)(a_2 + \sigma) > 0$
+    \begin{equation*}
+      \text{II2.1} =  {1 \over 2} \left|
+        \gamma\left[3/2, {(a_2 + \sigma)^2 \over 2}\right] -
+        \gamma\left[3/2, {(a_1 + \sigma)^2\over 2}\right]
+      \right|
+    \end{equation*}
+  \end{itemize}
+  where $\gamma(s, x)$ denotes the lower incomplete gamma function:
+  \begin{equation*}
+    \gamma(s, x) = \int_0^x x'^{s-1} e^{-x'} dx'
+  \end{equation*}
+\item II2.2
+  \begin{equation*}
+    \text{II2.2} = {1 \over 2} \left|
+      e^{-(a_1 + \sigma)^2/2} - e^{-(a_2 + \sigma)^2/2}
+    \right|
+  \end{equation*}
+\item II2.3
+  \begin{equation*}
+    \text{II2.3} = {\sqrt{\pi} \over 2} \left(
+      \erfc {a_1 + \sigma \over \sqrt 2} - \erfc {a_2 + \sigma \over \sqrt 2}
+    \right)
+  \end{equation*}
+\end{itemize}
+\begin{eqnarray*}
+  \text{II3} &=& {3Ax^2\psi \over 2^{3/2}(1 - \psi^2)^{3/2}}
+  \int_{a_1}^{a_2} da e^{-a^2/2 - 2a\sigma} a \\
+  &=& {3Ax^2\psi \over 2^{3/2}(1 - \psi^2)^{3/2}} e^{2\sigma^2}
+  \int_{(a_1 + 2\sigma)/\sqrt 2}^{(a_2 + 2\sigma)/\sqrt 2} e^{-a^2}
+  (\sqrt{2} a - 2\sigma) \sqrt{2} da \\
+  &=& {3Ax^2\psi \over 2^{3/2}(1 - \psi^2)^{3/2}} e^{2\sigma^2} \left[
+    e^{-(a_1 + 2\sigma)^2/2} - e^{-(a_2 + 2\sigma)^2/2} - \right.\\
+    &&
+    \left. \sqrt{2\pi}\sigma \left(
+      \erfc{a_1 + 2\sigma \over \sqrt 2} - \erfc{a_2 + 2\sigma \over \sqrt 2}
+    \right)
+  \right]
+\end{eqnarray*}
+\begin{eqnarray*}
+  \text{II4} &=& {A\psi^3 \over 2^{3/2}(1 - \psi^2)^{3/2}} \left[
+    \gamma\left(2, {a_2^2 \over 2}\right) -
+    \gamma\left(2, {a_1^2 \over 2}\right)
+  \right]
+\end{eqnarray*}
+\begin{eqnarray*}
+  \text{II5} &=& {B\psi \over \sqrt{2(1 - \psi^2)}} \left(
+    e^{-a_1^2/2} - e^{-a_2^2/2}
+  \right)
+\end{eqnarray*}
+\begin{eqnarray*}
+  \text{II6} = -{Bx e^{\sigma^2/2}\over \sqrt{1 - \psi^2}}{\sqrt \pi
+    \over 2} \left[
+    \erfc{a_1 + \sigma \over \sqrt{2}} -
+    \erfc{a_2 + \sigma \over \sqrt{2}}
+  \right]
+\end{eqnarray*}
+\begin{eqnarray*}
+  \text{II7} &=& \sqrt{\pi \over 2} \left[
+    \erfc{a_1^2 \over 2} - \erfc{a_2^2 \over 2}
+  \right]
+\end{eqnarray*}
+
+So far our results are only valid in the case $\psi > 0$, i.e. $a_t$
+and $b_t$ are positively correlated. If, however, $\psi < 0$, then
+$a_1$ and $a_2$ as defined in \ref{eq:RegionI} and \ref{eq:RegionII}
+will have inverse orders, $a_2 < a_1$. To make the above results valid
+even in this case, we only need to exchange $a_1$ and $a_2$ in the
+formulas.
+
+To obtain $P(r_t < x)$, we note
+\begin{eqnarray*}
+P(r_t < x) &=& P(e^{\bar{v}} r'_t < x) \\
+&=& P(r'_t < xe^{-\bar{v}}) \\
+\end{eqnarray*}
+That is, by substituting $xe^{-\bar{v}}$ for $x$ in the formula of
+$P(r'_t < x)$ we get $P(r_t < x)$.
+
+\chapter{Cross-Correlation Matrix with Gaussian Returns}
+In this chapter we present some analytical and numerical results about
+the cross-correlation matrix (cf. \S
+\ref{sec:FundamentalConcepts}), in the special case where the involved
+asset returns are assumed to be Gaussian distributed. This assumption
+is of course an over-simplification, but nevertheless lends some
+insight into the problem.
+
+Our primary interest is in the influence of autocorrelations on the
+cross-correlation matrix. \S \ref{sec:GCC-analytical} discusses the
+distribution of the matrix entries and \S \ref{sec:GCC-numerical} the
+distribution of the eigenvalues.
+
+\section{Distribution of the Matrix Entries}\label{sec:GCC-analytical}
+If the returns follow a zero-mean Gaussian distribution, 
+i.e. $\vec{r}(t) \sim N(0, \Sigma)$, and are not
+auto-correlated, the L\'evy index $\alpha$ as appears in equation
+\ref{eq:cross-correlation} is 2, and $RR'$ is a Wishart matrix with
+the following distribution law \cite{Anderson2003}:
+\begin{equation}
+  \label{eq:WishartPDF}
+  f_{RR'}(X) = { |\det X|^{(T-N-1)/2} \exp\left(-{1 \over 2}\tr
+      \Sigma^{-1}X \right)
+    \over
+    2^{NT/2}\pi^{N(N-1)/4}|\det \Sigma|^{T/2}
+    \prod_{i=1}^N \Gamma\left[(n+1-i)/2\right]
+  }
+\end{equation}
+where $\Sigma$ is the true covariance matrix of the returns.
+
+The Wishart matrix $RR'$ is the main subject of study in the
+literature (see for example \cite{Anderson2003}, \cite{Chiani2012}),
+and we shall make no exception. Since the leading constant $1/T$ is
+the only difference, the results about $RR'$ are easily transformed
+to those about $RR'/T$.
+
+When autocorrelations do exist among the columns of R, the
+distribution of C is no longer Wishart but is nonethelss closely
+related to it. In the following we consider the situation where
+$r_{i,t}$ can be represented as a vector auto-regressive
+process. Specifically, suppose
+\begin{eqnarray*}
+  \vec{r}_t &=& \sum_{k=1}^p \phi_k \vec{r}_{t-k} + \vec{a}_t \\
+  \vec{a}_t &=& \vec{r}_t - \sum_{k=1}^p \phi_k \vec{r}_{t-k}
+\end{eqnarray*}
+where $\vec{a}_t = (a_{1,t}, a_{2,t}, \cdots, a_{N,t})' \sim N(0,
+\Sigma)$. Here $N(0, \Sigma)$ denotes the multivarate normal
+distribution with covariance matrix $\Sigma$. The last equation can be
+written in matrix form
+\[
+A = R M
+\]
+For example, in the case of an AR(1) process
+\begin{equation*}
+  \begin{pmatrix}
+    a_{1,1} & a_{1,2} & \cdots & a_{1,T} \\
+    \vdots & \ddots & \vdots \\
+    a_{N,1} & a_{N,2} & \cdots & a_{N,T} \\
+  \end{pmatrix} =
+  \begin{pmatrix}
+    r_{1,1} & r_{1,2} & \cdots & r_{1,T} \\
+    \vdots & \ddots & \vdots \\
+    r_{N,1} & r_{N,2} & \cdots & r_{N,T} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    1 & -\phi_1 &   &   & \\
+      & 1 & -\phi_1 &   & \\
+      &   & \ddots  & \ddots &   \\
+      &   &   & 1 & -\phi_1 \\
+      &   &   &   & 1 \\
+  \end{pmatrix}
+\end{equation*}
+Let $QR = RM$, then $Q = RMR^{-1}$. Since the set of $\{r_{ij}\}$ for
+which $\text{det } R = 0$ has probability zero, a matrix $Q$
+satisfying the above equation almost surely exists. Thus $A = RM =
+QR$ and $AA' = QRR'Q'$ Since the columns of A are not auto-correlated,
+$AA' \sim W(\Sigma, T)$. Then $RR' \sim W(Q^{-1} \Sigma Q'^{-1}, T)$
+follows from \cite{Anderson2003}, sec.7.3.3.
+
+Now we observe that $\Sigma$ enters $f(RR')$ through $\tr (\Sigma^{-1}
+RR')$ and $\det \Sigma$. $RR'$ enters through $\tr (\Sigma^{-1}
+RR')$ and $\det (RR')$. Clearly
+\begin{eqnarray*}
+  \det (Q^{-1}\Sigma Q'^{-1}) &=& \det \Sigma \over (\det Q)^2 \\
+  &=& \det \Sigma \over (\det M)^2 \\
+  &=& \det \Sigma
+\end{eqnarray*}
+As to $\tr (\Sigma^{-1} C)$, we have
+\begin{eqnarray*}
+  && \tr\left[(Q^{-1}\Sigma Q'^{-1})^{-1} RR'\right] \\
+  &=& \tr\left[Q'\Sigma^{-1} Q RR'\right] \\
+  &=& \tr\left[ R'^{-1}M'R'\Sigma^{-1} RMR^{-1} RR'\right] \\
+  &=& \tr\left[ \Sigma^{-1} RM (RM)'\right] \\
+  &=& \tr\left[ \Sigma^{-1} AA'\right] \\
+\end{eqnarray*}
+
+Moreover, $\det RR' = \det AM^{-1} M'^{-1} A' = \det AA'$.
+
+Thus if we use $f_R(\cdot)$ to denote the joint probability density of
+the entries of RR' and $f_A(\cdot)$ to denote that of AA', we can
+write
+\begin{equation}\label{eq:cross-corr-matrix-PDF}
+  f_R(RR') = f_A(RMM'R')
+\end{equation}
+
+Substituting for $f_A$ the Wishart probability density function (PDF)
+\ref{eq:WishartPDF}, we get the PDF of $RR'$. The result is not
+particularly simple. However, a relatively simple approximate
+expression for the off-diagonal entries of $RR'/T$ may be
+obtained. In the following we assume that $\text{var}(a_{i,t}) =
+\sigma^2$ for any $i$ and $t$, and as always, that $a_{i,t}$ are not
+autocorrelated, i.e. $\text{corr}(a_{i,t}, a_{i, t'}) = 0$ for any
+$i$, $t$ and $t'$. We have
+\begin{eqnarray*}
+  r_{i,t} r_{j, t} &=& \left[
+    \phi_1 r_{i, t-1} + a_{i, t}
+  \right] \left[
+    \phi_1 r_{j, t-1} + a_{j, t}
+  \right] \\
+  \mean{r_{i,t} r_{j, t}} &=& {1 \over T}\sum_{t=1}^T r_{i,t} r_{j, t} \\
+  &=& \phi_1^2 \mean{r_{i,t-1} r_{j, t-1}} + \phi_1\mean{\left(
+    r_{i, t-1} a_{j, t} + r_{j, t-1} a_{i, t}
+  \right)} + \mean{ a_{i,t} a_{j,t}}
+\end{eqnarray*}
+We note that the two sums $\sum_{t=1}^T r_{i,t} r_{j, t}$ and
+$\sum_{t=1}^T r_{i,t-1} r_{j, t-1}$ only differ by the first and the
+last addend, which is negligible for sufficiently large T. Thus we
+have
+\begin{eqnarray*}
+  (1 - \phi_1^2)\mean{r_{i,t} r_{j, t}} &\approx& \phi_1\mean{\left(
+    r_{i, t-1} a_{j, t} + r_{j, t-1} a_{i, t}
+  \right)} + \mean{ a_{i,t} a_{j,t}}
+\end{eqnarray*}
+Now we use the fact that $i$ and $j$ are symmetric on the left-hand
+side, and hence must be so as well on the right-hand side. So we write
+\begin{equation}\label{eq:Offdiag1}
+  (1 - \phi_1^2)\mean{r_{i,t} r_{j, t}} = 2\phi_1\mean{r_{i, t-1}
+    a_{j, t}} + \mean{ a_{i,t} a_{j,t}}
+\end{equation}
+Now we write the AR(1) process $r_{i,t}$ as an infinite moving-average
+process:
+\begin{eqnarray*}
+  r_{i, t} &=& \phi_1 r_{i, t-1} + a_{i,t} \\
+  (1 - \phi_1 B) r_{i, t} &=& a_{i,t} \\
+\end{eqnarray*}
+where $B$ is the back-shift operator. Then it follows from the above
+equation
+\begin{eqnarray*}
+  r_{i,t} &=& {1 \over 1 - \phi_1 B} a_{i,t} \\
+  &=& \sum_{k=0}^\infty \phi_1^k B^k a_{i,t} \\
+  &=& \sum_{k=0}^\infty \phi_1^k a_{i,t-k} \\
+\end{eqnarray*}
+where it is remembered that $a_{i, t}$ with $t \leq 0$ is zero, (in
+words, this implies that the $r_{i,t}$ process is not affected at all
+by events before $t = 1$.)
+
+% we have
+% \begin{eqnarray*}
+%   r_{i,t} &=& \sum_{k=0}^{t-1} \phi_1^k a_{i,t-k}
+% \end{eqnarray*}
+Substituting this into eq.\ref{eq:Offdiag1} for $r_{i,t-1}$ yields
+\begin{equation}
+  \label{eq:Offdiag2}
+  \begin{aligned}
+  (1 - \phi_1^2)\mean{r_{i,t} r_{j, t}} &\approx
+  2 \sum_{k=0}^\infty\phi_1^{k+1} \mean{a_{i, t-k-1} a_{j, t}}
+  + \mean{a_{i,t} a_{j,t}} \\
+  &=
+  2 \sum_{k=1}^\infty\phi_1^k \mean{a_{i, t-k} a_{j, t}}
+  + \mean{a_{i,t} a_{j,t}} \\
+  &=
+  {2 \over T} \sum_{t=1}^{T} \sum_{k=1}^{t-1}\phi_1^k a_{i, t-k} a_{j, t}
+  + {1 \over T} \sum_{t=1}^{T} a_{i,t} a_{j,t}\\
+  \end{aligned}
+\end{equation}
+
+% To proceed any further, one has to assume a particular correlation
+% structure among the a's. A simple yet non-trivial assumption is the
+% following:
+% \begin{equation*}
+%   \text{corr}(a_{i, t-k}, a_{j, t}) = \left\{
+%     \begin{array}{l l}
+%       1 & \text{ if $i=j$ and $k = 0$ }\\
+%       \rho & \text{ if $i \neq j$ and $k = 0$ }\\
+%       0 & \text{otherwise}
+%     \end{array}
+%   \right.
+% \end{equation*}
+
+% To obtain the PDF of $\mean{r_{i,t} r_{j, t}}$ from the above
+% equation, we first find the characteristic function of
+% $a_{i,t}a_{j,t'}$ for arbitrary $t, t' \geq 1$. Then the
+% characteristic function of the above weighted sum of ${T+1 \choose 2}$
+% such random variables can be found as a product of the characteristic
+% functions of the addends. In the end we compute the PDF of $(1 -
+% \phi_1^2)\mean{r_{i,t} r_{j, t}}$ by an inverse Fourier transform.
+
+Given two Gaussian random variables $x$ and $y$ with zero mean and
+covariance matrix 
+\begin{equation*}
+  \Sigma =
+  \begin{pmatrix}
+    1 & \rho \\
+    \rho & 1 \\
+  \end{pmatrix}
+\end{equation*}
+
+The PDF of $xy$ can be found by considering $P(xy < z)$:
+\begin{eqnarray*}
+  P(xy < z) &=& \left(\int_0^\infty dx \int_0^{z/x} dy
+    +\int_{-\infty}^0 dx \int_{z/x}^\infty dy \right)
+    {1 \over 2\pi \sqrt{1 - \rho^2}} \\
+    &&
+    \exp\left[
+      -{x^2 -2\rho xy + y^2
+        \over
+        2\sigma^2 (1 - \rho^2)} 
+    \right] \\
+  f_\text{{INN}}(z; \sigma, \rho) &=& {d \over dz} P(xy < z)\\
+  &=& {1 \over \pi \sqrt{1 - \rho^2}} \exp\left[
+    {\rho z \over \sigma^2 (1 - \rho^2)}\right] K_0\left[
+    {|z| \over \sigma^2 (1 - \rho^2)}
+  \right]
+\end{eqnarray*}
+where $K_n(z')$ is the modified Bessel function of the second
+kind. It is worth taking note that, when $\rho \neq 0$,
+$f_\text{{INN}}(z; \sigma, \rho)$ is not symmetric with respect to
+$z$. As a result, if $\rho > 0$, the mean of $f_\text{{INN}}(z;
+\sigma, \rho)$ is positive, and vice versa.
+
+Secondly, because $|\rho| < 1$ and
+\begin{equation*}
+  K_0(z) \sim \sqrt{\pi \over 2z} e^{-z}
+\end{equation*}
+as $z \to \infty$ \cite{Olver:2010:NHMF}, all the moments of
+$f_\text{{INN}}(z; \sigma, \rho)$ are finite, implying the
+applicability of the Lyapunov central limit theorem provided that $T$
+is large, which is very often the case and what we assume here.
+
+With this mind, we observe that $\phi_1$ only affects the first sum in
+\ref{eq:Offdiag2}. If $a_{i,t-k}$ and $a_{j,t}$ are not correlated for
+non-zero $k$, $\phi_1$ will not affect the mean of $\mean{r_{i,t}
+  r_{j, t}}$, the estimated covariance between asset $i$ and
+$j$. Furthermore, it is also clear from equation \ref{eq:Offdiag2}
+that the variance of $\mean{r_{i,t}r_{j, t}}$ is always increased by a
+non-zero $\phi_1$, regardless of the sign of $\phi_1$. We compute this
+increment in the following.
+
+In light of the above expression for $f_\text{{INN}}(z; \sigma,
+\rho)$, we rewrite equation \ref{eq:Offdiag2} as
+\begin{eqnarray*}
+  (1 - \phi_1^2)\mean{r_{i,t} r_{j, t}} &\approx&
+  {2 \over T}
+  \sum_{t=1}^{T} \sum_{k=1}^{t-1}\phi_1^k a_{i, t-k} a_{j, t} \\
+  && + {1 \over T} \sum_{t=1}^{T} \sigma^2 (1 - \rho^2) {a_{i,t} \over
+    \sigma \sqrt{1 - \rho^2}} {a_{j,t} \over \sigma \sqrt{1 - \rho^2}} \\
+\end{eqnarray*}
+In addition, we assume
+\begin{equation*}
+  \text{corr}(a_{i, t-k}, a_{j, t}) = \left\{
+    \begin{array}{l l}
+      1 & \text{ if $i=j$ and $k = 0$ }\\
+      \rho & -1 < \rho < 1. \text{ if $i \neq j$ and $k = 0$ }\\
+      0 & \text{otherwise}
+    \end{array}
+  \right.
+\end{equation*}
+Then, because $a_{i, t-k}$ and $ a_{j, t}$ with $i \neq j$ and $k
+> 0$ are not correlated, the mean of $a_{i, t-k} a_{j, t}$ is 0
+($f_\text{{INN}}(z; \sigma, 0)$ is symmetric), and the variance of it
+can be found to be $\sigma^6$ using formula (10.43.19) of \cite{NIST:DLMF}:
+\begin{equation*}
+  \int_0^\infty dt K_\nu(t) t^{\mu-1} = 2^{\mu-2}
+  \Gamma\left(
+    {\mu + \nu \over 2}
+  \right) \Gamma\left(
+    {\mu - \nu \over 2}
+  \right)
+\end{equation*}
+On the other hand, $a_{i,t}/\sigma \sqrt{1 - \rho^2}$ and
+$a_{j,t}/\sigma \sqrt{1 - \rho^2}$ have variance $1/(1 - \rho^2)$
+and are correlated - $\text{corr}(a_{i,t}, a_{j,t}) = \rho$. The mean
+of $a_{i,t}a_{j,t}/\sigma^2 (1 - \rho^2)$ can be found using formula
+(10.43.22) of \cite{NIST:DLMF}, given that $-1 < \rho < 1$:
+\begin{eqnarray*}
+  \int_0^\infty t^{\mu - 1} e^{-at} K_\nu(t) &=& (\pi/2)^{1/2}
+  \Gamma(\mu + \nu) \Gamma(\mu - \nu)(1 - a^2)^{-\mu/2 + 1/4} \times\\
+  && P^{-\mu+1/2}_{\nu-1/2} (a)
+\end{eqnarray*}
+where $P^\mu_\nu(\cdot)$ is Ferrers function of the first kind. The
+result is
+\begin{eqnarray*}
+  E\left[{a_{i,t}a_{j,t} \over \sigma^2 (1 - \rho^2)}\right]
+  &=&
+  {1 \over \sqrt{2\pi} (1 - \rho^2)^{5/4}} \left[
+    P^{-3/2}_{-1/2}(-\rho) - P^{-3/2}_{-1/2}(\rho)
+  \right]
+\end{eqnarray*}
+Similarly, the variance of $a_{i,t}a_{j,t}/\sigma^2 (1 - \rho^2)$ is
+found to be
+\begin{eqnarray*}
+  v^2(\rho) &=&
+  {4 \over \sqrt{2\pi} (1 - \rho^2)^{7/4}} \left[
+    P^{-5/2}_{-1/2}(\rho) + P^{-5/2}_{-1/2}(-\rho)
+  \right] \\
+  && - E^2\left[{a_{i,t}a_{j,t} \over
+      \sigma^2 (1 - \rho^2)}\right]
+\end{eqnarray*}
+Now we can write down the asymptotic Gaussian distribution of
+$\mean{r_{i,t}r_{j,t}}$, the empirical estimate
+$\text{corr}(r_{i,t},r_{j,t})$:
+\begin{equation*}
+\mean{r_{i,t}r_{j,t}} \sim N(\mu'_X, \sigma'_X)
+\end{equation*}
+where
+\begin{eqnarray*}
+  \mu'_X &=& {\sigma^2 \over \sqrt{2\pi} (1 - \phi_1^2)(1 -
+    \rho^2)^{1/4}} \left[ P^{-3/2}_{-1/2}(-\rho) -
+    P^{-3/2}_{-1/2}(\rho)
+  \right] \\
+  \sigma'^2_X &=& {1 \over (1 - \phi_1^2)^2}\left[
+    \sum_{t=1}^T \sum_{k=1}^{t-1} \left(
+      2\phi_1^k \over T
+    \right)^2 \sigma^6 + \sum_{t=1}^T
+    {\sigma^4 (1 - \rho^2)^2 \over T^2} v^2(\rho)
+  \right] \\
+  &=& {4 \sigma^6 \over T (1 - \phi_1^2)^2} \left[
+    {\phi_1^2 \over 1 - \phi_1^2} -
+    {\phi_1^2 (1 - \phi_1^{2T}) \over
+      T(1 - \phi_1^2)}
+  \right] + {\sigma^4 (1 - \rho^2)^2 v^2(\rho) \over
+    T (1 - \phi_1^2)^2} \\
+  &\approx& {4 \sigma^6 \phi_1^2 \over T (1 - \phi_1^2)^3}
+  + {\sigma^4 (1 - \rho^2)^2 v^2(\rho) \over
+    T (1 - \phi_1^2)^2}
+\end{eqnarray*}
+Considering that, for any $i$ and $t$,
+\begin{equation*}
+  r_{i,t} = \sum_{k=0}^{t-1} \phi_1^k a_{i, t-k}
+\end{equation*}
+we have
+\begin{equation*}
+  \text{var}(r_{i,t}) \approx {\sigma^2 \over 1 - \phi^2}
+\end{equation*}
+Then it follows that
+\begin{eqnarray*}
+  \text{corr}(r_{i,t}, r_{j,t}) &=&
+  {\mean{r_{i,t}, r_{j,t}} \over
+    \sqrt{\text{var}(r_{i,t})\text{var}(r_{j,t})}} \\
+  &\sim& N(\mu_X, \sigma_X)
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+  \mu_X &=& {1 \over \sqrt{2\pi} (1 -
+    \rho^2)^{1/4}} \left[ P^{-3/2}_{-1/2}(-\rho) -
+    P^{-3/2}_{-1/2}(\rho)
+  \right] \\
+  \sigma'^2_X   &\approx& {4 \sigma^2 \phi_1^2 \over T (1 - \phi_1^2)}
+  + {(1 - \rho^2)^2 v^2(\rho) \over T} \\
+  &=& {4 \sigma^2 \over T (2^{2/\tau} - 1)}
+  + {(1 - \rho^2)^2 v^2(\rho) \over T} \\ 
+\end{eqnarray*}
+In the last line, $\phi$ is replaced by the correlation time
+$\tau$, whose definition is in equation \ref{eq:tau_def}.
+
+What we have obtained is a quantitative description of what has been
+said before: The mean of the off-diagonal entries of the
+cross-correlation matrix is not affected by autocorrelations in the
+returns, given that innovations $a_{i,t}$ of different assets and
+different times are un-correlated; the variance, however, is always
+increased by autocorrelations no matter the autocorrelation is
+positive or nagative. The increment is in the form of an additive term
+that scales as $1 / (2^{2/\tau} - 1)$.
+
+% However, to write $f_A(RMM'R')$ as a function of the eigen
+% values of $RMM'R'$ is very involved and no theoretical results are
+% known.
+
+% In the more general case
+% \begin{eqnarray*}
+%   a_{i,t} &=& \left(
+%     1 - \sum_{k=1}^p \phi_{i,k} B^k
+%   \right) r_{i,t} \\
+%   &=& \Phi_i(B)} r_{i,t
+% \end{eqnarray*}
+% where $B$ denotes the back shift operator acting on subscript $t$, we
+% can write
+% \begin{eqnarray*}
+%   A &=&
+%   \begin{pmatrix}
+%     \Phi_1(B) & &\\
+%     & \ddots & \\
+%     && \Phi_N(B)
+%   \end{pmatrix} R \\
+%   &=& \Phi(B) R
+% \end{eqnarray*}
+
+% Following the same reasoning, $RR' \sim W(\Phi^{-1}(B)
+% \Sigma \Phi'^{-1}(B), T)$. Substituting $\Phi^{-1}(B)
+% \Sigma \Phi'^{-1}(B)$ for $\Sigma$ in the Wishart
+% probability density function, we get
+% \begin{eqnarray*}
+%   && \tr\left\{\left[\Phi^{-1}(B)\Sigma \Phi'^{-1}(B)\right]^{-1}
+%     RR'\right\}\\
+%   &=& \tr \left\{\Phi'(B)\Sigma^{-1} \Phi(B) RR'\right\}\\
+%   &=& \tr\left\{\Sigma^{-1}AA'\right\}\\
+% \end{eqnarray*}
+% As to $\det \Phi^{-1}(B)\Sigma \Phi'^{-1}(B)$, we note that $\Sigma$
+% is constant over time, and thus a function of $B$ has no effect on
+% it. Therefore $\det \Phi^{-1}(B)\Sigma \Phi'^{-1}(B) = \det \Sigma$.
+
+\section{Distribution of the Eigenvalues}\label{sec:GCC-numerical}
+For the Wishart matrix, theoretical results are available for the
+eigenvalue distribution \cite{Chiani2012}. In the simplest case where
+$\Sigma = I$, i.e. no cross-correlations are present, we have
+\begin{eqnarray*}
+  f_{\lambda}(x_1, \cdots, x_N) = K \prod_{i=1}^N e^{-x_i/2}
+  x_i^{(T-N-1)/2} \prod_{i<j}^N (x_i - x_j)
+\end{eqnarray*}
+where the eigenvalues have been indexed in descending order: $x_1 \geq
+x_2 \geq \cdots \geq x_N$. The normalization constant K is given by
+\begin{equation*}
+  K = {\pi^{N^2/2} \over 2^{NT/2}\Gamma_N(T/2) \Gamma_N(N/2)}
+\end{equation*}
+where the function $\Gamma_m(a)$ is defined as
+\begin{equation*}
+  \Gamma_m(a) = \pi^{m(m-1)/4} \prod_{k=1}^m \Gamma\left(a - {k-1
+      \over 2}\right)
+\end{equation*}
+However, as detailed in the derivation leading to equation
+\ref{eq:cross-corr-matrix-PDF}, the distribution of $RR'$ is not
+Wishart when the columns of $R$ are correlated. Deriving the
+eigenvalue distribution analytically in this case is difficult and
+beyond the scope of this thesis. Instead we resort to numerical
+methods.
+
+As before we consider the AR(1) process (see \S
+\ref{sec:FundamentalConcepts}):
+\begin{equation*}
+  \vec{r}_t = \phi \vec{r}_{t-1} + \vec{a}_{t}
+\end{equation*}
+where $\vec{a}_t \sim N(0, I)$, i.e. the elements of $\vec{a}_t$ are
+independent Gaussian random variable with zero mean and unit
+variance.
+
+Now we investigate how the eigenvalue distribution depends on
+$\phi$. Figure \ref{fig:GaussianMarkovSpectrumPDF} shows the results
+of the simulation.
+% \begin{wrapfigure}{r}{0.5\textwidth}
+\begin{figure}[htb!]
+  \begin{center}
+    \includegraphics[scale=0.5, clip=true, trim=90 228 115
+    226]{../pics/GaussianMarkovSpectrumPDF.pdf}
+  \end{center}
+  \vspace{-10mm}
+  \label{fig:GaussianMarkovSpectrumPDF}
+  \caption{\footnotesize{
+    Eigenvalue distribution with $\tau$ ranging from 0 to
+    3. The 1st blue line, which is shown as stairs, is the
+    theoretical eigenvalue distribution according to the
+    Marcenko-Pastur law: $f(\lambda) = \sqrt{(\lambda_+/\lambda - 1)(1
+      - \lambda/\lambda_-)}/2\pi q \sigma^2$, where $\lambda_{\pm} =
+    \sigma^2(1 \pm \sqrt{q})^2$ In the simulation we have
+    chosen $q = N/T = 50/1000 = 0.05$ and $\sigma=1$. For each value
+    of $\tau$ we generate 2000 instances of $N \times T$ random matrix
+    $R$, and compute C as $C=RR'/T$. Hence each curve in the figure is
+    constructed from 2000 sets of eigenvalues.
+  }}
+\end{figure}
+It is clear from the figure that, while the minimum eigenvalue remains
+unchanged from its value given by the Marcenko-Pastur law, the maximum
+eigenvalue moves consistently to the right as the value of $\phi$
+increases. This prompts a study of the maximum eigenvalue distribution.
+
+K. Johnsson \cite{Johnsson2000} and I. Johnstone \cite{Johnstone2001}
+showed that, at the {\it absence} of autocorrelations and in the asymptotic
+limit $N, T \to \infty$, $N/T \to q < \infty$, the maximum eigenvalue
+$\lambda_1$ follows the Tracy-Widom distribution (denote
+$\mathscr{TW}_1$ here) when properly relocated and rescaled:
+\begin{equation*}
+  {\lambda_1 - \mu_{NT} \over \sigma_{NT}} \sim \mathscr{TW}_1
+\end{equation*}
+where $\mu_{NT}$ and $\sigma_{NT}$ are given by
+\begin{eqnarray*}
+  \mu_{NT} &=& \left(
+    \sqrt{N-1/2} + \sqrt{T - 1/2}
+  \right)^2 \\
+  \sigma_{NT} &=& \sqrt{\mu_{NT}} \left(
+    {1 \over \sqrt{N-1/2}} + {1 \over \sqrt{T-1/2}}
+  \right)^{1/3}
+\end{eqnarray*}
+
+The $\mathscr{TW}_1$ distribution has the following cummulative
+distribution function (CDF) \cite{Chiani2012}
+\begin{equation*}
+  F_1(x) = \exp\left[
+    -{1 \over 2} \int_x^\infty dy \left(q(y) + (y-x)q^2(y)\right)
+  \right]
+\end{equation*}
+where $q(y)$ is defined as the solution to the Painlev\'e II differential
+equation
+\begin{equation*}
+  q''(y) = yq(y) + 2q^3(y)
+\end{equation*}
+which is unique when imposing the condition
+\begin{equation*}
+  q(y) \sim \text{Ai}(y) \text{ as } y \to \infty
+\end{equation*}
+
+Then Marco Chiani showed recently that the $\mathscr{TW}_1$ distribution
+can be well approximated by a gamma distribution based on his proof
+that the exact distribution of the maximum eigenvalue is a mixture of
+gamma distributions. Specifically,
+\begin{equation}\label{eq:TracyWidom-Gamma}
+  {\lambda_1 - \mu_{NT} \over \sigma_{NT}} + \alpha \sim
+  \mathscr{G}(k ,\theta)
+\end{equation}
+where $\mathscr{G}(k, \theta)$ denotes the Gamma distribution with
+parameters $k$ and $\theta$ \cite{Chiani2012}. The probability
+density function (PDF) of the gamma distribution is given by
+\begin{equation*}
+  f_\gamma(x; k, \theta) = {1 \over \Gamma(k) \theta^k} x^{k-1}
+  e^{-x/\theta}
+\end{equation*}
+Moreover, the first 3 moments of the distribution are simple:
+\begin{eqnarray*}
+  E &=& k\theta \\
+  \text{variance} &=& k\theta^2 \\
+  \text{skewness} &=& 2/\sqrt{k}
+\end{eqnarray*}
+
+In the following we first verify these results and extend them to the
+case {\it with} autocorrelations and then study how the
+distribution changes as $\phi$ increases. Figure
+\ref{fig:GaussianMarkov005MaxEigCDF_loglog} compares the empirical
+maximum eigenvalue CDF with the CDF of a gamma distribution. Each pair
+of CDFs correspond to a fixed autocorrelation strength ($\phi$). The
+parameters $k$ and $\theta$ of the gamma distribution are fit to
+data by matching the 2nd and the 3rd moments of the gamma distribution
+to the corresponding moments of the empirical distribution. Then the
+parameter $\alpha$ in equation \ref{eq:TracyWidom-Gamma} is chosen to
+be
+\begin{equation*}
+  \alpha = k\theta - \mean{{\lambda_1 - \mu_{NT} \over \sigma_{NT}}}
+\end{equation*}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.5, clip=true, trim=30 198 32
+    166]{../pics/GaussianMarkov005MaxEigCDF_loglog.pdf}
+    \label{fig:GaussianMarkov005MaxEigCDF_loglog}
+    \caption{\footnotesize Cummulative distribution function (CDF) of the maximum
+      eigenvalue ($\lambda_1$). Blue: empirical CDF. Red: CDF of the
+      fitting gamma distribution. Both axis's are in log-scale.}
+  \end{center}
+  \vspace{-10mm}
+\end{figure}
+
+We can see in figure \ref{fig:GaussianMarkov005MaxEigCDF_loglog} that
+the gamma distribution fits fairly well to its corresponding maximum
+eigenvalue distribution. So we conclude that a gamma distribution not
+only approximates the maximum eigenvalue distribution at the absence of
+autocorrelations but does so even at the {\it presence} of
+autocorrelations. Autocorrelations influence the maximum eigenvalue
+distribution only via the parameters $k$, $\theta$ and $\alpha$. Next
+we study this influcence in detail.
+
+% Since the maximum eigenvalue distribution is well approximated by a
+% gamma distribution, which is characterized by the parmaters $k$ and
+% $\theta$, connecting the maximum eigenvalue distribution with the
+% autocorrelation means connecting $k$ and $\theta$ with the
+% autocorrelation strength $\phi$ or alternatively with the correlation
+% time $\tau$.
+
+Figure \ref{fig:GaussianMarkovMaxEig_k-phi} shows how the parameter $k$
+varies as the autocorrelation strengthens ($\phi$ increases). 
+\begin{figure}[htb!]
+  \vspace{-10mm}
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=100 223 112
+    141]{../pics/GaussianMarkov05MaxEig_k-phi.pdf}
+    \caption{\footnotesize The parameter $k$ against autocorrelation strength
+      $\phi$. Blue crosses: Empirical values of $k$. Red: best fitting
+      line in terms of {\it Least Square Errors}.}
+  \label{fig:GaussianMarkovMaxEig_k-phi}
+\end{figure}
+From the equation of the fitting line we can directly read out
+\begin{eqnarray*}
+  k &=& a\phi + b \\
+  &=& a\left(1 \over 2\right)^{1/\tau} + b
+\end{eqnarray*}
+where $a = -26$ and $b = 47$.
+
+For the parameter $\theta$, its behavior is more conveniently
+described in terms of the correlation time $\tau$. Figure
+\ref{fig:GaussianMarkovMaxEig_theta-tau} plots the values of $\theta$
+against those of $\tau$ together with a fitting quadratic
+function. Higher order polynomials provide a slightly better
+fit, but coefficients of the 3rd order and above are less than 1/1000
+times the coefficients of the 2nd and the 1st order. Therefore a 2nd
+order polynomial has been chosen.
+\begin{figure}[htb!]
+  \vspace{-15mm}
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=99 230 114
+  139]{../pics/GaussianMarkov05MaxEig_theta-tau.pdf} 
+  \caption{\footnotesize parameter $\theta$ against correlation time $\tau$. Blue:
+    empirical values of $\theta$. Cyan: Fitting quadratic function.}
+  \label{fig:GaussianMarkovMaxEig_theta-tau}
+\end{figure}
+The equation of this polynomial is
+\begin{eqnarray*}
+  \theta &=& A\tau^2 + B\tau + C
+\end{eqnarray*}
+where $A = 2.1\times 10^{-4}$, $B = -1.1\times 10^{-4}$, $C =
+3.2\times 10^{-4}$.
+
+The parameter $\alpha$ shifts the gamma distribution $\mathscr{G}(k,
+\theta)$ to match the mean of ${(\lambda_1 -
+  \mu_{NT})/\sigma_{NT}}$. The behavior of $\alpha$ with respect to
+changing autocorrelation is shown in figure
+\ref{fig:GaussianMarkovMaxEig_alpha-tau}.
+\begin{figure}[htb!]
+  \vspace{-15mm}
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=104 229 114
+  139]{../pics/GaussianMarkovMaxEig_alpha-tau.pdf}
+  \caption{\footnotesize The mean-shift parameter $\alpha$ against
+    correlation time $\tau$. Blue: empirical values of $\alpha$. Cyan:
+    quadratic fit.}
+  \label{fig:GaussianMarkovMaxEig_alpha-tau}
+\end{figure}
+The equation of $\alpha$ is then inferred from the fitting line:
+\begin{equation*}
+  \alpha = D\tau^2 + E\tau + F
+\end{equation*}
+where $D = -3.4\times 10^{-3}$, $E = -4.6\times 10^{-2}$ and $F = 69$.
+
+So combining the results of $\alpha$, $k$ and $\theta$ we can express
+the moments of the Tracy-Widom variate ${(\lambda_1 -
+  \mu_{NT})/\sigma_{NT}}$:
+\begin{equation}\label{eq:lambda1_MeanVariance}
+  \begin{aligned}
+    E({\lambda_1 - \mu_{NT} \over \sigma_{NT}}) &= k\theta -
+    \alpha \\
+    &= \left[-a\left(1 \over 2\right)^{1/\tau} + b\right](A\tau^2 +
+    B\tau - C) - (D\tau^2 + E\tau + F) \\
+    \text{variance}({\lambda_1 - \mu_{NT} \over \sigma_{NT}}) &=
+    k\theta^2 \\
+    &= \left[-a\left(1 \over 2\right)^{1/\tau} + b\right](A\tau^2 +
+    B\tau - C)^2 \\
+  \end{aligned}
+\end{equation}
+Figure \ref{fig:GaussianMarkovMaxEig_tw_moments} shows the empirical
+moments of ${(\lambda_1 - \mu_{NT})/\sigma_{NT}}$ together with the
+corresponding values computed using the above formulas.
+\begin{figure}[htb!]
+  \vspace{-15mm}
+  \centering
+  \includegraphics[scale=0.46, clip=true, trim=48 243 6
+  134]{../pics/GaussianMarkovMaxEig_tw_moments.pdf}
+  \caption{\footnotesize empirical moments of ${(\lambda_1 -
+      \mu_{NT})/\sigma_{NT}}$ against their theoretical
+    counterparts. Left: Empirical/theoretical mean against $\tau$;
+    Right: Empirical/theoretical variance against $\tau$. Blue
+    crosses: empirical values; Red line: fitting curves. Horizontal
+    axis: correlation time $\tau$.}
+\label{fig:GaussianMarkovMaxEig_tw_moments}
+\end{figure}
+The good fitness shown in figure
+\ref{fig:GaussianMarkovMaxEig_tw_moments} allows us to conclude 
+that, within the range of the correlation time that we have studied,
+namely $\tau \in [0, 13.51]$, the $k$ parameter is a linear function
+of $\phi = 2^{-1/\tau}$ while $\theta$ and $\alpha$ are quadratic
+functions of $\tau$. The moments of the transformed maximum
+eigenvalue, namely ${(\lambda_1 - \mu_{NT})/\sigma_{NT}}$, are thus
+expressed as functions of the correlation time $\tau$ via the
+parameters $k$, $\theta$ and $\alpha$.
+
+Figure \ref{fig:GaussianMarkovMaxEigPDF_original} shows the PDF of the
+maximum eigenvalue ($\lambda_1$) for a range of values of the
+correlation time $\tau$. One can clearly see that the mean of the
+distribution moves to the right and the width of the distribution
+increases as $\tau$ takes on larger and larger values. However, one
+must not forget that the behavior of the mean and the width is random
+in nature. Eq. \ref{eq:lambda1_MeanVariance} describes such behavior in
+the asymptotic limit, i.e. if an infinite number of random matrices
+are generated and their respective maximum eigenvalues computed for
+each and every value of correlation time $\tau$.
+\begin{figure}[htb!]
+  \begin{center}
+    \includegraphics[scale=0.5, clip=true, trim=98 228 112
+    221]{../pics/GaussianMarkovMaxEigPDF_original.pdf}
+    \label{fig:GaussianMarkovMaxEigPDF_original}
+    \caption{Probability density function of the maximum eigenvalue
+      ($\lambda_1$).}
+  \end{center}
+\end{figure}
+
+% The above observations lead to the conclusion that the
+% autocorrelations are fully characterized by the parameters $k$ and
+% $\theta$, which determine the gamma distribution via the 1st and the
+% 2nd moments:
+% \begin{eqnarray*}
+%   E(\lambda_1) &=& k\theta \\
+%   \text{var}(\lambda_1) &=& k\theta^2
+% \end{eqnarray*}
+
+% Table \ref{tab:GammaDistParam} shows the values of $k$ and $\theta$
+% corresponding to different values of $\phi$.
+% \begin{table}
+%   \begin{footnotesize}
+%   \centering
+%   \begin{tabular}{c|c|c || c|c|c }
+%     \hline
+%     $\phi$ & $k$ & $\theta$ &  $\phi$ & $k$ & $\theta$ \\
+%     \hline
+%     0  &  48.4730  &   0.0002  &   0.5000  &  66.9245  &   0.0003  \\
+%     0.0500  &  32.3891  &   0.0002  &   0.5500  &  21.1857  &   0.0007  \\
+%     0.1000  &  54.4910  &   0.0002  &   0.6000  &  49.2886  &   0.0005  \\
+%     0.1500  &  42.6755  &   0.0002  &   0.6500  &  39.0294  &   0.0007  \\
+%     0.2000  &  39.7918  &   0.0002  &   0.7000  &  37.8492  &   0.0009  \\
+%     0.2500  &  30.0915  &   0.0003  &   0.7500  &  27.5861  &   0.0016  \\
+%     0.3000  &  60.3928  &   0.0002  &   0.8000  &  29.6914  &   0.0021  \\
+%     0.3500  &  26.1387  &   0.0004  &   0.8500  &  19.5804  &   0.0047  \\
+%     0.4000  &  36.8579  &   0.0003  &   0.9000  &  28.8284  &   0.0079  \\
+%     0.4500  &  29.0491  &   0.0004  &   0.9500  &  18.2793  &   0.0375  \\
+%     \hline
+%   \end{tabular}
+%   \label{tab:GammaDistParam}
+%   \caption{Values of $k$ and $\theta$ for different $\phi$}
+% \end{footnotesize}
+% \end{table}
+% The values of $k$ are random while those of $\theta$ have a trend to
+% increase. It is hence reasonable to hypothesize that more probability
+% is distributed to large values of $\theta$ as $\phi$ gets larger. The
+% values of $\theta$ are plotted against those of $\phi$ in figure
+% \ref{fig:GaussianMarkovThetaPhi}. One can see that the $\theta$ values
+% grow faster than an exponential function after exceeding a critical value.
+% \begin{figure}
+%   \begin{center}
+%     \includegraphics[scale=0.35, clip=true, trim=58 220 87
+%     133]{../pics/GaussianMarkovThetaPhi.pdf}
+%   \end{center}
+%   \caption{$\theta$ values againt $\phi$ values in linear scale
+%     (left) and in semi-log scale (right)}
+%   \label{fig:GaussianMarkovThetaPhi}
+% \end{figure}
+% The smallness of the $\theta$ values and their behavior of increasing
+% with $\phi$ explain the pattern shown in figure
+% \ref{fig:GaussianMarkovMaxEigPDF_original}: The mean as well as the variance
+% of the $\lambda_1$ distribution increases with $\phi$; The effect of
+% right-shifting dominates before a critical $\phi$ value, while the
+% effect of widening dominates after the critical value.
+
+\chapter{Cross-Correlation Matrix with Fat-Tailed Returns}
 \bibliographystyle{plain}
 \bibliography{econophysics}
 \end{document}

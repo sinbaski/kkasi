@@ -3,7 +3,7 @@ close all
 
 company = 'volvo_b';
 first_day = '2013-10-10';
-last_day = '2013-12-04';
+last_day = '2013-12-23';
 % dt in units of one minute
 % dt = 15min, delta=30sec
 % dt = 45min, delta=90sec,

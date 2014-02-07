@@ -5,27 +5,25 @@ close all
 % filename = 'data/volvo_b_20121203-20131202.csv';
 
 %% daily returns
-filename = 'data/nasdaq.csv';
-price = dlmread(filename, ',', [1, 4, 10807, 4]);
+% filename = 'data/nasdaq.csv';
+filename = 'data/VOLVO-B-1990-01-01-2014-01-09';
+price = dlmread(filename, ',', [1, 6, 6029, 6]);
 % filename = 'data/sp.csv';
 % price = dlmread(filename, ',', [1, 4, 16084, 4]);
 price = flipud(price); 
 ret = price2ret(price);
-r = (ret - mean(ret))/std(ret);
+r = (ret - mean(ret));
 
 
 %% intraday returns
 % company = 'volvo_b';
 % first_day = '2013-10-10';
-% last_day = '2013-12-04';
-% dt = 5;
-% % interval for calculating realized volatility. in seconds
-% delta = 10;
-% [ret, v] = get_intra_ret_simple(...
-%     company, first_day, last_day, dt, delta);
+% last_day = '2014-01-10';
+% dt = 30;
+% [ret, v] = get_intra_ret_simple(company, first_day, last_day, dt, dt*2);
 % r = (ret - mean(ret))/std(ret);
 
-[p1, p2] = extract_xpnt(r, 2.56e-2/std(ret), 5.0e-2/std(ret));
+[p1, p2] = extract_xpnt(r, 2, 3);
 % [p1, p2] = extract_xpnt(r, 0.045/std(ret));
 fprintf('Left tail exponent: %.4f\nRight tail exponent: %.4f\n', ...
         p1, p2);

@@ -8,7 +8,7 @@ function [ret, sig] = get_intra_ret_simple(...
     ret = NaN(length(days) * num, 1);
     sig = NaN(length(days) * num, 1);
     N = NaN(length(days), 1);
-    n = 1;
+    n = 0;
     for d = 1:length(days)
         price = get_interpolated_prices(company, days{d}, 'minute', 1);
         if length(price) <= dt
@@ -17,10 +17,10 @@ function [ret, sig] = get_intra_ret_simple(...
         price = price(1:dt:length(price));
         r = price2ret(price);
         N(d) = length(r);
-        ret(n: n + N(d) - 1) = r;
+        ret(n + 1: n + N(d)) = r;
         n = n + N(d);
     end
-    ret = ret(1: n-1);
+    ret = ret(1: n);
 
     if isnan(delta) || isinf(abs(delta))
         return;

@@ -1,34 +1,21 @@
-function returns = get_intra_ret(company, first_day, last_day, ...
-                                          interval, width, cmpt, ...
-                                          agrgt)
-if cmpt
-    cmpt_intra_ret(company, first_day, last_day, interval, width);
-end
+function ret = get_intra_ret(company, first_day, last_day, dt)
+    days = get_recorded_days(company, first_day, last_day);
 
-stmt = sprintf('ls data/%s_%dsec_ret_*.mat', company, interval);
-[status, output] = system(stmt);
-files = strsplit(output);
+    num = ceil(60*8.5 - dt);
 
-fmt = 'yyyy-mm-dd';
-ds = datenum(first_day, fmt);
-de = datenum(last_day, fmt);
-returns = [];
-l = 1;
-done = 0;
-while l <= length(files) && ~done
-    daystr = regexp(files(l), '[0-9]{4}-[0-9]{2}-[0-9]{2}', 'match');
-    daynum = datenum(daystr{1}, fmt);
-    if daynum >= ds && daynum <= de
-        if agrgt
-            load(files{l}, 'meta');
-            returns = [returns; meta.agrgt_ret];
-        else
-            load(files{l}, 'ret');
-            returns = [returns; ret];
+    ret = NaN(length(days) * num, 1);
+    N = NaN(length(days), 1);
+    n = 0;
+    for d = 1:length(days)
+        price = get_interpolated_prices(company, days{d}, 'minute', 1);
+        if length(price) <= dt
+            continue;
         end
-        if daynum == de
-            done = 1;
-        end
-        l = l + 1;
+        logprice = log(price);
+        r = logprice(dt+1:end) - logprice(1:end-dt);
+        N(d) = length(r);
+        ret(n+1: n + N(d)) = r;
+        n = n + N(d);
     end
-end
+    ret = ret(1:n);
+    

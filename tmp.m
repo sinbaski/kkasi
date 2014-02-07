@@ -1,11 +1,27 @@
 clear all
-m = 902;
-l = 49;
+syms N A b;
 
-k = 1:m/2;
-s1 = prod(2*k ./ (2*k-1));
+assume(N, 'integer');
+assume(b > 0);
+assumeAlso(b < 1);
 
-k=1:(l+1)/2;
-s2 = prod((m+2*k-2) ./ (m+l+2*k));
+R = sym('r%d%d', [2, 2]);
+assume(R, 'real');
 
-s = s1 * s2 / m / pi;
+M = eye(3);
+% b = 0.5;
+M = sym(M);
+for i = 1:size(M, 1)-1
+    M(i, i+1) = -b;
+end
+
+% A = R*M;
+
+% [V1, E1] = eig(R*R');
+% [V2, E2] = eig(R'*R);
+[V, E] = eig(M*M');
+
+% t1 = trace(A*A');
+% t2 = trace(A*A'*R*R');
+
+% isequaln(R'*V1, V2)
