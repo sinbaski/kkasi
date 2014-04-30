@@ -1,4 +1,4 @@
-function val = objective(args, w)
-val = loglikelihood(args, w);
+function val = objective(args, model, MALags, w)
+val = loglikelihood(args, model, MALags, w);
 val = -val;
 

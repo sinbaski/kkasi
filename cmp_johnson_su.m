@@ -7,11 +7,13 @@ q2 = quantile(r, probs);
 [F1, X1] = ecdf(R1);
 
 [f, x] = ecdf(r);
-plot(x, f, 'bx');
+plot(x(x > -1.3), log(f(x > -1.3)), 'bx');
 hold on
-stairs(X1, F1, 'r');
+plot(X1, log(F1), 'r');
 %stairs(X2, F2, 'g');
 grid on
 hold off;
 legend('Empirical CDF', 'Fitting Johnson Su Dist.', 'Location', ...
        'SouthEast');
+xlabel('x');
+ylabel('CDF of y_t in semi-log scale, ln(P(y_t < x))');

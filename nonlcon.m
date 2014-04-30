@@ -1,12 +1,15 @@
-function [C, Ceq] = nonlcon(param, obs)
+function [C, Ceq] = nonlcon(param, model, MALags, obs)
 minv = 8.0e-2;
 maxv = 1.0e-1;
 ep = 1.0e-3;
 s = 33;
 
-theta = param(1);
-Theta = param(2);
-y = ma_infer(obs, theta, Theta, s);
+c = 1;
+for k = MALags
+    model.MA{k} = param(c);
+    c = c + 1;
+end
+y = infer(model, obs);
 mmt = [mean(y), var(y), skewness(y), kurtosis(y)];
 
 % The variance of the innovations must be in [8.0e-2, 1.0e-1];

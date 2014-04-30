@@ -1,19 +1,33 @@
-clear all
-%%intraday returns
-company = 'ericsson_b';
-first_day = '2013-10-10';
-last_day = '2014-01-29';
-dt = 15;
-ret = get_intra_ret(company, first_day, last_day, dt);
-fprintf('%s skewness: %.4f\n', company, skewness(ret));
+M = central(q);
+M(1) = f1(q);
+M(2) = sqrt(M(2));
+M(3) = M(3)/M(2)^3;
+M(4) = M(4)/M(2)^4;
+fprintf('MLE parameters:\n');
+fprintf('%.4e & %.4e & %.4e & %.4e\n', q);
+fprintf('Sample Moments:\n');
+fprintf('%.4e & %.4e & %.4e & %.4e\n', mean(ret), std(ret), ...
+        skewness(ret), kurtosis(ret));
+fprintf('Theoretical Moments:\n');
+fprintf('%.4e & %.4e & %.4e & %.4e\n', M);
 
-lag = 16;
-x = linspace(min(ret)*0.9, max(ret), 130);
-y = hist(ret, x) / length(ret) / (x(2) - x(1));
-x = tsmovavg(x, 's', lag);
-x = x(lag:end);
-y = tsmovavg(y, 's', lag);
-y = y(lag:end);
-% y1 = pdf('Gamma', x, k, theta);
-% plot(x, y, spec{(j-1)/4+1});
-plot(x, y, 'b', x, normpdf(x, mean(ret), std(ret)), 'r');
+[y, x] = ecdf(ret);
+x1 = linspace(min(ret), max(ret), 500);
+y1 = slv_cdf((x1 - q(4)).* exp(-q(3)), -0.0157, q(2));
+% y2 = slv_cdf((x1 - p(4)).* exp(-p(3)), p(1), p(2));
+
+subplot(1, 2, 1);
+plot(log(-x(x<0)), log(y(x<0)), ...
+     log(-x1(x1<0)), log(y1(x1<0)));
+grid on
+xlabel('ln(-x) where x < 0', 'Interpreter', 'tex');
+ylabel('ln(P(r < x)) where x < 0', 'Interpreter', 'tex');
+legend('empirical CDF', 'Model CDF', 'Location', 'Southwest');
+
+subplot(1, 2, 2);
+plot(log(x(x>0)), log(1-y(x>0)), log(x1(x1>0)), log(1-y1(x1>0)));
+grid on
+xlabel('ln(x) where x > 0', 'Interpreter', 'tex');
+ylabel('ln(P(r > x)) where x > 0', 'Interpreter', 'tex');
+legend('empirical compl. CDF', 'Model compl. CDF', 'Location', ...
+       'Southwest');

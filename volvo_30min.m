@@ -1,7 +1,7 @@
 clear all
 close all
 
-company = 'nordea_bank';
+company = 'volvo_b';
 % first_day = '2012-01-16';
 % last_day = '2012-04-20';
 first_day = '2013-10-10';
@@ -9,16 +9,15 @@ last_day = '2014-04-04';
 
 % dt in units of one minute
 % dt = 15min, delta=30sec
-% dt = 45min, delta=90sec,
 % dt = 30min, delta=60sec
-dt = 15;
+% dt = 45min, delta=90sec,
+dt = 30;
 % interval for calculating realized volatility. in seconds
-delta = 30;
-s = 33;
-h = 6;
+delta = 120;
 
 [ret_cmplt, v_cmplt] = get_intra_ret_simple(...
     company, first_day, last_day, dt, delta);
+ret_cmplt = ret_cmplt - mean(ret_cmplt);
 inno_cmplt = ret_cmplt ./ v_cmplt;
 lv_cmplt = log(v_cmplt);
 N = length(ret_cmplt);
@@ -31,7 +30,7 @@ inno = inno_cmplt(1:floor(N*0.8));
 
 % mu = mean(lv);
 % lv = lv - mu;
-
+s = 16;
 
 w = ts_difference(lv, s, 1);
 w = ts_difference(w, 1, 1);
@@ -53,10 +52,10 @@ acf = acf(2:end);
 
 % Assume Gaussian distribution to obtain
 % a preliminary parameter estimation
-MALags = [1, s, s+1];
-model = arima('MALags', MALags, 'D', 1, 'Seasonality', 33);
-% model = arima('MALags', [1], 'SMALags', [1]*33, ...
-%               'D', 1, 'Seasonality', 33);
+MALags = [1:4];
+% model = arima('MALags', MALags, 'D', 1, 'Seasonality', s);
+model = arima('MALags', MALags, 'SMALags', [1]*s, ...
+              'D', 1, 'Seasonality', s);
 
 % model.Distribution = struct('Name', 'T', 'DoF', NaN);
 model.Distribution = struct('Name', 'Gaussian');
@@ -149,7 +148,7 @@ end
 % autocorr(ret.^2);
 
 %% FIT to a GARCH model
-mdl0 = garch('ARCHLags', [1,5], 'GARCHLags', [1], 'Distribution', 'Gaussian');
+mdl0 = garch('ARCHLags', [1:3, 16], 'GARCHLags', [1, 16], 'Distribution', 'Gaussian');
 [mdl, covariance, loglikelihood, info] = estimate(mdl0, ret);
 c = 1;
 v3 = NaN(length(lv2), 1);
@@ -190,7 +189,6 @@ title('Complementary Distribution of Over-estimates');
 xlabel('x');
 ylabel('P($\ln \sigma^F_t - \ln \hat{\sigma}_t > x$)', 'Interpreter', ...
        'Latex', 'Fontsize', 14);
-
 
 %% Compare The quotient of variance forecast
 % q2 = lv2 ./ lv1;

@@ -1,0 +1,215 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[swedish]{babel}
+
+\title{Project Diary}
+\author{Xie Xiaolei}
+\date{\today}
+\begin{document}
+
+\maketitle
+
+\begin{itemize}
+\item 2013/08/26 - 2013/09/01
+
+Read Sven's article about Wishart-Levy matrices as well as two
+others referenced by it.
+
+\item 2013/09/02 - 2013/09/06
+
+Read Free probability theory which is used to derive the eigenvalue
+spectrum of the Wishart-Levy matrix.
+
+\item 2013/09/07 - 2013/09/12
+
+Read the book ``An application to probability theory and its
+applications'', trying to understand the concepts of the concepts of
+probability measures, measurable sets and sigma algebras.
+
+\item 2013/09/13 - 2013/09/24
+
+Work on the Matlab program that analyzes the intra-day transaction
+data. The purpose to study the tail behavior. The main difficulty is
+that, in order to obtain good statistics, a lot of data and hence
+computation time are needed.
+
+\item 2013/09/25 - 2013/09/29
+
+Improve the program to make full use of data and to make it more
+efficient to go through the data.
+
+\item 2013/09/30 - 2013/10/04
+
+Study the auto-correlations of intra-day returns. These are expected to
+decay exponentially. It turns out that the auto-correlations between
+the returns decay to 0 in approximately the same time as the time lag
+of the returns.
+
+\item 2013/10/05 - 2013/10/11
+
+Study the GARCH models. Fit a GARCH model to 15-minute returns of
+Nordea Bank.
+
+\item 2013/10/12
+
+Read a paper about using the Johnson SU distribution to model the
+residuals in a GARCH model.
+
+\item 2013/10/13 - 2013/10/15
+
+Calculate the log-likelihood function of a GARCH model whose residuals
+have Johnson SU distributions.
+
+\item 2013/10/16 - 2013/10/21
+
+Write a program to perform maximum-likelihood estimate for GARCH
+models with Johnson SU residuals.
+
+\item 2013/10/22 - 2013/10/30
+
+Read articles about ``realized volatility'':
+\begin{enumerate}
+\item realized volatility is the square root of the sum of squared
+  returns that are sampled at a higher frequency that those one
+  intends to model.
+\item The square of realized volatility is the sample analogue of the
+  quadratic variation of a stochastic process.
+\item At what frequency should the returns be sampled to give a good
+  estimate of the quadratic variation: Ideally, the higher the
+  better. But due to market micro-structure, there is an optimal
+  frequency, the determination of which is, however, a subject of
+  debate.
+\end{enumerate}
+
+\item 2013/11/01 - 2013/11/02
+
+Read a paper about alternative volatility proxies to the realized
+volatility. The trading range, i.e. (highest - lowest)/lowest, is
+proposed among others. The use of realized volatility relies on the
+availability of intra-day transaction data. I have such data but am
+limited to a few stocks in disconnected time periods.
+
+\item 2013/11/03 - 2013/11/05
+
+Try out the proposed volatility proxies against real data.
+
+\item 2013/11/06 - 2013/11/07
+
+Study the log-volatility of Nordea Bank. They are not Gaussian
+distributed but rather have fat tails.
+
+\item 2013/11/08 - 2013/11/15
+
+Study time series analysis.
+
+\item 2013/11/16 - 2013/11/24
+
+Study the book ``Stochastic integration and differential
+equations''. This book is probably meant for mathematicians. Theorems,
+corollaries, and lemma follow one another.
+
+\item 2013/11/25 - 2013/11/30
+Study the book ``Stochastic Differential equation - An introduction
+with Applications''. It is easier than the other book and more
+oriented to applications.
+
+\item 2013/12/01 - 2013/12/03
+Make a Matlab function that retrieve n-minute returns together with
+their realized volatility from transaction data.
+Estimate a stochastic log-volatility model for 15min returns of
+Nordea Bank. The realized volatilities are calculated using 30sec
+returns.
+
+\item 2013/12/04 - 2013/12/07
+Analyze the tail behavior of the simplest possible stochastic
+log-volatility model: r = m + a exp(s b) where a and b are independent
+standard Gaussian r.v. Eventually I can express p(r) as
+p(r) = A erfc(a ln|r| + b)
+
+\item 2013/12/08 - 2013/12/15
+Read about Wishart matrices and multivariate Gaussian distribution.
+It is understood that the elements' distribution of a Wishart
+matrix, a GOE, a Wiger ensemble, are characterized by the
+eigenvalues.
+
+\item 2013/12/16 - 2013/12/20
+Derive an expression for the elements' distribution of RR', where
+R is an NxT matrix, each row of which represents a time series.
+$R_{it} = \phi R_{i, t-1} + a_{it}$. It turns out The joint
+probability density of RR' is simply p(RR') = p(AA') where R = AM and
+hence $A = RM^{-1}$.
+
+\item 2013/12/21 - 2013/12/23
+Try to find an analytic expression for the eigenvalue distribution
+of RR' at the presence of autocorrelations.
+
+\item 2013/12/27 - 2013/12/29
+Read an article about the maximum eigenvalue distribution of the
+Wishart matrix when the covariance matrix is just the identity
+matrix. The paper gives exact expressions for the PDF and the CDF of
+the maximum eigenvalue. It also shows that the PDF is a mixture of
+gamma distributions with different weights and hence can be
+approximated by a gamma distribution, namely the dominant one in the
+mixture.
+
+\item 2014/01/03 - 2013/01/10
+Try to make a Matlab program that computes the exact maximum
+eigenvalue PDF. The difficulty is to deal with quotients of gamma
+functions where both the denominator and the numerator tend to
+infinity at large T. One also needs to handle a determinant that tends
+to 0 at large T.
+
+\item 2014/01/11 - 2013/01/15
+Use the approximate gamma distribution instead. Write Matlab programs
+to simulate the return matrices, to fit the simulated maximum
+eigenvalue distribution to a gamma distribution. Study how the fitting
+gamma distributions change in response to increasing auto-correlations
+among the returns.
+
+\item 2014/01/16 - 2013/01/21
+Even more simulations. We need the autocorrelations to change more
+smoothly in order to find out how the fitting gamma distributions
+change.
+
+\item 2014/01/22 - 2013/01/28
+Conclude the chapter about cross-correlation matrix with Gaussian
+returns. Plan the next chapter of correlation matrix with fat-tailed
+returns.
+
+\item 2014/01/29 - 2013/02/05
+Further develop my simple stochastic log-volatility model
+\begin{eqnarray*}
+  r_t &=& A e^{\sigma a_t} b_t
+\end{eqnarray*}
+The current model does not account for skewness. Instinct suggests
+that allowing $a_t$ and $b_t$ to be correlated will introduce
+skewness. Calculate the analytic PDF in this case. An integral has to
+be solved to express the PDF in closed form.
+
+\item 2014/02/06 - 2013/02/10
+Still on the integral of the PDF. Have tried different ways to
+approximate it. The integrand is really complicated.
+
+\item 2014/02/11 - 2013/02/14
+Study the method of steepest descent in order to approximate the
+integral. It turns out to be inapplicable. Its main use is in studying
+asymptotic behavior of integrals when a large parameter is present in
+the exponent and makes it valid to expand the exponent around a few
+local maxima.
+
+\item 2014/02/14 - 2013/02/20
+Read a paper about regularly varying tails of GARCH(1,1) models, a
+book about extreme events that systematically treats different types
+of heavy tails, and an article about the heavy-tail central limit
+theorem, i.e. convergence to the $\alpha$-stable laws.
+
+\item 2014/02/21 - 2014/02/26
+Study the correlation matrix built from GARCH returns, write up the
+results.
+
+
+
+
+\end{itemize}
+\end{document}

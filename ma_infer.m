@@ -1,5 +1,5 @@
 %% Infer innovations of a MA process
-function y = ma_infer(w, theta, Theta, s)
+function y = ma_infer(w, param, MALags, s)
 n = length(w);
 % done = 0;
 
@@ -26,7 +26,8 @@ n = length(w);
 %     y(t) = w(t + k) + phi * w([t-1:-1:t-k] + k);
 % end
 
-y = zeros(n + s + 1, 1);
+% y = zeros(n + s + 1, 1);
+y = zeros(n + max(MALags), 1);
 x = [theta, Theta, -theta*Theta];
 offset=s+1;
 

@@ -1,49 +1,57 @@
 clear all
-T = 1e3;
-N = 50;
-fold = 2e3;
+close all
 
-q = N/T;
+N = 500;
+q = 12;
+T = N * q;
+fold = 2000;
 
-tau = 11:5:61;
-AR = 2.^(-1./tau);
-% AR = [[0:19]*0.05, 0.96:0.006:0.996, 0.9965, 0.997, 0.9975, 0.9980, ...
-%       0.999];
-% AR = [0:19]*0.05;
-% AR = [0:2:18]*0.05;
-for j = 1:length(AR)
-    if (exist(sprintf('GaussianWishartOffDiagLinearTau-%d.mat', tau(j)), 'file') == 2)
-        continue;
-    end
-    % ev = NaN(N, fold);
-    offdiag = NaN(N*(N-1), fold);
+
+AR = 0:0.1:0.9;
+% AR = 0;
+tau = -log(2)./log(AR);
+dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.90, 0.09], 'distr', ...
+             struct('Name', 'Gaussian'), 'TailExponent', 2.0329);
+% dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.15, 0.84], 'distr', ...
+%              'Gaussian', 'TailExponent', 2.9664);
+% dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.1, 0.8], 'distr', ...
+%               struct('Name', 't', 'DoF', 3), 'TailExponent', 0.7744);
+for j = AR
+    ev1 = NaN(N, fold);
+    Cij1 = NaN(N*(N-1)/2, fold);
+    Cii1 = NaN(N, fold);
     for i = 1:fold
-        A = randn(N, T);
-        A1 = zeros(N, T+1);
-        if AR(j) ~= 0
-            for k = 2:T+1
-                A1(:, k) = A1(:, k-1)*AR(j) + A(:, k-1);
-            end
-            A1 = A1(:, 2:end);
-        else
-            A1 = A;
+        R = gen_ret_mtx(N, T, dist, j);
+        if strcmp(dist.name, 'Cauchy') == 1
+            R = R ./ dist.prmt ./ T;
+        elseif strcmp(dist.name, 'Garch1_1') == 1
+            R = R ./ T^(1/dist.TailExponent);
         end
-        % S = std(A1');
-        % A1 = diag(1./S)*A1;
-        C = A1*A1'./T;
-        % ev(:, i) = eig(C);
-        offdiag(:, i) = C(~eye(N));
+        C = R*R';
+        Cij1(:, i) = C(logical(triu(ones(N), 1)));
+        Cii1(:, i) = C(logical(eye(N)));
+        ev1(:, i) = eig(C);
     end
-    save(sprintf('GaussianWishartOffDiagLinearTau-%d.mat', tau(j)), 'offdiag');
-    fprintf('Saved file %d.\n', tau(j));
+    if (exist(sprintf('GarchWishart_0.90_0.09N%dQ%dEig-%.3f.mat', ...
+                      N, q, j), 'file') == 2)
+        load(sprintf('GarchWishart_0.90_0.09N%dQ%dEig-%.3f.mat', ...
+                     N, q, j), 'ev');
+        load(sprintf(['GarchWishart_0.90_0.09N%dQ%dOffdiag-' ...
+        '%.3f.mat'], N, q, j), 'Cij');
+        load(sprintf('GarchWishart_0.90_0.09N%dQ%dDiag-%.3f.mat', ...
+                     N, q, j), 'Cii');
+        ev = [ev, ev1];
+        Cij = [Cij, Cij1];
+        Cii = [Cii, Cii1];
+    else
+        ev = ev1;
+        Cij = Cij1;
+        Cii = Cii1;
+    end
+    
+    save(sprintf('GarchWishart_0.90_0.09N%dQ%dEig-%.3f.mat', N, q, j), 'ev');
+    save(sprintf('GarchWishart_0.90_0.09N%dQ%dOffdiag-%.3f.mat', N, q, j), 'Cij');
+    save(sprintf('GarchWishart_0.90_0.09N%dQ%dDiag-%.3f.mat', N, q, j), 'Cii');
+    fprintf('Saved files %.3f.\n', j);
 end
-
-mu = NaN(length(tau), 1);
-v = NaN(length(tau), 1);
-for j = 1:length(tau)
-    load(sprintf('GaussianWishartOffDiagLinearTau-%d.mat', tau(j)), ...
-         'offdiag');
-    offdiag = reshape(offdiag, prod(size(offdiag)), 1);
-    mu(j) = mean(offdiag);
-    v(j) = std(offdiag);
-end
+quit
