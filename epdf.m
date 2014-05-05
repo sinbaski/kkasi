@@ -13,5 +13,5 @@ y = tsmovavg(y, 's', lag);
 y = y(lag:end);
 
 if ~isempty(spec)
-    plot(log10(x), log10(y), spec, 'LineWidth', 2);
+    plot((x), (y), spec, 'LineWidth', 2);
 end

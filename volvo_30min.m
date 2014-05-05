@@ -9,11 +9,11 @@ last_day = '2014-04-04';
 
 % dt in units of one minute
 % dt = 15min, delta=30sec
-% dt = 30min, delta=60sec
+% dt = 30min, delta=120sec
 % dt = 45min, delta=90sec,
-dt = 30;
+dt = 15;
 % interval for calculating realized volatility. in seconds
-delta = 120;
+delta = 60;
 
 [ret_cmplt, v_cmplt] = get_intra_ret_simple(...
     company, first_day, last_day, dt, delta);
@@ -30,7 +30,7 @@ inno = inno_cmplt(1:floor(N*0.8));
 
 % mu = mean(lv);
 % lv = lv - mu;
-s = 16;
+s = 33;
 
 w = ts_difference(lv, s, 1);
 w = ts_difference(w, 1, 1);
@@ -52,9 +52,9 @@ acf = acf(2:end);
 
 % Assume Gaussian distribution to obtain
 % a preliminary parameter estimation
-MALags = [1:4];
+% MALags = [1, s, s+1];
 % model = arima('MALags', MALags, 'D', 1, 'Seasonality', s);
-model = arima('MALags', MALags, 'SMALags', [1]*s, ...
+model = arima('MALags', [1:3], 'SMALags', [1]*s, ...
               'D', 1, 'Seasonality', s);
 
 % model.Distribution = struct('Name', 'T', 'DoF', NaN);
@@ -148,10 +148,12 @@ end
 % autocorr(ret.^2);
 
 %% FIT to a GARCH model
-mdl0 = garch('ARCHLags', [1:3, 16], 'GARCHLags', [1, 16], 'Distribution', 'Gaussian');
+% mdl0 = garch('ARCHLags', [1:3], 'GARCHLags', [1:3], ...
+%              'Distribution', 'Gaussian');
+mdl0 = garch('ARCHLags', [1], 'GARCHLags', [1], 'Distribution', 'Gaussian');
 [mdl, covariance, loglikelihood, info] = estimate(mdl0, ret);
 c = 1;
-v3 = NaN(length(lv2), 1);
+v3 = NaN(1, length(lv1))';
 U = v_cmplt.^2;
 for k = length(lv):length(lv_cmplt) - 1
     v3(c) = forecast(mdl, 1, 'V0', U(1:k), 'Y0', ret_cmplt(1:k));

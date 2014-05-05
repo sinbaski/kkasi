@@ -188,10 +188,10 @@ r_{t+h, h} | \sigma(\mu_{t+s}, \sigma_{t+s})_{s \in [0, h]} \sim
 N(\int_{0}^h \mu_{t+s} ds, \int_{0}^h \sigma_{t+s}^2 ds)
 \]
 
-Thus one can try a few frequencies and compare the distribution of
-$r_{t+h, h}/\hat{\sigma}_{t+h, h}$ with the standard Gaussian. If the
-two match, $\hat{\sigma}_{t+h, h}$ is a good estimate of $\sigma_{t+h,
-  h}$, the volatility of $r_{t+h, h}$.
+Thus in practice one can try a few frequencies and compare the
+distribution of $r_{t+h, h}/\hat{\sigma}_{t+h, h}$ with the standard
+Gaussian. If the two match, $\hat{\sigma}_{t+h, h}$ is a good estimate
+of $\sigma_{t+h,   h}$, the volatility of $r_{t+h, h}$.
 
 For the Nordea Bank 15-minute returns, $h = 15\text{min}$, and a
 reasonally good sampling frequency is 1/30sec, as confirmed by the
@@ -713,6 +713,7 @@ Clearly, although ARIMA and GARCH rank differently with respect to
 different requirements of goodness, they both out-perform the sample
 mean forecast. So the efforts of building models and estimating them
 have paid off.
+
 \subsection{Volvo B Log-Volatility}\label{sec:volvo}
 In this section we model the log-volatility of {\it Volvo B} 30-minute
 returns during the period 2013/10/10 - 2014/04/04. This series

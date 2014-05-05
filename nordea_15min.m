@@ -11,10 +11,13 @@ last_day = '2014-04-04';
 % dt = 15min, delta=30sec
 % dt = 45min, delta=90sec,
 % dt = 30min, delta=60sec
-dt = 15;
+% dt = 30;
+dt = 30;
 % interval for calculating realized volatility. in seconds
-delta = 30;
-s = 33;
+delta = 60;
+% delta = 50;
+s = 16;
+% s = 33;
 h = 6;
 
 [ret_cmplt, v_cmplt] = get_intra_ret_simple(...
@@ -53,12 +56,12 @@ acf = acf(2:end);
 
 % Assume Gaussian distribution to obtain
 % a preliminary parameter estimation
-MALags = [1, s, s+1];
-model = arima('MALags', MALags, 'D', 1, 'Seasonality', 33);
-% model = arima('MALags', [1], 'SMALags', [1]*33, ...
-%               'D', 1, 'Seasonality', 33);
+% MALags = [1, s, s+1];
+% model = arima('MALags', MALags, 'D', 1, 'Seasonality', s);
+model = arima('MALags', [1], 'SMALags', [1]*s, ...
+              'D', 1, 'Seasonality', s);
 
-% model.Distribution = struct('Name', 'T', 'DoF', NaN);
+% model.Distribution = struct('Name', 't', 'DoF', NaN);
 model.Distribution = struct('Name', 'Gaussian');
 model = estimate(model, lv);
 [y, V] = infer(model, lv);
@@ -149,7 +152,11 @@ end
 % autocorr(ret.^2);
 
 %% FIT to a GARCH model
-mdl0 = garch('ARCHLags', [1,5], 'GARCHLags', [1], 'Distribution', 'Gaussian');
+mdl0 = garch('ARCHLags', [1,5], 'GARCHLags', [1], 'Distribution',...
+             'Gaussian');
+% mdl0 = egarch('ARCHLags', [1,2,16,18,30], 'GARCHLags', [1,2,16,18],...
+%               'LeverageLags', [16], ...
+%              'Distribution', 'Gaussian');
 [mdl, covariance, loglikelihood, info] = estimate(mdl0, ret);
 c = 1;
 v3 = NaN(length(lv2), 1);
@@ -176,6 +183,7 @@ plot((x2(x2 < 0)), (u2(x2<0)), 'b', ...
      'Linewidth', 2);
 grid on
 title('Cummulatibve Distribution of Under-estimates');
+legend('SV', 'GARCH', 'sample mean');
 xlabel('x');
 ylabel('P($\ln \sigma^F_t - \ln \hat{\sigma}_t < x$)', 'Interpreter', ...
        'Latex', 'Fontsize', 14);
@@ -187,6 +195,7 @@ plot((x2(x2 > 0)), (1-u2(x2>0)), 'b', ...
      'Linewidth', 2);
 grid on
 title('Complementary Distribution of Over-estimates');
+legend('SV', 'GARCH', 'sample mean');
 xlabel('x');
 ylabel('P($\ln \sigma^F_t - \ln \hat{\sigma}_t > x$)', 'Interpreter', ...
        'Latex', 'Fontsize', 14);

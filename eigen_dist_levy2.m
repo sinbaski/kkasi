@@ -33,7 +33,7 @@ c = 1;
 % for phi = [0, 0.1, 0.3, 0.5, 0.6, 0.7, 0.9]
 for phi = [0]
     %% The matrix elements 
-    % load(sprintf('GarchWishartProperN%dQ%dRho%.3fC-%.3f.mat', ...
+    % load(sprintf('GarchCovN%dQ%dRho%.3fC-%.3f.mat', ...
     %              N, q, rho, phi), 'C');
     % x = NaN(1, 2*(N-1)*fold);
     % for k = 1:fold
@@ -45,7 +45,7 @@ for phi = [0]
     % v1 = stblpdf(u, param(1), param(2), param(3), param(4));
     % plot(u, log10(v), u, log10(v1));
 
-    % load(sprintf('GarchWishartProperN%dQ%dRho%.3fC-%.3f.mat', ...
+    % load(sprintf('GarchCovN%dQ%dRho%.3fC-%.3f.mat', ...
     %              N, q, rho, phi), 'C');
     % % C11 = reshape(C(1, 1, :), 1, fold);
     % C12 = reshape(C(1, 2, :), 1, size(C, 3));
@@ -89,13 +89,13 @@ for phi = [0]
     % fprintf('std = %.3e, skew = %.2f\n', sig, skewness(E1));
     % [x, y] = epdf(E1, 4, m-5*sig, m+5*sig, 300, spec{c});
 
-    load(sprintf('GarchWishartProperN%dQ%dRho%.3fC-%.3f.mat', ...
-                 N, q, rho, phi), 'C');
+    load(sprintf('matfys/GarchCovN%dQ%dRho%.3fEig-%.3f.mat', ...
+                 N, q, rho, phi), 'ev');
     E = [...
-        reshape(C(1, 1, :), 1, size(C, 3));
-        reshape(C(2, 2, :), 1, size(C, 3));
-        reshape(C(3, 3, :), 1, size(C, 3));
-        reshape(C(3, 3, :), 1, size(C, 3));
+        reshape(ev(1, :), 1, size(ev, 2));
+        reshape(ev(2, :), 1, size(ev, 2));
+        reshape(ev(3, :), 1, size(ev, 2));
+        reshape(ev(4, :), 1, size(ev, 2));
         ];
     % E1 = ev(1, :);
     % m = mean(E1)
@@ -103,13 +103,13 @@ for phi = [0]
     % fprintf('std = %.3e, skew = %.2f\n', sig, skewness(E1));
     % [x, y] = epdf(E1, 4, m-3*sig, m+3*sig, 300, spec{c});
     % E = reshape(ev(1, :), 1, prod(size(ev, 2)));
-    epdf(E(1, :), 2, 0, 60, 200, spec{c});
-    epdf(E(2, :), 2, 0, 60, 200, spec{c+1});
-    epdf(E(3, :), 2, 0, 60, 200, spec{c+2});
-    epdf(E(4, :), 2, 0, 60, 200, spec{c+3});
+    epdf(E(1, :), 2, 0, 15, 200, spec{c});
+    epdf(E(2, :), 2, 0, 15, 200, spec{c+1});
+    epdf(E(3, :), 2, 0, 15, 200, spec{c+2});
+    epdf(E(4, :), 2, 0, 15, 200, spec{c+3});
     
     % hold on
-    % load(sprintf('GarchWishartProperN%dQ%dRho%.3fC-%.3f.mat', ...
+    % load(sprintf('GarchCovN%dQ%dRho%.3fC-%.3f.mat', ...
     %              N, q, rho, phi), 'C');
     % D = reshape(C(1, 1, :), [1, size(C, 3)]);
     % m = mean(D)

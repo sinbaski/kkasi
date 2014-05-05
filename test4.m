@@ -4,7 +4,7 @@ close all
 AR = [0:0.05:0.8, 0.9, 0.95:0.005:0.99];
 j = 1;
 tau = -log(2)/log(AR(j))
-% TailExponent = 2.9664;
+TailExponent = 2.9664;
 % N = 50;
 % q = 1600;
 % T = N * q;
@@ -29,8 +29,6 @@ phi = 0;
 % Cii = Cii./mean(Cii);
 
 %% plot the PDF of eigenvalues and the diagonal elements
-figure;
-hold on
 % load(sprintf('GarchWishartT8e4Eig-%.3f.mat', AR(j)), 'ev');
 % E = reshape(ev, prod(size(ev)), 1);
 % [y_ev, x_ev] = ecdf(ev);
@@ -41,26 +39,26 @@ hold on
 %      log10(x_ev(y1 > 0)), log10(y1(y1 > 0)), 'r');
 % % plot((x_ev(y1 > 0)), (y1(y1 > 0)), 'r');
 
-load(sprintf('GarchWishartN%dQ%dRho%.3fC-%.3f.mat', ...
-             N, q, rho, phi), 'C');
+load(sprintf('GarchWishartN%dQ%dRho%.3fEig-%.3f.mat', ...
+             N, q, rho, phi), 'ev');
 % load(sprintf('GarchWishartT8e4Diag-%.3f.mat', AR(j)), 'Cii');
 E = [...
-    reshape(C(1, 1, :), 1, size(C, 3));
-    reshape(C(2, 2, :), 1, size(C, 3));
-    reshape(C(3, 3, :), 1, size(C, 3));
-    reshape(C(3, 3, :), 1, size(C, 3));
+    reshape(ev(1, :), 1, size(ev, 2));
+    reshape(ev(2, :), 1, size(ev, 2));
+    reshape(ev(3, :), 1, size(ev, 2));
+    reshape(ev(4, :), 1, size(ev, 2));
     ];
-F = reshape(E, 1, N*size(C, 3));
+F = reshape(E, 1, N*size(ev, 2));
+
 % [y_cii, x_cii] = ecdf(F);
-[x_cii, y_cii] = epdf(F, 4, min(F), 12, 500, 'g');
-param_Cii = stblfit(F, 'ecf');
+close all
+hold on
+[x_cii, y_cii] = epdf(F, 4, quantile(F, 0.2), quantile(F, 0.9), 400, 'g');
+% param_Cii = stblfit(F, 'ecf');
 y = stblpdf(x_cii, param_Cii(1), param_Cii(2), param_Cii(3), ...
             param_Cii(4));
-
-% y1 = stblcdf(x_cii, param_Cii(1), param_Cii(2), param_Cii(3), ...
-%             param_Cii(4));
 plot(log10(x_cii), log10(y), 'r', 'LineWidth', 2);
-ylim([-3, 0.5]);
+grid on
 hold off
 
 % figure;
