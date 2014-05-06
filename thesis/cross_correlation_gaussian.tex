@@ -368,32 +368,24 @@ discussed in chapter \ref{chp:CrossCorrelationFat}.
 % it. Therefore $\det \Phi^{-1}(B)\Sigma \Phi'^{-1}(B) = \det \Sigma$.
 
 \section{Distribution of the Eigenvalues}\label{sec:GCC-numerical}
-For the Wishart matrix, theoretical results are available for the
-eigenvalue distribution \cite{Chiani2012}. In the simplest case where
-$\Sigma = I$, i.e. no cross-correlations are present, we have
-\begin{eqnarray*}
-  f_{\lambda}(x_1, \cdots, x_N) = K \prod_{i=1}^N e^{-x_i/2}
-  x_i^{(T-N-1)/2} \prod_{i<j}^N (x_i - x_j)
-\end{eqnarray*}
-where the eigenvalues have been indexed in descending order: $x_1 \geq
-x_2 \geq \cdots \geq x_N$. The normalization constant K is given by
-\begin{equation*}
-  K = {\pi^{N^2/2} \over 2^{NT/2}\Gamma_N(T/2) \Gamma_N(N/2)}
-\end{equation*}
-where the function $\Gamma_m(a)$ is defined as
-\begin{equation*}
-  \Gamma_m(a) = \pi^{m(m-1)/4} \prod_{k=1}^m \Gamma\left(a - {k-1
-      \over 2}\right)
-\end{equation*}
+For the Wishart matrix $\mtx{RR'}$, theoretical results are available
+for the eigenvalue distribution, and we summarize them in appendix
+\ref{sec:wishart_eigen_dist}. In short, the joint probability density
+function of the eigenvalues is given by equation
+\ref{eq:wishart_eigen_pdf} when neither auto-correlation nor
+cross-correlation is present in $\mtx R$. Moreover, the mariginal
+distribution of the largest eigenvalue is approximated by a gamma
+distribution \cite{Chiani2012}.
+
 However, as detailed in the derivation leading to equation
 \ref{eq:cross-corr-matrix-PDF}, the distribution of $RR'$ is not
-Wishart when the columns of $R$ are correlated. Deriving the
-eigenvalue distribution analytically in this case is difficult and
-beyond the scope of this thesis. Instead we resort to numerical
-methods.
+Wishart when the columns of $R$ are correlated
+(auto-correlation). Deriving the eigenvalue distribution analytically
+in this case is beyond the scope of this thesis. Instead, we resort to
+numerical methods.
 
-As before we consider the AR(1) process (see \S
-\ref{sec:FundamentalConcepts}):
+As before we consider the AR(1) process (see
+\S\ref{sec:FundamentalConcepts}):
 \begin{equation*}
   \vec{r}_t = \phi \vec{r}_{t-1} + \vec{a}_{t}
 \end{equation*}
@@ -403,163 +395,54 @@ variance.
 
 Now we investigate how the eigenvalue distribution depends on
 $\phi$. Figure \ref{fig:GaussianMarkovSpectrumPDF} shows the results
-of the simulation.
-% \begin{wrapfigure}{r}{0.5\textwidth}
-\begin{figure}[htb!]
-  \begin{center}
-    \includegraphics[scale=0.5, clip=true, trim=90 228 115
-    226]{../pics/GaussianMarkovSpectrumPDF.pdf}
-  \end{center}
-  % \vspace{-10mm}
-  \caption{\small \it
-      Eigenvalue distribution with $\tau$ ranging from 0 to
-      3. The 1st blue line, which is shown as stairs, is the
-      theoretical eigenvalue distribution according to the
-      Marcenko-Pastur law: $f(\lambda) = \sqrt{(\lambda_+/\lambda - 1)(1
-        - \lambda/\lambda_-)}/2\pi q \sigma^2$, where $\lambda_{\pm} =
-      \sigma^2(1 \pm \sqrt{q})^2$ In the simulation we have
-      chosen $q = N/T = 50/1000 = 0.05$ and $\sigma=1$. For each value
-      of $\tau$ we generate 2000 instances of $N \times T$ random matrix
-      $R$, and compute C as $C=RR'/T$. Hence each curve in the figure is
-      constructed from 2000 sets of eigenvalues.
-    }
-  \label{fig:GaussianMarkovSpectrumPDF}
-\end{figure}
+of the simulation. 
 It is clear from the figure that the maximum eigenvalue moves
-consistently to the right as the value of $\phi$ increases. The change
-of the minimum eigenvalue remains unclear from the figure, so we plot
-in \ref{fig:Gaussian_mineig} their mean for each value of
-$\phi$. There one can see that the minimum eigenvalue actually
-increases with $\phi$.
-\begin{figure}[htb!]
-  \centering
-  \includegraphics[scale=0.5, clip=true, trim=100 226 116
-  133]{../pics/Gaussian_mineig.pdf}
-  \caption{\small \it The the minimum eigenvalue versus
-    auto-correlation strength $\phi$. For each value of $\phi$ 2000
-    random matrices are generated and their eigenvalues are
-    calculated. The minimum eigenvalue of each random matrix is noted
-    and the mean of the 2000 such minimum eigenvalues are plotted
-    against the chosen value of $\phi$. 20 values of $\phi$ are
-    included in the plot, ranging from 0 to 0.95 with step size 0.05.}
-  \label{fig:Gaussian_mineig}
-\end{figure}
+consistently to the right as the value of $\phi$ increases, and, as
+shown in figure \ref{fig:Gaussian_mineig}, the minimum eigenvalue
+also increases with $\phi$.
 
-K. Johnsson \cite{Johnsson2000} and I. Johnstone \cite{Johnstone2001}
-showed that, at the {\it absence} of autocorrelations and in the
-asymptotic limit $N, T \to \infty$, $N/T \to q < \infty$, the maximum
-eigenvalue  $\lambda_1$ follows the Tracy-Widom distribution (denote
-$\mathscr{TW}_1$ here) when properly relocated and rescaled:
-\begin{equation*}
-  {\lambda_1 - \mu_{NT} \over \sigma_{NT}} \sim \mathscr{TW}_1
-\end{equation*}
-where $\mu_{NT}$ and $\sigma_{NT}$ are given by
-\begin{eqnarray*}
-  \mu_{NT} &=& \left(
-    \sqrt{N-1/2} + \sqrt{T - 1/2}
-  \right)^2 \\
-  \sigma_{NT} &=& \sqrt{\mu_{NT}} \left(
-    {1 \over \sqrt{N-1/2}} + {1 \over \sqrt{T-1/2}}
-  \right)^{1/3}
-\end{eqnarray*}
-So in the following we focus on the maximum eigenvalue distribution
-and leave the minimum eigenvalue for future studies. The
-$\mathscr{TW}_1$ distribution has the following cummulative
-distribution function (CDF) \cite{Chiani2012}
-\begin{equation*}
-  F_1(x) = \exp\left[
-    -{1 \over 2} \int_x^\infty dy \left(q(y) + (y-x)q^2(y)\right)
-  \right]
-\end{equation*}
-where $q(y)$ is defined as the solution to the Painlev\'e II differential
-equation
-\begin{equation*}
-  q''(y) = yq(y) + 2q^3(y)
-\end{equation*}
-which is unique when imposing the condition
-\begin{equation*}
-  q(y) \sim \text{Ai}(y) \text{ as } y \to \infty
-\end{equation*}
+% In the following we focus on the maximum eigenvalue, which is shown by
+% Chiani to have approximately a gamma distribution \cite{Chiani2012}.
+% So we first verify Chiani's result, and then extend it to the
+% case {\it with} autocorrelations and study how the
+% distribution changes as $\phi$ increases.
+Chiani showed that the maximum eigenvalue ($\lambda_1$) had
+approximately a gamma distribution \cite{Chiani2012}. So we compare in
+figure \ref{fig:GaussianMarkov005MaxEigCDF_loglog} the empirical
+cumulative distribution function (CDF) of the maximum eigenvalue 
+with the CDF of a gamma distribution. The cases where
+auto-correlations are present ($\phi > 0$) have also been included.
 
-Then Marco Chiani showed recently that the $\mathscr{TW}_1$ distribution
-can be well approximated by a gamma distribution based on his proof
-that the exact distribution of the maximum eigenvalue is a mixture of
-gamma distributions. Specifically,
-\begin{equation}\label{eq:TracyWidom-Gamma}
-  {\lambda_1 - \mu_{NT} \over \sigma_{NT}} + \alpha \sim
-  \mathscr{G}(k ,\theta)
-\end{equation}
-where $\mathscr{G}(k, \theta)$ denotes the Gamma distribution with
-parameters $k$ and $\theta$ \cite{Chiani2012}. The probability
-density function (PDF) of the gamma distribution is given by
-\begin{equation*}
-  f_\gamma(x; k, \theta) = {1 \over \Gamma(k) \theta^k} x^{k-1}
-  e^{-x/\theta}
-\end{equation*}
-Moreover, the first 3 moments of the distribution are simple:
-\begin{eqnarray*}
-  \text{mean} &=& k\theta \\
-  \text{variance} &=& k\theta^2 \\
-  \text{skewness} &=& 2/\sqrt{k}
-\end{eqnarray*}
+It is seen in the figure that gamma distributions with different
+parameters fit fairly well in all cases. So we conclude that a
+gamma distribution not only approximates the maximum eigenvalue
+distribution at the absence of autocorrelations but does so even at
+the {\it presence} of autocorrelations.
 
-In the following we first verify these results and extend them to the
-case {\it with} autocorrelations and then study how the
-distribution changes as $\phi$ increases. Figure
-\ref{fig:GaussianMarkov005MaxEigCDF_loglog} compares the empirical
-maximum eigenvalue CDF with the CDF of a gamma distribution. Each pair
-of CDFs correspond to a fixed autocorrelation strength ($\phi$). The
-parameters $k$ and $\theta$ of the gamma distribution are fit to
-data by matching the 2nd and the 3rd moments of the gamma distribution
-to the corresponding moments of the empirical distribution. Then the
-parameter $\alpha$ in equation \ref{eq:TracyWidom-Gamma} is chosen to
-be
-\begin{equation*}
-  \alpha = k\theta - \E\left({\lambda_1 - \mu_{NT} \over \sigma_{NT}}\right)
-\end{equation*}
-
-\begin{figure}
-  \begin{center}
-    \includegraphics[scale=0.5, clip=true, trim=0 238 0
-    197]{../pics/GaussianMarkov005MaxEigCDF_loglog.pdf}
-  \end{center}
-  \caption{\small \it Cummulative distribution function (CDF) of the maximum
-    eigenvalue ($\lambda_1$). Blue: empirical CDF. Red: CDF of the
-    fitting gamma distribution. The curves are plotted on log-log
-    scale.}
-  \label{fig:GaussianMarkov005MaxEigCDF_loglog}
-  %\vspace{-10mm}
-\end{figure}
-
-We can see in figure \ref{fig:GaussianMarkov005MaxEigCDF_loglog} that
-the gamma distribution fits fairly well to its corresponding maximum
-eigenvalue distribution. So we conclude that a gamma distribution not
-only approximates the maximum eigenvalue distribution at the absence of
-autocorrelations but does so even at the {\it presence} of
-autocorrelations. Since the maximum eigenvalue distribution is
-characterized by the parmaters $k$, $\theta$, and  $\alpha$, the
-influence of the autocorrelations can be characterized by the
-dependence of $k$, $\theta$, and  $\alpha$ on $\phi$. In the following
-we study these dependences in more details.
-
-Figure \ref{fig:param1_phi_dep} shows how the mean, variance,
-and skewness of the fitted gamma distribution, as well as the
-relocation parameter $\alpha$ denpend on $\phi$.
-\begin{figure}[htb!]
-  \centering
-    \includegraphics[scale=0.5, clip=true, trim=37 240 50
-    202]{../pics/param1_phi_dep.pdf}
-  \caption{\small \it  the  mean, variance, and skewness of the fitted
-    gamma distribution as well as the relocation parameter $\alpha$
-    are plotted against the autocorrelation strength $\phi$. 20 values
-    of $\phi$ are included in the plot, ranging from 0 to 0.95 with
-    step size 0.05.}
-  \label{fig:param1_phi_dep}
-\end{figure}
-Despite the monotonic behavior shown by 3 of these curves, the
-relation between each of the aforementioned quantities and $\phi$ is
-more complicated than it apears. However, the mean, i.e. $k \theta$ is
-an exception: Good support in the data can be found for the following
+Since the maximum eigenvalue distribution is characterized by the
+parameters $k$, $\theta$, and $\alpha$, the influence of the
+autocorrelations can be characterized by the dependence of $k$,
+$\theta$, and  $\alpha$ on $\phi$. While these dependences are rather
+intricate,
+% Figure \ref{fig:param1_phi_dep} shows how the mean, variance,
+% and skewness of the fitted gamma distribution, as well as the
+% relocation parameter $\alpha$ denpend on $\phi$.
+% \begin{figure}[htb!]
+%   \centering
+%     \includegraphics[scale=0.5, clip=true, trim=37 240 50
+%     202]{../pics/param1_phi_dep.pdf}
+%   \caption{\small \it  the  mean, variance, and skewness of the fitted
+%     gamma distribution as well as the relocation parameter $\alpha$
+%     are plotted against the autocorrelation strength $\phi$. 20 values
+%     of $\phi$ are included in the plot, ranging from 0 to 0.95 with
+%     step size 0.05.}
+%   \label{fig:param1_phi_dep}
+% \end{figure}
+% Despite the monotonic behavior shown by 3 of these curves, the
+% relation between each of the aforementioned quantities and $\phi$ is
+% more complicated than it apears. However, the mean, i.e. $k \theta$ is
+% an exception: 
+good support can be found in the data for the following
 approximate relation:
 \begin{eqnarray}
   k\theta &=& a \tan^2{\pi \phi \over 2} + b\tan{\pi \phi \over 2} +

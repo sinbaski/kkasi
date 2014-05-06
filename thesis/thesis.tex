@@ -461,7 +461,7 @@ i.e. phenomena that are widely observed and accepted as true.
 \input{price_models}
 \input{cross_correlation_gaussian}
 
-\chapter{Correlation Matrix of GARCH(1,1) Returns}
+\chapter{Covariance Matrix of GARCH(1,1) Returns}
 \label{chp:CrossCorrelationFat}
 
 % In this chapter we study the cross-correlation matrix $C$ constructed from
@@ -599,17 +599,31 @@ i.e. phenomena that are widely observed and accepted as true.
 
 % \section{Cross-Correlation Matrix of GARCH(1,1) returns}
 % \label{sec:GarchWishart}
-In this chapter we consider the cross-correlation matrix of N
+GARCH models and particularly GARCH(1,1) models are widely used to
+model financial return series of various time scales, ranging from
+daily and monthly returns that have been studied extensively in the
+literature to intraday returns that we have selectively investigated
+in chapter \ref{chp:PriceModels}. One particularly nice feature of
+GARCH(1,1) models is that they have regularly varying tails (power-law
+tails) \cite{Mikosch2009, mikosch2000} even when the innovations
+(denoted $z_t$ in the following text) are normally distributed ---
+something not shared by other classes of models, e.g. not by ARIMA
+log-volatility models, as shown in \S\ref{sec:XieCalc}. However, what
+this tail behavior implies for the covariance matrix is much less
+understood, especially when the constituent return series are
+auto-correlated.
+
+So in this chapter we consider the covariance matrix of N
 identically specified, possibly auto-correlated GARCH(1, 1)
 processes:
 \begin{eqnarray}
   r_{it} &=& \phi r_{i, t-1} + \epsilon_{it} \nonumber \\
-  \epsilon_{it} &=& \sigma_{it} a_{it} \label{eq:garch_spec}
+  \epsilon_{it} &=& \sigma_{it} z_{it} \label{eq:garch_spec}
 \end{eqnarray}
-where $i=1,2,...,N$; $t=1,2,...,T$; $a_{it}$ is independent,
+where $i=1,2,...,N$; $t=1,2,...,T$; $z_{it}$ is independent,
 identically distributed, and
 \begin{eqnarray*}
-  \sigma_{it}^2 &=& \alpha_0 + \alpha_1 a_{i, t-1}^2 + \beta_1
+  \sigma_{it}^2 &=& \alpha_0 + \alpha_1 z_{i, t-1}^2 + \beta_1
   \sigma_{i,t-1}^2
 \end{eqnarray*}
 Mikosch et al showed in \cite{mikosch2000} that a GARCH(1,1) process
@@ -629,7 +643,7 @@ tail exponent $\alpha$ is determined by:
   \E[(\alpha_1 Z^2 + \beta_1)^{\alpha/2}] = 1
 \end{equation}
 Here $Z$ is a random variable that has the same distribution as
-$a_{it}$. In our simulations described hereafter $a_{it}, Z \sim N(0,
+$z_{it}$. In our simulations described hereafter $z_{it}, Z \sim N(0,
 1)$. In this section and the next, we first study situations where no
 auto-correlations are present among the returns, i.e. $\phi = 0$; then
 in \S\ref{sec:garch_nonzero_phi} we look at how auto-correlations
@@ -1101,16 +1115,6 @@ Figure \ref{fig:GarchSpectrumAutocorrelated} shows the eigenvalues'
 distribution corresponding to a range of $\phi$ values. The number of
 eigenvalues in each curve is the same as in figure
 \ref{fig:GarchEigDiag1}.
-\begin{figure}[htb!]
-  \centering
-  \includegraphics[scale=0.5, clip=true, trim=85 258 103
-  229]{../pics/GarchSpectrumAutocorrelated.pdf}
-  \caption{\small \it Eigenvalue distribution of cross-correlation
-    matrix built from auto-correlated GARCH processes. $\phi$ = 0,
-    0.5, 0.8, 0.955, 0.97 correspond to correlation time $\tau$ =
-    0, 1.00, 3.11, 15.05, 22.76.}
-  \label{fig:GarchSpectrumAutocorrelated}
-\end{figure}
 From this figure one can see that, as auto-correlation strengthens,
 \begin{itemize}
 \item the PDF of the eigenvalue distribution flattens and widens;
@@ -1126,15 +1130,6 @@ auto-correlation strengthens, the eigenvectors' composition
 fractures, leading to a reduced degree of localization and even
 reduced certainty of localization --- for a fixed eigenvalue, $|c|_\M$
 now varies in a larger range than it does with smaller $\phi$.
-\begin{figure}[htb!]
-  \centering
-  \includegraphics[scale=0.5, clip=true, trim=0 197 0
-  154]{../pics/garch_eigenvec_Cmax_corr.pdf}
-  \caption{\small \it Eigenvectors' largest component in
-    correspondence to the eigenvalues. N is fixed to 50.}
-  \label{fig:garch_eigenvec_Cmax_corr}
-\end{figure}
-
 
 The same story of reduced localization is also evident from the plot
 of the normalized participation ratio (PR), shown in figure
@@ -1147,25 +1142,6 @@ $\phi$ reaches the extreme value 0.99. Figure
 \ref{fig:garch_eigenvec_Cmax_dist_corr} shows the proportion of large
 $|c|_\M$ values is severely reduced and the mean of $|c|_\M$ is pushed
 to smaller values by increased auto-correlation.
-\begin{figure}[htb!]
-  \centering
-  \subfigure[]{
-    \includegraphics[scale=0.4, clip=true, trim=95 260 111
-    232]{../pics/garch_eigenvec_PR_dist_corr.pdf}
-    \label{fig:garch_eigenvec_PR_dist_corr}
-  }
-  \subfigure[]{
-    \includegraphics[scale=0.4, clip=true, trim=95 260 111
-    232]{../pics/garch_eigenvec_Cmax_dist_corr.pdf}
-    \label{fig:garch_eigenvec_Cmax_dist_corr}
-  }
-  \caption{\small \it \ref{fig:garch_eigenvec_PR_dist_corr}: PDF of
-    the normalized participation ratio
-    (PR). \ref{fig:garch_eigenvec_Cmax_dist_corr}: PDF of the largest
-    component of the eigenvectors. N is fixed to 50. $\phi$ values of
-    0, 0.6000, 0.9000, 0.9900 correspond to correlation time $\tau$ =
-    0, 1.3569, 6.5788, 68.9676}
-\end{figure}
 
 It is also useful to look at how the fraction of localized eigenvectors
 changes with the auto-correlation. For definiteness, we classify
@@ -1179,32 +1155,6 @@ either way of classification, the ratio falls with $\phi$ in
 accordance with a power law, the power exponent lying a bit below 2.
 This is further confirmed in plot \ref{fig:localization_ratio2}, where
 the ratios are plotted versus $\phi$ on log-log scale.
-\begin{figure}[htb!]
-  \centering
-  \subfigure[]{
-    \includegraphics[scale=0.38, clip=true, trim=93 229 115
-    134]{../pics/localization_ratio.pdf}
-    \label{fig:localization_ratio}
-  }
-  \subfigure[]{
-    \includegraphics[scale=0.38, clip=true, trim=87 227 115
-    133]{../pics/localization_ratio2.pdf}
-    \label{fig:localization_ratio2}
-  }
-  \caption{\small \it \ref{fig:localization_ratio}: Ratio of localized
-    eigenvectors versus the auto-correlation strength $\phi$. Black
-    ``+'': ratio of localized eigenvectors as measured by the number
-    of participating basis vectors being lower than 2; Black ``x'':
-    ratio of localized eigenvectors as measured by the largest
-    component being larger than 0.9. Blue curve: quadradic function
-    fitted to ``+''. Green curve: quadratic function fitted to
-    ``x''. There are 27 data points in the plot, corresponding to 27
-    $\phi$ values: 0 to 0.8 with step size 0.05, and 0.9 to 0.99 with
-    step size 0.01. The corresponding values of the correlation time
-    $\tau$ range from 0 to 69. \ref{fig:localization_ratio2}: $\ln
-    (f_\M - f)$ is plotted versus $\ln \phi$, where $f$ stands for the
-    ratio of localized eigenvectors. The fitted curves are linear.}
-\end{figure}
 
 % \subsection{Correlation Matrix of a Factor Model}
 %% Result of normalizing by 1/T
@@ -2118,6 +2068,318 @@ write
 
 Substituting for $f_A$ the Wishart probability density function (PDF)
 \ref{eq:WishartPDF}, we get the PDF of $RR'$.
+
+\section{Eigenvalue distribution of Wishart Matrix}
+\label{sec:wishart_eigen_dist}
+In this section we summarize the analytic results regarding the
+eigenvalue distribution of a Wishart matrix $\mtx{RR'}$. In the
+simplest case where the elements of $\mtx R$ are all independent of
+each other, i.e. neither auto-correlation nor cross-correlation
+exists, we have \cite{Chiani2012}
+\begin{eqnarray}
+  f_{\lambda}(x_1, \cdots, x_N) &=& K \prod_{i=1}^N e^{-x_i/2}
+  x_i^{(T-N-1)/2} \prod_{i<j}^N (x_i -
+  x_j) \label{eq:wishart_eigen_pdf}\\
+\end{eqnarray}
+where the eigenvalues have been indexed in descending order: $x_1 \geq
+x_2 \geq \cdots \geq x_N$. The normalization constant K is given by
+\begin{equation*}
+  K = {\pi^{N^2/2} \over 2^{NT/2}\Gamma_N(T/2) \Gamma_N(N/2)}
+\end{equation*}
+where the function $\Gamma_m(a)$ is defined as
+\begin{equation*}
+  \Gamma_m(a) = \pi^{m(m-1)/4} \prod_{k=1}^m \Gamma\left(a - {k-1
+      \over 2}\right)
+\end{equation*}
+Moreover, K. Johnsson \cite{Johnsson2000} and I. Johnstone
+\cite{Johnstone2001} showed that, at the {\it absence} of
+autocorrelations and in the asymptotic limit $N, T \to \infty$, $N/T
+\to q < \infty$, the maximum eigenvalue  $\lambda_1$ follows the
+Tracy-Widom distribution (denote $\mathscr{TW}_1$ here) when properly
+relocated and rescaled:
+\begin{equation*}
+  {\lambda_1 - \mu_{NT} \over \sigma_{NT}} \sim \mathscr{TW}_1
+\end{equation*}
+where $\mu_{NT}$ and $\sigma_{NT}$ are given by
+\begin{eqnarray*}
+  \mu_{NT} &=& \left(
+    \sqrt{N-1/2} + \sqrt{T - 1/2}
+  \right)^2 \\
+  \sigma_{NT} &=& \sqrt{\mu_{NT}} \left(
+    {1 \over \sqrt{N-1/2}} + {1 \over \sqrt{T-1/2}}
+  \right)^{1/3}
+\end{eqnarray*}
+The $\mathscr{TW}_1$ distribution has the following cummulative
+distribution function (CDF) \cite{Chiani2012}
+\begin{equation*}
+  F_1(x) = \exp\left[
+    -{1 \over 2} \int_x^\infty dy \left(q(y) + (y-x)q^2(y)\right)
+  \right]
+\end{equation*}
+where $q(y)$ is defined as the solution to the Painlev\'e II differential
+equation
+\begin{equation*}
+  q''(y) = yq(y) + 2q^3(y)
+\end{equation*}
+which is unique when imposing the condition
+\begin{equation*}
+  q(y) \sim \text{Ai}(y) \text{ as } y \to \infty
+\end{equation*}
+
+Then Marco Chiani showed recently that the $\mathscr{TW}_1$ distribution
+can be well approximated by a gamma distribution based on his proof
+that the exact distribution of the maximum eigenvalue is a mixture of
+gamma distributions. Specifically,
+\begin{equation}\label{eq:TracyWidom-Gamma}
+  {\lambda_1 - \mu_{NT} \over \sigma_{NT}} + \alpha \sim
+  \mathscr{G}(k ,\theta)
+\end{equation}
+where $\mathscr{G}(k, \theta)$ denotes the Gamma distribution with
+parameters $k$ and $\theta$ \cite{Chiani2012}. The probability
+density function (PDF) of the gamma distribution is given by
+\begin{equation*}
+  f_\gamma(x; k, \theta) = {1 \over \Gamma(k) \theta^k} x^{k-1}
+  e^{-x/\theta}
+\end{equation*}
+Moreover, the first 3 moments of the distribution are simple:
+\begin{eqnarray*}
+  \text{mean} &=& k\theta \\
+  \text{variance} &=& k\theta^2 \\
+  \text{skewness} &=& 2/\sqrt{k}
+\end{eqnarray*}
+
+\section{Collection of Figures and Tables}
+\begin{figure}[htb!]
+  \centering
+  \subfigure[ACF of $z_t$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_quotient_acf.pdf}
+    \label{fig:nordea_15min_quotient_acf}
+  }
+  \subfigure[ACF of $z_t^2$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_quotient_squared_acf.pdf}
+    \label{fig:nordea_15min_quotient_squared_acf}
+  }
+  \caption{\small \it Nordea 15min $z_t$ and $z_t^2$ auto-correlation
+    function (ACF).}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[Normal Probability Plot of $y_t$]{
+    \includegraphics[scale=0.4, clip=true, trim=76 256 109
+    214]{../pics/nordea2_y_normplot.pdf}
+    \label{fig:nordea_15min_y_qq}
+  }
+  \subfigure[ACF of $y_t$]{
+    \includegraphics[scale=0.4, clip=true, trim=92 258 104
+    218]{../pics/nordea_15min_y_acf.pdf}
+    \label{fig:nordea_15min_y_acf}
+  }
+  \caption{\small \it Nordea 15min $y_t$ normal probability plot and
+    autocorrelations}
+\end{figure}
+
+\begin{figure}[htb!]
+  \begin{center}
+    \includegraphics[scale=0.4, clip=true, trim=90 228 115
+    226]{../pics/GaussianMarkovSpectrumPDF.pdf}
+  \end{center}
+  \vspace{-10mm}
+  \caption{\small \it
+      Eigenvalue distribution with $\tau$ ranging from 0 to
+      3. The 1st blue line, which is shown as stairs, is the
+      theoretical eigenvalue distribution according to the
+      Marcenko-Pastur law: $f(\lambda) = \sqrt{(\lambda_+/\lambda - 1)(1
+        - \lambda/\lambda_-)}/2\pi q \sigma^2$, where $\lambda_{\pm} =
+      \sigma^2(1 \pm \sqrt{q})^2$ In the simulation we have
+      chosen $q = N/T = 50/1000 = 0.05$ and $\sigma=1$. For each value
+      of $\tau$ we generate 2000 instances of $N \times T$ random matrix
+      $R$, and compute C as $C=RR'/T$. Hence each curve in the figure is
+      constructed from 2000 sets of eigenvalues.
+    }
+  \label{fig:GaussianMarkovSpectrumPDF}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=100 226 116
+  133]{../pics/Gaussian_mineig.pdf}
+  \caption{\small \it The minimum eigenvalue versus
+    auto-correlation strength $\phi$. For each value of $\phi$ 2000
+    random matrices are generated and their eigenvalues are
+    calculated. The minimum eigenvalue of each random matrix is noted
+    and the mean of the 2000 such minimum eigenvalues are plotted
+    against the chosen value of $\phi$. 20 values of $\phi$ are
+    included in the plot, ranging from 0 to 0.95 with step size 0.05.}
+  \label{fig:Gaussian_mineig}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.5, clip=true, trim=0 238 0
+    197]{../pics/GaussianMarkov005MaxEigCDF_loglog.pdf}
+  \end{center}
+  \caption{\small \it Cummulative distribution function (CDF) of the maximum
+    eigenvalue ($\lambda_1$). Blue: empirical CDF. Red: CDF of the
+    fitting gamma distribution. Each pair of CDFs correspond to a
+    fixed autocorrelation strength ($\phi$). The parameters $k$ and
+    $\theta$ of the gamma distribution are fit to data by matching the
+    2nd and the 3rd moments of the gamma distribution to the
+    corresponding moments of the empirical distribution. Then the
+    parameter $\alpha$ in equation \ref{eq:TracyWidom-Gamma} is chosen
+    to be $\alpha = k\theta - \E\left({\lambda_1 - \mu_{NT} \over
+        \sigma_{NT}}\right)$. The curves are plotted on log-log
+    scale.}
+  \label{fig:GaussianMarkov005MaxEigCDF_loglog}
+  %\vspace{-10mm}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=50 233 63
+  136]{../pics/Volvo_B_30m_returns.pdf}
+  \caption{\small \it Volvo B 30min returns' unconditional distribution fit to
+    the Stochastic Volatility model. The time series runs from
+    2013/10/10 to 2014/03/12. Left: $P(r < x)$ with $x < 0$; Right:
+    $P(r > x)$ with $x > 0$. Both plots are on log-log scale.}
+  \label{fig:Volvo_B_30m_returns}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=65 241 72
+  143]{../pics/Nordea_30m_returns.pdf}
+  \caption{\small \it Nordea Bank 30min returns' unconditional
+    distribution fit to the Stochastic Volatility model. The time
+    series runs from 2013/10/10 to 2014/03/12. Left: $P(r < x)$ with
+    $x < 0$; Right: $P(r > x)$ with $x > 0$. Both plots are on log-log scale.}
+  \label{fig:Nordea_30m_returns}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=21 241 28
+  146]{../pics/Ericsson_30m_returns.pdf}
+  \caption{\small \it Ericsson B 30min returns' unconditional
+    distribution fit to the Stochastic Volatility model. The time
+    series runs from 2013/10/10 to 2014/03/12. Left: $P(r < x)$ with
+    $x < 0$; Right: $P(r > x)$ with $x > 0$. Both plots are on log-log scale.}
+  \label{fig:Ericsson_30m_returns}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=0 197 0
+  154]{../pics/garch_eigenvec_Cmax_corr.pdf}
+  \caption{\small \it Eigenvectors' largest component in
+    correspondence to the eigenvalues. N is fixed to 50.}
+  \label{fig:garch_eigenvec_Cmax_corr}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=85 258 103
+  229]{../pics/GarchSpectrumAutocorrelated.pdf}
+  \caption{\small \it Eigenvalue distribution of cross-correlation
+    matrix built from auto-correlated GARCH processes. $\phi$ = 0,
+    0.5, 0.8, 0.955, 0.97 correspond to correlation time $\tau$ =
+    0, 1.00, 3.11, 15.05, 22.76.}
+  \label{fig:GarchSpectrumAutocorrelated}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=95 260 111
+    232]{../pics/garch_eigenvec_PR_dist_corr.pdf}
+    \label{fig:garch_eigenvec_PR_dist_corr}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=95 260 111
+    232]{../pics/garch_eigenvec_Cmax_dist_corr.pdf}
+    \label{fig:garch_eigenvec_Cmax_dist_corr}
+  }
+  \caption{\small \it \ref{fig:garch_eigenvec_PR_dist_corr}: PDF of
+    the normalized participation ratio
+    (PR). \ref{fig:garch_eigenvec_Cmax_dist_corr}: PDF of the largest
+    component of the eigenvectors. N is fixed to 50. $\phi$ values of
+    0, 0.6000, 0.9000, 0.9900 correspond to correlation time $\tau$ =
+    0, 1.3569, 6.5788, 68.9676}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.38, clip=true, trim=93 229 115
+    134]{../pics/localization_ratio.pdf}
+    \label{fig:localization_ratio}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.38, clip=true, trim=87 227 115
+    133]{../pics/localization_ratio2.pdf}
+    \label{fig:localization_ratio2}
+  }
+  \caption{\small \it \ref{fig:localization_ratio}: Ratio of localized
+    eigenvectors versus the auto-correlation strength $\phi$. Black
+    ``+'': ratio of localized eigenvectors as measured by the number
+    of participating basis vectors being lower than 2; Black ``x'':
+    ratio of localized eigenvectors as measured by the largest
+    component being larger than 0.9. Blue curve: quadradic function
+    fitted to ``+''. Green curve: quadratic function fitted to
+    ``x''. There are 27 data points in the plot, corresponding to 27
+    $\phi$ values: 0 to 0.8 with step size 0.05, and 0.9 to 0.99 with
+    step size 0.01. The corresponding values of the correlation time
+    $\tau$ range from 0 to 69. \ref{fig:localization_ratio2}: $\ln
+    (f_\M - f)$ is plotted versus $\ln \phi$, where $f$ stands for the
+    ratio of localized eigenvectors. The fitted curves are linear.}
+\end{figure}
+
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    & $\psi$ & $\sigma$ & $\bar{v}$ & $\mu$ \\
+    \hline
+    Volvo B & -1.5747e-02 & 4.6929e-01 & -6.2304e+00 &
+    -5.3040e-05 \\
+    Nordea Bank & 1.7234e-02 & 4.2780e-01 & -6.3758e+00 & 7.5230e-05
+    \\
+    Ericsson B & 1.8486e-02 & 4.4905e-01 & -6.2834e+00 & -9.2817e-05 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Parameter Values of Selected Assets'
+    returns. The time series are 30-minute returns and run from
+    2013/10/10 to 2014/03/12.}
+  \label{tab:assets_params}
+\end{table}
+
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    & mean & std & skewness & kurtosis \\
+    \hline
+    \multirow{2}{*}{Volvo B} & -8.6766e-05 & 2.4500e-03 &
+    -2.7217e-02 & 7.3394e+00 \\
+    & -6.9281e-05 & 2.4538e-03 & -7.2677e-02 & 7.2472e+00 \\
+    \hline
+    \multirow{2}{*}{Nordea Bank} & 7.4821e-05 & 2.0500e-03 &
+    6.9433e-02 & 6.7427e+00 \\
+    & 8.8983e-05 & 2.0443e-03 & 6.7125e-02 & 6.2446e+00 \\
+    \hline
+    \multirow{2}{*}{Ericsson B} & -8.2606e-05 & 2.2939e-03 &
+    2.6586e-01 & 7.6716e+00 \\
+    & -7.5675e-05 & 2.2844e-03 & 7.8573e-02 & 6.7299e+00 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Moments of Selected Assets' returns. For each return
+    series, the 1st row contains the sample moments, while the 2nd
+    constains those computed with MLE parameters. The time series are
+    30-minute returns and run from 2013/10/10 to 2014/03/12.}
+  \label{tab:assets_moments}
+\end{table}
 
 \bibliographystyle{plain}
 \bibliography{econophysics}
