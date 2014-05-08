@@ -2149,6 +2149,25 @@ Moreover, the first 3 moments of the distribution are simple:
 \end{eqnarray*}
 
 \section{Collection of Figures and Tables}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_acf.pdf}
+    \label{fig:nordea_15min_acf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_vlt_acf.pdf}
+    \label{fig:nordea_15min_vlt_acf}
+  }
+  \caption{\small \it Auto-correlations among Nordea Bank 15min
+    returns. \ref{fig:nordea_15min_acf}: Auto-correlations (ACF) of the
+    squared returns; \ref{fig:nordea_15min_vlt_acf}: Auto-correlations
+    (ACF) of squared realized volatilities ($\hat{\sigma}^2_t$).}
+\end{figure}
+
 \begin{figure}[htb!]
   \centering
   \subfigure[ACF of $z_t$]{
@@ -2165,21 +2184,21 @@ Moreover, the first 3 moments of the distribution are simple:
     function (ACF).}
 \end{figure}
 
-\begin{figure}[htb!]
-  \centering
-  \subfigure[Normal Probability Plot of $y_t$]{
-    \includegraphics[scale=0.4, clip=true, trim=76 256 109
-    214]{../pics/nordea2_y_normplot.pdf}
-    \label{fig:nordea_15min_y_qq}
-  }
-  \subfigure[ACF of $y_t$]{
-    \includegraphics[scale=0.4, clip=true, trim=92 258 104
-    218]{../pics/nordea_15min_y_acf.pdf}
-    \label{fig:nordea_15min_y_acf}
-  }
-  \caption{\small \it Nordea 15min $y_t$ normal probability plot and
-    autocorrelations}
-\end{figure}
+% \begin{figure}[htb!]
+%   \centering
+%   \subfigure[Normal Probability Plot of $y_t$]{
+%     \includegraphics[scale=0.4, clip=true, trim=76 256 109
+%     214]{../pics/nordea2_y_normplot.pdf}
+%     \label{fig:nordea_15min_y_qq}
+%   }
+%   \subfigure[ACF of $y_t$]{
+%     \includegraphics[scale=0.4, clip=true, trim=92 258 104
+%     218]{../pics/nordea_15min_y_acf.pdf}
+%     \label{fig:nordea_15min_y_acf}
+%   }
+%   \caption{\small \it Nordea 15min $y_t$ normal probability plot and
+%     autocorrelations}
+% \end{figure}
 
 \begin{figure}[htb!]
   \begin{center}
