@@ -519,119 +519,119 @@ GARCH.
 
 \section{Case Study: Volvo in 2013/14}
 \label{sec:volvo}
-In this section we model the log-volatility of {\it Volvo B} 30-minute
-returns during the period 2013/10/10 - 2014/04/04. This series
-contains 1884 log-volatilities computed using 2-minute returns in each
-30-minute interval. Among them we use the first 1507 for model
-estimation and the last 377 for forecast and model verification.
-
-The left plot of figure \ref{fig:volvo_inno_and_lv_acf} shows the
-distribution of $(r_t - \E(r_t))/\sigma_t$. We observe in the figure a
-nice Gaussian variate, so we can be sure that the sum of squared
-2-minute returns makes a good approximation to the variance of
-30-minute returns in this particular case.
+In this section we study the volatility of Volvo B 15-minute returns
+during the period 2013/10/10 - 2014/04/04.
+The subject of modeling is the realized volatility
+computed as the square root of the sum of squared 1-minute
+returns. The normal probability plot of the quotient $(r_t -
+\E(r_t))/\sigma_t$ is shown in figure \ref{fig:volvo_15_quotient},
+from which one can see it is normally distributed, confirming the
+choice of 1-minute returns for computing the realized volatility.
 \begin{figure}[htb!]
   \centering
-    \includegraphics[scale=0.5, clip=true, trim=0 256 0
-    151]{../pics/volvo_inno_and_lv_acf.pdf}
-    \label{fig:volvo_inno_and_lv_acf}
-  \caption{\small \it Left: probability plot of $(r_t -
-    \E(r_t))/\sigma_t$; Right: auto-correlations of $\ln \sigma_t$}
+  \includegraphics[scale=0.4, clip=true, trim=83 259 110 
+  220]{../pics/volvo_15_quotient.pdf}
+  \caption{\small \it Normal probability plot of $(r_t -
+    \E(r_t))/\sigma_t$}
+  \label{fig:volvo_15_quotient}
+\end{figure}
+The auto-correlations of $\ln \sigma_t$ and $w_t = (1-B)(1-B^s) \ln
+\sigma_t$ are plotted in figure \ref{fig:volvo_15_lv_acf} and
+\ref{fig:volvo_15_w_acf}. The former clearly shows the seasonality
+$s = 33$ in the auto-correlations of $\ln \sigma_t$.
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+  \includegraphics[scale=0.4, clip=true, trim=90 259 103
+  220]{../pics/volvo_15_lv_acf.pdf}
+  \label{fig:volvo_15_lv_acf}
+  }
+  \subfigure[]{
+  \includegraphics[scale=0.4, clip=true, trim=90 259 103
+  220]{../pics/volvo_15_w_acf.pdf}
+  \label{fig:volvo_15_w_acf}
+  }
+  \caption{\small \it Left: auto-correlations of $\ln \sigma_t$;
+    Right: auto-correlations of $w_t = (1-B)(1-B^s) \ln \sigma_t$.}
 \end{figure}
 
-Guided by the auto-correlations of $\ln\sigma_t$ shown in the right
-plot of figure \ref{fig:volvo_inno_and_lv_acf} we find the following
-model:
-\begin{eqnarray}
-  && (1 - B)(1 - B^s) \ln \sigma_t \nonumber \\
-  &=& (1 - \theta_1 B - \theta_2B^2 -
-  \theta_3B^3 - \theta_4B^4) (1 - \Theta B^s)
-  y_t \label{eq:volvo_lv_model}
-\end{eqnarray}
-where $s = 16$ is the seasonality and is apparent from the
-auto-correlations of $\ln\sigma_t$. Fitting this model to the
-measured realized volatilities yields the parameter values listed in
-table
-\ref{tab:volvo_params}.
+Based on the auto-correlations of $w_t$, a seasonal moving average
+model is estimated:
+\begin{eqnarray*}
+  (1-B)(1-B^s) \ln\sigma_t &=& (1-\theta_1B - \theta_2B^2 - \theta_3
+  B^3)(1 - \Theta B^s)y_t
+\end{eqnarray*}
+By maximum likelihood estimation, the parameter values listed in table
+\ref{tab:volvo_15_sv_param} are obtained.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+  Parameter & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\Theta$ & 
+ $\var(y_t)$ \\
+ \hline
+ Value & 0.7491 & 0.1170 & 0.0571 & 0.8646 & 0.1245 \\
+  \hline
+  \end{tabular}
+  \caption{\small \it Parameter values of the stochastoc volatility
+    (SV) model.}
+  \label{tab:volvo_15_sv_param}
+\end{table}
+
+A GARCH model (c.f. equation \ref{eq:garch_def}) assuming Gaussian
+innovations is also fitted to the same series. The parameter values
+are listed in table \ref{tab:volvo_15_garch_param}:
 \begin{table}[htb!]
   \centering
   \begin{tabular}{|c|c|c|c|c|c|c|}
-    \hline
-    Parameter & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\theta_4$ &
-    $\Theta$ & residual variance \\
-    \hline
-    Value & 0.7305 & 0.0575 & 0.0574 & 0.0346 & 0.8324 & 0.1340\\
-    \hline
+  \hline
+  Parameter & $\alpha_0$ & $\alpha_1$ & $\beta_{1}$ \\
+  \hline
+  Value & $6.54 \times 10^{-7}$ & 0.1565 & 0.6445\\
+  \hline
   \end{tabular}
-  \caption{\small \it Volvo B log-volatility parameters}
-  \label{tab:volvo_params}
+  \caption{\small \it Parameter values of the GARCH model.}
+  \label{tab:volvo_15_garch_param}
 \end{table}
-Forecasting using the estimated model parameters gives the forecast
-series $\ln \sigma^{\text{SV}}_t$. To access the quality of the
-forecast, we also estimate a GARCH model using the returns. The result
-is a GARCH(1, 1) model, whose parameter values are listed in table
-\ref{tab:volvo_garch}.
+
+Performing one-step-ahead forecasts using both models gives the series
+$\ln\sigma^F_t - \ln\hat{\sigma}_t$, where $\ln\hat{\sigma}_t$ are the
+measured realized volatilities. The mean and standard deviation of
+$\ln\sigma^F_t - \ln\hat{\sigma}_t$ are shown in table
+\ref{tab:volvo_15_stat}.
 \begin{table}[htb!]
   \centering
   \begin{tabular}{|c|c|c|c|}
     \hline
-    Parameter & $\alpha_0$ & $\alpha_1$  & $\beta_1$ \\
+     & SV & GARCH & Sample mean \\
+     \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.0035 & 0.0313 & -0.1448 \\
     \hline
-    Value & $3.125 \times 10^{-7}$ & 0.05 & 0.90 \\
+     $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.3356 &
+     0.3894 & 0.3826 \\
     \hline
-  \end{tabular}
-  \caption{\small \it GARCH(1, 1) model of Volvo B 30-minute returns}
-  \label{tab:volvo_garch}
+ \end{tabular}
+  \caption{\small \it Mean and standard deviation of the 3 kinds of
+    forecasts}
+  \label{tab:volvo_15_stat}
 \end{table}
-
-The forecasts from SV, GARCH, and the sample mean are compared
-using the difference $\ln \sigma^F_t - \ln\hat{\sigma}_t$, where $\ln
-\sigma^F_t$ stands for the forecast. The distributions of this
-difference is plotted in figure \ref{fig:volvo_slv_garch_cmp}; the
-mean and the standard deviation of the distributions are listed in
-table \ref{tab:volvo_slv_garch_cmp}.
-\begin{table}[htb!]
-  \centering
-  \begin{tabular}{|c|c|c|c|}
-    \hline
-    & SV & GARCH & Sample mean \\
-    \hline
-    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & -0.0123 &
-    0.0242 & -0.1055 \\
-    \hline
-    $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.3261 &
-    0.4250 & 0.3708 \\
-    \hline
-  \end{tabular}
-  \caption{\small \it Standard deviation of $\ln\sigma^F_t -
-    \ln\hat{\sigma}_t$}
-  \label{tab:volvo_slv_garch_cmp}
-\end{table}
-
+We see that both the SV and the GARCH model give biased forecasts, but
+the SV forecasts are only 1/10 as biased as those of GARCH (0.0035
+vs. 0.0313). In addition, the standard deviation of the SV forecasts
+is smaller too. These results are confirmed by the distribution of
+$\ln \sigma^F_t - \ln \hat{\sigma}_t$ and the fraction of ``good''
+forecasts, which are shown in figure \ref{fig:volvo_15_diff} and table
+\ref{tab:volvo_15_diff}, respectively.
 \begin{figure}[htb!]
   \centering
-    \includegraphics[scale=0.5, clip=true, trim=10 282 0
-    243]{../pics/volvo_slv_garch_cmp.pdf}
-    \label{fig:volvo_slv_garch_cmp}
-  \caption{\small \it Comparison of the forecast from SV, GARCH,
-    and sample mean. Blue: SV forecast; Green: GARCH forecast; Red:
-    Sample mean forecast.}
+    \includegraphics[scale=0.54, clip=true, trim=27 276 0
+    236]{../pics/volvo_15_diff.pdf}
+  \caption{\small \it Comparison of the forecasts from SV, GARCH,
+    and sample mean. Blue: SV forecasts; Green: GARCH forecasts; Red:
+    Sample mean forecasts.}
+  \label{fig:volvo_15_diff}
 \end{figure}
-Figure \ref{fig:volvo_slv_garch_cmp} shows, as in the previous case of
-Nordea Bank 15-minute returns, the SV model performs the best, GARCH
-the second, and the sample mean the worst. However, when it comes to
-over-estimates, the sample mean appears to be the best estimator,
-while SV excels over GARCH. But a check of $\E(\ln\sigma_t)$ over
-the sample for estimation (1507 data points) and over the sample for
-comparison (377 data points) reveals that the first sample has mean
--6.3127 while the second has -6.2072. This increment explains the low
-probability of over-estimation when using the first sample mean as
-forecast. 
-
-Table \ref{tab:volvo_good_percentage} compares the fraction of
-``good'' estimates as measured by ${|\ln\sigma^F_t -
-  \ln\hat{\sigma}_t| \over |\ln \hat{\sigma}_t|}$ being less than 1\%,
-5\% and 10\%.
 \begin{table}[htb!]
   \centering
   \begin{tabular}{|c|c|c|c|}
@@ -640,20 +640,18 @@ Table \ref{tab:volvo_good_percentage} compares the fraction of
       \hat{\sigma}_t|}$ &
     SV & GARCH & Sample Mean \\
     \hline
-    1\% & 0.2175 & 0.1220 & 0.1406 \\
+    1\% & 0.5760 & 0.5979 & 0.3930 \\
     \hline
-    5\% & 0.7162 & 0.6154 & 0.6631 \\
+    5\% & 0.8351 & 0.8363 & 0.6611 \\
     \hline
-    10\% & 0.9231 & 0.8806 & 0.8992 \\
+    10\% & 0.9716 & 0.9536 & 0.9085 \\
     \hline
   \end{tabular}
-  \caption{\small \it Fraction of ``good'' forecasts as defined by
-    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
-      \hat{\sigma}_t|}$ being less than 1\%, 5\% and 10\%.}
-  \label{tab:volvo_good_percentage}
+  \caption{\small \it Percentage of ``good'' forecasts as defined by
+    deviating nore more than 1\%, 5\% and 10\% from the measured
+    realized volatility.}
+  \label{tab:volvo_15_diff}
 \end{table}
-We see from the table that the SV model consistently excels over
-the other two alternatives.
 
 \section{Unconditional Distribution Functions of SV Models}
 \label{sec:XieCalc}
