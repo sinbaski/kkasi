@@ -33,8 +33,8 @@
 
 % Title
 %\HRule \\[0.4cm]
-{ \huge \bfseries Returns Models and Their Implications
-  on Cross-Correlation Matrix \\[0.4cm] }
+{ \huge \bfseries Returns Models and Their Covariance Matrix
+  \\[0.4cm] }
 
 %\HRule \\[1.5cm]
 
@@ -89,15 +89,19 @@ Mathematical models that describe the aforementioned observables in
 terms of probability distributions, autocorrelations and cross
 correlations give predictive power and help determine a fair price of
 a given asset. Hence they are a central topic of the mathematics of
-the financial market.
+the financial market. In the domain of discrete-time returns' models,
+GARCH and stochastic volatility models (SV) are the most popular, so in
+this thesis project we study a total of 7 intraday return series 
+using GARCH and SV models and compare their performance in volatility
+forecast.
 
-Once a model has been tentatively constructed, it must be
-verified. The verification again relies on the statistics of the
-observables. Over the years, a number of phenomena have been
-consistently reported and become generally accepted. These are referred
-to as stylized facts, which are detailed in \S
-\ref{sec:StylizedFacts} and constitute a standardized test suit for
-model verification.
+% Once a model has been tentatively constructed, it must be
+% verified. The verification again relies on the statistics of the
+% observables. Over the years, a number of phenomena have been
+% consistently reported and become generally accepted. These are referred
+% to as stylized facts, which are detailed in \S\ref{sec:StylizedFacts}
+% and constitute a standardized test suit for model verification.
+
 
 % Judged by the stylized facts, each of the models proposed in the
 % literature has its own advantages and disadvantages. The most
@@ -230,233 +234,39 @@ regarding its eigenvalue distribution \cite{politi2010}.
 
 However, it is understood that real stock/index returns are much more
 complicated than a straight-forward Gaussian or L\'evy distribution can
-describe - instead, one needs structured models for their description.
+describe --- instead, one needs structured models for their description.
 
 Therefore in this thesis we study how the elements and the eigenvalues
 of the cross-correlation matrix are distributed when the matrix is
 built from returns described by different returns' models, specifically
-GARCH(1,1) and ARIMA-log-volatility models, whose the tail behavior is
+GARCH(1,1) and stochastic volatility models, whose the tail behavior is
 understood. Moreover, we also study how auto-correlations in the
-returns influence the aforementioned distributions -- such
+returns influence the aforementioned distributions --- such
 auto-correlations, known as second-order auto-correlations decay
 exponentially but may still leave footprints in the cross-correlation
 matrix.
 
-The rest of this report is organized as follows: in
-\S\ref{sec:FundamentalConcepts} we present a few very important
-concepts and notations that we will often refer to in later
-chapters. Then chapter \ref{chp:PriceModels} reviews some of the most
-influential returns' models, calibrates them to a few intra-day return
-series and compares their performance. The unconditional distribution
-functions of ARIMA-log-volatility models, which is not seen to be
-given a full discussion in the literature, are also calculated and
-discussed. Chapter \ref{chp:Gaussian} investigates the elements' and
-eigenvalues' distributions of the Wishart matrix, where the influence
-of auto-correlations in the constituent returns are studied in
-detail. Chapter \ref{chp:CrossCorrelationFat} looks at the elements'
-and eigenvalues' distributions 
+The rest of this report is organized as follows:
+
+% \S\ref{sec:FundamentalConcepts} presents a few very important
+% concepts and notations that will often be referred to in later
+% chapters; \S\ref{sec:StylizedFacts} gives a review of the ``stylized
+% facts'', i.e. a number of consistently reported and generally accepted
+% phenomena that must be accounted for by a returns' model.
+
+Chapter \ref{chp:PriceModels} reviews some of the most
+influential returns' models, fits them to a few intraday return
+series and compares their performance. A calculation of the
+unconditional distribution functions of stochastic volatility models,
+especially in the case where the residual of the log-volatility
+and the innovation of the return are correlated normal variates, is
+also presented. Chapter \ref{chp:Gaussian} investigates the elements' and
+eigenvalues' distributions of the Wishart matrix, and studies the influence
+of auto-correlated returns. Chapter \ref{chp:CrossCorrelationFat}
+looks at the elements' and eigenvalues' distributions of a covariance
+matrix that is built from identically specified GARCH(1,1) series.
 
 
-\section{Fundamental Concepts \&
-  Notations}\label{sec:FundamentalConcepts}
-This section is a list of a few concepts that may be unfamiliar to the
-reader and that we will often refer to later in the thesis:
-\begin{itemize}
-\item Return. Given a fixed time interval $[t - \Delta t, t]$, for example, a
-  day, a week, a month, etc, and a particular asset, for example, a
-  share in company ABC, the return of this asset over the time
-  interval is defined as
-  \begin{eqnarray*}
-    r_{t, \Delta t} &=& \ln p_{t} - \ln p_{t - \Delta t} \\
-    &=& \ln \left(1 + {p_{t} - p_{t - \Delta t} \over p_{t - \Delta t}}\right) \\
-    &\approx& {p_{t} - p_{t - \Delta t} \over p_{t - \Delta t}}
-  \end{eqnarray*}
-  where $p_t$ is the price of the asset at time $t$. $\Delta t$ is
-  sometimes called the time-lag of the return. Quite often, where
-  confusion is not possible, we will just write $r_t$ to mean $r_{t,
-    \Delta t}$, the time lag either does not matter or is clear from
-  the context.
-
-\item Autocorrelation. By autocorrelation, denoted $\rho_k$ here, we
-  mean the correlation between two temporally separated observations
-  of the same time series:
-  \begin{eqnarray*}
-    \rho_k &=& {
-      \E\left[(a_t -\E(a_t))(a_{t-k} - \E(a_{t-k})\right]
-      \over
-      \sqrt{\text{var}(a_t)}\sqrt{\text{var}(a_{t-k})}
-    }
-  \end{eqnarray*}
-  Here $\E(x)$ stands for the expectation value of $x$, and
-  $\text{var}(x)$ stands for the variance of $x$. $k$ is called the
-  time-lag and is the temporal seperation of the two observations
-  measured by the number of observations in between. For example, the
-  time-lag between the 1st and 3rd observation is 2.
-
-\item Cross-Correlation Matrix. Correlations between the returns of a
-  group of assets are described by the cross-correlation matrix. When
-  the asset returns are described by a stable distribution law with
-  L\'evy index $\alpha$, the empirical cross-correlation matrix is
-  constructed as
-  \begin{equation}
-    \label{eq:cross-correlation}
-    \begin{aligned}
-      C_{ij} &= {1 \over T^{2/\alpha}} \sum_{t=1}^T [r_{i,t}-\E(r_i)]
-      [r_{j,t}-\E(r_j)] \\
-      &= {1 \over T^{2/\alpha}} RR'
-    \end{aligned}
-  \end{equation}
-  where $r_{i,t}$ is the return of the i-th asset at time t and is
-  placed at the entry (i, t) of matrix R; $R'$ denotes the
-  transpose of R. In most practical situations, one has abundant data
-  for each and every asset. Thus $T \geq N$ is assumed throughout this
-  thesis.
-
-\item Auto-regressive processes. A time series $r_t$ is called an
-  auto-regressive process of order $p$ and denoted AR(p), if it can be
-  written in the following form:
-  \begin{eqnarray*}
-    r_t &=& \sum_{i=1}^p \phi_i r_{t-i} + a_t
-  \end{eqnarray*}
-  where, for all $i$, $\phi_i \in (-1, 1)$, and the $a_t$'s are
-  independent and identically distributed (iid.) random variables with
-  zero mean. Obviously this implies the mean of $r_t$ is zero
-  too. Apart from this, their distribution of $a_t$ is not restricted
-  to any particular form.
-  
-  Of particular interest to this thesis is the AR(1) process:
-  \begin{eqnarray*}
-    r_t = \phi r_{t-1} + a_t
-  \end{eqnarray*}
-  Its autocorrelation function $\rho_k = \text{corr}(r_t, r_{t-k})$
-  ($k = 0, 1, 2, \cdots$) can be easily shown to fall off
-  exponentially:
-  \begin{eqnarray*}
-    \rho_k &=& {\E(r_tr_{t-k}) - \E(r_{t-k})\E(r_{t}) \over
-      \sqrt{\var(r_t) \var(r_{t-k})}} \\
-    &=& {\phi \E(r_{t-1}r_{t-k}) + \E(a_t r_{t-k})
-      \over
-      \sqrt{\var(r_t) \var(r_{t-k})}
-    } \\
-    &=& \phi \rho_{k-1}
-  \end{eqnarray*}
-  where $\E(a_t r_{t-k}) = 0$ follows from the fact that any return
-  $r_{t1}$ must not depend on disturbances $a_{t2}$ that occur later
-  in time. The last equation means $\rho_k$ is a geometric series. Since
-  $\rho_0 = 1$, we have
-  \begin{eqnarray*}
-    \rho_k &=& \phi^k \\
-    |\rho_k| &=& e^{k\ln|\phi|} \\
-  \end{eqnarray*}
-  Note that $|\phi| < 1$ and hence $\ln|\phi| < 0$.
-
-  Although $k$ can only take integer values, it is still useful to
-  define a correlation time $\tau$ such that $\phi^\tau = 1/2$. Such a
-  quantity is more intuitive and constitutes a measure of
-  autocorrelations that is universal and comparable among different
-  time series' models. From the definition of $\tau$ we get
-  \begin{equation}
-    \label{eq:tau_def}
-    \begin{aligned}
-      \phi^\tau &= 1/2 \\
-      \tau &= -{\ln 2 \over \ln\phi} \\
-      \phi &= 2^{-1/\tau}
-    \end{aligned}
-  \end{equation}
-  Figure \ref{fig:AR1-autocorrelation} shows the autocorrelation
-  function of the AR(1) model. As proven above, this function decays
-  exponentially.
-  \begin{figure}[htb!]
-    %\vspace{-15mm}
-    \centering
-    \includegraphics[scale=0.5, clip=true, trim=113 229 115
-    139]{../pics/AR1-autocorrelation.pdf}
-    \caption{\small \it Autocorrelation function of the AR(1) model
-      with $\phi=1/\sqrt{2}$. Red circles: autocorrelations at $k=0, 1,
-      2, \cdots$. Blue line: $e^{t\ln\phi}$.}
-    \label{fig:AR1-autocorrelation}
-  \end{figure}
-  For more details about conventional time series' models, see
-  \cite{BoxJenkins94}.
-\end{itemize}
-
-For purposes of later reference, we also list some notations that may
-cause confusion to the reader:
-\begin{itemize}
-\item $\E(x)$ or $\mean{x}$: The expectation value of $x$.
-\item $\var(x)$: the variance of $x$.
-\item $\text{cov}(x,y)$: the covariance of $x$ and $y$.
-\item $\text{corr}(x,y)$: the correlation between $x$ and $y$, i.e.
-  \begin{equation*}
-    \text{corr}(x,y) = {\text{cov}(x,y) \over \sqrt{\var(x)\var(y)}}
-  \end{equation*}
-\end{itemize}
-
-\section{Stylized facts}\label{sec:StylizedFacts}
-This section presents and explains a few ``stylized facts'',
-i.e. phenomena that are widely observed and accepted as true.
-\begin{itemize}
-\item Fat tails. It has been consistently reported by various studies
-  - for example \cite{Potters2003} and \cite{Mantegna2000} - that the
-  probability density function (PDF) of stock/index returns are not
-  Gaussian. Unlike the Gaussian PDF, which is symmetric and falls off
-  very quickly as its argument moves from the center to the outskirts
-  (tails), the PDF of stock/index returns are higher on the tails,
-  i.e. the probability of large fluctuations is higher than is dictated
-  by a Gaussian distribution - in fact, even higher than dictated by
-  an exponential function. Empirical studies suggest the distribution
-  function of the returns follows a power-law on the tails --- the
-  exponent of the power depends on the specific stock/index.
-
-  Figure \ref{fig:FatTail} illustrates this feature.
-  \begin{figure}[htb!]
-    \centering
-    \includegraphics[scale=0.6, clip=true, trim=92 229 110
-    140]{../pics/FatTail.pdf}
-    \caption{\small \it Fat tails of {\it Nordea Bank} 15-minute
-      returns during the period 2013-10-10 and 2014-01-29. The returns
-      are computed using minute-by-minute average prices.}
-    \label{fig:FatTail}
-  \end{figure}
-
-\item Non-zero skewness. Apart from fat tails, the PDF of stock/index
-  returns are often also skewed. If the skewness is positive
-  (negative), the probability of very large positive (negative)
-  returns is higher than that of very large negative (positive)
-  returns, even though the mean of the returns is 0 or extremely
-  close to 0.
-
-  Table \ref{tab:EmpiricalSkewness} lists the skewness of a few
-  Swedish stocks traded on the Stockholm OMX market.
-  \begin{table}[htb!]
-    \footnotesize
-    \centering
-    \begin{tabular}{|c|c|c|c|c|c|c|}
-      \hline
-      Nordea Bank & Volvo B & Boliden & ABB Ltd & H\&M & Scania
-      B & Ericsson B \\
-      \hline
-      0.1362 & 0.0471 & 0.0567 & -0.0364 & -0.0168 &
-      -1.1554 & 0.2086 \\
-      \hline
-    \end{tabular}
-    \caption{\small \it Skewness of Stock Returns. All the returns
-      have time-lag of 15 minutes and are computed using paid prices
-      between 2013-10-10 and 2014-01-29. }
-    \label{tab:EmpiricalSkewness}
-  \end{table}
-
-\item Higher-order autocorrelation. To the lowest order, return series
-  are not auto-correlated --- if they are, the auto-correlations would
-  present an obvious opportunity of making easy profit and be
-  exploited and vanish as soon as they appear. However, the squared
-  returns do have significant auto-correlations, as figure
-  \ref{fig:nordea_15min_acf} illustrates. These auto-correlations
-  suggest the variances of the returns at subsequent time steps are
-  correlated. These are referred to as higher-order auto-correlations
-  and make a subjet of returns' models.
-  
-\end{itemize}
 
 \input{price_models}
 \input{cross_correlation_gaussian}
@@ -1848,6 +1658,7 @@ the ratios are plotted versus $\phi$ on log-log scale.
 % eigenvalue distribution changes in the case of the SLV model.
 
 \input{summary}
+\appendix
 \input{appendix}
 
 \bibliographystyle{plain}

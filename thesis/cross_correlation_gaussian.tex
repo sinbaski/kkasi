@@ -1,21 +1,18 @@
 \chapter{Correlation Matrix of Gaussian Returns}\label{chp:Gaussian}
-In this chapter we present some analytical and numerical results about
-the cross-correlation matrix (cf. \S
-\ref{sec:FundamentalConcepts}), in the special case where the involved
-asset returns are assumed to be Gaussian distributed. This assumption
-is of course an over-simplification, but nevertheless lends some
-insight into the problem.
+In this chapter we present some results about the cross-correlation
+matrix of Gaussian returns. This assumption is of course an
+over-simplification, but nevertheless lends some insight into the
+problem.
 
 Our primary interest is in the influence of autocorrelations on the
-cross-correlation matrix. \S \ref{sec:GCC-analytical} discusses the
-distribution of the matrix entries and \S \ref{sec:GCC-numerical} the
-distribution of the eigenvalues.
+cross-correlation matrix. \S\ref{sec:GCC-analytical} and
+\S\ref{sec:GCC-numerical} discuss the distribution of the matrix
+elements and the eigenvalues, respectively.
 
 \section{Distribution of the Matrix Elements}\label{sec:GCC-analytical}
 If the returns follow a zero-mean Gaussian distribution, 
 i.e. $\vec{r}_t \sim N(0, \Sigma)$, and are not
-auto-correlated, the L\'evy index $\alpha$ as appears in equation
-\ref{eq:cross-correlation} is 2, and $RR'$ is a Wishart matrix with
+auto-correlated, then $RR'$ is a Wishart matrix with
 the following distribution law \cite{Anderson2003}:
 \begin{equation}
   \label{eq:WishartPDF}
@@ -384,8 +381,7 @@ Wishart when the columns of $R$ are correlated
 in this case is beyond the scope of this thesis. Instead, we resort to
 numerical methods.
 
-As before we consider the AR(1) process (see
-\S\ref{sec:FundamentalConcepts}):
+As before we consider the AR(1) process:
 \begin{equation*}
   \vec{r}_t = \phi \vec{r}_{t-1} + \vec{a}_{t}
 \end{equation*}

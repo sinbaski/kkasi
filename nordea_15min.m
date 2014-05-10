@@ -2,10 +2,10 @@ clear all
 close all
 
 company = 'nordea_bank';
-% first_day = '2012-01-16';
-% last_day = '2012-04-20';
-first_day = '2013-10-10';
-last_day = '2014-04-04';
+first_day = '2012-01-16';
+last_day = '2012-04-20';
+% first_day = '2013-10-10';
+% last_day = '2014-04-04';
 
 % dt in units of one minute
 % dt = 15min, delta=30sec
