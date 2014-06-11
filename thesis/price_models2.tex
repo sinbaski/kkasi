@@ -6,12 +6,12 @@ properties. The implications of these properties on the returns'
 correlation and covariance matrix are studied in chapters
 \ref{chp:Gaussian} and \ref{chp:CrossCorrelationFat}.
 
-\S\ref{sec:Garch_model} reviews the GARCH model using the Nordea
-15-minute returns as an example. \S\ref{sec:SLV_model} examines the
+section \ref{sec:Garch_model} reviews the GARCH model using the Nordea
+15-minute returns as an example. Section \ref{sec:SLV_model} examines the
 stochastic log-volatility model and discusses the possibility of
 describing the residuals of the log-volotility series using the
 Johnson Su distribution. The same Nordea return series is fitted as an
-example. \S\ref{sec:XieCalc} derives the unconditional distribution
+example. Section \ref{sec:XieCalc} derives the unconditional distribution
 function of the stochastic log-volotility model and compares the
 analytic results to the 30-minute returns of a number of Swedish
 stocks.
@@ -37,7 +37,7 @@ Gaussian distributed and have mean and variance that are functions of
 $\Delta t$.
 
 The picture depicted above is of course overly simplified, and as we discussed in
-\S\ref{sec:StylizedFacts}, the distribution of returns is not really
+section \ref{sec:StylizedFacts}, the distribution of returns is not really
 Gaussian. Nevertheless, the assumption of Gaussian distributed returns
 underlies such important theories as Black and Scholes theory of
 option pricing. Thus, albeit hugely inaccurate, the Gaussian
@@ -164,7 +164,7 @@ the often the series is sampled, the better the estimate. This is also
 well supported in theory, since the quadratic variation which is the
 theoretial variance of the time series (see \cite{Andersen03}, theorem
 1 and corollary 1), is approximated as (see \cite{Protter05}, ch.II,
-\S6, theorem 22):
+section 6, theorem 22):
 \[
 \var(p_{t+h} - p_t) = [r, r]_{t+h} - [r, r]_t = \lim_{n \to \infty}
 \sum_{T^i \in \pi_n} (p^{T_{i+1}} - p^{T_i})^2
@@ -489,7 +489,7 @@ listed in table \ref{tab:nordea_15min_js_param}:
 To verify that the log-volatility can in general be described by
 ARIMA(p, d, q) models, we apply the above procedure to a number of
 Swedish stocks whose data have been collected by the author with
-home-developed software. In \S\ref{sec:nordea} and \S\ref{sec:volvo}
+home-developed software. In section \ref{sec:nordea} and section \ref{sec:volvo}
 we model the log-volatilities of Nordea Bank 15-minute returns and
 Volvo B 30-minute returns. Both return series span the period
 2013/10/10 - 2014/04/04. They are computed using minute-by-minute
@@ -855,7 +855,7 @@ good performance of an ARIMA log-volatility model.
   Models}\label{sec:XieCalc}
 In this section we study the unconditional distribution function of
 the Stochastic Log-Volatility model specified as equation
-\ref{eq:SLV_spec}. As is discussed in \S\ref{sec:SLV_model},
+\ref{eq:SLV_spec}. As is discussed in section \ref{sec:SLV_model},
 $\ln\sigma_t$ can be described by an ARMA or ARIMA \footnote{ARIMA ---
   Integrated Autoregressive Moving Average} model, possibly with
 seasonal components. Here we note that all these models can be
@@ -889,10 +889,10 @@ unconditional distribution of the returns $r_t$
 \end{equation}
 where $b \sim N(0, 1)$. For convenience, let $r' = e^v b$
 
-In \S\ref{sec:SLV_Symmetric} we first study the model in the
+In section \ref{sec:SLV_Symmetric} we first study the model in the
 relatively simple case when $v$ and $b$ are uncorrelated and $\mu
 = 0$. If this simplified version proves inadequate, one may resort to
-the general model studied in \S\ref{sec:SLV_Asymmetric}.
+the general model studied in section \ref{sec:SLV_Asymmetric}.
 
 \subsection{The Simplified model}\label{sec:SLV_Symmetric}
 In the following we derive the unconditional PDF of $r'$, denoted
@@ -1256,7 +1256,7 @@ Following the aforementioned procedure, i.e. computing the initial
 estimate by matching the moments and then refining the estimate by
 MLE, we obtain the parameter values for a number of return series,
 including the Volvo B 30-minute returns described in
-\S\ref{sec:SLV_Symmetric}. Table \ref{tab:assets_params} and
+section \ref{sec:SLV_Symmetric}. Table \ref{tab:assets_params} and
 \ref{tab:assets_moments} present the obtained parameter values and the
 resulting moments, respectively. Figure \ref{fig:Volvo_B_30m_returns},
 \ref{fig:Nordea_30m_returns}, and \ref{fig:Ericsson_30m_returns}
@@ -1284,8 +1284,8 @@ $b$.
 
 In the context of conditional distributions and forecast, this
 correlation translates to the correlation between the residual of the
-log-volatility, denoted $y_t$ in \S\ref{sec:nordea} and
-\S\ref{sec:volvo}, and $b_t$. Now let us consider the forecast
+log-volatility, denoted $y_t$ in section \ref{sec:nordea} and
+section \ref{sec:volvo}, and $b_t$. Now let us consider the forecast
 function of an ARIMA model:
 \begin{eqnarray*}
   \ln \sigma_t &=& y_t + \sum_{i=1}^P \phi_i \ln \sigma_{t-i} -
@@ -1307,9 +1307,9 @@ following substitutions:
   \psi &\to& \text{corr}(y_t, b_t)
 \end{eqnarray*}
 
-For the Nordea series considered in \S\ref{sec:nordea},
+For the Nordea series considered in section \ref{sec:nordea},
 $\text{corr}(y_t, b_t)$ is found to be $3.56 \times 10^{-2}$; while
-for the Volvo series considered in \S\ref{sec:volvo},
+for the Volvo series considered in section \ref{sec:volvo},
 $\text{corr}(y_t, b_t)$ is found to be $-7.3 \times 10^{-3}$. These
 values are comparable to those in table \ref{tab:assets_params}, where
 $\psi$ for the Nordea series is $1.7234 \times 10^{-2}$ and $-1.5747

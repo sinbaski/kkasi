@@ -1,371 +1,180 @@
-\chapter{Correlation Matrix of Gaussian Returns}\label{chp:Gaussian}
-In this chapter we present some results about the cross-correlation
-matrix of Gaussian returns. This assumption is of course an
-over-simplification, but nevertheless lends some insight into the
-problem.
+\chapter{Covariance Matrix of Gaussian Returns}
+\label{chp:Gaussian}
+In this chapter we present some results about the covariance
+matrix of Gaussian returns. The assumption of Gaussian returns is of
+course an over-simplification of reallity, but nevertheless lends some
+insight into the problem of elements' and eigenvalues' distributions of
+a covariance matrix.
+Our primary interest is in the influence that auto-correlations in
+returns exert on the covariance matrix. Section \ref{sec:GCC-analytical} and
+section \ref{sec:GCC-numerical} discuss how the distributions of the matrix
+elements and the eigenvalues are affected by such autocorrelations,
+respectively.
 
-Our primary interest is in the influence of autocorrelations on the
-cross-correlation matrix. \S\ref{sec:GCC-analytical} and
-\S\ref{sec:GCC-numerical} discuss the distribution of the matrix
-elements and the eigenvalues, respectively.
-
-\section{Distribution of the Matrix Elements}\label{sec:GCC-analytical}
-If the returns follow a zero-mean Gaussian distribution, 
-i.e. $\vec{r}_t \sim N(0, \Sigma)$, and are not
-auto-correlated, then $RR'$ is a Wishart matrix with
-the following distribution law \cite{Anderson2003}:
-\begin{equation}
-  \label{eq:WishartPDF}
-  f_{RR'}(X) = { |\det X|^{(T-N-1)/2} \exp\left(-{1 \over 2}\tr
-      \Sigma^{-1}X \right)
-    \over
-    2^{NT/2}\pi^{N(N-1)/4}|\det \Sigma|^{T/2}
-    \prod_{i=1}^N \Gamma\left[(n+1-i)/2\right]
-  }
-\end{equation}
-where $\Sigma$ is the true covariance matrix of the returns.
-
-When $\vec{r}_t$ are indeed auto-correlated, $RR'$ no longer has the
-Wishart distribution. The joint distribution function of its elements
-can be expressed in terms of the Wishart PDF and the
-auto-correlations. We show this in appendix
-\ref{app:pdf_gaussian1}. In the rest of this section, we derive an
-approximate expression for the asymptotic distribution of these matrix
-elements.
-
-In the following we denote the diagonal elements as $C_{ii}$ and the
-non-diagonal elements as $C_{ij}$ ($i \neq j$). We assume that
-$\var(a_{i,t}) = \sigma^2$ for any $i$ and $t$, and $a_{i,t}$ are not
-autocorrelated, i.e. $\text{corr}(a_{i,t}, a_{i, t'}) = 0$ for any
-$i$, $t$ and $t'$. Then we can write
+\section{Distribution of the Matrix Elements}
+\label{sec:GCC-analytical}
+In this section we study the distribution of the elements of a
+covariance matrix $C = \mtx{RR'}/T$, where
 \begin{eqnarray*}
-  r_{i,t} r_{j, t} &=& \left[
-    \phi_1 r_{i, t-1} + a_{i, t}
-  \right] \left[
-    \phi_1 r_{j, t-1} + a_{j, t}
-  \right] \\
-  C_{ij} &=& {1 \over T}\sum_{t=1}^T r_{i,t} r_{j, t} \\
-  &=& \phi_1^2 {1 \over T}\sum_{t=1}^Tr_{i,t-1} r_{j, t-1} +
-  \phi_1{1 \over T}\sum_{t=1}^T\left(
-    r_{i, t-1} a_{j, t} + r_{j, t-1} a_{i, t}
-  \right) + {1 \over T}\sum_{t=1}^T a_{i,t} a_{j,t}
-\end{eqnarray*}
-We note that the two sums $\sum_{t=1}^T r_{i,t} r_{j, t}$ and
-$\sum_{t=1}^T r_{i,t-1} r_{j, t-1}$ only differ by the first and the
-last addend, which is negligible for sufficiently large T. Thus we
-have
-\begin{equation}\label{eq:Offdiag1}
-  \begin{aligned}
-    (1 - \phi_1^2)C_{ij} &\approx& \phi_1 {1 \over T} \sum_{t=1}^T
-    \left(r_{i, t-1} a_{j, t} + r_{j, t-1} a_{i, t} \right)
-    + {1 \over T}\sum_{t=1}^T a_{i,t} a_{j,t}
-  \end{aligned}
-\end{equation}
-Now we write the AR(1) process $r_{i,t}$ as an infinite moving-average
-process:
-\begin{eqnarray*}
-  r_{i, t} &=& \phi_1 r_{i, t-1} + a_{i,t} \\
-  (1 - \phi_1 B) r_{i, t} &=& a_{i,t} \\
-\end{eqnarray*}
-where $B$ is the back-shift operator. Then it follows from the above
-equation
-\begin{eqnarray*}
-  r_{i,t} &=& {1 \over 1 - \phi_1 B} a_{i,t} \\
-  &=& \sum_{k=0}^\infty \phi_1^k B^k a_{i,t} \\
-  &=& \sum_{k=0}^\infty \phi_1^k a_{i,t-k} \\
-\end{eqnarray*}
-where it is left implicit that $a_{i, t}$ with $t \leq 0$ is zero (in
-words, this implies that the $r_{i,t}$ process is not affected at all
-by events before $t = 1$).
-
-Substituting this into eq.\ref{eq:Offdiag1} for $r_{i,t-1}$ yields
-\begin{equation}
-  \label{eq:Offdiag2}
-  \begin{aligned}
-  (1 - \phi_1^2)C_{ij} &\approx
-  {1 \over T} \sum_{t=1}^T \sum_{k=0}^\infty\phi_1^{k+1} (a_{i, t-k-1}
-  a_{j, t} + a_{j, t-k-1} a_{i, t})
-  + {1 \over T} \sum_{t=1}^T a_{i,t} a_{j,t} \\
-  &=
-  {1 \over T} \sum_{t=1}^{T} \sum_{k=1}^{t-1}\phi_1^k (a_{i, t-k}
-  a_{j, t} + a_{j, t-k} a_{i, t})
-  + {1 \over T} \sum_{t=1}^{T} a_{i,t} a_{j,t}\\
-  \end{aligned}
-\end{equation}
-
-Given two Gaussian random variables $x$ and $y$ with zero mean and
-covariance matrix 
-\begin{equation*}
-  \Sigma =
+  \mtx R &=&
   \begin{pmatrix}
-    1 & \rho \\
-    \rho & 1 \\
+    r_{11} & r_{12} & \cdots & r_{1T} \\
+    r_{21} & r_{22} & \cdots & r_{2T} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    r_{N1} & r_{N22} & \cdots & r_{NT} \\
   \end{pmatrix}
-\end{equation*}
-
-The PDF of $xy$ can be found by considering $P(xy < z)$:
-\begin{eqnarray*}
-  P(xy < z) &=& \left(\int_0^\infty dx \int_0^{z/x} dy
-    +\int_{-\infty}^0 dx \int_{z/x}^\infty dy \right)
-    {1 \over 2\pi \sqrt{1 - \rho^2}} \\
-    &&
-    \exp\left[
-      -{x^2 -2\rho xy + y^2
-        \over
-        2\sigma^2 (1 - \rho^2)} 
-    \right] \\
-  f(z; \sigma, \rho) &=& {d \over dz} P(xy < z)\\
-  &=& {1 \over \pi \sqrt{1 - \rho^2}} \exp\left[
-    {\rho z \over \sigma^2 (1 - \rho^2)}\right] K_0\left[
-    {|z| \over \sigma^2 (1 - \rho^2)}
-  \right]
 \end{eqnarray*}
-where $K_n(z')$ is the modified Bessel function of the second
-kind. It is worth taking note that, when $\rho \neq 0$,
-$f(z; \sigma, \rho)$ is not symmetric with respect to
-$z$. As a result, if $\rho > 0$, the mean of $f(z;
-\sigma, \rho)$ is positive, and vice versa.
-
-Secondly, because $|\rho| < 1$ and
-\begin{equation*}
-  K_0(z) \sim \sqrt{\pi \over 2z} e^{-z}
-\end{equation*}
-as $z \to \infty$ \cite{Olver:2010:NHMF}, all the moments of
-$f(z; \sigma, \rho)$ are finite, implying the
-applicability of the Lyapunov central limit theorem provided that $T$
-is large, which is very often the case and what we assume here.
-
-With this in mind, we observe that $\phi_1$ only affects the first sum in
-\ref{eq:Offdiag2}. If $a_{i,t-k}$ and $a_{j,t}$ are not correlated for
-non-zero $k$, $\phi_1$ will not affect the mean of
-$C_{ij}$. Furthermore, it is also clear from equation
-\ref{eq:Offdiag2} that the variance of $C_{ij}$ is
-always increased by a non-zero $\phi_1$, regardless of the sign of
-$\phi_1$. We compute this increment in the following.
-
-In light of the above expression for $f(z; \sigma,
-\rho)$, we rewrite equation \ref{eq:Offdiag2} as
-\begin{equation}\label{eq:Cij_dist}
-  \begin{aligned}
-    (1 - \phi_1^2)C_{ij} \approx &
-    {1 \over T}
-    \sum_{t=1}^{T} \sum_{k=1}^{t-1}\phi_1^k (a_{i, t-k} a_{j, t} + a_{j,
-      t-k} a_{i, t}) \\
-    & + {1 \over T} \sum_{t=1}^{T} \sigma^2 (1 - \rho^2) {a_{i,t} \over
-      \sigma \sqrt{1 - \rho^2}} {a_{j,t} \over \sigma \sqrt{1 - \rho^2}} \\
-  \end{aligned}
-\end{equation}
-In addition, we assume
-\begin{equation*}
-  \text{corr}(a_{i, t-k}, a_{j, t}) = \left\{
-    \begin{array}{l l}
-      1 & \text{ if $i=j$ and $k = 0$ }\\
-      \rho & -1 < \rho < 1. \text{ if $i \neq j$ and $k = 0$ }\\
-      0 & \text{otherwise}
-    \end{array}
-  \right.
-\end{equation*}
-Then, because $a_{i, t-k}$ and $ a_{j, t}$ with $i \neq j$ and $k
-> 0$ are not correlated, the mean of $a_{i, t-k} a_{j, t}$ is 0
-($f(z; \sigma, 0)$ is symmetric), and the variance of it
-can be found to be $\sigma^6$ using formula (10.43.19) of \cite{NIST:DLMF}:
-\begin{equation*}
-  \int_0^\infty dt K_\nu(t) t^{\mu-1} = 2^{\mu-2}
-  \Gamma\left(
-    {\mu + \nu \over 2}
-  \right) \Gamma\left(
-    {\mu - \nu \over 2}
-  \right)
-\end{equation*}
-On the other hand, $a_{i,t}/\sigma \sqrt{1 - \rho^2}$ and
-$a_{j,t}/\sigma \sqrt{1 - \rho^2}$ have variance $1/(1 - \rho^2)$
-and are correlated - $\text{corr}(a_{i,t}, a_{j,t}) = \rho$. The mean
-of $a_{i,t}a_{j,t}/\sigma^2 (1 - \rho^2)$ can be found using formula
-(10.43.22) of \cite{NIST:DLMF}, given that $-1 < \rho < 1$:
+In words, an element $r_{it}$ of $\mtx R$ is the return of asset $i$
+at time $t$, with $i=1,\cdots, N$ and $t = 1, \cdots, T$. If each
+column of $\mtx R$ follows a zero-mean Gaussian distribution, i.e.
 \begin{eqnarray*}
-  \int_0^\infty t^{\mu - 1} e^{-at} K_\nu(t) dt &=& (\pi/2)^{1/2}
-  \Gamma(\mu + \nu) \Gamma(\mu - \nu)(1 - a^2)^{-\mu/2 + 1/4} \times\\
-  && P^{-\mu+1/2}_{\nu-1/2} (a)
+  \begin{pmatrix}
+    r_{1t} \\
+    \vdots \\
+    r_{Nt}
+  \end{pmatrix} \sim N(0, \mtx \Sigma)
 \end{eqnarray*}
-where $P^\mu_\nu(\cdot)$ is Ferrers function of the first
-kind\footnote{ Ferrers function of the first kind is defined through
-  the hypergeometric functon $F(a, b; c; z)$ \cite{NIST:DLMF}:
-  \begin{equation}
-    \label{eq:Ferrers_1st}
-    \mathop{\mathsf{P}^{\mu}_{\nu}\/}\nolimits\!\left(x\right)=\left(\frac{1+x}{1-
-        x}\right)^{\mu/2}\mathop{\mathbf{F}\/}\nolimits\!\left(\nu+1,-\nu;1-\mu;\tfrac
-      {1}{2}-\tfrac{1}{2}x\right).
-  \end{equation}
-}. The result is
+for all $t = 1, \cdots, T$, and none of the return series is
+auto-correlated, i.e. $\text{corr}(r_{it}, r_{i,t'}) = 0$ for all $i =
+1, \cdots, N$ and $t \neq t'$, then $\mtx{RR'}$ is a Wishart matrix whose
+probability density function is well known \cite{Anderson2003}.
+
+When auto-correlations are indeed present in the returns, $\mtx{RR'}$
+no longer follows the Wishart distribution. However, the joint distribution
+function of its elements can be expressed in terms of the Wishart \gls{pdf}
+and the auto-correlations. We show this in appendix
+\ref{app:pdf_gaussian1}. Also, in appendix
+\ref{chp:gaussian_elements_dist} we derive an approximate expression
+for the asymptotic distribution of these matrix elements, assuming
+$r_{it}$ is an \gls{ar}(1) process \footnotemark, i.e. $r_{it} =
+\phi r_{i, t-1} + a_{it}$, and
+\footnotetext{
+  It is straight forward to derive the auto-correlation function
+  $\varrho_k$ of an \gls{ar}(1) process with autoregressive
+  coefficient $\phi$:
+  \begin{eqnarray*}
+    \varrho_k &=& \text{corr}(r_{it}, r_{i, t-k}) \\
+    &=& \phi \varrho_{k-1} \\
+    &=& \phi^k
+  \end{eqnarray*}
+  Let $\tau$ denote the time lag at which $\varrho_{\tau} = 1/2$, then
+  it follows $\tau = -\ln 2/\ln \phi$.
+}
 \begin{eqnarray*}
-  \E\left[{a_{i,t}a_{j,t} \over \sigma^2 (1 - \rho^2)}\right]
-  &=&
-  {1 \over \sqrt{2\pi} (1 - \rho^2)^{5/4}} \left[
-    P^{-3/2}_{-1/2}(-\rho) - P^{-3/2}_{-1/2}(\rho)
-  \right]
+  \begin{pmatrix}
+    a_{1t} \\
+    \vdots \\
+    a_{Nt}
+  \end{pmatrix} \sim N(0, \mtx \Sigma)
 \end{eqnarray*}
-Similarly, the variance of $a_{i,t}a_{j,t}/\sigma^2 (1 - \rho^2)$ is
-found to be
-\begin{eqnarray*}
-  v^2(\rho) &=&
-  {4 \over \sqrt{2\pi} (1 - \rho^2)^{7/4}} \left[
-    P^{-5/2}_{-1/2}(\rho) + P^{-5/2}_{-1/2}(-\rho)
-  \right] \\
-  && - \E^2\left[{a_{i,t}a_{j,t} \over
-      \sigma^2 (1 - \rho^2)}\right]
-\end{eqnarray*}
-Now we can apply the Lyapunov central limit theorem
-\cite{Billingsley1995} to the sum in equation \ref{eq:Cij_dist}
-and write down the asymptotic Gaussian distribution of $C_{ij}$:
-\begin{equation*}
-C_{ij} \sim N(\mu'_X, \sigma'_X)
-\end{equation*}
 where
+\begin{eqnarray*}
+  \mtx \Sigma &=& \sigma^2
+  \begin{pmatrix}
+    1 & \rho & \cdots & \rho \\
+    \rho & 1 & \cdots & \rho \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \rho & \rho & \cdots & 1
+  \end{pmatrix}
+\end{eqnarray*}
+where $-1 < \rho < 1$ is a constant parameter describing the correlation
+between $a_{it}$ and $a_{jt}$ --- so, by construction, we assume such
+correlations are constant across all asset pairs and over all
+time.
+
+The elements $C_{ij}$ ($i \neq j$) of the covariance matrix, $C
+= \mtx{RR'}/T$, are found to be normally distributed with mean
 \begin{eqnarray}
-  \mu'_X &=& {\sigma^2 \over \sqrt{2\pi} (1 - \phi_1^2)(1 -
+  \mu'_X &=& {\sigma^2 \over \sqrt{2\pi} (1 - \phi^2)(1 -
     \rho^2)^{1/4}} \left[ P^{-3/2}_{-1/2}(-\rho) -
     P^{-3/2}_{-1/2}(\rho)
-  \right] \label{eq:gaussian_mean}\\
-  \sigma'^2_X &=& {1 \over (1 - \phi_1^2)^2}\left[
+  \right] \label{eq:gaussian_mean2}
+\end{eqnarray}
+and variance
+\begin{eqnarray}
+  \sigma'^2_X &=& {1 \over (1 - \phi^2)^2}\left[
     \sum_{t=1}^T \sum_{k=1}^{t-1} 2\left(
-      \phi_1^k \over T
+      \phi^k \over T
     \right)^2 \sigma^6 + \sum_{t=1}^T
     {\sigma^4 (1 - \rho^2)^2 \over T^2} v^2(\rho)
   \right] \nonumber \\
-  &=& {2 \sigma^6 \over T (1 - \phi_1^2)^2} \left[
-    {\phi_1^2 \over 1 - \phi_1^2} -
-    {\phi_1^2 (1 - \phi_1^{2T}) \over
-      T(1 - \phi_1^2)}
+  &=& {2 \sigma^6 \over T (1 - \phi^2)^2} \left[
+    {\phi^2 \over 1 - \phi^2} -
+    {\phi^2 (1 - \phi^{2T}) \over
+      T(1 - \phi^2)}
   \right] + {\sigma^4 (1 - \rho^2)^2 v^2(\rho) \over
-    T (1 - \phi_1^2)^2} \nonumber \\
-  &\approx& {2 \sigma^6 \phi_1^2 \over T (1 - \phi_1^2)^3}
+    T (1 - \phi^2)^2} \nonumber \\
+  &\approx& {2 \sigma^6 \phi^2 \over T (1 - \phi^2)^3}
   + {\sigma^4 (1 - \rho^2)^2 v^2(\rho) \over
-    T (1 - \phi_1^2)^2} \label{eq:gaussian_variance}
+    T (1 - \phi^2)^2} \label{eq:gaussian_variance2}
 \end{eqnarray}
-Equation \ref{eq:gaussian_mean} tells that, if two return series $i$
-and $j$ are not correlated, auto-correlation in the returns does not
-introduce a bias into the estimation of the cross-correlation; if,
-however, the return series are indeed correlated, auto-correlation
-in the returns rescales the cross-correlation through a multiplicative
-factor $1/(1 - \phi_1^2)$.
+where $P^\mu_\nu(\cdot)$ is Ferrer's function of the first
+kind. See appendix \ref{chp:gaussian_elements_dist}. For the
+definition of Ferrer's function, see equation
+\ref{eq:Ferrers_1st}.
 
-In addition, equation \ref{eq:gaussian_variance} tells that
-auto-correlation in the returns always makes the cross-correlation
-estimation more noisy. Auto-correlation not only rescales the variance
-of the no-autocorrelation estimation by $1/(1 - \phi_1^2)$ but even
-adds an extra term ${2 \sigma^6 \phi_1^2 \over T (1 - \phi_1^2)^3}$.
+Equation \ref{eq:gaussian_mean2} tells that, if
+two return series $i$ and $j$ are not correlated, i.e. $\rho = 0$,
+auto-correlation in the returns does not introduce a bias into the
+estimation of their covariance, i.e. $\mu'_X$, since the difference
+between the two Ferrer's functions evaluate to 0 in equation
+\ref{eq:gaussian_mean2}; if, however, the return series are indeed
+correlated, auto-correlation in the returns rescales the
+covariance through a multiplicative factor $1/(1 - \phi^2)$.
 
-% What we have obtained is a quantitative description of what has been
-% said before: The mean of the non-diagonal entries of the
-% cross-correlation matrix is not affected by autocorrelations in the
-% returns, given that innovations $a_{i,t}$ of different assets and
-% different times are un-correlated; the variance, however, is always
-% increased by autocorrelations no matter the autocorrelation is
-% positive or nagative. The increment is in the form of an additive term
-% that scales as $\phi_1^2 / (1 - \phi_1^2)^3$.
+In addition, equation \ref{eq:gaussian_variance2} tells that
+auto-correlation in the returns always makes the covariance
+estimation more noisy --- auto-correlation not only rescales the
+variance of the no-autocorrelation estimation by $1/(1 - \phi^2)^2$
+but even adds an extra term ${2 \sigma^6 \phi^2 \over T (1 -
+  \phi^2)^3}$.
 
-We may apply a similar treatment to the diagonal elements of the
-covariance matrix, which we denote as $C_{ii}$ here:
-\begin{eqnarray*}
-  C_{ii} &=& {1 \over T} \sum_{t=1}^T r^2_{it} \\
-  &=& {1 \over T} \sum_{t=1}^T \sum_{l=0}^{t-1}\phi_1^l a_{i, t-l}
-  \sum_{k=0}^{t-1}\phi_1^k a_{i, t-k} \\
-  &=& {1 \over T} \sum_{t=1}^T \left[
-    \sum_{k=0}^{t-1} \phi_1^{2k} a^2_{i, t-k} +
-    \sum_{k,l = 0}^{t-1} \phi_1^{k+l} a_{i, t-k} a_{i, t-l}
-  \right]
-\end{eqnarray*}
-By the Lyapunov central limit theorem under the assumption of large T,
-the asymptotic distribution of $C_{ii}$ is Gaussian, the mean and
-variance being
+For the diagonal elements of the covariance matrix $C$ we have
 \begin{eqnarray}
   \E(C_{ii}) &=& {1 \over T}\left[
-    \sum_{k=0}^{t-1} \phi_1^{2k} \sigma^2
+    \sum_{k=0}^{t-1} \phi^{2k} \sigma^2
   \right] \nonumber \\
-  &=& {\sigma^2 \over (1 - \phi_1^2) T} \left[
-    T - {\phi_1^2 (1 - \phi_1^{2T}) \over 1 - \phi_1^2}
+  &=& {\sigma^2 \over (1 - \phi^2) T} \left[
+    T - {\phi^2 (1 - \phi^{2T}) \over 1 - \phi^2}
   \right] \nonumber \\
-  & \approx & {\sigma^2 \over 1 - \phi_1^2} \left[
-    1 - {\phi_1^2 \over T}
-  \right] \label{eq:gaussian_cii_mean}
+  & \approx & {\sigma^2 \over 1 - \phi^2} \left[
+    1 - {\phi^2 \over T (1 - \phi^2)}
+  \right] \label{eq:gaussian_cii_mean2}
 \end{eqnarray}
 and
 \begin{eqnarray}
   \var(C_{ii}) &=& \sum_{t=1}^T \left[
-    \sum_{k=0}^{t-1} {\phi_1^{4k} \sigma^4 \over T^2} 2 +
-    \sum_{k,l=0}^{t-1} {\phi_1^{2(k+l)} \over T^2} \sigma^6
+    \sum_{k=0}^{t-1} {\phi^{4k} \sigma^4 \over T^2} 2 +
+    \sum_{k,l=0}^{t-1} {\phi^{2(k+l)} \over T^2} \sigma^6
   \right] \nonumber \\
   &=& \sum_{t=1}^T \left[
-    {2 \sigma^4 \over T^2} {1 - \phi_1^{4t} \over 1 - \phi_1^4} +
+    {2 \sigma^4 \over T^2} {1 - \phi^{4t} \over 1 - \phi^4} +
     {\sigma^6 \over T^2} \left(
-      {1 - \phi_1^{2t} \over 1- \phi_1^2}
+      {1 - \phi^{2t} \over 1- \phi^2}
     \right)^2 \right] \nonumber \\
-  &=& {2 \sigma^4 \over T (1 - \phi_1^4)} -
-  {2 \sigma^4 \phi_1^4 (1 - \phi_1^{4T}) \over T^2(1 - \phi_1^4)^2} +
+  &=& {2 \sigma^4 \over T (1 - \phi^4)} -
+  {2 \sigma^4 \phi^4 (1 - \phi^{4T}) \over T^2(1 - \phi^4)^2} +
   \nonumber \\
-  && {\sigma^6 \over T (1 -\phi_1^2)^2} -
-  {2 \sigma^6 \phi_1^2 (1 - \phi_1^{2T}) \over T^2 (1 - \phi_1^2)^3} +
-  {\sigma^6 \phi_1^4 (1 - \phi_1^{4T}) \over T^2 (1 - \phi_1^2)^2 (1 -
-    \phi_1^4)} \nonumber \\
-  &\approx& {2 \sigma^4 \over T (1 - \phi_1^4)} + {\sigma^6 \over T (1
-    -\phi_1^2)^2} \label{eq:gaussian_cii_variance}
+  && {\sigma^6 \over T (1 -\phi^2)^2} -
+  {2 \sigma^6 \phi^2 (1 - \phi^{2T}) \over T^2 (1 - \phi^2)^3} +
+  {\sigma^6 \phi^4 (1 - \phi^{4T}) \over T^2 (1 - \phi^2)^2 (1 -
+    \phi^4)} \nonumber \\
+  &\approx& {2 \sigma^4 \over T (1 - \phi^4)} + {\sigma^6 \over T (1
+    -\phi^2)^2} \label{eq:gaussian_cii_variance2}
 \end{eqnarray}
-From equation \ref{eq:gaussian_cii_mean} we see that auto-correlation
+
+From equation \ref{eq:gaussian_cii_mean2} we see that auto-correlation
 in the returns increases the variance of the return series; and from
-equation \ref{eq:gaussian_cii_variance} we see that the variance of
+equation \ref{eq:gaussian_cii_variance2} we see that the variance of
 that variance estimation is also increased by
 auto-correlations. Moreover, we note that $\var(C_{ii})$ scales with T
 approximately as $1/T$, similar to the behavior of
-$\var(C_{ij})$. This is to be compared with the case of GARCH returns
-discussed in chapter \ref{chp:CrossCorrelationFat}.
+$\var(C_{ij})$. This is to be compared with the case of \gls{garch}
+returns discussed in chapter \ref{chp:CrossCorrelationFat}.
 
-% As for the diagonal elements of the cross-correlation matrix,
-% i.e. $\var(r_{it})$, from the representation of $r_{it}$ as an
-% inifinite moving average process, one can deduce immediately
-% \begin{equation*}
-%   \text{var}(r_{i,t}) \approx {\sigma^2 \over 1 - \phi^2}
-% \end{equation*}
-% as is mentioned earlier in equation \ref{eq:gaussian_Cii_variance}.
-
-% However, to write $f_A(RMM'R')$ as a function of the eigen
-% values of $RMM'R'$ is very involved and no theoretical results are
-% known.
-
-% In the more general case
-% \begin{eqnarray*}
-%   a_{i,t} &=& \left(
-%     1 - \sum_{k=1}^p \phi_{i,k} B^k
-%   \right) r_{i,t} \\
-%   &=& \Phi_i(B)} r_{i,t
-% \end{eqnarray*}
-% where $B$ denotes the back shift operator acting on subscript $t$, we
-% can write
-% \begin{eqnarray*}
-%   A &=&
-%   \begin{pmatrix}
-%     \Phi_1(B) & &\\
-%     & \ddots & \\
-%     && \Phi_N(B)
-%   \end{pmatrix} R \\
-%   &=& \Phi(B) R
-% \end{eqnarray*}
-
-% Following the same reasoning, $RR' \sim W(\Phi^{-1}(B)
-% \Sigma \Phi'^{-1}(B), T)$. Substituting $\Phi^{-1}(B)
-% \Sigma \Phi'^{-1}(B)$ for $\Sigma$ in the Wishart
-% probability density function, we get
-% \begin{eqnarray*}
-%   && \tr\left\{\left[\Phi^{-1}(B)\Sigma \Phi'^{-1}(B)\right]^{-1}
-%     RR'\right\}\\
-%   &=& \tr \left\{\Phi'(B)\Sigma^{-1} \Phi(B) RR'\right\}\\
-%   &=& \tr\left\{\Sigma^{-1}AA'\right\}\\
-% \end{eqnarray*}
-% As to $\det \Phi^{-1}(B)\Sigma \Phi'^{-1}(B)$, we note that $\Sigma$
-% is constant over time, and thus a function of $B$ has no effect on
-% it. Therefore $\det \Phi^{-1}(B)\Sigma \Phi'^{-1}(B) = \det \Sigma$.
-
-\section{Distribution of the Eigenvalues}\label{sec:GCC-numerical}
-For the Wishart matrix $\mtx{RR'}$, theoretical results are available
+\section{Distribution of the Eigenvalues}
+\label{sec:GCC-numerical}
+For a Wishart matrix $\mtx{RR'}$, theoretical results are available
 for the eigenvalue distribution, and we summarize them in appendix
 \ref{sec:wishart_eigen_dist}. In short, the joint probability density
 function of the eigenvalues is given by equation
@@ -375,75 +184,114 @@ distribution of the largest eigenvalue is approximated by a gamma
 distribution \cite{Chiani2012}.
 
 However, as detailed in the derivation leading to equation
-\ref{eq:cross-corr-matrix-PDF}, the distribution of $RR'$ is not
-Wishart when the columns of $R$ are correlated
+\ref{eq:cross-corr-matrix-PDF}, the distribution of $\mtx{RR'}$ is not
+Wishart when the columns of $\mtx{R}$ are correlated
 (auto-correlation). Deriving the eigenvalue distribution analytically
 in this case is beyond the scope of this thesis. Instead, we resort to
 numerical methods.
 
-As before we consider the AR(1) process:
+As before we consider the \gls{ar}(1) process:
 \begin{equation*}
   \vec{r}_t = \phi \vec{r}_{t-1} + \vec{a}_{t}
 \end{equation*}
-where $\vec{a}_t \sim N(0, I)$, i.e. the elements of $\vec{a}_t$ are
+where $\vec{a}_t \sim N(0, \mtx{I})$, i.e. the elements of $\vec{a}_t$ are
 independent Gaussian random variable with zero mean and unit
-variance.
-
-Now we investigate how the eigenvalue distribution depends on
-$\phi$. Figure \ref{fig:GaussianMarkovSpectrumPDF} shows the results
-of the simulation. 
+variance. Now we investigate how the eigenvalue distribution depends on
+the auto-correlation strength parameter $\phi$. Figure
+\ref{fig:GaussianMarkovSpectrumPDF} shows the results of the
+simulation.
+\begin{figure}[htb!]
+  \begin{center}
+    \includegraphics[scale=0.4, clip=true, trim=90 228 115
+    226]{../pics/GaussianMarkovSpectrumPDF.pdf}
+  \end{center}
+  \vspace{-10mm}
+  \caption{\small \it
+      Eigenvalue distribution with correlation time $\tau$ ranging
+      from 0 to 3. The 1st blue line, which is shown as stairs, is the
+      theoretical eigenvalue distribution according to the
+      Marcenko-Pastur law (see eq.\ref{eq:MP_pdf}). In the simulation
+      we have chosen $q = N/T = 50/1000 = 0.05$ and the standard
+      deviation of the returns $\sigma=1$. For each value of $\tau$ we
+      generate 2000 instances of $N \times T$ random matrix $R$, and
+      compute C as $C=RR'/T$. Hence each curve in the figure is
+      constructed from 2000 sets of eigenvalues. The correspondance
+      between the correlation time $\tau$ and the auto-regressive
+      coefficient $\phi$ is $\tau = -\ln 2 / \ln \phi$.
+    }
+  \label{fig:GaussianMarkovSpectrumPDF}
+\end{figure}
 It is clear from the figure that the maximum eigenvalue moves
 consistently to the right as the value of $\phi$ increases, and, as
 shown in figure \ref{fig:Gaussian_mineig}, the minimum eigenvalue
 also increases with $\phi$.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=100 226 116
+  133]{../pics/Gaussian_mineig.pdf}
+  \caption{\small \it The minimum eigenvalue versus
+    auto-correlation strength $\phi$. For each value of $\phi$ 2000
+    random matrices are generated and their eigenvalues are
+    calculated. The minimum eigenvalue of each random matrix is noted
+    and the mean of the 2000 such minimum eigenvalues are plotted
+    against the chosen value of $\phi$. 20 values of $\phi$ are
+    included in the plot, ranging from 0 to 0.95 with step size 0.05.}
+  \label{fig:Gaussian_mineig}
+\end{figure}
 
-% In the following we focus on the maximum eigenvalue, which is shown by
-% Chiani to have approximately a gamma distribution \cite{Chiani2012}.
-% So we first verify Chiani's result, and then extend it to the
-% case {\it with} autocorrelations and study how the
-% distribution changes as $\phi$ increases.
-Chiani showed that the maximum eigenvalue ($\lambda_1$) had
-approximately a gamma distribution \cite{Chiani2012}. So we compare in
-figure \ref{fig:GaussianMarkov005MaxEigCDF_loglog} the empirical
+Chiani showed that the marginal distribution of the maximum eigenvalue
+($\lambda_1$) is approximately gamma when neither cross-correlation
+nor auto-correlation is present\cite{Chiani2012}. So we compare
+in figure \ref{fig:GaussianMarkov005MaxEigCDF_loglog} the empirical
 cumulative distribution function (CDF) of the maximum eigenvalue 
 with the CDF of a gamma distribution. The cases where
 auto-correlations are present ($\phi > 0$) have also been included.
-
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.5, clip=true, trim=0 238 0
+    197]{../pics/GaussianMarkov005MaxEigCDF_loglog.pdf}
+  \end{center}
+  \caption{\small \it Cummulative distribution function (CDF) of the
+    maximum eigenvalue ($\lambda_1$) from numerical simulations (blue
+    lines) are compared to the fitted gamma distribution (red
+    lines). Each pair of CDFs correspond to a fixed autocorrelation
+    strength ($\phi$). The parameters $k$ and $\theta$ of the gamma
+    distribution are fit to data by matching the 2nd and the 3rd
+    moments of the gamma distribution to the corresponding moments of
+    the empirical distribution. Then the parameter $\alpha$ in
+    equation \ref{eq:TracyWidom-Gamma} is chosen to be $\alpha =
+    k\theta - \E\left({\lambda_1 - \mu_{NT} \over
+        \sigma_{NT}}\right)$. The curves are plotted on log-log
+    scale.}
+  \label{fig:GaussianMarkov005MaxEigCDF_loglog}
+  %\vspace{-10mm}
+\end{figure}
 It is seen in the figure that gamma distributions with different
 parameters fit fairly well in all cases. So we conclude that a
 gamma distribution not only approximates the maximum eigenvalue
 distribution at the absence of autocorrelations but does so even at
 the {\it presence} of autocorrelations.
 
-Since the maximum eigenvalue distribution is characterized by the
-parameters $k$, $\theta$, and $\alpha$, the influence of the
-autocorrelations can be characterized by the dependence of $k$,
-$\theta$, and  $\alpha$ on $\phi$. While these dependences are rather
-intricate,
-% Figure \ref{fig:param1_phi_dep} shows how the mean, variance,
-% and skewness of the fitted gamma distribution, as well as the
-% relocation parameter $\alpha$ denpend on $\phi$.
-% \begin{figure}[htb!]
-%   \centering
-%     \includegraphics[scale=0.5, clip=true, trim=37 240 50
-%     202]{../pics/param1_phi_dep.pdf}
-%   \caption{\small \it  the  mean, variance, and skewness of the fitted
-%     gamma distribution as well as the relocation parameter $\alpha$
-%     are plotted against the autocorrelation strength $\phi$. 20 values
-%     of $\phi$ are included in the plot, ranging from 0 to 0.95 with
-%     step size 0.05.}
-%   \label{fig:param1_phi_dep}
-% \end{figure}
-% Despite the monotonic behavior shown by 3 of these curves, the
-% relation between each of the aforementioned quantities and $\phi$ is
-% more complicated than it apears. However, the mean, i.e. $k \theta$ is
-% an exception: 
-good support can be found in the data for the following
-approximate relation:
+Since the maximum eigenvalue distribution is approximated by a gamma
+distribution characterized by parameters $k$, $\theta$, and $\alpha$
+\footnotemark, the influence of the autocorrelations can be
+characterized by the dependence of $k$, $\theta$, and  $\alpha$ on
+$\phi$. While these dependences are rather intricate, good support can
+be found in the data for the following approximate relation:
+\footnotetext{
+  The mean, variance and skewness of the gamma distribution are given
+  by
+  \begin{eqnarray*}
+    \text{mean} &=& k\theta \\
+    \text{variance} &=& k\theta^2 \\
+    \text{skewness} &=& 2/\sqrt{k}
+  \end{eqnarray*}
+}
 \begin{eqnarray}
   k\theta &=& a \tan^2{\pi \phi \over 2} + b\tan{\pi \phi \over 2} +
   c \label{eq:k_theta-phi}
 \end{eqnarray}
+Here we note that $k\theta$ is the mean of the gamma distribution.
 To verify this relation, we first fit a 2nd order polynomial and
 obtain the coefficients $a$, $b$, $c$; then for each data point
 $k_n\theta_n$ we solve the quadratic equation
@@ -453,13 +301,9 @@ $k_n\theta_n$ we solve the quadratic equation
 \end{eqnarray}
 for $\tan{\pi \phi'_n \over 2}$. If relation \ref{eq:k_theta-phi} is a
 good approximation, a close match between $\tan{\pi \phi'_n \over 2}$
-and $\tan{\pi \phi_n \over 2}$ is expected. Figure
-\ref{fig:phi_and_roots} plots $\tan{\pi \phi'_n \over 2}$ against
-$\tan{\pi \phi_n \over 2}$ and fits a straight line to the data
-points. It is seen that the data points lie fairly close to the fitted
-line and the line has a slope very close to 1 and an intercept close to
-0. This strongly suggests $\tan{\pi \phi'_n \over 2} = \tan{\pi \phi_n
-  \over 2}$ and supports the relation \ref{eq:k_theta-phi}.
+and $\tan{\pi \phi_n \over 2}$ is expected. From figure 
+\ref{fig:phi_and_roots} one can see this is indeed the case.
+
 \begin{figure}[htb!]
   \centering
     \includegraphics[scale=0.5, clip=true, trim=37 217 39
