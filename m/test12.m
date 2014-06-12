@@ -1,37 +1,34 @@
 clear all
 close all
 
-fold = 4e+3;
-% fold = 1;
+% fold = 4e+3;
+fold = 1;
 
 %AR = 0:0.1:0.9;
 AR = [0:0.2:0.8];
 % AR = 0;
 tau = -log(2)./log(AR);
 % dist = struct('name', 'Gaussian', 'TailExponent', 2);
-% dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.15, 0.84], 'distr', ...
-%               struct('Name', 'Gaussian'), 'TailExponent', 2.9664);
-dist = struct('name', 'Garch1_1', 'prmt', [0.01, 0.15, 0.84], 'distr', ...
+dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.15, 0.84], 'distr', ...
               struct('Name', 'Gaussian'), 'TailExponent', 2.9664);
+% dist = struct('name', 'Garch1_1', 'prmt', [0.01, 0.15, 0.84], 'distr', ...
+%               struct('Name', 'Gaussian'), 'TailExponent', 2.96);
 % dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.1, 0.725], 'distr', ...
 %               struct('Name', 't', 'DoF', 3), 'TailExponent',
 %               1.8187);
-%for q = [12, 16, 20, 24]
-N = 4;
-% theta = pi/4;
-rho = 0;
-C = eye(N);
-C(~logical(eye(N))) = rho;
-[U, D] = eig(C);
-W = U*sqrt(D);
 
-for q = 1500
+N = 50;
+rho = 0;
+% theta = pi/4;
+
+% C = eye(N);
+% C(~logical(eye(N))) = rho;
+% [U, D] = eig(C);
+% W = U*sqrt(D);
+
+for q = [12, 16, 20, 24]
     T = N * q;
     for j = 0
-        % if (exist(sprintf('GarchWishartN%dQ%dDiag-%.3f.mat', N, ...
-        %                   T, j), 'file') == 2)
-        %     continue;
-        % end
         ev1 = NaN(N, fold);
         X1 = NaN(N, N, fold);
         C1 = NaN(N, N, fold);
@@ -43,25 +40,26 @@ for q = 1500
             %     % R = R ./ T^(1/dist.TailExponent);
             %     ;
             % end
+            R = diag(1./std(R')) * R;
             if rho == 0
                 % C1(:, :, i) = R*R' ./ T^(2/dist.TailExponent);
                 C1(:, :, i) = R*R' ./ T;
             else
-                Z = W * R;
+                % Z = W * R;
                 % C1(:, :, i) = Z*Z' ./ T^(2/dist.TailExponent);
-                C1(:, :, i) = Z*Z' ./ T;
+                % C1(:, :, i) = Z*Z' ./ T;
             end
             [V, D] = eig(C1(:, :, i));
             ev1(:, i) = D(logical(eye(N)));
             X1(:, :, i) = V;
         end
-        if (exist(sprintf('GarchWishartN%dQ%dRho%.3fEig-%.3f.mat', ...
+        if (exist(sprintf('../data/GarchWishartOrdN%dQ%dEig-%.3f.mat', ...
                      N, q, rho, j), 'file') == 2)
-            load(sprintf('GarchWishartN%dQ%dRho%.3fEig-%.3f.mat', ...
+            load(sprintf('../data/GarchWishartOrdN%dQ%dEig-%.3f.mat', ...
                          N, q, rho, j), 'ev');
-            load(sprintf('GarchWishartN%dQ%dRho%.3fX-%.3f.mat', ...
+            load(sprintf('../data/GarchWishartOrdN%dQ%dX-%.3f.mat', ...
                          N, q, rho, j), 'X');
-            load(sprintf('GarchWishartN%dQ%dRho%.3fC-%.3f.mat', ...
+            load(sprintf('../data/GarchWishartOrdN%dQ%dC-%.3f.mat', ...
                          N, q, rho, j), 'C');
             ev = [ev, ev1];
             % sig = [sig, sig1];
@@ -74,13 +72,13 @@ for q = 1500
             C = C1;
         end
 
-        save(sprintf('GarchWishartN%dQ%dRho%.3fEig-%.3f.mat', ...
+        save(sprintf('../data/GarchWishartOrdN%dQ%dEig-%.3f.mat', ...
                      N, q, rho, j), 'ev');
-        save(sprintf('GarchWishartN%dQ%dRho%.3fX-%.3f.mat', ...
+        save(sprintf('../data/GarchWishartOrdN%dQ%dX-%.3f.mat', ...
                      N, q, rho, j), 'X');
-        save(sprintf('GarchWishartN%dQ%dRho%.3fC-%.3f.mat', ...
+        save(sprintf('../data/GarchWishartOrdN%dQ%dC-%.3f.mat', ...
                      N, q, rho, j), 'C');
         fprintf('Saved files %.3f.\n', j);
     end
 end
-% quit
+quit
