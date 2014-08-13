@@ -1,74 +1,19 @@
 clear all
 close all
-
+% figure;
 T = 8e+4;
 N = 50;
-fold = 2e3;
+fold = 4000;
 
 %% eigen values generated from the volvo stochastic log-volatility
 %% model.
 
+% spec = cellstr(['b  '; 'g  '; 'r  '; 'k  ']);
 spec = cellstr(['b  '; 'c  '; 'g  '; 'm  '; 'r  '; 'k  ';...
                 'b--'; 'c--'; 'g--'; 'm--'; 'r--'; 'k--';...
                 'b: '; 'c: '; 'g: '; 'm: '; 'r: '; 'k: ';...
                 'b-.'; 'c-.'; 'g-.'; 'm-.'; 'r-.'; 'k-.';...
                 ]);
-% for i = [1:5]
-%     load(sprintf('./eigen-%d.mat', i));
-%     ev = reshape(ev, N, fold);
-%     maxeig = max(ev);
-%     [y, x] = ecdf(maxeig);
-%     y1 = diff(y) ./ diff(x);
-%     x1 = (x(1:end-1) + x(2:end))/2;
-%     plot(log(x1), log(y1), spec(i));
-%     hold on
-% end
-% hold off
-% grid on
-
-
-%% White Wishart matrix eigen values
-% AR = [0:0.05:0.8, 0.9, 0.95:0.005:0.99];
-AR = 0:0.1:0.9;
-tau = -log(2)./log(AR);
-% dist = struct('name', 'Cauchy', 'prmt', 1);
-dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.15, 0.84], 'distr', ...
-              'Gaussian', 'TailExponent', 2.9664);
-% dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.1, 0.80], 'distr', ...
-%               struct('Name', 't', 'DoF', 3), 'TailExponent', 0.7744);
-% dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.1, 0.725], 'distr', ...
-%               struct('Name', 't', 'DoF', 3), 'TailExponent', 1.8187);
-% dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.15, 0.84], 'distr', ...
-%               struct('Name', 't', 'DoF', 60), 'TailExponent', 2.4477);
-% for j = AR
-%     if (exist(sprintf('GarchWishartT8e4Eig-%.3f.mat', j), 'file') == 2)
-%         continue;
-%     end
-%     ev = NaN(N, fold);
-%     Cij = NaN(N*(N-1)/2, fold);
-%     Cii = NaN(N, fold);
-%     for i = 1:fold
-%         R = gen_ret_mtx(N, T, dist, j);
-%         if strcmp(dist.name, 'Cauchy') == 1
-%             R = R ./ dist.prmt ./ T;
-%         elseif strcmp(dist.name, 'Garch1_1') == 1
-%             % R = diag(1./std(R')) * R;
-%             R = R ./ T^(1/dist.TailExponent);
-%         end
-%         C = R*R';
-%         Cij(:, i) = C(logical(triu(ones(N), 1)));
-%         Cii(:, i) = C(logical(eye(N)));
-%         ev(:, i) = eig(C);
-%     end
-%     save(sprintf('GarchWishartT8e4Eig-%.3f.mat', j), 'ev');
-%     save(sprintf('GarchWishartT8e4Offdiag-%.3f.mat', j), 'Cij');
-%     save(sprintf('GarchWishartT8e4Diag-%.3f.mat', j), 'Cii');
-% end
-
-% [y, x] = ecdf(maxeig);
-% p = RealWishartCDF(x(1:10:end), N, T);
-
-% plot(x, y, x(1:10:end), p);
 
 %% Approximation of the Tracy-Widom with a Gamma dist.
 % a1 = -1/2;
@@ -79,71 +24,125 @@ dist = struct('name', 'Garch1_1', 'prmt', [2.3e-6, 0.15, 0.84], 'distr', ...
 % sigma = sqrt(mu) * (1/sqrt(n+a1) + 1/sqrt(p+a2))^(1/3);
 
 % hold on;
-% avgs = NaN(1, length(AR));
-
 % sample_moments = NaN(length(AR), 3);
 % dev_moments = NaN(length(AR), 3);
 % gam_moments = NaN(length(AR), 3);
 % tw_moments = NaN(length(AR), 3);
 % alpha = NaN(length(AR), 1);
 
-
-%% Plot the eigenvalue distribution, CDF, spectrum, etc.
-% hold on;
-% for j = 1:length(AR)
-% collection = [1, 3, 6, 9, 11, 13, 15, 17];
-% omega = [0.0442, 0.0538, 0.0348, 0.0414, 0.0180, 0.0320, 0.0154, 0.0242];
-
-%% what garch_eig_fourier_coef_T8e4.mat now contains
-% [1:11, 13,15,17];
-
-% collection = 1:10;
-% omega = [0.0442, 0.0446, 0.0538, 0.0450, 0.0444, 0.0348, 0.0438, ...
-%          0.0525, 0.0414, 0.0704];
-collection = 1:length(AR);
-n = 500;
-% if exist('garch_eig_fourier_coef_T8e4.mat', 'file') == 2
-%     load('garch_eig_fourier_coef_T8e4.mat');
-% else
-%     C = NaN(2*n+1, length(AR));
-% end
-% p = NaN(3, length(AR));
 c = 1;
 % maxeig = NaN(length(collection), fold);
 % mineig = NaN(length(collection), fold);
 % mag_params = NaN(2, length(collection));
 % ph_params = NaN(3, length(collection));
-Cii_params = NaN(4, 4);
+% Cii_params = NaN(4, 4);
 % ev_params = NaN(9, 4);
 % merge_point = NaN(9, 4);
-N = 250;
-%for q = [12, 16, 20, 24]
-if 1
+N = 50;
+q = 24;
+
+% alpha = 2.17
+% garch_params = [
+%     0.1068,  0.8923
+%     % 0.2009, 0.7962
+%     0.2991,  0.6946
+%     % 0.4001, 0.5889
+%     0.4996,  0.4835
+%     % 0.5995, 0.3786
+%     0.6992,  0.2717
+%     % 0.8009, 0.1608
+%     % 0.8970,  0.0541
+%         ];
+
+a = (1 - sqrt(1/q))^2;
+b = (1 + sqrt(1/q))^2;
+
+% alpha = 3.00
+% garch_params = [
+%     0.5000, 0.3874 % a = 2.9936, tau = 0.9999
+%     0.6031, 0.2259 % a = 3.0088, tau = 1.9996    
+%     0.7156, 0.0289 % a = 3.0099, tau = 2.2151
+%                ];
+
+% alpha = 4.00
+% garch_params = [
+%     0.1012, 0.8885 % , a = 4.0097
+%     0.2996, 0.6060 % , a = 4.0027, tau = -4.1641    
+%     0.5004, 0.2082 % , a = 3.9908, tau = 1.0023
+%          ];
+
+% alpha = 4.00
+% garch_params = [
+%     0.5004, 0.2082 % a = 3.9908, tau = 1.0023
+%     0.5491, 0.0784 % a = 4.0086, tau = 1.2009    
+%                ];
+
+garch_params = [
+    0.4996, 0.4835, 2.17 % , tau = 0.9530
+    0.5000, 0.3874, 2.9936 % , tau = 0.9999
+    0.5004, 0.2082, 3.9908 %, tau = 1.0023    
+               ];
+
+a1 = -1/2;
+a2 = a1;
+n = N;
+p = T;
+mu = (sqrt(n+a1) + sqrt(p+a2))^2;
+sigma = sqrt(mu) * (1/sqrt(n+a1) + 1/sqrt(p+a2))^(1/3);
+
+% gam_moments = NaN(length(garch_params), 3);
+% tw_moments = NaN(length(garch_params), 3);
+% alpha = NaN(length(garch_params), 1);
+% k = NaN(length(garch_params), 1);
+% theta = NaN(length(garch_params), 1);
+
+% var_lambda = NaN(length(garch_params), 1);
+
+texts = {};
+hold on
+while c <= size(garch_params, 1)
+    % load(sprintf('../data/GarchWishartOrdN%dQ%dA%.4fB%.4fEig.mat',...
+    %              N, q, garch_params(c, 1), garch_params(c, 2)), 'ev');
+    % maxeig = max(ev);
+    % maxeig1 = maxeig;
+    % % % maxeig1 = (maxeig - mean(maxeig))./std(maxeig);
+    % [x1, y1] = epdf(maxeig1, 1, min(maxeig1), max(maxeig1), 100, ...
+    %                 '');
+    % stairs(x1, y1, spec{c}, 'LineWidth', 2);
+    % fprintf('<lam1> = %.4f, var(lam1) = %.4f\n', mean(maxeig1), var(maxeig1));
+    % % % [y1, x1] = ecdf(maxeig1);
+    % % % plot(log10(x1(x1 > 1)), log10(1-y1(x1 > 1)), spec{c});
+    % texts{c} = sprintf('\\alpha = %.2f', exponent(c));
+    % c = c + 1;
     
-    %% Plot the maximum eigenvalue CDF
-    % subplot(2, 2, c);
-    load(sprintf('../data/GarchWishartT8e4Diag-%.3f.mat', 0), ...
-         'Cii');
-    Cii = reshape(Cii, prod(size(Cii)), 1);
+    % maxeig1 = (maxeig - mu)/sigma;
+    % tw_moments(c, :) = [mean(maxeig1), var(maxeig1), ...
+    %                     skewness(maxeig1)];
+    % moments = tw_moments(c, :);
 
-    load(sprintf('../data/GarchWishartT8e4Eig-%.3f.mat', 0), ...
-         'ev');
-    ev = reshape(ev, prod(size(ev)), 1);
-    Cii_params = stblfit(Cii, 'ecf');
-
-    [y1, x1] = ecdf(Cii);
-    y2 = stblcdf(x1, Cii_params(1), Cii_params(2), Cii_params(3), Cii_params(4));
-    [y3, x3] = ecdf(ev);
-    plot(log10(x3), log10(y3), log10(x1), log10(y1), log10(x1), ...
-         log10(y2));
-    legend('Eigenvalue', 'Cii', sprintf('S(%.2f, %.2f, %.2e, %.2e)', ...
-                                        Cii_params(1), Cii_params(2), ...
-                                        Cii_params(3), Cii_params(4))); 
-    xlim([-2.3, -1.9]);
-    ylim([-3.5, 0]);
-    grid on
+    % k(c) = 4/(moments(3)^2);
+    % theta(c) = sqrt(moments(2)) * moments(3)/2;
+    % alpha(c) = k(c)*theta(c) - moments(1);
+    % maxeig1 = maxeig1 + alpha(c);
+    
+    % [y, x] = ecdf(maxeig1);
+    % y1 = cdf('Gamma', x, k(c), theta(c));
+    % var_lambda(c) = max(abs(y - y1));
+    % %    plot((x), y, spec{c}, x, y1, 'k', 'LineWidth', 2);
+    % c = c + 1;
+    
+    % [y1, x1] = ecdf(Cii);
+    % y2 = stblcdf(x1, Cii_params(1), Cii_params(2), Cii_params(3), Cii_params(4));
+    % [y3, x3] = ecdf(ev);
+    % plot(log10(x3), log10(y3), log10(x1), log10(y1), log10(x1), ...
+    %      log10(y2));
+    % legend('Eigenvalue', 'Cii', sprintf('S(%.2f, %.2f, %.2e, %.2e)', ...
+    %                                     Cii_params(1), Cii_params(2), ...
+    %                                     Cii_params(3), Cii_params(4))); 
+    % xlim([-2.3, -1.9]);
+    % ylim([-3.5, 0]);
+    % grid on
     % title(sprintf('N=250, T=%d', N*q));
-    c = c + 1;
     % maxeig = max(ev);
     % [y, x] = ecdf(maxeig);
     % plot(log(x), log(y), spec{c});
@@ -158,105 +157,54 @@ if 1
     % plot(x, y, x, y1);
     % c = c + 1;
 
-    %% Calculate the Fourier Transform
-    % load(sprintf('GarchWishartT8e4Eig-%.3f.mat', AR(j)), ...
-    %      'ev');
-    % ev = reshape(ev, 1, prod(size(ev)));
-    % cf = ecf(ev, [-n:n]);
+    %% spectral distribution
+    a0 = 1 - sum(garch_params(c, :));
+    a1 = garch_params(c, 1);
+    b1 = garch_params(c, 2);
+    fprintf('a1 = %.2f, b1 = %.2f\n', a1, b1);
     
-    %% The phase
-    % phase = angle(cf);
-    % s = sign(phase);
-    % s(s == 0) = 1;
-    % s = (s(2:end) - s(1:end-1))/2;
-    % I = find(s < 0) + 1;
-    % I = [1, I, length(phase)+1];
-    % L = length(I);
-    % for m = L/2 + 1:L - 1
-    %     phase(I(m):I(m+1)-1) = phase(I(m):I(m+1)-1) + 2*pi * (m-L/2);
-    % end
-    % for m = L/2:-1:2
-    %     phase(I(m)-1:-1:I(m-1)) = phase(I(m)-1:-1:I(m-1)) - 2*pi * (L/2-m+1);
-    % end
-    % f = @(p, k) p(1) .* k + sign(k).*abs(p(2) .* k).^(p(3)).*tan(pi.*p(3)/2);
-    % p = [2.743e-3 * tan(pi*AR(j)/2) + 8.557e-3, ...
-    %      exp(0.3180*tan(AR(j)) - 7.165),...
-    %      1.48];
-    % P = lsqcurvefit(f, p, [-n:n], phase);
-    % ph_params(:, c) = abs(P);
+    load(sprintf('../data/GarchWishartOrdN%dQ%dA%.4fB%.4fEig.mat',...
+                 N, q, a1, b1), 'ev');
+    ev = reshape(ev, prod(size(ev)), 1);
+    fprintf('<eigenvalue> = %.4f, var(eigenvalue) = %.4f\n', mean(ev), var(ev));
+    [x1, y1] = epdf(ev, 4, min(ev), max(ev), 400, '');
+    % metric(c) = HellingerDistance(...
+    %     @(x) y1, ...
+    %     @(x) MarcenkoPasturPDF(x, [1/q, 1]), x1);
 
-    %% The magnitude
-    % mag = log(-log(abs(cf(n+2:end))));
-    % x = log(1:n);
-    % P = polyfit(x, mag, 1);
-    % mag_params(:, c) = [P(1), exp(P(2)/P(1))];
-    % %% plot
-    % if c == 16
-    %     figure;
+    plot(log10(x1), log10(y1), spec{c}, 'LineWidth', 2);
+    % [y1, x1] = ecdf(ev);
+    % plot((x1(x1 > 1.5)), log10(y1(x1 > 1.5)), spec{c}, ...
+    %      'LineWidth', 2);
+    grid on
+    texts{c} = sprintf('\\rho_n = %.4f^{n-1} %.2f, \\alpha=%.2f',...
+                      sum(garch_params(c, 1:2)), garch_params(c,...
+                      1), garch_params(c, 3));
+    % xlabel('Eigenvalue', 'Fontsize', 14);
+    % ylabel('PDF of Eigenvalue', 'Fontsize', 14);
+    c = c + 1;
+    
+    % m = N*(N-1)/2;
+    % % m = N;
+    % Cij = NaN(1, m * fold);
+    % load(sprintf('../data/GarchWishartOrdN%dQ%dA%.4fB%.4fC.mat', N, ...
+    %              q, a1, b1), 'C');
+    % for n = 0:size(C, 3)-1
+    %     D = C(:, :, n+1);
+    %     Cij(n*m+1 : (n+1)*m) = D(logical(triu(ones(N), 1)));
+    %     % Cij(n*m+1 : (n+1)*m) = D(logical(eye(N)));
     % end
-    % if c <= 15
-    %     subplot(3, 5, c);
-    % else
-    %     subplot(3, 4, c-15)
-    % end
-    % % plot([-n:n], phase, [-n:n], f(ph_params(:, c), [-n:n]));
-    % plot(x, mag);
-    % title(sprintf('\\phi = %.3f; P=%.2e %.2e', AR(j), abs(P)), ...
-    %       'Interpreter', 'tex');
+    % % [x1, y1] = epdf(Cij, 1, -0.15, 0.15, 1000, '');
+    % % plot(x1, (y1), spec{c}, 'LineWidth', 2);
+    % [y1, x1] = ecdf(Cij);
+    % plot(log10(x1(x1 > 0)), log10(1 - y1(x1 > 0)), spec{c}, ...
+    %      'LineWidth', 2);
     % grid on
+    % texts{c} = sprintf('\\rho_n = %.4f^{n-1} %.2f',...
+    %                   sum(garch_params(c, :)), garch_params(c, 1));
+    % xlabel('Cij', 'Fontsize', 14);
+    % ylabel('CDF of Cij', 'Fontsize', 14);
     % c = c + 1;
-
-    %% fit Re c_n / Im c_n to dumped cosine / sine functions.
-    % freal = @(p, x) exp(-p(1) - p(2) * abs(x)) .* cos(p(3) .* x);
-    % q = lsqcurvefit(freal, [0.5, 4.5e-3, 6*pi/500], ...
-    %                 [-n:n]', real(C(:, j)));
-    % % fimag = @(p, x) exp(-p(1) - p(2) * abs(x)) .* sin(p(3) .* x);
-    % % q = lsqcurvefit(fimag, [0.5, 4.5e-3, omega(j)], ...
-    % %                 [-n:n]', imag(C(:, j)));
-    % p(:, j) = q';
-    % y = freal(q, [-n:n]');
-    % subplot(4, 4, c);
-    % plot(-n:n, real(C(:, j)), 'b', -n:n, y, 'g');
-    % xlabel('n', 'Interpreter', 'tex');
-    % ylabel('Im c_n', 'Interpreter', 'tex');
-    % title(sprintf('\\phi=%.2f', AR(j)), 'Interpreter', 'tex');
-    % grid on
-    % c = c + 1;
-    
-    %% Compare the Fourier expansion with the empirical CDF.    
-    % [y, x] = ecdf(ev);
-    % x = reshape(x, length(x), 1);
-    % K = exp(-i * (2*pi) * x * [-n:n] ./ (b-a)) - ...
-    %     exp(-i * (2*pi) * (ones(length(x), 1).*a) * [-n:n] ./ (b-a));
-    % K(:, n+1) = x - a;
-    % F = (C(:, j) ./ [-n:n]') .* (i*(b-a)/(2*pi));
-    % F(n+1) = C(n+1, j);
-    % F = real(K * F);
-    % F(F < 0) = 0;
-    % plot(log(x), log(y), 'b', log(x), log(F), 'r');
-
-    % xlabel('ln(\lambda)', 'Interpreter', 'tex');
-    % ylabel('ln(F(\lambda))', 'Interpreter', 'tex');
-    % title(sprintf('\\phi = %.2f', AR(collection(j))));
-
-    %% Plot the phase of the Fourier coefficients
-    % plot(-n:n, real(C(:, j)));
-    % xlabel('n', 'Interpreter', 'tex');
-    % ylabel('Re c_n', 'Interpreter', 'tex');
-    % title(sprintf('\\phi=%.2f', AR(j)), 'Interpreter', 'tex');
-    % grid on
-    
-    %% Plot the full eigen value spectrum
-    % subplot(2, 2, c);
-    % hold on
-
-    % load(sprintf('GarchWishartN%dQ%dEig-%.3f.mat', N, q, 0), 'ev');
-    % ev = reshape(ev, prod(size(ev)), 1);
-    % [y1,x1] = ecdf(ev);
-    
-    % load(sprintf('GarchWishartN%dQ%dDiag-%.3f.mat', N, q, 0), 'Cii');
-    % Cii = reshape(Cii, prod(size(Cii)), 1);
-    % [y2,x2] = ecdf(Cii);
     
     % p2 = stblfit(Cii, 'ecf');
     % y3 = stblcdf(x2, p2(1), p2(2), p2(3), p2(4));
@@ -335,6 +283,25 @@ if 1
     
     % fprintf('Done with #%d.\n', c);
 end
+
+% c = 1;
+% while c <= size(garch_params, 1)
+%     texts{c} = sprintf('[%.4f, %.4f]', garch_params(c, :));
+%     c = c + 1;
+% end
+% x2 = linspace(a, b, 10000);
+% y2 = MarcenkoPasturPDF(x2, [1/q, 1]);
+% plot((x2), log10(y2), 'k', 'LineWidth', 2);
+hold off
+% plot(garch_params(:, 1), (var_lambda), 'b*-');
+grid on
+
+set(gca, 'Fontsize', 14);
+legend(texts);
+%  legend('\tau_0 = 1.00', '\tau_0 = 2.00', '\tau_0 = 2.22');
+% title('P(|r| > x) ~ 1/x^{2.17}', 'Fontsize', 14);
+xlabel('log(eigenvalues)', 'Fontsize', 14);
+ylabel('log(spectral density)', 'Fontsize', 14);
 
 % if exist('garch_eig_fourier_coef_T8e4.mat', 'file') ~= 2
 %     save('garch_eig_fourier_coef_T8e4q.mat', 'C');

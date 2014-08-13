@@ -23,6 +23,8 @@ function [ret, sig] = get_intra_ret_simple(...
     end
     ret = ret(1: n);
 
+    return;
+    
     if isnan(delta) || isinf(abs(delta))
         return;
     end

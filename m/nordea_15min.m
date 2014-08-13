@@ -2,8 +2,8 @@ clear all
 close all
 
 company = 'nordea_bank';
-first_day = '2012-01-16';
-last_day = '2012-04-20';
+first_day = '2014-06-16';
+last_day = '2014-07-16';
 % first_day = '2013-10-10';
 % last_day = '2014-04-04';
 
@@ -11,16 +11,16 @@ last_day = '2012-04-20';
 % dt = 15min, delta=30sec
 % dt = 45min, delta=90sec,
 % dt = 30min, delta=60sec
-dt = 15;
+dt = 60;
 % interval for calculating realized volatility. in seconds
-delta = 30;
+delta = 120;
 s = 33;
 h = 6;
 
-% [ret_cmplt, v_cmplt] = get_intra_ret_simple(...
-%     company, first_day, last_day, dt, delta);
-[ret_cmplt] = get_intra_ret(...
-    company, first_day, last_day, dt);
+[ret_cmplt, v_cmplt] = get_intra_ret_simple(...
+    company, first_day, last_day, dt, delta);
+% [ret_cmplt] = get_intra_ret(...
+%     company, first_day, last_day, dt);
 inno_cmplt = ret_cmplt ./ v_cmplt;
 lv_cmplt = log(v_cmplt);
 N = length(ret_cmplt);

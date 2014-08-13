@@ -1,15 +1,47 @@
 \chapter{Covariance Matrix of Gaussian Returns}
 \label{chp:Gaussian}
-In this chapter we present some results about the covariance
-matrix of Gaussian returns. The assumption of Gaussian returns is of
-course an over-simplification of reallity, but nevertheless lends some
-insight into the problem of elements' and eigenvalues' distributions of
-a covariance matrix.
-Our primary interest is in the influence that auto-correlations in
-returns exert on the covariance matrix. Section \ref{sec:GCC-analytical} and
-section \ref{sec:GCC-numerical} discuss how the distributions of the matrix
-elements and the eigenvalues are affected by such autocorrelations,
-respectively.
+In chapter \ref{chp:PriceModels} we have studied \gls{garch} and
+\gls{sv} models and seen their power of forecasting future
+volatilities. However, we have not considered the important fact that
+a financial market comprises many assets and the volatilities of these
+assets are correlated to each other in a complicated
+manner. Practically useful volatility forecasts require good
+understanding of these correlations.
+
+In the literature, covariance matrices of Gaussian and L\'evy
+distributed returns have been studied (see e.g. \cite{politi2010,
+  Chiani2012, Lalley2013}). However, as is seen in chapter
+\ref{chp:PriceModels}, real-world returns are not described by any
+particular distribution but rather by stochastic processes that
+account for auto-correlations in the returns and the volatilities.
+
+Therefore, the focus of this and the next chapter is on covariance
+matrices of realistic return series, and especially covariance matrices
+in the case when the return series have considerable
+auto-correlations. In particular, we study covariance matrices of
+\gls{garch} (1,1) return series in chapter
+\ref{chp:CrossCorrelationFat} and show the influence of
+auto-correlations on these matrices. But before that, it is useful to
+first understand the influence of auto-correlations on covariance
+matrices of Gaussian return series. When auto-correlations are absent,
+these matrices are called Wishart matrices and have been studied
+extensively. The results we obtain in this chapter will provide a
+reference to the studies in chapter \ref{chp:CrossCorrelationFat}.
+
+
+% In this chapter we present some results about the covariance
+% matrix of Gaussian returns. The assumption of Gaussian returns is of
+% course an over-simplification of reallity, but nevertheless lends some
+% insight into the problem of elements' and eigenvalues' distributions of
+% a covariance matrix.
+% Our primary interest is in the influence that auto-correlations in
+% returns exert on the covariance matrix.
+
+In section \ref{sec:GCC-analytical} we discuss how the distributions
+of the matrix elements are affected by autocorrelations, and in
+section \ref{sec:GCC-numerical} we investigate the distribution of the
+eigenvalues.
+
 
 \section{Distribution of the Matrix Elements}
 \label{sec:GCC-analytical}
@@ -24,6 +56,7 @@ covariance matrix $C = \mtx{RR'}/T$, where
     r_{N1} & r_{N22} & \cdots & r_{NT} \\
   \end{pmatrix}
 \end{eqnarray*}
+and $\mtx R'$ denotes the transpose of $\mtx R$.
 In words, an element $r_{it}$ of $\mtx R$ is the return of asset $i$
 at time $t$, with $i=1,\cdots, N$ and $t = 1, \cdots, T$. If each
 column of $\mtx R$ follows a zero-mean Gaussian distribution, i.e.
@@ -44,7 +77,7 @@ no longer follows the Wishart distribution. However, the joint distribution
 function of its elements can be expressed in terms of the Wishart \gls{pdf}
 and the auto-correlations. We show this in appendix
 \ref{app:pdf_gaussian1}. Also, in appendix
-\ref{chp:gaussian_elements_dist} we derive an approximate expression
+\ref{chp:gaussian_elements_dist} we derive an approximate expression 
 for the asymptotic distribution of these matrix elements, assuming
 $r_{it}$ is an \gls{ar}(1) process \footnotemark, i.e. $r_{it} =
 \phi r_{i, t-1} + a_{it}$, and

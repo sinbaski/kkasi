@@ -19,8 +19,8 @@ rho(I) = f(lambda(I));
 I1 = lambda < a;
 I2 = lambda > b;
 
-rho(I1) = f(a + (b-a)/1000) .* exp(-(lambda(I1) - a).^2);
-rho(I2) = f(b - (b-a)/1000) .* exp(-(lambda(I2) - b).^2);
-
+% rho(I1) = f(a + (b-a)/1000) .* exp(-(lambda(I1) - a).^2);
+% rho(I2) = f(b - (b-a)/1000) .* exp(-(lambda(I2) - b).^2);
+rho(I1 | I2) = 0;
 %rho(~isreal(rho)) = 0;
 

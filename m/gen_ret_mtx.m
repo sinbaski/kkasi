@@ -43,40 +43,29 @@ switch (distr.name)
     a0 = distr.prmt(1);
     a1 = distr.prmt(2);
     b1 = distr.prmt(3);
-
-    if strcmp(distr.distr.Name, 'Gaussian') == 1
-        h = [ones(n, 1)*(a0/(1 - a1 - b1)), NaN(n, T-1)];
-        if isempty(varargin)
-            x = [randn(n, 1), NaN(n, T-1)];
-            for t = 2:T
-                h(:, t) = a0 + a1.*x(:, t-1).^2 + b1.*h(:, t-1);
-                x(:, t) = randn(n, 1).*sqrt(h(:, t));
-            end
-        else
-            Sigma = varargin{1};
-            x = [mvnrnd(zeros(n, 1), Sigma, 1)', NaN(n, T-1)];
-            for t = 2:T
-                h(:, t) = a0 + a1.*x(:, t-1).^2 + b1.*h(:, t-1);
-                x(:, t) =mvnrnd(zeros(n, 1), Sigma, 1)'.*sqrt(h(:, t));
-            end
-        end
-
-        % elseif strcmp(distr.distr.Name, 't') == 1
-    %     d = distr.distr.DoF;
-    %     s = sqrt(d / (d - 2));
-
-    %     h = [ones(n, 1), NaN(n, T-1)];
-    %     x = [trnd(d, n, T) ./ s, NaN(n, T-1)];
-    %     for t = 2:T
-    %         h(:, t) = a0 + a1.*x(:, t-1).^2 + b1.*h(:, t-1);
-    %         x(:, t) = trnd(n, 1) ./ s .* sqrt(h(:, t));
-    %     end
+    if a0 > 0 && (a1 + b1 < 1)
+        h0 = a0/(1 - a1 - b1);
+    else
+        h0 = 1;
     end
-
-    % model = garch('Constant', a0, 'ARCH', a1, 'GARCH', ...
-    %               b1, 'Distribution', distr.distr);
-    % x = simulate(model, T, 'numPaths', n)';
+    h = [ones(n, 1)*h0, NaN(n, T-1)];
+    x = [randn(n, 1).*sqrt(h0), NaN(n, T-1)];
+    for t = 2:T
+        h(:, t) = a0 + a1.*x(:, t-1).^2 + b1.*h(:, t-1);
+        x(:, t) = randn(n, 1).*sqrt(h(:, t));
+    end
+    
+  case 'I-Garch1'
+    a = distr.prmt;
+    h0 = 1;
+    h = [ones(n, 1)*h0, NaN(n, T-1)];
+    x = [randn(n, 1).*sqrt(h0), NaN(n, T-1)];
+    for t = 2:T
+        h(:, t) = (1 - a).*x(:, t-1).^2 + a.*h(:, t-1);
+        x(:, t) = randn(n, 1).*sqrt(h(:, t));
+    end
 end
+
 if ~isempty(coef) && sum(coef) > 0
     R = [zeros(n, m), NaN(n, T)];
     for k = [1:T]

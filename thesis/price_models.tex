@@ -24,19 +24,27 @@ functions of the \gls{sv} model.
 \item{\bf Gaussian Distribution}
 
 The justification of modeling return series as independent,
-identically distributed Gaussian variates comes from imagining the
-price process $S(t)$ as a geometric Brownian motion whose increment
-$\sigma dw_t$ at each time step is independent and scales as $\sigma
-\sqrt{dt}$. Then, by adding a drift term $\mu dt$ that represents some
-deterministic trend in the price process, one can express the
-price $S(t)$ as a stochastic differential equation:
+identically distributed normal variates comes from imagining the
+price process $S_t$ as a stochastic process with
+  independent and normally distributed relative increments $dS_t / S_t
+  = \sigma dw_t$, where $w_t$ represents the path of a geometric
+  Brownian motion and $dw_t$ is normally distributed with mean 0 and
+  variance $dt$.
+
+By adding a drift term $\mu dt$ to allow a deterministic trend in the
+relative price change, one can express the price $S_t$ as a stochastic
+differential equation:
 \begin{eqnarray*}
-  dS &=& S\mu dt + S\sigma dw_t \\
+  {dS_t \over S_t} &=& \mu dt + \sigma dw_t \\
 \end{eqnarray*}
-Then by It\^o's lemma, a stochastic differential equation for the
-logarithmic price $\ln S$ can be obtained
+By It\^o's lemma, a stochastic differential
+equation for the logarithmic price $\ln S_t$ can be obtained
 \begin{eqnarray*}
-  d(\ln S) &=& (\mu - \frac{1}{2} \sigma^2)dt + \sigma dw_t \\
+  d(\ln S_t) &=& (\mu - \frac{1}{2} \sigma^2)dt + \sigma dw_t \\
+\end{eqnarray*}
+Solving this equation gives
+\begin{eqnarray*}
+  \ln S_t - \ln S_0 &=& (\mu - \frac{1}{2} \sigma^2)dt + \sigma w_t \\
 \end{eqnarray*}
 It follows from this equation that $\ln S(t) - \ln S_0$, where $S_0$
 is the price at time 0, has Gaussian distribution with mean $(\mu -
@@ -80,6 +88,16 @@ the variate's history: The conditional distribution at time $t$ means
 the distribution conditional on the history up to time $t-1$
 in the discrete-time setting.
 }
+The quantity $\sigma_t$ introduced here is termed the volatility, and
+its meaning and significance has been discussed in the introduction
+\ref{chp:introduction}. In the model of geometric Brownian motion it
+is assumed constant and hence simply denoted $\sigma$.
+
+% The quantity $\sigma_t$ introduced here is of great importance in
+% finance and termed the volatility. Statistically, it is the
+% standard deviation of the distribution of $r_t$ and measures how
+% volatile $r_t$ is. The volatility of an asset constitutes a major
+% risk of investments on the asset and hence is very important.
 
 It can be shown that the autocorrelation function $\varrho_n =
 \text{corr}(\epsilon_t, \epsilon_{t-n})$ for $n > \text{max}(p,q)$ of
@@ -462,7 +480,9 @@ $y_t$ has skewness 0.2988 (shown in table
   \label{tab:nordea_15min_y_moments}
 \end{table}
 Based on this information, we find that $y_t$ can be well
-described by a Johnson Su distribution \cite{Shang2004}:
+described by a Johnson Su distribution. This is a flexible
+distribution that features fat tails and positive skewness. It is
+defined by the following transformation \cite{Shang2004}:
 \[
   y_t = \xi + \lambda\sinh{z_t - \gamma \over \delta}
 \]
@@ -576,8 +596,9 @@ It is seen from table \ref{tab:nordea_2012} that, on average, the \gls{sv}
 model over-estimates while \gls{garch} under-estimates. In terms of the
 standard deviation of $\ln \sigma^F_t - \ln \hat{\sigma}_t$, the \gls{sv}
 model wins with a small margin. In contrast, the sample mean forecast
-clearly under-estimates the log-volatilities to a large extent --- the
-efforts of building models has not been wasted.
+clearly under-estimates the log-volatilities to a large
+extent. So the efforts of building models have indeed led
+  to more accurate forecasts.
 
 Figure \ref{fig:nordea_2012} compares the 3 kinds of forecasts by
 plotting the distribution function and the complementary distribution
@@ -597,13 +618,14 @@ with respect to both under-estimates and over-estimates.
 
 Another measure of the forecasts' quality can be the percentage of good
 forecasts, where the criterion of ``good'' is defined, respectively,
-as the forecast lying within 1\%, 5\%, or 10\% of the corresponding
-realized volatility. Table \ref{tab:nordea_2012_good} shows the
-respective percentage of the 3 kinds of forecasts. Again in this table
-it is seen that the \gls{sv} model gives more accurate forecasts than does
-\gls{garch}. For example, defining a ``good'' forecast as one that lies
-within 5\% of the realized volatility, the probability of obtaining
-such a good forecast is 75\% using the \gls{sv} model, 71\% using the
+as the forecast deviating less than 1\%, 5\%, or 10\% from the
+corresponding realized log-volatility. Table
+\ref{tab:nordea_2012_good} shows the respective percentage of the 3
+kinds of forecasts. Again in this table it is seen that the \gls{sv}
+model gives more accurate forecasts than does \gls{garch}. For
+example, defining a ``good'' forecast as one that deviates less than
+5\% from the realized volatility, the probability of obtaining such a
+good forecast is 75\% using the \gls{sv} model, 71\% using the
 \gls{garch} model, and only 53\% using the sample mean.
 \begin{table}[htb!]
   \centering
@@ -849,9 +871,10 @@ the general model studied in section \ref{sec:SLV_Asymmetric}.
 
 \subsection{The Simplified model}\label{sec:SLV_Symmetric}
 In the following we derive the unconditional \gls{pdf} of $r'$, the
-de-meaned and rescaled return. Denote this \gls{pdf} $f_{r'}(x)$. Then
-the \gls{pdf} of $r$ is $e^{-\bar{v}}f_{r'}(e^{-\bar{v}}x)$. First we
-consider
+de-meaned\footnote{By ``de-mean'' we mean subtracting from
+  a random variable its expectation value.} and rescaled
+return. Denote this \gls{pdf} $f_{r'}(x)$. Then the \gls{pdf} of $r$ is
+$e^{-\bar{v}}f_{r'}(e^{-\bar{v}}x)$. First we consider
 \begin{eqnarray*}
   P(r' < x) &=& P(b < xe^{-v}) \\
   f_{r'}(x) &=& f_b(xe^{-v}) e^{-v}
@@ -868,7 +891,13 @@ Averaging over all $v$, we get
   \end{aligned}
   \end{equation}
 The last part of the integrand, $e^{-x^2 e^{-2v} / 2}$, is plotted in
-figure \ref{fig:DoubleExp}.
+figure \ref{fig:DoubleExp}. We see from the figure that the landscape
+defined by this function, roughly speaking, consists of two levels,
+the lower one lying at height 0 and the higher one at height 1. The
+slope connecting the two levels is rather steep. It changes as a
+double exponential along lines of constant $x$ and as $e^{-x^2}$ along
+lines of constant $v$. Therefore we approximate this function as a
+2-dimensional step function:
 \begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.5, clip=true, trim=85 252 100
@@ -876,7 +905,6 @@ figure \ref{fig:DoubleExp}.
   \caption{\small \it Plot of $\exp(-{1 \over 2} x^2 e^{-2v})$}
   \label{fig:DoubleExp}
 \end{figure}
-Therefore we make the following approximation:
 \[
 \exp\left(-{1 \over 2} x^2 e^{-2v}\right) \approx \left\{
   \begin{array}{lr}
