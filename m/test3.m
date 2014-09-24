@@ -14,7 +14,7 @@ spec = cellstr(['b  '; 'c  '; 'g  '; 'm  '; 'r  '; 'k  ';...
 texts = {};
 c = 1;
 hold on
-q = 0.1;
+q = 0.75;
 for sig = [0.1, 0.5, 1]
     % for sig = 0.5
     % load(sprintf(['../matfys/data/sv/normal_ret/lognormal_vol/Eig-' ...
@@ -32,7 +32,7 @@ for sig = [0.1, 0.5, 1]
     %      spec{c},'LineWidth', 2);
     
     % [Z2, G2] = epdf(ev, 1, min(ev), max(ev), 1000, '');
-    Z1 = linspace(0.1, 10, 1000)';
+    Z1 = linspace(0, 10, 1000)';
     G1 = LognormalGreen(Z1, sig.^2, q);
 
     % plot(Z1, -imag(G1)./pi, Z2, G2, 'LineWidth', 2);

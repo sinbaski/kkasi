@@ -1,17 +1,17 @@
-function [end1, end2] = LognormalEnds(v, q, g0)
-% options = optimset('GradObj','on', 'MaxFunEvals', 2000, ...
-%                    'MaxIter', 1000, 'Hessian','user-supplied');
-options = optimset('GradObj','on', 'MaxFunEvals', 2000, 'MaxIter', 1000);
+% v: scalar
+% q: scalar
+% return: scalar or column vector
+function [end1, end2] = LognormalEnds(v, q, G)
+options = optimset('Jacobian','on');
+% [xmin, fval1] = fsolve(@(a) LognormalEndsFun2(v, q, a), -1, options);
+% [xmax, fval2] = fsolve(@(a) LognormalEndsFun2(v, q, a), 1, options);
 
-[G1, end1] = fmincon(@(X) LognormalEndsFun2(X, v, q, 1),...
-                     [real(g0); imag(g0)], [], [], [], [], ...
-                     [-15, -Inf], [15; -1.0e-3], ...
-                     @(X) LognormalEndsFun1(X, v, q, 0), options);
+% [end1, fval1] = fsolve(@(a) LognormalEndsFun2(v, q*exp(-2*v), a), 4, options);
+% end1 = end1.^(-2)/q;
+end1 = NaN;
+[end2, fval2] = fsolve(@(a) LognormalEndsFun2(v, q*exp(-2*v), a), 0.1, options);
+end2 = end2.^(-2)/q;
 
-[G2, end2] = fmincon(@(X) LognormalEndsFun2(X, v, q, -1),...
-                     [real(g0); imag(g0)], [], [], [], [], ...
-                     [-15, -Inf], [15; -1.0e-3], ...
-                     @(X) LognormalEndsFun1(X, v, q, end1), options);
 
-end2 = -end2;
+
 
