@@ -1,0 +1,546 @@
+\chapter{Unconditional Distribution Functions of Stochastic
+  Log-Volatility Models}
+\label{chp:SLV_unconditional}
+In this chapter we study the unconditional distribution functions of
+Stochastic Log-Volatility models specified as equation
+\ref{eq:SLV_spec}. As is discussed in section \ref{sec:SLV_model},
+$\ln\sigma_t$ can be described by an ARMA or ARIMA \footnote{ARIMA ---
+  Integrated Autoregressive Moving Average} model, possibly with
+seasonal components. Here we note that all these models can be
+re-written as a moving average model, which is infinite in extent if
+autoregressive components are present:
+\begin{eqnarray*}
+  \ln \sigma_t &=& y_t + \sum_{n=1}^\infty c_n y_{t-n} + \text{Const.}
+\end{eqnarray*}
+Since the $y_t$ are independent and identically distributed,
+\begin{eqnarray*}
+  y_t + \sum_{n=1}^\infty c_n y_{t-n}  
+\end{eqnarray*}
+has Gaussian distribution by the central limit theorem, on condition
+that $y_t$ for all $t$ have finite second moment --- this is what we
+assume in the rest of this section. It follows from the above equation
+that the unconditional distribution of $\ln \sigma_t$ is the same as the
+distribution of $\bar{v} + v$ where $v \sim N(0, \sigma)$ and
+$\bar{v}$, $\sigma$ are constants. Now we can state that the
+unconditional distribution of the returns $r_t$
+\begin{eqnarray*}
+  r_t &=& \mu + \sigma_t b_t\\
+  &=& \mu + \exp\left(
+    y_t + \sum_{n=1}^\infty c_n y_{t-n} + \text{Const.}
+  \right)
+\end{eqnarray*}
+ is the same as
+\begin{equation}  \label{eq:UnconditionalPdf}
+  \begin{aligned}
+    r &= \mu + e^{\bar{v} + v} b \\
+  \end{aligned}
+\end{equation}
+where $b \sim N(0, 1)$. For convenience, let $r' = e^v b$
+
+In section \ref{sec:SLV_Symmetric} we first study the model in the
+relatively simple case when $v$ and $b$ are uncorrelated and $\mu
+= 0$. If this simplified version proves inadequate, one may resort to
+the general model studied in section \ref{sec:SLV_Asymmetric}.
+
+\section{The Simplified model}\label{sec:SLV_Symmetric}
+In the following we derive the unconditional PDF of $r'$, denoted
+$f_{r'}(x)$. Then the PDF of $r$ is $e^{-\bar{v}}f_{r'}(e^{-\bar{v}}x)$.
+\begin{eqnarray*}
+  P(r' < x) &=& P(b < xe^{-v}) \\
+  f_{r'}(x) &=& f_b(xe^{-v}) e^{-v}
+\end{eqnarray*}
+Averaging over all $v$, we get
+\begin{equation}\label{eq:UncondPDFSymmetric}
+  \begin{aligned}
+    f_{r'}(x) =& \int_{-\infty}^{\infty} dv (2\pi\sigma^2)^{-1/2}
+    e^{-v^2/2\sigma^2}(2\pi)^{-1/2} \exp(-x^2e^{-2v}/2) e^{-v} \\
+    =& {1 \over 2\pi\sigma} \int_{-\infty}^{\infty} dv
+    \exp\left(
+      -{1 \over 2\sigma^2} v^2 - v -{1 \over 2} x^2 e^{-2v}
+    \right)
+  \end{aligned}
+  \end{equation}
+The last part of the integrand, $e^{-x^2 e^{-2v} / 2}$, is plotted in
+figure \ref{fig:DoubleExp}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=85 252 100
+  231]{../pics/DoubleExp.pdf}
+  \caption{\small \it Plot of $\exp(-{1 \over 2} x^2 e^{-2v})$}
+  \label{fig:DoubleExp}
+\end{figure}
+Therefore we make the following approximation:
+\[
+\exp\left(-{1 \over 2} x^2 e^{-2v}\right) \approx \left\{
+  \begin{array}{lr}
+    0 & \text{if } v < \ln|x| -{1 \over 2} \ln(2\ln 2) \\
+    1 & \text{otherwise}
+  \end{array}
+\right.
+\]
+Here we note that $\exp\left(-{1 \over 2} x^2 e^{-2v}\right) = 1/2$ at
+$v = \ln|x| -{1 \over 2} \ln(2\ln 2)$.
+
+With this approximation we have
+\begin{eqnarray*}
+  f_{r'}(x) &=& {1\over C}{1 \over 2\pi\sigma} \int_{\ln(|x|/\sqrt{\ln
+      4})}^{\infty} dv
+  \exp\left(-{1 \over 2\sigma^2} v^2 - v\right) \\
+  &=& {1\over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}} \text{erfc} \left(
+    {1 \over \sqrt{2}\sigma} \ln{|x| \over \sqrt{\ln 4}} + {\sigma
+      \over \sqrt{2}}
+  \right)
+\end{eqnarray*}
+where $1/C$ has been added for the purpose of normalization.
+
+At large $x$, we may use the asymptotic expansion of $\mathrm{erfc}$
+to write
+\begin{eqnarray*}
+  Cf_{r'}(x) &=& {e^{\sigma^2 / 2} \over \sqrt{8\pi}} \mathrm{erfc}(\xi) \\
+  &=& {e^{\sigma^2 / 2} \over \sqrt{8 \pi}}
+  \frac{e^{-\xi^2}}{\xi\sqrt{\pi}}\left[
+    1 +
+    \sum_{n=1}^N (-1)^n \frac{(2n-1)!!}{(2\xi^2)^n} \right] +
+  O(\xi^{-2N-1} e^{-\xi^2})
+\end{eqnarray*}
+where $\xi = {1 \over \sqrt{2}\sigma} \ln{|x| \over \sqrt{\ln 4}} +
+{\sigma \over \sqrt{2}}$. The slowest-decaying term is
+\[
+f_{r,0}(x) = {e^{\sigma^2 / 2} \over \sqrt{8\pi}}
+\frac{e^{-\xi^2}}{\xi\sqrt{\pi}}
+\]
+Let $\zeta = {|x| \over \sqrt{\ln 4}}$. With a bit manipulation one
+obtains
+\begin{equation*}
+  f_{r,0}(x) = {1 \over \pi \sqrt{8}}{1 \over
+    \left(\ln\zeta/\sigma\sqrt{2} +
+      \sigma/\sqrt{2}\right)\zeta\zeta^{\ln \zeta / 2\sigma^2}
+  }
+\end{equation*}
+From the last equation one can see that, at any neighborhood of large
+$x$, $f_{r'}(x)$ may be approximated by $C/|x|^\alpha$, i.e. a power law.
+
+In the following we work out the normalization constant C.
+\begin{eqnarray*}
+  \int_{-\infty}^{\infty} f_{r'}(x) dx &=& {1 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} \text{erfc} \left({1 \over
+      \sqrt{2}\sigma} \ln{|x| \over \sqrt{\ln 4}} + {\sigma \over
+      \sqrt{2}} \right) dx\\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{0}^{\infty} \text{erfc} \left({1 \over
+      \sqrt{2}\sigma} \ln{x \over \sqrt{\ln 4}} + {\sigma \over
+      \sqrt{2}} \right) dx\\
+\end{eqnarray*}
+Let
+\begin{eqnarray*}
+  a &=& {1 \over \sigma \sqrt 2} \\
+  b &=& -{1 \over 2 \sigma \sqrt 2}\ln\ln 4 + {\sigma \over \sqrt 2} \\
+  y &=& a\ln|x|+b \\
+\end{eqnarray*}
+Then
+\begin{eqnarray*}
+  \int_{-\infty}^{\infty} f_{r'}(x) dx &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} dy {e^{(y-b)/a} \over a}
+  \text{erfc}(y) \\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \left.e^{(y-b)/a}
+    \text{erfc}(y)\right|_{y=-\infty}^{\infty}
+  + {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} dy {2 \over \sqrt \pi}
+  e^{(y-b)/a} e^{-y^2} \\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}}  2 e^{\ln\ln 4/2
+    - \sigma^2/2}\\
+  C &=& \sqrt{2 \ln 4\over \pi} \\
+  &\approx& 0.9394
+\end{eqnarray*}
+Thus we can write in summary:
+\begin{eqnarray*}
+  f_r(x) &=& e^{-\bar{v}} f_{r'}(e^{-\bar{v}} x) \\
+    &=& {e^{-\bar{v}} \over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}}
+    \text{erfc} \left({1 \over \sqrt{2}\sigma} \ln{|e^{-\bar{v}}x| \over \sqrt{\ln
+          4}} + {\sigma \over \sqrt{2}}
+    \right) \\
+\end{eqnarray*}
+Using the same technique for integration as for normalization, the
+cummulative distribution function of $r$ is found to be $F(x)$,
+which is the following:
+\begin{enumerate}
+\item if $x < 0$
+  \begin{eqnarray*}
+    F(x) &=& {\sqrt{\ln 4} \over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}}
+    \left[
+      {e^{-\bar{v}}x \over \sqrt{\ln 4}}\text{erfc}\left(
+        {1 \over \sigma \sqrt 2} \ln{-e^{-\bar{v}}x \over \sqrt{\ln
+            4}} + {\sigma \over \sqrt 2}
+      \right) \right.\\
+      && \left. + e^{-\sigma^2 / 2} \text{erfc}\left(
+        {1 \over \sigma \sqrt 2} \ln{-e^{-\bar{v}}x \over \sqrt{\ln 4}}
+      \right)
+    \right]
+  \end{eqnarray*}
+\item if $x \geq 0$
+  \begin{eqnarray*}
+    F(x) &=& \frac{1}{2} + {\sqrt{\ln 4} \over C}{e^{\sigma^2 / 2} \over
+      \sqrt{8\pi}} \left[
+      {e^{-\bar{v}}x \over \sqrt{\ln 4}} \text{erfc}\left(
+        {1 \over \sigma \sqrt 2} \ln{e^{-\bar{v}}x \over \sqrt{\ln
+            4}} + {\sigma \over \sqrt 2}
+      \right) \right. \\
+      && \left. + e^{-\sigma^2/2} \text{erfc}\left(
+        -{1 \over \sigma \sqrt 2} \ln{e^{-\bar{v}}x \over \sqrt{\ln 4}}
+      \right)
+    \right]
+  \end{eqnarray*}
+\end{enumerate}
+
+To verify the validity of the model, we fit the above probability
+density function to the de-meaned 30min returns of Volvo B
+\footnote{By ``de-meaned returns'' we mean the quantity $r_t - 
+  \mean{r_t}$, where $r_t$ are the measured returns and $\mean{r_t}$
+  is the sample mean. The data set covers the transaction records of
+  Volvo B on the OMX market (Stockholm) between 2013-10-10 and
+  2014-03-12. The returns are computed using 1-minute mean prices.}
+by means of maximum likelihood estimate using the MATLAB function
+``mle''. Then for the parameters $\sigma$ and $\bar{v}$ we get
+\begin{eqnarray*}
+  \sigma &=& 0.6355 \\
+  \bar{v} &=& -6.0308
+\end{eqnarray*}
+Then we plot $P(r' > x)$ of the model against its empirical
+counterpart on a log-log scale, as shown in figure
+\ref{fig:volvo_30min_ret}.
+\begin{figure}[htb!]
+  % \vspace{-15mm}
+  \begin{center}
+    \includegraphics[scale=0.4, clip=true, trim=98 231 116
+    126]{../pics/volvo_30min_ret.pdf}
+  \end{center}
+  %\vspace{-5mm}
+  \caption{\small \it{$P(r' > x)$ for $x > 0$. Blue: empirical
+      probabilities. Red: probabilities predicted by the model.}}
+  \label{fig:volvo_30min_ret}
+\end{figure}
+
+In general figure \ref{fig:volvo_30min_ret} shows a good fit, but a
+closer look reveals that deviations are significant in the regions $r
+\in (0, \sigma_r)$ and $r \in (2\sigma_r, 3\sigma_r)$, where
+$\sigma_r$ stands for the empirical standard deviation of the
+de-meaned returns. These observations are
+shown in greater details in figure \ref{fig:volvo_30min_ret2}.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[$\ln(P(r > x))$ with $x \in (0, \sigma_r)$]{
+    \includegraphics[scale=0.4, clip=true, trim=93 224 115
+    125]{../pics/volvo_30min_ret_0-sigma.pdf}
+  }
+  \subfigure[$\ln(P(r > x))$ with $x \in (2\sigma_r, 3\sigma_r)$]{
+    \includegraphics[scale=0.4, clip=true, trim=93 224 115
+    125]{../pics/volvo_30min_ret_2sigma-3sigma.pdf}
+  }
+  \caption{\small \it Surviving probabilities. Blue: empirical values of $\ln(P(r
+    > x))$. Red: Predicted values of $\ln(P(r > x))$.}
+  \label{fig:volvo_30min_ret2}
+\end{figure}
+
+Moreover, the inefficiency of the model is also manifest in the
+skewness of the data. For the Volvo 30min returns, the data has a
+skewness of 0.2419, but our model is strictly symmetric, since
+$x$ appears in equation \ref{eq:UncondPDFSymmetric} only as $x^2$.
+Hence the above model needs to be improved to accommodate the non-zero
+skewness as well as to account for the discrepancies shown in figure
+\ref{fig:volvo_30min_ret2}. This is the subject of the next section.
+
+\section{The General model}\label{sec:SLV_Asymmetric}
+It has long been hypothesized in the liturature that skewness is the
+result of price-volatility correlation (for example
+\cite{Potters2003}). Therefore, the most apparent modification is to
+allow $v$ and $b$ to be correlated. For convenience we decompose
+$v \sim N(0, \sigma)$ as $v = \sigma a$ and assume
+\begin{eqnarray*}
+  \begin{pmatrix}
+    a \\
+    b
+  \end{pmatrix} \sim N(0, \Sigma)
+\end{eqnarray*}
+with a covariance matrix
+\begin{eqnarray*}
+    \Sigma &=&
+  \begin{pmatrix}
+    1 & \psi \\
+    \psi & 1
+  \end{pmatrix}
+\end{eqnarray*}
+where $|\psi| < 1$. Then we rewrite equation \ref{eq:UnconditionalPdf}
+as
+\begin{equation}
+  \label{eq:r_t}
+  \begin{aligned}
+    r &= \mu + e^{\bar{v}} r' \\
+    r' &= e^{\sigma a} b \\
+  \end{aligned}
+\end{equation}
+Then
+\begin{eqnarray*}
+  && P(r' < x)\\
+  &=& P(b < e^{-a\sigma}x) \\
+  &=& {1 \over 2\pi |\det(\Sigma)|^{1/2}}
+  \int_{-\infty}^{\infty} da \int_{-\infty}^{e^{-a\sigma}x} db
+  \exp\left[
+    -{1 \over 2} (a, b) \Sigma^{-1}
+    \begin{pmatrix}
+      a \\
+      b
+    \end{pmatrix}
+  \right] \\
+\end{eqnarray*}
+After some manipulations we get
+\begin{equation}\label{eq:UncondCDFAsymmetric}
+  \begin{aligned}
+    & P(r' < x) \\  
+    &= {1 \over 2\pi \sqrt{1 - \psi^2}} \int_{-\infty}^{\infty} da
+    e^{-a^2/2} \int_{-\infty}^{e^{-a\sigma}x} db
+    \exp\left[
+      - {(b - a\psi)^2 \over 2(1 - \psi^2)}
+    \right] \\
+    &= {1 \over 2\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-a^2/2}
+    \text{erfc}{a\psi - e^{-a\sigma} x \over \sqrt{2(1-\psi^2)}} da
+  \end{aligned}
+\end{equation}
+Differentiating with respect to $x$ yields
+\begin{eqnarray}
+  f_{r'}(x) &=& {1 \over 2\pi \sqrt{1 - \psi^2}} \times \nonumber \\
+  && \int_{-\infty}^\infty da \exp
+  \left[- {
+      a^2 + 2\sigma(1 - \psi^2)a - 2a\psi e^{-a\sigma} x + e^{-2a\sigma} x^2
+      \over
+      2(1 - \psi^2)
+  }
+  \right] \label{eq:UncondPDFAsymmetric} \\
+  f_r(x) &=&  \td{r'}{r} f_{r'}[e^{-\bar{v}} (x - \mu)] \nonumber \\
+  &=& e^{-\bar{v}} f_{r'}[e^{-\bar{v}}
+  (x-\mu)] \label{eq:UncondPDFAsymmetric1}
+\end{eqnarray}
+Unlike \ref{eq:UncondPDFSymmetric} where a relatively simple
+approximation can be found and thus leads to an analytic result of the
+integral, no such approximation has been found by the
+author for the integral \ref{eq:UncondPDFAsymmetric}. However, the
+moment generating functions (MGF) of PDF \ref{eq:UncondPDFAsymmetric}
+and \ref{eq:UncondPDFAsymmetric1} are easy enough to find and give the
+moments about the origin in closed form. Then by matching the analytic
+expressions of the moments with their statistical values from the
+sample, the parameters $\sigma$, $\psi$ and $\bar{v}$ corresponding to the
+sample can be obtained.
+
+The MGF of \ref{eq:UncondPDFAsymmetric1} can be found as follows:
+\begin{eqnarray*}
+  && M_{r}(t) \\
+  &=& \E(e^{tr}) \\
+  &=& {1 \over 2\pi \sqrt{1 - \psi^2}} \int_{-\infty}^{\infty} da \exp \left(
+    -{a^2 \over 2} - \sigma a
+  \right) \int_{-\infty}^{\infty} dx \exp\left[
+    t(e^{\bar{v}}x + \mu) - {
+      (a\psi - e^{-a \sigma} x)^2 \over 2 (1 - \psi^2)
+    }
+  \right] \\
+  &=& {1 \over \sqrt{2 \pi}} \int_{-\infty}^{\infty} da \exp\left[
+    -{a^2 \over 2} + {1 \over 2} e^{2 a \sigma + 2\bar{v}} (1 - \psi^2) t^2 +
+    a \psi e^{a \sigma + \bar{v}} t + \mu t
+  \right]
+\end{eqnarray*}
+With the MGF, the first 4 moments of $r$ can be computed:
+\begin{equation}
+  \label{eq:AsymmetricMoments}
+  \begin{aligned}
+    \E(r) &= \mu +e^{\bar{v}+\frac{\sigma ^2}{2}} \sigma  \psi\\
+    \E(r^2) &= \mu ^2+2 e^{\bar{v}+\frac{\sigma ^2}{2}} \mu  \sigma  \psi
+    +e^{2 \left(\bar{v}+\sigma ^2\right)} \left(1+4 \sigma ^2 \psi^2\right)\\
+    \E(r^3) &= \mu ^3+3 e^{\bar{v}+\frac{\sigma ^2}{2}} \mu ^2 \sigma \psi
+    +9 e^{3 \bar{v}+\frac{9 \sigma ^2}{2}} \sigma \psi \left(1+3 \sigma ^2
+      \psi ^2\right)
+    +3e^{2 \left(\bar{v}+\sigma ^2\right)} \mu  \left(1+4 \sigma ^2 \psi
+      ^2\right) \\
+    \E(r^4) &= \mu ^4+4 e^{\bar{v}+\frac{\sigma ^2}{2}} \mu ^3 \sigma  \psi
+    +36 e^{3 \bar{v}+\frac{9 \sigma ^2}{2}} \mu  \sigma  \psi  \left(1+3
+      \sigma ^2 \psi ^2\right)\\ 
+    & +6 e^{2 \left(\bar{v}+\sigma ^2\right)} \mu ^2 \left(1+4 \sigma ^2 \psi
+      ^2\right)
+    +e^{4 \bar{v}+8 \sigma ^2} \left(3+96 \sigma ^2 \psi ^2+256 \sigma ^4
+      \psi ^4\right)
+  \end{aligned}
+\end{equation}
+These equations are rather complicated and directly solving them to
+obtain the parameters $\mu$, $\sigma$, $\psi$ and $\bar{v}$ is
+infeasible. However, in practice, $\E(r)$ is often very small --- so, to
+get a rough estimate of the parameters, we may set $\mu = 0$ in the
+above equations and, with a bit of manipulation, find the following
+equation for $\psi\sigma$:
+\begin{equation}
+  \label{eq:moment1}
+  {\E(r^3) \E(r^4)^{-3/8} \over \E(r^2)^{3/4}} =
+  {9\sigma \psi (1 + 3\sigma^2\psi^2) \over (1 +
+    4\sigma^2\psi^2)^{3/4}}
+  {1
+    \over
+    (3 + 96\sigma^2\psi^2 + 256\sigma^4 \psi^4)^{3/8}
+  }
+\end{equation}
+This equation can be solved numerically for a given sample to yield an
+estimate for $\sigma\psi$, which in turn can be substituted in
+equations \ref{eq:AsymmetricMoments}, where $\mu$ has been set to 0,
+to give estimates for all the 4 parameters. These estimates then serve
+as initial values in a numerical solution to
+\ref{eq:AsymmetricMoments} where $\mu$ is kept as a free
+variable. This full solution can now be used as the initial estimate
+in an MLE procedure.
+
+It is particularly important in our situation to have a good initial
+estimate, because, as has been shown earlier, the PDF and CDF cannot
+be obtained in closed forms and consequently have to be evaluated by
+numerical integration. This is a rather costly procedure especially in
+the context of MLE. So the computation of the moments under the
+assumption of $\mu = 0$ is worthwhile.
+
+Following the aforementioned procedure, i.e. computing the initial
+estimate by matching the moments and then refining the estimate by
+MLE, we obtain the parameter values for a number of return series,
+including the Volvo B 30-minute returns described in
+section \ref{sec:SLV_Symmetric}. In the following, we list the parameter
+values and show the comparison between the empirical distribution
+functions and their counterparts from the model.
+
+Clearly these figures show a fairly good match of the empirical
+distribution functions to their model counterparts. So we are once
+again assured of the validity of ARIMA log-volatility models. However,
+we also see that the skewness of the returns of Volvo B and Ericsson B
+have rather different values when computed from the sample and from
+the model. This could be the consequence of the limited sample size or
+deficiencies in the estimation procedure described above. We leave
+these issues to future studies.
+
+%  This indicates the parameter $\psi$, which is the
+% correlation between the log-volatility and the return, may be more
+% complicated than the simple constant that has been assumed so far. We
+% leave this to later studies.
+
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    & $\psi$ & $\sigma$ & $\bar{v}$ & $\mu$ \\
+    \hline
+    Volvo B & -1.5747e-02 & 4.6929e-01 & -6.2304e+00 &
+    -5.3040e-05 \\
+    Nordea Bank & 1.7234e-02 & 4.2780e-01 & -6.3758e+00 & 7.5230e-05
+    \\
+    Ericsson B & 1.8486e-02 & 4.4905e-01 & -6.2834e+00 & -9.2817e-05 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Parameter Values of Selected Assets'
+    returns. The time series are 30-minute returns and run from
+    2013/10/10 to 2014/03/12.}
+  \label{tab:assets_params}
+\end{table}
+
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    & mean & std & skewness & kurtosis \\
+    \hline
+    \multirow{2}{*}{Volvo B} & -8.6766e-05 & 2.4500e-03 &
+    -2.7217e-02 & 7.3394e+00 \\
+    & -6.9281e-05 & 2.4538e-03 & -7.2677e-02 & 7.2472e+00 \\
+    \hline
+    \multirow{2}{*}{Nordea Bank} & 7.4821e-05 & 2.0500e-03 &
+    6.9433e-02 & 6.7427e+00 \\
+    & 8.8983e-05 & 2.0443e-03 & 6.7125e-02 & 6.2446e+00 \\
+    \hline
+    \multirow{2}{*}{Ericsson B} & -8.2606e-05 & 2.2939e-03 &
+    2.6586e-01 & 7.6716e+00 \\
+    & -7.5675e-05 & 2.2844e-03 & 7.8573e-02 & 6.7299e+00 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Moments of Selected Assets' returns. For each return
+    series, the 1st row contains the sample moments, while the 2nd
+    constains those computed with MLE parameters. The time series are
+    30-minute returns and run from 2013/10/10 to 2014/03/12.}
+  \label{tab:assets_moments}
+\end{table}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=50 233 63
+  136]{../pics/Volvo_B_30m_returns.pdf}
+  \caption{\small \it Volvo B 30min returns' unconditional distribution fit to
+    the Stochastic Volatility model. The time series runs from
+    2013/10/10 to 2014/03/12. Left: $P(r < x)$ with $x < 0$; Right:
+    $P(r > x)$ with $x > 0$. Both plots are on log-log scale.}
+  \label{fig:Volvo_B_30m_returns}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=65 241 72
+  143]{../pics/Nordea_30m_returns.pdf}
+  \caption{\small \it Nordea Bank 30min returns' unconditional
+    distribution fit to the Stochastic Volatility model. The time
+    series runs from 2013/10/10 to 2014/03/12. Left: $P(r < x)$ with
+    $x < 0$; Right: $P(r > x)$ with $x > 0$. Both plots are on log-log scale.}
+  \label{fig:Nordea_30m_returns}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=21 241 28
+  146]{../pics/Ericsson_30m_returns.pdf}
+  \caption{\small \it Ericsson B 30min returns' unconditional
+    distribution fit to the Stochastic Volatility model. The time
+    series runs from 2013/10/10 to 2014/03/12. Left: $P(r < x)$ with
+    $x < 0$; Right: $P(r > x)$ with $x > 0$. Both plots are on log-log scale.}
+  \label{fig:Ericsson_30m_returns}
+\end{figure}
+
+\section{Relation to Conditional Distribution Functions}
+In the last section we have shown that the unconditional distribution of
+the returns are skewed, which implies the variate in the
+log-volatility $a$ is correlated to the variate in the return
+$b$.
+
+In the context of conditional distributions and forecast, this
+correlation translates to the correlation between $b_t$ and the
+residual of the log-volatility, denoted $y_t$ in the previous
+chapters. Now let us consider the forecast function of an ARIMA model:
+\begin{eqnarray*}
+  \ln \sigma_t &=& y_t + \sum_{i=1}^P \phi_i \ln \sigma_{t-i} -
+  \sum_{i=1}^Q \theta_i y_{t-i}
+\end{eqnarray*}
+where $\phi_i \leq 1$ if the model involves integration, and $\phi_i <
+1$ otherwise. Comparing this equation with equation \ref{eq:r_t}, one
+immediately realizes the PDF of $r_t$
+\begin{eqnarray*}
+  r_t &=& \mu + \sigma_t b_t
+\end{eqnarray*}
+is given by equation \ref{eq:UncondPDFAsymmetric1} and its moments
+given by the equations \ref{eq:AsymmetricMoments} if one makes the
+following substitutions:
+\begin{eqnarray*}
+  \sigma &\to& \text{std}(y_t) \\
+  \bar{v} &\to& \sum_{i=1}^P \phi_i \ln \sigma_{t-i} - \sum_{i=1}^Q
+  \theta_i y_{t-i} \\
+  \psi &\to& \text{corr}(y_t, b_t)
+\end{eqnarray*}
+
+For the Nordea 15-minute series considered in section \ref{sec:nordea2_15min},
+$\text{corr}(y_t, b_t)$ is found to be $3.56 \times 10^{-2}$; while
+for the Volvo series considered in section \ref{sec:volvo},
+$\text{corr}(y_t, b_t)$ is found to be $-7.3 \times 10^{-3}$. These
+values are comparable to those in table \ref{tab:assets_params}, where
+$\psi$ for the Nordea series is $1.7234 \times 10^{-2}$ and $-1.5747
+\times 10^{-2}$ for the Volvo series. The similarity in these values
+provides some evidence about the validity of the model.
+
+It is certainly impossible to compare a predicted conditional
+distribution with observations, but conditional distributions are of
+great interest in the context of risk management and derivative
+pricing, so we point out how they may be calculated for ARIMA
+log-volatility models.

@@ -1,0 +1,1322 @@
+% \section{Fundamental Concepts \& Notations}
+% \label{sec:FundamentalConcepts}
+% This section is a list of a few concepts that may be unfamiliar to the
+% reader and that we will often refer to later in the thesis:
+% \begin{itemize}
+% \item Return. Given a fixed time interval $[t - \Delta t, t]$, for example, a
+%   day, a week, a month, etc, and a particular asset, for example, a
+%   share in company ABC, the return of this asset over the time
+%   interval is defined as
+%   \begin{eqnarray*}
+%     r_{t, \Delta t} &=& \ln S_{t} - \ln S_{t - \Delta t} \\
+%     &=& \ln \left(1 + {S_{t} - S_{t - \Delta t} \over S_{t - \Delta t}}\right) \\
+%     &\approx& {S_{t} - S_{t - \Delta t} \over S_{t - \Delta t}}
+%   \end{eqnarray*}
+%   where $S_t$ is the price of the asset at time $t$. $\Delta t$ is
+%   sometimes called the time-lag of the return. Quite often, where
+%   confusion is not possible, we will just write $r_t$ to mean $r_{t,
+%     \Delta t}$, the time lag either does not matter or is clear from
+%   the context.
+
+% \item Autocorrelation. By autocorrelation, denoted $\rho_k$ here, we
+%   mean the correlation between two temporally separated observations
+%   of the same time series:
+%   \begin{eqnarray*}
+%     \rho_k &=& {
+%       \E\left[(a_t -\E(a_t))(a_{t-k} - \E(a_{t-k})\right]
+%       \over
+%       \sqrt{\text{var}(a_t)}\sqrt{\text{var}(a_{t-k})}
+%     }
+%   \end{eqnarray*}
+%   Here $\E(x)$ stands for the expectation value of $x$, and
+%   $\text{var}(x)$ stands for the variance of $x$. $k$ is called the
+%   time-lag and is the temporal seperation of the two observations
+%   measured by the number of observations in between. For example, the
+%   time-lag between the 1st and 3rd observation is 2.
+
+% \item Covariance Matrix. Correlations between the returns of a
+%   group of assets are described by the covariance matrix. When
+%   the asset returns are described by a stable distribution law with
+%   L\'evy index $\alpha$, the empirical covariance matrix is
+%   constructed as
+%   \begin{equation}
+%     \label{eq:covariance}
+%     \begin{aligned}
+%       C_{ij} &= {1 \over T^{2/\alpha}} \sum_{t=1}^T [r_{i,t}-\E(r_i)]
+%       [r_{j,t}-\E(r_j)] \\
+%       &= {1 \over T^{2/\alpha}} RR'
+%     \end{aligned}
+%   \end{equation}
+%   where $r_{i,t}$ is the return of the i-th asset at time t and is
+%   placed at the entry (i, t) of matrix R; $R'$ denotes the
+%   transpose of R. In most practical situations, one has abundant data
+%   for each and every asset. Thus $T \geq N$ is assumed throughout this
+%   thesis.
+
+% \item Auto-regressive processes. A time series $r_t$ is called an
+%   auto-regressive process of order $p$ and denoted AR(p), if it can be
+%   written in the following form:
+%   \begin{eqnarray*}
+%     r_t &=& \sum_{i=1}^p \phi_i r_{t-i} + a_t
+%   \end{eqnarray*}
+%   where, for all $i$, $\phi_i \in (-1, 1)$, and the $a_t$'s are
+%   independent and identically distributed (iid.) random variables with
+%   zero mean. Obviously this implies the mean of $r_t$ is zero
+%   too. Apart from this, their distribution of $a_t$ is not restricted
+%   to any particular form.
+  
+%   Of particular interest to this thesis is the AR(1) process:
+%   \begin{eqnarray*}
+%     r_t = \phi r_{t-1} + a_t
+%   \end{eqnarray*}
+%   Its autocorrelation function $\rho_k = \text{corr}(r_t, r_{t-k})$
+%   ($k = 0, 1, 2, \cdots$) can be easily shown to fall off
+%   exponentially:
+%   \begin{eqnarray*}
+%     \rho_k &=& {\E(r_tr_{t-k}) - \E(r_{t-k})\E(r_{t}) \over
+%       \sqrt{\var(r_t) \var(r_{t-k})}} \\
+%     &=& {\phi \E(r_{t-1}r_{t-k}) + \E(a_t r_{t-k})
+%       \over
+%       \sqrt{\var(r_t) \var(r_{t-k})}
+%     } \\
+%     &=& \phi \rho_{k-1}
+%   \end{eqnarray*}
+%   where $\E(a_t r_{t-k}) = 0$ follows from the fact that any return
+%   $r_{t1}$ must not depend on disturbances $a_{t2}$ that occur later
+%   in time. The last equation means $\rho_k$ is a geometric series. Since
+%   $\rho_0 = 1$, we have
+%   \begin{eqnarray*}
+%     \rho_k &=& \phi^k \\
+%     |\rho_k| &=& e^{k\ln|\phi|} \\
+%   \end{eqnarray*}
+%   Note that $|\phi| < 1$ and hence $\ln|\phi| < 0$.
+
+%   Although $k$ can only take integer values, it is still useful to
+%   define a correlation time $\tau$ such that $\phi^\tau = 1/2$. Such a
+%   quantity is more intuitive and constitutes a measure of
+%   autocorrelations that is universal and comparable among different
+%   time series' models. From the definition of $\tau$ we get
+%   \begin{equation}
+%     \label{eq:tau_def}
+%     \begin{aligned}
+%       \phi^\tau &= 1/2 \\
+%       \tau &= -{\ln 2 \over \ln\phi} \\
+%       \phi &= 2^{-1/\tau}
+%     \end{aligned}
+%   \end{equation}
+%   Figure \ref{fig:AR1-autocorrelation} shows the autocorrelation
+%   function of the AR(1) model. As proven above, this function decays
+%   exponentially.
+%   \begin{figure}[htb!]
+%     %\vspace{-15mm}
+%     \centering
+%     \includegraphics[scale=0.5, clip=true, trim=113 229 115
+%     139]{../pics/AR1-autocorrelation.pdf}
+%     \caption{\small \it Autocorrelation function of the AR(1) model
+%       with $\phi=1/\sqrt{2}$. Red circles: autocorrelations at $k=0, 1,
+%       2, \cdots$. Blue line: $e^{t\ln\phi}$.}
+%     \label{fig:AR1-autocorrelation}
+%   \end{figure}
+%   For more details about conventional time series' models, see
+%   \cite{BoxJenkins94}.
+% \end{itemize}
+
+% % For purposes of later reference, we also list some notations that may
+% % cause confusion to the reader:
+% % \begin{itemize}
+% % \item $\E(x)$ or $\mean{x}$: The expectation value of $x$.
+% % \item $\var(x)$: the variance of $x$.
+% % \item $\text{cov}(x,y)$: the covariance of $x$ and $y$.
+% % \item $\text{corr}(x,y)$: the correlation between $x$ and $y$, i.e.
+% %   \begin{equation*}
+% %     \text{corr}(x,y) = {\text{cov}(x,y) \over \sqrt{\var(x)\var(y)}}
+% %   \end{equation*}
+% % \end{itemize}
+
+% \section{Stylized facts}\label{sec:StylizedFacts}
+% This section presents and explains a few ``stylized facts'',
+% i.e. phenomena that are widely observed and accepted as true.
+% \begin{itemize}
+% \item Fat tails. It has been consistently reported by various studies
+%   - for example \cite{Potters2003} and \cite{Mantegna2000} - that the
+%   probability density function (PDF) of stock/index returns are not
+%   Gaussian. Unlike the Gaussian PDF, which is symmetric and falls off
+%   very quickly as its argument moves from the center to the outskirts
+%   (tails), the PDF of stock/index returns are higher on the tails,
+%   i.e. the probability of large fluctuations is higher than is dictated
+%   by a Gaussian distribution - in fact, even higher than dictated by
+%   an exponential function. Empirical studies suggest the distribution
+%   function of the returns follows a power-law on the tails --- the
+%   exponent of the power depends on the specific stock/index.
+
+%   Figure \ref{fig:FatTail} illustrates this feature.
+%   \begin{figure}[htb!]
+%     \centering
+%     \includegraphics[scale=0.6, clip=true, trim=92 229 110
+%     140]{../pics/FatTail.pdf}
+%     \caption{\small \it Fat tails of {\it Nordea Bank} 15-minute
+%       returns during the period 2013-10-10 and 2014-01-29. The returns
+%       are computed using minute-by-minute average prices.}
+%     \label{fig:FatTail}
+%   \end{figure}
+
+% \item Non-zero skewness. Apart from fat tails, the PDF of stock/index
+%   returns are often also skewed. If the skewness is positive
+%   (negative), the probability of very large positive (negative)
+%   returns is higher than that of very large negative (positive)
+%   returns, even though the mean of the returns is 0 or extremely
+%   close to 0.
+
+%   Table \ref{tab:EmpiricalSkewness} lists the skewness of a few
+%   Swedish stocks traded on the Stockholm OMX market.
+%   \begin{table}[htb!]
+%     \footnotesize
+%     \centering
+%     \begin{tabular}{|c|c|c|c|c|c|c|}
+%       \hline
+%       Nordea Bank & Volvo B & Boliden & ABB Ltd & H\&M & Scania
+%       B & Ericsson B \\
+%       \hline
+%       0.1362 & 0.0471 & 0.0567 & -0.0364 & -0.0168 &
+%       -1.1554 & 0.2086 \\
+%       \hline
+%     \end{tabular}
+%     \caption{\small \it Skewness of Stock Returns. All the returns
+%       have time-lag of 15 minutes and are computed using paid prices
+%       between 2013-10-10 and 2014-01-29. }
+%     \label{tab:EmpiricalSkewness}
+%   \end{table}
+
+% \item Higher-order autocorrelation. To the lowest order, return series
+%   are not auto-correlated --- if they are, the auto-correlations would
+%   present an obvious opportunity of making easy profit and be
+%   exploited and vanish as soon as they appear. However, the squared
+%   returns do have significant auto-correlations, as figure
+%   \ref{fig:nordea_15min_acf} illustrates. These auto-correlations
+%   suggest the variances of the returns at subsequent time steps are
+%   correlated. These are referred to as higher-order auto-correlations
+%   and make a subjet of returns' models.
+  
+% \end{itemize}
+\chapter{Case Study of Some Intraday Series}
+\label{chp:appendix2}
+\section{Nordea 30-minute Returns}
+\label{sec:nordea2_30min}
+In this section we study the volatility of Nordea Bank 30-minute
+returns in the period 2013/10/10 - 2014/04/04. The realized
+volatilities that approximate the volatilities of these 30-minute
+returns are computed using 1-minute returns. As in the previous cases,
+this choice of 1-minute returns is confirmed by the normality of the
+quotient $(r_t - \E(r_t))/\sigma_t$, which is shown in figure
+\ref{fig:nordea3_quotient}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=78 255 108
+  120]{../pics/nordea3_quotient.pdf}
+  \caption{\small \it Normal probability plot of $(r_t -
+    \E(r_t))/\sigma_t$}
+  \label{fig:nordea3_quotient}
+\end{figure}
+The auto-correlations of $\ln \sigma_t$ is shown in figure
+\ref{fig:nordea3_lv_acf}, where we see an apparent seasonality of
+16. By differencing we get $w_t = (1-B)(1-B^s)\ln\sigma_t$ where
+$s=16$. Its auto-correlations are shown in figure
+\ref{fig:nordea3_w_acf}.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=86 256 101
+    121]{../pics/nordea3_lv_acf.pdf}
+    \label{fig:nordea3_lv_acf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=86 256 103
+    122]{../pics/nordea3_w_acf.pdf}
+    \label{fig:nordea3_w_acf}
+  }
+  \caption{\small \it \ref{fig:nordea3_lv_acf}: Auto-correlations
+    (ACF) of $\ln \sigma_t$; \ref{fig:nordea3_w_acf}: Auto-correlations
+    (ACF) of $w_t = (1-B)(1-B^s)\ln\sigma_t$.}
+\end{figure}
+Once again, this auto-correlation structure
+points to a seasonal moving average model:
+\begin{eqnarray*}
+  w_t &=& (1-\theta B)(1-\Theta B^s) y_t
+\end{eqnarray*}
+where $y_t$ is assumed to have Gaussian distribution, neglecting
+slight non-normality as before. Maximum likelihood estimation gives
+the parameter values listed in table \ref{tab:nordea3_sv_param}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Parameter & $\theta$ & $\Theta$ & $\var(y_t)$\\
+    \hline
+    Value & 0.7612 & 0.8036 & 0.0736\\
+    \hline
+  \end{tabular}
+  \caption{\small \it Parameter values of the Seasonal Moving Average
+    model}
+  \label{tab:nordea3_sv_param}
+\end{table}
+To fit a \gls{garch} model to the same series, we assume Gaussian
+innovations (c.f. equation \ref{eq:garch_def}). The result is a
+\gls{garch}(1,1) model. Its parameters are listed in table
+\ref{tab:nordea3_garch_param}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$ & $\beta_1$ \\
+    \hline
+    Value & $2.3 \times 10^{-7}$ & 0.05 & 0.9\\
+    \hline
+  \end{tabular}
+  \caption{\small \it Parameter values of GARCH(1,1) model fitted to
+    Nordea 30-minute returns.}
+  \label{tab:nordea3_garch_param}
+\end{table}
+
+As before, we compare the accuracies of the \gls{garch} and the stochastic
+volatility model by comparing their one-ste-ahead forecasts. We
+compute the difference between their forecasts and the realized
+volatilities and then look at the statistics of these difference
+values. Firstly we show the mean and the standard deviation of the
+differences in table \ref{tab:nordea3_diff_1}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+     & \gls{sv} & \gls{garch} & Sample mean \\
+     \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & -0.0047 & 0.0130 & 0.0584 \\
+    \hline
+     $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.2602 &
+     0.3194 & 0.3093 \\
+    \hline
+ \end{tabular}
+  \caption{\small \it Mean and standard deviation of the 3 kinds of
+    forecasts}
+  \label{tab:nordea3_diff_1}
+\end{table}
+It is seen in this table that the \gls{sv} forecasts have a mean whose
+absolute value is just above 1/3 of that of the \gls{garch} forecasts. The
+standard deviation of the \gls{sv} forecasts is also smaller than that of
+\gls{garch}. In addition, we check the distribution of
+$\ln \sigma^F_t - \ln \hat{\sigma}_t$, and the percentage of ``good''
+forecasts with respect to different criteria of goodness. These are
+shown in figure \ref{fig:nordea3_diff} and table
+\ref{tab:nordea3_diff_2}, respectively.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.54, clip=true, trim=21 312 0
+    179]{../pics/nordea3_diff.pdf}
+  \caption{\small \it Blue: SV forecasts; Green: GARCH forecasts; Red:
+    sample mean forecasts. Left: $P(\ln \sigma^F_t - \ln \hat{\sigma}_t < x)$;
+    Right: $P(\ln \sigma^F_t - \ln \hat{\sigma}_t > x)$. Horizontal: $x$.}
+  \label{fig:nordea3_diff}
+\end{figure}
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    \gls{sv} & \gls{garch} & Sample Mean \\
+    \hline
+    1\% & 18\% & 18\% & 15\% \\
+    \hline
+    5\% & 81\% & 71\% & 69\% \\
+    \hline
+    10\% & 98\% & 93\% & 95\% \\
+    \hline
+  \end{tabular}
+  % \begin{tabular}{|c|c|c|c|}
+  %   \hline
+  %   ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+  %     \hat{\sigma}_t|}$ &
+  %   \gls{sv} & \gls{garch} & Sample Mean \\
+  %   \hline
+  %   1\% & 17.77\% & 17.77\% & 15.38\% \\
+  %   \hline
+  %   5\% & 80.90\% & 71.09\% & 69.23\% \\
+  %   \hline
+  %   10\% & 98.14\% & 93.10\% & 95.23\% \\
+  %   \hline
+  % \end{tabular}
+  \caption{\small \it Percentage of ``good'' forecasts as defined by
+    deviating nore more than 1\%, 5\% and 10\% from the measured
+    realized volatility.}
+  \label{tab:nordea3_diff_2}
+\end{table}
+It is clear that the \gls{sv} forecasts are considerably more accurate.
+
+\section{Volvo 15-minute returns in 2013/14}
+\label{sec:volvo}
+In this section we study the volatility of Volvo B 15-minute returns
+during the period 2013/10/10 - 2014/04/04.
+The subject of modeling is the realized volatility
+computed as the square root of the sum of squared 1-minute
+returns. The normal probability plot of the quotient $(r_t -
+\E(r_t))/\sigma_t$ is shown in figure \ref{fig:volvo_15_quotient},
+from which one can see it is normally distributed, confirming the
+choice of 1-minute returns for computing the realized volatility.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=83 259 110 
+  220]{../pics/volvo_15_quotient.pdf}
+  \caption{\small \it Normal probability plot of $(r_t -
+    \E(r_t))/\sigma_t$}
+  \label{fig:volvo_15_quotient}
+\end{figure}
+The auto-correlations of $\ln \sigma_t$ and $w_t = (1-B)(1-B^s) \ln
+\sigma_t$ are plotted in figure \ref{fig:volvo_15_lv_acf} and
+\ref{fig:volvo_15_w_acf}. The former clearly shows the seasonality
+$s = 33$ in the auto-correlations of $\ln \sigma_t$.
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+  \includegraphics[scale=0.4, clip=true, trim=90 259 103
+  220]{../pics/volvo_15_lv_acf.pdf}
+  \label{fig:volvo_15_lv_acf}
+  }
+  \subfigure[]{
+  \includegraphics[scale=0.4, clip=true, trim=90 259 103
+  220]{../pics/volvo_15_w_acf.pdf}
+  \label{fig:volvo_15_w_acf}
+  }
+  \caption{\small \it Left: auto-correlations of $\ln \sigma_t$;
+    Right: auto-correlations of $w_t = (1-B)(1-B^s) \ln \sigma_t$.}
+\end{figure}
+
+Based on the auto-correlations of $w_t$, a seasonal moving average
+model is estimated:
+\begin{eqnarray*}
+  (1-B)(1-B^s) \ln\sigma_t &=& (1-\theta_1B - \theta_2B^2 - \theta_3
+  B^3)(1 - \Theta B^s)y_t
+\end{eqnarray*}
+By maximum likelihood estimation, the parameter values listed in table
+\ref{tab:volvo_15_sv_param} are obtained.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+  Parameter & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\Theta$ & 
+ $\var(y_t)$ \\
+ \hline
+ Value & 0.7491 & 0.1170 & 0.0571 & 0.8646 & 0.1245 \\
+  \hline
+  \end{tabular}
+  \caption{\small \it Parameter values of the stochastoc volatility
+    (SV) model.}
+  \label{tab:volvo_15_sv_param}
+\end{table}
+
+A \gls{garch} model (c.f. equation \ref{eq:garch_def}) assuming Gaussian
+innovations is also fitted to the same series. The parameter values
+are listed in table \ref{tab:volvo_15_garch_param}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+  \hline
+  Parameter & $\alpha_0$ & $\alpha_1$ & $\beta_{1}$ \\
+  \hline
+  Value & $6.54 \times 10^{-7}$ & 0.1565 & 0.6445\\
+  \hline
+  \end{tabular}
+  \caption{\small \it Parameter values of the GARCH model.}
+  \label{tab:volvo_15_garch_param}
+\end{table}
+
+Performing one-step-ahead forecasts using both models gives the series
+$\ln\sigma^F_t - \ln\hat{\sigma}_t$, where $\ln\hat{\sigma}_t$ are the
+measured realized volatilities. The mean and standard deviation of
+$\ln\sigma^F_t - \ln\hat{\sigma}_t$ are shown in table
+\ref{tab:volvo_15_stat}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+     & \gls{sv} & \gls{garch} & Sample mean \\
+     \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.0035 & 0.0313 & -0.1448 \\
+    \hline
+     $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.3356 &
+     0.3894 & 0.3826 \\
+    \hline
+ \end{tabular}
+  \caption{\small \it Mean and standard deviation of the 3 kinds of
+    forecasts}
+  \label{tab:volvo_15_stat}
+\end{table}
+We see that both the \gls{sv} and the \gls{garch} model give biased forecasts, but
+the \gls{sv} forecasts are only 1/10 as biased as those of \gls{garch} (0.0035
+vs. 0.0313). In addition, the standard deviation of the \gls{sv} forecasts
+is smaller too. These results are confirmed by the distribution of
+$\ln \sigma^F_t - \ln \hat{\sigma}_t$ and the fraction of ``good''
+forecasts, which are shown in figure \ref{fig:volvo_15_diff} and table
+\ref{tab:volvo_15_diff}, respectively.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.54, clip=true, trim=27 276 0
+    236]{../pics/volvo_15_diff.pdf}
+  \caption{\small \it Blue: SV forecasts; Green: GARCH forecasts; Red:
+    sample mean forecasts. Left: $P(\ln \sigma^F_t - \ln \hat{\sigma}_t < x)$;
+    Right: $P(\ln \sigma^F_t - \ln \hat{\sigma}_t > x)$. Horizontal: $x$.}
+  \label{fig:volvo_15_diff}
+\end{figure}
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    \gls{sv} & \gls{garch} & Sample Mean \\
+    \hline
+    1\% & 58\% & 60\% & 39\% \\
+    \hline
+    5\% & 84\% & 84\% & 66\% \\
+    \hline
+    10\% & 97\% & 95\% & 91\% \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Percentage of ``good'' forecasts as defined by
+    deviating nore more than 1\%, 5\% and 10\% from the measured
+    realized volatility.}
+  \label{tab:volvo_15_diff}
+\end{table}
+
+\section{Ericsson 15-minute Returns}
+\label{sec:ericsson_15min}
+In this section we model the volatility of {\it Ericsson B}
+15-minute returns during the period 2013/10/10 - 2014/04/04.
+Using the same method as with other series, we first find the right
+higher-frequency returns that best approximate the volatility of the
+15-minute returns. These turn out to be 50-second returns, as figure
+\ref{fig:ericsson_15_quotient} shows.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=79 259 108
+  121]{../pics/ericsson_15_quotient.pdf}
+  \caption{\small \it Normal probability plot of $(r_t -\E(r_t))/
+    \sigma_t$. $\sigma_t^2$ is computed as the sum of squared
+    50-second returns.}
+  \label{fig:ericsson_15_quotient}
+\end{figure}
+
+Following the procedure described in previous sections, an ARIMA model is
+found for this series:
+\begin{eqnarray*}
+  (1-B)(1-B^s) \ln\sigma_t &=& (1- \theta_1B - \theta_2B^2 -
+  \theta_3B^3)(1 - \Theta B^s) y_t
+\end{eqnarray*}
+where the seasonality $s$ is 33 and the other parameter values are
+estimated to be those listed in table \ref{tab:ericsson_15_params}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    Parameter & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\Theta$ &
+    $\var(y_t)$ \\
+    \hline
+    Value & 0.8078 & 0.0454 & 0.0943 & 0.8798 & 0.1242 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Ericsson B log-volatility parameters}
+  \label{tab:ericsson_15_params}
+\end{table}
+
+Then a \gls{garch} model is also found with parameter values listed in
+table \ref{tab:ericsson_15_garch_params}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$ & $\alpha_{s}$ & $\beta_{s}$ \\
+    \hline
+    Value & $2.4181 \times 10^{-7}$ & 0.1513 & 0.1409 & 0.6027 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it GARCH model of Volvo B 30-minute returns}
+  \label{tab:ericsson_15_garch_params}
+\end{table}
+
+The forecasts from both models are compared as follows: Table
+\ref{tab:ericsson_15_diff1} shows the mean and standard deviation of
+the 3 kinds of forecasts:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    & \gls{sv} & \gls{garch} & Sample mean \\
+    \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.0035 &
+    0.0600 & 0.1116 \\
+    \hline
+    $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.3278 &
+    0.3667 & 0.3590 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Standard deviation of $\ln\sigma^F_t -
+    \ln\hat{\sigma}_t$}
+  \label{tab:ericsson_15_diff1}
+\end{table}
+Consistent with previous results, the bias introduced by the \gls{sv} model
+is significantly smaller than that introduced by \gls{garch}. Figure
+\ref{fig:ericsson_15_diff2} shows the distribution of the difference
+between a forecast and its corresponding measured realized volatility,
+i.e. $\ln\sigma^F_t - \ln\hat{\sigma}_t$; table
+\ref{tab:ericsson_15_diff3} compares the percentage of ``good''
+forecasts using the 3 alternatives.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=45 298 21
+    165]{../pics/ericsson_15_diff2.pdf}
+  \caption{\small \it Blue: SV forecasts; Green: GARCH forecasts; Red:
+    sample mean forecasts. Left: $P(\ln \sigma^F_t - \ln \hat{\sigma}_t < x)$;
+    Right: $P(\ln \sigma^F_t - \ln \hat{\sigma}_t > x)$. Horizontal: $x$.}
+  \label{fig:ericsson_15_diff2}
+\end{figure}
+
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    \gls{sv} & \gls{garch} & Sample Mean \\
+    \hline
+    1\% & 17\% & 17\% & 16\% \\
+    \hline
+    5\% & 73\% & 69\% & 69\% \\
+    \hline
+    10\% & 96\% & 93\% & 94\% \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Fraction of ``good'' forecasts as defined by
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ being less than 1\%, 5\% and 10\%.}
+  \label{tab:ericsson_15_diff3}
+\end{table}
+It is clear from figure \ref{fig:ericsson_15_diff2} and table
+\ref{tab:ericsson_15_diff3} that the \gls{sv} model out-performs \gls{garch}. We
+see that the \gls{sv} model yields considerably higher fractions of good
+forecasts by all criteria, and in particular, gives much few
+under-estimates.
+
+\section{Ericsson 30-minute Returns}\label{sec:ericsson_30min}
+In this section we look at the 30-minute returns of Ericsson B during
+the period 2013/10/10 - 2014/04/04. Since the methods are the same as
+with other series, we shall only present the results here.
+
+First of all, the volatility of this series is found to be well
+approximated by realized volatilities computed from 75-second
+returns. The normal probability plot is shown in figure
+\ref{fig:ericsson_30_quotient}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=79 259 108
+  121]{../pics/ericsson_30_quotient.pdf}
+  \caption{\small \it Normal probability plot of $(r_t -\E(r_t))/
+    \sigma_t$. $\sigma_t^2$ is computed as the sum of squared
+    75-second returns.}
+  \label{fig:ericsson_30_quotient}
+\end{figure}
+The following ARIMA model is found for the log-volatility $\ln
+\sigma_t$:
+\begin{eqnarray*}
+  (1-B)(1-B^s) \ln\sigma_t &=& (1- \theta_1B - \theta_2B^2) (1 -
+  \Theta B^s) y_t 
+\end{eqnarray*}
+where the seasonality $s = 16$. The parameter values are estimated to
+be those listed in table
+\ref{tab:ericsson_30_params}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    Parameter & $\theta_1$ & $\theta_2$ & $\Theta$ &
+    $\var(y_t)$ \\
+    \hline
+    Value & 0.6842 & 0.2470 & 0.8391 & 0.0918 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Ericsson B log-volatility parameters}
+  \label{tab:ericsson_30_params}
+\end{table}
+A \gls{garch} model is also found with parameters listed in table
+\ref{tab:ericsson_30_garch_params}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$ & $\alpha_{s}$ & $\beta_{s}$ \\
+    \hline
+    Value & $7.4856 \times 10^{-7}$ & 0.0532 & 0.1506 & 0.6778 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it GARCH(1, 1) model of Ericsson B 30-minute
+    returns}
+  \label{tab:ericsson_30_garch_params}
+\end{table}
+
+Table \ref{tab:ericsson_30_diff1} shows the mean and standard
+deviation of the difference series $\ln\sigma^F_t -
+\ln\hat{\sigma}_t$, where $\ln\sigma^F_t$ is the forecast
+log-volatility and $\ln\hat{\sigma}_t$ is the measured realized
+volatility.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    & \gls{sv} & \gls{garch} & Sample mean \\
+    \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.0004 &
+    0.0526 & 0.1039 \\
+    \hline
+    $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.2519 &
+    0.3019 & 0.2963 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Standard deviation of $\ln\sigma^F_t -
+    \ln\hat{\sigma}_t$}
+  \label{tab:ericsson_30_diff1}
+\end{table}
+Apparently, the \gls{garch} forecasts have a fairly large bias compared with
+those of the \gls{sv} model. Turning to figure \ref{fig:ericsson_30_diff2}
+and table \ref{tab:ericsson_30_diff3}, we also see the \gls{sv} model
+performs consistently better --- a higher percentage of ``good''
+forecasts are delivered and, while it under-estimates to around the
+same extent as does \gls{garch}, it certainly over-estimates a lot
+less. These are confirmative to what we have observed for the other
+series.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=33 281 11
+    150]{../pics/ericsson_30_diff2.pdf}
+  \caption{\small \it Blue: SV forecasts; Green: GARCH forecasts; Red:
+    sample mean forecasts. Left: $P(\ln \sigma^F_t - \ln \hat{\sigma}_t < x)$;
+    Right: $P(\ln \sigma^F_t - \ln \hat{\sigma}_t > x)$. Horizontal: $x$.}
+  \label{fig:ericsson_30_diff2}
+\end{figure}
+
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    \gls{sv} & \gls{garch} & Sample Mean \\
+    \hline
+    1\% & 22\% & 16\% & 16\% \\
+    \hline
+    5\% & 78\% & 69\% & 69\% \\
+    \hline
+    10\% & 98\% & 97\% & 96\% \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Fraction of ``good'' forecasts as defined by
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ being less than 1\%, 5\% and 10\%.}
+  \label{tab:ericsson_30_diff3}
+\end{table}
+
+\section{Volatility of Forecast accuracy}
+\label{sec:forecast_volatility}
+In this section we compare the volatility of the accuracy of
+\gls{garch} and \gls{sv} models' forecasts. Table
+\ref{tab:5percent_values} lists the the percentage of forecasts
+that deviate less than 5\% from the corresponding realized
+volatilities, and also gives the standard deviation of the 6 numbers.
+It is seen that the forecasts of \gls{sv} models have standard
+deviation 0.0432 while those of \gls{garch} have 0.0722. Clearly the
+accuracy of \gls{sv} forecasts varies considerably less than does that
+of \gls{garch} forecasts. In other words, a \gls{sv} model performs
+more consistently around a level of accuracy.
+  \begin{table}[htb!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+      \hline
+      & Volvo 15m & Volvo 30m & Ericsson 15m & Ericsson 30m \\
+      \hline
+      SV & 84\% & 72\% & 73\% & 78\% \\
+      \hline
+      GARCH & 84\% & 62\% & 69\% & 69\% \\
+      \hline
+      \hline
+      & Nordea 1 15m & Nordea 2 30m & \multicolumn{2}{c|}{standard deviation}\\
+      \hline
+      SV & 75\% & 81\% & \multicolumn{2}{c|}{0.0432} \\
+      \hline
+      GARCH & 71\% & 71\% & \multicolumn{2}{c|}{0.0722} \\
+      \hline
+    \end{tabular}
+    % \begin{tabular}{|c|c|c|c|c|}
+    %   \hline
+    %   & Volvo 15m & Volvo 30m & Ericsson 15m & Ericsson 30m \\
+    %   \hline
+    %   SV & 0.8351 & 0.7162 & 0.7268 & 0.7844 \\
+    %   \hline
+    %   GARCH & 0.8363 & 0.6154 & 0.6850 & 0.6900 \\
+    %   \hline
+    %   \hline
+    %   & Nordea 1 15m & Nordea 2 30m & std.\\
+    %   \hline
+    %   SV & 0.7457 & 0.8090 & 0.0432 \\
+    %   \hline
+    %   GARCH & 0.7062 & 0.7109 & 0.0722 \\
+    %   \hline
+    % \end{tabular}
+    \caption{\small \it Comparison of the percentage of forecasts that
+      lie within 5\% of the corresponding realized
+      volatilities. Nordea 1 refers to the Nordea data set of
+      2012/01/16 - 2012/04/20 (see section \ref{chp:nordea_15min})
+      and Nordea 2 refers to the data set of 2013/10/10 - 2014/04/04
+      (see section \ref{sec:nordea2_30min}).}
+    \label{tab:5percent_values}
+  \end{table}
+
+
+\chapter{Normalization Constant in the Unconditional PDF of the
+  Symmetric SV model}
+\label{chp:symmetric_SV_norm_const}
+In the following we work out the normalization constant C used in
+section \ref{sec:SLV_Symmetric}:
+\begin{eqnarray*}
+  \int_{-\infty}^{\infty} f_{r'}(x) dx &=& {1 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} \text{erfc} \left({1 \over
+      \sqrt{2}\sigma} \ln{|x| \over \sqrt{\ln 4}} + {\sigma \over
+      \sqrt{2}} \right) dx\\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{0}^{\infty} \text{erfc} \left({1 \over
+      \sqrt{2}\sigma} \ln{x \over \sqrt{\ln 4}} + {\sigma \over
+      \sqrt{2}} \right) dx\\
+\end{eqnarray*}
+Let
+\begin{eqnarray*}
+  a &=& {1 \over \sigma \sqrt 2} \\
+  b &=& -{1 \over 2 \sigma \sqrt 2}\ln\ln 4 + {\sigma \over \sqrt 2} \\
+  y &=& a\ln|x|+b \\
+\end{eqnarray*}
+Then
+\begin{eqnarray*}
+  \int_{-\infty}^{\infty} f_{r'}(x) dx &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} dy {e^{(y-b)/a} \over a}
+  \text{erfc}(y) \\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \left.e^{(y-b)/a}
+    \text{erfc}(y)\right|_{y=-\infty}^{\infty}
+  + {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} dy {2 \over \sqrt \pi}
+  e^{(y-b)/a} e^{-y^2} \\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}}  2 e^{\ln\ln 4/2
+    - \sigma^2/2}\\
+  C &=& \sqrt{2 \ln 4\over \pi} \\
+  &\approx& 0.9394
+\end{eqnarray*}
+
+\chapter{PDF of the covariance matrix of
+auto-correlated Gaussian Returns}
+\label{app:pdf_gaussian1}
+When autocorrelations exist among the columns of the Gaussian returns
+matrix $\mtx R$, the distribution of the covariance matrix $\mtx C =
+\mtx{R} \mtx{R'}$ is no longer Wishart but is nonethelss closely
+related to it. In the following we consider the situation where
+$r_{i,t}$ can be represented as a vector auto-regressive
+process. Specifically, suppose
+\begin{eqnarray*}
+  \vec{r}_t &=& \sum_{k=1}^p \phi_k \vec{r}_{t-k} + \vec{a}_t \\
+  \vec{a}_t &=& \vec{r}_t - \sum_{k=1}^p \phi_k \vec{r}_{t-k}
+\end{eqnarray*}
+where $\vec{a}_t = (a_{1,t}, a_{2,t}, \cdots, a_{N,t})' \sim N(0,
+\mtx \Sigma)$ and comprise the columes of $\mtx A$; $\vec{r}_t$ are the
+columes of $\mtx R$. Here $N(0, \mtx \Sigma)$ denotes the multivarate
+normal distribution with covariance matrix $\mtx \Sigma$. The last equation
+can be written in matrix form
+\[
+\mtx{A} = \mtx{R M}
+\]
+For example, in the case of an AR(1) process
+\begin{equation*}
+  \begin{pmatrix}
+    a_{1,1} & a_{1,2} & \cdots & a_{1,T} \\
+    \vdots & \ddots & \vdots \\
+    a_{N,1} & a_{N,2} & \cdots & a_{N,T} \\
+  \end{pmatrix} =
+  \begin{pmatrix}
+    r_{1,1} & r_{1,2} & \cdots & r_{1,T} \\
+    \vdots & \ddots & \vdots \\
+    r_{N,1} & r_{N,2} & \cdots & r_{N,T} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    1 & -\phi &   &   & \\
+      & 1 & -\phi &   & \\
+      &   & \ddots  & \ddots &   \\
+      &   &   & 1 & -\phi \\
+      &   &   &   & 1 \\
+  \end{pmatrix}
+\end{equation*}
+Let $\mtx{QR} = \mtx{RM}$, then $\mtx{Q} = \mtx{RMR^{-1}}$. Since the
+set of $\{r_{ij}\}$ for which $\text{det} \mtx{R} = 0$ has probability
+zero, a matrix $\mtx Q$ satisfying the above equation almost surely
+exists. Thus $\mtx{A} = \mtx{RM} = \mtx{QR}$ and $\mtx{AA'} =
+\mtx{QRR'Q'}$ Since the columns of A are not auto-correlated, $\mtx{AA'}
+\sim W(\mtx{\Sigma}, T)$. Then $\mtx{RR'} \sim W(\mtx{Q^{-1} \Sigma
+  Q'^{-1}}, T)$ follows from \cite{Anderson2003}, section 7.3.3. Now we
+observe the Wishart \gls{pdf}
+\begin{equation}
+  \label{eq:WishartPDF}
+  f_W(\mtx{X}) = { |\det X|^{(T-N-1)/2} \exp\left(-{1 \over 2}\tr
+      \mtx{\Sigma^{-1}X} \right)
+    \over
+    2^{NT/2}\pi^{N(N-1)/4}|\det \mtx{\Sigma}|^{T/2}
+    \prod_{i=1}^N \Gamma\left[(n+1-i)/2\right]
+  }
+\end{equation}
+where, assuming $\mtx X = \mtx{UU'}$, $\mtx \Sigma$ is the covariance
+matrix of the columns of $\mtx U$. we notice in \ref{eq:WishartPDF}
+that $\mtx \Sigma$ enters $f_W(\cdot)$ through $\tr (\mtx{\Sigma^{-1}
+  RR'})$ and $\det \mtx{\Sigma}$. $\mtx{RR'}$ enters through $\tr
+\mtx{\Sigma^{-1} RR'}$ and $\det \mtx{RR'}$. Clearly
+\begin{eqnarray*}
+  \det \mtx{Q^{-1}\Sigma Q'^{-1}} &=& \det \mtx{\Sigma \over (\det Q)^2} \\
+  &=& \det \mtx{\Sigma} \over (\det \mtx{M})^2 \\
+  &=& \det \mtx{\Sigma}
+\end{eqnarray*}
+As to $\tr \mtx{\Sigma^{-1} C}$, we have
+\begin{eqnarray*}
+  && \tr\left[\mtx{(Q^{-1}\Sigma Q'^{-1})^{-1} RR'}\right] \\
+  &=& \tr\left[\mtx{Q'\Sigma^{-1} Q RR'}\right] \\
+  &=& \tr\left[\mtx{R'^{-1}M'R'\Sigma^{-1} RMR^{-1} RR'}\right] \\
+  &=& \tr\left[\mtx{\Sigma^{-1} RM (RM)'}\right] \\
+  &=& \tr\left[\mtx{\Sigma^{-1} AA'}\right] \\
+\end{eqnarray*}
+
+Moreover, $\det \mtx{RR'} = \det \mtx{AM^{-1} M'^{-1} A'} = \det
+\mtx{AA'}$. Thus if we use $f_R(\cdot)$ to denote the joint
+probability density of the entries of $\mtx{RR'}$ and $f_A(\cdot)$ to
+denote that of $\mtx{AA'}$, we can write
+\begin{equation}\label{eq:cross-corr-matrix-PDF}
+  f_R(\mtx{RR'}) = f_A(\mtx{RMM'R'})
+\end{equation}
+Substituting for $f_A$ the Wishart \gls{pdf} \ref{eq:WishartPDF}, we
+get the \gls{pdf} of $\mtx{RR'}$.
+
+\chapter{Asymptotic Distributions of the Elements of a Covariance
+  Matrix of Autocorrelated Gaussian Returns}
+\label{chp:gaussian_elements_dist}
+In this appendix we derive the approximate distributions of the
+elements of a Covariance Matrix of autocorrelated Gaussian returns.
+
+In the following we denote the diagonal elements as $C_{ii}$ and the
+non-diagonal elements as $C_{ij}$ ($i \neq j$). We assume that
+$\var(a_{i,t}) = \sigma^2$ for any $i$ and $t$, and $a_{i,t}$ are not
+autocorrelated, i.e. $\text{corr}(a_{i,t}, a_{i, t'}) = 0$ for any
+$i$, $t$ and $t'$. Then we can write
+\begin{eqnarray*}
+  r_{i,t} r_{j, t} &=& \left[
+    \phi r_{i, t-1} + a_{i, t}
+  \right] \left[
+    \phi r_{j, t-1} + a_{j, t}
+  \right] \\
+  C_{ij} &=& {1 \over T}\sum_{t=1}^T r_{i,t} r_{j, t} \\
+  &=& \phi^2 {1 \over T}\sum_{t=1}^Tr_{i,t-1} r_{j, t-1} +
+  \phi{1 \over T}\sum_{t=1}^T\left(
+    r_{i, t-1} a_{j, t} + r_{j, t-1} a_{i, t}
+  \right) + {1 \over T}\sum_{t=1}^T a_{i,t} a_{j,t}
+\end{eqnarray*}
+We note that the two sums $\sum_{t=1}^T r_{i,t} r_{j, t}$ and
+$\sum_{t=1}^T r_{i,t-1} r_{j, t-1}$ only differ by the first and the
+last addend, which is negligible for sufficiently large T. Thus we
+have
+\begin{equation}\label{eq:Offdiag1}
+  \begin{aligned}
+    (1 - \phi^2)C_{ij} &\approx& \phi {1 \over T} \sum_{t=1}^T
+    \left(r_{i, t-1} a_{j, t} + r_{j, t-1} a_{i, t} \right)
+    + {1 \over T}\sum_{t=1}^T a_{i,t} a_{j,t}
+  \end{aligned}
+\end{equation}
+Now we write the AR(1) process $r_{i,t}$ as an infinite moving-average
+process:
+\begin{eqnarray*}
+  r_{i, t} &=& \phi r_{i, t-1} + a_{i,t} \\
+  (1 - \phi B) r_{i, t} &=& a_{i,t} \\
+\end{eqnarray*}
+where $B$ is the back-shift operator. Then it follows from the above
+equation
+\begin{eqnarray*}
+  r_{i,t} &=& {1 \over 1 - \phi B} a_{i,t} \\
+  &=& \sum_{k=0}^\infty \phi^k B^k a_{i,t} \\
+  &=& \sum_{k=0}^\infty \phi^k a_{i,t-k} \\
+\end{eqnarray*}
+where it is left implicit that $a_{i, t}$ with $t \leq 0$ is zero (in
+words, this implies that the $r_{i,t}$ process is not affected at all
+by events before $t = 1$).
+
+Substituting this into eq.\ref{eq:Offdiag1} for $r_{i,t-1}$ yields
+\begin{equation}
+  \label{eq:Offdiag2}
+  \begin{aligned}
+  (1 - \phi^2)C_{ij} &\approx
+  {1 \over T} \sum_{t=1}^T \sum_{k=0}^\infty\phi^{k+1} (a_{i, t-k-1}
+  a_{j, t} + a_{j, t-k-1} a_{i, t})
+  + {1 \over T} \sum_{t=1}^T a_{i,t} a_{j,t} \\
+  &=
+  {1 \over T} \sum_{t=1}^{T} \sum_{k=1}^{t-1}\phi^k (a_{i, t-k}
+  a_{j, t} + a_{j, t-k} a_{i, t})
+  + {1 \over T} \sum_{t=1}^{T} a_{i,t} a_{j,t}\\
+  \end{aligned}
+\end{equation}
+
+Given two Gaussian random variables $x$ and $y$ with zero mean and
+covariance matrix 
+\begin{equation*}
+  \Sigma = \sigma^2
+  \begin{pmatrix}
+    1 & \rho \\
+    \rho & 1 \\
+  \end{pmatrix}
+\end{equation*}
+
+The \gls{pdf} of $xy$ can be found by considering $P(xy < z)$:
+\begin{eqnarray*}
+  P(xy < z) &=& \left(\int_0^\infty dx \int_{-\infty}^{z/x} dy
+    +\int_{-\infty}^0 dx \int_{z/x}^\infty dy \right)
+    {1 \over 2\pi\sigma\sqrt{1 - \rho^2}} \\
+    &&
+    \exp\left[
+      -{x^2 -2\rho xy + y^2
+        \over
+        2\sigma^2 (1 - \rho^2)} 
+    \right] \\
+  f(z; \sigma, \rho) &=& {d \over dz} P(xy < z)\\
+  &=& {1 \over \pi \sigma \sqrt{1 - \rho^2}} \exp\left[
+    {\rho z \over \sigma^2 (1 - \rho^2)}\right] K_0\left[
+    {|z| \over \sigma^2 (1 - \rho^2)}
+  \right]
+\end{eqnarray*}
+where $K_n(z')$ is the modified Bessel function of the second
+kind. It is worth taking note that, when $\rho \neq 0$,
+$f(z; \sigma, \rho)$ is not symmetric with respect to
+$z$. As a result, if $\rho > 0$, the mean of $f(z;
+\sigma, \rho)$ is positive, and vice versa.
+
+Secondly, because $|\rho| < 1$ and
+\begin{equation*}
+  K_0(z) \sim \sqrt{\pi \over 2z} e^{-z}
+\end{equation*}
+as $z \to \infty$ \cite{Olver:2010:NHMF}, all the moments of
+$f(z; \sigma, \rho)$ are finite, implying the
+applicability of the Lyapunov central limit theorem provided that $T$
+is large, which is very often the case and what we assume here.
+
+With this in mind, we observe that $\phi$ only affects the first sum in
+\ref{eq:Offdiag2}. If $a_{i,t-k}$ and $a_{j,t}$ are not correlated for
+non-zero $k$, $\phi$ will not affect the mean of
+$C_{ij}$. Furthermore, it is also clear from equation
+\ref{eq:Offdiag2} that the variance of $C_{ij}$ is
+always increased by a non-zero $\phi$, regardless of the sign of
+$\phi$. We compute this increment in the following.
+
+In light of the above expression for $f(z; \sigma,
+\rho)$, we rewrite equation \ref{eq:Offdiag2} as
+\begin{equation}\label{eq:Cij_dist}
+  \begin{aligned}
+    (1 - \phi^2)C_{ij} \approx &
+    {1 \over T}
+    \sum_{t=1}^{T} \sum_{k=1}^{t-1}\phi^k (a_{i, t-k} a_{j, t} + a_{j,
+      t-k} a_{i, t}) \\
+    & + {1 \over T} \sum_{t=1}^{T} \sigma^2 (1 - \rho^2) {a_{i,t} \over
+      \sigma \sqrt{1 - \rho^2}} {a_{j,t} \over \sigma \sqrt{1 - \rho^2}} \\
+  \end{aligned}
+\end{equation}
+In addition, we assume
+\begin{equation*}
+  \text{corr}(a_{i, t-k}, a_{j, t}) = \left\{
+    \begin{array}{l l}
+      1 & \text{ if $i=j$ and $k = 0$ }\\
+      \rho & -1 < \rho < 1. \text{ if $i \neq j$ and $k = 0$ }\\
+      0 & \text{otherwise}
+    \end{array}
+  \right.
+\end{equation*}
+Then, because $a_{i, t-k}$ and $ a_{j, t}$ with $i \neq j$ and $k
+> 0$ are not correlated, the mean of $a_{i, t-k} a_{j, t}$ is 0
+($f(z; \sigma, 0)$ is symmetric), and the variance of it
+can be found to be $\sigma^6$ using formula (10.43.19) of \cite{NIST:DLMF}:
+\begin{equation*}
+  \int_0^\infty dt K_\nu(t) t^{\mu-1} = 2^{\mu-2}
+  \Gamma\left(
+    {\mu + \nu \over 2}
+  \right) \Gamma\left(
+    {\mu - \nu \over 2}
+  \right)
+\end{equation*}
+On the other hand, $a_{i,t}/\sigma \sqrt{1 - \rho^2}$ and
+$a_{j,t}/\sigma \sqrt{1 - \rho^2}$ have variance $1/(1 - \rho^2)$
+and are correlated - $\text{corr}(a_{i,t}, a_{j,t}) = \rho$. The mean
+of $a_{i,t}a_{j,t}/\sigma^2 (1 - \rho^2)$ can be found using formula
+(10.43.22) of \cite{NIST:DLMF}, given that $-1 < \rho < 1$:
+\begin{eqnarray*}
+  \int_0^\infty t^{\mu - 1} e^{-at} K_\nu(t) dt &=& (\pi/2)^{1/2}
+  \Gamma(\mu + \nu) \Gamma(\mu - \nu)(1 - a^2)^{-\mu/2 + 1/4} \times\\
+  && P^{-\mu+1/2}_{\nu-1/2} (a)
+\end{eqnarray*}
+where $P^\mu_\nu(\cdot)$ is Ferrers function of the first
+kind\footnote{ Ferrers function of the first kind is defined through
+  the hypergeometric functon $F(a, b; c; z)$ \cite{NIST:DLMF}:
+  \begin{equation}
+    \label{eq:Ferrers_1st}
+    \mathop{\mathsf{P}^{\mu}_{\nu}\/}\nolimits\!\left(x\right)=\left(\frac{1+x}{1-
+        x}\right)^{\mu/2}\mathop{\mathbf{F}\/}\nolimits\!\left(\nu+1,-\nu;1-\mu;\tfrac
+      {1}{2}-\tfrac{1}{2}x\right).
+  \end{equation}
+}. The result is
+\begin{eqnarray*}
+  \E\left[{a_{i,t}a_{j,t} \over \sigma^2 (1 - \rho^2)}\right]
+  &=&
+  {1 \over \sqrt{2\pi} (1 - \rho^2)^{5/4}} \left[
+    P^{-3/2}_{-1/2}(-\rho) - P^{-3/2}_{-1/2}(\rho)
+  \right]
+\end{eqnarray*}
+Similarly, the variance of $a_{i,t}a_{j,t}/\sigma^2 (1 - \rho^2)$ is
+found to be
+\begin{eqnarray*}
+  v^2(\rho) &=&
+  {4 \over \sqrt{2\pi} (1 - \rho^2)^{7/4}} \left[
+    P^{-5/2}_{-1/2}(\rho) + P^{-5/2}_{-1/2}(-\rho)
+  \right] \\
+  && - \E^2\left[{a_{i,t}a_{j,t} \over
+      \sigma^2 (1 - \rho^2)}\right]
+\end{eqnarray*}
+Now we can apply the Lyapunov central limit theorem
+\cite{Billingsley1995} to the sum in equation \ref{eq:Cij_dist}
+and write down the asymptotic Gaussian distribution of $C_{ij}$:
+\begin{equation*}
+C_{ij} \sim N(\mu'_X, \sigma'_X)
+\end{equation*}
+where
+\begin{eqnarray}
+  \mu'_X &=& {\sigma^2 \over \sqrt{2\pi} (1 - \phi^2)(1 -
+    \rho^2)^{1/4}} \left[ P^{-3/2}_{-1/2}(-\rho) -
+    P^{-3/2}_{-1/2}(\rho)
+  \right] \label{eq:gaussian_mean}\\
+  \sigma'^2_X &=& {1 \over (1 - \phi^2)^2}\left[
+    \sum_{t=1}^T \sum_{k=1}^{t-1} 2\left(
+      \phi^k \over T
+    \right)^2 \sigma^6 + \sum_{t=1}^T
+    {\sigma^4 (1 - \rho^2)^2 \over T^2} v^2(\rho)
+  \right] \nonumber \\
+  &=& {2 \sigma^6 \over T (1 - \phi^2)^2} \left[
+    {\phi^2 \over 1 - \phi^2} -
+    {\phi^2 (1 - \phi^{2T}) \over
+      T(1 - \phi^2)}
+  \right] + {\sigma^4 (1 - \rho^2)^2 v^2(\rho) \over
+    T (1 - \phi^2)^2} \nonumber \\
+  &\approx& {2 \sigma^6 \phi^2 \over T (1 - \phi^2)^3}
+  + {\sigma^4 (1 - \rho^2)^2 v^2(\rho) \over
+    T (1 - \phi^2)^2} \label{eq:gaussian_variance}
+\end{eqnarray}
+% Equation \ref{eq:gaussian_mean} tells that, if two return series $i$
+% and $j$ are not correlated, auto-correlation in the returns does not
+% introduce a bias into the estimation of the covariance; if,
+% however, the return series are indeed correlated, auto-correlation
+% in the returns rescales the covariance through a multiplicative
+% factor $1/(1 - \phi^2)$.
+
+% In addition, equation \ref{eq:gaussian_variance} tells that
+% auto-correlation in the returns always makes the covariance
+% estimation more noisy. Auto-correlation not only rescales the variance
+% of the no-autocorrelation estimation by $1/(1 - \phi^2)$ but even
+% adds an extra term ${2 \sigma^6 \phi^2 \over T (1 - \phi^2)^3}$.
+
+We may apply a similar treatment to the diagonal elements of the
+covariance matrix, which we denote as $C_{ii}$ here:
+\begin{eqnarray*}
+  C_{ii} &=& {1 \over T} \sum_{t=1}^T r^2_{it} \\
+  &=& {1 \over T} \sum_{t=1}^T \sum_{l=0}^{t-1}\phi^l a_{i, t-l}
+  \sum_{k=0}^{t-1}\phi^k a_{i, t-k} \\
+  &=& {1 \over T} \sum_{t=1}^T \left[
+    \sum_{k=0}^{t-1} \phi^{2k} a^2_{i, t-k} +
+    \sum_{k,l = 0}^{t-1} \phi^{k+l} a_{i, t-k} a_{i, t-l}
+  \right]
+\end{eqnarray*}
+By the Lyapunov central limit theorem under the assumption of large T,
+the asymptotic distribution of $C_{ii}$ is Gaussian, the mean and
+variance being
+\begin{eqnarray}
+  \E(C_{ii}) &=& {1 \over T}\left[
+    \sum_{k=0}^{t-1} \phi^{2k} \sigma^2
+  \right] \nonumber \\
+  &=& {\sigma^2 \over (1 - \phi^2) T} \left[
+    T - {\phi^2 (1 - \phi^{2T}) \over 1 - \phi^2}
+  \right] \nonumber \\
+  & \approx & {\sigma^2 \over 1 - \phi^2} \left[
+    1 - {\phi^2 \over T}
+  \right] \label{eq:gaussian_cii_mean}
+\end{eqnarray}
+and
+\begin{eqnarray}
+  \var(C_{ii}) &=& \sum_{t=1}^T \left[
+    \sum_{k=0}^{t-1} {\phi^{4k} \sigma^4 \over T^2} 2 +
+    \sum_{k,l=0}^{t-1} {\phi^{2(k+l)} \over T^2} \sigma^6
+  \right] \nonumber \\
+  &=& \sum_{t=1}^T \left[
+    {2 \sigma^4 \over T^2} {1 - \phi^{4t} \over 1 - \phi^4} +
+    {\sigma^6 \over T^2} \left(
+      {1 - \phi^{2t} \over 1- \phi^2}
+    \right)^2 \right] \nonumber \\
+  &=& {2 \sigma^4 \over T (1 - \phi^4)} -
+  {2 \sigma^4 \phi^4 (1 - \phi^{4T}) \over T^2(1 - \phi^4)^2} +
+  \nonumber \\
+  && {\sigma^6 \over T (1 -\phi^2)^2} -
+  {2 \sigma^6 \phi^2 (1 - \phi^{2T}) \over T^2 (1 - \phi^2)^3} +
+  {\sigma^6 \phi^4 (1 - \phi^{4T}) \over T^2 (1 - \phi^2)^2 (1 -
+    \phi^4)} \nonumber \\
+  &\approx& {2 \sigma^4 \over T (1 - \phi^4)} + {\sigma^6 \over T (1
+    -\phi^2)^2} \label{eq:gaussian_cii_variance}
+\end{eqnarray}
+% Equation \ref{eq:gaussian_mean} tells that, if two return series $i$
+% and $j$ are not correlated, auto-correlation in the returns does not
+% introduce a bias into the estimation of the covariance; if,
+% however, the return series are indeed correlated, auto-correlation
+% in the returns rescales the covariance through a multiplicative
+% factor $1/(1 - \phi^2)$.
+
+% In addition, equation \ref{eq:gaussian_variance} tells that
+% auto-correlation in the returns always makes the covariance
+% estimation more noisy. Auto-correlation not only rescales the variance
+% of the no-autocorrelation estimation by $1/(1 - \phi^2)$ but even
+% adds an extra term ${2 \sigma^6 \phi^2 \over T (1 - \phi^2)^3}$.
+
+\chapter{Eigenvalues Distribution of Wishart Matrix}
+\label{sec:wishart_eigen_dist}
+In this section we summarize the analytic results regarding the
+eigenvalue distribution of a Wishart matrix $\mtx{RR'}$. In the
+simplest case where the elements of $\mtx R$ are all independent of
+each other, i.e. neither auto-correlation nor cross-correlation
+exists, we have \cite{Chiani2012}
+\begin{eqnarray}
+  f(x_1, \cdots, x_N) &=& K \prod_{i=1}^N e^{-x_i/2}
+  x_i^{(T-N-1)/2} \prod_{i<j}^N (x_i -
+  x_j) \label{eq:wishart_eigen_pdf}
+\end{eqnarray}
+where the eigenvalues have been indexed in descending order: $x_1 \geq
+x_2 \geq \cdots \geq x_N$. The normalization constant K is given by
+\begin{equation*}
+  K = {\pi^{N^2/2} \over 2^{NT/2}\Gamma_N(T/2) \Gamma_N(N/2)}
+\end{equation*}
+where the function $\Gamma_m(a)$ is defined as
+\begin{equation*}
+  \Gamma_m(a) = \pi^{m(m-1)/4} \prod_{k=1}^m \Gamma\left(a - {k-1
+      \over 2}\right)
+\end{equation*}
+If the order of the eigenvalues is ignored, the \gls{pdf} of their
+distribution is given by the Marcenko-Pastur law \cite{Guhr2007}
+\begin{eqnarray}
+  f(x) &=& {1 \over 2\pi \sigma^2 q} {
+    \sqrt{(x_2 - x)(x - x_1)} \over x
+  } \label{eq:MP_pdf}
+\end{eqnarray}
+where it is assumed $r_{it} \sim N(0, \sigma^2)$ and
+\begin{eqnarray*}
+  q &=& \lim_{N,T \to \infty} {N \over T} \\
+  x_1 &=& \sigma^2 (1 - \sqrt q)^2 \\
+  x_2 &=& \sigma^2 (1 + \sqrt q)^2 \\
+\end{eqnarray*}
+It is imposed that $q = N/T < 1$.
+
+Moreover, K. Johnsson \cite{Johnsson2000} and I. Johnstone
+\cite{Johnstone2001} showed that, at the {\it absence} of
+autocorrelations and in the asymptotic limit $N, T \to \infty$, $N/T
+\to q < \infty$, the maximum eigenvalue  $\lambda_1$ follows the
+Tracy-Widom distribution (denote $\mathscr{TW}_1$ here) when properly
+relocated and rescaled:
+\begin{equation*}
+  {\lambda_1 - \mu_{NT} \over \sigma_{NT}} \sim \mathscr{TW}_1
+\end{equation*}
+where $\mu_{NT}$ and $\sigma_{NT}$ are given by
+\begin{eqnarray*}
+  \mu_{NT} &=& \left(
+    \sqrt{N-1/2} + \sqrt{T - 1/2}
+  \right)^2 \\
+  \sigma_{NT} &=& \sqrt{\mu_{NT}} \left(
+    {1 \over \sqrt{N-1/2}} + {1 \over \sqrt{T-1/2}}
+  \right)^{1/3}
+\end{eqnarray*}
+The $\mathscr{TW}_1$ distribution has the following cummulative
+distribution function (CDF) \cite{Chiani2012}
+\begin{equation*}
+  F_1(x) = \exp\left[
+    -{1 \over 2} \int_x^\infty dy \left(q(y) + (y-x)q^2(y)\right)
+  \right]
+\end{equation*}
+where $q(y)$ is defined as the solution to the Painlev\'e II differential
+equation
+\begin{equation*}
+  q''(y) = yq(y) + 2q^3(y)
+\end{equation*}
+which is unique when imposing the condition
+\begin{equation*}
+  q(y) \sim \text{Ai}(y) \text{ as } y \to \infty
+\end{equation*}
+
+Then Marco Chiani showed recently that the $\mathscr{TW}_1$ distribution
+can be well approximated by a gamma distribution based on his proof
+that the exact distribution of the maximum eigenvalue is a mixture of
+gamma distributions. Specifically,
+\begin{equation}\label{eq:TracyWidom-Gamma}
+  {\lambda_1 - \mu_{NT} \over \sigma_{NT}} + \alpha \sim
+  \mathscr{G}(k ,\theta)
+\end{equation}
+where $\mathscr{G}(k, \theta)$ denotes the Gamma distribution with
+parameters $k$ and $\theta$ \cite{Chiani2012}. The \gls{pdf} of the
+gamma distribution is given by
+\begin{equation*}
+  f_\gamma(x; k, \theta) = {1 \over \Gamma(k) \theta^k} x^{k-1}
+  e^{-x/\theta}
+\end{equation*}
+Moreover, the first 3 moments of the distribution are simple:
+\begin{eqnarray*}
+  \text{mean} &=& k\theta \\
+  \text{variance} &=& k\theta^2 \\
+  \text{skewness} &=& 2/\sqrt{k}
+\end{eqnarray*}
+
+
+% \chapter{Collection of Figures and Tables}
+
+% \begin{figure}[htb!]
+%   \centering
+%   \subfigure[ACF of $z_t$]{
+%     \includegraphics[scale=0.4, clip=true, trim=95 236 118
+%     200]{../pics/nordea_15min_quotient_acf.pdf}
+%     \label{fig:nordea_15min_quotient_acf}
+%   }
+%   \subfigure[ACF of $z_t^2$]{
+%     \includegraphics[scale=0.4, clip=true, trim=95 236 118
+%     200]{../pics/nordea_15min_quotient_squared_acf.pdf}
+%     \label{fig:nordea_15min_quotient_squared_acf}
+%   }
+%   \caption{\small \it Nordea 15min $z_t$ and $z_t^2$ auto-correlation
+%     function (ACF).}
+% \end{figure}
+
+% \begin{figure}[htb!]
+%   \centering
+%   \subfigure[Normal Probability Plot of $y_t$]{
+%     \includegraphics[scale=0.4, clip=true, trim=76 256 109
+%     214]{../pics/nordea2_y_normplot.pdf}
+%     \label{fig:nordea_15min_y_qq}
+%   }
+%   \subfigure[ACF of $y_t$]{
+%     \includegraphics[scale=0.4, clip=true, trim=92 258 104
+%     218]{../pics/nordea_15min_y_acf.pdf}
+%     \label{fig:nordea_15min_y_acf}
+%   }
+%   \caption{\small \it Nordea 15min $y_t$ normal probability plot and
+%     autocorrelations}
+% \end{figure}
+
+

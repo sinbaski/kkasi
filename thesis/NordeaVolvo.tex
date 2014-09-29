@@ -1,0 +1,872 @@
+\chapter{Nordea in 2013/14}
+\label{chp:Nordea2}
+In this chapter we model the volatility of {\it Nordea Bank}
+15-minute and 30-minute returns during the period 2013/10/10 -
+2014/04/04.
+
+\section{15-minute Returns}\label{sec:nordea2_15min}
+This return series contains 3879 data points. The squared
+volatilities, i.e. the variances, are computed as the sum of squared
+50-second returns. The normal probability plot of the quotient $(r_t - \E(r_t))/
+\sigma_t$, is shown in figure \ref{fig:nordea2_b}. We see in this figure that
+$(r_t - \E(r_t)) / \sigma_t$ is approximately Gaussian, confirming the choice of
+50-second returns for the computation of the realized
+volatility. Among the 3879 data points, we use the first 80\% for
+model estimation and the last 20\%, i.e. 776 data points for forecast
+verification.
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=79 259 108
+  121]{../pics/nordea2_b.pdf}
+  \caption{\small \it Normal probability plot of $(r_t - \E(r_t))/
+    \sigma_t$. $\sigma_t^2$ is computed as the sum of squared
+    50-second returns.}
+  \label{fig:nordea2_b}
+\end{figure}
+
+The log-volatility series $\ln \sigma_t$ in this case has an
+auto-correlation structure similar to its predecessor studied in
+chapter \ref{chp:nordea_15min}. The seasonality is 33 as before. We
+show the auto-correlations of $\ln \sigma_t$ in figure
+\ref{fig:nordea2_15_lv_acf}, and those of $w_t = (1 - B)(1-B^s)\ln
+\sigma_t$ in figure \ref{fig:nordea2_15_w_acf}. The reader may want to
+compare them with figure \ref{fig:nordea1_15min_acf}.
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+  \includegraphics[scale=0.4, clip=true, trim=86 254 98
+  123]{../pics/nordea2_15min_lv_acf.pdf}
+  \label{fig:nordea2_15_lv_acf}
+  }
+  \subfigure[]{
+  \includegraphics[scale=0.4, clip=true, trim=95 230 112
+  235]{../pics/nordea2_w_acf.pdf}
+  \label{fig:nordea2_15_w_acf}
+  }
+  \caption{\small \it Auto-correlation function of $\ln \sigma_t$ and
+    $w_t = (1 - B)(1-B^s)\ln \sigma_t$} 
+\end{figure}
+The significant auto-correlations of $w_t$ and their respective lags are listed
+in table \ref{tab:nordea2_w_acf}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    lag & 1 & 32 & 33 & 34 \\
+    \hline
+    ACF &   -0.4805 & 0.2861 &  -0.5034 & 0.2093 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Significant auto-correlations of $w_t$}
+  \label{tab:nordea2_w_acf}
+\end{table}
+Although the log-volatilities have the seasonality $s = 33$, judging
+from the relatively big differences between the auto-correlations at
+lags 32 and 34, we don't expect the moving average process to be in the
+multiplicative form of equation \ref{eq:nordea_w}. Instead, we model
+$\ln\sigma_t$ as
+\begin{eqnarray}
+  (1 - B)(1 - B^s) \ln\sigma_t &=& (1 - \theta_1 B - \theta_s B^s -
+  \theta_{s+1} B^{s+1} ) y_t \label{eq:nordea2_v}
+\end{eqnarray}
+where $y_t$ is assumed to be normally distributed, neglecting slight
+non-normality. By maximum likelihood estimation, we fit the above
+model to the realized volatilities. The resulting parameter values are
+listed in table \ref{tab:nordea2_15_SV}.
+
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    parameter & $\theta_1$ & $\theta_{33}$ & $\theta_{34}$ & $\var(y_t)$ \\
+    \hline
+    value & 0.8339 & 0.8448 & -0.7067 & 0.10071 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it: Parameter values of $\ln \sigma_t$}
+  \label{tab:nordea2_15_SV}
+\end{table}
+
+The auto-correlations of the residuals $y_t$ are insignificant, as
+shown in figure \ref{fig:nordea2_y}. Though the Ljung-Box Q
+test rejects the null hypothesis of no autocorrelation in the
+residuals, we rather neglect these weak auto-correlations in favor of
+a relatively simple model.
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=86 256 101
+  121]{../pics/nordea2_y_acf.pdf}
+  \caption{\small \it Auto-correlations of the residuals ($y_t$).}
+  \label{fig:nordea2_y}
+\end{figure}
+
+Forecast of $\ln\sigma_t$ is done by reverting equation
+\ref{eq:nordea2_v} and write
+\begin{eqnarray*}
+  \ln\sigma_t &=& \ln\sigma_{t-1} + \ln\sigma_{t-s} -
+  \ln\sigma_{t-s-1} + (1 - \theta_1 B - \theta_s B^s + \theta_{s+1}
+  B^{s+1} ) y_t \\
+  \E(\ln\sigma_t | \mathcal{F}_{t-1}) &=& \ln\sigma_{t-1} + \ln\sigma_{t-s} -
+  \ln\sigma_{t-s-1} - \theta_1 y_{t-1} - \theta_s y_{t-s} +
+  \theta_{s+1} y_{t-s-1}
+\end{eqnarray*}
+
+Thus the forecast, namely $\E(\ln\sigma_t | \mathcal{F}_{t-1})$, is
+found in terms of previous values in the same series and of previous
+residuals. To compare the performance, we also estimate a GARCH model with
+Gaussian conditional distribution. The procedure is standard and we
+only list the results here
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$ & $\alpha_5$ & $\beta_1$ \\
+    \hline
+    Value & $7.3686 \times 10^{-7}$ & 0.154131 & 0.0360 & 0.491832 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Parameters of GARCH(1, 5) model of Nordea
+    Bank 15-minute returns}
+  \label{tab:nordea2_garch}
+\end{table}
+
+Forecasting using both models, we get two series of one-step-ahead
+forecast, $\ln \sigma^{\text{SV}}_t$ and $\ln \sigma^G_t$,
+respectively. We denote the empirical log-volatilities as $\ln
+\hat{\sigma}_t$. Then the accuracy of the two models can be compared
+by comparing $\ln \sigma^{\text{SV}}_t - \ln \hat{\sigma}_t$ and
+$\ln \sigma^G_t - \ln \hat{\sigma}_t$. As a reference, we also include
+in the comparison the naive approach of taking the sample mean of
+$\ln \sigma_t$ as the forecast.
+
+Table \ref{tab:slv_garch_comparison} shows the mean and the standard
+deviation of $\ln \sigma^F_t - \ln \hat{\sigma}_t$ for the 3 kinds of
+forecast. Here we use $\ln \sigma^F_t$ to denote the forecast of $\ln
+\sigma_t$. Clearly the SV model has the smallest mean and standard
+deviation for $\ln \sigma^F_t - \ln \hat{\sigma}_t$, the sample mean
+has the largest, and the GARCH model sits in between.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    & SV & GARCH & Sample mean \\
+    \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & -0.0033 & 0.0356 &
+    0.0544 \\
+    \hline
+    $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ &
+    0.2876  &  0.3096 &   0.3349 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Standard deviation of $\ln\sigma^F_t -
+    \ln\hat{\sigma}_t$}
+  \label{tab:slv_garch_comparison}
+\end{table}
+Even more informative about the quality of forecast is the
+distribution of $\ln \sigma^F_t - \ln \hat{\sigma}_t$, which we show
+in figure \ref{fig:slv_garch_comparison}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=0 292 0
+  255]{../pics/slv_garch_comparison.pdf}
+  \caption{\small \it Comparison of the forecasts from SV, GARCH,
+    and sample mean. Blue: SV forecasts; Green: GARCH forecasts; Red:
+    Sample mean forecasts.}
+  \label{fig:slv_garch_comparison}
+\end{figure}
+The left plot in the figure shows the situation of under-estimates,
+i.e. $\ln \sigma^F_t - \ln \hat{\sigma}_t < 0$. We see that, to the
+far left, the blue line is below the green, which is in turn below the
+red, meaning the SV forecast has the lowest probability of
+under-estimate. The GARCH forecast comes second and the sample
+mean forecast under-estimates most.
+
+The same ranking of forecast quality is also seen on the right plot of
+figure \ref{fig:slv_garch_comparison}, which shows the complementary
+distribution of $\ln \sigma^F_t - \ln \hat{\sigma}_t$ for postive
+values, i.e. over-estimates: The SV forecast has the lowest
+probability of over-estimate; GARCH comes second and the sample mean
+is most likely to over-estimate.
+
+As another measure of the quality of forecast, the fraction of
+``good'' forecasts that differ no more than a given percentage from
+the measured realized volatilities is also computed. Table
+\ref{tab:nordea_good_percentage} compares this fraction of good
+forecasts from the 3 alternatives with respect to different
+criteria of goodness.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    SV & GARCH & Sample Mean \\
+    \hline
+    1\% & 0.1920 & 0.2010 & 0.1843 \\
+    \hline
+    5\% & 0.7887 & 0.7436 & 0.7229 \\
+    \hline
+    10\% & 0.9665 & 0.9601 & 0.9369 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Fraction of ``good'' forecasts as defined by
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ being less than 1\%, 5\% and 10\%.}
+  \label{tab:nordea_good_percentage}
+\end{table}
+Clearly, although SV and GARCH rank differently with respect to
+different criteria of goodness, they both out-perform the sample
+mean forecast.
+
+\section{30-minute Returns}\label{sec:nordea2_30min}
+In this section we study the volatility of Nordea Bank 30-minute
+returns in the period 2013/10/10 - 2014/04/04. The realized
+volatilities that approximate the volatilities of these 30-minute
+returns are computed using 1-minute returns. As in the previous cases,
+this choice of 1-minute returns is confirmed by the normality of the
+quotient $(r_t - \E(r_t))/\sigma_t$, which is shown in figure
+\ref{fig:nordea3_quotient}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=78 255 108
+  120]{../pics/nordea3_quotient.pdf}
+  \caption{\small \it Normal probability plot of $(r_t -
+    \E(r_t))/\sigma_t$}
+  \label{fig:nordea3_quotient}
+\end{figure}
+The auto-correlations of $\ln \sigma_t$ is shown in figure
+\ref{fig:nordea3_lv_acf}, where we see an apparent seasonality of
+16. By differencing we get $w_t = (1-B)(1-B^s)\ln\sigma_t$ where
+$s=16$. Its auto-correlations are shown in figure
+\ref{fig:nordea3_w_acf}.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=86 256 101
+    121]{../pics/nordea3_lv_acf.pdf}
+    \label{fig:nordea3_lv_acf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=86 256 103
+    122]{../pics/nordea3_w_acf.pdf}
+    \label{fig:nordea3_w_acf}
+  }
+  \caption{\small \it \ref{fig:nordea3_lv_acf}: Auto-correlations
+    (ACF) of $\ln \sigma_t$; \ref{fig:nordea3_w_acf}: Auto-correlations
+    (ACF) of $w_t = (1-B)(1-B^s)\ln\sigma_t$.}
+\end{figure}
+Once again, this auto-correlation structure
+points to a seasonal moving average model:
+\begin{eqnarray*}
+  w_t &=& (1-\theta B)(1-\Theta B^s) y_t
+\end{eqnarray*}
+where $y_t$ is assumed to have Gaussian distribution, neglecting
+slight non-normality as before. Maximum likelihood estimation gives
+the parameter values listed in table \ref{tab:nordea3_sv_param}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Parameter & $\theta$ & $\Theta$ & $\var(y_t)$\\
+    \hline
+    Value & 0.7612 & 0.8036 & 0.0736\\
+    \hline
+  \end{tabular}
+  \caption{\small \it Parameter values of the Seasonal Moving Average
+    model}
+  \label{tab:nordea3_sv_param}
+\end{table}
+To fit a GARCH model to the same series, we assume Gaussian
+innovations (c.f. equation \ref{eq:garch_def}). The result is a
+GARCH(1,1) model. Its parameters are listed in table
+\ref{tab:nordea3_garch_param}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$ & $\beta_1$ \\
+    \hline
+    Value & $2.3 \times 10^{-7}$ & 0.05 & 0.9\\
+    \hline
+  \end{tabular}
+  \caption{\small \it Parameter values of GARCH(1,1) model fitted to
+    Nordea 30-minute returns.}
+  \label{tab:nordea3_garch_param}
+\end{table}
+
+As before, we compare the accuracies of the GARCH and the stochastic
+volatility model by comparing their one-ste-ahead forecasts. We
+compute the difference between their forecasts and the realized
+volatilities and then look at the statistics of these difference
+values. Firstly we show the mean and the standard deviation of the
+differences in table \ref{tab:nordea3_diff_1}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+     & SV & GARCH & Sample mean \\
+     \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & -0.0047 & 0.0130 & 0.0584 \\
+    \hline
+     $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.2602 &
+     0.3194 & 0.3093 \\
+    \hline
+ \end{tabular}
+  \caption{\small \it Mean and standard deviation of the 3 kinds of
+    forecasts}
+  \label{tab:nordea3_diff_1}
+\end{table}
+It is seen in this table that the SV forecasts have a mean whose
+absolute value is just above 1/3 of that of the GARCH forecasts. The
+standard deviation of the SV forecasts is also smaller than that of
+GARCH. In addition, we check the distribution of
+$\ln \sigma^F_t - \ln \hat{\sigma}_t$, and the percentage of ``good''
+forecasts with respect to different criteria of goodness. These are
+shown in figure \ref{fig:nordea3_diff} and table
+\ref{tab:nordea3_diff_2}, respectively.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.54, clip=true, trim=21 312 0
+    179]{../pics/nordea3_diff.pdf}
+  \caption{\small \it Comparison of the forecasts from SV, GARCH,
+    and sample mean. Blue: SV forecasts; Green: GARCH forecasts; Red:
+    Sample mean forecasts.}
+  \label{fig:nordea3_diff}
+\end{figure}
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    SV & GARCH & Sample Mean \\
+    \hline
+    1\% & 0.1777 & 0.1777 & 0.1538 \\
+    \hline
+    5\% & 0.8090 & 0.7109 & 0.6923 \\
+    \hline
+    10\% & 0.9814 & 0.9310 & 0.9523 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Percentage of ``good'' forecasts as defined by
+    deviating nore more than 1\%, 5\% and 10\% from the measured
+    realized volatility.}
+  \label{tab:nordea3_diff_2}
+\end{table}
+It is clear that the SV forecasts are considerably more accurate.
+
+\chapter{Volvo in 2013/14}\label{sec:volvo}
+In this chapter we study the volatility of Volvo B during the period
+2013/10/10 - 2014/04/04. Section \ref{sec:volvo_15} and section \ref{sec:volvo_30}
+investigate the 15-minute and 30-minute returns respectively.
+
+\section{15-minute Returns}\label{sec:volvo_15}
+In this section we look at the volatility of Volvo 15-minute
+returns. The subject of modeling is the realized volatility, which is
+computed as the square root of the sum of squared 1-minute
+returns. The normal probability plot of the quotient $(r_t -
+\E(r_t))/\sigma_t$ is shown in figure \ref{fig:volvo_15_quotient},
+from which one can see it is normally distributed, confirming the
+choice of 1-minute returns for computing the realized volatility.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=83 259 110 
+  220]{../pics/volvo_15_quotient.pdf}
+  \caption{\small \it Normal probability plot of $(r_t -
+    \E(r_t))/\sigma_t$}
+  \label{fig:volvo_15_quotient}
+\end{figure}
+The auto-correlations of $\ln \sigma_t$ and $w_t = (1-B)(1-B^s) \ln
+\sigma_t$ are plotted in figure \ref{fig:volvo_15_lv_acf} and
+\ref{fig:volvo_15_w_acf}. The former clearly shows the seasonality
+$s = 33$ in the auto-correlations of $\ln \sigma_t$.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+  \includegraphics[scale=0.4, clip=true, trim=90 259 103
+  220]{../pics/volvo_15_lv_acf.pdf}
+  \label{fig:volvo_15_lv_acf}
+  }
+  \subfigure[]{
+  \includegraphics[scale=0.4, clip=true, trim=90 259 103
+  220]{../pics/volvo_15_w_acf.pdf}
+  \label{fig:volvo_15_w_acf}
+  }
+  \caption{\small \it Left: auto-correlations of $\ln \sigma_t$;
+    Right: auto-correlations of $w_t = (1-B)(1-B^s) \ln \sigma_t$.}
+\end{figure}
+Based on the auto-correlations of $w_t$, a seasonal moving average
+model is estimated:
+\begin{eqnarray*}
+  (1-B)(1-B^s) \ln\sigma_t &=& (1-\theta_1B - \theta_2B^2 - \theta_3
+  B^3)(1 - \Theta B^s)y_t
+\end{eqnarray*}
+By maximum likelihood estimation, the parameter values listed in table
+\ref{tab:volvo_15_sv_param} are obtained.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+  Parameter & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\Theta$ & 
+ $\var(y_t)$ \\
+ \hline
+ Value & 0.7491 & 0.1170 & 0.0571 & 0.8646 & 0.1245 \\
+  \hline
+  \end{tabular}
+  \caption{\small \it Parameter values of the stochastoc volatility
+    (SV) model.}
+  \label{tab:volvo_15_sv_param}
+\end{table}
+
+A GARCH model (c.f. equation \ref{eq:garch_def}) assuming Gaussian
+innovations is also fitted to the same series. The parameter values
+are listed in table \ref{tab:volvo_15_garch_param}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+  \hline
+  Parameter & $\alpha_0$ & $\alpha_1$ & $\beta_{1}$ \\
+  \hline
+  Value & $6.54 \times 10^{-7}$ & 0.1565 & 0.6445\\
+  \hline
+  \end{tabular}
+  \caption{\small \it Parameter values of the GARCH model.}
+  \label{tab:volvo_15_garch_param}
+\end{table}
+
+Performing one-step-ahead forecasts using both models gives the series
+$\ln\sigma^F_t - \ln\hat{\sigma}_t$, where $\ln\hat{\sigma}_t$ are the
+measured realized volatilities. The mean and standard deviation of
+$\ln\sigma^F_t - \ln\hat{\sigma}_t$ are shown in table
+\ref{tab:volvo_15_stat}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+     & SV & GARCH & Sample mean \\
+     \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.0035 & 0.0313 & -0.1448 \\
+    \hline
+     $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.3356 &
+     0.3894 & 0.3826 \\
+    \hline
+ \end{tabular}
+  \caption{\small \it Mean and standard deviation of the 3 kinds of
+    forecasts}
+  \label{tab:volvo_15_stat}
+\end{table}
+We see that both the SV and the GARCH model give biased forecasts, but
+the SV forecasts are only 1/10 as biased as those of GARCH (0.0035
+vs. 0.0313). In addition, the standard deviation of the SV forecasts
+is smaller too. These results are confirmed by the distribution of
+$\ln \sigma^F_t - \ln \hat{\sigma}_t$ and the fraction of ``good''
+forecasts, which are shown in figure \ref{fig:volvo_15_diff} and table
+\ref{tab:volvo_15_diff}, respectively.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.54, clip=true, trim=27 276 0
+    236]{../pics/volvo_15_diff.pdf}
+  \caption{\small \it Comparison of the forecasts from SV, GARCH,
+    and sample mean. Blue: SV forecasts; Green: GARCH forecasts; Red:
+    Sample mean forecasts.}
+  \label{fig:volvo_15_diff}
+\end{figure}
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    SV & GARCH & Sample Mean \\
+    \hline
+    1\% & 0.5760 & 0.5979 & 0.3930 \\
+    \hline
+    5\% & 0.8351 & 0.8363 & 0.6611 \\
+    \hline
+    10\% & 0.9716 & 0.9536 & 0.9085 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Percentage of ``good'' forecasts as defined by
+    deviating nore more than 1\%, 5\% and 10\% from the measured
+    realized volatility.}
+  \label{tab:volvo_15_diff}
+\end{table}
+
+
+\section{30-minute Returns}\label{sec:volvo_30}
+In this section we model the log-volatility of {\it Volvo B} 30-minute
+returns during the period 2013/10/10 - 2014/04/04. This series
+contains 1884 log-volatilities computed using 2-minute returns in each
+30-minute interval. Among them we use the first 1507 for model
+estimation and the last 377 for forecast and model verification.
+
+The left plot of figure \ref{fig:volvo_inno_and_lv_acf} shows the
+distribution of $(r_t - \E(r_t))/\sigma_t$. We observe in the figure a
+nice Gaussian variate, so we can be sure that the sum of squared
+2-minute returns makes a good approximation to the variance of
+30-minute returns in this particular case.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.4, clip=true, trim=0 256 0
+    151]{../pics/volvo_inno_and_lv_acf.pdf}
+    \label{fig:volvo_inno_and_lv_acf}
+  \caption{\small \it Left: probability plot of $(r_t -
+    \E(r_t))/\sigma_t$; Right: auto-correlations of $\ln \sigma_t$}
+\end{figure}
+
+Guided by the auto-correlations of $\ln\sigma_t$ shown in the right
+plot of figure \ref{fig:volvo_inno_and_lv_acf} we find the following
+model:
+\begin{eqnarray}
+  && (1 - B)(1 - B^s) \ln \sigma_t \nonumber \\
+  &=& (1 - \theta_1 B - \theta_2B^2 -
+  \theta_3B^3 - \theta_4B^4) (1 - \Theta B^s)
+  y_t \label{eq:volvo_lv_model}
+\end{eqnarray}
+where $s = 16$ is the seasonality and is apparent from the
+auto-correlations of $\ln\sigma_t$. Fitting this model to the
+measured realized volatilities yields the parameter values listed in
+table
+\ref{tab:volvo_params}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    Parameter & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\theta_4$ &
+    $\Theta$ & residual variance \\
+    \hline
+    Value & 0.7305 & 0.0575 & 0.0574 & 0.0346 & 0.8324 & 0.1340\\
+    \hline
+  \end{tabular}
+  \caption{\small \it Volvo B log-volatility parameters}
+  \label{tab:volvo_params}
+\end{table}
+Forecasting using the estimated model parameters gives the forecast
+series $\ln \sigma^{\text{SV}}_t$. To access the quality of the
+forecast, we also estimate a GARCH model using the returns. The result
+is a GARCH(1, 1) model, whose parameter values are listed in table
+\ref{tab:volvo_garch}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$  & $\beta_1$ \\
+    \hline
+    Value & $3.125 \times 10^{-7}$ & 0.05 & 0.90 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it GARCH(1, 1) model of Volvo B 30-minute returns}
+  \label{tab:volvo_garch}
+\end{table}
+
+The forecasts from SV, GARCH, and the sample mean are compared
+using the difference $\ln \sigma^F_t - \ln\hat{\sigma}_t$, where $\ln
+\sigma^F_t$ stands for the forecast. The distributions of this
+difference is plotted in figure \ref{fig:volvo_slv_garch_cmp}; the
+mean and the standard deviation of the distributions are listed in
+table \ref{tab:volvo_slv_garch_cmp}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    & SV & GARCH & Sample mean \\
+    \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & -0.0123 &
+    0.0242 & -0.1055 \\
+    \hline
+    $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.3261 &
+    0.4250 & 0.3708 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Standard deviation of $\ln\sigma^F_t -
+    \ln\hat{\sigma}_t$}
+  \label{tab:volvo_slv_garch_cmp}
+\end{table}
+
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=10 282 0
+    243]{../pics/volvo_slv_garch_cmp.pdf}
+    \label{fig:volvo_slv_garch_cmp}
+  \caption{\small \it Comparison of the forecast from SV, GARCH,
+    and sample mean. Blue: SV forecast; Green: GARCH forecast; Red:
+    Sample mean forecast.}
+\end{figure}
+Figure \ref{fig:volvo_slv_garch_cmp} shows, as in the previous case of
+Nordea Bank 15-minute returns, the SV model performs the best, GARCH
+the second, and the sample mean the worst. However, when it comes to
+over-estimates, the sample mean appears to be the best estimator,
+while SV excels over GARCH. But a check of $\E(\ln\sigma_t)$ over
+the sample for estimation (1507 data points) and over the sample for
+comparison (377 data points) reveals that the first sample has mean
+-6.3127 while the second has -6.2072. This increment explains the low
+probability of over-estimation when using the first sample mean as
+forecast. 
+
+Table \ref{tab:volvo_good_percentage} compares the fraction of
+``good'' estimates as measured by ${|\ln\sigma^F_t -
+  \ln\hat{\sigma}_t| \over |\ln \hat{\sigma}_t|}$ being less than 1\%,
+5\% and 10\%.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    SV & GARCH & Sample Mean \\
+    \hline
+    1\% & 0.2175 & 0.1220 & 0.1406 \\
+    \hline
+    5\% & 0.7162 & 0.6154 & 0.6631 \\
+    \hline
+    10\% & 0.9231 & 0.8806 & 0.8992 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Fraction of ``good'' forecasts as defined by
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ being less than 1\%, 5\% and 10\%.}
+  \label{tab:volvo_good_percentage}
+\end{table}
+We see from the table that the SV model consistently excels over
+the other two alternatives.
+
+\chapter{Ericsson in 2013/14}
+\label{chp:ericsson}
+In this chapter we model the volatility of {\it Ericsson B}
+15-minute and 30-minute returns during the period 2013/10/10 -
+2014/04/04.
+
+\section{15-minute Returns}\label{sec:ericsson_15min}
+Using the same method as before, we first find the right
+higher-frequency returns that best approximate the volatility of the
+15-minute returns. These turn out to be 50-second returns, as figure
+\ref{fig:ericsson_15_quotient} shows.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=79 259 108
+  121]{../pics/ericsson_15_quotient.pdf}
+  \caption{\small \it Normal probability plot of $(r_t -\E(r_t))/
+    \sigma_t$. $\sigma_t^2$ is computed as the sum of squared
+    50-second returns.}
+  \label{fig:ericsson_15_quotient}
+\end{figure}
+
+Following the procedure described in previous sections, an ARIMA model is
+found for this series:
+\begin{eqnarray*}
+  (1-B)(1-B^s) \ln\sigma_t &=& (1- \theta_1B - \theta_2B^2 -
+  \theta_3B^3)(1 - \Theta B^s) y_t
+\end{eqnarray*}
+where the seasonality $s$ is 33 and the other parameter values are
+estimated to be those listed in table \ref{tab:ericsson_15_params}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    Parameter & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\Theta$ &
+    $\var(y_t)$ \\
+    \hline
+    Value & 0.8078 & 0.0454 & 0.0943 & 0.8798 & 0.1242 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Ericsson B log-volatility parameters}
+  \label{tab:ericsson_15_params}
+\end{table}
+
+Then a GARCH model is also found with parameter values listed in
+table \ref{tab:ericsson_15_garch_params}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$ & $\alpha_{s}$ & $\beta_{s}$ \\
+    \hline
+    Value & $2.4181 \times 10^{-7}$ & 0.1513 & 0.1409 & 0.6027 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it GARCH model of Volvo B 30-minute returns}
+  \label{tab:ericsson_15_garch_params}
+\end{table}
+
+The forecasts from both models are compared as follows: Table
+\ref{tab:ericsson_15_diff1} shows the mean and standard deviation of
+the 3 kinds of forecasts:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    & SV & GARCH & Sample mean \\
+    \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.0035 &
+    0.0600 & 0.1116 \\
+    \hline
+    $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.3278 &
+    0.3667 & 0.3590 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Standard deviation of $\ln\sigma^F_t -
+    \ln\hat{\sigma}_t$}
+  \label{tab:ericsson_15_diff1}
+\end{table}
+Consistent with previous results, the bias introduced by the SV model
+is significantly smaller than that introduced by GARCH. Figure
+\ref{fig:ericsson_15_diff2} shows the distribution of the difference
+between a forecast and its corresponding measured realized volatility,
+i.e. $\ln\sigma^F_t - \ln\hat{\sigma}_t$; table
+\ref{tab:ericsson_15_diff3} compares the percentage of ``good''
+forecasts using the 3 alternatives.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=45 298 21
+    165]{../pics/ericsson_15_diff2.pdf}
+  \caption{\small \it Comparison of the forecast from SV, GARCH,
+    and sample mean. Blue: SV forecast; Green: GARCH forecast; Red:
+    Sample mean forecast.}
+  \label{fig:ericsson_15_diff2}
+\end{figure}
+
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    SV & GARCH & Sample Mean \\
+    \hline
+    1\% & 0.1673 & 0.1673 & 0.1634 \\
+    \hline
+    5\% & 0.7268 & 0.6850 & 0.6941 \\
+    \hline
+    10\% & 0.9621 & 0.9307 & 0.9399 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Fraction of ``good'' forecasts as defined by
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ being less than 1\%, 5\% and 10\%.}
+  \label{tab:ericsson_15_diff3}
+\end{table}
+It is clear from figure \ref{fig:ericsson_15_diff2} and table
+\ref{tab:ericsson_15_diff3} that the SV model out-performs GARCH. We
+see that the SV model yields considerably higher fractions of good
+forecasts by all criteria, and in particular, gives much few
+under-estimates.
+
+\section{30-minute Returns}\label{sec:ericsson_30min}
+In this section we look at the 30-minute returns of Ericsson B during
+the period 2013/10/10 - 2014/04/04. Since the methods are the same as
+with other series, we shall only present the results here.
+
+First of all, the volatility of this series is found to be well
+approximated by realized volatilities computed from 75-second
+returns. The normal probability plot is shown in figure
+\ref{fig:ericsson_30_quotient}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=79 259 108
+  121]{../pics/ericsson_30_quotient.pdf}
+  \caption{\small \it Normal probability plot of $(r_t -\E(r_t))/
+    \sigma_t$. $\sigma_t^2$ is computed as the sum of squared
+    75-second returns.}
+  \label{fig:ericsson_30_quotient}
+\end{figure}
+The following ARIMA model is found for the log-volatility $\ln
+\sigma_t$:
+\begin{eqnarray*}
+  (1-B)(1-B^s) \ln\sigma_t &=& (1- \theta_1B - \theta_2B^2) (1 -
+  \Theta B^s) y_t 
+\end{eqnarray*}
+where the seasonality $s = 16$. The parameter values are estimated to
+be those listed in table
+\ref{tab:ericsson_30_params}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    Parameter & $\theta_1$ & $\theta_2$ & $\Theta$ &
+    $\var(y_t)$ \\
+    \hline
+    Value & 0.6842 & 0.2470 & 0.8391 & 0.0918 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Ericsson B log-volatility parameters}
+  \label{tab:ericsson_30_params}
+\end{table}
+A GARCH model is also found with parameters listed in table
+\ref{tab:ericsson_30_garch_params}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$ & $\alpha_{s}$ & $\beta_{s}$ \\
+    \hline
+    Value & $7.4856 \times 10^{-7}$ & 0.0532 & 0.1506 & 0.6778 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it GARCH(1, 1) model of Ericsson B 30-minute
+    returns}
+  \label{tab:ericsson_30_garch_params}
+\end{table}
+
+Table \ref{tab:ericsson_30_diff1} shows the mean and standard
+deviation of the difference series $\ln\sigma^F_t -
+\ln\hat{\sigma}_t$, where $\ln\sigma^F_t$ is the forecast
+log-volatility and $\ln\hat{\sigma}_t$ is the measured realized
+volatility.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    & SV & GARCH & Sample mean \\
+    \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.0004 &
+    0.0526 & 0.1039 \\
+    \hline
+    $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.2519 &
+    0.3019 & 0.2963 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Standard deviation of $\ln\sigma^F_t -
+    \ln\hat{\sigma}_t$}
+  \label{tab:ericsson_30_diff1}
+\end{table}
+Apparently, the GARCH forecasts have a fairly large bias compared with
+those of the SV model. Turning to figure \ref{fig:ericsson_30_diff2}
+and table \ref{tab:ericsson_30_diff3}, we also see the SV model
+performs consistently better --- a higher percentage of ``good''
+forecasts are delivered and, while it under-estimates to around the
+same extent as does GARCH, it certainly over-estimates a lot
+less. These are confirmative to what we have observed for the other
+series.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=33 281 11
+    150]{../pics/ericsson_30_diff2.pdf}
+  \caption{\small \it Comparison of the forecast from SV, GARCH,
+    and sample mean. Blue: SV forecast; Green: GARCH forecast; Red:
+    Sample mean forecast.}
+  \label{fig:ericsson_30_diff2}
+\end{figure}
+
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    SV & GARCH & Sample Mean \\
+    \hline
+    1\% & 0.2210 & 0.1617 & 0.1563 \\
+    \hline
+    5\% & 0.7844 & 0.6900 & 0.6873 \\
+    \hline
+    10\% & 0.9838 & 0.9650 & 0.9596 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Fraction of ``good'' forecasts as defined by
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ being less than 1\%, 5\% and 10\%.}
+  \label{tab:ericsson_30_diff3}
+\end{table}

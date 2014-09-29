@@ -1,0 +1,14 @@
+\documentclass{article}
+\author{Xie Xiaolei \\
+Supervised by Prof. Sven \AA berg}
+
+\title{Volatility and Correlations --- Eyes that the wise have in their head}
+\begin{document}
+\maketitle
+
+Can we predict the movements of the financial market? The direct answer is "no", but there is more to be said. One cannot predict the price movement in an efficient market, but one can indeed predict how "volatile" the prices are (volatility). This does not lead to profits, but is useful for risk management --- if one pursues a profit, one must take a risk. Knowing and quantitatively managing the risks associated with investments, one often makes wiser decisions.
+
+This report entails, first of all, a comparison of return models in the context of intraday returns. 6 return series are studied: Nordea, Volvo and Ericsson in the time scales of 15 and 30 minutes. Stochastic Volatility (SV) models and GARCH models are fitted to these series and the resulting volatility forecasts are compared. SV models are found to be more accurate in most cases.
+
+Covariance matrices, which give the correlation between different companies, are also studied. In particular, the eigenvectors and eigenvalues of a covariance matrix, which respectively represent a set of driving factors of the companies' shares and the variances of these factors, are studied. It is found that when the return series are auto-correlated, i.e. when observations at different times are correlated, the eigenvectors are delocalized --- their expansion as a linear combination of the basis vectors involve more appreciable coefficients.
+\end{document}

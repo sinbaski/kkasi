@@ -1,16 +1,16 @@
 clear all
 close all
-N = 500;
+N = 100;
 T = 1000;
-fold = 2000;
+fold = 4000;
 q = N/T;
 
 % dgnl1 = NaN(N, fold);
 phi = 0;
-for N = [500 1000]
+for N = [100 500]
     q = N/T;
     ev1 = NaN(N, fold);
-    for sig = [0.1]
+    for sig = [0.5 0.1]
         for a = 1:fold
             s = [randn(), NaN(1, T-1)]*sig;
             for t = 2:T

@@ -1,0 +1,87 @@
+\chapter{Conclusions}
+\label{chp:summary2}
+In the thesis project we have studied the volatilities of a total of 7
+intraday return series: 15-minute returns of Nordea Bank during the
+period 2012/01/16 - 2012/04/20 and 15-minute and 30-minute returns of
+Nordea Bank, Volvo B and Ericsson B in the period 2013/10/10 -
+2014/04/04. Every series is investigated with a stochastic volatility
+(SV) model and a GARCH model. In fact, when we fit the GARCH model, 3
+GARCH variants have been considered: the basic GARCH, EGARCH, and
+GJR. But in all cases, the basic GARCH stands out to be the most
+accurate in forecasting the realized volatilities.
+
+For comparison, each model makes one-step-ahead forecasts and
+then the two series of forecasts are compared. The quality of a
+forecast series $\ln\sigma^F_t$ is judged by $\ln\sigma^F_t - \ln
+\hat{\sigma}_t$, where $\hat{\sigma}_t$ is the measured realized
+volatility. For each series of $\ln\sigma^F_t - \ln \hat{\sigma}_t$, we
+have compared the mean, standard deviation, cumulative distribution
+function, complementary distribution function, as well as the
+percentage of ``good'' forecasts, where ``good'' is defined by
+deviating less than 1\%, 5\% or 10\% from the realized
+volatility. What we find through the studies is the following:
+\begin{itemize}
+\item In all the 7 studied series, the log-volatility $\ln \sigma_t$
+  is well described by a seasonally integrated moving average
+  model. Long memory in these series is accounted for by the compounded
+  difference operator $(1-B)(1-B^s)$ where $B$ denotes the back-shift
+  operator. $s$ at here stands for seasonality, which is 33 in the
+  cases of 15-minute returns and 16 in the cases of 30-minute
+  returns.
+
+\item An SV model generally yields more accurate forecasts than does
+  the GARCH model for the same series. This is certainly well expected,
+  considering that the SV model incorporates much more data than does
+  GARCH. However, it must be noted that the validity of the
+  aforementioned comparison is underlain by the accuracy of realized
+  volatility as a proxy to the true conditional volatility.
+
+\item The accuracy of forecasts varies more for GARCH than for SV
+  models. For example, the percentage of forecasts
+  that lie within 5\% of the corresponding realized volatilities has
+  the values listed in table \ref{tab:5percent_values}.
+  \begin{table}[htb!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+      \hline
+      & Volvo 15m & Volvo 30m & Ericsson 15m & Ericsson 30m \\
+      \hline
+      SV & 0.8351 & 0.7162 & 0.7268 & 0.7844 \\
+      \hline
+      GARCH & 0.8363 & 0.6154 & 0.6850 & 0.6900 \\
+      \hline
+      \hline
+      & Nordea 1 15m & Nordea 2 15m & Nordea 2 30m & std.\\
+      \hline
+      SV & 0.7457 & 0.7887 & 0.8090 & 0.0432 \\
+      \hline
+      GARCH & 0.7062 & 0.7436 & 0.7109 & 0.0722 \\
+      \hline
+    \end{tabular}
+    \caption{\small \it Comparison of the percentage of forecasts that
+      lie within 5\% of the corresponding realized
+      volatilities. Nordea 1 refers to the Nordea 15-minute returns
+      studied in chapter \ref{chp:nordea_15min} and Nordea 2 refers to
+      the 15-minute and 30-minute returns studied in chapter
+      \ref{chp:Nordea2}. 15m and 30m are acronyms for 15-minute and
+      30-minute, respectively.}
+    \label{tab:5percent_values}
+  \end{table}
+  The standard deviation of this percentage is 0.0432 for SV models
+  but 0.0722 for GARCH.
+
+\end{itemize}
+
+In chapter \ref{chp:SLV_unconditional} we have presented our
+calculation of the unconditional distribution functions of the
+stochastic volatility models used throughout the project, i.e. the
+distribution of $\mu + e^{\bar{v} + \sigma a}b$, where $a, b \sim N(0,
+\mtx \Sigma)$. In the simplest case where $\mtx \Sigma = \mtx I$, this
+is simply the product of a lognormal and a normal variate, but when
+$\mtx \Sigma \neq \mtx I$, the distribution becomes more
+complicated. In the case $\mtx \Sigma \neq \mtx I$, we obtained the
+moment generating function and calculated the first four moments of
+the distribution. The parameters of the unconditional distribution are
+estimated with respect to the 30-minute returns of Nordea Bank, Volvo
+B and Ericsson B. The resulting distributions are seen to fit the data
+very nicely.
