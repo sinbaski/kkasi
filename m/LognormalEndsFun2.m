@@ -4,5 +4,5 @@
 % return: scalar or column vector
 function [f, fder] = LognormalEndsFun2(v, q, a)
 [f, fder] = LognormalEndsFun1(v, q, a);
-f = 1./a.^2 - f;
-fder = -2./a.^3 - fder;
+f = a - f^(-1/2);
+fder = 1 + (1/2)*f.^(-3/2).*fder;
