@@ -1,63 +1,57 @@
 clear all
 close all
-v = 1.0e-4;
-q = 0.1;
 
-a = (1 - sqrt(q))^2;
-b = (1 + sqrt(q))^2;
+mysql = get_mysql();
+stmt = sprintf('select symbol from DAX_components;');
+data = fetch(mysql, stmt);
+p = 29;
+T = 3000;
 
-% [X, Y] = meshgrid([-0.35:0.005:0.35], [-0.5:0.01:-0.1]);
-% Z = X + i.*Y;
-% F = NaN(size(Z, 1), size(Z, 2), 2);
-% for n = 1:size(Z, 2)
-%     B = LognormalBlue(Z(:, n), v, q);
-%     F(:, n, 1) = B(:, 1);
-%     F(:, n, 2) = B(:, 2);
-% end
-% subplot(1, 2, 1);
-% contourf(X, Y, F(:, :, 1), 20);
-% xlabel('Re G');
-% ylabel('Im G');
-% colorbar('location', 'EastOutside');
-% title('Re B');
+T1 = 300;
+periods = T/T1;
 
-% subplot(1, 2, 2);
-% contourf(X, Y, F(:, :, 2), 20);
-% xlabel('Re G');
-% ylabel('Im G');
-% colorbar('location', 'EastOutside');
-% title('Im B');
-
-% [min(min(F(:, :, 2))), max(max(F(:, :, 2)))]
-
-% g0 = LognormalGreen((a+b)/2, v, q);
-z0 = 0.5;
-flag = 1;
-while flag
-    g0 = LognormalGreen(z0, v, q);
-    if (abs(imag(g0)) > 1.0e-3)
-        flag = 0;
-    else
-        z0 = z0*1.05;
-    end
+R = NaN(p, T);
+counts = NaN(1, p);
+for k = 1 : p
+    closing = fetch(mysql, sprintf(['select closing from %s order by day desc ' ...
+                        'limit %d;'], strrep(data{k}, '.', '_'), ...
+          T));
+    R(k, :) = cell2mat(flipud(closing))';
 end
-[end1, end2] = LognormalEnds(v, q, g0);
-Z1 = linspace(end1, end2, 500)';
-G1 = LognormalGreen(Z1, v, q);
+close(mysql);
 
-Z2 = linspace(a, b, 500)';
-P2 = MarcenkoPasturPDF(Z2, [q, 1])';
+lambda = NaN(p, periods);
+for k = 1: periods
+    C = R(:, (k-1)*T1 + 1 : k*T1) * R(:, (k-1)*T1 + 1 : k*T1)';
+    lambda(:, k) = sort(eig(C), 'descend');
+end
+I = lambda(1, :) > 0 & lambda(2, :) > 0;
+A = log10(lambda(1, I)./lambda(2, I));
+A = A./std(A);
 
-plot((Z1), log10(-imag(G1)./pi), 'b', (Z2), log10(P2), ...
-     'r', 'LineWidth', 2);
-grid on
-legend('Lognormal SV', 'MP');
-ylabel('Spectral density function');
+B = log10(1./rand(1, 1000));
+B = B./std(B);
+qqplot(A, B);
 
-% Z3 = linspace(end1, b, 500)';
-% G3 = LognormalGreen(Z3, v, q);
+% results = NaN(1, p-1);
+% U = sort(rand(500, p-1), 'descend');
+% for k = 1: p-1
+%     eig_sample = log(lambda(p, :)./lambda(p-k, :));
+%     eig_sample = eig_sample./std(eig_sample);
+%     uni_sample = log(U(k, :));
+%     uni_sample = uni_sample ./ std(uni_sample);
+%     results(k) = kstest2(eig_sample, uni_sample);
+% end
 
-% plot((Z3), log10(-imag(G3)./pi), 'b', (Z2), log10(P2), ...
-%      'r', 'LineWidth', 2);
-% xlim([min(a, end1), b]);
-% grid on
+% fd = fopen('results.txt', 'wt');
+% for k = 1 : p - 1
+%     fprintf(fd, '%d, ', results(k));
+%     fprintf(fd, '\n');
+% end
+% fclose(fd);
+% Check whether lambda()
+% C = R*R';
+% lambda = flipud(sort(eig(C)));
+% lambda = lambda ./ lambda(1);
+
+

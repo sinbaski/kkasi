@@ -197,11 +197,11 @@ equation system:
 \frac{x}{x^2 + y^2} \label{eq:LognormalBlueReal}\\
 0 &=& \int_{-\infty}^{\infty} \frac{ds}{\sqrt{2\pi v}}
 \frac{
-  e^{-s^2/2v} q
+  e^{-s^2/2v} q y
 }{
   (e^{-2s} - qx)^2 + q^2 y^2  
 } -
-\frac{1}{x^2 + y^2} \label{eq:LognormalBlueImag}
+\frac{y}{x^2 + y^2} \label{eq:LognormalBlueImag}
 \end{eqnarray}
 This is the method used by Biroli et al in
 \cite{biroli2007student}. Figure \ref{fig:LognormalBlue}
@@ -262,72 +262,112 @@ From figures \ref{fig:LognormalSpectra} one can see that the
 Marcenko-Pastur law is recovered when $v \to 0$, as expected.
 
 Now we consider equation \eqref{eq:LognormalBlueReal} and
-\eqref{eq:LognormalBlueImag}. As $\lambda$ tends to $\lambda_\M$ with
-$\lambda_\M \leq \infty$, $y \to 0$. Meanwhile, $x$ can neither tend
-to 0 nor to $\infty$: If $x \to 0$, then $\frac{1}{x^2 + y^2} \to
-\infty$ while the integral in \eqref{eq:LognormalBlueImag} tends to
-$e^{8v}$ -- thus \eqref{eq:LognormalBlueImag} cannot hold. If instead
-$x \to \infty$, RHS of \eqref{eq:LognormalBlueReal} tends to 0, failing
-\eqref{eq:LognormalBlueReal}. So $x$ must tend to a finite value as $\lambda
-\to \lambda_\M$. This limiting value, call it $a$, can be found from
-\eqref{eq:LognormalBlueImag} by setting $y=0$:
+\eqref{eq:LognormalBlueImag}. When $q y$ and $v$ are both small, RHS
+of \eqref{eq:LognormalBlueReal} and \eqref{eq:LognormalBlueImag} have
+two sharp peaks, one at $s = 0$ and the other at $s = -{1 \over
+  2}\ln(qx)$. We expand the integrands in
+\eqref{eq:LognormalBlueReal} and \eqref{eq:LognormalBlueImag} around
+these two peaks. For \eqref{eq:LognormalBlueImag} We write
 \begin{eqnarray}
-{1 \over a^2} &=& \int_{-\infty}^{\infty} \frac{ds}{\sqrt{2\pi v}}
-\frac{
-  e^{-s^2/2v} q
-}{
-  (e^{-2s} - qa)^2
-} \label{eq:LognormalBlueImag2}
+  {y \over x^2 + y^2} &=& \int_{-a}^{a} {e^{-s^2/2v}ds \over
+    \sqrt{2\pi v}} \left[\frac{qy}{(1-qx)^2 + q^2y^2}\right] \label{eq:lambda}\\
+  && - \int_{-b}^{b} {dt \over \sqrt{2\pi v}} {1 \over 2(t + q x)}
+  \exp \left[-\frac{\log ^2(q x+t)}{8v}\right] {qy \over t^2 +
+    q^2y^2} \nonumber \\
+  &=& \erf\left({a \over \sqrt{2\pi}}\right)\left[\frac{qy}{(1-qx)^2 +
+      q^2 y^2}\right] \nonumber \\
+  && -{1 \over \sqrt{2\pi v}}\left\{
+  \exp\left(-{\ln^2qx \over 8v}\right) \frac{x \cot ^{-1}\left(\frac{q
+      y}{b}\right)+y \coth ^{-1}\left(\frac{q x}{b}\right)}{q x^2+q
+    y^2} \right. \nonumber \\
+  && \left.-\exp\left(-{\ln^2qx \over 8v}\right)
+  \frac{y \left[x \log \left(1-\frac{2 b}{b+q x}\right)+2 y
+    \cot^{-1}\left(\frac{q y}{b}\right)\right]}{2
+    \left(x^2+y^2\right)} {\ln qx \over 4qvx}
+  \right\} \nonumber
 \end{eqnarray}
-Clearly $a$ is a function of $v$ and $q$. Denote this function $f$
-such that $a = f(v, q)$. As has been argued, $f(v,q)$ is finite for
-all $v > 0$ and $0 < q \leq 1$. Using $f$, the integral in
-\eqref{eq:LognormalBlueReal}, in the limit $\lambda \to \lambda_\M$,
-can be expressed
-\begin{eqnarray*}
-  {1 \over \sqrt{2\pi v}} \int_{-\infty}^{\infty} \frac{
-    e^{-2s - s^2/2v}
-    }{
-      (e^{-2s} - qa)^2
-    } ds &=& {1 \over q e^{2v} f^2(v, qe^{-4v})}
-\end{eqnarray*}
-It immediately follows from \eqref{eq:LognormalBlueReal}
-\begin{eqnarray*}
-  \lambda_\M &=& {1 \over q e^{2v} f^2(v, qe^{-4v})}
-\end{eqnarray*}
-Since $q \leq 1$ and $e^{-2v} < 1$, $f(v, qe^{-2v})$ and hence
-$\lambda_\M$ are finite. The spectrum is bounded.
+where $a$ and $b$ are small positive numbers. In particular, $b < q x$
+such that $t + qx > 0$. Similarly, for \eqref{eq:LognormalBlueReal} we have
+\begin{eqnarray}
+  \lambda &=& {x \over x^2 + y^2} + \erf\left({a \over \sqrt{2v}}\right){1 - q x
+    \over (1 - q x)^2 + q^2 y^2 } \nonumber \\
+  && - {1 \over \sqrt{2\pi v}}
+  \left\{\exp\left(-{\ln^2qx \over 8v}\right) \frac{x \log
+    \left(1-\frac{2 b}{b+q x}\right)+2 y \cot ^{-1}\left(\frac{q
+      y}{b}\right)}{2 q \left(x^2+y^2\right)} \right. \nonumber \\
+  &&  
+  \left. -\frac{\log (q x)}{4 q v x} \exp\left(-{\ln^2qx \over
+    8v}\right) \frac{x \left[x \coth ^{-1}\left(\frac{q x}{b}\right)-y
+    \cot ^{-1}\left(\frac{q y}{b}\right)\right]}{x^2+y^2}
+  \right\} \label{eq:constraint}
+\end{eqnarray}
+%% Now we consider equation \eqref{eq:LognormalBlueReal} and
+%% \eqref{eq:LognormalBlueImag}. As $\lambda$ tends to $\lambda_\M$ with
+%% $\lambda_\M \leq \infty$, $y \to 0$. Meanwhile, $x$ can neither tend
+%% to 0 nor to $\infty$: If $x \to 0$, then $\frac{1}{x^2 + y^2} \to
+%% \infty$ while the integral in \eqref{eq:LognormalBlueImag} tends to
+%% $e^{8v}$ -- thus \eqref{eq:LognormalBlueImag} cannot hold. If instead
+%% $x \to \infty$, RHS of \eqref{eq:LognormalBlueReal} tends to 0, failing
+%% \eqref{eq:LognormalBlueReal}. So $x$ must tend to a finite value as $\lambda
+%% \to \lambda_\M$. This limiting value, call it $a$, can be found from
+%% \eqref{eq:LognormalBlueImag} by setting $y=0$:
+%% \begin{eqnarray}
+%% {1 \over a^2} &=& \int_{-\infty}^{\infty} \frac{ds}{\sqrt{2\pi v}}
+%% \frac{
+%%   e^{-s^2/2v} q
+%% }{
+%%   (e^{-2s} - qa)^2
+%% } \label{eq:LognormalBlueImag2}
+%% \end{eqnarray}
+%% Clearly $a$ is a function of $v$ and $q$. Denote this function $f$
+%% such that $a = f(v, q)$. As has been argued, $f(v,q)$ is finite for
+%% all $v > 0$ and $0 < q \leq 1$. Using $f$, the integral in
+%% \eqref{eq:LognormalBlueReal}, in the limit $\lambda \to \lambda_\M$,
+%% can be expressed
+%% \begin{eqnarray*}
+%%   {1 \over \sqrt{2\pi v}} \int_{-\infty}^{\infty} \frac{
+%%     e^{-2s - s^2/2v}
+%%     }{
+%%       (e^{-2s} - qa)^2
+%%     } ds &=& {1 \over q e^{2v} f^2(v, qe^{-4v})}
+%% \end{eqnarray*}
+%% It immediately follows from \eqref{eq:LognormalBlueReal}
+%% \begin{eqnarray*}
+%%   \lambda_\M &=& {1 \over q e^{2v} f^2(v, qe^{-4v})}
+%% \end{eqnarray*}
+%% Since $q \leq 1$ and $e^{-2v} < 1$, $f(v, qe^{-2v})$ and hence
+%% $\lambda_\M$ are finite. The spectrum is bounded.
 
-The function $f(v,q)$ as defined by the largest root of
-\eqref{eq:LognormalBlueImag2} is plotted in figure
-\ref{fig:FFunction1}, seen as the intersection between the two curves,
-which represent the two sides of \eqref{eq:LognormalBlueImag2},
-respectively.
-\begin{figure}[htb!]
-  \centering
-  \subfigure[]{
-    \includegraphics[scale=0.35]{../pics/FFunctionOverview.eps}
-    \label{fig:FFunctionOverview}
-  }
-  \subfigure[]{
-    \includegraphics[scale=0.35]{../pics/FFunction1.eps}
-    \label{fig:FFunction1}
-  }
-  %% \subfigure[$q = 0.5$]{
-  %%   \includegraphics[scale=0.35]{../pics/FFunction3.eps}
-  %%   \label{fig:FFunction2}
-  %% }
-  \caption{\small \it The implicit function $f(v, q)$ plotted in
-    log-log scale. Blue: the integral $\int_{-\infty}^{\infty}
-    \frac{ds}{\sqrt{2\pi v}}
-    \frac{
-      e^{-s^2/2v} q
-    }{
-      (e^{-2s} - qa)^2
-    }$as a function of $a$. Green: the function $1/a^2$. v=0.1, q=0.1.
-}
-  \label{fig:FFunction}
-\end{figure}
+%% The function $f(v,q)$ as defined by the largest root of
+%% \eqref{eq:LognormalBlueImag2} is plotted in figure
+%% \ref{fig:FFunction1}, seen as the intersection between the two curves,
+%% which represent the two sides of \eqref{eq:LognormalBlueImag2},
+%% respectively.
+%% \begin{figure}[htb!]
+%%   \centering
+%%   \subfigure[]{
+%%     \includegraphics[scale=0.35]{../pics/FFunctionOverview.eps}
+%%     \label{fig:FFunctionOverview}
+%%   }
+%%   \subfigure[]{
+%%     \includegraphics[scale=0.35]{../pics/FFunction1.eps}
+%%     \label{fig:FFunction1}
+%%   }
+%%   %% \subfigure[$q = 0.5$]{
+%%   %%   \includegraphics[scale=0.35]{../pics/FFunction3.eps}
+%%   %%   \label{fig:FFunction2}
+%%   %% }
+%%   \caption{\small \it The implicit function $f(v, q)$ plotted in
+%%     log-log scale. Blue: the integral $\int_{-\infty}^{\infty}
+%%     \frac{ds}{\sqrt{2\pi v}}
+%%     \frac{
+%%       e^{-s^2/2v} q
+%%     }{
+%%       (e^{-2s} - qa)^2
+%%     }$as a function of $a$. Green: the function $1/a^2$. v=0.1, q=0.1.
+%% }
+%%   \label{fig:FFunction}
+%% \end{figure}
 
 % To see the effect of heteroscedasticity we turn to simulations. Figure
 % \ref{fig:LognormalSpectraAutocorrelated} shows the empirical spectral
