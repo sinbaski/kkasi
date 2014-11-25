@@ -1,0 +1,1298 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     47486,       1288]
+NotebookOptionsPosition[     46831,       1260]
+NotebookOutlinePosition[     47166,       1275]
+CellTagsIndexPosition[     47123,       1272]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"$Assumptions", "=", 
+  RowBox[{
+   RowBox[{"q", ">", "0"}], "&&", 
+   RowBox[{"v", ">", "0"}]}]}]], "Input",
+ CellChangeTimes->{{3.6201099909738283`*^9, 3.6201100009742393`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"q", ">", "0"}], "&&", 
+  RowBox[{"v", ">", "0"}]}]], "Output",
+ CellChangeTimes->{3.62011000748635*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Solve", "[", 
+  RowBox[{
+   RowBox[{"\[Lambda]", "\[Equal]", 
+    RowBox[{
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{"2", "v"}]], "+", 
+     RowBox[{"q", " ", "z", " ", 
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{"8", "v"}]]}], "+", 
+     RowBox[{
+      SuperscriptBox["q", "2"], 
+      SuperscriptBox["z", "2"], 
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{"18", "v"}]]}], "-", 
+     FractionBox["1", "z"]}]}], ",", "z"}], "]"}]], "Input",
+ CellChangeTimes->{{3.620110011213944*^9, 3.6201100672981653`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"z", "\[Rule]", 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          RowBox[{"-", "10"}], " ", "v"}]], 
+        RowBox[{"3", " ", "q"}]]}], "+", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["2", 
+          RowBox[{"1", "/", "3"}]], " ", 
+         SuperscriptBox["\[ExponentialE]", 
+          RowBox[{
+           RowBox[{"-", "18"}], " ", "v"}]], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"16", " ", "v"}]]}], " ", 
+            SuperscriptBox["q", "2"]}], "-", 
+           RowBox[{"3", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"18", " ", "v"}]], " ", 
+            SuperscriptBox["q", "2"], " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", 
+               SuperscriptBox["\[ExponentialE]", 
+                RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}], 
+          ")"}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"3", " ", 
+         SuperscriptBox["q", "2"], " ", 
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"2", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"24", " ", "v"}]], " ", 
+             SuperscriptBox["q", "3"]}], "-", 
+            RowBox[{"9", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"28", " ", "v"}]], " ", 
+             SuperscriptBox["q", "3"]}], "-", 
+            RowBox[{"27", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"36", " ", "v"}]], " ", 
+             SuperscriptBox["q", "4"]}], "+", 
+            RowBox[{"9", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"26", " ", "v"}]], " ", 
+             SuperscriptBox["q", "3"], " ", "\[Lambda]"}], "+", 
+            RowBox[{"\[Sqrt]", 
+             RowBox[{"(", 
+              RowBox[{
+               SuperscriptBox[
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"2", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"24", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "3"]}], "-", 
+                  RowBox[{"9", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"28", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "3"]}], "-", 
+                  RowBox[{"27", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"36", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "4"]}], "+", 
+                  RowBox[{"9", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"26", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "3"], " ", "\[Lambda]"}]}], ")"}], 
+                "2"], "+", 
+               RowBox[{"4", " ", 
+                SuperscriptBox[
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"16", " ", "v"}]]}], " ", 
+                    SuperscriptBox["q", "2"]}], "-", 
+                   RowBox[{"3", " ", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"18", " ", "v"}]], " ", 
+                    SuperscriptBox["q", "2"], " ", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}],
+                   ")"}], "3"]}]}], ")"}]}]}], ")"}], 
+          RowBox[{"1", "/", "3"}]]}], ")"}]}], "-", 
+      RowBox[{
+       FractionBox["1", 
+        RowBox[{"3", " ", 
+         SuperscriptBox["2", 
+          RowBox[{"1", "/", "3"}]], " ", 
+         SuperscriptBox["q", "2"]}]], 
+       RowBox[{
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          RowBox[{"-", "18"}], " ", "v"}]], " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"2", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"24", " ", "v"}]], " ", 
+            SuperscriptBox["q", "3"]}], "-", 
+           RowBox[{"9", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"28", " ", "v"}]], " ", 
+            SuperscriptBox["q", "3"]}], "-", 
+           RowBox[{"27", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"36", " ", "v"}]], " ", 
+            SuperscriptBox["q", "4"]}], "+", 
+           RowBox[{"9", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"26", " ", "v"}]], " ", 
+            SuperscriptBox["q", "3"], " ", "\[Lambda]"}], "+", 
+           RowBox[{"\[Sqrt]", 
+            RowBox[{"(", 
+             RowBox[{
+              SuperscriptBox[
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"2", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"24", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "3"]}], "-", 
+                 RowBox[{"9", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"28", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "3"]}], "-", 
+                 RowBox[{"27", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"36", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "4"]}], "+", 
+                 RowBox[{"9", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"26", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "3"], " ", "\[Lambda]"}]}], ")"}], "2"],
+               "+", 
+              RowBox[{"4", " ", 
+               SuperscriptBox[
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"16", " ", "v"}]]}], " ", 
+                   SuperscriptBox["q", "2"]}], "-", 
+                  RowBox[{"3", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"18", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "2"], " ", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}],
+                  ")"}], "3"]}]}], ")"}]}]}], ")"}], 
+         RowBox[{"1", "/", "3"}]]}]}]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"z", "\[Rule]", 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          RowBox[{"-", "10"}], " ", "v"}]], 
+        RowBox[{"3", " ", "q"}]]}], "-", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "+", 
+           RowBox[{"\[ImaginaryI]", " ", 
+            SqrtBox["3"]}]}], ")"}], " ", 
+         SuperscriptBox["\[ExponentialE]", 
+          RowBox[{
+           RowBox[{"-", "18"}], " ", "v"}]], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"16", " ", "v"}]]}], " ", 
+            SuperscriptBox["q", "2"]}], "-", 
+           RowBox[{"3", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"18", " ", "v"}]], " ", 
+            SuperscriptBox["q", "2"], " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", 
+               SuperscriptBox["\[ExponentialE]", 
+                RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}], 
+          ")"}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"3", " ", 
+         SuperscriptBox["2", 
+          RowBox[{"2", "/", "3"}]], " ", 
+         SuperscriptBox["q", "2"], " ", 
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"2", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"24", " ", "v"}]], " ", 
+             SuperscriptBox["q", "3"]}], "-", 
+            RowBox[{"9", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"28", " ", "v"}]], " ", 
+             SuperscriptBox["q", "3"]}], "-", 
+            RowBox[{"27", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"36", " ", "v"}]], " ", 
+             SuperscriptBox["q", "4"]}], "+", 
+            RowBox[{"9", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"26", " ", "v"}]], " ", 
+             SuperscriptBox["q", "3"], " ", "\[Lambda]"}], "+", 
+            RowBox[{"\[Sqrt]", 
+             RowBox[{"(", 
+              RowBox[{
+               SuperscriptBox[
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"2", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"24", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "3"]}], "-", 
+                  RowBox[{"9", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"28", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "3"]}], "-", 
+                  RowBox[{"27", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"36", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "4"]}], "+", 
+                  RowBox[{"9", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"26", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "3"], " ", "\[Lambda]"}]}], ")"}], 
+                "2"], "+", 
+               RowBox[{"4", " ", 
+                SuperscriptBox[
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"16", " ", "v"}]]}], " ", 
+                    SuperscriptBox["q", "2"]}], "-", 
+                   RowBox[{"3", " ", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"18", " ", "v"}]], " ", 
+                    SuperscriptBox["q", "2"], " ", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}],
+                   ")"}], "3"]}]}], ")"}]}]}], ")"}], 
+          RowBox[{"1", "/", "3"}]]}], ")"}]}], "+", 
+      RowBox[{
+       FractionBox["1", 
+        RowBox[{"6", " ", 
+         SuperscriptBox["2", 
+          RowBox[{"1", "/", "3"}]], " ", 
+         SuperscriptBox["q", "2"]}]], 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", "-", 
+          RowBox[{"\[ImaginaryI]", " ", 
+           SqrtBox["3"]}]}], ")"}], " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          RowBox[{"-", "18"}], " ", "v"}]], " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"2", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"24", " ", "v"}]], " ", 
+            SuperscriptBox["q", "3"]}], "-", 
+           RowBox[{"9", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"28", " ", "v"}]], " ", 
+            SuperscriptBox["q", "3"]}], "-", 
+           RowBox[{"27", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"36", " ", "v"}]], " ", 
+            SuperscriptBox["q", "4"]}], "+", 
+           RowBox[{"9", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"26", " ", "v"}]], " ", 
+            SuperscriptBox["q", "3"], " ", "\[Lambda]"}], "+", 
+           RowBox[{"\[Sqrt]", 
+            RowBox[{"(", 
+             RowBox[{
+              SuperscriptBox[
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"2", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"24", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "3"]}], "-", 
+                 RowBox[{"9", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"28", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "3"]}], "-", 
+                 RowBox[{"27", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"36", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "4"]}], "+", 
+                 RowBox[{"9", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"26", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "3"], " ", "\[Lambda]"}]}], ")"}], "2"],
+               "+", 
+              RowBox[{"4", " ", 
+               SuperscriptBox[
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"16", " ", "v"}]]}], " ", 
+                   SuperscriptBox["q", "2"]}], "-", 
+                  RowBox[{"3", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"18", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "2"], " ", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}],
+                  ")"}], "3"]}]}], ")"}]}]}], ")"}], 
+         RowBox[{"1", "/", "3"}]]}]}]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"z", "\[Rule]", 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          RowBox[{"-", "10"}], " ", "v"}]], 
+        RowBox[{"3", " ", "q"}]]}], "-", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           RowBox[{"\[ImaginaryI]", " ", 
+            SqrtBox["3"]}]}], ")"}], " ", 
+         SuperscriptBox["\[ExponentialE]", 
+          RowBox[{
+           RowBox[{"-", "18"}], " ", "v"}]], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"16", " ", "v"}]]}], " ", 
+            SuperscriptBox["q", "2"]}], "-", 
+           RowBox[{"3", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"18", " ", "v"}]], " ", 
+            SuperscriptBox["q", "2"], " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", 
+               SuperscriptBox["\[ExponentialE]", 
+                RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}], 
+          ")"}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"3", " ", 
+         SuperscriptBox["2", 
+          RowBox[{"2", "/", "3"}]], " ", 
+         SuperscriptBox["q", "2"], " ", 
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"2", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"24", " ", "v"}]], " ", 
+             SuperscriptBox["q", "3"]}], "-", 
+            RowBox[{"9", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"28", " ", "v"}]], " ", 
+             SuperscriptBox["q", "3"]}], "-", 
+            RowBox[{"27", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"36", " ", "v"}]], " ", 
+             SuperscriptBox["q", "4"]}], "+", 
+            RowBox[{"9", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"26", " ", "v"}]], " ", 
+             SuperscriptBox["q", "3"], " ", "\[Lambda]"}], "+", 
+            RowBox[{"\[Sqrt]", 
+             RowBox[{"(", 
+              RowBox[{
+               SuperscriptBox[
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"2", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"24", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "3"]}], "-", 
+                  RowBox[{"9", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"28", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "3"]}], "-", 
+                  RowBox[{"27", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"36", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "4"]}], "+", 
+                  RowBox[{"9", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"26", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "3"], " ", "\[Lambda]"}]}], ")"}], 
+                "2"], "+", 
+               RowBox[{"4", " ", 
+                SuperscriptBox[
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"16", " ", "v"}]]}], " ", 
+                    SuperscriptBox["q", "2"]}], "-", 
+                   RowBox[{"3", " ", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"18", " ", "v"}]], " ", 
+                    SuperscriptBox["q", "2"], " ", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}],
+                   ")"}], "3"]}]}], ")"}]}]}], ")"}], 
+          RowBox[{"1", "/", "3"}]]}], ")"}]}], "+", 
+      RowBox[{
+       FractionBox["1", 
+        RowBox[{"6", " ", 
+         SuperscriptBox["2", 
+          RowBox[{"1", "/", "3"}]], " ", 
+         SuperscriptBox["q", "2"]}]], 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", "+", 
+          RowBox[{"\[ImaginaryI]", " ", 
+           SqrtBox["3"]}]}], ")"}], " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          RowBox[{"-", "18"}], " ", "v"}]], " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"2", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"24", " ", "v"}]], " ", 
+            SuperscriptBox["q", "3"]}], "-", 
+           RowBox[{"9", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"28", " ", "v"}]], " ", 
+            SuperscriptBox["q", "3"]}], "-", 
+           RowBox[{"27", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"36", " ", "v"}]], " ", 
+            SuperscriptBox["q", "4"]}], "+", 
+           RowBox[{"9", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"26", " ", "v"}]], " ", 
+            SuperscriptBox["q", "3"], " ", "\[Lambda]"}], "+", 
+           RowBox[{"\[Sqrt]", 
+            RowBox[{"(", 
+             RowBox[{
+              SuperscriptBox[
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"2", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"24", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "3"]}], "-", 
+                 RowBox[{"9", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"28", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "3"]}], "-", 
+                 RowBox[{"27", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"36", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "4"]}], "+", 
+                 RowBox[{"9", " ", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"26", " ", "v"}]], " ", 
+                  SuperscriptBox["q", "3"], " ", "\[Lambda]"}]}], ")"}], "2"],
+               "+", 
+              RowBox[{"4", " ", 
+               SuperscriptBox[
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"16", " ", "v"}]]}], " ", 
+                   SuperscriptBox["q", "2"]}], "-", 
+                  RowBox[{"3", " ", 
+                   SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"18", " ", "v"}]], " ", 
+                   SuperscriptBox["q", "2"], " ", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}],
+                  ")"}], "3"]}]}], ")"}]}]}], ")"}], 
+         RowBox[{"1", "/", "3"}]]}]}]}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.620110070835889*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Simplify", "[", 
+  RowBox[{
+   RowBox[{"-", 
+    FractionBox[
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{
+       RowBox[{"-", "10"}], " ", "v"}]], 
+     RowBox[{"3", " ", "q"}]]}], "+", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      SuperscriptBox["2", 
+       RowBox[{"1", "/", "3"}]], " ", 
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{
+        RowBox[{"-", "18"}], " ", "v"}]], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"16", " ", "v"}]]}], " ", 
+         SuperscriptBox["q", "2"]}], "-", 
+        RowBox[{"3", " ", 
+         SuperscriptBox["\[ExponentialE]", 
+          RowBox[{"18", " ", "v"}]], " ", 
+         SuperscriptBox["q", "2"], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}], 
+       ")"}]}], ")"}], "/", 
+    RowBox[{"(", 
+     RowBox[{"3", " ", 
+      SuperscriptBox["q", "2"], " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"2", " ", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"24", " ", "v"}]], " ", 
+          SuperscriptBox["q", "3"]}], "-", 
+         RowBox[{"9", " ", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"28", " ", "v"}]], " ", 
+          SuperscriptBox["q", "3"]}], "-", 
+         RowBox[{"27", " ", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"36", " ", "v"}]], " ", 
+          SuperscriptBox["q", "4"]}], "+", 
+         RowBox[{"9", " ", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"26", " ", "v"}]], " ", 
+          SuperscriptBox["q", "3"], " ", "\[Lambda]"}], "+", 
+         RowBox[{"\[Sqrt]", 
+          RowBox[{"(", 
+           RowBox[{
+            SuperscriptBox[
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"2", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 RowBox[{"24", " ", "v"}]], " ", 
+                SuperscriptBox["q", "3"]}], "-", 
+               RowBox[{"9", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 RowBox[{"28", " ", "v"}]], " ", 
+                SuperscriptBox["q", "3"]}], "-", 
+               RowBox[{"27", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 RowBox[{"36", " ", "v"}]], " ", 
+                SuperscriptBox["q", "4"]}], "+", 
+               RowBox[{"9", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 RowBox[{"26", " ", "v"}]], " ", 
+                SuperscriptBox["q", "3"], " ", "\[Lambda]"}]}], ")"}], "2"], 
+            "+", 
+            RowBox[{"4", " ", 
+             SuperscriptBox[
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"-", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"16", " ", "v"}]]}], " ", 
+                 SuperscriptBox["q", "2"]}], "-", 
+                RowBox[{"3", " ", 
+                 SuperscriptBox["\[ExponentialE]", 
+                  RowBox[{"18", " ", "v"}]], " ", 
+                 SuperscriptBox["q", "2"], " ", 
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}],
+                ")"}], "3"]}]}], ")"}]}]}], ")"}], 
+       RowBox[{"1", "/", "3"}]]}], ")"}]}], "-", 
+   RowBox[{
+    FractionBox["1", 
+     RowBox[{"3", " ", 
+      SuperscriptBox["2", 
+       RowBox[{"1", "/", "3"}]], " ", 
+      SuperscriptBox["q", "2"]}]], 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "18"}], " ", "v"}]], " ", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"2", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"24", " ", "v"}]], " ", 
+        SuperscriptBox["q", "3"]}], "-", 
+       RowBox[{"9", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"28", " ", "v"}]], " ", 
+        SuperscriptBox["q", "3"]}], "-", 
+       RowBox[{"27", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"36", " ", "v"}]], " ", 
+        SuperscriptBox["q", "4"]}], "+", 
+       RowBox[{"9", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"26", " ", "v"}]], " ", 
+        SuperscriptBox["q", "3"], " ", "\[Lambda]"}], "+", 
+       RowBox[{"\[Sqrt]", 
+        RowBox[{"(", 
+         RowBox[{
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"2", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"24", " ", "v"}]], " ", 
+              SuperscriptBox["q", "3"]}], "-", 
+             RowBox[{"9", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"28", " ", "v"}]], " ", 
+              SuperscriptBox["q", "3"]}], "-", 
+             RowBox[{"27", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"36", " ", "v"}]], " ", 
+              SuperscriptBox["q", "4"]}], "+", 
+             RowBox[{"9", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"26", " ", "v"}]], " ", 
+              SuperscriptBox["q", "3"], " ", "\[Lambda]"}]}], ")"}], "2"], 
+          "+", 
+          RowBox[{"4", " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", 
+                SuperscriptBox["\[ExponentialE]", 
+                 RowBox[{"16", " ", "v"}]]}], " ", 
+               SuperscriptBox["q", "2"]}], "-", 
+              RowBox[{"3", " ", 
+               SuperscriptBox["\[ExponentialE]", 
+                RowBox[{"18", " ", "v"}]], " ", 
+               SuperscriptBox["q", "2"], " ", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}], 
+             ")"}], "3"]}]}], ")"}]}]}], ")"}], 
+     RowBox[{"1", "/", "3"}]]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.620110242167231*^9, 3.620110249450132*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", 
+   FractionBox[
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "10"}], " ", "v"}]], 
+    RowBox[{"3", " ", "q"}]]}], "+", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["2", 
+     RowBox[{"1", "/", "3"}]], " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "10"}], " ", "v"}]], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "1"}], "+", 
+      RowBox[{"3", " ", 
+       SuperscriptBox["\[ExponentialE]", 
+        RowBox[{"4", " ", "v"}]]}], "-", 
+      RowBox[{"3", " ", 
+       SuperscriptBox["\[ExponentialE]", 
+        RowBox[{"2", " ", "v"}]], " ", "\[Lambda]"}]}], ")"}]}], 
+   RowBox[{"3", " ", "q", " ", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{"2", "-", 
+       RowBox[{"9", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"4", " ", "v"}]]}], "-", 
+       RowBox[{"27", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"12", " ", "v"}]], " ", "q"}], "+", 
+       RowBox[{"3", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"2", " ", "v"}]], " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"3", " ", "\[Lambda]"}], "+", 
+          RowBox[{
+           SqrtBox["3"], " ", 
+           SqrtBox[
+            RowBox[{
+             RowBox[{
+              RowBox[{"-", "4"}], " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"8", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "1"}], "+", "q"}], ")"}]}], "+", 
+             RowBox[{"18", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"12", " ", "v"}]], " ", "q"}], "+", 
+             RowBox[{"27", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"20", " ", "v"}]], " ", 
+              SuperscriptBox["q", "2"]}], "-", 
+             RowBox[{"12", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"6", " ", "v"}]], " ", "\[Lambda]"}], "-", 
+             RowBox[{"18", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"10", " ", "v"}]], " ", "q", " ", "\[Lambda]"}], "-", 
+             SuperscriptBox["\[Lambda]", "2"], "+", 
+             RowBox[{
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"4", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "1"}], "+", 
+                RowBox[{"12", " ", 
+                 SuperscriptBox["\[Lambda]", "2"]}]}], ")"}]}], "+", 
+             RowBox[{
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"2", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"2", " ", "\[Lambda]"}], "-", 
+                RowBox[{"4", " ", 
+                 SuperscriptBox["\[Lambda]", "3"]}]}], ")"}]}]}]]}]}], 
+         ")"}]}]}], ")"}], 
+     RowBox[{"1", "/", "3"}]]}]], "-", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "10"}], " ", "v"}]], " ", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{"2", "-", 
+       RowBox[{"9", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"4", " ", "v"}]]}], "-", 
+       RowBox[{"27", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"12", " ", "v"}]], " ", "q"}], "+", 
+       RowBox[{"3", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"2", " ", "v"}]], " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"3", " ", "\[Lambda]"}], "+", 
+          RowBox[{
+           SqrtBox["3"], " ", 
+           SqrtBox[
+            RowBox[{
+             RowBox[{
+              RowBox[{"-", "4"}], " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"8", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "1"}], "+", "q"}], ")"}]}], "+", 
+             RowBox[{"18", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"12", " ", "v"}]], " ", "q"}], "+", 
+             RowBox[{"27", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"20", " ", "v"}]], " ", 
+              SuperscriptBox["q", "2"]}], "-", 
+             RowBox[{"12", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"6", " ", "v"}]], " ", "\[Lambda]"}], "-", 
+             RowBox[{"18", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"10", " ", "v"}]], " ", "q", " ", "\[Lambda]"}], "-", 
+             SuperscriptBox["\[Lambda]", "2"], "+", 
+             RowBox[{
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"4", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "1"}], "+", 
+                RowBox[{"12", " ", 
+                 SuperscriptBox["\[Lambda]", "2"]}]}], ")"}]}], "+", 
+             RowBox[{
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"2", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"2", " ", "\[Lambda]"}], "-", 
+                RowBox[{"4", " ", 
+                 SuperscriptBox["\[Lambda]", "3"]}]}], ")"}]}]}]]}]}], 
+         ")"}]}]}], ")"}], 
+     RowBox[{"1", "/", "3"}]]}], 
+   RowBox[{"3", " ", 
+    SuperscriptBox["2", 
+     RowBox[{"1", "/", "3"}]], " ", "q"}]]}]], "Output",
+ CellChangeTimes->{3.620110255290227*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Simplify", "[", 
+  RowBox[{
+   RowBox[{"-", 
+    FractionBox[
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{
+       RowBox[{"-", "10"}], " ", "v"}]], 
+     RowBox[{"3", " ", "q"}]]}], "-", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "+", 
+        RowBox[{"\[ImaginaryI]", " ", 
+         SqrtBox["3"]}]}], ")"}], " ", 
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{
+        RowBox[{"-", "18"}], " ", "v"}]], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"16", " ", "v"}]]}], " ", 
+         SuperscriptBox["q", "2"]}], "-", 
+        RowBox[{"3", " ", 
+         SuperscriptBox["\[ExponentialE]", 
+          RowBox[{"18", " ", "v"}]], " ", 
+         SuperscriptBox["q", "2"], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}], 
+       ")"}]}], ")"}], "/", 
+    RowBox[{"(", 
+     RowBox[{"3", " ", 
+      SuperscriptBox["2", 
+       RowBox[{"2", "/", "3"}]], " ", 
+      SuperscriptBox["q", "2"], " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"2", " ", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"24", " ", "v"}]], " ", 
+          SuperscriptBox["q", "3"]}], "-", 
+         RowBox[{"9", " ", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"28", " ", "v"}]], " ", 
+          SuperscriptBox["q", "3"]}], "-", 
+         RowBox[{"27", " ", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"36", " ", "v"}]], " ", 
+          SuperscriptBox["q", "4"]}], "+", 
+         RowBox[{"9", " ", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"26", " ", "v"}]], " ", 
+          SuperscriptBox["q", "3"], " ", "\[Lambda]"}], "+", 
+         RowBox[{"\[Sqrt]", 
+          RowBox[{"(", 
+           RowBox[{
+            SuperscriptBox[
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"2", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 RowBox[{"24", " ", "v"}]], " ", 
+                SuperscriptBox["q", "3"]}], "-", 
+               RowBox[{"9", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 RowBox[{"28", " ", "v"}]], " ", 
+                SuperscriptBox["q", "3"]}], "-", 
+               RowBox[{"27", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 RowBox[{"36", " ", "v"}]], " ", 
+                SuperscriptBox["q", "4"]}], "+", 
+               RowBox[{"9", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 RowBox[{"26", " ", "v"}]], " ", 
+                SuperscriptBox["q", "3"], " ", "\[Lambda]"}]}], ")"}], "2"], 
+            "+", 
+            RowBox[{"4", " ", 
+             SuperscriptBox[
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"-", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"16", " ", "v"}]]}], " ", 
+                 SuperscriptBox["q", "2"]}], "-", 
+                RowBox[{"3", " ", 
+                 SuperscriptBox["\[ExponentialE]", 
+                  RowBox[{"18", " ", "v"}]], " ", 
+                 SuperscriptBox["q", "2"], " ", 
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"-", 
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}],
+                ")"}], "3"]}]}], ")"}]}]}], ")"}], 
+       RowBox[{"1", "/", "3"}]]}], ")"}]}], "+", 
+   RowBox[{
+    FractionBox["1", 
+     RowBox[{"6", " ", 
+      SuperscriptBox["2", 
+       RowBox[{"1", "/", "3"}]], " ", 
+      SuperscriptBox["q", "2"]}]], 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox["3"]}]}], ")"}], " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "18"}], " ", "v"}]], " ", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"2", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"24", " ", "v"}]], " ", 
+        SuperscriptBox["q", "3"]}], "-", 
+       RowBox[{"9", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"28", " ", "v"}]], " ", 
+        SuperscriptBox["q", "3"]}], "-", 
+       RowBox[{"27", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"36", " ", "v"}]], " ", 
+        SuperscriptBox["q", "4"]}], "+", 
+       RowBox[{"9", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"26", " ", "v"}]], " ", 
+        SuperscriptBox["q", "3"], " ", "\[Lambda]"}], "+", 
+       RowBox[{"\[Sqrt]", 
+        RowBox[{"(", 
+         RowBox[{
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"2", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"24", " ", "v"}]], " ", 
+              SuperscriptBox["q", "3"]}], "-", 
+             RowBox[{"9", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"28", " ", "v"}]], " ", 
+              SuperscriptBox["q", "3"]}], "-", 
+             RowBox[{"27", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"36", " ", "v"}]], " ", 
+              SuperscriptBox["q", "4"]}], "+", 
+             RowBox[{"9", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"26", " ", "v"}]], " ", 
+              SuperscriptBox["q", "3"], " ", "\[Lambda]"}]}], ")"}], "2"], 
+          "+", 
+          RowBox[{"4", " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", 
+                SuperscriptBox["\[ExponentialE]", 
+                 RowBox[{"16", " ", "v"}]]}], " ", 
+               SuperscriptBox["q", "2"]}], "-", 
+              RowBox[{"3", " ", 
+               SuperscriptBox["\[ExponentialE]", 
+                RowBox[{"18", " ", "v"}]], " ", 
+               SuperscriptBox["q", "2"], " ", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", 
+                  SuperscriptBox["\[ExponentialE]", 
+                   RowBox[{"2", " ", "v"}]]}], "+", "\[Lambda]"}], ")"}]}]}], 
+             ")"}], "3"]}]}], ")"}]}]}], ")"}], 
+     RowBox[{"1", "/", "3"}]]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.620112394825231*^9, 3.620112398293227*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", 
+   FractionBox[
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "10"}], " ", "v"}]], 
+    RowBox[{"3", " ", "q"}]]}], "-", 
+  FractionBox[
+   RowBox[{"\[ImaginaryI]", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "\[ImaginaryI]"}], "+", 
+      SqrtBox["3"]}], ")"}], " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "10"}], " ", "v"}]], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "1"}], "+", 
+      RowBox[{"3", " ", 
+       SuperscriptBox["\[ExponentialE]", 
+        RowBox[{"4", " ", "v"}]]}], "-", 
+      RowBox[{"3", " ", 
+       SuperscriptBox["\[ExponentialE]", 
+        RowBox[{"2", " ", "v"}]], " ", "\[Lambda]"}]}], ")"}]}], 
+   RowBox[{"3", " ", 
+    SuperscriptBox["2", 
+     RowBox[{"2", "/", "3"}]], " ", "q", " ", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{"2", "-", 
+       RowBox[{"9", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"4", " ", "v"}]]}], "-", 
+       RowBox[{"27", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"12", " ", "v"}]], " ", "q"}], "+", 
+       RowBox[{"3", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"2", " ", "v"}]], " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"3", " ", "\[Lambda]"}], "+", 
+          RowBox[{
+           SqrtBox["3"], " ", 
+           SqrtBox[
+            RowBox[{
+             RowBox[{
+              RowBox[{"-", "4"}], " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"8", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "1"}], "+", "q"}], ")"}]}], "+", 
+             RowBox[{"18", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"12", " ", "v"}]], " ", "q"}], "+", 
+             RowBox[{"27", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"20", " ", "v"}]], " ", 
+              SuperscriptBox["q", "2"]}], "-", 
+             RowBox[{"12", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"6", " ", "v"}]], " ", "\[Lambda]"}], "-", 
+             RowBox[{"18", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"10", " ", "v"}]], " ", "q", " ", "\[Lambda]"}], "-", 
+             SuperscriptBox["\[Lambda]", "2"], "+", 
+             RowBox[{
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"4", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "1"}], "+", 
+                RowBox[{"12", " ", 
+                 SuperscriptBox["\[Lambda]", "2"]}]}], ")"}]}], "+", 
+             RowBox[{
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"2", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"2", " ", "\[Lambda]"}], "-", 
+                RowBox[{"4", " ", 
+                 SuperscriptBox["\[Lambda]", "3"]}]}], ")"}]}]}]]}]}], 
+         ")"}]}]}], ")"}], 
+     RowBox[{"1", "/", "3"}]]}]], "+", 
+  RowBox[{
+   FractionBox["1", 
+    RowBox[{"6", " ", 
+     SuperscriptBox["2", 
+      RowBox[{"1", "/", "3"}]], " ", "q"}]], 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox["3"]}]}], ")"}], " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "10"}], " ", "v"}]], " ", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{"2", "-", 
+       RowBox[{"9", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"4", " ", "v"}]]}], "-", 
+       RowBox[{"27", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"12", " ", "v"}]], " ", "q"}], "+", 
+       RowBox[{"3", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"2", " ", "v"}]], " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"3", " ", "\[Lambda]"}], "+", 
+          RowBox[{
+           SqrtBox["3"], " ", 
+           SqrtBox[
+            RowBox[{
+             RowBox[{
+              RowBox[{"-", "4"}], " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"8", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "1"}], "+", "q"}], ")"}]}], "+", 
+             RowBox[{"18", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"12", " ", "v"}]], " ", "q"}], "+", 
+             RowBox[{"27", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"20", " ", "v"}]], " ", 
+              SuperscriptBox["q", "2"]}], "-", 
+             RowBox[{"12", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"6", " ", "v"}]], " ", "\[Lambda]"}], "-", 
+             RowBox[{"18", " ", 
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"10", " ", "v"}]], " ", "q", " ", "\[Lambda]"}], "-", 
+             SuperscriptBox["\[Lambda]", "2"], "+", 
+             RowBox[{
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"4", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "1"}], "+", 
+                RowBox[{"12", " ", 
+                 SuperscriptBox["\[Lambda]", "2"]}]}], ")"}]}], "+", 
+             RowBox[{
+              SuperscriptBox["\[ExponentialE]", 
+               RowBox[{"2", " ", "v"}]], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"2", " ", "\[Lambda]"}], "-", 
+                RowBox[{"4", " ", 
+                 SuperscriptBox["\[Lambda]", "3"]}]}], ")"}]}]}]]}]}], 
+         ")"}]}]}], ")"}], 
+     RowBox[{"1", "/", "3"}]]}]}]}]], "Output",
+ CellChangeTimes->{3.6201124017235928`*^9}]
+}, Open  ]]
+},
+WindowSize->{1360, 722},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 202, 5, 31, "Input"],
+Cell[784, 29, 138, 4, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[959, 38, 569, 16, 56, "Input"],
+Cell[1531, 56, 21068, 532, 403, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22636, 593, 6305, 170, 180, "Input"],
+Cell[28944, 765, 5505, 149, 186, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[34486, 919, 6547, 178, 215, "Input"],
+Cell[41036, 1099, 5779, 158, 209, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

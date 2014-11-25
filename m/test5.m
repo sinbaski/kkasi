@@ -1,0 +1,127 @@
+clear all
+close all
+spec = cellstr(['b  '; 'c  '; 'g  '; 'r  '; 'm  '; 'k  ';...
+                'b--'; 'c--'; 'g--'; 'r--'; 'm--'; 'k--';...
+                'b: '; 'c: '; 'g: '; 'r: '; 'm: '; 'k: ';...
+                'b-.'; 'c-.'; 'g-.'; 'r-.'; 'm-.'; 'k-.';...
+                ]);
+
+AR = [0:0.05:0.8, 0.9:0.01:0.99];
+%AR = [0, 0.5, 0.8, 0.97];
+rho = 0.5;
+N = 50;
+c = 1;
+fraction = NaN(2, length(AR));
+hold on
+for q = [12]
+    for phi = AR
+        % load(sprintf('../data/GarchWishartN%dQ%dEig-%.3f.mat', N, q, ...
+        %              rho, phi), 'ev');
+        
+        %% Find the largest component of the eigenvector
+        % load(sprintf('../data/GarchWishartN%dQ%dX-%.3f.mat', ...
+        %              N, q, phi), 'X');
+        % ratio = NaN(N, size(ev, 2));
+        % for i = 1:size(ev, 2)
+        %     for j = 1:size(ev, 1)
+        %         ratio(j, i) = max(abs(X(:, j, i)));
+        %     end
+        % end
+        % save(sprintf('GarchWishartN%dQ%dRatio-%.3f.mat', N, q, phi), ...
+        %      'ratio');
+        
+        %% Find the Inverse participation ratio
+        % load(sprintf('GarchWishartN%dQ%dX-%.3f.mat', N, q, phi), 'X');
+        % IPR = NaN(N, size(ev, 2));
+        % for i = 1:size(ev, 2)
+        %     for j = 1:size(ev, 1)
+        %         IPR(j, i) = sum(X(:, j, i).^4);
+        %     end
+        % end
+        % save(sprintf('GarchWishartN%dQ%dIPR-%.3f.mat', N, q, phi), ...
+        %      'IPR');
+        % fprintf('Done with q=%d, phi=%.3f\n', q, phi);
+
+
+        %% Plot the largest component / IPR against the eigenvalues
+        load(sprintf('../matfys/data/GarchWishartN%dQ%dRatio-%.3f.mat', N, q, phi), ...
+          'ratio');
+        % ev = reshape(ev, prod(size(ev)), 1);
+        ratio = reshape(ratio, prod(size(ratio)), 1);
+        % [val, I] = sort(ev);
+        % subplot(2, 2, c);
+        % c = c + 1;
+        % plot(log10(ev(I)), log10(ratio(I)), '.');
+        % ylabel('Largest Component, log_{10}(|c|_{max})');
+        % % ylabel('Normalized Participation Ratio, log_{10}(PR)');
+        % xlabel('Eigenvalue, log_{10}(\lambda)');
+        % title(sprintf('\\phi=%.3f', phi));
+        % grid on;
+        % xlim([-4, 1]);
+        % ylim([-0.7, 0]);
+
+        % threshold(c) = min(find(ratio(I) > 0.9 & ev(I) > mean(ev)));
+        
+
+        %% Plot the IPR/largest components' PDF
+        load(sprintf('../matfys/data/GarchWishartN%dQ%dIPR-%.3f.mat', N, q, phi), ...
+             'IPR');
+        IPR = reshape(IPR, prod(size(IPR)), 1);
+
+        num = 1./IPR;
+        fraction(1, c) = sum(num < 2) / length(IPR);
+        fraction(2, c) = sum(ratio > 0.9) / length(ratio);
+        c = c + 1;
+
+        % epdf(1./IPR./N, 4, 0, 1, 300, spec{c});
+        % c = c + 1;
+        % grid on
+
+    end
+end
+%hold off
+% ylabel('Largest Component, log_{10}(|c|_{max})');
+% ylabel('Normalized PR, log_{10}(PR)');
+
+% ylabel('PDF, f(|c|_{max})');
+%ylabel('Prob. Density Function');
+% xlabel('Eigenvalue, log_{10}(\lambda)');
+% xlabel('Eigenvalue, \lambda');
+%xlabel('Normalized Participation Ratio');
+% xlabel('Largest Component, |c|_{max}');
+%legend('\phi = 0', '\phi = 0.5', '\phi = 0.8', '\phi = 0.97');
+%% Fit the fraction of localized eigenstates
+P = NaN(2, 2);
+
+% x1 = log10(AR(2:end));
+% y1 = log10(-fraction(1, 2:end) + fraction(1, 1));
+% x2 = log10(AR(2:end));
+% y2 = log10(-fraction(2, 2:end) + fraction(2, 1));
+% plot(x1, y1, 'k+', x2, y2, 'kx');
+% hold on
+% P(1, :) = polyfit(x1, y1, 1);
+% P(2, :) = polyfit(x2, y2, 1);
+% x3 = linspace(min(x1), max(x1), 500);
+% x4 = linspace(min(x2), max(x2), 500);
+% plot(x3, polyval(P(1, :), x3), 'b', 'LineWidth', 2);
+% plot(x4, polyval(P(2, :), x4), 'g', 'LineWidth', 2);
+% hold off
+% legend(sprintf('log(f_{max} - f)=%.2f log\\phi % +.2f', P(1, :)), ...
+%        sprintf('log(f_{max} - f)=%.2f log\\phi % +.2f', P(2, :)));
+% xlabel('log\phi');
+% ylabel('log(f_{max} - f)');
+% grid on
+
+P = NaN(2, 3);
+% plot(AR, fraction(1, :), 'b+-', AR, fraction(2, :), 'rx-', 'LineWidth', 2);
+P(1, :) = polyfit(AR, fraction(1, :), 2);
+P(2, :) = polyfit(AR, fraction(2, :), 2);
+y(1, :) = polyval(P(1, :), AR);
+y(2, :) = polyval(P(2, :), AR);
+plot((AR), (fraction(1, :)), 'k+', ...
+     (AR), (y(1, :)), 'b', ...
+     (AR), (fraction(2, :)), 'kx', ...
+     (AR), (y(2, :)), 'g', 'LineWidth', 2);
+xlabel('Auto-correlation strength, \phi', 'Fontsize', 18);
+ylabel('Fraction of localized eigenvectors', 'Fontsize', 18);
+grid on

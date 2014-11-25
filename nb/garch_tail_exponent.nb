@@ -1,0 +1,490 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     13491,        481]
+NotebookOptionsPosition[     12508,        441]
+NotebookOutlinePosition[     12842,        456]
+CellTagsIndexPosition[     12799,        453]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"$Assumptions", "=", 
+   RowBox[{
+    RowBox[{"a", " ", ">", " ", "0"}], " ", "&&", " ", 
+    RowBox[{"b", ">", "0"}], " ", "&&", " ", 
+    RowBox[{
+     RowBox[{"a", "+", "b"}], "<", "1"}], " ", "&&", " ", 
+    RowBox[{"\[Alpha]", " ", ">", " ", "2"}]}]}], 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.6122559140845547`*^9, 3.612255943558187*^9}, 
+   3.612255975787568*^9, {3.612256029408166*^9, 3.612256287589068*^9}, {
+   3.612258092809313*^9, 3.6122580966565647`*^9}, 3.61225818023419*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"a", ">", "0"}], "&&", 
+  RowBox[{"b", ">", "0"}], "&&", 
+  RowBox[{
+   RowBox[{"a", "+", "b"}], "<", "1"}], "&&", 
+  RowBox[{"\[Alpha]", ">", "2"}]}]], "Output",
+ CellChangeTimes->{3.61229093144582*^9, 3.612347009893406*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  SubsuperscriptBox["\[Integral]", 
+   RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
+  RowBox[{
+   SuperscriptBox["z", "2"], 
+   FractionBox[
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"a", " ", 
+        SuperscriptBox["z", "2"]}], "+", "b"}], ")"}], 
+     RowBox[{
+      RowBox[{"\[Alpha]", "/", "2"}], "-", "1"}]], 
+    SqrtBox[
+     RowBox[{"2", " ", "\[Pi]"}]]], 
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"-", "1"}], "2"], 
+     SuperscriptBox["z", "2"]}], "]"}], 
+   RowBox[{"\[DifferentialD]", "z"}]}]}]], "Input"],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{
+   SuperscriptBox["b", 
+    FractionBox[
+     RowBox[{"1", "+", "\[Alpha]"}], "2"]], " ", 
+   RowBox[{"HypergeometricU", "[", 
+    RowBox[{
+     FractionBox["3", "2"], ",", 
+     FractionBox[
+      RowBox[{"3", "+", "\[Alpha]"}], "2"], ",", 
+     FractionBox["b", 
+      RowBox[{"2", " ", "a"}]]}], "]"}]}], 
+  RowBox[{"2", " ", 
+   SqrtBox["2"], " ", 
+   SuperscriptBox["a", 
+    RowBox[{"3", "/", "2"}]]}]]], "Output",
+ CellChangeTimes->{3.612290982431058*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  SubsuperscriptBox["\[Integral]", 
+   RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
+  RowBox[{
+   FractionBox[
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"a", " ", 
+        SuperscriptBox["z", "2"]}], "+", "b"}], ")"}], 
+     RowBox[{
+      RowBox[{"\[Alpha]", "/", "2"}], "-", "1"}]], 
+    SqrtBox[
+     RowBox[{"2", " ", "\[Pi]"}]]], 
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"-", "1"}], "2"], 
+     SuperscriptBox["z", "2"]}], "]"}], 
+   RowBox[{"\[DifferentialD]", "z"}]}]}]], "Input",
+ CellChangeTimes->{{3.612258132794427*^9, 3.612258134742556*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", 
+   SqrtBox[
+    RowBox[{"2", " ", "\[Pi]"}]]], 
+  RowBox[{
+   SuperscriptBox["b", 
+    RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     FractionBox[
+      RowBox[{
+       SqrtBox["\[Pi]"], " ", 
+       RowBox[{"Gamma", "[", 
+        RowBox[{
+         FractionBox["1", "2"], "-", 
+         FractionBox["\[Alpha]", "2"]}], "]"}], " ", 
+       RowBox[{"Hypergeometric1F1", "[", 
+        RowBox[{
+         FractionBox["1", "2"], ",", 
+         FractionBox[
+          RowBox[{"1", "+", "\[Alpha]"}], "2"], ",", 
+         FractionBox["b", 
+          RowBox[{"2", " ", "a"}]]}], "]"}]}], 
+      RowBox[{
+       SqrtBox[
+        RowBox[{"a", " ", "b"}]], " ", 
+       RowBox[{"Gamma", "[", 
+        RowBox[{"1", "-", 
+         FractionBox["\[Alpha]", "2"]}], "]"}]}]], "+", 
+     RowBox[{
+      RowBox[{"1", "/", "a"}], 
+      RowBox[{
+       SuperscriptBox["2", 
+        RowBox[{
+         FractionBox["1", "2"], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "\[Alpha]"}], ")"}]}]], " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         FractionBox["a", "b"], ")"}], 
+        RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+       RowBox[{"Gamma", "[", 
+        RowBox[{
+         FractionBox["1", "2"], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "\[Alpha]"}], ")"}]}], "]"}], " ", 
+       RowBox[{"Hypergeometric1F1", "[", 
+        RowBox[{
+         RowBox[{"1", "-", 
+          FractionBox["\[Alpha]", "2"]}], ",", 
+         RowBox[{
+          FractionBox["3", "2"], "-", 
+          FractionBox["\[Alpha]", "2"]}], ",", 
+         FractionBox["b", 
+          RowBox[{"2", " ", "a"}]]}], "]"}]}]}]}], ")"}]}]}]], "Output",
+ CellChangeTimes->{3.6122581473551817`*^9, 3.612347166406681*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{
+   FractionBox["1", 
+    SqrtBox[
+     RowBox[{"2", " ", "\[Pi]"}]]], 
+   RowBox[{
+    SuperscriptBox["b", 
+     RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      FractionBox[
+       RowBox[{
+        SqrtBox["\[Pi]"], " ", 
+        RowBox[{"Gamma", "[", 
+         RowBox[{
+          FractionBox["1", "2"], "-", 
+          FractionBox["\[Alpha]", "2"]}], "]"}], " ", 
+        RowBox[{"Hypergeometric1F1", "[", 
+         RowBox[{
+          FractionBox["1", "2"], ",", 
+          FractionBox[
+           RowBox[{"1", "+", "\[Alpha]"}], "2"], ",", 
+          FractionBox["b", 
+           RowBox[{"2", " ", "a"}]]}], "]"}]}], 
+       RowBox[{
+        SqrtBox[
+         RowBox[{"a", " ", "b"}]], " ", 
+        RowBox[{"Gamma", "[", 
+         RowBox[{"1", "-", 
+          FractionBox["\[Alpha]", "2"]}], "]"}]}]], "+", 
+      RowBox[{
+       RowBox[{"1", "/", "a"}], 
+       RowBox[{
+        SuperscriptBox["2", 
+         RowBox[{
+          FractionBox["1", "2"], " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", "1"}], "+", "\[Alpha]"}], ")"}]}]], " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          FractionBox["a", "b"], ")"}], 
+         RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+        RowBox[{"Gamma", "[", 
+         RowBox[{
+          FractionBox["1", "2"], " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", "1"}], "+", "\[Alpha]"}], ")"}]}], "]"}], " ", 
+        RowBox[{"Hypergeometric1F1", "[", 
+         RowBox[{
+          RowBox[{"1", "-", 
+           FractionBox["\[Alpha]", "2"]}], ",", 
+          RowBox[{
+           FractionBox["3", "2"], "-", 
+           FractionBox["\[Alpha]", "2"]}], ",", 
+          FractionBox["b", 
+           RowBox[{"2", " ", "a"}]]}], "]"}]}]}]}], ")"}]}]}], "]"}]], "Input",\
+
+ NumberMarks->False],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{
+   SuperscriptBox["b", 
+    RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+   RowBox[{"HypergeometricU", "[", 
+    RowBox[{
+     FractionBox["1", "2"], ",", 
+     FractionBox[
+      RowBox[{"1", "+", "\[Alpha]"}], "2"], ",", 
+     FractionBox["b", 
+      RowBox[{"2", " ", "a"}]]}], "]"}]}], 
+  RowBox[{
+   SqrtBox["2"], " ", 
+   SqrtBox[
+    RowBox[{"a", " ", "b"}]]}]]], "Output",
+ CellChangeTimes->{3.6123472005840387`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  SubsuperscriptBox["\[Integral]", 
+   RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
+  RowBox[{
+   FractionBox[
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"a", " ", 
+        SuperscriptBox["z", "2"]}], "+", "b"}], ")"}], 
+     RowBox[{"\[Alpha]", "/", "2"}]], 
+    SqrtBox[
+     RowBox[{"2", " ", "\[Pi]"}]]], 
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"-", "1"}], "2"], 
+     SuperscriptBox["z", "2"]}], "]"}], 
+   RowBox[{"\[DifferentialD]", "z"}]}]}]], "Input",
+ CellChangeTimes->{{3.6122610067594757`*^9, 3.6122610097585983`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["b", 
+     RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+    SqrtBox[
+     FractionBox["b", "a"]], " ", 
+    RowBox[{"Gamma", "[", 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox["1", "2"]}], "-", 
+      FractionBox["\[Alpha]", "2"]}], "]"}], " ", 
+    RowBox[{"Hypergeometric1F1", "[", 
+     RowBox[{
+      FractionBox["1", "2"], ",", 
+      FractionBox[
+       RowBox[{"3", "+", "\[Alpha]"}], "2"], ",", 
+      FractionBox["b", 
+       RowBox[{"2", " ", "a"}]]}], "]"}]}], 
+   RowBox[{
+    SqrtBox["2"], " ", 
+    RowBox[{"Gamma", "[", 
+     RowBox[{"-", 
+      FractionBox["\[Alpha]", "2"]}], "]"}]}]], "+", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["2", 
+     RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+    SuperscriptBox["a", 
+     RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+    RowBox[{"Gamma", "[", 
+     FractionBox[
+      RowBox[{"1", "+", "\[Alpha]"}], "2"], "]"}], " ", 
+    RowBox[{"Hypergeometric1F1", "[", 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox["\[Alpha]", "2"]}], ",", 
+      RowBox[{
+       FractionBox["1", "2"], "-", 
+       FractionBox["\[Alpha]", "2"]}], ",", 
+      FractionBox["b", 
+       RowBox[{"2", " ", "a"}]]}], "]"}]}], 
+   SqrtBox["\[Pi]"]]}]], "Output",
+ CellChangeTimes->{3.612261021928155*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{
+   FractionBox[
+    RowBox[{
+     SuperscriptBox["b", 
+      RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+     SqrtBox[
+      FractionBox["b", "a"]], " ", 
+     RowBox[{"Gamma", "[", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox["1", "2"]}], "-", 
+       FractionBox["\[Alpha]", "2"]}], "]"}], " ", 
+     RowBox[{"Hypergeometric1F1", "[", 
+      RowBox[{
+       FractionBox["1", "2"], ",", 
+       FractionBox[
+        RowBox[{"3", "+", "\[Alpha]"}], "2"], ",", 
+       FractionBox["b", 
+        RowBox[{"2", " ", "a"}]]}], "]"}]}], 
+    RowBox[{
+     SqrtBox["2"], " ", 
+     RowBox[{"Gamma", "[", 
+      RowBox[{"-", 
+       FractionBox["\[Alpha]", "2"]}], "]"}]}]], "+", 
+   FractionBox[
+    RowBox[{
+     SuperscriptBox["2", 
+      RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+     SuperscriptBox["a", 
+      RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+     RowBox[{"Gamma", "[", 
+      FractionBox[
+       RowBox[{"1", "+", "\[Alpha]"}], "2"], "]"}], " ", 
+     RowBox[{"Hypergeometric1F1", "[", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox["\[Alpha]", "2"]}], ",", 
+       RowBox[{
+        FractionBox["1", "2"], "-", 
+        FractionBox["\[Alpha]", "2"]}], ",", 
+       FractionBox["b", 
+        RowBox[{"2", " ", "a"}]]}], "]"}]}], 
+    SqrtBox["\[Pi]"]]}], "]"}]], "Input",
+ NumberMarks->False],
+
+Cell[BoxData[
+ RowBox[{
+  SuperscriptBox["2", 
+   RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+  SuperscriptBox["a", 
+   RowBox[{"\[Alpha]", "/", "2"}]], " ", 
+  RowBox[{"HypergeometricU", "[", 
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox["\[Alpha]", "2"]}], ",", 
+    RowBox[{
+     FractionBox["1", "2"], "-", 
+     FractionBox["\[Alpha]", "2"]}], ",", 
+    FractionBox["b", 
+     RowBox[{"2", " ", "a"}]]}], "]"}]}]], "Output",
+ CellChangeTimes->{3.612261234706715*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  FractionBox[
+   RowBox[{"HypergeometricU", "[", 
+    RowBox[{
+     FractionBox["3", "2"], ",", " ", 
+     FractionBox[
+      RowBox[{"(", 
+       RowBox[{"3", "+", "\[Alpha]"}], ")"}], "2"], ",", " ", 
+     FractionBox["b", 
+      RowBox[{"2", " ", "a"}]]}], "]"}], 
+   RowBox[{"HypergeometricU", "[", 
+    RowBox[{
+     FractionBox["1", "2"], ",", " ", 
+     FractionBox[
+      RowBox[{"(", 
+       RowBox[{"1", "+", "\[Alpha]"}], ")"}], "2"], ",", " ", 
+     FractionBox["b", 
+      RowBox[{"2", " ", "a"}]]}], "]"}]], "]"}]], "Input",
+ CellChangeTimes->{{3.612352483527093*^9, 3.612352613983987*^9}, {
+  3.6123526512537193`*^9, 3.6123526572612047`*^9}}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"HypergeometricU", "[", 
+   RowBox[{
+    FractionBox["3", "2"], ",", 
+    FractionBox[
+     RowBox[{"3", "+", "\[Alpha]"}], "2"], ",", 
+    FractionBox["b", 
+     RowBox[{"2", " ", "a"}]]}], "]"}], 
+  RowBox[{"HypergeometricU", "[", 
+   RowBox[{
+    FractionBox["1", "2"], ",", 
+    FractionBox[
+     RowBox[{"1", "+", "\[Alpha]"}], "2"], ",", 
+    FractionBox["b", 
+     RowBox[{"2", " ", "a"}]]}], "]"}]]], "Output",
+ CellChangeTimes->{3.612352619901263*^9, 3.6123526667975273`*^9}]
+}, Open  ]]
+},
+WindowSize->{609, 721},
+WindowMargins->{{Automatic, 2}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 542, 12, 52, "Input"],
+Cell[1124, 36, 259, 7, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1420, 48, 599, 21, 69, "Input"],
+Cell[2022, 71, 501, 17, 72, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2560, 93, 635, 21, 69, "Input"],
+Cell[3198, 116, 1824, 58, 224, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5059, 179, 1875, 60, 284, "Input"],
+Cell[6937, 241, 457, 16, 65, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7431, 262, 612, 20, 69, "Input"],
+Cell[8046, 284, 1307, 44, 154, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9390, 333, 1366, 45, 220, "Input"],
+Cell[10759, 380, 468, 15, 47, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11264, 400, 703, 20, 82, "Input"],
+Cell[11970, 422, 522, 16, 102, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

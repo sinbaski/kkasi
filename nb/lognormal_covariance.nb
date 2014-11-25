@@ -1,0 +1,378 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     11028,        368]
+NotebookOptionsPosition[     10384,        340]
+NotebookOutlinePosition[     10721,        355]
+CellTagsIndexPosition[     10678,        352]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"$Assumptions", " ", "=", " ", 
+  RowBox[{
+   RowBox[{"\[Iota]", " ", ">", " ", "0"}], " ", "&&", " ", 
+   RowBox[{"\[Phi]", " ", ">", " ", "0"}], " ", "&&", " ", 
+   RowBox[{"\[Phi]", " ", "<", " ", "1"}], " ", "&&", " ", 
+   RowBox[{"\[Delta]", " ", ">", " ", "0"}]}]}]], "Input",
+ CellChangeTimes->{{3.618083994080286*^9, 3.618084037626995*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[Iota]", ">", "0"}], "&&", 
+  RowBox[{"\[Phi]", ">", "0"}], "&&", 
+  RowBox[{"\[Phi]", "<", "1"}], "&&", 
+  RowBox[{"\[Delta]", ">", "0"}]}]], "Output",
+ CellChangeTimes->{3.6180840455595093`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"A", " ", "=", " ", 
+  RowBox[{
+   FractionBox[
+    RowBox[{"1", "-", 
+     SuperscriptBox["\[Phi]", 
+      RowBox[{"2", "\[Delta]"}]]}], 
+    RowBox[{"1", "-", 
+     SuperscriptBox["\[Phi]", "2"]}]], 
+   RowBox[{"(", GridBox[{
+      {"1", 
+       SuperscriptBox["\[Phi]", "\[Iota]"]},
+      {
+       SuperscriptBox["\[Phi]", "\[Iota]"], "1"}
+     }], ")"}]}]}]], "Input",
+ CellChangeTimes->{{3.6180840501543837`*^9, 3.618084214350628*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"1", "-", 
+       SuperscriptBox["\[Phi]", 
+        RowBox[{"2", " ", "\[Delta]"}]]}], 
+      RowBox[{"1", "-", 
+       SuperscriptBox["\[Phi]", "2"]}]], ",", 
+     FractionBox[
+      RowBox[{
+       SuperscriptBox["\[Phi]", "\[Iota]"], " ", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         SuperscriptBox["\[Phi]", 
+          RowBox[{"2", " ", "\[Delta]"}]]}], ")"}]}], 
+      RowBox[{"1", "-", 
+       SuperscriptBox["\[Phi]", "2"]}]]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{
+       SuperscriptBox["\[Phi]", "\[Iota]"], " ", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         SuperscriptBox["\[Phi]", 
+          RowBox[{"2", " ", "\[Delta]"}]]}], ")"}]}], 
+      RowBox[{"1", "-", 
+       SuperscriptBox["\[Phi]", "2"]}]], ",", 
+     FractionBox[
+      RowBox[{"1", "-", 
+       SuperscriptBox["\[Phi]", 
+        RowBox[{"2", " ", "\[Delta]"}]]}], 
+      RowBox[{"1", "-", 
+       SuperscriptBox["\[Phi]", "2"]}]]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.6180842186343927`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Inverse", "[", "A", "]"}]], "Input",
+ CellChangeTimes->{{3.618084231679687*^9, 3.618084257200288*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"1", "-", 
+       SuperscriptBox["\[Phi]", 
+        RowBox[{"2", " ", "\[Delta]"}]]}], 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         SuperscriptBox["\[Phi]", "2"]}], ")"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         FractionBox[
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"1", "-", 
+             SuperscriptBox["\[Phi]", 
+              RowBox[{"2", " ", "\[Delta]"}]]}], ")"}], "2"], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"1", "-", 
+             SuperscriptBox["\[Phi]", "2"]}], ")"}], "2"]], "-", 
+         FractionBox[
+          RowBox[{
+           SuperscriptBox["\[Phi]", 
+            RowBox[{"2", " ", "\[Iota]"}]], " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[Phi]", 
+               RowBox[{"2", " ", "\[Delta]"}]]}], ")"}], "2"]}], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"1", "-", 
+             SuperscriptBox["\[Phi]", "2"]}], ")"}], "2"]]}], ")"}]}]], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{
+        SuperscriptBox["\[Phi]", "\[Iota]"], " ", 
+        RowBox[{"(", 
+         RowBox[{"1", "-", 
+          SuperscriptBox["\[Phi]", 
+           RowBox[{"2", " ", "\[Delta]"}]]}], ")"}]}], 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", "-", 
+          SuperscriptBox["\[Phi]", "2"]}], ")"}], " ", 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox[
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[Phi]", 
+               RowBox[{"2", " ", "\[Delta]"}]]}], ")"}], "2"], 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[Phi]", "2"]}], ")"}], "2"]], "-", 
+          FractionBox[
+           RowBox[{
+            SuperscriptBox["\[Phi]", 
+             RowBox[{"2", " ", "\[Iota]"}]], " ", 
+            SuperscriptBox[
+             RowBox[{"(", 
+              RowBox[{"1", "-", 
+               SuperscriptBox["\[Phi]", 
+                RowBox[{"2", " ", "\[Delta]"}]]}], ")"}], "2"]}], 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[Phi]", "2"]}], ")"}], "2"]]}], ")"}]}]]}]}], 
+    "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{
+        SuperscriptBox["\[Phi]", "\[Iota]"], " ", 
+        RowBox[{"(", 
+         RowBox[{"1", "-", 
+          SuperscriptBox["\[Phi]", 
+           RowBox[{"2", " ", "\[Delta]"}]]}], ")"}]}], 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", "-", 
+          SuperscriptBox["\[Phi]", "2"]}], ")"}], " ", 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox[
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[Phi]", 
+               RowBox[{"2", " ", "\[Delta]"}]]}], ")"}], "2"], 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[Phi]", "2"]}], ")"}], "2"]], "-", 
+          FractionBox[
+           RowBox[{
+            SuperscriptBox["\[Phi]", 
+             RowBox[{"2", " ", "\[Iota]"}]], " ", 
+            SuperscriptBox[
+             RowBox[{"(", 
+              RowBox[{"1", "-", 
+               SuperscriptBox["\[Phi]", 
+                RowBox[{"2", " ", "\[Delta]"}]]}], ")"}], "2"]}], 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[Phi]", "2"]}], ")"}], "2"]]}], ")"}]}]]}], 
+     ",", 
+     FractionBox[
+      RowBox[{"1", "-", 
+       SuperscriptBox["\[Phi]", 
+        RowBox[{"2", " ", "\[Delta]"}]]}], 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         SuperscriptBox["\[Phi]", "2"]}], ")"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         FractionBox[
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"1", "-", 
+             SuperscriptBox["\[Phi]", 
+              RowBox[{"2", " ", "\[Delta]"}]]}], ")"}], "2"], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"1", "-", 
+             SuperscriptBox["\[Phi]", "2"]}], ")"}], "2"]], "-", 
+         FractionBox[
+          RowBox[{
+           SuperscriptBox["\[Phi]", 
+            RowBox[{"2", " ", "\[Iota]"}]], " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[Phi]", 
+               RowBox[{"2", " ", "\[Delta]"}]]}], ")"}], "2"]}], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"1", "-", 
+             SuperscriptBox["\[Phi]", "2"]}], ")"}], "2"]]}], ")"}]}]]}], 
+    "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.618084258230832*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"1", "-", 
+        SuperscriptBox["\[Phi]", "2"]}], 
+       RowBox[{"2", 
+        RowBox[{"(", 
+         RowBox[{"1", "-", 
+          SuperscriptBox["\[Phi]", 
+           RowBox[{"2", "\[Delta]"}]]}], ")"}], 
+        RowBox[{"(", 
+         RowBox[{"1", "-", 
+          SuperscriptBox["\[Phi]", 
+           RowBox[{"2", "\[Iota]"}]]}], ")"}]}]]}], 
+     RowBox[{"(", 
+      RowBox[{
+       SuperscriptBox["a", "2"], "+", 
+       SuperscriptBox["b", "2"], "-", 
+       RowBox[{"2", "a", " ", "b", " ", 
+        SuperscriptBox["\[Phi]", "\[Iota]"]}]}], ")"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"a", ",", " ", 
+     RowBox[{"-", "\[Infinity]"}], ",", " ", "\[Infinity]"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"b", ",", " ", 
+     RowBox[{"-", "\[Infinity]"}], ",", " ", "\[Infinity]"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.6180847047810698`*^9, 3.618084809750613*^9}, {
+  3.6180848446985283`*^9, 3.61808486708421*^9}, {3.618084897692429*^9, 
+  3.618084951731101*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ConditionalExpression", "[", 
+  RowBox[{
+   RowBox[{"-", 
+    FractionBox[
+     RowBox[{"2", " ", "\[Pi]", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "1"}], "+", 
+        SuperscriptBox["\[Phi]", 
+         RowBox[{"2", " ", "\[Delta]"}]]}], ")"}], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "1"}], "+", 
+        SuperscriptBox["\[Phi]", 
+         RowBox[{"2", " ", "\[Iota]"}]]}], ")"}]}], 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "1"}], "+", 
+        SuperscriptBox["\[Phi]", "2"]}], ")"}], " ", 
+      SqrtBox[
+       RowBox[{"1", "-", 
+        SuperscriptBox["\[Phi]", 
+         RowBox[{"2", " ", "\[Iota]"}]]}]]}]]}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", "1"}], "+", 
+       SuperscriptBox["\[Phi]", "2"]}], ")"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", "1"}], "+", 
+       SuperscriptBox["\[Phi]", 
+        RowBox[{"2", " ", "\[Delta]"}]]}], ")"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", "1"}], "+", 
+       SuperscriptBox["\[Phi]", 
+        RowBox[{"2", " ", "\[Iota]"}]]}], ")"}]}], "<", "0"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.618084970079516*^9}]
+}, Open  ]]
+},
+WindowSize->{740, 597},
+WindowMargins->{{148, Automatic}, {Automatic, 31}},
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 371, 7, 31, "Input"],
+Cell[953, 31, 232, 6, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1222, 42, 463, 15, 63, "Input"],
+Cell[1688, 59, 1145, 37, 53, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2870, 101, 126, 2, 31, "Input"],
+Cell[2999, 105, 4941, 150, 146, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7977, 260, 1137, 33, 102, "Input"],
+Cell[9117, 295, 1251, 42, 126, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

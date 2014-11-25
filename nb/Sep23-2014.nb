@@ -1,0 +1,389 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     11630,        380]
+NotebookOptionsPosition[     10877,        348]
+NotebookOutlinePosition[     11212,        363]
+CellTagsIndexPosition[     11169,        360]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"$Assumptions", "=", 
+  RowBox[{
+   RowBox[{"q", ">", "0"}], "&&", 
+   RowBox[{"q", "<", "1"}], "&&", 
+   RowBox[{"v", ">", "0"}], "&&", 
+   RowBox[{"a", ">", "0"}], "&&", 
+   RowBox[{"x", "<", "a"}], "&&", 
+   RowBox[{"y", ">", "0"}]}]}]], "Input",
+ CellChangeTimes->{{3.620451514369863*^9, 3.620451542602577*^9}, {
+  3.6204516930270157`*^9, 3.620451703187171*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"q", ">", "0"}], "&&", 
+  RowBox[{"q", "<", "1"}], "&&", 
+  RowBox[{"v", ">", "0"}], "&&", 
+  RowBox[{"a", ">", "0"}], "&&", 
+  RowBox[{"x", "<", "a"}], "&&", 
+  RowBox[{"y", ">", "0"}]}]], "Output",
+ CellChangeTimes->{3.62045154474407*^9, 3.62045170448216*^9, 
+  3.620471267146798*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Series", "[", 
+  RowBox[{
+   FractionBox["1", 
+    RowBox[{
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          RowBox[{"-", "2"}], "s"}]], "-", 
+        RowBox[{"q", " ", "x"}]}], ")"}], "2"], "+", 
+     RowBox[{
+      SuperscriptBox["q", "2"], 
+      SuperscriptBox["y", "2"]}]}]], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "a", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"y", ",", "0", ",", "2"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.620451545631817*^9, 3.6204516077162447`*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   RowBox[{"(", 
+    InterpretationBox[
+     RowBox[{
+      FractionBox[
+       SuperscriptBox["\[ExponentialE]", 
+        RowBox[{"4", " ", "s"}]], 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"-", "1"}], "+", 
+          RowBox[{"a", " ", 
+           SuperscriptBox["\[ExponentialE]", 
+            RowBox[{"2", " ", "s"}]], " ", "q"}]}], ")"}], "2"]], "-", 
+      FractionBox[
+       RowBox[{
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"8", " ", "s"}]], " ", 
+        SuperscriptBox["q", "2"], " ", 
+        SuperscriptBox["y", "2"]}], 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"-", "1"}], "+", 
+          RowBox[{"a", " ", 
+           SuperscriptBox["\[ExponentialE]", 
+            RowBox[{"2", " ", "s"}]], " ", "q"}]}], ")"}], "4"]], "+", 
+      InterpretationBox[
+       SuperscriptBox[
+        RowBox[{"O", "[", "y", "]"}], "3"],
+       SeriesData[$CellContext`y, 0, {}, 0, 3, 1],
+       Editable->False]}],
+     SeriesData[$CellContext`y, 0, {
+      E^(4 $CellContext`s) (-1 + $CellContext`a 
+          E^(2 $CellContext`s) $CellContext`q)^(-2), 0, -
+       E^(8 $CellContext`s) $CellContext`q^2 (-1 + $CellContext`a 
+          E^(2 $CellContext`s) $CellContext`q)^(-4)}, 0, 3, 1],
+     Editable->False], ")"}], "+", 
+   RowBox[{
+    RowBox[{"(", 
+     InterpretationBox[
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox[
+         RowBox[{"2", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"6", " ", "s"}]], " ", "q"}], ")"}]}], 
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", "1"}], "+", 
+            RowBox[{"a", " ", 
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"2", " ", "s"}]], " ", "q"}]}], ")"}], "3"]]}], "+", 
+       FractionBox[
+        RowBox[{"4", " ", 
+         SuperscriptBox["\[ExponentialE]", 
+          RowBox[{"10", " ", "s"}]], " ", 
+         SuperscriptBox["q", "3"], " ", 
+         SuperscriptBox["y", "2"]}], 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "1"}], "+", 
+           RowBox[{"a", " ", 
+            SuperscriptBox["\[ExponentialE]", 
+             RowBox[{"2", " ", "s"}]], " ", "q"}]}], ")"}], "5"]], "+", 
+       InterpretationBox[
+        SuperscriptBox[
+         RowBox[{"O", "[", "y", "]"}], "3"],
+        SeriesData[$CellContext`y, 0, {}, 0, 3, 1],
+        Editable->False]}],
+      SeriesData[$CellContext`y, 
+       0, {(-2) 
+        E^(6 $CellContext`s) $CellContext`q (-1 + $CellContext`a 
+           E^(2 $CellContext`s) $CellContext`q)^(-3), 0, 4 
+        E^(10 $CellContext`s) $CellContext`q^3 (-1 + $CellContext`a 
+           E^(2 $CellContext`s) $CellContext`q)^(-5)}, 0, 3, 1],
+      Editable->False], ")"}], " ", 
+    RowBox[{"(", 
+     RowBox[{"x", "-", "a"}], ")"}]}], "+", 
+   InterpretationBox[
+    SuperscriptBox[
+     RowBox[{"O", "[", 
+      RowBox[{"x", "-", "a"}], "]"}], "2"],
+    SeriesData[$CellContext`x, $CellContext`a, {}, 0, 2, 1],
+    Editable->False]}],
+  SeriesData[$CellContext`x, $CellContext`a, {
+    SeriesData[$CellContext`y, 0, {
+     E^(4 $CellContext`s) (-1 + $CellContext`a 
+         E^(2 $CellContext`s) $CellContext`q)^(-2), 0, -
+      E^(8 $CellContext`s) $CellContext`q^2 (-1 + $CellContext`a 
+         E^(2 $CellContext`s) $CellContext`q)^(-4)}, 0, 3, 1], 
+    SeriesData[$CellContext`y, 
+     0, {(-2) E^(
+        6 $CellContext`s) $CellContext`q (-1 + $CellContext`a 
+         E^(2 $CellContext`s) $CellContext`q)^(-3), 0, 4 
+      E^(10 $CellContext`s) $CellContext`q^3 (-1 + $CellContext`a 
+         E^(2 $CellContext`s) $CellContext`q)^(-5)}, 0, 3, 1]}, 0, 2, 1],
+  Editable->False]], "Output",
+ CellChangeTimes->{3.620451611458871*^9, 3.620451707658551*^9, 
+  3.620471278444561*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Normal", "[", "%2", "]"}]], "Input",
+ CellChangeTimes->{{3.620471286520341*^9, 3.620471286696107*^9}},
+ NumberMarks->False],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox[
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"4", " ", "s"}]], 
+   SuperscriptBox[
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "1"}], "+", 
+      RowBox[{"a", " ", 
+       SuperscriptBox["\[ExponentialE]", 
+        RowBox[{"2", " ", "s"}]], " ", "q"}]}], ")"}], "2"]], "-", 
+  FractionBox[
+   RowBox[{"2", " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{"6", " ", "s"}]], " ", "q", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "a"}], "+", "x"}], ")"}]}], 
+   SuperscriptBox[
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "1"}], "+", 
+      RowBox[{"a", " ", 
+       SuperscriptBox["\[ExponentialE]", 
+        RowBox[{"2", " ", "s"}]], " ", "q"}]}], ")"}], "3"]], "+", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"8", " ", "s"}]], " ", 
+        SuperscriptBox["q", "2"]}], 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"-", "1"}], "+", 
+          RowBox[{"a", " ", 
+           SuperscriptBox["\[ExponentialE]", 
+            RowBox[{"2", " ", "s"}]], " ", "q"}]}], ")"}], "4"]]}], "+", 
+     FractionBox[
+      RowBox[{"4", " ", 
+       SuperscriptBox["\[ExponentialE]", 
+        RowBox[{"10", " ", "s"}]], " ", 
+       SuperscriptBox["q", "3"], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "a"}], "+", "x"}], ")"}]}], 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "1"}], "+", 
+         RowBox[{"a", " ", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{"2", " ", "s"}]], " ", "q"}]}], ")"}], "5"]]}], ")"}], " ", 
+   SuperscriptBox["y", "2"]}]}]], "Output",
+ CellChangeTimes->{3.620451712935603*^9, 3.6204712881677217`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Series", "[", 
+  RowBox[{
+   FractionBox["1", 
+    RowBox[{
+     SuperscriptBox["x", "2"], "+", 
+     SuperscriptBox["y", "2"]}]], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "a", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"y", ",", "0", ",", "2"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.620452231830595*^9, 3.620452251521912*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   RowBox[{"(", 
+    InterpretationBox[
+     RowBox[{
+      FractionBox["1", 
+       SuperscriptBox["a", "2"]], "-", 
+      FractionBox[
+       SuperscriptBox["y", "2"], 
+       SuperscriptBox["a", "4"]], "+", 
+      InterpretationBox[
+       SuperscriptBox[
+        RowBox[{"O", "[", "y", "]"}], "3"],
+       SeriesData[$CellContext`y, 0, {}, 0, 3, 1],
+       Editable->False]}],
+     SeriesData[$CellContext`y, 
+      0, {$CellContext`a^(-2), 0, (-1) $CellContext`a^(-4)}, 0, 3, 1],
+     Editable->False], ")"}], "+", 
+   RowBox[{
+    RowBox[{"(", 
+     InterpretationBox[
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox["2", 
+         SuperscriptBox["a", "3"]]}], "+", 
+       FractionBox[
+        RowBox[{"4", " ", 
+         SuperscriptBox["y", "2"]}], 
+        SuperscriptBox["a", "5"]], "+", 
+       InterpretationBox[
+        SuperscriptBox[
+         RowBox[{"O", "[", "y", "]"}], "3"],
+        SeriesData[$CellContext`y, 0, {}, 0, 3, 1],
+        Editable->False]}],
+      SeriesData[$CellContext`y, 
+       0, {(-2) $CellContext`a^(-3), 0, 4 $CellContext`a^(-5)}, 0, 3, 1],
+      Editable->False], ")"}], " ", 
+    RowBox[{"(", 
+     RowBox[{"x", "-", "a"}], ")"}]}], "+", 
+   InterpretationBox[
+    SuperscriptBox[
+     RowBox[{"O", "[", 
+      RowBox[{"x", "-", "a"}], "]"}], "2"],
+    SeriesData[$CellContext`x, $CellContext`a, {}, 0, 2, 1],
+    Editable->False]}],
+  SeriesData[$CellContext`x, $CellContext`a, {
+    SeriesData[$CellContext`y, 
+     0, {$CellContext`a^(-2), 0, (-1) $CellContext`a^(-4)}, 0, 3, 1], 
+    SeriesData[$CellContext`y, 
+     0, {(-2) $CellContext`a^(-3), 0, 4 $CellContext`a^(-5)}, 0, 3, 1]}, 0, 2,
+    1],
+  Editable->False]], "Output",
+ CellChangeTimes->{3.620452252725024*^9, 3.620471296189805*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Normal", "[", "%4", "]"}]], "Input",
+ CellChangeTimes->{{3.620471315490399*^9, 3.620471324767003*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", 
+   SuperscriptBox["a", "2"]], "-", 
+  FractionBox[
+   RowBox[{"2", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "a"}], "+", "x"}], ")"}]}], 
+   SuperscriptBox["a", "3"]], "+", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox["1", 
+       SuperscriptBox["a", "4"]]}], "+", 
+     FractionBox[
+      RowBox[{"4", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "a"}], "+", "x"}], ")"}]}], 
+      SuperscriptBox["a", "5"]]}], ")"}], " ", 
+   SuperscriptBox["y", "2"]}]}]], "Output",
+ CellChangeTimes->{3.620471325790427*^9}]
+}, Open  ]]
+},
+WindowSize->{831, 995},
+WindowMargins->{{-3, Automatic}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 389, 10, 32, "Input"],
+Cell[971, 34, 320, 9, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1328, 48, 608, 19, 57, "Input"],
+Cell[1939, 69, 3913, 105, 118, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5889, 179, 147, 3, 32, "Input"],
+Cell[6039, 184, 1822, 58, 61, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7898, 247, 377, 11, 53, "Input"],
+Cell[8278, 260, 1793, 53, 54, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10108, 318, 126, 2, 32, "Input"],
+Cell[10237, 322, 624, 23, 82, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
