@@ -1,18 +1,15 @@
 clear all
 close all
-N = 100;
-T = 1000;
 fold = 4000;
+N = 500;
+T = 1000;
 q = N/T;
 
-% dgnl1 = NaN(N, fold);
-phi = 0;
-for N = [100 500]
-    q = N/T;
-    ev1 = NaN(N, fold);
-    for sig = [0.5 0.1]
+ev1 = NaN(N, fold);
+for sig = [0.1, 0.2, 0.5]
+    for phi = [0, 0.25, 0.5, 0.7070, 0.8160]
         for a = 1:fold
-            s = [randn(), NaN(1, T-1)]*sig;
+            s = [randn()*sig, NaN(1, T-1)];
             for t = 2:T
                 s(t) = s(t-1) * phi + randn()*sig;
             end
@@ -49,4 +46,5 @@ for N = [100 500]
         %               'sig%.4f-phi%.4f.mat'], sig, phi));
     end
 end
+
 quit

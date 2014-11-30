@@ -7,31 +7,47 @@ data = fetch(mysql, stmt);
 p = 29;
 T = 3000;
 
-T1 = 300;
-periods = T/T1;
-
 R = NaN(p, T);
 counts = NaN(1, p);
 for k = 1 : p
     closing = fetch(mysql, sprintf(['select closing from %s order by day desc ' ...
                         'limit %d;'], strrep(data{k}, '.', '_'), ...
-          T));
-    R(k, :) = cell2mat(flipud(closing))';
+          T+1));
+    R(k, :) = price2ret(cell2mat((flipud(closing))))';
 end
 close(mysql);
 
-lambda = NaN(p, periods);
-for k = 1: periods
-    C = R(:, (k-1)*T1 + 1 : k*T1) * R(:, (k-1)*T1 + 1 : k*T1)';
-    lambda(:, k) = sort(eig(C), 'descend');
-end
-I = lambda(1, :) > 0 & lambda(2, :) > 0;
-A = log10(lambda(1, I)./lambda(2, I));
-A = A./std(A);
+EC = cov(R');
 
-B = log10(1./rand(1, 1000));
-B = B./std(B);
-qqplot(A, B);
+NbrPeriods = 10;
+sampleSize = T/NbrPeriods;
+ev = NaN(p, NbrPeriods);
+
+for m = 1 : NbrPeriods
+    A = R(:, (m-1)*sampleSize+1 : m*sampleSize);
+    ev(:, m) = reshape(sort(eig(A*A' - EC), 'descend'), p, 1);
+    % ev(:, m) = reshape(sort(eig(A*A'), 'descend'), p, 1);
+end
+
+ratios = NaN(5, NbrPeriods);
+for k = 1:5
+    ratios(k, :) = k*log((ev(k, :)./ev(k+1, :)));
+end
+A = reshape(ratios, 1, numel(ratios));
+
+% qqplot(A./std(A), ProbDistUnivParam('exponential', 1));
+% ylabel('Quantiles of $k[\ln{\lambda_{(k)} - \ln\lambda_{(k+1)}}]$', ...
+%        'Interpreter', 'Latex', 'Fontsize', 14);
+% grid on
+
+[y, x] = ecdf(A);
+plot(x(1:end-1), log(1 - y(1:end-1)), '+');
+P = polyfit(x(1:end-1), log(1 - y(1:end-1)), 1);
+grid on
+title(['Tail function of $k \ln{\lambda_{(k)} \over \lambda_{(k+1)}}$ ' ...
+       '$k=1,\dots,5$ on semi-log scale'], 'Interpreter', 'Latex', 'Fontsize', 16);
+ylabel('$\ln\bar F(x)$', 'Interpreter', 'Latex', 'Fontsize', 14);
+xlabel('x');
 
 % results = NaN(1, p-1);
 % U = sort(rand(500, p-1), 'descend');
@@ -49,6 +65,7 @@ qqplot(A, B);
 %     fprintf(fd, '\n');
 % end
 % fclose(fd);
+
 % Check whether lambda()
 % C = R*R';
 % lambda = flipud(sort(eig(C)));
