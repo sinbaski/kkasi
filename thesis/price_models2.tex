@@ -1,0 +1,1323 @@
+\chapter{Return Models}\label{chp:PriceModels}
+In this chapter we review some of the discrete-time return models and
+fit them to intraday returns. The intention is to assess the
+applicability of these models and to understand their statistical
+properties. The implications of these properties on the returns'
+correlation and covariance matrix are studied in chapters
+\ref{chp:Gaussian} and \ref{chp:CrossCorrelationFat}.
+
+section \ref{sec:Garch_model} reviews the GARCH model using the Nordea
+15-minute returns as an example. Section \ref{sec:SLV_model} examines the
+stochastic log-volatility model and discusses the possibility of
+describing the residuals of the log-volotility series using the
+Johnson Su distribution. The same Nordea return series is fitted as an
+example. Section \ref{sec:XieCalc} derives the unconditional distribution
+function of the stochastic log-volotility model and compares the
+analytic results to the 30-minute returns of a number of Swedish
+stocks.
+
+\section{Gaussian Distribution}
+The justification of modeling return series as independent,
+identically distributed Gaussian variates comes from imagining the
+price process $S(t)$ as a Brownian motion whose increment $\sigma
+dw_t$ at each time step is independent and scales as $\sigma
+\sqrt{dt}$. Then, by adding a drift term $\mu dt$ that represents some
+deterministic trend in the price process, one can express the
+price $S(t)$ as a stochastic differential equation:
+\begin{eqnarray*}
+  dS &=& S\mu dt + S\sigma dw_t \\
+  d(\ln S) &=& (\mu - \frac{1}{2} \sigma^2)dt + \sigma dw_t \\
+\end{eqnarray*}
+It follows from this equation that $\ln S(t) - \ln S_0$, where $S_0$
+is the price at time 0, has Gaussian distribution with mean $(\mu -
+\sigma^2/2)t$ and variance $\sigma^2 t$. Therefore, in a discrete-time
+model, where the length of each time step $\Delta t$ is fixed, the
+return $r_t = \ln S(t + \Delta t) - \ln S(t)$ is assumed to be
+Gaussian distributed and have mean and variance that are functions of
+$\Delta t$.
+
+The picture depicted above is of course overly simplified, and as we discussed in
+section \ref{sec:StylizedFacts}, the distribution of returns is not really
+Gaussian. Nevertheless, the assumption of Gaussian distributed returns
+underlies such important theories as Black and Scholes theory of
+option pricing. Thus, albeit hugely inaccurate, the Gaussian
+distribution as a returns model shall not be forgotten. In the next
+few sections, we discuss some more realistic returns models.
+
+\section{GARCH models} \label{sec:Garch_model}
+``GARCH'' is the acronym for ``Generalized Autoregressive Conditional
+Heteroscedasticity''. A GARCH(p, q) model is defined by the following
+equation system:
+\begin{equation}
+  \label{eq:garch_def}
+  \begin{aligned}
+    r_t &= \mu + \epsilon_t \\
+    \sigma_t^2 &= \alpha_0 + \sum_{i=1}^q \alpha_i \epsilon_{t-i}^2 +
+    \sum_{i=1}^p \beta_i \sigma_{t-i}^2
+  \end{aligned}
+\end{equation}
+where $\epsilon_t$ is a random variable of a prescribed distribution,
+the most common ones being Gaussian, Student's t, Asymmetric Student's
+t, etc; $\sigma_t^2$ is the variance of $\epsilon_t$
+\cite{Bollerslev86}. The autocorrelation function of $\epsilon_t^2$ is
+given by (c.f. \cite{Bollerslev87})
+\begin{eqnarray*}
+\rho_n &=& \sum_{i=1} ^{\max(p, q)} (\alpha_i + \beta_i) \rho_{n-i}
+\text{ for $n > p$}
+\end{eqnarray*}
+where $\alpha_i$ with $i > q$ and $\beta_i$ with $i > p$ are taken as
+zeros. It is clear from this equation that the partial autocorrelation
+function cuts off at $\max(p, q)$.
+
+To assess the applicability of GARCH models at the face of intra-day
+returns, we study the {\it Nordea Bank 15min} returns sampled during
+the period 2012/01/16 - 2012/04/20. Firstly we plot the autocorrelation
+function (ACF) of $\epsilon_t^2$ from this sample, as shown
+in figure \ref{fig:nordea_15min_acf}.
+
+At the absence of GARCH effects, the ACF is expected to have an
+asymptotic Gaussian distribution with mean 0 and variance 1/T
+\cite{Bollerslev86, Bollerslev87}, which is clearly not the case in
+figure \ref{fig:nordea_15min_acf}: The first 5 autocorrelations have
+comparable sizes and do not fall off as in a Gaussian
+scheme. Moreover, figure \ref{fig:nordea_15min_vlt_acf} shows 
+even more clearly that the conditional variances of the series are
+correlated. These observations suggest a GARCH(p, q) model can be
+appropriate.
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_acf.pdf}
+    \label{fig:nordea_15min_acf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_vlt_acf.pdf}
+    \label{fig:nordea_15min_vlt_acf}
+  }
+  \caption{\small \it Auto-correlations among Nordea Bank 15min
+    returns. \ref{fig:nordea_15min_acf}: Auto-correlations (ACF) of the
+    squared returns; \ref{fig:nordea_15min_vlt_acf}: Auto-correlations
+    (ACF) of the conditional variances.}
+\end{figure}
+
+According to Andersen and Bollerslev et al \cite{Andersen03},
+$\epsilon_t$ can be decomposed as $\epsilon_t = \sigma_t z_t$, where
+$z_t \sim N(0, 1)$ and $\sigma_t$ can be estimated using realized
+volatility. To find out whether this is true for the aforementioned
+series we look at the probability plot of $\epsilon_t/\sigma_t$
+(figure \ref{fig:nordea_bank_15min_z_prob}), which is consistent with
+a standard Gaussian distribution except for a few outliers at the two
+ends. Hence the fat tails of the probability density function can be
+entirely accounted for by GARCH effects, implying a Gaussian
+conditional distribution is sufficient for $z_t$.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=80 258 104
+    220]{../pics/nordea_bank_15min_z_prob.pdf}
+  \caption{\small \it{Probability plot of $z_t = \epsilon_t /
+      \sigma_t$. $\epsilon_t$ are derived from Nordea Bank 15min
+      returns while $\sigma_t$ are realized volatilities calculated
+      using 30s returns within each 15min interval. Horizontal axis:
+      $z_t$}; Vertical axis: cummulative probability function (CDF) of
+    $z_t$, arranged on such a scale that the CDF of the standard
+    Gaussian is a straight line.}
+  \label{fig:nordea_bank_15min_z_prob}
+\end{figure}
+
+To determine the orders p and q of the GARCH model, we again check
+the partial autocorrelation function of $\epsilon_t^2$. As just
+mentioned, the first 5 partial autocorrelations are significant. Thus
+we can tentatively estimate a GARCH(1, 5) model. Then by applying the
+Lagrange multiplier test and accordingly removing insignificant
+parameters, we obtain a GARCH(1, 3) model
+\ref{tab:nordea_15min_garch}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    parameter & value & std. error & t statistic \\
+    \hline
+     $\alpha_0$ &   1.05668e-06 &   3.56871e-07 &    2.96096\\
+     \hline
+     $\beta_1$  &     0.687212  &   0.0299314   &    22.9596\\
+     \hline
+     $\alpha_1$ &      0.128614 &   0.0268144   &    4.79643\\
+     \hline
+     $\alpha_3$ &    0.0568022  &   0.0301503   &    1.88397 \\
+     \hline
+  \end{tabular}
+  \caption{\small \it GARCH(1, 3) model of Nordea Bank 15min returns}
+  \label{tab:nordea_15min_garch}
+\end{table}
+
+\section{ARIMA Log-volotility Models}\label{sec:SLV_model}
+With the availability of transaction data, estimating conditional
+volatility using returns sampled at a higher frequency (realized
+volatility) gives superior acuracy and reliability. However, at which
+frequency the time series should be sampled in order to give an
+unbiased and consistent estimate of the volatility is not a trivial
+question. Naively one would argue by the doctrine of statistics that
+the often the series is sampled, the better the estimate. This is also
+well supported in theory, since the quadratic variation which is the
+theoretial variance of the time series (see \cite{Andersen03}, theorem
+1 and corollary 1), is approximated as (see \cite{Protter05}, ch.II,
+section 6, theorem 22):
+\[
+\var(p_{t+h} - p_t) = [r, r]_{t+h} - [r, r]_t = \lim_{n \to \infty}
+\sum_{T^i \in \pi_n} (p^{T_{i+1}} - p^{T_i})^2
+\]
+where $p_t$ is the log price process and $r_t = p_t - p_0$. $\pi_n$
+is a refining partition of the interval $[t, t+h]$.
+
+However, due to the noise introduced by market micro-structure, there
+is actually an optimal sampling frequency relative to $h$. While the
+method to determine this optimal frequency is a subject of debate (see
+for example \cite{Sahalia05}), it is not difficult to find a fairly
+satisfactory frequency in practice.
+
+Andersen and Bollerslev et al proved in \cite{Andersen03} that, with
+the conditional volatility well approximated by the realized
+volatility, $r_{t+h, h} = p_{t+h} - p_t$ is governed by a Gaussian
+distribution (see theorem 2 of \cite{Andersen03}):
+\[
+r_{t+h, h} | \sigma(\mu_{t+s}, \sigma_{t+s})_{s \in [0, h]} \sim
+N(\int_{0}^h \mu_{t+s} ds, \int_{0}^h \sigma_{t+s}^2 ds)
+\]
+
+Thus one can try a few frequencies and compare the distribution of
+$r_{t+h, h}/\hat{\sigma}_{t+h, h}$ with the standard Gaussian. If the
+two match, $\hat{\sigma}_{t+h, h}$ is a good estimate of $\sigma_{t+h,
+  h}$, the volatility of $r_{t+h, h}$.
+
+For the Nordea Bank 15-minute returns, $h = 15\text{min}$, and a
+reasonally good sampling frequency is 1/30sec, as confirmed by the
+probability plot \ref{fig:nordea_bank_15min_z_prob} as well as by the
+autocorrelation functions of $r_{t+h, h} / \sigma_{t+h, h}$ and of
+$(r_{t+h, h} / \sigma_{t+h, h})^2$ which are shown in
+\ref{fig:nordea_15min_quotient_acf} and
+\ref{fig:nordea_15min_quotient_squared_acf} respectively.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[ACF of $r_{t+h, h} / \sigma_{t+h, h}$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_quotient_acf.pdf}
+    \label{fig:nordea_15min_quotient_acf}
+  }
+  \subfigure[ACF of $(r_{t+h, h} / \sigma_{t+h, h})^2$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_quotient_squared_acf.pdf}
+    \label{fig:nordea_15min_quotient_squared_acf}
+  }
+  \caption{\small \it Nordea 15min $r_t/\sigma_t$ and
+    $(r_t/\sigma_t)^2$ ACF.}
+\end{figure}
+
+We see in figure \ref{fig:nordea_15min_quotient_acf} and
+\ref{fig:nordea_15min_quotient_squared_acf} there is essentially no
+autocorrelation in the series $r_{t+h, h} / \sigma_{t+h, h}$ and
+$(r_{t+h, h} / \sigma_{t+h, h})^2$, supporting the assumption that the
+series is i.i.d Gaussian distributed. As a result, the problem of
+modeling $r_{t+h, h}$ boils down to modeling $\sigma_{t+h,
+  h}$. Andersen and Bollerslev et al reported that, for the exchange
+rates between Deutch mark, yen and dollar, $\ln \sigma_{t+h, h}$ is
+gaussian distributed \cite{Andersen03}. This is, however, not the case
+for our series in question. In fact, in our case, $\ln \sigma_{t+h,
+  h}$ is right skewed (skewness 0.3342) and leptokurtic (kurtosis
+6.1006). See figure \ref{fig:nordea_15min_logvol_prob}
+\begin{figure}[htb!]
+  \centering
+  %\vspace{-15mm}
+  \includegraphics[scale=0.5, clip=true, trim=80 223 107
+  4]{../pics/nordea_15min_logvol_prob.pdf}
+  \caption{\small \it Probability plot of Nordea 15min
+    $\ln\sigma_{t+h, h}$ unconditional distribution}
+  \label{fig:nordea_15min_logvol_prob}
+\end{figure}
+
+Moreover, the series of $\ln\sigma_{t+h, h}$ shows long-lasting and
+periodic autocorrelations with an apparent period of 33 (see figure
+\ref{fig:nordea_15min_logvol_acf}). This suggests the series may be
+described by an integrated seasonal ARMA\footnote{ARMA ---
+  Autoregressive Moving Average} model. But before we set out
+to specify and estimate this model of the logvolatility
+$\ln\sigma_{t+h, h}$, it is useful to first write down the model of
+the returns $r_t$:
+\begin{eqnarray}
+   r_{t+h, h} &=& \ln p_{t+h} - \ln p_t \nonumber \\
+   r_{t+h, h} &=& \mu + \sigma_{t+h, h} b_t \label{eq:SLV_spec}
+\end{eqnarray}
+where $p_t$ is the price of the asset at time $t$ and $b_t \sim N(0,
+1)$. For simplicity, in the rest of this chapter we shall just write
+$t$ for the subscript ``t+h, h'', since the time interval $h$ is fixed
+for each time series and is a known constant. In the case of the
+Nordea Bank 15-minute returns, h = 15 minutes.
+
+As has just been said, $\ln \sigma_t$ for the series in question has
+long-lasting auto-correlations (often referred to as ``long
+memory''). This suggests simplifying the series by differencing
+\cite{BoxJenkins94}:
+\[
+w_t = (1-B)(1-B^s)\ln\sigma_t
+\]
+where $B$ is the back-shift operator and $s=33$ is the seasonality.
+
+The autocorrelation function of the differenced process $w_t$, as shown in
+figure \ref{fig:nordea_15min_w_acf}, clearly points to a seasonal
+moving-average model: There are only 4 non-zero autocorrelations in
+the plot, located at lags 1, 32, 33, 34, respectively; furthermore,
+the two at 32 and 34 are approximately equal. Thus we can write down
+the model as
+\begin{eqnarray}
+  w_t &=& (1 - \theta B)(1 - \Theta B^s) y_t \label{eq:nordea_w}
+\end{eqnarray}
+where $\theta$ and $\Theta$ are parameters to be determined and $y_t$
+is a noise process with constant variance $\sigma_y^2$ and mean
+0. $y_t$ is often refered to as the residuals.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[ACF of $\ln\sigma_{t+h,h}$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 230 112
+    235]{../pics/nordea_15min_logvol_acf.pdf}
+    \label{fig:nordea_15min_logvol_acf}
+  }
+  \subfigure[ACF of $w_t$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 230 112
+    235]{../pics/nordea_15min_w_acf.pdf}
+    \label{fig:nordea_15min_w_acf}
+  }
+  \caption{\small \it Nordea 15min $\ln\sigma_{t+h, h}$ and $w_t$
+    autocorrelations}
+\end{figure}
+
+The above seasonal moving average model has the following
+autocovariance structure \cite{BoxJenkins94}:
+\begin{eqnarray*}
+  \gamma_0 &=& \sigma_y^2 (1 + \theta^2)(1 + \Theta^2) \\
+  \gamma_1 &=& -\sigma_y^2\theta(1 + \Theta^2) \\
+  \gamma_s &=& -\sigma_y^2\Theta(1 + \theta^2) \\
+  \gamma_{s+1} &=& \gamma_{s-1}\;=\;\sigma_y^2\theta\Theta
+\end{eqnarray*}
+These equations together with the measured autocorrelations make
+possible an initial estimate of the parameters $\theta$ and $\Theta$:
+\begin{eqnarray*}
+  {\rho_{s+1}/\rho_s} &=& {\gamma_{s+1}/\gamma_s} \;=\; -{\theta \over
+    1 + \theta^2} \\
+  {\rho_{s+1}/\rho_1} &=& {\gamma_{s+1}/\gamma_1} \;=\; -{\Theta \over
+    1 + \Theta^2} \\
+\end{eqnarray*}
+Substituting in the measured values shown in table
+\ref{tab:nordea_15min_w_acf},
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    $\rho_1$ & $\rho_{s-1}$ & $\rho_s$ & $\rho_{s+1}$ \\
+    \hline
+    -0.4703 &  0.2053 & -0.4564 &  0.2212 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Nordea 15min $w_t$ autocorrelations}
+  \label{tab:nordea_15min_w_acf}
+\end{table}
+we get
+\begin{eqnarray*}
+  \theta &=& 0.6890 \\
+  \Theta &=& 0.6378
+\end{eqnarray*}
+Among the two roots of each of the 2nd order equations in the above,
+we have chosen the one in the range $(-1, 1)$ so as to ensure
+invertibility of the model \cite{BoxJenkins94}.
+
+With an estimate of $\theta$ and $\Theta$, one can then infer the
+noise process i.e. the residuals $y_t$:
+\begin{equation}
+  \label{eq:infer_y}
+  y_t = w_t + \theta y_{t-1} + \Theta y_{t-s} - \theta \Theta y_{t-s-1}
+\end{equation}
+where we substitute $y_t\;(t \leq 0)$ with their unconditional
+expectation 0.
+% By inverting the seasonal moving average model of $w_t$ we can then
+% infer the noise process $y_t$ \footnotemark, i.e. the residuals:
+% \begin{eqnarray*}
+%   y_t &=& {1 \over 1 - \theta B}{1 \over 1 - \Theta B^s} w_t \\
+%   &=& \sum_{i=0}^{\infty}\sum_{j=0}^{\infty} \theta^i \Theta^j B^{i+j}
+%   w_t \\
+%   &=& w_t + \sum_{k=1}^{\infty} \sum_{j=0}^{\bot(k/s)} \theta^{k-sj} \Theta^j
+%   w_{t-k}
+% \end{eqnarray*}
+% where $\bot(\cdot)$ denotes the floor function, i.e. the largest
+% integer smaller than its argument.
+% \footnotetext{
+%   The autoregressive process resulting from the inversion is inifinite
+%   in extent. Hence one must choose a cut-off value for k. For the
+%   present case of Nordea 15min log-volatility, I choose the value
+%   $k=sj$ for which $|\Theta|^j < 0.02$. This value of k, call it
+%   $k_{\top}$, is around 550. To avoid data reduction of this amount,
+%   we add to the beginning of $\{w_t\}_{t=1}^n$ $k_{\top}$ zeros
+%   corresponding to t=0, -1, ..., -$k_{\top}$+1. Recall $\E(w_t) = \E(y_t
+%   - \theta y_{t-1} - \Theta y_{t-s} + \theta \Theta y_{t-s-1}) = 0$.
+% }
+
+In order to forecst the $w_t$ process, and hence the return process
+itself, we must also know the distribution of $y_t$. Moreover, to
+properly estimate the parameters of the model in the sense of maximum
+likelihood, we are also in need of the distribution of $y_t$.
+
+If $y_t$ is indeed i.i.d random variables as we assumed, we only need
+to work out its unconditional distribution. This is shown in figure
+\ref{fig:nordea_15min_y_qq} and \ref{fig:nordea_15min_y_acf}.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[QQ-plot of $y_t$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 230 112
+    210]{../pics/nordea_15min_y_qq.pdf}
+    \label{fig:nordea_15min_y_qq}
+  }
+  \subfigure[ACF of $y_t$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 230 112
+    210]{../pics/nordea_15min_y_acf.pdf}
+    \label{fig:nordea_15min_y_acf}
+  }
+  \caption{\small \it Nordea 15min $y_t$ QQ-plot and autocorrelations}
+\end{figure}
+In addition, the measured moments of $y_t$ are shown in table
+\ref{tab:nordea_15min_y_moments}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    mean & variance & skewness & kurtosis \\
+    \hline
+    0.0012 & 0.0935 & 0.2988 & 6.8691 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Nordea 15min $y_t$ moments}
+  \label{tab:nordea_15min_y_moments}
+\end{table}
+
+If we ignore the weak autocorrelations in this crude estimate of
+$y_t$ and assume $y_t$ to be i.i.d random variables governed
+by a skewed and leptokertic distribution, the parameters of this
+distribution together with $\theta$ and $\Theta$ can be determined via
+maximum likelihood estimate (MLE).
+
+It turns out that $y_t$ can be well described by a Johnson Su
+distribution \cite{Shang2004}:
+\[
+  y_t = \xi + \lambda\sinh{z_t - \gamma \over \delta}
+\]
+where $\gamma, \delta, \lambda, \xi$ are parameters to be determined
+and $z_t \sim N(0, 1)$. The goodness of fitting is demonstrated in
+figure \ref{fig:nordea_15min_y_js_fit} by the
+empirical cummulative distribution function in comparison to the
+theoretical one.
+\begin{figure}[htb!]
+  %\vspace{-18mm}
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=92 229 116
+    133]{../pics/nordea_15min_y_js_fit.pdf}
+    \caption{\small \it Nordea 15min $y_t$ fitted to a Johnson Su
+      distribution. Horizontal: values of $y_t$, denoted x; Vertical:
+      $\ln\left(P(y_t < x)\right)$.}
+    \label{fig:nordea_15min_y_js_fit}
+\end{figure}
+
+The first 4 moments of the Johnson Su distribution are expressible
+in closed form in $\gamma, \delta, \lambda, \xi$ \cite{Shang2004}:
+\begin{eqnarray*}
+  w &=& \exp{1 \over \delta^2} \\
+  \Omega &=& {\gamma \over \delta} \\
+  \text{E}(y) &=& -w^{1/2} \lambda \sinh\Omega + \xi\\
+  \text{std}(y) &=& \lambda \left[{1 \over 2}(w-1)(w\cosh 2\Omega +
+    1)\right]^{1/2} \\
+  \text{skewness}(y) &=& {
+    \sqrt{(1/2)w(w-1)} [w(w+2)\sinh 3\Omega + 3\sinh\Omega]
+    \over
+    (w\cosh 2\Omega + 1)^{3/2}} \\
+  \text{kurtosis}(y) &=& {
+    w^2(w^4 + 2w^3 + 3w^2 - 3)\cosh 4\Omega + 4w^2 (w+2) \cosh 2\Omega
+    + 3(2w+1) \over
+    2(w\cosh 2\Omega + 1)^2 }
+\end{eqnarray*}
+By matching the theoretical expressions of the moments with their
+measured values, and taking help from published tables
+\cite{Johnson1965}, one can solve for the parameters $\gamma, \delta,
+\lambda, \xi$.
+
+Under the assumption of i.i.d Johnson Su distributed residuals, the
+log-likelihood function of the parameters $\gamma, \delta$
+conditional on the sample $w_t$ can be written as
+\[
+L(\theta, \Theta) = -{1 \over 2}\sum_{t=1}^n z_t^2 + n \ln{\delta
+  \over \lambda \sqrt{2\pi}} - {1 \over 2}\sum_{t=1}^n \ln\left[
+  1 + \left({y_t - \xi \over \lambda}\right)^2
+\right]
+\]
+where $y_t$ are inferred from $w_t$ using eq.\ref{eq:infer_y}
+and $z_t$ from $y_t$ using
+\[
+z_t = \delta \sinh^{-1}{y - \xi \over \lambda} + \gamma
+\]
+Note that $\gamma, \delta, \lambda, \xi$ are not really free
+parameters but rather are implied by $\theta$ and $\Theta$: Once the
+latter have been chosen and the corresponding $y_t$ inferred, the
+former are determined by the moments of $y_t$.
+
+The eventual MLE is done in Matlab with the ``active set''
+algorithm. The initial as well as the final estimation results are
+listed in table \ref{tab:nordea_15min_js_param}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    & $\gamma$ & $\delta$ & $\lambda$ & $\xi$ & $\theta$ & $\Theta$ \\
+    \hline
+    initial estimate & 0.1476 & 1.5121 & 0.3633 & 0.0454 & 0.6890 &
+    0.6378 \\
+    \hline
+    MLE estimate & 0.1319 & 1.5266 & 0.3735 & 0.0410 & 0.6639 & 0.6025
+    \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Nordea 15min estimation results}
+  \label{tab:nordea_15min_js_param}
+\end{table}
+
+To verify that the log-volatility can in general be described by
+ARIMA(p, d, q) models, we apply the above procedure to a number of
+Swedish stocks whose data have been collected by the author with
+home-developed software. In section \ref{sec:nordea} and section \ref{sec:volvo}
+we model the log-volatilities of Nordea Bank 15-minute returns and
+Volvo B 30-minute returns. Both return series span the period
+2013/10/10 - 2014/04/04. They are computed using minute-by-minute
+average prices, and their variances, i.e. volatilities squared, are
+computed as the sum of squared higher-frequency returns, which are in
+turn computed using second-by-second prices. Whenever a needed average
+price cannot be computed due to the lack of price observations in the
+relevent time interval, the value of the previous average price is
+assumed.
+
+After modeling, we perform 1-step-ahead forecast using the estimated
+models, and compare the predicted log-volatilities with the actual
+data.
+
+\subsection{Nordea Bank Log-Volatility}\label{sec:nordea}
+In this section we model the log-volatility of {\it Nordea Bank}
+15-minute returns during the period 2013/10/10 - 2014/04/04, which
+contains 3879 data points. The squared volatilities, i.e. the
+variances, are computed as the sum of squared 30-second returns. Among
+the 3879 data points, we use the first 80\% for model estimation and
+the last 20\%, i.e. 776 data points for forecast verification.
+
+This Nordea series has a auto-correlation structure similar to its
+predecessor that has been studied in previous sections. We show it in
+figure \ref{fig:nordea2_w_acf}. The reader may want to compare it with
+figure \ref{fig:nordea_15min_w_acf}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=95 230 112
+  235]{../pics/nordea2_w_acf.pdf}
+  \caption{\small \it Auto-correlation function of $w_t$}
+  \label{fig:nordea2_w_acf}
+\end{figure}
+The significant auto-correlations and their respective lags are listed
+in table \ref{tab:nordea2_w_acf}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    lag & 1 & 32 & 33 & 34 \\
+    \hline
+    ACF &   -0.4805 & 0.2861 &  -0.5034 & 0.2093 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Significant auto-correlations of $w_t$}
+  \label{tab:nordea2_w_acf}
+\end{table}
+
+Apparently this series also has the seasonality $s = 33$, but judging
+from the relatively big differences between auto-correlations at lags
+32 and 34, we don't expect the moving average process to be in the
+multiplicative form of equation \ref{eq:nordea_w}. Instead, we model
+$\ln\sigma_t$ has
+\begin{eqnarray}
+  (1 - B)(1 - B^s) \ln\sigma_t &=& (1 - \theta_1 B - \theta_s B^s -
+  \theta_{s+1} B^{s+1} ) y_t \label{eq:nordea2_v}
+\end{eqnarray}
+The parameters are etimated to be
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    parameter & $\theta_1$ & $\theta_{33}$ & $\theta_{34}$ & $\var(y_t)$ \\
+    \hline
+    value & 0.8339 & 0.8448 & -0.7067 & 0.10071 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it: Parameter values of $\ln \sigma_t$}
+\end{table}
+
+The residuals $y_t$ do not have a Gaussian distribution, as confirmed
+by the probability plot shown on the left of figure
+\ref{fig:nordea2_y}. The non-normality, however, cannot be accounted
+by the sine hypobolic transformation of Johnson Su, because of the
+negative skewness of -1.2669 found in table
+\ref{tab:nordea2_y_mmt}. How the non-normality can be accomodated is
+quite another discussion and we do not pursue it here.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=20 220 30
+  115]{../pics/nordea2_y.pdf}
+  \caption{\small \it The residuals' distribution and auto-correlations. Left:
+    cummulative distribution function (CDF) of the residuals $y_t$; Right:
+    auto-correlation function of $y_t$.}
+  \label{fig:nordea2_y}
+\end{figure}
+
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Moment & mean & variance & skewness & kurtosis \\
+    \hline
+    value & -0.0022 & 0.1007 & -1.2669 & 15.5965 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it: Moments of the residuals $y_t$}
+  \label{tab:nordea2_y_mmt}
+\end{table}
+
+The auto-correlations of the residuals $y_t$ are insignificant, as
+shown on the right of figure \ref{fig:nordea2_y}. Though the Ljung-Box Q
+test rejects the null hypothesis of no-autocorrelation in the
+residuals, the weak auto-correlations, if any at all,  are not worth
+further complicating the model.
+
+Forecast of $\ln\sigma_t$ is done by reverting equation
+\ref{eq:nordea2_v} and write
+\begin{eqnarray*}
+  \ln\sigma_t &=& \ln\sigma_{t-1} + \ln\sigma_{t-s} -
+  \ln\sigma_{t-s-1} + (1 - \theta_1 B - \theta_s B^s + \theta_{s+1}
+  B^{s+1} ) y_t \\
+  \E(\ln\sigma_t | \mathcal{F}_{t-1}) &=& \ln\sigma_{t-1} + \ln\sigma_{t-s} -
+  \ln\sigma_{t-s-1} - \theta_1 y_{t-1} - \theta_s y_{t-s} +
+  \theta_{s+1} y_{t-s-1}
+\end{eqnarray*}
+
+Thus the forecast, namely $\E(\ln\sigma_t | \mathcal{F}_{t-1})$, is
+found in terms of previous values in the same series and of previous
+residuals. 
+
+To compare the performance, we also estimate a GARCH model with
+Gaussian conditional distribution for the Nordea Bank 15-minute
+return. The procedure is standard and we only list the results here
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$ & $\alpha_5$ & $\beta_1$ \\
+    \hline
+    Value & $7.3686 \times 10^{-7}$ & 0.154131 & 0.0360 & 0.491832 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Parameters of GARCH(1, 5) model of Nordea
+    Bank 15-minute returns}
+  \label{tab:nordea2_garch}
+\end{table}
+
+Forecasting using both models, we get two series of one-step-ahead
+forecast, $\ln \sigma^{\text{ARIMA}}_t$ and $\ln \sigma^G_t$,
+respectively. We denote the empirical log-volatilities as $\ln
+\hat{\sigma}_t$. Then the accuracy of the two models can be compared
+by comparing $\ln \sigma^{\text{ARIMA}}_t - \ln \hat{\sigma}_t$ and
+$\ln \sigma^G_t - \ln \hat{\sigma}_t$. As a reference, we also include
+in the comparison the naive approach of taking the sample mean of
+$\ln \sigma_t$ as the forecast.
+
+Table \ref{tab:slv_garch_comparison} shows the standard deviation of
+$\ln \sigma^F_t - \ln \hat{\sigma}_t$ for the 3 kinds of
+forecast. Here we use $\ln \sigma^F_t$ to denote the forecast of $\ln
+\sigma_t$. Clear the ARIMA model has the smallest standard deviation,
+the sample mean has the largest, and the GARCH model sits in between.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    & ARIMA & GARCH & Sample mean \\
+    \hline
+    $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ &
+    0.2876  &  0.3096 &   0.3349 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Standard deviation of $\ln\sigma^F_t -
+    \ln\hat{\sigma}_t$}
+  \label{tab:slv_garch_comparison}
+\end{table}
+Even more informative about the quality of forecast is the
+distribution of $\ln \sigma^F_t - \ln \hat{\sigma}_t$, which we show
+in figure \ref{fig:slv_garch_comparison}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=0 292 0
+  255]{../pics/slv_garch_comparison.pdf}
+  \caption{\small \it Comparison of the forecast from ARIMA, GARCH,
+    and sample mean. Blue: ARIMA forecast; Green: GARCH forecast; Red:
+    Sample mean forecast.}
+  \label{fig:slv_garch_comparison}
+\end{figure}
+The left plot in the figure shows the situation of under-estimates,
+i.e. $\ln \sigma^F_t - \ln \hat{\sigma}_t < 0$. We see that, to the
+far left, the blue line is below the green, which is in turn below the
+red, meaning the ARIMA forecast has the lowest probability of
+under-estimate. The GARCH forecast comes second and the sample
+mean forecast under-estimates most.
+
+The same ranking of forecast quality is also seen on the right plot of
+figure \ref{fig:slv_garch_comparison}, which shows the complementary
+distribution of $\ln \sigma^F_t - \ln \hat{\sigma}_t$ for postive
+values, i.e. over-estimates: The ARIMA forecast has the lowest
+probability of over-estimate; GARCH comes second and the sample mean
+is most likely to over-estimate.
+
+As another measure of the quality of forecast, the fraction of
+``good'' forecasts that differ no more than a given percentage from
+the measured value is worth a few words. Table
+\ref{tab:nordea_good_percentage} compares this fraction of good
+forecasts from the 3 alternatives with respect to different
+requirements of goodness.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    ARIMA & GARCH & Sample Mean \\
+    \hline
+    1\% & 0.1920 & 0.2010 & 0.1843 \\
+    \hline
+    5\% & 0.7887 & 0.7436 & 0.7229 \\
+    \hline
+    10\% & 0.9665 & 0.9601 & 0.9369 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Fraction of ``good'' forecasts as defined by
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ being less than 1\%, 5\% and 10\%.}
+  \label{tab:nordea_good_percentage}
+\end{table}
+Clearly, although ARIMA and GARCH rank differently with respect to
+different requirements of goodness, they both out-perform the sample
+mean forecast. So the efforts of building models and estimating them
+have paid off.
+\subsection{Volvo B Log-Volatility}\label{sec:volvo}
+In this section we model the log-volatility of {\it Volvo B} 30-minute
+returns during the period 2013/10/10 - 2014/04/04. This series
+contains 1884 log-volatilities computed using 2-minute returns in each
+30-minute interval. Among them we use the first 1507 for model
+estimation and the last 377 for forecast and model verification.
+
+The left plot of figure \ref{fig:volvo_inno_and_lv_acf} shows the
+distribution of $(r_t - \E(r_t))/\sigma_t$. We observe in the figure a
+nice Gaussian variate, so we can be sure that the sum of squared
+2-minute returns makes a good approximation to the variance of
+30-minute returns in this particular case.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=0 256 0
+    151]{../pics/volvo_inno_and_lv_acf.pdf}
+    \label{fig:volvo_inno_and_lv_acf}
+  \caption{\small \it Left: probability plot of $(r_t -
+    \E(r_t))/\sigma_t$; Right: auto-correlations of $\ln \sigma_t$}
+\end{figure}
+
+Guided by the auto-correlations of $\ln\sigma_t$ shown in the right
+plot of figure \ref{fig:volvo_inno_and_lv_acf} we find the following
+model:
+\begin{eqnarray}
+  && (1 - B)(1 - B^s) \ln \sigma_t \nonumber \\
+  &=& (1 - \theta_1 B - \theta_2B^2 -
+  \theta_3B^3 - \theta_4B^4) (1 - \Theta B^s)
+  y_t \label{eq:volvo_lv_model}
+\end{eqnarray}
+where $s = 16$ is the seasonality and is apparent from the
+auto-correlations of $\ln\sigma_t$. Fitting this model to the
+actual log-volatilities yields the parameter values listed in table
+\ref{tab:volvo_params}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    Parameter & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\theta_4$ &
+    $\Theta$ & residual variance \\
+    \hline
+    Value & 0.7305 & 0.0575 & 0.0574 & 0.0346 & 0.8324 & 0.1340\\
+    \hline
+  \end{tabular}
+  \caption{\small \it Volvo B log-volatility parameters}
+  \label{tab:volvo_params}
+\end{table}
+Forecasting using the estimated model parameters gives the forecast
+series $\ln \sigma^{\text{ARIMA}}_t$. To access the quality of the
+forecast, we also estimate a GARCH model using the returns. The result
+is a GARCH(1, 1) model:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$  & $\beta_1$ \\
+    \hline
+    Value & $3.125 \times 10^{-7}$ & 0.05 & 0.90 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it GARCH(1, 1) model of Volvo B 30-minute returns}
+  \label{tab:volvo_garch}
+\end{table}
+
+The forecasts from ARIMA, GARCH, and the sample mean are compared
+using the difference $\ln \sigma^F_t - \ln\hat{\sigma}_t$, where $\ln
+\sigma^F_t$ stands for the forecast. The distributions of this
+difference is plotted in figure \ref{fig:volvo_slv_garch_cmp}, and
+the standard deviation of the distributions are listed in table
+\ref{tab:volvo_slv_garch_cmp}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    & ARIMA & GARCH & Sample mean \\
+    \hline
+    $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.3261 &
+    0.4250 & 0.3708 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Standard deviation of $\ln\sigma^F_t -
+    \ln\hat{\sigma}_t$}
+  \label{tab:volvo_slv_garch_cmp}
+\end{table}
+
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=10 282 0
+    243]{../pics/volvo_slv_garch_cmp.pdf}
+    \label{fig:volvo_slv_garch_cmp}
+  \caption{\small \it Comparison of the forecast from ARIMA, GARCH,
+    and sample mean. Blue: ARIMA forecast; Green: GARCH forecast; Red:
+    Sample mean forecast.}
+\end{figure}
+Figure \ref{fig:volvo_slv_garch_cmp} shows, as in the previous case of
+Nordea Bank 15-minute returns, the ARIMA model performs the best, GARCH
+the second, and the sample mean the worst. However, when it comes to
+over-estimates, the sample mean appears to be the best estimator,
+while ARIMA excels over GARCH. But a check of $\E(\ln\sigma_t)$ over
+the sample for estimation (1507 data points) and over the sample for
+comparison (377 data points) reveals that the first sample has mean
+-6.3127 while the second has -6.2072. This increment explains the low
+probability of over-estimation when using the first sample mean as
+forecast. 
+
+Table \ref{tab:volvo_good_percentage} compares the fraction of
+``good'' estimates as measured by ${|\ln\sigma^F_t -
+  \ln\hat{\sigma}_t| \over |\ln \hat{\sigma}_t|}$ being less than 1\%,
+5\% and 10\%.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ &
+    ARIMA & GARCH & Sample Mean \\
+    \hline
+    1\% & 0.2175 & 0.1220 & 0.1406 \\
+    \hline
+    5\% & 0.7162 & 0.6154 & 0.6631 \\
+    \hline
+    10\% & 0.9231 & 0.8806 & 0.8992 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Fraction of ``good'' forecasts as defined by
+    ${|\ln \sigma^F_t - \ln \hat{\sigma}_t| \over |\ln
+      \hat{\sigma}_t|}$ being less than 1\%, 5\% and 10\%.}
+  \label{tab:volvo_good_percentage}
+\end{table}
+We see from the table that the ARIMA model consistently excels over
+the other two alternatives. Once again, it confirms the validity and
+good performance of an ARIMA log-volatility model.
+
+% \subsection{Ericsson B Log-Volatility}\label{sec:ericsson}
+% The probability density function of the residuals $y_t$ that result
+% from the MLE estimate is shown in figure
+% \ref{fig:nordea_15min_y1_hist} together with its counterpart from the
+% initial estimate.
+% \subsection{45min Returns}
+\section{Unconditional Distribution Functions of ARIMA Log-Volatility
+  Models}\label{sec:XieCalc}
+In this section we study the unconditional distribution function of
+the Stochastic Log-Volatility model specified as equation
+\ref{eq:SLV_spec}. As is discussed in section \ref{sec:SLV_model},
+$\ln\sigma_t$ can be described by an ARMA or ARIMA \footnote{ARIMA ---
+  Integrated Autoregressive Moving Average} model, possibly with
+seasonal components. Here we note that all these models can be
+re-written as a moving average model, which is infinite in extent if
+autoregressive components are present:
+\begin{eqnarray*}
+  \ln \sigma_t &=& y_t + \sum_{n=1}^\infty c_n y_{t-n} + \text{Const.}
+\end{eqnarray*}
+Since the $y_t$ are independent and identically distributed,
+\begin{eqnarray*}
+  y_t + \sum_{n=1}^\infty c_n y_{t-n}  
+\end{eqnarray*}
+has Gaussian distribution by the central limit theorem, on condition
+that $y_t$ for all $t$ have finite second moment --- this is what we
+assume in the rest of this section. It follows from the above equation
+that the unconditional distribution of $\ln \sigma_t$ is the same as the
+distribution of $\bar{v} + v$ where $v \sim N(0, \sigma)$ and
+$\bar{v}$, $\sigma$ are constants. Now we can state that the
+unconditional distribution of the returns $r_t$
+\begin{eqnarray*}
+  r_t &=& \mu + \sigma_t b_t\\
+  &=& \mu + \exp\left(
+    y_t + \sum_{n=1}^\infty c_n y_{t-n} + \text{Const.}
+  \right)
+\end{eqnarray*}
+ is the same as
+\begin{equation}  \label{eq:UnconditionalPdf}
+  \begin{aligned}
+    r &= \mu + e^{\bar{v} + v} b \\
+  \end{aligned}
+\end{equation}
+where $b \sim N(0, 1)$. For convenience, let $r' = e^v b$
+
+In section \ref{sec:SLV_Symmetric} we first study the model in the
+relatively simple case when $v$ and $b$ are uncorrelated and $\mu
+= 0$. If this simplified version proves inadequate, one may resort to
+the general model studied in section \ref{sec:SLV_Asymmetric}.
+
+\subsection{The Simplified model}\label{sec:SLV_Symmetric}
+In the following we derive the unconditional PDF of $r'$, denoted
+$f_{r'}(x)$. Then the PDF of $r$ is $e^{-\bar{v}}f_{r'}(e^{-\bar{v}}x)$.
+\begin{eqnarray*}
+  P(r' < x) &=& P(b < xe^{-v}) \\
+  f_{r'}(x) &=& f_b(xe^{-v}) e^{-v}
+\end{eqnarray*}
+Averaging over all $v$, we get
+\begin{equation}\label{eq:UncondPDFSymmetric}
+  \begin{aligned}
+    f_{r'}(x) =& \int_{-\infty}^{\infty} dv (2\pi\sigma^2)^{-1/2}
+    e^{-v^2/2\sigma^2}(2\pi)^{-1/2} \exp(-x^2e^{-2v}/2) e^{-v} \\
+    =& {1 \over 2\pi\sigma} \int_{-\infty}^{\infty} dv
+    \exp\left(
+      -{1 \over 2\sigma^2} v^2 - v -{1 \over 2} x^2 e^{-2v}
+    \right)
+  \end{aligned}
+  \end{equation}
+The last part of the integrand, $e^{-x^2 e^{-2v} / 2}$, is plotted in
+figure \ref{fig:DoubleExp}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=85 252 100
+  231]{../pics/DoubleExp.pdf}
+  \caption{\small \it Plot of $\exp(-{1 \over 2} x^2 e^{-2v})$}
+  \label{fig:DoubleExp}
+\end{figure}
+Therefore we make the following approximation:
+\[
+\exp\left(-{1 \over 2} x^2 e^{-2v}\right) \approx \left\{
+  \begin{array}{lr}
+    0 & \text{if } v < \ln|x| -{1 \over 2} \ln(2\ln 2) \\
+    1 & \text{otherwise}
+  \end{array}
+\right.
+\]
+Here we note that $\exp\left(-{1 \over 2} x^2 e^{-2v}\right) = 1/2$ at
+$v = \ln|x| -{1 \over 2} \ln(2\ln 2)$.
+
+With this approximation we have
+\begin{eqnarray*}
+  f_{r'}(x) &=& {1\over C}{1 \over 2\pi\sigma} \int_{\ln(|x|/\sqrt{\ln
+      4})}^{\infty} dv
+  \exp\left(-{1 \over 2\sigma^2} v^2 - v\right) \\
+  &=& {1\over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}} \text{erfc} \left(
+    {1 \over \sqrt{2}\sigma} \ln{|x| \over \sqrt{\ln 4}} + {\sigma
+      \over \sqrt{2}}
+  \right)
+\end{eqnarray*}
+where $1/C$ has been added for the purpose of normalization.
+
+At large $x$, we may use the asymptotic expansion of $\mathrm{erfc}$
+to write
+\begin{eqnarray*}
+  Cf_{r'}(x) &=& {e^{\sigma^2 / 2} \over \sqrt{8\pi}} \mathrm{erfc}(\xi) \\
+  &=& {e^{\sigma^2 / 2} \over \sqrt{8 \pi}}
+  \frac{e^{-\xi^2}}{\xi\sqrt{\pi}}\left[
+    1 +
+    \sum_{n=1}^N (-1)^n \frac{(2n-1)!!}{(2\xi^2)^n} \right] +
+  O(\xi^{-2N-1} e^{-\xi^2})
+\end{eqnarray*}
+where $\xi = {1 \over \sqrt{2}\sigma} \ln{|x| \over \sqrt{\ln 4}} +
+{\sigma \over \sqrt{2}}$. The slowest-decaying term is
+\[
+f_{r,0}(x) = {e^{\sigma^2 / 2} \over \sqrt{8\pi}}
+\frac{e^{-\xi^2}}{\xi\sqrt{\pi}}
+\]
+Let $\zeta = {|x| \over \sqrt{\ln 4}}$. With a bit manipulation one
+obtains
+\begin{equation*}
+  f_{r,0}(x) = {1 \over \pi \sqrt{8}}{1 \over
+    \left(\ln\zeta/\sigma\sqrt{2} +
+      \sigma/\sqrt{2}\right)\zeta\zeta^{\ln \zeta / 2\sigma^2}
+  }
+\end{equation*}
+From the last equation one can see that, at any neighborhood of large
+$x$, $f_{r'}(x)$ may be approximated by $C/|x|^\alpha$, i.e. a power law.
+
+In the following we work out the normalization constant C.
+\begin{eqnarray*}
+  \int_{-\infty}^{\infty} f_{r'}(x) dx &=& {1 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} \text{erfc} \left({1 \over
+      \sqrt{2}\sigma} \ln{|x| \over \sqrt{\ln 4}} + {\sigma \over
+      \sqrt{2}} \right) dx\\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{0}^{\infty} \text{erfc} \left({1 \over
+      \sqrt{2}\sigma} \ln{x \over \sqrt{\ln 4}} + {\sigma \over
+      \sqrt{2}} \right) dx\\
+\end{eqnarray*}
+Let
+\begin{eqnarray*}
+  a &=& {1 \over \sigma \sqrt 2} \\
+  b &=& -{1 \over 2 \sigma \sqrt 2}\ln\ln 4 + {\sigma \over \sqrt 2} \\
+  y &=& a\ln|x|+b \\
+\end{eqnarray*}
+Then
+\begin{eqnarray*}
+  \int_{-\infty}^{\infty} f_{r'}(x) dx &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} dy {e^{(y-b)/a} \over a}
+  \text{erfc}(y) \\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \left.e^{(y-b)/a}
+    \text{erfc}(y)\right|_{y=-\infty}^{\infty}
+  + {2 \over C}{e^{\sigma^2 / 2} \over
+    \sqrt{8\pi}} \int_{-\infty}^{\infty} dy {2 \over \sqrt \pi}
+  e^{(y-b)/a} e^{-y^2} \\
+  &=& {2 \over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}}  2 e^{\ln\ln 4/2
+    - \sigma^2/2}\\
+  C &=& \sqrt{2 \ln 4\over \pi} \\
+  &\approx& 0.9394
+\end{eqnarray*}
+Thus we can write in summary:
+\begin{eqnarray*}
+  f_r(x) &=& e^{-\bar{v}} f_{r'}(e^{-\bar{v}} x) \\
+    &=& {e^{-\bar{v}} \over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}}
+    \text{erfc} \left({1 \over \sqrt{2}\sigma} \ln{|e^{-\bar{v}}x| \over \sqrt{\ln
+          4}} + {\sigma \over \sqrt{2}}
+    \right) \\
+\end{eqnarray*}
+Using the same technique for integration as for normalization, the
+cummulative distribution function of $r$ is found to be $F(x)$,
+which is the following:
+\begin{enumerate}
+\item if $x < 0$
+  \begin{eqnarray*}
+    F(x) &=& {\sqrt{\ln 4} \over C}{e^{\sigma^2 / 2} \over \sqrt{8\pi}}
+    \left[
+      {e^{-\bar{v}}x \over \sqrt{\ln 4}}\text{erfc}\left(
+        {1 \over \sigma \sqrt 2} \ln{-e^{-\bar{v}}x \over \sqrt{\ln
+            4}} + {\sigma \over \sqrt 2}
+      \right) \right.\\
+      && \left. + e^{-\sigma^2 / 2} \text{erfc}\left(
+        {1 \over \sigma \sqrt 2} \ln{-e^{-\bar{v}}x \over \sqrt{\ln 4}}
+      \right)
+    \right]
+  \end{eqnarray*}
+\item if $x \geq 0$
+  \begin{eqnarray*}
+    F(x) &=& \frac{1}{2} + {\sqrt{\ln 4} \over C}{e^{\sigma^2 / 2} \over
+      \sqrt{8\pi}} \left[
+      {e^{-\bar{v}}x \over \sqrt{\ln 4}} \text{erfc}\left(
+        {1 \over \sigma \sqrt 2} \ln{e^{-\bar{v}}x \over \sqrt{\ln
+            4}} + {\sigma \over \sqrt 2}
+      \right) \right. \\
+      && \left. + e^{-\sigma^2/2} \text{erfc}\left(
+        -{1 \over \sigma \sqrt 2} \ln{e^{-\bar{v}}x \over \sqrt{\ln 4}}
+      \right)
+    \right]
+  \end{eqnarray*}
+\end{enumerate}
+
+To verify the validity of the model, we fit the above probability
+density function to the de-meaned 30min returns of Volvo B
+\footnote{By ``de-meaned returns'' we mean the quantity $r_t - 
+  \mean{r_t}$, where $r_t$ are the measured returns and $\mean{r_t}$
+  is the sample mean. The data set covers the transaction records of
+  Volvo B on the OMX market (Stockholm) between 2013-10-10 and
+  2014-03-12. The returns are computed using 1-minute mean prices.}
+by means of maximum likelihood estimate using the MATLAB function
+``mle''. Then for the parameters $\sigma$ and $\bar{v}$ we get
+\begin{eqnarray*}
+  \sigma &=& 0.6355 \\
+  \bar{v} &=& -6.0308
+\end{eqnarray*}
+Then we plot $P(r' > x)$ of the model against its empirical
+counterpart on a log-log scale, as shown in figure
+\ref{fig:volvo_30min_ret}.
+\begin{figure}[htb!]
+  % \vspace{-15mm}
+  \begin{center}
+    \includegraphics[scale=0.4, clip=true, trim=98 231 116
+    126]{../pics/volvo_30min_ret.pdf}
+  \end{center}
+  %\vspace{-5mm}
+  \caption{\small \it{$P(r' > x)$ for $x > 0$. Blue: empirical
+      probabilities. Red: probabilities predicted by the model.}}
+  \label{fig:volvo_30min_ret}
+\end{figure}
+
+In general figure \ref{fig:volvo_30min_ret} shows a good fit, but a
+closer look reveals that deviations are significant in the regions $r
+\in (0, \sigma_r)$ and $r \in (2\sigma_r, 3\sigma_r)$, where
+$\sigma_r$ stands for the empirical standard deviation of the
+de-meaned returns. These observations are
+shown in greater details in figure \ref{fig:volvo_30min_ret2}.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[$\ln(P(r > x))$ with $x \in (0, \sigma_r)$]{
+    \includegraphics[scale=0.4, clip=true, trim=93 224 115
+    125]{../pics/volvo_30min_ret_0-sigma.pdf}
+  }
+  \subfigure[$\ln(P(r > x))$ with $x \in (2\sigma_r, 3\sigma_r)$]{
+    \includegraphics[scale=0.4, clip=true, trim=93 224 115
+    125]{../pics/volvo_30min_ret_2sigma-3sigma.pdf}
+  }
+  \caption{\small \it Surviving probabilities. Blue: empirical values of $\ln(P(r
+    > x))$. Red: Predicted values of $\ln(P(r > x))$.}
+  \label{fig:volvo_30min_ret2}
+\end{figure}
+
+Moreover, the inefficiency of the model is also manifest in the
+skewness of the data. For the Volvo 30min returns, the data has a
+skewness of 0.2419, but our model is strictly symmetric, since
+$x$ appears in equation \ref{eq:UncondPDFSymmetric} only as $x^2$.
+Hence the above model needs to be improved to accommodate the non-zero
+skewness as well as to account for the discrepancies shown in figure
+\ref{fig:volvo_30min_ret2}. This is the subject of the next section.
+
+\subsection{The General model}\label{sec:SLV_Asymmetric}
+It has long been hypothesized in the liturature that skewness is the
+result of price-volatility correlation (for example
+\cite{Potters2003}). Therefore, the most apparent modification is to
+allow $v$ and $b$ to be correlated. For convenience we decompose
+$v \sim N(0, \sigma)$ as $v = \sigma a$ and assume
+\begin{eqnarray*}
+  \begin{pmatrix}
+    a \\
+    b
+  \end{pmatrix} \sim N(0, \Sigma)
+\end{eqnarray*}
+with a covariance matrix
+\begin{eqnarray*}
+    \Sigma &=&
+  \begin{pmatrix}
+    1 & \psi \\
+    \psi & 1
+  \end{pmatrix}
+\end{eqnarray*}
+where $|\psi| < 1$. Then we rewrite equation \ref{eq:UnconditionalPdf}
+as
+\begin{equation}
+  \label{eq:r_t}
+  \begin{aligned}
+    r &= \mu + e^{\bar{v}} r' \\
+    r' &= e^{\sigma a} b \\
+  \end{aligned}
+\end{equation}
+Then
+\begin{eqnarray*}
+  && P(r' < x)\\
+  &=& P(b < e^{-a\sigma}x) \\
+  &=& {1 \over 2\pi |\det(\Sigma)|^{1/2}}
+  \int_{-\infty}^{\infty} da \int_{-\infty}^{e^{-a\sigma}x} db
+  \exp\left[
+    -{1 \over 2} (a, b) \Sigma^{-1}
+    \begin{pmatrix}
+      a \\
+      b
+    \end{pmatrix}
+  \right] \\
+\end{eqnarray*}
+After some manipulations we get
+\begin{equation}\label{eq:UncondCDFAsymmetric}
+  \begin{aligned}
+    & P(r' < x) \\  
+    &= {1 \over 2\pi \sqrt{1 - \psi^2}} \int_{-\infty}^{\infty} da
+    e^{-a^2/2} \int_{-\infty}^{e^{-a\sigma}x} db
+    \exp\left[
+      - {(b - a\psi)^2 \over 2(1 - \psi^2)}
+    \right] \\
+    &= {1 \over 2\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-a^2/2}
+    \text{erfc}{a\psi - e^{-a\sigma} x \over \sqrt{2(1-\psi^2)}} da
+  \end{aligned}
+\end{equation}
+Differentiating with respect to $x$ yields
+\begin{eqnarray}
+  f_{r'}(x) &=& {1 \over 2\pi \sqrt{1 - \psi^2}} \times \nonumber \\
+  && \int_{-\infty}^\infty da \exp
+  \left[- {
+      a^2 + 2\sigma(1 - \psi^2)a - 2a\psi e^{-a\sigma} x + e^{-2a\sigma} x^2
+      \over
+      2(1 - \psi^2)
+  }
+  \right] \label{eq:UncondPDFAsymmetric} \\
+  f_r(x) &=&  \td{r'}{r} f_{r'}[e^{-\bar{v}} (x - \mu)] \nonumber \\
+  &=& e^{-\bar{v}} f_{r'}[e^{-\bar{v}}
+  (x-\mu)] \label{eq:UncondPDFAsymmetric1}
+\end{eqnarray}
+Unlike \ref{eq:UncondPDFSymmetric} where a relatively simple
+approximation can be found and thus leads to an analytic result of the
+integral, no such approximation has been found by the
+author for the integral \ref{eq:UncondPDFAsymmetric}. However, the
+moment generating functions (MGF) of PDF \ref{eq:UncondPDFAsymmetric}
+and \ref{eq:UncondPDFAsymmetric1} are easy enough to find and give the
+moments about the origin in closed form. Then by matching the analytic
+expressions of the moments with their statistical values from the
+sample, the parameters $\sigma$, $\psi$ and $\bar{v}$ corresponding to the
+sample can be obtained.
+
+The MGF of \ref{eq:UncondPDFAsymmetric1} can be found as follows:
+\begin{eqnarray*}
+  && M_{r}(t) \\
+  &=& \E(e^{tr}) \\
+  &=& {1 \over 2\pi \sqrt{1 - \psi^2}} \int_{-\infty}^{\infty} da \exp \left(
+    -{a^2 \over 2} - \sigma a
+  \right) \int_{-\infty}^{\infty} dx \exp\left[
+    t(e^{\bar{v}}x + \mu) - {
+      (a\psi - e^{-a \sigma} x)^2 \over 2 (1 - \psi^2)
+    }
+  \right] \\
+  &=& {1 \over \sqrt{2 \pi}} \int_{-\infty}^{\infty} da \exp\left[
+    -{a^2 \over 2} + {1 \over 2} e^{2 a \sigma + 2\bar{v}} (1 - \psi^2) t^2 +
+    a \psi e^{a \sigma + \bar{v}} t + \mu t
+  \right]
+\end{eqnarray*}
+With the MGF, the first 4 moments of $r$ can be computed:
+\begin{equation}
+  \label{eq:AsymmetricMoments}
+  \begin{aligned}
+    \E(r) &= \mu +e^{\bar{v}+\frac{\sigma ^2}{2}} \sigma  \psi\\
+    \E(r^2) &= \mu ^2+2 e^{\bar{v}+\frac{\sigma ^2}{2}} \mu  \sigma  \psi
+    +e^{2 \left(\bar{v}+\sigma ^2\right)} \left(1+4 \sigma ^2 \psi^2\right)\\
+    \E(r^3) &= \mu ^3+3 e^{\bar{v}+\frac{\sigma ^2}{2}} \mu ^2 \sigma \psi
+    +9 e^{3 \bar{v}+\frac{9 \sigma ^2}{2}} \sigma \psi \left(1+3 \sigma ^2
+      \psi ^2\right)
+    +3e^{2 \left(\bar{v}+\sigma ^2\right)} \mu  \left(1+4 \sigma ^2 \psi
+      ^2\right) \\
+    \E(r^4) &= \mu ^4+4 e^{\bar{v}+\frac{\sigma ^2}{2}} \mu ^3 \sigma  \psi
+    +36 e^{3 \bar{v}+\frac{9 \sigma ^2}{2}} \mu  \sigma  \psi  \left(1+3
+      \sigma ^2 \psi ^2\right)\\ 
+    & +6 e^{2 \left(\bar{v}+\sigma ^2\right)} \mu ^2 \left(1+4 \sigma ^2 \psi
+      ^2\right)
+    +e^{4 \bar{v}+8 \sigma ^2} \left(3+96 \sigma ^2 \psi ^2+256 \sigma ^4
+      \psi ^4\right)
+  \end{aligned}
+\end{equation}
+These equations are rather complicated and directly solving them to
+obtain the parameters $\mu$, $\sigma$, $\psi$ and $\bar{v}$ is
+infeasible. However, in practice, $\E(r)$ is often very small --- so, to
+get a rough estimate of the parameters, we may set $\mu = 0$ in the
+above equations and, with a bit of manipulation, find the following
+equation for $\psi\sigma$:
+\begin{equation}
+  \label{eq:moment1}
+  {\E(r^3) \E(r^4)^{-3/8} \over \E(r^2)^{3/4}} =
+  {9\sigma \psi (1 + 3\sigma^2\psi^2) \over (1 +
+    4\sigma^2\psi^2)^{3/4}}
+  {1
+    \over
+    (3 + 96\sigma^2\psi^2 + 256\sigma^4 \psi^4)^{3/8}
+  }
+\end{equation}
+This equation can be solved numerically for a given sample to yield an
+estimate for $\sigma\psi$, which in turn can be substituted in
+equations \ref{eq:AsymmetricMoments}, where $\mu$ has been set to 0,
+to give estimates for all the 4 parameters. These estimates then serve
+as initial values in a numerical solution to
+\ref{eq:AsymmetricMoments} where $\mu$ is kept as a free
+variable. This full solution can now be used as the initial estimate
+in an MLE procedure.
+
+It is particularly important in our situation to have a good initial
+estimate, because, as has been shown earlier, the PDF and CDF cannot
+be obtained in closed forms and consequently have to be evaluated by
+numerical integration. This is a rather costly procedure especially in
+the context of MLE. So the computation of the moments under the
+assumption of $\mu = 0$ is worthwhile.
+
+Following the aforementioned procedure, i.e. computing the initial
+estimate by matching the moments and then refining the estimate by
+MLE, we obtain the parameter values for a number of return series,
+including the Volvo B 30-minute returns described in
+section \ref{sec:SLV_Symmetric}. Table \ref{tab:assets_params} and
+\ref{tab:assets_moments} present the obtained parameter values and the
+resulting moments, respectively. Figure \ref{fig:Volvo_B_30m_returns},
+\ref{fig:Nordea_30m_returns}, and \ref{fig:Ericsson_30m_returns}
+compare the empirical distribution functions with the analytic
+distribution functions evaluated at these parameters.
+
+Clearly these figures show a fairly good match of the empirical and
+the analytic distribution functions. However, we also see that the
+skewness of the returns of Volvo B and Ericsson B have rather
+different values when computed from the sample and from the
+model. This could be the consequence of the limited sample size or
+deficiencies in the estimation procedure described above. We leave
+these issues to future studies.
+
+%  This indicates the parameter $\psi$, which is the
+% correlation between the log-volatility and the return, may be more
+% complicated than the simple constant that has been assumed so far. We
+% leave this to later studies.
+
+\subsection{Relation to Conditional Distribution Functions}
+In the last section we have shown that the unconditional distribution of
+the returns are skewed, which implies the variate in the
+log-volatility $a$ is correlated to the variate in the return
+$b$.
+
+In the context of conditional distributions and forecast, this
+correlation translates to the correlation between the residual of the
+log-volatility, denoted $y_t$ in section \ref{sec:nordea} and
+section \ref{sec:volvo}, and $b_t$. Now let us consider the forecast
+function of an ARIMA model:
+\begin{eqnarray*}
+  \ln \sigma_t &=& y_t + \sum_{i=1}^P \phi_i \ln \sigma_{t-i} -
+  \sum_{i=1}^Q \theta_i y_{t-i}
+\end{eqnarray*}
+where $\phi_i \leq 1$ if the model involves integration, and $\phi_i <
+1$ otherwise. Comparing this equation with equation \ref{eq:r_t}, one
+immediately realizes the PDF of $r_t$
+\begin{eqnarray*}
+  r_t &=& \mu + \sigma_t b_t
+\end{eqnarray*}
+is given by equation \ref{eq:UncondPDFAsymmetric1} and its moments
+given by the equations \ref{eq:AsymmetricMoments} if one makes the
+following substitutions:
+\begin{eqnarray*}
+  \sigma &\to& \text{std}(y_t) \\
+  \bar{v} &\to& \sum_{i=1}^P \phi_i \ln \sigma_{t-i} - \sum_{i=1}^Q
+  \theta_i y_{t-i} \\
+  \psi &\to& \text{corr}(y_t, b_t)
+\end{eqnarray*}
+
+For the Nordea series considered in section \ref{sec:nordea},
+$\text{corr}(y_t, b_t)$ is found to be $3.56 \times 10^{-2}$; while
+for the Volvo series considered in section \ref{sec:volvo},
+$\text{corr}(y_t, b_t)$ is found to be $-7.3 \times 10^{-3}$. These
+values are comparable to those in table \ref{tab:assets_params}, where
+$\psi$ for the Nordea series is $1.7234 \times 10^{-2}$ and $-1.5747
+\times 10^{-2}$ for the Volvo series. The similarity in these values
+provides some evidence about the validity of the model.
+
+It is certainly impossible to compare a predicted conditional
+distribution with observations, but conditional distributions are of
+great interest in the context of risk management and derivative
+pricing, so we point out how they may be calculated for ARIMA
+log-volatility models.

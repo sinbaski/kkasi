@@ -1,0 +1,212 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{amssymb}
+\usepackage{amsfonts, amsmath}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage[acronym]{glossaries}
+\usepackage{bookmark}
+\input{../physics_common.tex}
+
+\DeclareGraphicsExtensions{.pdf,.png,.jpg, .eps}
+
+\begin{document}
+
+% \begin{figure}[htb!]
+%   \centering
+%     \includegraphics[scale=0.3]{../pics/garch_correlation_eigenvalue_dist.png}
+%   \caption{\small \it Distribution of GARCH correlation matrices'
+%     eigenvalues. MP: Marcenko-Pastur law.}
+%   \label{fig:garch_eigen}
+% \end{figure}
+
+% \begin{figure}[htb!]
+%   \centering
+%   \subfigure[Linear scale]{
+%     \includegraphics[scale=0.35]{../pics/garch_correlation_Cii_dist_linear.png}
+%     \label{fig:garch_cii_linear}
+%   }
+%   \subfigure[semi-log scale]{
+%     \includegraphics[scale=0.35]{../pics/garch_correlation_Cii_dist.png}
+%     \label{fig:garch_cii_semilog}
+%   }
+%   \caption{\small \it Distribution of GARCH correlation matrices'
+%     diagonal elements.}
+%   \label{fig:garch_Cii}
+% \end{figure}
+
+% \begin{figure}[htb!]
+%   \centering
+%   \subfigure[PDF]{
+%     \includegraphics[scale=0.35]{../pics/garch_correlation_Cij_dist.png}
+%     \label{fig:garch_cij}
+%   }
+%   \subfigure[$P(C_{ij} > x)$ on log-log scale]{
+%     \includegraphics[scale=0.32]{../pics/garch_correlation_Cij_tail_dist.png}
+%     \label{fig:garch_cij_tail}
+%   }
+%   \caption{\small \it Distribution of GARCH correlation matrices'
+%     non-diagonal elements.}
+%   \label{fig:garch_Cij}
+% \end{figure}
+
+% \begin{figure}[htb!]
+%   \centering
+%     \includegraphics[scale=0.6]{../pics/garch_correlation_eigenvalue_dist_alpha3.png}
+%   \caption{\small \it Distribution of GARCH correlation matrices'
+%     eigenvalues, when the return series are normalized by their sample
+%     standard deviations.}
+%   \label{fig:garch_eigen}
+% \end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[Tail Exponent 2.17]{
+    \includegraphics[scale=0.30]{../pics/garch_correlation_eigenvalue_dist_alpha2-17.eps}
+    \label{fig:garch2-17_ev_1}
+  }
+  \subfigure[Tail Exponent 4.00]{
+    \includegraphics[scale=0.325]{../pics/garch4-00_ev_1.eps}
+    \label{fig:garch4-00_ev_1}
+  }
+  \caption{\small \it Distribution of GARCH correlation matrices'
+    eigenvalues. The returns are normalized by sample standard
+    deviation and 1/T.}
+  \label{fig:garch_ev}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[PDF]{
+    \includegraphics[scale=0.27]{../pics/garch2-17_Cij_1.eps}
+    \label{fig:garch2-17_Cij_1}
+  }
+  \subfigure[$P(C_{ij} > x)$ on log-log scale]{
+    \includegraphics[scale=0.31]{../pics/garch2-17_Cij_2.eps}
+    \label{fig:garch2-17_Cij_2}
+  }
+  \caption{\small \it Distribution of GARCH correlation matrices'
+    non-diagonal elements. The returns are normalized by sample
+    standard deviation and 1/T. The tail exponent is 2.17.}
+  \label{fig:garch_Cij_sample}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[PDF]{
+    \includegraphics[scale=0.28]{../pics/garch4-00_Cij_1.eps}
+    \label{fig:garch4-00_Cij_1}
+  }
+  \subfigure[$P(C_{ij} > x)$ on log-log scale]{
+    \includegraphics[scale=0.29]{../pics/garch4-00_Cij_2.eps}
+    \label{fig:garch4-00_Cij_2}
+  }
+  \caption{\small \it Distribution of GARCH correlation matrices'
+    non-diagonal elements. The returns are normalized by sample
+    standard deviation and 1/T. The tail exponent is 4.00.}
+  \label{fig:garch_Cij_4.00}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[PDF]{
+    \includegraphics[scale=0.36]{../pics/garch2-17_ev_theo_1.eps}
+    \label{fig:garch2-17_ev_theo_1}
+  }
+  \subfigure[$P(\lambda > x)$ on log-log scale]{
+    \includegraphics[scale=0.30]{../pics/garch2-17_ev_theo_2.eps}
+    \label{fig:garch2-17_ev_theo_2}
+  }
+  \caption{\small \it Distribution of GARCH correlation matrices'
+    eigenvalues. The returns are normalized by theoretical standard
+    deviation and 1/T.}
+  \label{fig:garch_ev_theo}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[PDF]{
+    \includegraphics[scale=0.36]{../pics/garch2-17_Cii_theo_1.eps}
+    \label{fig:garch2-17_Cii_theo_1}
+  }
+  \subfigure[$P(C_{ii} > x)$ on log-log scale]{
+    \includegraphics[scale=0.30]{../pics/garch2-17_Cii_theo_2.eps}
+    \label{fig:garch2-17_Cii_theo_2}
+  }
+  \caption{\small \it Distribution of GARCH correlation matrices'
+    diagonal elements. The returns are normalized by theoretical standard
+    deviation and 1/T.}
+  \label{fig:garch_Cii_theo}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[PDF]{
+    \includegraphics[scale=0.20]{../pics/garch2-17_Cij_3.eps}
+    \label{fig:garch2-17_Cij_3}
+  }
+  \subfigure[$P(C_{ij} > x)$ on log-log scale]{
+    \includegraphics[scale=0.33]{../pics/garch2-17_Cij_4.eps}
+    \label{fig:garch2-17_Cij_4}
+  }
+  \caption{\small \it Distribution of GARCH correlation matrices'
+    non-diagonal elements. The returns are normalized by theoretical standard
+    deviation and 1/T.}
+  \label{fig:garch_Cij_theo}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[PDF]{
+    \includegraphics[scale=0.36]{../pics/garch2-17_ev_levy_1.eps}
+    \label{fig:garch2-17_ev_levy_1}
+  }
+  \subfigure[$P(\lambda > x)$ on log-log scale]{
+    \includegraphics[scale=0.30]{../pics/garch2-17_ev_levy_2.eps}
+    \label{fig:garch2-17_ev_levy_2}
+  }
+  \caption{\small \it Distribution of GARCH correlation matrices'
+    Eigenvalues. The returns are normalized by $1/T^{2/\alpha}$.}
+  \label{fig:garch_ev_levy}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[PDF]{
+    \includegraphics[scale=0.36]{../pics/garch2-17_Cii_levy_1.eps}
+    \label{fig:garch2-17_Cii_levy_1}
+  }
+  \subfigure[$P(C_{ii} > x)$ on log-log scale]{
+    \includegraphics[scale=0.30]{../pics/garch2-17_Cii_levy_2.eps}
+    \label{fig:garch2-17_Cii_levy_2}
+  }
+  \caption{\small \it Distribution of GARCH correlation matrices'
+    diagonal elements. The returns are normalized by
+    $1/T^{2/\alpha}$.}
+  \label{fig:garch_Cii_levy}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[PDF]{
+    \includegraphics[scale=0.26]{../pics/garch2-17_Cij_levy_1.eps}
+    \label{fig:garch2-17_Cij_levy_1}
+  }
+  \subfigure[$P(C_{ij} > x)$ on log-log scale]{
+    \includegraphics[scale=0.25]{../pics/garch2-17_Cij_levy_2.eps}
+    \label{fig:garch2-17_Cij_levy_2}
+  }
+  \caption{\small \it Distribution of GARCH correlation matrices'
+    non-diagonal elements. The returns are normalized by
+    $1/T^{2/\alpha}$.}
+  \label{fig:garch_Cij_levy}
+\end{figure}
+
+
+
+\end{document}

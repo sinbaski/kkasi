@@ -1,8 +1,8 @@
 clear all
 close all
 fold = 4000;
-N = 500;
-T = 1000;
+N = 600;
+T = 600;
 q = N/T;
 
 ev1 = NaN(N, fold);

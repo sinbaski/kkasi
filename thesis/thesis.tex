@@ -1,0 +1,903 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage[acronym]{glossaries}
+\usepackage{bookmark}
+
+\input{../physics_common.tex}
+\input{./acronyms.tex}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\makeglossaries
+\author{Xie Xiaolei}
+\date{\today}
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+
+% Upper part of the page. The '~' is needed because \\
+% only works if a paragraph has started.
+\includegraphics[width=0.5\textwidth]{../pics/lund_uni-logo_s}~\\[1cm]
+
+% \textsc{\LARGE Lund University}\\[1.5cm]
+
+\textsc{\Large Master's Thesis Project}\\[0.5cm]
+
+% Title
+%\HRule \\[0.4cm]
+{ \huge \bfseries Return Models and Covariance Matrices
+  \\[0.4cm] }
+
+%\HRule \\[1.5cm]
+
+% Author and supervisor
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+\textsc{Xie} Xiaolei
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+Prof. Sven \textsc{\AA berg}
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+% Bottom of the page
+{\large \today}
+
+\end{center}
+\end{titlepage}
+% \maketitle
+\begin{abstract}
+Return models and covariance matrices of return series have been
+studied. In particular, \gls{garch} and \gls{sv} models
+are compared with respect to their forecasting accuracy when applied
+to intraday return series. \gls{sv} models are found to be considerably more
+accurate and more consistent in accuracy of forecasting.
+
+Covariance matrices formed from Gaussian and \gls{garch} return series, and
+in particular, return series auto-correlated as an AR(1) process, have
+been studied. In the case of Gaussian returns, the largest eigenvalue
+is found to approximately follow a gamma distribution also when the
+returns are auto-correlated. Expressions relating auto-correlation
+strength with the mean and the variance of the asymptotic Gaussian
+distribution of the matrix elements are derived. In the case of
+\gls{garch} returns, both the largest and the smallest eigenvalues of
+the covariance matrix are seen to increase with increasing
+auto-correlation. The matrix elements are found to follow L\'evy
+distributions with different L\'evy indices for the diagonal and the
+non-diagonal elements.
+
+Localization of eigenvectors of covariance matrices of
+returns from \gls{garch} processes has been investigated. It is
+found that the localization is reduced as the auto-correlation is
+increased. Quantitatively, the number of localized eigenvectors
+decreases approximately as a quadratic function with the
+auto-correlation strength, i.e. the autoregressive coefficient of the
+AR(1) process.
+
+%% Popular Abstract
+% Can we predict the movements of the financial market? The direct answer is "no", but there is more to be said. One cannot predict the price movement in an efficient market, but one can indeed predict how "volatile" the prices are (volatility). This does not lead to profits, but is useful for risk management --- if one pursues a profit, one must take a risk. Knowing and quantitatively managing the risks associated with investments, one often makes wiser decisions.
+
+% This report entails, first of all, a comparison of return models in the context of intraday returns. 6 return series are studied: Nordea, Volvo and Ericsson in the time scales of 15 and 30 minutes. Stochastic Volatility (SV) models and GARCH models are fitted to these series and the resulting volatility forecasts are compared. SV models are found to be more accurate in most cases.
+
+% Covariance matrices, which give the correlation between different companies, are also studied. In particular, the eigenvectors and eigenvalues of a covariance matrix, which respectively represent a set of driving factors of the companies' shares and the variances of these factors, are studied. It is found that when the return series are auto-correlated, i.e. when observations at different times are correlated, the eigenvectors are delocalized --- their expansion as a linear combination of the basis vectors involve more appreciable coefficients.
+\end{abstract}
+
+\section*{Acknowledgements}
+First of all, I thank my supervisor, Prof. Sven \AA berg, for the many
+hours of mentoring, discussion, encouragement and guidance. Without
+them, this report will not exist. Then I wish to give my gratitude to
+the people in the division of mathematical physics. The casual
+discussions that I had with them truly inspired me, and
+the friendly and lively atmosphere that they create has helped bring
+peace and clarity to my mind.
+
+Last but not least, I want to thank my wife, Wang Xiaodan, for her
+unconditional support and understanding.
+
+\tableofcontents
+
+% \chapter*{List of Acronyms}
+
+\printglossaries
+
+\chapter{Introduction} \label{chp:introduction}
+The mathematics of the financial market has always been a topic that
+arouses interest and imagination, and with no doubt, has been
+studied from many aspects and in many different ways.
+
+Central to all these studies are the concepts of probability
+distributions and correlations. The values of stocks, futures,
+options, etc. are stochastic in nature and are governed by the laws of
+stochastic processes, which are expressed in terms of probability
+distributions and correlations.
+
+Meanwhile, the observables of the market are prices, volumes,
+turn-over (the amount of money paid in a trade), names of the brokers,
+and time of the trades. These quantities don't make much sense
+by themselves but do reveal the probabilistic dynamics of the market
+when put together and turned into statistics.
+
+The dynamics of an asset is affected by its own history as well as by
+the histories and current values of other assets in the market. The
+influence from the asset's own history is termed autocorrelations,
+i.e. correlations in time, while the influence from other assets are
+termed cross correlations.
+
+Quite often, instead of an asset's price, the relative price change,
+i.e. the return, is studied. Analytically solvable models often assume
+Gaussian return distribution, although data suggest fatter tails
+\footnotemark. By numerical methods, statistical features of
+historical returns data, such as fat tails, can be reproduced.
+\footnotetext{
+  While the exact nature of the tails of the distribution of
+  historical returns $r$ is debatable, it is agreed $P(|r| > x) > a
+  e^{-bx^2}$, for any positive constants $a$ and $b$. Here $P(\cdot)$
+  denotes probability. We adopt this as the definition of ``fat''
+  tails.
+}
+
+Statistical models built on historical data describe the time
+evolution of the aforementioned observables in terms of probability
+distributions, autocorrelations and cross correlations. They have been
+used to forecast future volatilities and help determine a pair price
+of a contingent claim, e.g. an option. Here the term ``volatility''
+refers to the standard deviation of the distribution of returns, and
+measures how volatile the returns are. The volatility of an asset
+constitutes a major risk of investments on the asset and hence is very
+important.
+
+
+% In the domain of discrete-time returns' models,
+% \gls{garch} and stochastic volatility models (SV) are the most popular, so in
+% this thesis project we study a total of 7 intraday return series 
+% using \gls{garch} and SV models and compare their performance in volatility
+% forecast.
+In addition to the model of a single asset, the correlation between
+a group of assets is also of great interest. For example, in principle
+component analysis, one wishes to identify a number of factors that
+``drive'' the price evolution of a group of assets in the sense that
+each of the assets' returns can be expressed as a linear combination
+of the factors' returns. In this scenario, the eigenvalues of the
+covariance matrix are the variances of the factors' returns and their
+corresponding orthogonalized eigenvectors give the composition of the
+factors, i.e. the coefficients with which the factors are contructed
+as a linear combination of the assets.
+
+Therefore, in this thesis we also study the elements and the
+eigenvalues distribution, as well as the eigenvectors composition of
+the covariance matrix. When the matrix is constructed from returns
+with simple Gaussian distribution, the matrix is termed a Wishart matrix
+and has been studied extensively in the literature. If the returns
+have L\'evy distributions, the matrix is termed Wishart-L\'evy and has
+been studied to some extent, particularly regarding its eigenvalue
+distribution \cite{politi2010}.
+
+However, it is understood that real stock/index returns are much more
+complicated than a straight-forward Gaussian or L\'evy distribution can
+describe --- instead, one needs structured models. For this reason, we
+are particularly interested in a covariance matrix obtained for
+realistic return models. The so called \gls{garch}(1,1) model is a realistic
+return model proven to have regularly varying tails
+\cite{mikosch2000}. So we study properties of eigenvalues and
+eigenvectors of such covariance matrices. Moreover, we also study how
+auto-correlations in the returns influence the aforementioned
+properties. Such auto-correlations, known as second-order
+auto-correlations decay exponentially but may still leave footprints
+in the covariance matrix.
+
+This report is organized as follows: Chapter \ref{chp:PriceModels}
+reviews some of the most influential return model. Parameters of the
+models are fitted to a few intraday return series and the predictive
+power of the models is compared. A calculation of the
+unconditional distribution functions of \gls{sv} models,
+especially in the case where the residual of the log-volatility
+and the innovation of the return are correlated normal variates, is
+also presented. In chapter \ref{chp:Gaussian} we investigate
+distributions of eigenvalues of the Wishart matrix, and study the
+influence of auto-correlated returns. In chapter
+\ref{chp:CrossCorrelationFat} distributions of elements and
+eigenvalues of the covariance matrix of identically specified
+\gls{garch}(1,1) series are studied. Finally, chapter \ref{chp:summary}
+summarizes the results. Supplementary material is provided in the
+appendices.
+
+\input{price_models}
+\input{cross_correlation_gaussian}
+
+\chapter{Covariance Matrix of GARCH(1,1) Returns}
+\label{chp:CrossCorrelationFat}
+\gls{garch} models and particularly \gls{garch}(1,1) models are widely used to
+model financial return series of various time scales, ranging from
+daily and monthly returns that have been studied extensively in the
+literature to intraday returns that we have selectively investigated
+in chapter \ref{chp:PriceModels}. One particularly nice feature of
+\gls{garch}(1,1) models is that they have regularly varying tails (power-law
+tails) \cite{Mikosch2009, mikosch2000} even when the innovations
+(denoted $z_t$ in the following text) are normally distributed ---
+something not shared by other classes of models (e.g. not by
+\gls{sv} models, as shown in section \ref{sec:XieCalc}) but well
+documented for realistic returns data by empirical studies
+\cite{Mantegna2000, Potters2003, Guhr2007}. However, what this tail
+behavior implies for the covariance matrix is much less understood,
+especially when the return series of the covariance matrix are
+auto-correlated.
+
+So in this chapter we consider the covariance matrix of N
+identically specified, possibly auto-correlated \gls{garch}(1, 1)
+processes:
+\begin{eqnarray}
+  r_{it} &=& \phi r_{i, t-1} + \epsilon_{it} \nonumber \\
+  \epsilon_{it} &=& \sigma_{it} z_{it} \label{eq:garch_spec}
+\end{eqnarray}
+where $i=1,2,...,N$; $t=1,2,...,T$; $z_{it}$ is independent,
+identically distributed, and
+\begin{eqnarray*}
+  \sigma_{it}^2 &=& \alpha_0 + \alpha_1 z_{i, t-1}^2 + \beta_1
+  \sigma_{i,t-1}^2
+\end{eqnarray*}
+Mikosch and Starica showed in \cite{mikosch2000} that a
+\gls{garch}(1,1) process satisfying
+\begin{eqnarray*}
+  \alpha_0 &>& 0 \\
+  \E\ln(\alpha_1 Z^2 + \beta_1) &<& 0 \\
+\end{eqnarray*}
+and
+\begin{eqnarray*}
+  \E[(\alpha_1 Z^2 + \beta_1)^{p/2}] &\geq& 1 \\
+  \E|Z|^p \ln|Z| &\leq& \infty
+\end{eqnarray*}
+for some $p > 0$, is stationary and has regularly varying tails. The
+tail exponent $\alpha$ is determined by:
+\begin{equation}\label{eq:garch_alpha}
+  \E[(\alpha_1 Z^2 + \beta_1)^{\alpha/2}] = 1
+\end{equation}
+Here $Z$ is a random variable that has the same distribution as
+$z_{it}$. In our simulations described hereafter, $z_{it}$ and $Z$
+have standard Gaussian distribution. In this section and the next, we
+first study situations where no auto-correlations are present among
+the returns, i.e. $\phi = 0$; then in section \ref{sec:garch_nonzero_phi} we
+look at how auto-correlations change the picture.
+
+With regularly varying tails, the eigenvalue distribution of a
+covariance matrix built from \gls{garch}(1,1) returns is expected to
+differ from the Marcenko-Pastur law discussed in section
+\ref{sec:wishart_eigen_dist}. In figure \ref{fig:garch_ev_cii} we
+simulate N=50 independent \gls{garch}(1,1) 
+returns series, each with identical parameters, namely $\alpha_0 =
+2.3\times 10^{-6}$, $\alpha_1 = 0.15$, $\beta_1 = 0.84$, $\phi = 0$
+and T=$8\times10^4$ time steps, then we build the covariance
+matrix as
+\begin{eqnarray*}
+  \mtx C &=& {1 \over T^{2/\alpha}} \mtx{RR'}
+\end{eqnarray*}
+where $\mtx R$ is an $N\times T$ matrix, whose elements $r_{it}$ are
+specified by equation \ref{eq:garch_spec} with $\phi = 0$. The
+normalization factor $1 \over T^{2/\alpha}$ has been chosen such that the
+eigenvalue distribution is independent of $T$ in the limit $T \to
+\infty$ \cite{politi2010, Cizeau1994}.
+
+The \gls{pdf} of the eigenvalue distribution of C is plotted in figure
+\ref{fig:garch_ev_cii_linear} and \gls{cdf} of the distribution is
+plotted on log-log scale in \ref{fig:garch_ev_cii_loglog}.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.40, clip=true, trim=104 271 111
+    216]{../pics/garch_ev_cii.pdf}
+    \label{fig:garch_ev_cii_linear}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.40, clip=true, trim=104 274 104
+    226]{../pics/garch_ev_cii_loglog.pdf}
+    \label{fig:garch_ev_cii_loglog}
+  }
+  \caption{\small \it \ref{fig:garch_ev_cii_linear}: Eigenvalues and
+    Diagonal elements' distribution of a covariance matrix
+    built from independent GARCH return series. Blue: PDF of
+    eigenvalues; Green: PDF of diagonal elements; Red: PDF of a
+    $\alpha$-stable distribution fitted to the diagonal
+    elements. \ref{fig:garch_ev_cii_loglog}: CDF of the same
+    quantities in 10-based log-log scale.}
+  \label{fig:garch_ev_cii}
+\end{figure}
+Also plotted in the same figure is the distribution of the diagonal
+elements of $\mtx C$. It is clear from the figure that the two PDFs
+coincide, implying $\mtx C$ is diagonal. This is further confirmed by
+figure \ref{fig:garch_cij} which shows the distribution of the
+non-diagonal elements of C. One can see the non-diagonal elements are
+distributed symmetrically around 0 with a very small width in
+comparison to the distribution of the diagonal elements --- in fact, 1
+order of magnitude smaller ($2.14\times10^{-5}$ v.s. $7.31\times
+10^{-4}$). Hence $\mtx C$ is very close to a diagonal matrix.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=95 253 91
+    223]{../pics/garch_cij.pdf}
+  \caption{\small \it Distribution of the non-diagonal elements of
+    the covariance matrix. Blue: PDF of the non-diagonal
+    elements; Green: $\alpha$-stable distribution fitted to the
+    non-diagonal elements' PDF.}
+  \label{fig:garch_cij}
+\end{figure}
+
+Figure \ref{fig:garch_ev_cii} also shows the two curves are well fitted
+by an $\alpha$-stable distribution. An estimate of the L\'evy index
+$\alpha$ of the stable distribution is also obtained via fitting,
+$\alpha \approx 1.38$, as shown in figure \ref{fig:garch_ev_cii}. This
+is really an expected result for the diagonal elements. Using
+$\alpha_1 = 0.15$, $\beta_1 = 0.84$, which are the values used for
+simulating the \gls{garch} returns, one can obtain, by solving equation
+\ref{eq:garch_alpha}, $\alpha=2.96$. Then according to Mikosch and Starica
+\cite{mikosch2000}
+\begin{eqnarray*}
+  P(|r_t| > x) &\sim& {\E(z^\alpha) c_0 \over x^\alpha} \\
+  P(|r_t|^2 > x) &\sim& {\E(z^\alpha) c_0 \over x^{\alpha/2}} \\
+\end{eqnarray*}
+for some constant $c_0$. Now that $P(|r_t|^2 > x)$ has power-law tail
+behavior with power $\alpha/2 < 2$, one can deduce
+\begin{equation}
+  \label{eq:stable_CLT}
+  \begin{aligned}
+    \sum_{t=1}^T r_t^2 &\xrightarrow{d} S(\alpha/2,
+    1, \gamma, \mu) \text{ as $T \to \infty$}
+  \end{aligned}
+\end{equation}
+where $\xrightarrow{d}$ denotes convergence in distribution, and
+$S(\alpha/2, 1, \gamma, \mu)$ denotes an $\alpha$-stable distribution
+with parameters $(\alpha/2, 1, \gamma, \mu)$. Here $\alpha/2$ is the
+L\'evy index, 1 is the asymmetry, $\gamma$ is the scaling parameter
+and $\mu$ is the mean value of the distribution. Asymmetry being 1
+means a random variable so distributed only takes positive values
+\cite{Bilik2008, Embrechts1997}.
+
+The mean $\mu$ in equation \ref{eq:stable_CLT} is given by
+\begin{eqnarray*}
+  \mu &=& T \E(|r_t|^2) \\
+  &=& T{\alpha_0 \over 1 - \alpha_1 - \beta_1}
+\end{eqnarray*}
+where we have used the result $\E(|r_t|^2) = \alpha_0 / (1 - \alpha_1
+- \beta_1)$ \cite{Bollerslev86}. The scaling parameter $\gamma$ in
+\ref{eq:stable_CLT} is determined by the limit \cite{Bilik2008}
+\begin{eqnarray*}
+  \lim_{T\to\infty} {T \E(z^{\alpha/2}) c_0 \over \gamma^{\alpha/2}}
+  &=& C_{\alpha/2}
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+  C_{\alpha/2} &=& \left( \int_0^\infty {\sin x \over x^{\alpha/2}} dx
+  \right)^{-1} \\
+  &\approx& {1 \over \sqrt{2 \pi}}
+\end{eqnarray*}
+Therefore
+\begin{eqnarray*}
+  \gamma^{\alpha/2} &=& \sqrt{2\pi} T \E\left(
+    |z|^{\alpha/2}
+  \right) c_0 \\
+  \gamma &=& (2\pi)^{1/\alpha} T^{2/\alpha} \left(\E
+    |z|^{\alpha/2}
+  \right)^{2/\alpha} c_0^{2/\alpha}
+\end{eqnarray*}
+Here we note that an $\alpha$-stable distribution $S(\alpha, \beta,
+\gamma, \mu)$ has characteristic function \cite{Guhr2007}
+\begin{eqnarray*}
+  \varphi(k; \alpha, \beta, \gamma, \mu) &=& \exp\left[
+    i\mu k - \gamma^\alpha |k|^\alpha \left(
+      1 - i \beta {k \over |k|} \tan{\pi \alpha \over 2}
+    \right) \right] \text{ for $\alpha \neq 1$}
+\end{eqnarray*}
+from which we see $\varphi(ak; \alpha, \beta, \gamma, \mu) = \varphi(k;
+\alpha, \beta, a\gamma, a\mu)$, implying that, if $x \sim S(\alpha,
+\beta, \gamma, \mu)$, then $ax \sim S(\alpha, \beta, a\gamma, a\mu)$.
+
+Now that
+\begin{eqnarray*}
+  \sum_{t=1}^T r_t^2 &\xrightarrow{d} S(\alpha/2,
+  1, \gamma, \mu) \text{ as $T \to \infty$}  
+\end{eqnarray*}
+we have
+\begin{eqnarray}
+  C_{ii} &=& {1 \over T^{2/\alpha}}\sum_{t=1}^T r_{it}^2 \\
+  &\xrightarrow{d}&
+  S(\alpha/2, 1, \gamma_D, \mu_D) \text{ as $T \to \infty$}
+  \label{eq:garch_cii_dist}
+\end{eqnarray}
+where
+\begin{eqnarray}\label{eq:garch_wishart_cij_params}
+  \gamma_D &=& (2\pi)^{1/\alpha} \E\left(|z|^{\alpha/2}
+  \right)^{2/\alpha} c_0^{2/\alpha} \\
+  \mu_D &=& {\alpha_0 \over 1 - \alpha_1 - \beta_1} T^{1 - 2/\alpha}
+  \nonumber
+\end{eqnarray}
+So the diagonal elements of the covariance matrix converge to
+an $\alpha$-stable distribution with L\'evy index $\alpha/2 \approx
+1.48$. This is comparable to the index value 1.38 obtained by
+fitting. Considering the slow convergene of regularly varying tails,
+this is a reasonably good match.
+
+Now we look at the distribution of the non-diagonal elements. Figure
+\ref{fig:garch_cij} shows that an $\alpha$-stable distribution fits
+rather well, and additionally, figure \ref{fig:garch_nondiag_probplot}
+shows that the distribution of these non-diagonal elements has fat
+tails, supporting an $\alpha$-stable distribution.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5, clip=true, trim=81 229 114
+    121]{../pics/garch_cij_prob.pdf}
+    \caption{\small \it Probability plot of the non-diagonal
+      elements. Blue: The accumulative probability function
+      (CDF) of the non-diagonal elements. Black, dashed: CDF of the
+      Gaussian distribution that has the same mean and variance as the
+      sample. The graph is arranged on such a scale that the Gaussian
+      CDF is a straight line.
+    }
+  \label{fig:garch_nondiag_probplot}
+\end{figure}
+
+The parameters of the fitted $\alpha$-stable distribution $S(\alpha',
+\beta', \gamma', \mu')$ are obtained in the procedure of fitting. The
+results have been shown in the legend of figure
+\ref{fig:garch_cij}. In table \ref{tab:garch_wishart_cij_params} we
+list them with a higher precision.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    $\alpha'$ & $\beta'$ & $\gamma'$ & $\mu'$ \\
+    \hline
+    1.9453 & 0.0018 & $2.1381 \times 10^{-5}$ & $2.0637\times 10^{-9}$ \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Parameters of the non-diagonal elements' distribution}
+  \label{tab:garch_wishart_cij_params}
+\end{table}
+Since $r_{it}$ and $r_{jt}$ are independent of each other, $\beta'$
+and $\mu'$ are expected to be 0 --- but with a finite T, some deviation
+from 0 is not surprising.
+
+Now that the parameters' values have been obtained, the way they scale
+with T, i.e. the length of the return series, can be deduced. Consider
+\begin{equation}\label{eq:garch_cij1}
+  T^{2/\alpha} C_{ij} = \sum_{t=1}^T r_{it} r_{jt} \xrightarrow{d} S(\alpha',
+  0, \gamma', 0)
+\end{equation}
+where the width $\gamma'$ is determined by \cite{Bilik2008},
+\begin{eqnarray*}
+  \lim_{T\to\infty} {T C \over \gamma'^{\alpha'}}
+  &=& C_{\alpha'} \\
+  C_{\alpha'} &=& \left( \int_0^\infty {\sin x \over x^{\alpha'}} dx
+  \right)^{-1} \\
+\end{eqnarray*}
+Here the constant C is such that
+\begin{equation*}
+  P(|r_{it}r_{jt}| > x) \sim {C \over x^{\alpha'}} \text{ as $x \to \infty$}
+\end{equation*}
+So we have
+\begin{eqnarray*}
+  \gamma' &=& {\left( CT \over C_{\alpha'}\right)^{1/\alpha'}}
+\end{eqnarray*}
+Divide throughout equation \ref{eq:garch_cij1} by $T^{2/\alpha}$ then
+gives
+\begin{equation}\label{eq:garch_cij2}
+  C_{ij} = {1 \over T^{2/\alpha}}\sum_{t=1}^T r_{it} r_{jt}
+  \xrightarrow{d}
+  S(\alpha', 0, \gamma_N, 0)
+\end{equation}
+where
+\begin{eqnarray*}
+  \gamma_N &=& {\left(C \over C_{\alpha'}\right)^{1/\alpha'}}
+  T^{1/\alpha'-2/\alpha} \\
+\end{eqnarray*}
+So we see that distribution of the non-diagonal elements has a width
+that scales with T as $T^{1/\alpha' - 2/\alpha} \approx T^{-1/6}$,
+while the width of the diagonal elements' distribution, as shown in
+equation \ref{eq:garch_wishart_cij_params}, does not scale with
+T. This is to be compared with the Wishart case where the return
+series have Gaussian distribution, and hence the asymptotic
+distributions of both the diagonal and the non-diagonal elements of the
+covariance matrix are Gaussian with a variance that scales as $1/T$
+(c.f. \ref{sec:GCC-analytical}).
+
+% We also notice that, given our particular choice of $\alpha_1$ and
+% $\beta_1$, the covariance matrix's convergence to a diagonal matrix
+% is slow, since the non-diagonal elements decay to zero only 
+
+% In the Wishart case, the diagonal and the non-diagonal elements
+% scale in the same way with T and thus have comparable sizes at large
+% T --- so the matrix is not diagonal and the eigenvalue distribution has
+% the Marcenko-Pastur law. In the GARCH case, the diagonal elements do
+% not scale with T while the non-diagonal elements scale as $T^{-1/6}$,
+% thus at large T, the non-diagonal elements are significantly smaller
+% than the diagonal ones --- so a diagonal matrix arises.
+
+\section{Implications of Finite Number of Observations}
+In the last section we have discussed the limiting situation where the
+return series of the covariance matrix have an infinite number of
+observations ($T \to \infty$), and in the simulation studies we have
+generated a large number of observations for each return series,
+namely $T = 8 \times 10^4$. However, in practice, one often does not
+have such a large number of observations available. Therefore, it is
+useful to investigate situations where $T$ only has a modest size.
+
+Figure \ref{fig:GarchCiiEig1} shows the distributions of the diagonal
+elements as well as the eigenvalues when the number of return series
+(N) is fixed at 250 and the number of observations in each series (T)
+is gradually increased from 3000 to 6000.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.7, clip=true, trim=81 248 75
+    195]{../pics/GarchCiiEig1.pdf}
+  \caption{\small \it The Diagonal elements' and the eigenvalues'
+    distributions with modest T. Blue: eigenvalues' CDF;
+    Green: Diagonal elements' CDF; Red: CDF of the $\alpha$-stable
+    distribution fitted to the diagonal elements. All the curves are
+    drawn on 10-based log-log scale.
+  }
+  \label{fig:GarchCiiEig1}
+\end{figure}
+It is seen from the figure that, compared to the earlier case where $T
+= 8 \times 10^4$, the eigenvalue distribution and the diagonal
+elements' distribution do not coincide as well but differ rather
+siginificantly for small values. For large values of the diagonal
+elements and the eigenvalues, the two do coincide and comply with the
+fitted $\alpha$-stable distribution. Moreover, the difference between
+the eigenvalues' distribution and the diagonal elements' distribution,
+as well as that between the diagonal elements' distribution and the
+fitting $\alpha$-stable distribution, is also seen to diminish as T
+increases.
+
+The convergence of the eigenvalues ($\lambda$) towards the diagonal
+elements $C_{ii}$ as $\lambda \to \infty$ is really an anticipated
+result. For convenience, we order the diagonal elements so that
+\begin{eqnarray*}
+  C_{11} < C_{22} < \cdots < C_{NN}
+\end{eqnarray*}
+where, as before, $N$ is the dimension of the covariance matrix
+$C$. Then, as $x \to \infty$,
+\begin{eqnarray*}
+  P(C_{ii} > x) &\sim& {c \over x^{\alpha/2}} \\
+  f(C_{ii}) &\sim& {c \over x^{\alpha/2 + 1}} \\
+\end{eqnarray*}
+where $f(\cdot)$ denotes the \gls{pdf} of the diagonal elements and $c$ is
+some constant. Thus, at the limit $C_{ii} \to \infty$, the distance
+between two adjacent diagonal elements $C_{ii}$ and $C_{i+1, i+1}$ can
+be expressed as
+\begin{eqnarray*}
+{1 \over N (C_{i+1, i+1} - C_{ii})} &=& f(C_{ii})\\
+C_{i+1, i+1} - C_{ii} &\sim& {C_{ii}^{\alpha/2 + 1} \over c N}
+\end{eqnarray*}
+
+Thus as $C_{ii} \to \infty$, $C_{i+1, i+1} - C_{ii} \to \infty$ while
+$C_{ij} \to 0$ ($i \neq j$). Now that the spacing between adjacent
+diagonal elements become wider and the non-diagonal elements become
+smaller, the eigenstates considered as a mixture of the basis states,
+become more and more localized to a prominent basis state. This
+localization can be measured by the size of the component in each
+eigenvector that has the largest absolute value($|c|_\M$), provided
+that the eigenvectors have been normalized.
+
+Figure \ref{fig:garch_eigenvec_Cmax} shows how $|c|_\M$ changes
+in response to increasing $\lambda$. It is seen that as T increases,
+localization of the eigenstates proceeds from those with very
+large eigenvalues towards those with relatively smaller
+eigenvalues. At the same time, the minimum of $|c|_\M$ increases
+and so does the minimum of the eigenvalues. The last point here is
+further illustrated in figure \ref{fig:garch_eigenvec_Cmax_dist} where
+the \gls{pdf} of $|c|_\M$ is plotted. We see in this figure that an
+increased value of T leads to advancement of $\min(|c|_\M)$ to larger
+values as well as to an increased proportion of large $|c|_\M$. The
+mean of $|c|_\M$ has apparently been increased too.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+  \includegraphics[scale=0.29, clip=true, trim=14 199 31
+  155]{../pics/garch_eigenvec_Cmax.pdf}
+    \label{fig:garch_eigenvec_Cmax}
+  }
+  \subfigure[]{
+  \includegraphics[scale=0.41, clip=true, trim=86 257 112
+  136]{../pics/garch_eigenvec_Cmax_dist.pdf}
+  \label{fig:garch_eigenvec_Cmax_dist}
+  }
+  \caption{\small \it \ref{fig:garch_eigenvec_Cmax}: Horizontal:
+    eigenvalues ($\log \lambda$); Vertical: $\log |c|_\M$ of the
+    corresponding eigenvector. From left to right and 1st to 2nd row,
+    T has values 800, 1000, 1200,
+    80000. \ref{fig:garch_eigenvec_Cmax_dist}: PDF of the largest
+    component ($|c|_\M$) of each eigenvector. In both plots the number
+    of returns (N) is 50.}
+%  \label{fig:garch_eigenvec_Cmax_both}
+%   \includegraphics[scale=0.4, clip=true, trim=14 199 31
+%   155]{../pics/garch_eigenvec_Cmax.pdf}
+%   \caption{\small \it largest component ($|c|_\M$) corresponding to
+%     the eigenvalue. N is fixed to 50.}
+%   \label{fig:garch_eigenvec_Cmax}
+% \end{figure}
+
+% \begin{figure}[htb!]
+%   \centering
+%   \includegraphics[scale=0.4, clip=true, trim=86 257 112
+%   136]{../pics/garch_eigenvec_Cmax_dist.pdf}
+%   \caption{\small \it PDF of the largest component ($|c|_\M$) of
+%     each eigenvector. N is fixed to 50.}
+%   \label{fig:garch_eigenvec_Cmax_dist}
+\end{figure}
+
+Another informative quantity that measures the localization is the
+``Inverse Participation Ratio'' (IPR). For a given normalized eigenvector
+$\vec{c}_i = (c_{1, i}, c_{2, i}, ..., c_{N, i})$, the \gls{ipr} is defined
+as \cite{Aberg2013}
+\begin{eqnarray}
+  \text{IPR}(\vec{c}_i) &=& \sum_{k=1}^N c_{k,i}^4 \label{eq:IPR_def}
+\end{eqnarray}
+Figure \ref{fig:garch_eigenvec_PR} shows ${1 \over
+  N \cdot \text{IPR}(\vec{c}_i)}$ in correspondence to the
+eigenvalues. This quantity is sometimes termed the
+normalized \gls{pr} and measures the proportion of
+basis vectors that contribute considerably to the eigenvector in
+question. From this figure we see that, for all values of T, if an
+eigenvalue is larger than $10^{-1.5} \approx 0.03$, its corresponding
+participation ratio is less than $10^{-1.6} = 2.5\%$, meaning less
+than $50 \times 0.025 = 1.26$ basis vectors contribute --- each of the
+corresponding eigenvectors is localized to a single basis vector and
+hence the distribution of such large eigenvalues is the same as the
+diagonal elements' distribution.
+
+Figure \ref{fig:garch_eigenvec_PR_dist} shows the \gls{pdf} of the
+normalized \gls{pr}. We see that as T increases, the distribution of
+\gls{pr} is compressed towards 0, suggesting increased localization of
+the eigenvectors.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \label{fig:garch_eigenvec_PR}
+    \includegraphics[scale=0.34, clip=true, trim=49 208 70
+    162]{../pics/garch_eigenvec_PR.pdf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=97 259 113
+    226]{../pics/garch_eigenvec_PR_dist.pdf}
+  \label{fig:garch_eigenvec_PR_dist}
+  }
+  \caption{\small \it \ref{fig:garch_eigenvec_PR}: Normalized
+    participation ratio (PR) versus eigenvalue
+    ($\lambda$). Horizontal: $\log \lambda$; Vertical: $\log
+    \text{PR}$ of the corresponding
+    eigenvector. From left to right and 1st to 2nd row, T has values
+    800, 1000, 1200, 80000. \ref{fig:garch_eigenvec_PR_dist}: PDF of
+    the normalized PR. In both plots, the number of returns (N) is
+    50.}
+\end{figure}
+In conclusion, localization of the eigenvectors, which implies 
+coincident eigenvalue and diagonal elements' distributions, begins with
+those associated to large eigenvalues. Increased observation points
+lead to increased localization and hence increased coincident sections
+of the eigenvalue and diagonal elements' distributions. However, this
+increment with T is slow, because the diagonal elements mean $\mu_D$
+increases only as a fractional power of $T$, namely $T^{1 -
+  2/\alpha}$, and the non-diagonal elements' variance decreases only
+as a fractional power too, namely $T^{1/\alpha' - 2/\alpha}$. These
+have been detailed in equations \ref{eq:garch_wishart_cij_params} and
+\ref{eq:garch_cij2}.
+
+\section{Influence of auto-correlations}
+\label{sec:garch_nonzero_phi}
+In the previous two sections we have studied situations where
+$\phi=0$ in the specification \ref{eq:garch_spec}, i.e. no
+auto-correlation is in the returns. In this section we investigate how
+auto-correlations change the picture.
+
+% When auto-correlations are present among the returns, the
+% covariance matrix is expected to change. How exactly it changes
+% is the subject of this section. Here we consider a model specified
+% as follows:
+% \begin{eqnarray*}
+%   r_{it} &=& \phi r_{i, t-1} + \epsilon_{it} \\
+%   \epsilon_{it} &=& \sigma_{it} z_{it} \\
+%   \sigma_{it}^2 &=& \alpha_0 + \alpha_1 \epsilon_{i, t-1}^2 + \beta_1
+%   \sigma_{i, t-1}^2 \\
+%   z_{it} &\sim& N(0, 1)
+% \end{eqnarray*}
+% where $r_{it}$ is the element of the R matrix at the $i$-th row and the
+% $t$-th column. In the simulations described below R has N=50 rows and
+% $T = 8 \times 10^4$ columns. The parameters $\alpha_1$ and $\beta_1$
+% are the same as in the previous case of zero auto-correlations, namely
+% $\alpha_1 = 0.15$ and $\beta_1 = 0.84$. The covariance matrix C
+% is built from R using
+% \begin{eqnarray*}
+%   C &=& {1 \over T^{2/\alpha}} RR'
+% \end{eqnarray*}
+% where $\alpha$ is 2.96 as before.
+
+Figure \ref{fig:GarchEigDiag1} shows the eigenvalue as well as the
+diagonal elements' distribution when $\phi = 0.95$, i.e. $\tau =
+13.51$. The values of N and T are 50 and $8\times 10^4$ as before. The
+\gls{garch}(1,1) parameters are also unchanged, namely $\alpha_0 = 2.3\times
+10^{-6}$, $\alpha_1 = 0.15$, and $\beta_1 = 0.84$. Figure
+\ref{fig:GarchNondiag1} shows the non-diagonal elements' distribution
+in the same setup. Included in these plots are $50 \times 2000 =
+1\times 10^5$ eigenvalues and diagonal elements, as well as ${50
+  \choose 2} \times 2000 = 2,450,000$ non-diagonal elements. These
+data come from 2000 simulated matrices.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.42, clip=true, trim=112 272 103
+    217]{../pics/GarchEigDiag1.pdf}
+    \label{fig:GarchEigDiag1}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.42, clip=true, trim=105 272 101
+    213]{../pics/GarchNondiag1.pdf}
+    \label{fig:GarchNondiag1}
+  }
+  \caption{\small \it \ref{fig:GarchEigDiag1}: Eigenvalues' and
+    diagonal elements' distribution when $\phi = 0.95$, i.e. $\tau$ =
+    13.51; \ref{fig:GarchNondiag1}: Non-diagonal elements'
+    distribution in the same situation.}
+\end{figure}
+
+From figure \ref{fig:GarchEigDiag1} we see that, as auto-correlations
+become significant, the distribution of the eigenvalues no longer
+coincides with the diagonal elements' distribution --- instead it
+becomes wider and fatter on the tails. We also notice that the widths
+of both the diagonal and the non-diagonal elements' PDF's have
+increased.  In figure \ref{fig:garch_ev_cii} we see that, when no
+auto-correlation is present, the \gls{pdf} of the diagonal elements has
+width ($\gamma$) $7.31 \times 10^{-4}$, while in figure
+\ref{fig:GarchEigDiag1} we see that the width has become $7.91 \times
+10^{-3}$ as $\tau$ becomes 13.51. Similarly the non-diagonal elements'
+\gls{pdf} has width $2.14 \times 10^{-5}$ when $\tau=0$, as shown in figure
+\ref{fig:garch_cij}, and this width becomes $9.60 \times 10^{-4}$ when
+$\tau = 13.51$, as shown in figure \ref{fig:GarchNondiag1}.
+
+Figure \ref{fig:GarchSpectrumAutocorrelated} shows the eigenvalues'
+distribution corresponding to a range of $\phi$ values. The number of
+eigenvalues in each curve is the same as in figure
+\ref{fig:GarchEigDiag1}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=85 258 103
+  229]{../pics/GarchSpectrumAutocorrelated.pdf}
+  \caption{\small \it Eigenvalue distribution of covariance
+    matrix built from auto-correlated GARCH processes. $\phi$ = 0,
+    0.5, 0.8, 0.955, 0.97 correspond to correlation time $\tau$ =
+    0, 1.00, 3.11, 15.05, 22.76.}
+  \label{fig:GarchSpectrumAutocorrelated}
+\end{figure}
+From this figure one can see that, as auto-correlation strengthens,
+\begin{itemize}
+\item the \gls{pdf} of the eigenvalue distribution flattens and widens;
+\item the minimum as well as the maximum eigenvalues increase.
+\end{itemize}
+
+To find out more about this series of deformation, we first look at
+how the largest component and the normalized participation ratio of
+the eigenvectors change as $\phi$ takes on larger values. Figure
+\ref{fig:garch_eigenvec_Cmax_corr} shows the largest eigenvector
+component $|c|_\M$ in correspondence to the eigenvalue. Apparently, as
+auto-correlation strengthens, the eigenvectors' composition
+fractures, leading to a reduced degree of localization and even
+reduced certainty of localization --- for a fixed eigenvalue, $|c|_\M$
+now varies in a larger range than it does with smaller $\phi$.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=0 197 0
+  154]{../pics/garch_eigenvec_Cmax_corr.pdf}
+  \caption{\small \it Eigenvectors' largest component versus
+    eigenvalue, for 4 auto-correlation strengths $\phi$ = 0, 0.6, 0.9,
+    and 0.99. The number of returns (N) is 50.}
+  \label{fig:garch_eigenvec_Cmax_corr}
+\end{figure}
+The same story of reduced localization is also evident from the plot
+of the normalized \gls{pr}, shown in figure
+\ref{fig:garch_eigenvec_PR_dist_corr}, and from the \gls{pdf} of $|c|_\M$
+shown in figure \ref{fig:garch_eigenvec_Cmax_dist_corr}. It is seen
+in \ref{fig:garch_eigenvec_PR_dist_corr} that the peak at the left 
+of the plot, representing the group of localized eigenvectors, falls
+with increased auto-correlation, and essentially disappears when
+$\phi$ reaches the extreme value 0.99. Figure
+\ref{fig:garch_eigenvec_Cmax_dist_corr} shows the proportion of large
+$|c|_\M$ values is severely reduced and the mean of $|c|_\M$ is pushed
+to smaller values by increased auto-correlation.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=95 260 111
+    232]{../pics/garch_eigenvec_PR_dist_corr.pdf}
+    \label{fig:garch_eigenvec_PR_dist_corr}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=95 260 111
+    232]{../pics/garch_eigenvec_Cmax_dist_corr.pdf}
+    \label{fig:garch_eigenvec_Cmax_dist_corr}
+  }
+  \caption{\small \it \ref{fig:garch_eigenvec_PR_dist_corr}: PDF of
+    the normalized participation ratio
+    (PR). \ref{fig:garch_eigenvec_Cmax_dist_corr}: PDF of the largest
+    component of the eigenvectors. The number of returns (N) is
+    50. $\phi$ values of 0, 0.6000, 0.9000, 0.9900 correspond to
+    correlation time $\tau$ = 0, 1.3569, 6.5788, 68.9676}
+\end{figure}
+
+
+It is also useful to look at how the fraction of localized eigenvectors
+changes with the auto-correlation. For definiteness, we classify
+an eigenvector as being localized when (1) its number of participating
+basis vectors is less than 2, or (2) the largest of its components'
+absolute values is larger than 0.9.
+
+Figure \ref{fig:localization_ratio} shows how the ratio of localized
+eigenvectors depends on the auto-correlation strength $\phi$. In
+either way of classification, the ratio falls with $\phi$ in
+accordance with a power law, the power exponent lying a bit below 2.
+This is further confirmed in plot \ref{fig:localization_ratio2}, where
+the ratios are plotted versus $\phi$ on log-log scale.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.38, clip=true, trim=93 229 115
+    134]{../pics/localization_ratio.pdf}
+    \label{fig:localization_ratio}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.38, clip=true, trim=87 227 115
+    133]{../pics/localization_ratio2.pdf}
+    \label{fig:localization_ratio2}
+  }
+  \caption{\small \it \ref{fig:localization_ratio}: Ratio of localized
+    eigenvectors versus the auto-correlation strength $\phi$. Black
+    ``+'': ratio of localized eigenvectors as measured by the number
+    of participating basis vectors being lower than 2; Black ``x'':
+    ratio of localized eigenvectors as measured by the largest
+    component being larger than 0.9. Blue curve: quadradic function
+    fitted to ``+''. Green curve: quadratic function fitted to
+    ``x''. There are 27 data points in the plot, corresponding to 27
+    $\phi$ values: 0 to 0.8 with step size 0.05, and 0.9 to 0.99 with
+    step size 0.01. The corresponding values of the correlation time
+    $\tau$ range from 0 to 69. \ref{fig:localization_ratio2}: $\ln
+    (f_\M - f)$ is plotted versus $\ln \phi$, where $f$ stands for the
+    ratio of localized eigenvectors. The fitted curves are linear.}
+\end{figure}
+
+\input{summary}
+
+\chapter{Self-reflection}
+First of all, during the thesis project I learned a lot about models
+of time series in finance, such as \gls{garch}, and \gls{sv} models,
+as well as traditional time series analysis, for example, \gls{arima}
+models. In addition, a study of continuous-time models gave me an
+opportunity to increase my knowledge of stochastic processes,
+probability theory and statistics.
+
+Moreover, I have introduced myself to the random matrix theory,
+multivariate analysis, and extreme value theory. These became relevant
+when I worked on the covariance matrix of returns described by
+Gaussian or \gls{garch} models.
+
+In addition, I have become better at Matlab programming and dealing
+with databases, and have grown more confident in numerical analysis.
+
+
+\appendix
+\input{appendix}
+
+\bibliographystyle{unsrt}
+\bibliography{econophysics}
+\end{document}
+
+

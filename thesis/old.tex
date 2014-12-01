@@ -1,0 +1,1032 @@
+\documentclass{book}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{bookmark}
+
+\input{../physics_common.tex}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\title{Mathematical Aspects of the Capital Market}
+\author{Xie Xiaolei}
+\date{\today}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\chapter{Stock Price Models}
+\section{GARCH}
+
+\section{NGARCH}\label{sec:ngarch}
+The NGARCH model is formulated by Engle and Ng \cite{Engle1993} as
+\begin{eqnarray*}
+  r_t &=& \mu + \sqrt{h_t} \epsilon_t \\
+  h_t &=& \alpha_0 + \beta_1 h_{t-1} + \beta_2
+  h_{t-1}(\epsilon_{t-1} - \theta)^2
+\end{eqnarray*}
+
+where $\epsilon_t$ are innovations of any appropriate distribution,
+and $\theta$ a parameter introduced to capture the leverage effect.
+
+Choi and Nam \cite{Choi2008} then proposed to model $\epsilon_t$ with
+a Johnson $S_u$ random variable $y_t$ \cite{Johnson1949}:
+\begin{eqnarray*}
+  y_t &=& \sinh{z_t - a \over b} \\
+  \epsilon_t &=& \mu + y_t
+\end{eqnarray*}
+where $z_t$ is standard-normal distributed and $a, b$ are parameters
+introduced to tune skewness and kurtosis. $\mu$ was meant to offset
+the non-zero mean of $y_t$.
+
+Later Simonato proposed a simplification \cite{Simonato2012}
+\[
+\epsilon_t = {y_t - \mean{y_t} \over \sqrt{\var(y_t)}}
+\]
+where $\var(y_t)$ denotes the variance of $y_t$. He applied the model
+to a number of stock indices from various countries. The result was
+encouraging.
+
+Shang, J. and Tadikamalla, P. pointed out in 2004 \cite{Shang2004}
+that the first and second moments of the $S_u$ distribution could be
+put in closed form:
+\begin{eqnarray*}
+  m_1 &=& -\sqrt{w} \sinh\Omega \\
+  m_2 &=& {1 \over 2} (w - 1) (w\cosh{2\Omega} + 1)
+\end{eqnarray*}
+where $w = e^{1/b^2}$ and $\Omega = a/b$.
+
+\section{Estimation of Model Parameters}
+The general method of estimating the parameter vector $\theta$ of a
+model is the following:
+\begin{enumerate}
+\item First derive the log-likelihood function $L(\theta | x_1, \cdots
+  x_n)$, which is considered a function of the parameters' column
+  vector $\theta$ with the sample $x_1, \cdots, x_n$ known.
+
+\item Calculate the gradient of $\nabla L(\theta) = \partial
+  L(\theta) / \partial \theta$.
+\item Calculate the Fisher information matrix $J$
+  \[
+  J = E \left[
+    {\partial^2 L(\theta) \over \partial \theta \partial \theta'}
+  \right]
+  \]
+  where $\theta'$ is the transpose of $\theta$. E denotes taking the
+  expectation value.
+
+\item Then, with an initial estimate/guess of $\theta$, as well as the
+  first and second derivatives of $L$ w.r.t $\theta$, one can
+  progressively improve the estimate by
+  \[
+  \theta^{k+1} = \theta^k - J^{-1} (\theta^k)\nabla L(\theta^k)
+  \]
+  where $\theta^k$ is the k-th estimate of $\theta$.
+\end{enumerate}
+
+
+\chapter{Empirical Results \& Analysis}
+Figures \ref{fig:Nordea} - \ref{fig:ABB-HM} show the 10min. 20min and
+30min returns of Nordea, Ericsson, ABB and H\&M in selected
+periods. Skewness and excessive kurtosis of the return distributions are
+evident in these pictures. Previous studies have attributed these
+features to price-volatility correlations and volatility
+auto-correlations, respectively \cite{FinancialRisk}. These
+correlations constitute criteria for the choice of price models.
+
+\section{Empirical Return Distribution}
+\begin{figure}[ht]
+  \centering
+  \subfigure[Nordea prices 2012/01/16-2012/03/15.]{
+    \includegraphics[scale=0.35]{../pics/Nordea_Bank_price_20120116-20120315.png}
+    \label{fig:NordeaPrice1}
+  }
+  \subfigure[Nordea Prices 2012/03/16 - 2012/04/20]{
+    \includegraphics[scale=0.35]{../pics/Nordea_Bank_price_20120316-20120420.png}
+    \label{fig:NordeaPrice2}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_10min_ret_2012-01-16-2012-03-15_log.pdf}
+    \label{fig:Nordea1}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_10min_ret_2012-03-16-2012-04-20_log.pdf}
+    \label{fig:Nordea2}
+  }
+  \subfigure[Nordea 20 min returns. 1,290,119 pt]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_20min_ret_2012-01-16-2012-03-15_log.pdf}
+    \label{fig:Nordea3}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_20min_ret_2012-03-16-2012-04-20_log.pdf}
+    \label{fig:Nordea4}
+  }
+  \subfigure[Nordea 30 min returns. 1,327,355 pt]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_30min_ret_2012-01-16-2012-03-15_log.pdf}
+    \label{fig:Nordea5}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_30min_ret_2012-03-16-2012-04-20_log.pdf}
+    \label{fig:Nordea6}
+  }
+  \caption{Nordea prices \& returns}
+  \label{fig:Nordea}
+\end{figure}
+
+% \begin{figure}[ht]
+%   \centering
+%   \subfigure[Ericsson prices 2012/01/25 - 2012/02/28]{
+%     \includegraphics[scale=0.35]{../pics/Ericsson_B_price_20120125-20120228.png}
+%     \label{fig:EricssonPrice1}
+%   }
+%   \subfigure[Ericsson Prices 2012/06/15 - 2012/07/18]{
+%     \includegraphics[scale=0.35]{../pics/Ericsson_B_price_20120615-20120718.png}
+%     \label{fig:EricssonPrice2}
+%   }
+%   \subfigure[]{
+%     \includegraphics[scale=0.35]{../pics/Ericsson_B_10min_ret_20120125-20120228.png}
+%     \label{fig:Ericsson1}
+%   }
+%   \subfigure[]{
+%     \includegraphics[scale=0.35]{../pics/Ericsson_B_10min_ret_20120615-20120718.png}
+%     \label{fig:Ericsson2}
+%   }
+%   \subfigure[]{
+%     \includegraphics[scale=0.35]{../pics/Ericsson_B_20min_ret_20120125-20120228.png}
+%     \label{fig:Ericsson3}
+%   }
+%   \subfigure[]{
+%     \includegraphics[scale=0.35]{../pics/Ericsson_B_20min_ret_20120615-20120718.png}
+%     \label{fig:Ericsson4}
+%   }
+%   \subfigure[]{
+%     \includegraphics[scale=0.35]{../pics/Ericsson_B_30min_ret_20120125-20120228.png}
+%     \label{fig:Ericsson5}
+%   }
+%   \subfigure[]{
+%     \includegraphics[scale=0.35]{../pics/Ericsson_B_30min_ret_20120615-20120718.png}
+%     \label{fig:Ericsson6}
+%   }
+%   \caption{Ericsson prices \& returns}
+%   \label{fig:Ericsson}
+% \end{figure}
+
+\section{Empirical Autocorrelation Function}
+\begin{figure}[ht]
+  \centering
+  \subfigure[Nordea 30min acf 2012/01/16 - 2012/03/15]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 46 175]{../pics/Nordea_Bank_30min_fine_autocorr_2012-01-16-2012-03-15.pdf}
+    \label{fig:NordeaFineAutocorr1}
+  }
+  \subfigure[Nordea 30min acf 2012/03/16 - 2012/04/20]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 46 175]{../pics/Nordea_Bank_30min_fine_autocorr_2012-03-16-2012-04-20.pdf}
+    \label{fig:NordeaFineAutocorr2}
+  }
+  \caption{Nordea fine-grained auto-correlations}
+  \label{fig:Nordea-fine-autocorr}
+\end{figure}
+
+
+\section{Fit to NGARCH}
+An apparent and relatively simple choice is the NGARCH model with
+Johnson $S_u$ distributions. It has only 6 parameters and has led to
+good descriptions of a number of stock indices \cite{Simonato2012}.
+
+In the following we derive the log-likelihood function of this
+model and then compute the maximum likelihood estimate of the
+parameters.
+
+In the NGARCH model
+\begin{eqnarray*}
+  r_t &=& c + \sqrt{h_t} \epsilon_t \\
+  h_t &=& \alpha_0 + \beta_1 h_{t-1} + \beta_2
+  h_{t-1}(\epsilon_{t-1} - \theta)^2
+\end{eqnarray*}
+let $x_t = r_t - c = \sqrt{h_t} \epsilon_t$. Then the conditional
+probability density function of $x_t$, $f_X(x_t | x_{t-1}, \cdots,
+x_0)$ can be written as
+\begin{eqnarray*}
+  f_X(x_t | x_{t-1}, \cdots, x_0) &=& {1 \over \sqrt{h_t}}
+  f_\epsilon(\epsilon_t | \epsilon_{t-1}, \cdots, \epsilon_0)
+\end{eqnarray*}
+
+For brevity we shall write just $f_X(x_t)$ for the above conditional
+probability density. The same applies to other variables too. Moreover
+we use $\mu$ and $\sigma^2$ for the mean and variance of $y_t$. As
+mentioned in section \ref{sec:ngarch}, they have been given as
+functions of $a$ and $b$ in closed form.
+
+\subsection{The Log-likelihood function}
+In this section we find the log-likelihood function of the NGARCH
+model. Since
+\begin{eqnarray*}
+  \epsilon_t &=& {y_t - \mu \over \sigma} \\
+  z_t &=& a + b \arcsinh y_t
+\end{eqnarray*}
+we have
+\begin{eqnarray*}
+  f_X(x_t) &=& {\sigma \over \sqrt{h_t}} {b \over \sqrt{1 + y_t^2}}
+  f_Z(z_t)\\
+  &=& {\sigma \over \sqrt{2\pi h_t}}
+  {b \over \sqrt{1 + (\sigma x_t / \sqrt{h_t} + \mu)^2}}
+  \exp\left\{-{1 \over 2}
+    \left[a + b\arcsinh(\sigma x_t / \sqrt{h_t} + \mu)\right]^2
+  \right\} \\
+  &=& \left[
+    (1 + \mu^2)h_t + 2\mu\sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+  \right]^{-1/2}
+  {\sigma b \over \sqrt{2\pi}} \\
+  &&
+  \exp\left\{-{1 \over 2}
+    \left[a + b\arcsinh(\sigma x_t / \sqrt{h_t} + \mu)\right]^2
+  \right\} \\
+  \ln f_X(x_t) &=& \ln(\sigma b) - {1 \over 2} \ln(2\pi) \\
+  && -{1 \over 2} \ln\left[
+    (1 + \mu^2)h_t + 2\mu\sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+  \right] \\
+  && -{1 \over 2}\left[a + b\arcsinh(\sigma x_t / \sqrt{h_t} + \mu)\right]^2
+\end{eqnarray*}
+Thus the log-likelihood function given observations $x_1, \cdots, x_T$
+is
+\begin{equation}
+  L = \sum_{t=1}^T \ln f_X(x_t)
+\end{equation}
+
+To estimate the parameters of the model, one also needs the gradient
+of $L$ as well as the Fisher information matrix of L.
+
+\begin{eqnarray*}
+  {\partial \ln f_X(x_t)\over \partial \alpha_0} &=&
+  {\partial \ln f_X(x_t) \over \partial h_t}
+  {\partial h_t \over \alpha_0} \\
+  &=&
+  -{1 \over 2} {
+    (1 + \mu^2) + \mu\sigma x_t / \sqrt{h_t}
+    \over
+    (1 + \mu^2)h_t  +2\mu\sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+  } {\partial h_t \over \alpha_0} \\
+  {\partial \ln f_X(x_t)\over \partial \beta_1} &=&
+  \ab {\partial h_t \over \beta_1} \\
+  {\partial \ln f_X(x_t)\over \partial \beta_2} &=&
+  \ab {\partial h_t \over \beta_2} \\
+  {\partial \ln f_X(x_t)\over \partial \theta} &=&
+  \ab {\partial h_t \over \beta_1} \\
+\end{eqnarray*}
+Similarly, for $a$ and $b$ we have
+\begin{eqnarray*}
+  {\partial \ln f_X(x_t)\over \partial a} &=&
+  {1 \over \sigma} {\partial \sigma \over \partial a} \\
+  && -{1 \over 2} { 1
+    \over
+    (1 + \mu^2)h_t  +2\mu\sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+  } \times \\
+  && \left\{
+    {\partial \mu \over \partial a}(2\mu h_t + 2\sigma x_t \sqrt{h_t}) \right.\\
+  && + {\partial h_t \over \partial a} \left[
+    (1 + \mu^2) + \mu\sigma x_t / \sqrt{h_t}
+  \right] \\
+  && \left.
+    + {\partial \sigma \over \partial a}
+    (2\mu x_t \sqrt{h_t} + 2\sigma x_t^2)
+  \right\} \\
+  && -\left[
+    a + b\arcsinh(\sigma x_t / \sqrt{h_t} + \mu)
+  \right] \times \\
+  && \left[
+    1 + b {\partial_a \mu + x_t
+      (2h_t\partial_a\sigma - \sigma\partial_ah_t) / 2h_t^{3/2}
+      \over
+      \sqrt{1 + (\sigma x_t / \sqrt{h_t} + \mu)^2}
+    }
+  \right]
+\end{eqnarray*}
+
+\begin{eqnarray*}
+  {\partial \ln f_X(x_t)\over \partial b} &=&
+  {1 \over \sigma}\partial_b \sigma + {1 \over b} \\
+  && -{1 \over 2} { 1
+    \over
+    (1 + \mu^2)h_t  +2\mu\sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+  } \times \\
+  && \left\{
+    {\partial \mu \over \partial b}(2\mu h_t + 2\sigma x_t \sqrt{h_t}) \right.\\
+  && + {\partial h_t \over \partial b} \left[
+    (1 + \mu^2) + \mu\sigma x_t / \sqrt{h_t}
+  \right] \\
+  && \left.
+    + {\partial \sigma \over \partial b}
+    (2\mu x_t \sqrt{h_t} + 2\sigma x_t^2)
+  \right\} \\
+  && -\left[
+    a + b\arcsinh(\sigma x_t / \sqrt{h_t} + \mu)
+  \right] \times \\
+  && \left[
+    b {\partial_b \mu + x_t
+      (2h_t\partial_b\sigma - \sigma\partial_bh_t) / 2h_t^{3/2}
+      \over
+      \sqrt{1 + (\sigma x_t / \sqrt{h_t} + \mu)^2}
+    } + \arcsinh(\sigma x_t / \sqrt{h_t} + \mu)
+  \right]
+\end{eqnarray*}
+In the above we have used
+\[
+\nabla h_t = (\opd{\alpha_0}, \opd{\beta_1},
+\opd{\beta_2}, \opd{\theta}, \opd{a}, \opd{b})^T h_t
+\]
+The components of $\nabla h_t$ is
+\begin{eqnarray*}
+  \pd{h_t}{\alpha_0} &=& 1 \\
+  \pd{h_t}{\beta_1} &=& h_{t-1} + \beta_1 \pd{h_{t-1}}{\beta_1}\\
+  \pd{h_t}{\beta_2} &=& (\epsilon_{t-1} - \theta)^2 \left(
+    \beta_2 \pd{h_{t-1}}{\beta_2} + h_{t-1} \right) \\
+  \pd{h_t}{\theta} &=& \beta_2 (\epsilon_{t-1} - \theta)\left[
+    -2 h_{t-1} + (\epsilon_{t-1} - \theta) \pd{h_{t-1}}{\theta}
+  \right]\\
+  \pd{h_t}{a} &=& \pd{h_{t-1}}{a} \left[
+    \beta_1 - \beta_2 \theta (\epsilon_{t-1} - \theta)
+  \right] \\
+  \pd{h_t}{b} &=& \pd{h_{t-1}}{b} \left[
+    \beta_1 - \beta_2 \theta (\epsilon_{t-1} - \theta)
+  \right] \\
+\end{eqnarray*}
+
+\subsection{The Fisher Information Matrix}
+Now we find the Fisher information matrix.
+\begin{enumerate}
+
+\item ${\partial^2 \ln f_X(x_t)  \over  \partial \alpha_0^2}$
+  \begin{eqnarray*}
+    {\partial^2 \ln f_X(x_t) \over \partial \alpha_0^2} &=&
+    {\partial^2 \ln f_X(x_t) \over \partial h_t^2} \\
+    &=& {1 \over 4}{\mu\sigma x_t h_t^{-3/2} [
+      (2\mu\sqrt{h_t} + \sigma x_t)^2 + (5 + \mu^2)h_t
+      ] + 2(1 + \mu^2)^2
+      \over
+      \left[(1 + \mu^2)h_t  +2\mu\sigma x_t \sqrt{h_t} + \sigma^2 x_t^2\right]^2
+    }
+  \end{eqnarray*}
+
+\item ${\partial^2 \ln f_X(x_t)  \over  \partial \alpha_0 \partial \beta_1}$
+  \begin{eqnarray*}
+    {\partial^2 \ln f_X(x_t) \over \partial\alpha_0 \partial \beta_1} &=&
+    {\partial^2 \ln f_X(x_t) \over \partial h_t^2} {\partial h_t \over \partial \beta_1}
+  \end{eqnarray*}
+
+\item ${\partial^2 \ln f_X(x_t)  \over  \partial \alpha_0 \partial \beta_2}$
+
+  \begin{eqnarray*}
+    {\partial^2 \ln f_X(x_t) \over \partial\alpha_0 \partial \beta_2}
+    &=&
+    \ab {\partial h_t \over \partial \beta_2} \\
+  \end{eqnarray*}
+
+\item ${\partial^2 \ln f_X(x_t)  \over  \partial \alpha_0 \partial \theta}$
+  \begin{eqnarray*}
+    {\partial^2 \ln f_X(x_t) \over \partial\alpha_0 \partial \theta}
+    &=&
+    \ab {\partial h_t \over \partial \theta}
+  \end{eqnarray*}
+
+\item ${\partial^2 \ln f_X(x_t)  \over  \partial \alpha_0 \partial a}$
+  \begin{eqnarray*}
+    {\partial^2 \ln f_X(x_t) \over \partial \alpha_0 \partial a} &=&
+    {\partial^2 \ln f_X(x_t) \over \partial h_t^2}
+    \pd{h_t}{a}
+    + \pdd{\ln f_X(x_t)}{h_t}{\mu} \pd{\mu}{a}
+    + \pdd{\ln f_X(x_t)}{h_t}{\sigma} \pd{\sigma}{a}\\
+  \end{eqnarray*}
+  where
+  \begin{eqnarray*}
+    \pdd{\ln f_X(x_t)}{h_t}{\mu} &=&
+    -{1 \over 2} {2\mu + \sigma x_t / \sqrt{h_t} \over
+      (1 + \mu^2) h_t + 2\mu \sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+    } \\
+    &&
+    + {\mu(1 + \mu^2) h_t +
+      (1 + 2\mu^2) \sigma x_t \sqrt{h_t} +
+      \mu\sigma^2x_t^2
+      \over
+      \left[
+        (1 + \mu^2) h_t + 2\mu \sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+      \right]^2
+    }
+  \end{eqnarray*}
+
+  \begin{eqnarray*}
+    \pdd{\ln f_X(x_t)}{h_t}{\sigma} &=&
+    -{1 \over 2} {\mu x_t / \sqrt{h_t}  \over
+      (1 + \mu^2) h_t + 2\mu \sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+    } \\
+    &&
+    + {
+      (1 + 2\mu^2)\sigma x_t^2 + \mu\sigma^2 x_t^3 / \sqrt{h_t}
+      \over
+      \left[
+        (1 + \mu^2) h_t + 2\mu \sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+      \right]^2
+    }
+  \end{eqnarray*}
+
+\item $\pdd{\ln f_X(x_t)}{\alpha_0}{b}$
+  \begin{equation*}
+    {\partial^2 \ln f_X(x_t) \over \partial \alpha_0 \partial b} =
+    {\partial^2 \ln f_X(x_t) \over \partial \alpha_0 \partial a}
+    \text{ with } {\partial \over \partial a} \to {\partial \over \partial b}
+  \end{equation*}
+
+\item $\partial^2 \ln f_X(x_t) \over \partial \beta_1^2$
+  \begin{eqnarray*}
+    {\partial^2 \ln f_X(x_t) \over \partial \beta_1^2} &=&
+    {\partial^2 \ln f_X(x_t) \over \partial h_t^2} \left(
+      {\partial h_t \over \partial \beta_1}
+    \right)^2 + {\partial \ln f_X(x_t) \over \partial h_t}
+    {\partial^2 h_t \over \partial \beta_1^2}
+  \end{eqnarray*}
+  where
+  \begin{equation*}
+    {\partial^2 h_t \over \partial \beta_1^2} =
+    {\partial h_{t-1} \over \partial \beta_1}
+    + \beta_1 {\partial^2 h_{t-1} \over \partial \beta_1^2}
+    + {\partial h_{t-1} \over \partial \beta_1}
+  \end{equation*}
+
+\item $\partial^2 \ln f_X(x_t) \over \partial \beta_1 \partial \beta_2$
+  \begin{eqnarray*}
+    {\partial^2 \ln f_X(x_t) \over \partial \beta_1 \partial \beta_2}
+    &=&
+    {\partial^2 \ln f_X(x_t) \over \partial h_t^2}
+    {\partial h_t \over \partial \beta_1}
+    {\partial h_t \over \partial \beta_2}
+    +
+    {\partial \ln f_X(x_t) \over \partial h_t}
+    {\partial^2 h_t \over \partial \beta_1 \partial \beta_2}
+  \end{eqnarray*}
+  where
+  \begin{equation*}
+    {\partial^2 h_t \over \partial \beta_1 \partial \beta_2} =
+    {\partial h_{t-1} \over \partial \beta_2} +
+    \beta_1 {\partial^2 h_{t-1} \over \partial \beta_1 \partial \beta_2}
+  \end{equation*}
+
+\item $\partial^2 \ln f_X(x_t) \over \partial \beta_1 \partial \theta$
+  \begin{eqnarray*}
+    {\partial^2 \ln f_X(x_t) \over \partial \beta_1 \partial \theta}
+    &=&
+    {\partial^2 \ln f_X(x_t) \over \partial h_t^2}
+    {\partial h_t \over \partial \beta_1}
+    {\partial h_t \over \partial \theta}
+    +
+    {\partial \ln f_X(x_t) \over \partial h_t}
+    {\partial^2 h_t \over \partial \beta_1 \partial \theta}
+  \end{eqnarray*}
+  where
+  \begin{equation*}
+    {\partial^2 h_t \over \partial \beta_1 \partial \theta} =
+    {\partial h_{t-1} \over \partial \theta} +
+    \beta_1 {\partial^2 h_{t-1} \over \partial \beta_1 \partial \theta}
+  \end{equation*}
+
+\item $\pdd{\ln f_X(x_t)}{\beta_1}{a}$
+  \begin{eqnarray*}
+    \pdd{\ln f_X(x_t)}{\beta_1}{a}
+    &=&
+    \left(
+      \ppd{\ln f_X(x_t)}{h_t} \pd{h_t}{a}
+      + \pdd{\ln f_X(x_t)}{h_t}{\mu} \pd{\mu}{a}
+      + \pdd{\ln f_X(x_t)}{h_t}{\sigma} \pd{\sigma}{a}
+    \right) \pd{h_t}{\beta_1} \\
+    &&
+    + \pd{\ln f_X(x_t)}{h_t}
+    \pdd{h_t}{\beta_1}{a}
+  \end{eqnarray*}
+  where
+  \begin{equation*}
+    {\partial^2 h_t \over \partial \beta_1 \partial a} =
+    {\partial h_{t-1} \over \partial a} +
+    \beta_1 {\partial^2 h_{t-1} \over \partial \beta_1 \partial a}
+  \end{equation*}
+
+\item $\pdd{\ln f_X(x_t)}{\beta_1}{b}$
+  \begin{equation*}
+    \pdd{\ln f_X(x_t)}{\beta_1}{b} =
+    \pdd{\ln f_X(x_t)}{\beta_1}{a} \text{ with }
+    \opd{a} \to \opd{b}
+  \end{equation*}
+
+\item $\partial^2 \ln f_X(x_t) \over \partial \beta_2^2$
+  \begin{eqnarray*}
+    {\partial^2 \ln f_X(x_t) \over \partial \beta_2^2} &=&
+    {\partial^2 \ln f_X(x_t) \over \partial h_t^2} \left(
+      \partial h_t \over \partial \beta_2
+    \right)^2  + {\partial \ln f_X(x_t) \over \partial h_t}
+    {\partial^2 h_t \over \partial \beta_2^2}
+  \end{eqnarray*}
+  where
+  \begin{eqnarray*}
+    {\partial^2 h_t \over \partial \beta_2^2} &=&
+    (x_{t-1}/\sqrt{h_{t-1}} - \theta)\left[
+      -x_{t-1} h_{t-1}^{-3/2} \beta_2
+      \left({\partial h_{t-1} \over \partial \beta_2}\right)^2
+      - x_{t-1} h_{t-1}^{-1/2}
+      {\partial h_{t-1} \over \partial \beta_2} \right.\\
+    &&
+    + \left.(x_{t-1} / \sqrt{h_{t-1}} - \theta) \left(
+        \beta_2 {\partial^2 h_{t-1} \over \partial \beta_2^2}
+        + 2 {\partial h_{t-1} \over \partial \beta_2}
+      \right)
+    \right]
+  \end{eqnarray*}
+
+\item $\partial^2 \ln f_X(x_t) \over \partial \beta_2 \partial \theta$
+  \begin{equation*}
+    {\partial^2 \ln f_X(x_t) \over \partial \beta_2 \partial \theta} =
+    {\partial^2 \ln f_X(x_t) \over \partial h_t^2}
+    {\partial h_t \over \partial \beta_2}
+    {\partial h_t \over \partial \theta}
+    +
+    {\partial \ln f_X(x_t) \over \partial h_t}
+    {\partial h_t \over \partial \beta_2 \partial \theta}
+  \end{equation*}
+  where
+  \begin{eqnarray*}
+    {\partial^2 h_t \over \partial \beta_2 \partial \theta} &=&
+    (x_{t-1}/\sqrt{h_{t-1}} - \theta) \left[
+      (x_{t-1}/\sqrt{h_{t-1}} - \theta) \beta_2
+      \pdd{h_{t-1}}{\beta_2}{\theta} \right.\\
+    && -x_{t-1} \beta_2 h_{t-1}^{-3/2} \pd{h_{t-1}}{\beta_2}
+    \pd{h_{t-1}}{\theta} \\
+    && \left.-\theta \pd{h_{t-1}}{\theta} -2\beta_2
+      \pd{h_{t-1}}{\beta_2} -2h_{t-1} \right]
+  \end{eqnarray*}
+
+\item $\pdd{\ln f_X(x_t)}{\beta_2}{a}$
+  \begin{eqnarray*}
+    \pdd{\ln f_X(x_t)}{\beta_2}{a} &=&
+    \pd{h_t}{\beta_2} \left(
+      \ppd{\ln f_X(x_t)}{h_t} \pd{h_t}{a}
+      + \pdd{\ln f_X(x_t)}{h_t}{\mu} \pd{\mu}{a}
+      + \pdd{\ln f_X(x_t)}{h_t}{\sigma} \pd{\sigma}{a}
+    \right) \\
+    &&
+    + \pd{\ln f_X(x_t)}{h_t}\pdd{h_t}{\beta_2}{a}
+  \end{eqnarray*}
+  where
+  \begin{eqnarray*}
+    \pdd{h_t}{\beta_2}{a} &=&
+    (x_{t-1}/\sqrt{h_{t-1}} - \theta) \left[
+      -x_{t-1} h_{t-1}^{-3/2} \pd{h_{t-1}}{a} \left(
+        h_{t-1} + \beta_2 \pd{h_{t-1}}{\beta_2} \right) \right.\\
+    && +\left. (x_{t-1}/\sqrt{h_{t-1}} - \theta) \left(
+        \pd{h_{t-1}}{a} + \beta_2 \pdd{h_{t-1}}{\beta_2}{a}
+      \right) \right]
+  \end{eqnarray*}
+
+\item $\pdd{\ln f_X(x_t)}{\beta_2}{b}$
+  \begin{eqnarray*}
+    \pdd{\ln f_X(x_t)}{\beta_2}{b} &=& \pdd{\ln f_X(x_t)}{\beta_2}{a}
+    \text{ with } \opd{a} \to \opd{b}
+  \end{eqnarray*}
+
+\item $\ppd{\ln f_X(x_t)}{\theta}$
+  \begin{eqnarray*}
+    \ppd{\ln f_X(x_t)}{\theta} &=&
+    \ppd{\ln f_X(x_t)}{h_t} \left(\pd{h_t}{\theta}\right)^2
+    + \pd{\ln f_X(x_t)}{h_t} \ppd{h_t}{\theta}
+  \end{eqnarray*}
+  where
+  \begin{eqnarray*}
+    \ppd{h_t}{\theta} &=&
+    -\beta_2 x_{t-1} h_{t-1}^{-3/2}
+    (x_{t-1} / \sqrt{h_{t-1}} - \theta)
+    \left(
+      \pd{h_{t-1}}{\theta}
+    \right)^2 \\
+    && + \left(
+      4\beta_2\theta - 3\beta_2 x_{t-1}/\sqrt{h_{t-1}}
+    \right) \pd{h_{t-1}}{\theta} \\
+    &&
+    + 2\beta_2 h_{t-1}
+    + \beta_2 (x_{t-1} / \sqrt{h_{t-1}} - \theta)^2
+    \ppd{h_{t-1}}{\theta}
+  \end{eqnarray*}
+
+\item $\pdd{\ln f_X(x_t)}{\theta}{a}$
+  \begin{eqnarray*}
+    \pdd{\ln f_X(x_t)}{\theta}{a} &=&
+    \pd{h_t}{\theta} \left(
+      \ppd{\ln f_X(x_t)}{h_t} \pd{h_t}{a}
+      + \pdd{\ln f_X(x_t)}{h_t}{\mu} \pd{\mu}{a}
+      + \pdd{\ln f_X(x_t)}{h_t}{\sigma} \pd{\sigma}{a}
+    \right) \\
+    &&
+    + \pd{\ln f_X(x_t)}{h_t}\pdd{h_t}{\theta}{a}
+  \end{eqnarray*}
+  where
+  \begin{eqnarray*}
+    \pdd{h_t}{\theta}{a} &=&
+    \beta_2(x_{t-1}/\sqrt{h_{t-1}} - \theta) \left[
+      (x_{t-1}/\sqrt{h_{t-1}} - \theta) \pdd{h_{t-1}}{\theta}{a} -
+      x_{t-1} h_{t-1}^{-3/2} \pd{h_{t-1}}{\theta} \pd{h_{t-1}}{a} \right] \\
+    && -2 \beta_2 (x_{t-1}/\sqrt{h_{t-1}} - \theta) \pd{h_{t-1}}{a}
+  \end{eqnarray*}
+
+\item $\pdd{\ln f_X(x_t)}{\theta}{b}$
+  \begin{equation*}
+    \pdd{\ln f_X(x_t)}{\theta}{b} = \pdd{\ln f_X(x_t)}{\theta}{a}
+    \text{ with } \opd{a} \to \opd{b}
+  \end{equation*}
+
+\item $\ppd{\ln f_X(x_t)}{a}$
+
+  $\pd{\ln f_X(x_t)}{a}$ has the following structure
+  \begin{equation*}
+    \pd{\ln f_X(x_t)}{a} = {1 \over \sigma}\pd{\sigma}{a}
+    -{1 \over 2} AB - C \pd{C}{a}
+  \end{equation*}
+  where
+  \begin{equation*}
+    A = { 1
+      \over
+      (1 + \mu^2)h_t  +2\mu\sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+    }
+  \end{equation*}
+
+  \begin{eqnarray*}
+    B &=& \pd{\mu}{a}(2\mu h_t + 2\sigma x_t \sqrt{h_t})\\
+    && + \pd{h_t}{a} \left[
+      (1 + \mu^2) + \mu\sigma x_t / \sqrt{h_t}
+    \right] \\
+    && + \pd{\sigma}{a}
+    (2\mu x_t \sqrt{h_t} + 2\sigma x_t^2)
+  \end{eqnarray*}
+
+  \begin{eqnarray*}
+    C &=& a + b\arcsinh(\sigma x_t / \sqrt{h_t} + \mu)
+  \end{eqnarray*}
+  Thus
+  \begin{eqnarray*}
+    \ppd{\ln f_X(x_t)}{a} &=&
+    -{1 \over \sigma^2} \left(\pd{\sigma}{a}\right)^2
+    + {1 \over \sigma} \ppd{\sigma}{a}
+    -{1 \over 2} \left(\pd{A}{a} B + A \pd{B}{a} \right)
+    - \left( \pd{C}{a} \right)^2
+    - C \ppd{C}{a}
+  \end{eqnarray*}
+  $\pd{A}{a}, \pd{B}{a}, \ppd{C}{a}$ are yet to be found.
+
+  \begin{eqnarray*}
+    \pd{A}{a} &=& - \left[
+      2\mu h_t \pd{\mu}{a} + (1 + \mu^2) \pd{h_t}{a} \right.\\
+    && \left.
+      + 2\left(
+        \pd{\mu}{a} \sigma x_t \sqrt{h_t} +
+        \mu \pd{\sigma}{a} x_t \sqrt{h_t} +
+        +{1 \over 2} \mu\sigma x_t h_t^{-1/2} \pd{h_t}{a}
+      \right) +2 \sigma x_t^2 \pd{\sigma}{a} \right] \times \\
+    && {1 \over
+      \left[
+        (1 + \mu^2)h_t  +2\mu\sigma x_t \sqrt{h_t} + \sigma^2 x_t^2
+      \right]^2}
+  \end{eqnarray*}
+
+  \begin{eqnarray*}
+    \pd{B}{a} &=&
+    \ppd{\mu}{a} \left(
+      2 \mu h_t + 2 \sigma x_t \sqrt{h_t}
+    \right) +\ppd{h_t}{a} \left[
+      (1 + \mu^2) + \mu \sigma x_t / \sqrt{h_t}
+    \right] +\ppd{\sigma}{a} \left(
+      2 \mu x_t \sqrt{h_t} + 2 \sigma x_t^2
+    \right) \\
+    &&
+    +\pd{\mu}{a} \pd{h_t}{a} \left(
+      4 \mu + 2 \sigma x_t / \sqrt{h_t}
+    \right) +\pd{\mu}{a} \pd{\sigma}{a} \cdot 4 x_t \sqrt{h_t}
+    +\pd{h_t}{a} \pd{\sigma}{a} \cdot 2 \mu x_t / \sqrt{h_t} \\
+    && +\left(\pd{\mu}{a} \right)^2 \cdot 2 h_t
+    - {1 \over 2} \mu \sigma x_t h_t^{-3/2} \left( \pd{h_t}{a} \right)^2
+    + 2 x_t^2 \left( \pd{\sigma}{a} \right)^2
+  \end{eqnarray*}
+
+  \begin{eqnarray*}
+    \ppd{C}{a} &=& b \left(
+      {1 \over C_2}\pd{C_1}{a} - {C_1 \over C_2^2} \pd{C_2}{a}
+    \right)
+  \end{eqnarray*}
+  where
+  \begin{equation*}
+    C_1 = \partial_a \mu + x_t
+    (2h_t\partial_a\sigma - \sigma\partial_ah_t) / 2h_t^{3/2}
+  \end{equation*}
+  and
+  \begin{equation*}
+    C_2 = \sqrt{1 + (\sigma x_t / \sqrt{h_t} + \mu)^2}
+  \end{equation*}
+
+  Then we have
+  \begin{align*}
+    \pd{C_1}{a} &= \ppd{\mu}{a} + {x_t \over 2}\left[
+      -2 h_t^{-3/2} \pd{h_t}{a}\pd{\sigma}{a} + 2h_t^{-1/2}
+      \ppd{\sigma}{a} + {3 \over 2} \sigma h_t^{-5/2} \left(
+        \pd{h_t}{a} \right)^2 - \sigma h_t^{-3/2} \ppd{h_t}{a}
+    \right]
+  \end{align*}
+
+  \begin{align*}
+    \pd{C_2}{a} &= \left[1 + (\sigma x_t / \sqrt{h_t} +
+      \mu)^2\right]^{-1/2}
+    (\sigma x_t / \sqrt{h_t} + \mu) \left[ x_t \left(
+        {1 \over \sqrt{h_t}} \pd{\sigma}{a}
+        -{1 \over 2} \sigma h_t^{-3/2} \pd{h_t}{a} \right) + \pd{\mu}{a}
+    \right]
+  \end{align*}
+
+  where
+  \begin{eqnarray*}
+    \ppd{h_t}{a} &=&
+    \ppd{h_{t-1}}{a} \left[
+      \beta_1 - \beta_2 \theta (x_{t-1}/\sqrt{h_{t-1}} - \theta)
+    \right] + {1 \over 2} \beta_2 \theta x_{t-1} h_{t-1}^{-3/2}
+    \left( \pd{h_{t-1}}{a} \right)^2
+  \end{eqnarray*}
+  
+
+\item $\pdd{\ln f_X(x_t)}{a}{b}$
+
+  With A, B, C defined as before, we have
+  \begin{align*}
+    \pdd{\ln f_X(x_t)}{a}{b} &=
+    - {1 \over \sigma^2} \pd{\sigma}{a}\pd{\sigma}{b}
+    + {1 \over \sigma} \pdd{\sigma}{a}{b}
+    - {1 \over 2} \left(
+      \pd{A}{b}B + A\pd{B}{b}
+    \right)
+    - \pd{C}{a} \pd{C}{b}
+    - C\pdd{C}{a}{b}
+  \end{align*}
+
+  $\pd{A}{b}, \pd{B}{b}, \pd{C}{b}$ and $\pdd{C}{a}{b}$ are yet to be
+  found.
+  \begin{eqnarray*}
+    \pd{A}{b} &=& -A^2\left[
+      2\mu \pd{\mu}{b} h_t + (1 + \mu^2) \pd{h_t}{b}
+      + 2x_t \left(
+        \pd{\mu}{b} \sigma \sqrt{h_t}
+        + \mu \pd{\sigma}{b} \sqrt{h_t}
+        + {1 \over 2} h_t^{-1/2} \mu\sigma \sqrt{h_t}
+      \right) \right.\\
+    &&
+    \left. + 2 \sigma \pd{\sigma}{b} x_t^2
+    \right]
+  \end{eqnarray*}
+
+  \begin{eqnarray*}
+    \pd{B}{b} &=&
+    \pd{\mu}{a} \left[
+      2\pd{\mu}{b}h_t + 2\mu \pd{h_t}{b} + 2x_t\left(
+        \pd{\sigma}{b} \sqrt{h_t} + {1 \over 2} \sigma h_t^{-1/2} \pd{h_t}{b}
+      \right)
+    \right] \\
+    && + \pd{h_t}{a} \left[
+      2\mu\pd{\mu}{b} + x_t \pd{\mu}{b} \sigma h_t^{-1/2} + x_t \mu
+      \pd{\sigma}{b} h_t^{-1/2} -{1 \over 2} x_t \mu \sigma h_t^{-3/2} \pd{h_t}{b}
+    \right] \\
+    && + \pd{\sigma}{a} \left[
+      2x_t\pd{\mu}{b} \sqrt{h_t} + x_t\mu h_t^{-1/2} \pd{h_t}{b} +
+      2 x_t^2 \pd{\sigma}{b}
+    \right] \\
+    && + \pdd{\mu}{a}{b}(2\mu h_t + 2\sigma x_t \sqrt{h_t})
+    + \pdd{h_t}{a}{b} \left[
+      (1 + \mu^2) + \mu\sigma x_t / \sqrt{h_t}
+    \right] \\
+    && + \pdd{\sigma}{a}{b} (2\mu x_t \sqrt{h_t} + 2\sigma x_t^2)
+  \end{eqnarray*}
+
+  \begin{eqnarray*}
+    \pd{C}{b} &=& \arcsinh(\sigma x_t / \sqrt{h_t} + \mu) + b \left[
+      x_t \opd{b} {\sigma \over \sqrt{h_t}} + \pd{\mu}{b}
+    \right] \left[
+      1 + (\sigma x_t / \sqrt{h_t} + \mu)^2
+    \right]^{-1/2}
+  \end{eqnarray*}
+  where
+  \begin{equation*}
+    \opd{b} {\sigma \over \sqrt{h_t}} = h_t^{-1/2} \left(
+      \pd{\sigma}{b} - {1 \over 2} {\sigma \over h_t} \pd{h_t}{b}
+    \right)
+  \end{equation*}
+
+  \begin{eqnarray*}
+    \pdd{C}{a}{b} &=& \left(
+      \pd{\mu}{a} + x_t \opd{a} {\sigma \over \sqrt{h_t}}
+    \right) \left[ 1 + (x_t {\sigma \over \sqrt{h_t}} + \mu)^2 \right]^{-1/2} \\
+    &&
+    + b \left[
+      \pdd{\mu}{a}{b} + x_t \opdd{a}{b} {\sigma \over \sqrt{h_t}}
+    \right] \left[ 1 + (x_t {\sigma \over \sqrt{h_t}} + \mu)^2 \right]^{-1/2} \\
+    &&
+    - b \left( \pd{\mu}{a} + x_t \opd{a} {\sigma \over \sqrt{h_t}}
+    \right) \left( \pd{\mu}{b} + x_t \opd{b} {\sigma \over \sqrt{h_t}}
+    \right)  \times \\
+    &&
+    \left[ 1 + (x_t {\sigma \over \sqrt{h_t}} + \mu)^2 \right]^{-3/2}
+    \left( x_t {\sigma \over \sqrt{h_t}} + \mu \right) 
+  \end{eqnarray*}
+  where
+  \begin{eqnarray*}
+    \opd{a} {\sigma \over \sqrt{h_t}} &=& h_t^{-1/2} \left(
+      \pd{\sigma}{a} - {1 \over 2}{\sigma \over h_t}\pd{h_t}{a}
+    \right) \\
+    \opd{b} {\sigma \over \sqrt{h_t}} &=& h_t^{-1/2} \left(
+      \pd{\sigma}{b} - {1 \over 2}{\sigma \over h_t}\pd{h_t}{b}
+    \right) \\
+    \opdd{a}{b} {\sigma \over \sqrt{h_t}} &=& -{1 \over 2}h_t^{-3/2} \pd{h_t}{a} \left(
+      \pd{\sigma}{b} - {1 \over 2}{\sigma \over h_t}\pd{h_t}{b}
+    \right) \\
+    && + h_t^{-1/2} \left[
+      \pdd{\sigma}{a}{b} - {1 \over 2} \pd{h_t}{b} \left(
+        {1 \over h_t} \pd{\sigma}{a} - {\sigma \over h_t^2} \pd{h_t}{a}
+        \right) - {1 \over 2} {\sigma \over h_t} \pdd{h_t}{a}{b}
+    \right]
+  \end{eqnarray*}
+
+  $\pdd{h_t}{a}{b}$ in the above is found to be
+  \begin{eqnarray*}
+    \pdd{h_t}{a}{b} &=&
+    \pdd{h_{t-1}}{a}{b} \left[
+      \beta_1 - \beta_2 \theta (x_{t-1}/\sqrt{h_{t-1}} - \theta)
+    \right] + {1 \over 2} \beta_2 \theta x_{t-1} h_{t-1}^{-3/2}
+    \pd{h_{t-1}}{a} \pd{h_{t-1}}{b}
+  \end{eqnarray*}
+
+\item $\ppd{\ln f_X(x_t)}{b}$
+
+  Similar to $\ppd{\ln f_X(x_t)}{a}$, $\ppd{\ln f_X(x_t)}{b}$ has the
+  structure
+  \begin{equation*}
+    \pd{\ln f_X(x_t)}{b} = {1 \over \sigma}\pd{\sigma}{b} + {1 \over b}
+    -{1 \over 2} AB - C \pd{C}{b}
+  \end{equation*}
+  Thus
+  \begin{eqnarray*}
+    \ppd{\ln f_X(x_t)}{b} &=& -{1 \over \sigma^2} \left(
+      \pd{\sigma}{b} \right)^2 + {1 \over \sigma} \ppd{\sigma}{b}
+    -{1 \over 2} \left(
+      \pd{A}{b} B + A \pd{B}{b}
+    \right) - \left( \pd{C}{b} \right)^2 - C \ppd{C}{b}
+  \end{eqnarray*}
+  $\ppd{C}{b}$ is yet to be found.
+  \begin{eqnarray*}
+    \ppd{C}{b} &=&
+    2 \left(
+      \pd{\mu}{b} + x_t \opd{b} {\sigma \over \sqrt{h_t}}
+    \right) \left[
+      1 + (x_t {\sigma \over \sqrt{h_t}} + \mu)^2
+    \right]^{-1/2} \\
+    &&
+    + b \left(
+      \ppd{\mu}{b} + x_t \oppd{b} {\sigma \over \sqrt{h_t}}
+    \right) \left[
+      1 + (x_t {\sigma \over \sqrt{h_t}} + \mu)^2
+    \right]^{-1/2} \\
+    &&
+    + b \left( \pd{\mu}{b} + x_t \opd{b} {\sigma \over \sqrt{h_t}} \right)^2
+    \left[ 1 + (x_t {\sigma \over \sqrt{h_t}} + \mu)^2 \right]^{-3/2}
+    (x_t {\sigma \over \sqrt{h_t}} + \mu)
+  \end{eqnarray*}
+  where
+  \begin{eqnarray*}
+    \oppd{b} {\sigma \over \sqrt{h_t}} &=& -{1 \over 2}h_t^{-3/2} \pd{h_t}{b} \left(
+      \pd{\sigma}{b} - {1 \over 2}{\sigma \over h_t}\pd{h_t}{b}
+    \right) \\
+    && + h_t^{-1/2} \left[
+      \ppd{\sigma}{b} - {1 \over 2} \pd{h_t}{b} \left(
+        {1 \over h_t} \pd{\sigma}{b} - {\sigma \over h_t^2} \pd{h_t}{b}
+        \right) - {1 \over 2} {\sigma \over h_t} \ppd{h_t}{b}
+    \right]
+  \end{eqnarray*}
+  $\ppd{h_t}{b}$ in the above is
+  \begin{eqnarray*}
+    \ppd{h_t}{b} &=&
+    \ppd{h_{t-1}}{b} \left[
+      \beta_1 - \beta_2 \theta (x_{t-1}/\sqrt{h_{t-1}} - \theta)
+    \right] + {1 \over 2} \beta_2 \theta x_{t-1} h_{t-1}^{-3/2}
+    \pd{h_{t-1}}{b} \pd{h_{t-1}}{b}
+  \end{eqnarray*}
+\end{enumerate}
+
+\subsection{Initial Estimate \& Volatility Proxy}
+Before one can numerically evaluate $\nabla L$ and $J$, the Fisher
+information matrix, one needs in addition an initial estimate of the
+parameters $(\alpha, \beta_1, \beta_2, \theta, a, b)$ as well as
+the realized $\{h_t\}$. Being themselves unobservable, the $\{h_t\}$
+have to be substituted by their proxies. The most well accepted
+volatility proxy for daily returns is arguably the squared
+close-to-close returns, although other methods using intraday data
+have been proposed \cite{Vilder2007}.
+
+Given a series of daily returns $\{x_t\}$, one can then square them to
+function as proxies of $\{h_t\}$. Fitting $\{h_t\}$ to
+\[
+  h_t = \alpha_0 + \beta_1 h_{t-1} + \beta_2 h_{t-1}(\epsilon_{t-1}
+  - \theta)^2
+\]
+in the sense of least square error yields an estimate of $(\alpha_0,
+\beta_1, \beta_2, \theta)$.
+
+Moreover, fitting $\{x_t/\sqrt{h_t}\}$ to
+\[
+x_t/\sqrt{h_t} = {\sinh[(z - a)/b] - \mu \over \sigma}
+\]
+yields an estimate of $a$ and $b$.
+\subsection{Results of Parameter Estimation}
+The results of parameter estimation are presented below:
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_10min_ret_2012-01-16-2012-03-15_autocorr.pdf}
+    \label{fig:NordeaAutocorr1}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_10min_ret_2012-03-16-2012-04-20_autocorr.pdf}
+    \label{fig:NordeaAutocorr2}
+  }
+  \subfigure[Nordea 20min acf. 1,290,119 returns]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_20min_ret_2012-01-16-2012-03-15_autocorr.pdf}
+    \label{fig:NordeaAutocorr3}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_20min_ret_2012-03-16-2012-04-20_autocorr.pdf}
+    \label{fig:NordeaAutocorr4}
+  }
+  \subfigure[Nordea 30min acf. 1,327,355 returns]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_30min_ret_2012-01-16-2012-03-15_autocorr.pdf}
+    \label{fig:NordeaAutocorr5}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.32, clip=true, trim=72 210 72 175]{../pics/Nordea_Bank_30min_ret_2012-03-16-2012-04-20_autocorr.pdf}
+    \label{fig:NordeaAutocorr6}
+  }
+  \caption{Nordea auto-correlations}
+  \label{fig:Nordea-autocorr}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[ABB prices 2012/01/25 - 2012/02/28]{
+    \includegraphics[scale=0.3]{../pics/ABB_Ltd_price_20120806-20120828.png}
+    \label{fig:ABBprice}
+  }
+  \subfigure[H\&M Prices 2012/06/15 - 2012/07/18]{
+    \includegraphics[scale=0.3]{../pics/HM_price_20120604-20120803.png}
+    \label{fig:HMprice}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.3]{../pics/ABB_Ltd_10min_ret_20120806-20120828.png}
+    \label{fig:ABB1}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.3]{../pics/HM_10min_ret_20120604-20120803.png}
+    \label{fig:HM1}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.3]{../pics/ABB_Ltd_20min_ret_20120806-20120828.png}
+    \label{fig:ABB2}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.3]{../pics/HM_20min_ret_20120604-20120803.png}
+    \label{fig:HM2}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.3]{../pics/ABB_Ltd_30min_ret_20120806-20120828.png}
+    \label{fig:ABB3}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.3]{../pics/HM_30min_ret_20120604-20120803.png}
+    \label{fig:HM3}
+  }
+  \caption{ABB/H\&M prices and returns on the left/right}
+  \label{fig:ABB-HM}
+\end{figure}
+
+% \chapter{price models}
+% Paul Glasserman and Kyoung-Kuk Kim showed that affine models have
+% limiting unconditional distributions and the tail behavior of these
+% distributions is always exponential or Gaussian. Hence affine models
+% cannot produce heavy-tailed (power-law tail) distributions or
+% non-Gaussian light-tailed distributions
+% \cite[p.~3]{GlassermanKim2008}.
+
+% The Heston model is given by
+% \begin{eqnarray*}
+%   dx &=& x (\mu dt + \sigma dw) \\
+%   dv &=& -\gamma(v - \mean{v}) + \kappa \sqrt{v} dw'
+% \end{eqnarray*}
+
+\bibliographystyle{plain}
+\bibliography{econophysics}
+\end{document}
+
+

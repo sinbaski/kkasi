@@ -1,0 +1,127 @@
+\message{ !name(draft4.tex)}\documentclass{article}
+\usepackage{amssymb,amsmath,amsthm,bm}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{bookmark}
+
+\input{../physics_common.tex}
+\DeclareGraphicsExtensions{.eps, .pdf}
+
+\begin{document}
+
+\message{ !name(draft4.tex) !offset(-3) }
+
+\section{effect of heteroscedasticity in covariance matrix}
+Consider a covariance matrix constructed as
+$$
+C_{ij} = {1 \over T}\sum_{t=1}^T r_{it} r_{jt}
+$$
+where $1 \leq i \leq N$. Adopt a stochastic volatility model for
+$r_{it}$, i.e.
+$$
+r_{it} = \sigma_{it} \eta_{it}
+$$
+We can write
+\begin{eqnarray*}
+C_{ij} &=& {1 \over T}\sum_{t=1}^T \sigma_{it} \eta_{it} \sigma_{jt}
+\eta_{jt} \\
+\bm{C} &=& {1 \over T} (\bm{\sigma * \eta}) (\bm{\sigma * \eta})'
+\end{eqnarray*}
+where the matrices $\bm{\sigma}$ and $\bm{\eta}$ have elements
+$\sigma_{it}$ and $\eta_{it}$ respectively, and * denotes element-wise
+multiplication. Due to the cyclic property of matrix trace, the
+moment generating function of $\bm{C}$, $M_C(z)$, relates to $M_D(z)$,
+the moment generating function of $\bm D$
+\begin{eqnarray*}
+  \bm{D} &=& {1 \over T} (\bm{\sigma * \eta})' (\bm{\sigma * \eta})
+\end{eqnarray*}
+through the equation
+\begin{eqnarray*}
+  M_C(z) &=& {1 \over q} M_D(z)
+\end{eqnarray*}
+where $q = N/T$. For later convenience, we make use of $T \times T$
+matrices $\bm{\tilde{\sigma}}$ and $\bm{\tilde{\eta}}$, as well as a
+projector
+$$
+\bm{P} = \text{diag}(\underbrace{1, \cdots, 1}_{\text{N 1's}}, 
+\underbrace{0, \cdots, 0}_{\text{T-N 0's}})
+$$
+The first N rows of $\bm{\tilde{\sigma}}$ and $\bm{\tilde{\eta}}$ are
+precisely those of $\bm{\sigma}$ and $\bm{\eta}$. This way, we have
+\begin{eqnarray*}
+\bm D &=& {1 \over T} (\bm{\sigma * \eta})' (\bm{\sigma * \eta}) \\
+&=& {1 \over T} (\bm{\tilde{\sigma} * \tilde{\eta}})' \bm P'
+\bm P (\bm{\tilde{\sigma} * \tilde{\eta}}) \\
+&=& {1 \over T} (\bm{\tilde{\sigma} * \tilde{\eta}})'
+\bm P (\bm{\tilde{\sigma} * \tilde{\eta}}) \\
+\end{eqnarray*}
+Again, by the cyclic property of matrix trace, the spectral properties
+of the RHS of the last equation is equivalent to those of
+\begin{eqnarray*}
+  \bm E &=& {1 \over T} (\bm{\tilde{\sigma} * \tilde{\eta}}) (\bm{\tilde{\sigma}
+    * \tilde{\eta}})' \bm P \\
+\end{eqnarray*}
+In the simple situation where $\sigma_{it} =
+\sigma_{jt} = \sigma_t$ for some $\sigma_t$ and for all $i, j, t$,
+\begin{eqnarray*}
+  \bm{\tilde \sigma * \tilde \eta} &=& \bm{\tilde \eta}
+  \begin{pmatrix}
+    \sigma_1 &        & \\
+        & \ddots & \\
+        &        & \sigma_T
+  \end{pmatrix} \\
+  &=& \bm{\tilde \eta \bar \sigma}
+\end{eqnarray*}
+Thus
+\begin{eqnarray*}
+  \bm E &=& {1 \over T}\bm{\tilde \eta \bar \sigma^2 \tilde \eta' P}
+\end{eqnarray*}
+In the large T limit $\bm{\tilde \eta \bar \sigma^2 \tilde \eta'}$ and $P$ are
+freely independent, therefore their S-transforms are multiplicative,
+i.e.
+\begin{eqnarray*}
+  S_E(z) &=& S_{\tilde \eta \bar \sigma^2 \tilde \eta'/T}(z) S_P(z) \\
+  &=& S_{\tilde \eta' \tilde \eta /T}(z) S_{\bar \sigma^2}(z) S_P(z)
+\end{eqnarray*}
+For $S_{\tilde \eta' \tilde \eta /T}(z)$ there have been results when
+the elements of $\bm{\tilde \eta}$ are identically distributed with finite
+second moment \cite{burda2011} or alternatively, follow $\alpha$-stable
+distribution \cite{politi2010}.
+
+So our focus hereafter is on the spectral properties of
+$\bar \sigma^2$. The Green's function of $\bar \sigma^2$ can be immediately
+written down:
+\begin{eqnarray*}
+  G_{\bar \sigma^2}(z) &=& {1 \over T} \sum_{t=1}^T \frac{1}{z - \sigma_t^2}
+\end{eqnarray*}
+If the $\sigma_t$'s are independent, $G_{\bar \sigma^2}(z)$ is deterministic and
+equal to $\mean{\frac{1}{z - \sigma_t^2}}$; If, however, the $\sigma_t$'s are
+correlated, $G_{\bar \sigma^2}(z)$ is random. In the extreme case where the
+$\sigma_t$'s have correlation 1 between any pair, $G_{\bar \sigma^2}(z)$ is a
+random variable $\frac{1}{z - \sigma_1^2}$. In the latter case, although
+the spectrum of $\bm \bar \sigma^2$ is random, it may still make sense to
+know the expectation of the spectrum, which one obtains from the
+expectation of the random Green's function. In the rest of this
+section we consider a few cases in regard to the distribution of
+$\sigma_t$'s as well as their correlations.
+
+\subsection{log-normal volatilities with AR(1) autocorrelation}
+In this subsection we consider the case
+\begin{eqnarray*}
+  \ln \sigma_t &=& \phi\ln \sigma_{t-1} + x_t
+\end{eqnarray*}
+where $x_t \sim N(0, 1)$. Then, assuming the process was started in
+the infinite past, i.e. $t = -\infty$, $\mean{\ln \sigma_t \ln \sigma_s} =
+\frac{\phi^{|t-s|}}{1 - \phi^2}$.
+
+\bibliographystyle{unsrt}
+\bibliography{econophysics}
+\end{document}
+
+\message{ !name(draft4.tex) !offset(-127) }

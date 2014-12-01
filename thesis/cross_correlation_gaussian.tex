@@ -1,0 +1,479 @@
+\chapter{Covariance Matrix of Gaussian Returns}
+\label{chp:Gaussian}
+In chapter \ref{chp:PriceModels} we have studied \gls{garch} and
+\gls{sv} models and seen their power of forecasting future
+volatilities. However, we have not considered the important fact that
+a financial market comprises many assets and the volatilities of these
+assets are correlated to each other in a complicated
+manner. Practically useful volatility forecasts require good
+understanding of these correlations.
+
+In the literature, covariance matrices of Gaussian and L\'evy
+distributed returns have been studied (see e.g. \cite{politi2010,
+  Chiani2012, Lalley2013}). However, as is seen in chapter
+\ref{chp:PriceModels}, real-world returns are not described by any
+particular distribution but rather by stochastic processes that
+account for auto-correlations in the returns and the volatilities.
+
+Therefore, the focus of this and the next chapter is on covariance
+matrices of realistic return series, and especially covariance matrices
+in the case when the return series have considerable
+auto-correlations. In particular, we study covariance matrices of
+\gls{garch} (1,1) return series in chapter
+\ref{chp:CrossCorrelationFat} and show the influence of
+auto-correlations on these matrices. But before that, it is useful to
+first understand the influence of auto-correlations on covariance
+matrices of Gaussian return series. When auto-correlations are absent,
+these matrices are called Wishart matrices and have been studied
+extensively. The results we obtain in this chapter will provide a
+reference to the studies in chapter \ref{chp:CrossCorrelationFat}.
+
+
+% In this chapter we present some results about the covariance
+% matrix of Gaussian returns. The assumption of Gaussian returns is of
+% course an over-simplification of reallity, but nevertheless lends some
+% insight into the problem of elements' and eigenvalues' distributions of
+% a covariance matrix.
+% Our primary interest is in the influence that auto-correlations in
+% returns exert on the covariance matrix.
+
+In section \ref{sec:GCC-analytical} we discuss how the distributions
+of the matrix elements are affected by autocorrelations, and in
+section \ref{sec:GCC-numerical} we investigate the distribution of the
+eigenvalues.
+
+
+\section{Distribution of the Matrix Elements}
+\label{sec:GCC-analytical}
+In this section we study the distribution of the elements of a
+covariance matrix $C = \mtx{RR'}/T$, where
+\begin{eqnarray*}
+  \mtx R &=&
+  \begin{pmatrix}
+    r_{11} & r_{12} & \cdots & r_{1T} \\
+    r_{21} & r_{22} & \cdots & r_{2T} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    r_{N1} & r_{N22} & \cdots & r_{NT} \\
+  \end{pmatrix}
+\end{eqnarray*}
+and $\mtx R'$ denotes the transpose of $\mtx R$.
+In words, an element $r_{it}$ of $\mtx R$ is the return of asset $i$
+at time $t$, with $i=1,\cdots, N$ and $t = 1, \cdots, T$. If each
+column of $\mtx R$ follows a zero-mean Gaussian distribution, i.e.
+\begin{eqnarray*}
+  \begin{pmatrix}
+    r_{1t} \\
+    \vdots \\
+    r_{Nt}
+  \end{pmatrix} \sim N(0, \mtx \Sigma)
+\end{eqnarray*}
+for all $t = 1, \cdots, T$, and none of the return series is
+auto-correlated, i.e. $\text{corr}(r_{it}, r_{i,t'}) = 0$ for all $i =
+1, \cdots, N$ and $t \neq t'$, then $\mtx{RR'}$ is a Wishart matrix whose
+probability density function is well known \cite{Anderson2003}.
+
+When auto-correlations are indeed present in the returns, $\mtx{RR'}$
+no longer follows the Wishart distribution. However, the joint distribution
+function of its elements can be expressed in terms of the Wishart \gls{pdf}
+and the auto-correlations. We show this in appendix
+\ref{app:pdf_gaussian1}. Also, in appendix
+\ref{chp:gaussian_elements_dist} we derive an approximate expression 
+for the asymptotic distribution of these matrix elements, assuming
+$r_{it}$ is an \gls{ar}(1) process \footnotemark, i.e. $r_{it} =
+\phi r_{i, t-1} + a_{it}$, and
+\footnotetext{
+  It is straight forward to derive the auto-correlation function
+  $\varrho_k$ of an \gls{ar}(1) process with autoregressive
+  coefficient $\phi$:
+  \begin{eqnarray*}
+    \varrho_k &=& \text{corr}(r_{it}, r_{i, t-k}) \\
+    &=& \phi \varrho_{k-1} \\
+    &=& \phi^k
+  \end{eqnarray*}
+  Let $\tau$ denote the time lag at which $\varrho_{\tau} = 1/2$, then
+  it follows $\tau = -\ln 2/\ln \phi$.
+}
+\begin{eqnarray*}
+  \begin{pmatrix}
+    a_{1t} \\
+    \vdots \\
+    a_{Nt}
+  \end{pmatrix} \sim N(0, \mtx \Sigma)
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+  \mtx \Sigma &=& \sigma^2
+  \begin{pmatrix}
+    1 & \rho & \cdots & \rho \\
+    \rho & 1 & \cdots & \rho \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \rho & \rho & \cdots & 1
+  \end{pmatrix}
+\end{eqnarray*}
+where $-1 < \rho < 1$ is a constant parameter describing the correlation
+between $a_{it}$ and $a_{jt}$ --- so, by construction, we assume such
+correlations are constant across all asset pairs and over all
+time.
+
+The elements $C_{ij}$ ($i \neq j$) of the covariance matrix, $C
+= \mtx{RR'}/T$, are found to be normally distributed with mean
+\begin{eqnarray}
+  \mu'_X &=& {\sigma^2 \over \sqrt{2\pi} (1 - \phi^2)(1 -
+    \rho^2)^{1/4}} \left[ P^{-3/2}_{-1/2}(-\rho) -
+    P^{-3/2}_{-1/2}(\rho)
+  \right] \label{eq:gaussian_mean2}
+\end{eqnarray}
+and variance
+\begin{eqnarray}
+  \sigma'^2_X &=& {1 \over (1 - \phi^2)^2}\left[
+    \sum_{t=1}^T \sum_{k=1}^{t-1} 2\left(
+      \phi^k \over T
+    \right)^2 \sigma^6 + \sum_{t=1}^T
+    {\sigma^4 (1 - \rho^2)^2 \over T^2} v^2(\rho)
+  \right] \nonumber \\
+  &=& {2 \sigma^6 \over T (1 - \phi^2)^2} \left[
+    {\phi^2 \over 1 - \phi^2} -
+    {\phi^2 (1 - \phi^{2T}) \over
+      T(1 - \phi^2)}
+  \right] + {\sigma^4 (1 - \rho^2)^2 v^2(\rho) \over
+    T (1 - \phi^2)^2} \nonumber \\
+  &\approx& {2 \sigma^6 \phi^2 \over T (1 - \phi^2)^3}
+  + {\sigma^4 (1 - \rho^2)^2 v^2(\rho) \over
+    T (1 - \phi^2)^2} \label{eq:gaussian_variance2}
+\end{eqnarray}
+where $P^\mu_\nu(\cdot)$ is Ferrer's function of the first
+kind. See appendix \ref{chp:gaussian_elements_dist}. For the
+definition of Ferrer's function, see equation
+\ref{eq:Ferrers_1st}.
+
+Equation \ref{eq:gaussian_mean2} tells that, if
+two return series $i$ and $j$ are not correlated, i.e. $\rho = 0$,
+auto-correlation in the returns does not introduce a bias into the
+estimation of their covariance, i.e. $\mu'_X$, since the difference
+between the two Ferrer's functions evaluate to 0 in equation
+\ref{eq:gaussian_mean2}; if, however, the return series are indeed
+correlated, auto-correlation in the returns rescales the
+covariance through a multiplicative factor $1/(1 - \phi^2)$.
+
+In addition, equation \ref{eq:gaussian_variance2} tells that
+auto-correlation in the returns always makes the covariance
+estimation more noisy --- auto-correlation not only rescales the
+variance of the no-autocorrelation estimation by $1/(1 - \phi^2)^2$
+but even adds an extra term ${2 \sigma^6 \phi^2 \over T (1 -
+  \phi^2)^3}$.
+
+For the diagonal elements of the covariance matrix $C$ we have
+\begin{eqnarray}
+  \E(C_{ii}) &=& {1 \over T}\left[
+    \sum_{k=0}^{t-1} \phi^{2k} \sigma^2
+  \right] \nonumber \\
+  &=& {\sigma^2 \over (1 - \phi^2) T} \left[
+    T - {\phi^2 (1 - \phi^{2T}) \over 1 - \phi^2}
+  \right] \nonumber \\
+  & \approx & {\sigma^2 \over 1 - \phi^2} \left[
+    1 - {\phi^2 \over T (1 - \phi^2)}
+  \right] \label{eq:gaussian_cii_mean2}
+\end{eqnarray}
+and
+\begin{eqnarray}
+  \var(C_{ii}) &=& \sum_{t=1}^T \left[
+    \sum_{k=0}^{t-1} {\phi^{4k} \sigma^4 \over T^2} 2 +
+    \sum_{k,l=0}^{t-1} {\phi^{2(k+l)} \over T^2} \sigma^6
+  \right] \nonumber \\
+  &=& \sum_{t=1}^T \left[
+    {2 \sigma^4 \over T^2} {1 - \phi^{4t} \over 1 - \phi^4} +
+    {\sigma^6 \over T^2} \left(
+      {1 - \phi^{2t} \over 1- \phi^2}
+    \right)^2 \right] \nonumber \\
+  &=& {2 \sigma^4 \over T (1 - \phi^4)} -
+  {2 \sigma^4 \phi^4 (1 - \phi^{4T}) \over T^2(1 - \phi^4)^2} +
+  \nonumber \\
+  && {\sigma^6 \over T (1 -\phi^2)^2} -
+  {2 \sigma^6 \phi^2 (1 - \phi^{2T}) \over T^2 (1 - \phi^2)^3} +
+  {\sigma^6 \phi^4 (1 - \phi^{4T}) \over T^2 (1 - \phi^2)^2 (1 -
+    \phi^4)} \nonumber \\
+  &\approx& {2 \sigma^4 \over T (1 - \phi^4)} + {\sigma^6 \over T (1
+    -\phi^2)^2} \label{eq:gaussian_cii_variance2}
+\end{eqnarray}
+
+From equation \ref{eq:gaussian_cii_mean2} we see that auto-correlation
+in the returns increases the variance of the return series; and from
+equation \ref{eq:gaussian_cii_variance2} we see that the variance of
+that variance estimation is also increased by
+auto-correlations. Moreover, we note that $\var(C_{ii})$ scales with T
+approximately as $1/T$, similar to the behavior of
+$\var(C_{ij})$. This is to be compared with the case of \gls{garch}
+returns discussed in chapter \ref{chp:CrossCorrelationFat}.
+
+\section{Distribution of the Eigenvalues}
+\label{sec:GCC-numerical}
+For a Wishart matrix $\mtx{RR'}$, theoretical results are available
+for the eigenvalue distribution, and we summarize them in appendix
+\ref{sec:wishart_eigen_dist}. In short, the joint probability density
+function of the eigenvalues is given by equation
+\ref{eq:wishart_eigen_pdf} when neither auto-correlation nor
+cross-correlation is present in $\mtx R$. Moreover, the mariginal
+distribution of the largest eigenvalue is approximated by a gamma
+distribution \cite{Chiani2012}.
+
+However, as detailed in the derivation leading to equation
+\ref{eq:cross-corr-matrix-PDF}, the distribution of $\mtx{RR'}$ is not
+Wishart when the columns of $\mtx{R}$ are correlated
+(auto-correlation). Deriving the eigenvalue distribution analytically
+in this case is beyond the scope of this thesis. Instead, we resort to
+numerical methods.
+
+As before we consider the \gls{ar}(1) process:
+\begin{equation*}
+  \vec{r}_t = \phi \vec{r}_{t-1} + \vec{a}_{t}
+\end{equation*}
+where $\vec{a}_t \sim N(0, \mtx{I})$, i.e. the elements of $\vec{a}_t$ are
+independent Gaussian random variable with zero mean and unit
+variance. Now we investigate how the eigenvalue distribution depends on
+the auto-correlation strength parameter $\phi$. Figure
+\ref{fig:GaussianMarkovSpectrumPDF} shows the results of the
+simulation.
+\begin{figure}[htb!]
+  \begin{center}
+    \includegraphics[scale=0.4, clip=true, trim=90 228 115
+    226]{../pics/GaussianMarkovSpectrumPDF.pdf}
+  \end{center}
+  \vspace{-10mm}
+  \caption{\small \it
+      Eigenvalue distribution with correlation time $\tau$ ranging
+      from 0 to 3. The 1st blue line, which is shown as stairs, is the
+      theoretical eigenvalue distribution according to the
+      Marcenko-Pastur law (see eq.\ref{eq:MP_pdf}). In the simulation
+      we have chosen $q = N/T = 50/1000 = 0.05$ and the standard
+      deviation of the returns $\sigma=1$. For each value of $\tau$ we
+      generate 2000 instances of $N \times T$ random matrix $R$, and
+      compute C as $C=RR'/T$. Hence each curve in the figure is
+      constructed from 2000 sets of eigenvalues. The correspondance
+      between the correlation time $\tau$ and the auto-regressive
+      coefficient $\phi$ is $\tau = -\ln 2 / \ln \phi$.
+    }
+  \label{fig:GaussianMarkovSpectrumPDF}
+\end{figure}
+It is clear from the figure that the maximum eigenvalue moves
+consistently to the right as the value of $\phi$ increases, and, as
+shown in figure \ref{fig:Gaussian_mineig}, the minimum eigenvalue
+also increases with $\phi$.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=100 226 116
+  133]{../pics/Gaussian_mineig.pdf}
+  \caption{\small \it The minimum eigenvalue versus
+    auto-correlation strength $\phi$. For each value of $\phi$ 2000
+    random matrices are generated and their eigenvalues are
+    calculated. The minimum eigenvalue of each random matrix is noted
+    and the mean of the 2000 such minimum eigenvalues are plotted
+    against the chosen value of $\phi$. 20 values of $\phi$ are
+    included in the plot, ranging from 0 to 0.95 with step size 0.05.}
+  \label{fig:Gaussian_mineig}
+\end{figure}
+
+Chiani showed that the marginal distribution of the maximum eigenvalue
+($\lambda_1$) is approximately gamma when neither cross-correlation
+nor auto-correlation is present\cite{Chiani2012}. So we compare
+in figure \ref{fig:GaussianMarkov005MaxEigCDF_loglog} the empirical
+cumulative distribution function (CDF) of the maximum eigenvalue 
+with the CDF of a gamma distribution. The cases where
+auto-correlations are present ($\phi > 0$) have also been included.
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.5, clip=true, trim=0 238 0
+    197]{../pics/GaussianMarkov005MaxEigCDF_loglog.pdf}
+  \end{center}
+  \caption{\small \it Cummulative distribution function (CDF) of the
+    maximum eigenvalue ($\lambda_1$) from numerical simulations (blue
+    lines) are compared to the fitted gamma distribution (red
+    lines). Each pair of CDFs correspond to a fixed autocorrelation
+    strength ($\phi$). The parameters $k$ and $\theta$ of the gamma
+    distribution are fit to data by matching the 2nd and the 3rd
+    moments of the gamma distribution to the corresponding moments of
+    the empirical distribution. Then the parameter $\alpha$ in
+    equation \ref{eq:TracyWidom-Gamma} is chosen to be $\alpha =
+    k\theta - \E\left({\lambda_1 - \mu_{NT} \over
+        \sigma_{NT}}\right)$. The curves are plotted on log-log
+    scale.}
+  \label{fig:GaussianMarkov005MaxEigCDF_loglog}
+  %\vspace{-10mm}
+\end{figure}
+It is seen in the figure that gamma distributions with different
+parameters fit fairly well in all cases. So we conclude that a
+gamma distribution not only approximates the maximum eigenvalue
+distribution at the absence of autocorrelations but does so even at
+the {\it presence} of autocorrelations.
+
+Since the maximum eigenvalue distribution is approximated by a gamma
+distribution characterized by parameters $k$, $\theta$, and $\alpha$
+\footnotemark, the influence of the autocorrelations can be
+characterized by the dependence of $k$, $\theta$, and  $\alpha$ on
+$\phi$. While these dependences are rather intricate, good support can
+be found in the data for the following approximate relation:
+\footnotetext{
+  The mean, variance and skewness of the gamma distribution are given
+  by
+  \begin{eqnarray*}
+    \text{mean} &=& k\theta \\
+    \text{variance} &=& k\theta^2 \\
+    \text{skewness} &=& 2/\sqrt{k}
+  \end{eqnarray*}
+}
+\begin{eqnarray}
+  k\theta &=& a \tan^2{\pi \phi \over 2} + b\tan{\pi \phi \over 2} +
+  c \label{eq:k_theta-phi}
+\end{eqnarray}
+Here we note that $k\theta$ is the mean of the gamma distribution.
+To verify this relation, we first fit a 2nd order polynomial and
+obtain the coefficients $a$, $b$, $c$; then for each data point
+$k_n\theta_n$ we solve the quadratic equation
+\begin{eqnarray}
+  a \tan^2{\pi \phi'_n \over 2} + b\tan{\pi \phi'_n \over 2} + c -
+  k_n\theta_n &=& 0\label{eq:k_theta-phi_2}
+\end{eqnarray}
+for $\tan{\pi \phi'_n \over 2}$. If relation \ref{eq:k_theta-phi} is a
+good approximation, a close match between $\tan{\pi \phi'_n \over 2}$
+and $\tan{\pi \phi_n \over 2}$ is expected. From figure 
+\ref{fig:phi_and_roots} one can see this is indeed the case.
+
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.5, clip=true, trim=37 217 39
+    170]{../pics/phi_and_roots.pdf}
+  \caption{\small \it Upper plot: $\tan{\pi \phi'_n \over 2}$ against
+    $\tan{\pi \phi_n \over 2}$. The fitted line has equation $y_n =
+    0.995 \tan{\pi \phi_n \over 2} + 0.0146$. Lower plot: Residuals of
+    the linear fit, i.e. $\tan{\pi \phi'_n \over 2} - y_n$. 20 values
+    of $\phi$ are included in the plot, ranging from 0 to 0.95 with
+    step size 0.05.}
+  \label{fig:phi_and_roots}
+\end{figure}
+
+% Figure \ref{fig:GaussianMarkovMaxEig_k-phi} shows how the mean of the
+% fitted gamma distribution, i.e. $k\theta$, varies as the
+% autocorrelation strengthens ($\phi$ increases). 
+% \begin{figure}[htb!]
+%   %\vspace{-10mm}
+%   \centering
+%     \includegraphics[scale=0.5, clip=true, trim=100 223 112
+%     141]{../pics/GaussianMarkov05MaxEig_k-phi.pdf}
+%     \caption{\small \it The parameter $k$ against autocorrelation strength
+%       $\phi$. Blue crosses: Empirical values of $k$. Red: best fitting
+%       line in terms of {\it Least Square Errors}.}
+%   \label{fig:GaussianMarkovMaxEig_k-phi}
+% \end{figure}
+% From the equation of the fitting line we can directly read out
+% \begin{eqnarray*}
+%   k &=& a\phi + b \\
+%   &=& a\left(1 \over 2\right)^{1/\tau} + b
+% \end{eqnarray*}
+% where $a = -26$ and $b = 47$.
+
+% For the parameter $\theta$, its behavior is more conveniently
+% described in terms of the correlation time $\tau$. Figure
+% \ref{fig:GaussianMarkovMaxEig_theta-tau} plots the values of $\theta$
+% against those of $\tau$ together with a fitting quadratic
+% function. Higher order polynomials provide a slightly better
+% fit, but coefficients of the 3rd order and above are less than 1/1000
+% times the coefficients of the 2nd and the 1st order. Therefore a 2nd
+% order polynomial has been chosen.
+% \begin{figure}[htb!]
+%   \vspace{-15mm}
+%   \centering
+%   \includegraphics[scale=0.5, clip=true, trim=99 230 114
+%   139]{../pics/GaussianMarkov05MaxEig_theta-tau.pdf} 
+%   \caption{\small \it Vertical axis: $\theta$; Horizontal axis:
+%     correlation time $\tau$. Blue: empirical values of $\theta$. Cyan:
+%     Fitting quadratic function.}
+%   \label{fig:GaussianMarkovMaxEig_theta-tau}
+% \end{figure}
+% The equation of this polynomial is
+% \begin{eqnarray*}
+%   \theta &=& A\tau^2 + B\tau + C
+% \end{eqnarray*}
+% where $A = 2.1\times 10^{-4}$, $B = -1.1\times 10^{-4}$, $C =
+% 3.2\times 10^{-4}$.
+
+% The parameter $\alpha$ shifts the gamma distribution $\mathscr{G}(k,
+% \theta)$ to match the mean of ${(\lambda_1 -
+%   \mu_{NT})/\sigma_{NT}}$. The behavior of $\alpha$ with respect to
+% changing autocorrelation is shown in figure
+% \ref{fig:GaussianMarkovMaxEig_alpha-tau}.
+% \begin{figure}[htb!]
+%   \vspace{-15mm}
+%   \centering
+%   \includegraphics[scale=0.5, clip=true, trim=104 229 114
+%   139]{../pics/GaussianMarkovMaxEig_alpha-tau.pdf}
+%   \caption{\small \it The mean-shift parameter $\alpha$ against
+%     correlation time $\tau$. Blue: empirical values of $\alpha$. Cyan:
+%     quadratic fit.}
+%   \label{fig:GaussianMarkovMaxEig_alpha-tau}
+% \end{figure}
+% The equation of $\alpha$ is then inferred from the fitting line:
+% \begin{equation*}
+%   \alpha = D\tau^2 + E\tau + F
+% \end{equation*}
+% where $D = -3.4\times 10^{-3}$, $E = -4.6\times 10^{-2}$ and $F = 69$.
+
+% So combining the results of $\alpha$, $k$ and $\theta$ we can express
+% the moments of the Tracy-Widom variate ${(\lambda_1 -
+%   \mu_{NT})/\sigma_{NT}}$:
+% \begin{equation}\label{eq:lambda1_MeanVariance}
+%   \begin{aligned}
+%     \E({\lambda_1 - \mu_{NT} \over \sigma_{NT}}) &= k\theta -
+%     \alpha \\
+%     &= \left[-a\left(1 \over 2\right)^{1/\tau} + b\right](A\tau^2 +
+%     B\tau - C) - (D\tau^2 + E\tau + F) \\
+%     \var({\lambda_1 - \mu_{NT} \over \sigma_{NT}}) &=
+%     k\theta^2 \\
+%     &= \left[-a\left(1 \over 2\right)^{1/\tau} + b\right](A\tau^2 +
+%     B\tau - C)^2 \\
+%   \end{aligned}
+% \end{equation}
+% Figure \ref{fig:GaussianMarkovMaxEig_tw_moments} shows the empirical
+% moments of ${(\lambda_1 - \mu_{NT})/\sigma_{NT}}$ together with the
+% corresponding values computed using the above formulas.
+% \begin{figure}[htb!]
+%   \vspace{-15mm}
+%   \centering
+%   \includegraphics[scale=0.46, clip=true, trim=48 243 6
+%   134]{../pics/GaussianMarkovMaxEig_tw_moments.pdf}
+%   \caption{\small \it empirical moments of ${(\lambda_1 -
+%       \mu_{NT})/\sigma_{NT}}$ against their theoretical
+%     counterparts. Left: Empirical/theoretical mean against $\tau$;
+%     Right: Empirical/theoretical variance against $\tau$. Blue
+%     crosses: empirical values; Red line: fitting curves. Horizontal
+%     axis: correlation time $\tau$.}
+% \label{fig:GaussianMarkovMaxEig_tw_moments}
+% \end{figure}
+% The good fitness shown in figure
+% \ref{fig:GaussianMarkovMaxEig_tw_moments} allows us to conclude 
+% that, within the range of the correlation time that we have studied,
+% namely $\tau \in [0, 13.51]$, the $k$ parameter is a linear function
+% of $\phi = 2^{-1/\tau}$ while $\theta$ and $\alpha$ are quadratic
+% functions of $\tau$. The moments of the transformed maximum
+% eigenvalue, namely ${(\lambda_1 - \mu_{NT})/\sigma_{NT}}$, are thus
+% expressed as functions of the correlation time $\tau$ via the
+% parameters $k$, $\theta$ and $\alpha$.
+
+% Figure \ref{fig:GaussianMarkovMaxEigPDF_original} shows the PDF of the
+% maximum eigenvalue ($\lambda_1$) for a range of values of the
+% correlation time $\tau$. One can clearly see that the mean of the
+% distribution moves to the right and the width of the distribution
+% increases as $\tau$ takes on larger and larger values. However, one
+% must not forget that the behavior of the mean and the width is random
+% in nature. Eq. \ref{eq:lambda1_MeanVariance} describes such behavior in
+% the asymptotic limit, i.e. if an infinite number of random matrices
+% are generated and their respective maximum eigenvalues computed for
+% each and every value of correlation time $\tau$.
+% \begin{figure}[htb!]
+%   \begin{center}
+%     \includegraphics[scale=0.5, clip=true, trim=98 228 112
+%     221]{../pics/GaussianMarkovMaxEigPDF_original.pdf}
+%     \caption{\small \it Probability density function of the maximum eigenvalue
+%       ($\lambda_1$).}
+%   \end{center}
+%   \label{fig:GaussianMarkovMaxEigPDF_original}
+% \end{figure}
+

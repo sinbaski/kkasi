@@ -1,0 +1,399 @@
+\chapter{Nordea in 1st quarter 2012}
+\label{chp:nordea_15min}
+In this chapter we investigate the Nordea 15-minute returns sampled
+during the period 2012/01/16 - 2012/04/20. In total, these amount to
+2022 returns. We use the first 80\% (1617) for model estimation and  the
+remaining 20\% (405) for comparing with model forcasts. In section
+\ref{sec:nordea_15min_garch} we study the series with a GARCH model 
+and in section \ref{sec:nordea_15min_arima} we study it with a
+stochastic volatility model.
+
+\section{GARCH Model}\label{sec:nordea_15min_garch}
+First of all, to check for GARCH effects, we plot the auto-correlation
+function (ACF) of the squared returns. This is shown in figure
+\ref{fig:nordea_15min_acf}. At the absence of GARCH effects, the ACF
+is expected to have an asymptotic Gaussian distribution with mean 0
+and variance 1/T \cite{Bollerslev86, Bollerslev87}, which is clearly
+not the case in figure \ref{fig:nordea_15min_acf}: The first 5
+autocorrelations have comparable sizes and do not fall off as in a
+Gaussian scheme. Moreover, figure \ref{fig:nordea_15min_vlt_acf} shows
+even more clearly that the conditional variances of the series are
+correlated. These observations suggest a GARCH(p, q) model can be
+appropriate.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_acf.pdf}
+    \label{fig:nordea_15min_acf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.4, clip=true, trim=95 236 118
+    200]{../pics/nordea_15min_vlt_acf.pdf}
+    \label{fig:nordea_15min_vlt_acf}
+  }
+  \caption{\small \it Auto-correlations among Nordea Bank 15min
+    returns. \ref{fig:nordea_15min_acf}: Auto-correlations (ACF) of the
+    squared returns; \ref{fig:nordea_15min_vlt_acf}: Auto-correlations
+    (ACF) of squared realized volatilities ($\hat{\sigma}^2_t$).}
+\end{figure}
+
+Starting with a GARCH(1,1) model and taking advantage of the knowledge
+that the log-volatility $\ln \sigma_t$ has seasonality $s=33$, we fit
+to the return series a GARCH(33, 33) model, limiting to lags 1 and 33
+for both ARCH and GARCH parameters.
+\begin{eqnarray*}
+  r_t &=& \mu + €_t \\
+  €_t &=& \sigma_t z_t \\
+  \sigma^2_t &=& \alpha_0 + \alpha_1 €^2_{t-1} + \alpha_s €^2_{t-s} +
+  \beta_1 \sigma^2_{t-1} + \beta_s \sigma^2_{t-s}
+\end{eqnarray*}
+Via maximum likelihood estimation, parameter values listed in table
+\ref{tab:nordea_15min_garch} are obtained.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    Parameter & $\alpha_0$ & $\alpha_1$ & $\alpha_s$ & $\beta_1$ &
+    $\beta_s$ \\
+    \hline
+    Value & $4.7833 \times 10^{-7}$ & 0.1600 & 0.0667 & 0.6846 &
+    0.0342 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it GARCH model parameters}
+  \label{tab:nordea_15min_garch}
+\end{table}
+
+\section{Stochastic Volatility Model}\label{sec:nordea_15min_arima}
+For the Nordea Bank 15-minute returns under consideration, it can be
+verified that the square root of the sum of squared 30-second returns
+makes a good proxy for the volatility. This can be seen from the
+probability plot of $z_t = (r_t - \E(r_t))/\hat{\sigma}_t$ (figure
+\ref{fig:nordea_bank_15min_z_prob}), i.e. the quotient of the 
+15-minute returns over the volatility proxy.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.4, clip=true, trim=80 258 104
+    220]{../pics/nordea_bank_15min_z_prob.pdf}
+  \caption{\small \it{Probability plot of $z_t =
+      (\epsilon_t-\E(\epsilon_t))/\sigma_t$. $\epsilon_t$ are derived
+      from Nordea Bank 15min returns while $\sigma_t$ are realized
+      volatilities calculated
+      using 30s returns within each 15min interval. Horizontal axis:
+      $z_t$}; Vertical axis: cummulative probability function (CDF) of
+    $z_t$, arranged on such a scale that the CDF of the standard
+    Gaussian is a straight line.}
+  \label{fig:nordea_bank_15min_z_prob}
+\end{figure}
+% In addition, one can see
+% from figure \ref{fig:nordea_15min_quotient_acf} and
+% \ref{fig:nordea_15min_quotient_squared_acf} that there is essentially
+% no auto-correlation in the $z_t$ or the $z_t^2$ series.
+% \begin{figure}[htb!]
+%   \centering
+%   \subfigure[ACF of $z_t$]{
+%     \includegraphics[scale=0.4, clip=true, trim=95 236 118
+%     200]{../pics/nordea_15min_quotient_acf.pdf}
+%     \label{fig:nordea_15min_quotient_acf}
+%   }
+%   \subfigure[ACF of $z_t^2$]{
+%     \includegraphics[scale=0.4, clip=true, trim=95 236 118
+%     200]{../pics/nordea_15min_quotient_squared_acf.pdf}
+%     \label{fig:nordea_15min_quotient_squared_acf}
+%   }
+%   \caption{\small \it Nordea 15min $z_t$ and $z_t^2$ ACF.}
+% \end{figure}
+
+Andersen and Bollerslev et al reported that, for the exchange
+rates between Deutch mark, yen and dollar, $\ln \sigma_t$ is
+gaussian distributed \cite{Andersen03}. This is, however, not the case
+for our series in question. In fact, in our case, $\ln \sigma_t$ is
+right skewed (skewness 0.3342) and leptokurtic (kurtosis 
+6.1006). See figure \ref{fig:nordea_15min_logvol_prob}
+\begin{figure}[htb!]
+  \centering
+  %\vspace{-15mm}
+  \includegraphics[scale=0.4, clip=true, trim=80 223 107
+  4]{../pics/nordea_15min_logvol_prob.pdf}
+  \caption{\small \it Probability plot of Nordea 15min
+    $\ln\sigma_t$ unconditional distribution}
+  \label{fig:nordea_15min_logvol_prob}
+\end{figure}
+Moreover, the series of $\ln\sigma_t$ shows long-lasting and
+periodic autocorrelations with an apparent period of 33 (see figure
+\ref{fig:nordea_15min_logvol_acf}). This suggests the series may be
+described by a seasonal ARIMA model\footnote{ARIMA ---
+  Integrated Autoregressive Moving Average} model. This we first
+simplify the series by differencing \cite{BoxJenkins94}:
+\[
+w_t = (1-B)(1-B^s)\ln\sigma_t
+\]
+where $B$ is the back-shift operator and $s=33$ is the seasonality.
+
+The autocorrelation function of the differenced process $w_t$, as
+shown in figure \ref{fig:nordea_15min_w_acf}, clearly points to a seasonal
+moving-average model: There are only 4 non-zero autocorrelations in
+the plot, located at lags 1, 32, 33, 34, respectively; furthermore,
+the two at 32 and 34 are approximately equal. Thus we can write down
+the model as
+\begin{eqnarray}
+  w_t &=& (1 - \theta B)(1 - \Theta B^s) y_t \label{eq:nordea_w}
+\end{eqnarray}
+where $\theta$ and $\Theta$ are parameters to be determined and $y_t$
+is a noise process with constant variance $\sigma_y^2$ and mean
+0. $y_t$ is often refered to as the residuals.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[ACF of $\ln\sigma_t$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 230 112
+    235]{../pics/nordea_15min_logvol_acf.pdf}
+    \label{fig:nordea_15min_logvol_acf}
+  }
+  \subfigure[ACF of $w_t$]{
+    \includegraphics[scale=0.4, clip=true, trim=95 230 112
+    235]{../pics/nordea_15min_w_acf.pdf}
+    \label{fig:nordea_15min_w_acf}
+  }
+  \caption{\small \it Nordea 15min $\ln\sigma_t$ and $w_t$
+    autocorrelations}
+  \label{fig:nordea1_15min_acf}
+\end{figure}
+
+The above seasonal moving average model has the following
+autocovariance structure \cite{BoxJenkins94}:
+\begin{eqnarray*}
+  \gamma_0 &=& \sigma_y^2 (1 + \theta^2)(1 + \Theta^2) \\
+  \gamma_1 &=& -\sigma_y^2\theta(1 + \Theta^2) \\
+  \gamma_s &=& -\sigma_y^2\Theta(1 + \theta^2) \\
+  \gamma_{s+1} &=& \gamma_{s-1}\;=\;\sigma_y^2\theta\Theta
+\end{eqnarray*}
+These equations together with the measured autocorrelations make
+possible an initial estimate of the parameters $\theta$ and $\Theta$:
+\begin{eqnarray*}
+  {\rho_{s+1}/\rho_s} &=& {\gamma_{s+1}/\gamma_s} \;=\; -{\theta \over
+    1 + \theta^2} \\
+  {\rho_{s+1}/\rho_1} &=& {\gamma_{s+1}/\gamma_1} \;=\; -{\Theta \over
+    1 + \Theta^2} \\
+\end{eqnarray*}
+Substituting in the measured values shown in table
+\ref{tab:nordea_15min_w_acf},
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    $\rho_1$ & $\rho_{s-1}$ & $\rho_s$ & $\rho_{s+1}$ \\
+    \hline
+    -0.4703 &  0.2053 & -0.4564 &  0.2212 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Nordea 15min $w_t$ autocorrelations}
+  \label{tab:nordea_15min_w_acf}
+\end{table}
+we get
+\begin{eqnarray*}
+  \theta &=& 0.6890 \\
+  \Theta &=& 0.6378
+\end{eqnarray*}
+Among the two roots of each of the 2nd order equations in the above,
+we have chosen the one in the range $(-1, 1)$ so as to ensure
+invertibility of the model \cite{BoxJenkins94}.
+
+With an estimate of $\theta$ and $\Theta$, one can then infer the
+noise process i.e. the residuals $y_t$:
+\begin{equation}
+  \label{eq:infer_y}
+  y_t = w_t + \theta y_{t-1} + \Theta y_{t-s} - \theta \Theta y_{t-s-1}
+\end{equation}
+where we substitute $y_t\;(t \leq 0)$ with their unconditional
+expectation 0.
+
+In order to forecast the $w_t$ process, and hence the return process
+itself, we must also know the distribution of $y_t$. Moreover, to
+properly estimate the parameters of the model in the sense of maximum
+likelihood, we are also in need of the distribution of $y_t$.
+
+Figure \ref{fig:nordea_15min_y_qq} shows the normal probability plot of
+$y_t$. It is evident from this figure that $y_t$ has fat tails.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4, clip=true, trim=78 255 109
+  123]{../pics/nordea2_y_normplot.pdf}
+  \caption{\small \it Nordea 15min $y_t$ normal probability plot.}
+  \label{fig:nordea_15min_y_qq}
+\end{figure}
+In addition, a simple calculation reveals that the distribution of
+$y_t$ has skewness 0.2988 (shown in table
+\ref{tab:nordea_15min_y_moments}).
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    mean & variance & skewness & kurtosis \\
+    \hline
+    0.0012 & 0.0935 & 0.2988 & 6.8691 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Nordea 15min $y_t$ moments}
+  \label{tab:nordea_15min_y_moments}
+\end{table}
+Based on this information, we find that $y_t$ can be well
+described by a Johnson Su distribution \cite{Shang2004}:
+\[
+  y_t = \xi + \lambda\sinh{z_t - \gamma \over \delta}
+\]
+where $\gamma, \delta, \lambda, \xi$ are parameters to be determined
+and $z_t \sim N(0, 1)$. The goodness of fitting is demonstrated in
+figure \ref{fig:nordea_15min_y_js_fit} by the
+empirical cummulative distribution function in comparison to the
+theoretical one.
+\begin{figure}[htb!]
+  %\vspace{-18mm}
+  \centering
+    \includegraphics[scale=0.4, clip=true, trim=92 229 116
+    133]{../pics/nordea_15min_y_js_fit.pdf}
+    \caption{\small \it Nordea 15min residuals $y_t$ fitted to a
+      Johnson Su distribution. Horizontal: values of $y_t$, denoted x;
+      Vertical: $\ln\left(P(y_t < x)\right)$.}
+    \label{fig:nordea_15min_y_js_fit}
+\end{figure}
+
+The first 4 moments of the Johnson Su distribution are expressible
+in closed form in $\gamma, \delta, \lambda, \xi$ \cite{Shang2004}:
+\begin{eqnarray*}
+  w &=& \exp{1 \over \delta^2} \\
+  \Omega &=& {\gamma \over \delta} \\
+  \text{E}(y) &=& -w^{1/2} \lambda \sinh\Omega + \xi\\
+  \text{std}(y) &=& \lambda \left[{1 \over 2}(w-1)(w\cosh 2\Omega +
+    1)\right]^{1/2} \\
+  \text{skewness}(y) &=& {
+    \sqrt{(1/2)w(w-1)} [w(w+2)\sinh 3\Omega + 3\sinh\Omega]
+    \over
+    (w\cosh 2\Omega + 1)^{3/2}} \\
+  \text{kurtosis}(y) &=& {
+    w^2(w^4 + 2w^3 + 3w^2 - 3)\cosh 4\Omega + 4w^2 (w+2) \cosh 2\Omega
+    + 3(2w+1) \over
+    2(w\cosh 2\Omega + 1)^2 }
+\end{eqnarray*}
+By matching the theoretical expressions of the moments with their
+measured values, and taking help from published tables
+\cite{Johnson1965}, one can solve for the parameters $\gamma, \delta,
+\lambda, \xi$.
+
+Under the assumption of i.i.d Johnson Su distributed residuals, the
+log-likelihood function of the parameters $\gamma, \delta$
+conditional on the sample $w_t$ can be written as
+\[
+L(\theta, \Theta) = -{1 \over 2}\sum_{t=1}^n z_t^2 + n \ln{\delta
+  \over \lambda \sqrt{2\pi}} - {1 \over 2}\sum_{t=1}^n \ln\left[
+  1 + \left({y_t - \xi \over \lambda}\right)^2
+\right]
+\]
+where $y_t$ are inferred from $w_t$ using eq.\ref{eq:infer_y}
+and $z_t$ from $y_t$ using
+\[
+z_t = \delta \sinh^{-1}{y - \xi \over \lambda} + \gamma
+\]
+Note that $\gamma, \delta, \lambda, \xi$ are not really free
+parameters but rather are implied by $\theta$ and $\Theta$: Once the
+latter have been chosen and the corresponding $y_t$ inferred, the
+former are determined by the moments of $y_t$.
+
+The eventual MLE is done in Matlab with the ``active set''
+algorithm. The initial as well as the final estimation results are
+listed in table \ref{tab:nordea_15min_js_param}:
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    & $\gamma$ & $\delta$ & $\lambda$ & $\xi$ & $\theta$ & $\Theta$ \\
+    \hline
+    initial estimate & 0.1476 & 1.5121 & 0.3633 & 0.0454 & 0.6890 &
+    0.6378 \\
+    \hline
+    MLE estimate & 0.1319 & 1.5266 & 0.3735 & 0.0410 & 0.6639 & 0.6025
+    \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Nordea 15min estimation results}
+  \label{tab:nordea_15min_js_param}
+\end{table}
+
+\section{Comparison of the Forecasts}
+In this section we compare the one-step-ahead forecasts from the GARCH
+model and from the stochastic volatility model. For this purpose, we
+compute the difference between a forecast $\ln \sigma^F_t$ and its measured
+counterpart, i.e. the realized volatility of the same period $\ln
+\hat{\sigma}_t$.
+
+First of all, we look at the means and standard deviations of $\ln \sigma^F_t -
+\ln \hat{\sigma}_t$, which are listed in table \ref{tab:nordea_2012}.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    & SV & GARCH & Sample mean \\
+    \hline
+    $\E(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.0040 & -0.0008 &
+    -0.2210 \\
+    \hline
+    $\text{std}(\ln \sigma^F_t - \ln \hat{\sigma}_t)$ & 0.2659 & 0.3011 &
+    0.2893 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it Mean and standard Deviation of the forecasts'
+    distribution. ``Sample mean`` refers to the mean of the realized
+    volatilities in the first 80\% of the data set. ``SV'': Stochastic
+    volatility.}
+  \label{tab:nordea_2012}
+\end{table}
+It is seen from table \ref{tab:nordea_2012} that, on average, the SV
+model over-estimates while GARCH under-estimates. In terms of the
+standard deviation of $\ln \sigma^F_t - \ln \hat{\sigma}_t$, the SV
+model wins with a small margin. In contrast, the sample mean forecast
+clearly under-estimates the log-volatilities to a large extent --- the
+efforts of building models has not been wasted.
+
+Figure \ref{fig:nordea_2012} compares the 3 kinds of forecasts by
+plotting the distribution function and the complementary distribution
+function of $\ln \sigma^F_t - \ln \hat{\sigma}_t$. Here one can see
+that the SV model yields a better quality of forecasts than does GARCH 
+with regard to the under-estimates, and essentially the same quality
+with regard to the over-estimates.
+
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[scale=0.55, clip=true, trim=27 287 0
+    154]{../pics/nordea_2012.pdf}
+  \caption{\small \it Blue: SV forecasts; Green: GARCH forecasts; Red:
+    sample mean forecasts. Left: cumulative distribution function;
+    Right: complementary distribution function.}
+  \label{fig:nordea_2012}
+\end{figure}
+
+Another measure of the forecasts' quality can be the percentage of good
+forecasts, where the criterion of ``good'' is defined, respectively,
+as deviating no more than 1\%, 5\%, or 10\% from the measured value of
+the realized volatility. Table \ref{tab:nordea_2012_good} shows the
+respective percentage of the 3 kinds of forecasts. Again in this table
+it is seen that the SV model gives more accurate forecasts than does
+GARCH.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    ${\ln \sigma^F_t - \ln \hat{\sigma}_t \over |\ln \hat{\sigma}_t|}$
+    & SV & GARCH & sample mean \\
+    \hline
+    1\% & 0.2173 & 0.1383 & 0.1136 \\
+    \hline
+    5\% & 0.7457 & 0.7062 & 0.5333 \\
+    \hline
+    10\% & 0.9728 & 0.9383 & 0.8914 \\
+    \hline
+  \end{tabular}
+  \caption{\small \it The percentage of ``good'' forecasts when the
+    criterion of being good is deviating no more than 1\%, 5\% or
+    10\%.}
+  \label{tab:nordea_2012_good}
+\end{table}

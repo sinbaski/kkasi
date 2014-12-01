@@ -1,0 +1,171 @@
+\chapter{Results}
+\label{chp:summary}
+Realistic dynamic models for relative price changes (returns) of
+financial assets have been studied. In particular, the \gls{garch} and
+\gls{sv} models have been utilized and compared in their forecast
+accuracies by case studying of 15- and 30-minute returns of Nordea,
+Volvo and Ericsson. The following are the conclusions from this
+investigation:
+\begin{itemize}
+\item In all the 7 studied series, the log-volatility $\ln \sigma_t$
+  is well described by a seasonally integrated moving average
+  model. Long memory in these series is accounted for by the compounded
+  difference operator $(1-B)(1-B^s)$ where $B$ denotes the back-shift
+  operator. $s$ stands for seasonality, which is 33 in the cases of
+  15-minute returns and 16 in the cases of 30-minute returns.
+
+\item An \gls{sv} model generally yields more accurate forecasts than does
+  the \gls{garch} model for the same series. This is certainly well expected,
+  considering that the \gls{sv} model incorporates much more data than does
+  \gls{garch}. However, it must be noted that the validity of the
+  aforementioned comparison is underlain by the accuracy of realized
+  volatility as a proxy to the true conditional volatility.
+
+\item \gls{sv} models perform more consistently in terms of forecast
+  accuracy than does \gls{garch}, as shown in appendix
+  \ref{sec:forecast_volatility}.
+\end{itemize}
+
+Regarding the covariance matrix of Gaussian return series, we have
+arrived at the following results:
+\begin{itemize}
+\item Auto-correlations in the returns rescale the covariance of two
+  series by a factor of $1/(1 - \phi^2)$, where $\phi =
+  \text{corr}(r_t, r_{t-1})$. See
+  eq. \ref{eq:gaussian_mean2}. Moreover, they rescale the variance of
+  each series by ${1 \over (1 - \phi^2)}\left[
+    1- {\phi^2 \over T(1 - \phi^2)}
+  \right]$. See eq. \ref{eq:gaussian_cii_mean2}.
+
+\item Auto-correlations in the returns increase the variance of the
+  covariance and also the variance of the variance. See
+  eq. \ref{eq:gaussian_variance2} and
+  \ref{eq:gaussian_cii_variance2}.
+
+\item The largest eigenvalue obeys approximately a gamma distribution
+  even when the returns are auto-correlated. It was shown by Chiani in
+  2012 that the largest eigenvalue obeyed gamma distribution when the
+  returns were {\it not} auto-correlated \cite{Chiani2012}. In
+  addition, we find that the mean of the gamma distribution is
+  approximately quadratic in $\tan{\pi\phi \over 2}$.
+\end{itemize}
+
+For the covariance matrix of \gls{garch}(1,1) series, our
+contributions are the following:
+\begin{itemize}
+\item The diagonal and non-diagonal matrix elements both have L\'evy
+  distributions but with different L\'evy indices.
+\item The power-law tails of \gls{garch}(1,1) returns lead to a group
+  of localized eigenvectors that correspond to large eigenvalues.
+\item Auto-correlations in the returns reduce the localization of the
+  eigenvectors. The fraction of localized eigenvectors decreases
+  approximately as a quadratic function of $\phi = \text{corr}(r_t,
+  r_{t-1})$. See figure \ref{fig:localization_ratio} and
+  \ref{fig:localization_ratio2}.
+\end{itemize}
+
+In summary, auto-correlations in the returns create illusory
+cross-correlations. To assess the true cross-correlations among the
+assets in a market, one has to adopt a model for each of the return
+series, infer the residuals and then assess the cross-correlations
+among the residuals instead (c.f. chapter \ref{chp:PriceModels}).
+
+However, in an efficient market, auto-correlations in the returns are
+necessarily as weak as indistinguishable from measurement errors 
+so that exploitable arbitrage opportunities do not exist. Hence
+auto-correlations cannot be completely eliminated by taking residuals
+of the returns. When estimating the covariance matrix and its
+eigenvalues and eigenvectors, the illusory effects caused by
+auto-correlations must be considered as an inherent source of
+uncertainty.
+
+% Correlations between sequences of stock returns from different assets
+% have been studied by forming a covariance matrix. The stock returns
+% have been simulated using different dynamical return models. Since a
+% \gls{sv} model with Gaussian innovations have an unconditional
+% distribution with all moments finite (see section \ref{sec:XieCalc}),
+% we have focused our attention on \gls{garch}(1,1) models that were
+% proven to have regularly varying (power-law) tails. We have
+% investigated how a covariance matrix of \gls{garch}(1,1) returns differs from a
+% covariance matrix of Gaussian returns, in terms of matrix elements and
+% eigenvalues distributions. In particular, we have considered how the
+% two matrices contrast with each other when the return series that they
+% derive from are auto-correlated.
+
+% In chapter \ref{chp:Gaussian} we studied how the distributions of
+% elements and eigenvalues of a covariance matrix of Gaussian returns
+% were altered by auto-correlations in the returns. For the matrix elements
+% distribution, asymptotic Gaussian distributions were obtained. It was
+% seen that the mean and the variance of the matrix elements
+% distributions were changed by auto-correlations
+% (Eq. \ref{eq:gaussian_mean2} to \ref{eq:gaussian_cii_variance2}). As 
+% for the distribution of the maximum eigenvalue of C, it was shown that
+% the maximum eigenvalue had approximately a gamma distribution even
+% when the returns were auto-correlated. The mean of the gamma
+% distribution was approximately quadratic in $\tan{\pi\phi \over 2}$,
+% where $\phi$ was the coefficient of an \gls{ar}(1) process and
+% characterized the strength of auto-correlation. On the other hand, the
+% minimum eigenvalue was also increased by increased
+% auto-correlations. As a whole, the eigenvalue spectrum widened as
+% auto-correlation increased. See figure
+% \ref{fig:GaussianMarkovSpectrumPDF}.
+
+% In chapter \ref{chp:CrossCorrelationFat} we studied a covariance
+% matrix of asset returns described by the \gls{garch}(1,1) 
+% model. We found that both the diagonal and the non-diagonal matrix
+% elements followed $\alpha$-stable (L\'evy) distributions, but had
+% different L\'evy indices and scaling parameters (equations
+% \ref{eq:garch_cii_dist} and \ref{eq:garch_cij2}). The eigenvalue
+% distribution of the covariance matrix, as in the case of 
+% Gaussian returns, was found to widen as auto-correlations
+% increased. Meanwhile, both the largest and the smallest eigenvalues
+% were seen to increase. See figure
+% \ref{fig:GarchSpectrumAutocorrelated}.
+
+% We have also investigated how localization of eigenvectors,
+% i.e. dominance of one or a few basis vectors in the composition of an
+% eigenvector, is affected by auto-correlations in the returns. Firstly,
+% it is seen that localized eigenvectors correspond to large
+% eigenvalues; secondly, it is found that strengthened auto-correlations
+% reduce the extent of localization. These are consistent with what \AA
+% berg found for Wishart-L\'evy matrices \cite{Aberg2013}.
+
+% In particular, we find that the fraction of localized eigenvectors, as
+% defined by an eigenvector's participation radio (see equation
+% \ref{eq:IPR_def}) being lower than a given threshold or by its largest
+% component (in the sense of absolute value) being higher than a
+% threshold, falls approximately as a quadratic function of the
+% auto-correlation strength (autoregressive coefficient of an
+% \gls{ar}(1) process). See figure \ref{fig:localization_ratio} and
+% \ref{fig:localization_ratio2}.
+
+\chapter{Outlook}
+Continuing from the obtained results, areas of future research may
+include, first of all, a covariance matrix formed from \gls{sv} models
+with power-law tails, which may be obtained by assuming, for example,
+Student's t distribution or Normal Inverse Gaussian distribution for
+the return's innovation.
+
+Another interesting area could be models that treat the conditional
+covariance matrix as an inherent part of the model specification
+rather than treating it as an inferred quantity, which is the approach
+taken by the current work. Predecessors on this path are the
+multivariate \gls{garch} and \gls{sv} models
+\cite{Mikosch2009}. To have sufficient flexibility, many of these
+models involve a large number of parameters, which make it hard to fit
+them to data and increase the chances of model mis-specification. A
+model that strikes a good balance between flexibility and complexity
+will be of great interest.
+These approaches may well lead to more accurate volatility forecasts
+and improved estimation of the uncertainties introduced by
+auto-correlations in the returns.
+
+Analytically deriving the eigenvalue and eigenvector distributions of
+a covariance matrix formed from return series described by a realistic
+model will be very challenging but interesting. It is also interesting to
+see whether the methods developed for Wishart matrices, for example
+the holonomic gradient method \cite{Hashiguchi2012}, can be applied to
+the aforementioned covariance matrices.
+Advancement in these areas will undoubtedly find applications in
+e.g. principle component analysis and portfolio management.
+

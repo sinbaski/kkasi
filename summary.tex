@@ -1,0 +1,57 @@
+\documentclass{article}
+\input{physics_common}
+\title{Mathematical Aspects of the Capital Market}
+\author{Xie Xiaolei}
+\date{\today}
+\begin{document}
+\begin{enumerate}
+\item The Nordea 15min returns are well described by the model:
+\begin{eqnarray*}
+  r_t &=& \sigma_t a_t \\
+  (1-B)(1-B^s)(\ln\sigma_t - \mean{\ln\sigma}) &=& (1-\theta B)(1-\Theta
+  B^s) \alpha_t
+\end{eqnarray*}
+where $a_t \sim N(0, 1)$ and $\alpha_t$ is distributed as Johnson Su:
+\[
+\alpha_t = m + c\sinh{z - a \over b}
+\]
+Here $z \sim N(0, 1)$. $s$ is the number of seasons in the above
+seasonal model. $s=33$ for this particular series. $34 \times
+15\text{min} = 8.5\text{hr}$, a full trading day in Stockholm.
+
+\begin{enumerate}
+\item 
+Andersen and Bollerslev et al reported that $\ln\sigma_t$ is Gaussian
+distributed for the exchange rate they studied. However, the
+unconditional distribution of $\ln\sigma_t$ in our case is evidently
+non-Gaussian.
+
+\item
+The residuals $\alpha_t$ have no significant auto-correlation. Their
+distribution is, however, not Gaussian but rather fat-tailed and
+right-skewed.
+
+Nevertheless, the distribution of $\sigma_t$ is indeed leptokurtic and
+right-skewed as Andersen and Bollerslev et al reported for the
+exchange rates.
+
+\item
+$\sigma_t$ can be approximated by the realized volatility,
+which is the sum of squared returns that are sampled at a higher
+frequency. The optimal frequency for this is debatable. I choose the
+frequency with which $a_t$ is best fitted to a standard Gaussian, and
+it turns out to be 30sec for 15min returns.
+
+\item
+Right now I am developing programs to estimate the above
+seasonal model. Functions for ARIMA model estimation exist in Matlab,
+but only for residuals distributed as Gaussian or Student's t. Both
+fail to describe the residuals in our case.
+
+\end{enumerate}
+\item The Nordea 30min and 45min returns haven't been studied in
+  detail but are expected to follow ARIMA seasonal models. Preliminary
+  results suggest $\ln\sigma_t$ for 45min returns are Gaussian
+  distributed. 
+\end{enumerate}
+\end{document}
