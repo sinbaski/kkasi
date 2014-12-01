@@ -27,12 +27,15 @@ Consider a covariance matrix constructed as
 $$
 C_{ij} = {1 \over T}\sum_{t=1}^T r_{it} r_{jt}
 $$
-where $1 \leq i \leq N$. Adopt a stochastic volatility model for
-$r_{it}$, i.e.
+where $r_{it}$ is the log-return of the $i$-th stock at time $t$. $i =
+1, 2, \dots, N$, $t = 1,2,\dots,T$. Here and in the rest of the
+text we adopt a stochastic volatility model for $r_{it}$, i.e.
 $$
 r_{it} = \sigma_{it} \eta_{it}
 $$
-We can write
+where $\sigma_{it}$ symbolizes the volatility of the return while
+$\eta_{it}$ is assumed a standard normal random variable.
+So we can write
 \begin{eqnarray}
 C_{ij} &=& {1 \over T}\sum_{t=1}^T \sigma_{it} \eta_{it} \sigma_{jt}
 \eta_{jt} \nonumber \\
@@ -43,7 +46,7 @@ where the matrices $\bm{\sigma}$ and $\bm{\eta}$ have elements
 $\sigma_{it}$ and $\eta_{it}$ respectively, and * denotes element-wise
 multiplication. Due to the cyclic property of matrix trace, the
 moment generating function of $\bm{C}$, $M_C(z)$, relates to $M_D(z)$,
-the moment generating function of $\bm D$
+the moment generating function of
 \begin{eqnarray*}
   \bm{D} &=& {1 \over T} (\bm{\sigma * \eta})' (\bm{\sigma * \eta})
 \end{eqnarray*}
@@ -98,7 +101,7 @@ i.e.
 \end{eqnarray}
 For $S_{\tilde \eta' \tilde \eta /T}(z)$ there have been results when
 the elements of $\bm{\tilde \eta}$ are identically distributed with finite
-second moment \cite{burda2011} or alternatively, follow $\alpha$-stable
+second moment \cite{burda2011} or alternatively, follow a stable
 distribution \cite{politi2010}.
 
 So our focus hereafter is on the spectral properties of $\bar{
@@ -236,22 +239,6 @@ to the Marcenko-Pastur law with several values of $q = N/T$ and $v$.
     \includegraphics[scale=0.35]{../pics/Lognormal_q1.0.eps}
     \label{fig:Lognormal_q1.0}
   }
-  % \subfigure[$v=1$, $q = 1$]{
-  %   \includegraphics[scale=0.35]{../pics/Lognormal_v1_q1.eps}
-  %   \label{fig:Lognormal_v1_q1}
-  % }
-  % \subfigure[$v=1$, $q = 0.1$]{
-  %   \includegraphics[scale=0.35]{../pics/Lognormal_v1_q0.1.eps}
-  %   \label{fig:Lognormal_v1_q0.1}
-  % }
-  % \subfigure[$v=0.0001$, $q = 1$]{
-  %   \includegraphics[scale=0.35]{../pics/Lognormal_v0.0001_q1.eps}
-  %   \label{fig:Lognormal_v0.0001_q1}
-  % }
-  % \subfigure[$v=0.0001$, $q = 0.1$]{
-  %   \includegraphics[scale=0.35]{../pics/Lognormal_v0.0001_q0.1.eps}
-  %   \label{fig:Lognormal_v0.0001_q0.1}
-  % }
   \caption{\small \it Spectra with lognormal volatilities. The
     empirical probability density functions are plotted as stairs. The
   density function given by the Marcenko-Pastur law is plotted as a
@@ -261,155 +248,77 @@ to the Marcenko-Pastur law with several values of $q = N/T$ and $v$.
 From figures \ref{fig:LognormalSpectra} one can see that the
 Marcenko-Pastur law is recovered when $v \to 0$, as expected.
 
-Now we consider equation \eqref{eq:LognormalBlueReal} and
-\eqref{eq:LognormalBlueImag}. When $q y$ and $v$ are both small, RHS
-of \eqref{eq:LognormalBlueReal} and \eqref{eq:LognormalBlueImag} have
-two sharp peaks, one at $s = 0$ and the other at $s = -{1 \over
-  2}\ln(qx)$. We expand the integrands in
-\eqref{eq:LognormalBlueReal} and \eqref{eq:LognormalBlueImag} around
-these two peaks. For \eqref{eq:LognormalBlueImag} We write
-\begin{eqnarray}
-  {y \over x^2 + y^2} &=& \int_{-a}^{a} {e^{-s^2/2v}ds \over
-    \sqrt{2\pi v}} \left[\frac{qy}{(1-qx)^2 + q^2y^2}\right] \label{eq:lambda}\\
-  && - \int_{-b}^{b} {dt \over \sqrt{2\pi v}} {1 \over 2(t + q x)}
-  \exp \left[-\frac{\log ^2(q x+t)}{8v}\right] {qy \over t^2 +
-    q^2y^2} \nonumber \\
-  &=& \erf\left({a \over \sqrt{2\pi}}\right)\left[\frac{qy}{(1-qx)^2 +
-      q^2 y^2}\right] \nonumber \\
-  && -{1 \over \sqrt{2\pi v}}\left\{
-  \exp\left(-{\ln^2qx \over 8v}\right) \frac{x \cot ^{-1}\left(\frac{q
-      y}{b}\right)+y \coth ^{-1}\left(\frac{q x}{b}\right)}{q x^2+q
-    y^2} \right. \nonumber \\
-  && \left.-\exp\left(-{\ln^2qx \over 8v}\right)
-  \frac{y \left[x \log \left(1-\frac{2 b}{b+q x}\right)+2 y
-    \cot^{-1}\left(\frac{q y}{b}\right)\right]}{2
-    \left(x^2+y^2\right)} {\ln qx \over 4qvx}
-  \right\} \nonumber
-\end{eqnarray}
-where $a$ and $b$ are small positive numbers. In particular, $b < q x$
-such that $t + qx > 0$. Similarly, for \eqref{eq:LognormalBlueReal} we have
-\begin{eqnarray}
-  \lambda &=& {x \over x^2 + y^2} + \erf\left({a \over \sqrt{2v}}\right){1 - q x
-    \over (1 - q x)^2 + q^2 y^2 } \nonumber \\
-  && - {1 \over \sqrt{2\pi v}}
-  \left\{\exp\left(-{\ln^2qx \over 8v}\right) \frac{x \log
-    \left(1-\frac{2 b}{b+q x}\right)+2 y \cot ^{-1}\left(\frac{q
-      y}{b}\right)}{2 q \left(x^2+y^2\right)} \right. \nonumber \\
-  &&  
-  \left. -\frac{\log (q x)}{4 q v x} \exp\left(-{\ln^2qx \over
-    8v}\right) \frac{x \left[x \coth ^{-1}\left(\frac{q x}{b}\right)-y
-    \cot ^{-1}\left(\frac{q y}{b}\right)\right]}{x^2+y^2}
-  \right\} \label{eq:constraint}
-\end{eqnarray}
-%% Now we consider equation \eqref{eq:LognormalBlueReal} and
-%% \eqref{eq:LognormalBlueImag}. As $\lambda$ tends to $\lambda_\M$ with
-%% $\lambda_\M \leq \infty$, $y \to 0$. Meanwhile, $x$ can neither tend
-%% to 0 nor to $\infty$: If $x \to 0$, then $\frac{1}{x^2 + y^2} \to
-%% \infty$ while the integral in \eqref{eq:LognormalBlueImag} tends to
-%% $e^{8v}$ -- thus \eqref{eq:LognormalBlueImag} cannot hold. If instead
-%% $x \to \infty$, RHS of \eqref{eq:LognormalBlueReal} tends to 0, failing
-%% \eqref{eq:LognormalBlueReal}. So $x$ must tend to a finite value as $\lambda
-%% \to \lambda_\M$. This limiting value, call it $a$, can be found from
-%% \eqref{eq:LognormalBlueImag} by setting $y=0$:
-%% \begin{eqnarray}
-%% {1 \over a^2} &=& \int_{-\infty}^{\infty} \frac{ds}{\sqrt{2\pi v}}
-%% \frac{
-%%   e^{-s^2/2v} q
-%% }{
-%%   (e^{-2s} - qa)^2
-%% } \label{eq:LognormalBlueImag2}
-%% \end{eqnarray}
-%% Clearly $a$ is a function of $v$ and $q$. Denote this function $f$
-%% such that $a = f(v, q)$. As has been argued, $f(v,q)$ is finite for
-%% all $v > 0$ and $0 < q \leq 1$. Using $f$, the integral in
-%% \eqref{eq:LognormalBlueReal}, in the limit $\lambda \to \lambda_\M$,
-%% can be expressed
-%% \begin{eqnarray*}
-%%   {1 \over \sqrt{2\pi v}} \int_{-\infty}^{\infty} \frac{
-%%     e^{-2s - s^2/2v}
-%%     }{
-%%       (e^{-2s} - qa)^2
-%%     } ds &=& {1 \over q e^{2v} f^2(v, qe^{-4v})}
-%% \end{eqnarray*}
-%% It immediately follows from \eqref{eq:LognormalBlueReal}
-%% \begin{eqnarray*}
-%%   \lambda_\M &=& {1 \over q e^{2v} f^2(v, qe^{-4v})}
-%% \end{eqnarray*}
-%% Since $q \leq 1$ and $e^{-2v} < 1$, $f(v, qe^{-2v})$ and hence
-%% $\lambda_\M$ are finite. The spectrum is bounded.
+When $v$ is small, the integrands in \eqref{eq:LognormalBlueReal} and
+\eqref{eq:LognormalBlueImag} have sharp maxima at $v = 0$. Hence it is
+useful to approximate them by Taylor expansion. Let's write
+\begin{eqnarray*}
+  \lambda &=& \int _{-\infty }^{\infty }\!g \left( s,v \right) F \left( s
+  \right) {ds}+{\frac {x}{{x}^{2}+{y}^{2}}} \\
+  0 &=& \int _{-\infty }^{\infty }\!g \left( s,v \right) G \left( s
+  \right) {ds}-{\frac {y}{{x}^{2}+{y}^{2}}}
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+g &=& \frac{1}{\sqrt{2\mathop{\rm  }\pi \mathop{\rm  }v }}e^{-\frac{s
+    ^{2}}{2\mathop{\rm  }v }}\\
+F \left(s \right) &=& \frac{\left(e^{-2\mathop{\rm  }s }-q \mathop{\rm
+    }x \right)}{\left(e^{-2\mathop{\rm  }s }-q \mathop{\rm  }x
+  \right)^{2}+q ^{2}\mathop{\rm  }y ^{2}}\mathop{\rm  } \\
+G(s) &=& \frac{q \mathop{\rm  }y }{\left(e^{-2\mathop{\rm  }s }-q
+    \mathop{\rm  }x \right)^{2}+q ^{2}\mathop{\rm  }y ^{2}}\\
+\end{eqnarray*}
 
-%% The function $f(v,q)$ as defined by the largest root of
-%% \eqref{eq:LognormalBlueImag2} is plotted in figure
-%% \ref{fig:FFunction1}, seen as the intersection between the two curves,
-%% which represent the two sides of \eqref{eq:LognormalBlueImag2},
-%% respectively.
-%% \begin{figure}[htb!]
-%%   \centering
-%%   \subfigure[]{
-%%     \includegraphics[scale=0.35]{../pics/FFunctionOverview.eps}
-%%     \label{fig:FFunctionOverview}
-%%   }
-%%   \subfigure[]{
-%%     \includegraphics[scale=0.35]{../pics/FFunction1.eps}
-%%     \label{fig:FFunction1}
-%%   }
-%%   %% \subfigure[$q = 0.5$]{
-%%   %%   \includegraphics[scale=0.35]{../pics/FFunction3.eps}
-%%   %%   \label{fig:FFunction2}
-%%   %% }
-%%   \caption{\small \it The implicit function $f(v, q)$ plotted in
-%%     log-log scale. Blue: the integral $\int_{-\infty}^{\infty}
-%%     \frac{ds}{\sqrt{2\pi v}}
-%%     \frac{
-%%       e^{-s^2/2v} q
-%%     }{
-%%       (e^{-2s} - qa)^2
-%%     }$as a function of $a$. Green: the function $1/a^2$. v=0.1, q=0.1.
-%% }
-%%   \label{fig:FFunction}
-%% \end{figure}
-
-% To see the effect of heteroscedasticity we turn to simulations. Figure
-% \ref{fig:LognormalSpectraAutocorrelated} shows the empirical spectral
-% density when the conditional log-volatilities are given by \eqref{eq:AR}.
-% \begin{figure}[htb!]
-%   \centering
-%   \subfigure[$q = 0.1$, $\text{var}(x_t) = 0.01$,
-%   $\phi = 0$, $\text{var}(\ln\sigma_t) = 0.01$]{
-%     \includegraphics[scale=0.23]{../pics/Lognormal_sig0.1_phi0.eps}
-%     \label{fig:Lognormal_sig0.1_phi_0}
-%   }
-%   \subfigure[$q = 0.1$, $\text{var}(x_t) = 0.01$,
-%   $\phi = 0.25$, $\text{var}(\ln\sigma_t) = 0.0107$]{
-%     \includegraphics[scale=0.23]{../pics/Lognormal_sig0.1_phi0.25.eps}
-%     \label{fig:Lognormal_sig0.1_phi_0.25}
-%   }
-%   \subfigure[$q = 0.1$, $\text{var}(x_t) = 0.01$,
-%   $\phi = 0.5$, $\text{var}(\ln\sigma_t) = 0.0133$]{
-%     \includegraphics[scale=0.23]{../pics/Lognormal_sig0.1_phi0.5.eps}
-%     \label{fig:Lognormal_sig0.1_phi_0.5}
-%   }
-%   \subfigure[$q = 0.1$, $\text{var}(x_t) = 0.25$,
-%   $\phi = 0$, $\text{var}(\ln\sigma_t) = 0.25$]{
-%     \includegraphics[scale=0.23]{../pics/Lognormal_sig0.5_phi0.eps}
-%     \label{fig:Lognormal_sig0.5_phi_0}
-%   }
-%   \subfigure[$q = 0.1$, $\text{var}(x_t) = 0.25$,
-%   $\phi = 0.25$, $\text{var}(\ln\sigma_t) = 0.2667$]{
-%     \includegraphics[scale=0.23]{../pics/Lognormal_sig0.5_phi0.25.eps}
-%     \label{fig:Lognormal_sig0.5_phi_0.25}
-%   }
-%   \subfigure[$q = 0.1$, $\text{var}(x_t) = 0.25$,
-%   $\phi = 0.5$, $\text{var}(\ln\sigma_t) = 0.3333$]{
-%     \includegraphics[scale=0.23]{../pics/Lognormal_sig0.5_phi0.5.eps}
-%     \label{fig:Lognormal_sig0.5_phi_0.5}
-%   }
-%   \caption{\small \it Spectra with autocorrelated normal log-volatilities.}
-%   \label{fig:LognormalSpectraAutocorrelated}
-% \end{figure}
-% It is seen that the empirical spectral density agrees very well with
-% the density function obtained as numerical solutions to $B(\re G -
-% i\pi\rho) = \lambda$.
+Taylor-expanding $F(s)$ and $G(s)$ to 2nd order in $s$ and plugging
+them into \eqref{eq:LognormalBlueReal} and
+\eqref{eq:LognormalBlueImag} gives
+\begin{eqnarray}
+\lambda &=& {-q x+1 \over (-q x+1)^2+q^2 y^2} + {v \over 2}\left\{
+{4 \over (-q x+1)^2+q^2 y^2} -{24 (-q x+1) \over
+  [(-q x+1)^2+q^2 y^2]^2} \right. \nonumber \\
+&& \left. + {32 (-q x+1)^3 \over [(-q x+1)^2+q^2 y^2]^3} -8 {(-q
+    x+1)^2 \over [(-q x+1)^2+q^2 y^2]^2}
+\right\} \label{eq:lambda_linear}\\
+0 &=& {q y \over (-q x+1)^2+q^2 y^2} + {v \over 2} \left\{
+  {32 q y (-q x+1)^2 \over [(-q x+1)^2+q^2 y^2]^3}
+  -{8 q y \over [(-q x+1)^2+q^2 y^2]^2} \right. \nonumber \\
+  && \left.
+    -{8 q y (-q x+1) \over [(-q x+1)^2+q^2 y^2]^2}
+\right\} \label{eq:constraint_linear}
+\end{eqnarray}
+Now that we look for a solution in the limit $y \to 0$, we set $y = 0$
+in \eqref{eq:lambda_linear}; in \eqref{eq:constraint_linear} we first
+cancel the factor $y$ and then set $y = 0$. This yields
+\begin{eqnarray}
+  \lambda &=& {1 \over (-q x+1)} + {2 v (q x+1) \over (-q x+1)^3} + {1
+    \over x} \label{eq:lambda_1} \\
+  0 &=& {q \over (-q x+1)^2} + {4 v q(q x+2) \over (-q x+1)^4} - {1
+    \over x^2} \label{eq:constraint_1}
+\end{eqnarray}
+Evaluating \eqref{eq:lambda_1} at $x = \lambda^{MP}_{+} = (1 +
+\sqrt{q})^2$ gives a rough estimate about the expected maximum
+eigenvalue, respectively. That is
+\begin{eqnarray}
+  \lambda_{+} &=& \lambda_{+}^{MP} [1+2v(2\sqrt q +
+  1)] \label{eq:lambda_3}
+\end{eqnarray}
+This result is checked against simulations, as shown in figure
+\ref{fig:lambda_verified}. Clearly one can see that the linear
+approximation \eqref{eq:lambda_3} fits fairly well to the estimated
+$\E \lambda_\M$.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[$q = 0.1$]{
+    \includegraphics[scale=0.35]{../pics/lambda_max_q0.1.eps}
+    \label{fig:lambda_max_q0.1}
+  }
+  \subfigure[$q = 0.2$]{
+    \includegraphics[scale=0.35]{../pics/lambda_max.eps}
+    \label{fig:lambda_max_q0.2}
+  }
+  \caption{\small \it Estimated $\E \lambda_\M$ against its linear
+    approximation.}
+  \label{fig:lambda_verified}
+\end{figure}
 
 \bibliographystyle{unsrt}
 \bibliography{econophysics}
