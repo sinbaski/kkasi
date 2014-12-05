@@ -222,12 +222,22 @@
 </Group></Presentation-Block><Presentation-Block>
 <Group view="presentation" hide-input="false" hide-output="true" inline-output="false" labelreference="L36" drawlabel="true">
 <Input>
-<Text-field style="Text" layout="Normal">The corresponding lower and upper bounds for a $100 investment are thus 2.54$ and $3.63, respectively.</Text-field>
+<Text-field style="Text" layout="Normal">The corresponding lower and upper bounds for a $100 investment are thus 2.54$ and $3.63, respectively. The exptected shortfall <Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYkLUkjbWlHRiQ2I1EuYEVTX18mYWxwaGE7YEYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJw==">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYkLUkjbWlHRiQ2I1EuYEVTX18mYWxwaGE7YEYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJw==</Equation> is</Text-field>
+</Input>
+</Group></Presentation-Block><Presentation-Block>
+<Group view="presentation" hide-input="false" hide-output="true" inline-output="false" labelreference="L44" drawlabel="true">
+<Input>
+<Text-field style="Text" layout="Normal" alignment="centred"><Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYoLUkjbWlHRiQ2I1EuYEVTX18mYWxwaGE7YEYnLUkjbW9HRiQ2LVEiPUYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJy8lJmZlbmNlR1EmZmFsc2VGJy8lKnNlcGFyYXRvckdGOC8lKXN0cmV0Y2h5R0Y4LyUqc3ltbWV0cmljR0Y4LyUobGFyZ2VvcEdGOC8lLm1vdmFibGVsaW1pdHNHRjgvJSdhY2NlbnRHRjgvJSdsc3BhY2VHUSwwLjI3Nzc3NzhlbUYnLyUncnNwYWNlR0ZHLUkmbWZyYWNHRiQ2KC1JI21uR0YkNiRRIjFGJ0YzLUYjNiUtRiw2JVEia0YnLyUnaXRhbGljR1EldHJ1ZUYnL0Y0USdpdGFsaWNGJ0ZWRlkvJS5saW5ldGhpY2tuZXNzR0ZQLyUrZGVub21hbGlnbkdRJ2NlbnRlckYnLyUpbnVtYWxpZ25HRmluLyUpYmV2ZWxsZWRHRjgtSSttdW5kZXJvdmVyR0YkNictRjA2LVEmJnN1bTtGJ0YzRjZGOS9GPEZYRj0vRkBGWC9GQkZYRkMvRkZRJjAuMGVtRicvRklRLDAuMTY2NjY2N2VtRictRiM2KS1GLDYlUSJpRidGVkZZRi9GTUZWLyUrZm9yZWdyb3VuZEdRLFsxMjgsMCwxMjhdRicvJSxwbGFjZWhvbGRlckdGWEZZRlFGQy8lLGFjY2VudHVuZGVyR0Y4LUklbXN1YkdGJDYlLUYsNiVRIkxGJ0ZWRlktRiM2J0ZdcC1GMDYtUSIsRidGM0Y2L0Y6RlhGO0Y9Rj9GQUZDRmdvL0ZJUSwwLjMzMzMzMzNlbUYnLUYsNiVRIm5GJ0ZWRllGVkZZLyUvc3Vic2NyaXB0c2hpZnRHUSIwRidGMw==">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYoLUkjbWlHRiQ2I1EuYEVTX18mYWxwaGE7YEYnLUkjbW9HRiQ2LVEiPUYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJy8lJmZlbmNlR1EmZmFsc2VGJy8lKnNlcGFyYXRvckdGOC8lKXN0cmV0Y2h5R0Y4LyUqc3ltbWV0cmljR0Y4LyUobGFyZ2VvcEdGOC8lLm1vdmFibGVsaW1pdHNHRjgvJSdhY2NlbnRHRjgvJSdsc3BhY2VHUSwwLjI3Nzc3NzhlbUYnLyUncnNwYWNlR0ZHLUkmbWZyYWNHRiQ2KC1JI21uR0YkNiRRIjFGJ0YzLUYjNiUtRiw2JVEia0YnLyUnaXRhbGljR1EldHJ1ZUYnL0Y0USdpdGFsaWNGJ0ZWRlkvJS5saW5ldGhpY2tuZXNzR0ZQLyUrZGVub21hbGlnbkdRJ2NlbnRlckYnLyUpbnVtYWxpZ25HRmluLyUpYmV2ZWxsZWRHRjgtSSttdW5kZXJvdmVyR0YkNictRjA2LVEmJnN1bTtGJ0YzRjZGOS9GPEZYRj0vRkBGWC9GQkZYRkMvRkZRJjAuMGVtRicvRklRLDAuMTY2NjY2N2VtRictRiM2KS1GLDYlUSJpRidGVkZZRi9GTUZWLyUrZm9yZWdyb3VuZEdRLFsxMjgsMCwxMjhdRicvJSxwbGFjZWhvbGRlckdGWEZZRlFGQy8lLGFjY2VudHVuZGVyR0Y4LUklbXN1YkdGJDYlLUYsNiVRIkxGJ0ZWRlktRiM2J0ZdcC1GMDYtUSIsRidGM0Y2L0Y6RlhGO0Y9Rj9GQUZDRmdvL0ZJUSwwLjMzMzMzMzNlbUYnLUYsNiVRIm5GJ0ZWRllGVkZZLyUvc3Vic2NyaXB0c2hpZnRHUSIwRidGMw==</Equation></Text-field>
 </Input>
 </Group></Presentation-Block><Presentation-Block>
 <Group view="presentation" hide-input="false" hide-output="true" inline-output="false" labelreference="L40" drawlabel="true">
 <Input>
-<Text-field style="Text" layout="Normal"></Text-field>
+<Text-field style="Text" layout="Normal">Inserting k = 18, we get <Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EuYEVTX18mYWxwaGE7YEYnLUkjbW9HRiQ2LVEiPUYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJy8lJmZlbmNlR1EmZmFsc2VGJy8lKnNlcGFyYXRvckdGOC8lKXN0cmV0Y2h5R0Y4LyUqc3ltbWV0cmljR0Y4LyUobGFyZ2VvcEdGOC8lLm1vdmFibGVsaW1pdHNHRjgvJSdhY2NlbnRHRjgvJSdsc3BhY2VHUSwwLjI3Nzc3NzhlbUYnLyUncnNwYWNlR0ZHLUkjbW5HRiQ2JFEnMC4wMzk3RidGM0Yz">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EuYEVTX18mYWxwaGE7YEYnLUkjbW9HRiQ2LVEiPUYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJy8lJmZlbmNlR1EmZmFsc2VGJy8lKnNlcGFyYXRvckdGOC8lKXN0cmV0Y2h5R0Y4LyUqc3ltbWV0cmljR0Y4LyUobGFyZ2VvcEdGOC8lLm1vdmFibGVsaW1pdHNHRjgvJSdhY2NlbnRHRjgvJSdsc3BhY2VHUSwwLjI3Nzc3NzhlbUYnLyUncnNwYWNlR0ZHLUkjbW5HRiQ2JFEnMC4wMzk3RidGM0Yz</Equation>. For an $100 investment, the expected shortfall is then $3.97.</Text-field>
+</Input>
+</Group></Presentation-Block><Presentation-Block>
+<Group view="presentation" hide-input="false" hide-output="true" inline-output="false" labelreference="L41" drawlabel="true">
+<Input>
+<Text-field style="Text" bold="true" layout="Normal"><Font bold="true">(b)</Font><Font mathsize="12" mathvariant="normal" bold="false" mathbackground="[255,255,255]" mathcolor="[0,0,0]" fontfamily="Times New Roman"> The simplest way to compute the </Font></Text-field>
 </Input>
 </Group></Presentation-Block>
 </Worksheet>
