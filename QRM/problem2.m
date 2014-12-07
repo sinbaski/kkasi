@@ -1,15 +1,14 @@
 clear all
 close all
 L1 = importdata('DAX.txt', '\t');
+prices = ret2price(L1(:, 2), 1);
 L1 = -L1(:, 2);
 
 %% compound into 10-day returns
-L10 = NaN(length(L1)/10, 1);
-for j = 1:length(L1)/10
-    L10(j) = sum(L1((j-1)*10+1 : j*10));
-end
+A = log(prices);
+L10 = A(1:end-10) - A(11:end);
 
-L = L10;
+L = L1;
 
 n = length(L);
 alfa = 0.99;
