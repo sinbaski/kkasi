@@ -151,15 +151,15 @@ In this subsection we consider the case
   \log \sigma_t &=& \phi\log \sigma_{t-1} + x_t \nonumber \\
   &=& \sum_{l = 0}^{\infty} \phi^l x_{t-l} \label{eq:AR}
 \end{eqnarray}
-where $x_t \sim N(0, 1)$ and we have assumed that the $\log \sigma_t$
-process was started in the infinite past with $\log \sigma_{-\infty} =
-x_{-\infty}$. In addition, we assume $\log \sigma_t$ is a stationary
-process with $|\phi| < 1$. Clearly $\log \sigma_t$ is normally
-distributed with mean 0 and variance ${1 / (1 -
-  \phi^2)}$. According to \eqref{eq:greens}, the spectral density of
-$\bm E$ as appears in \eqref{eq:E_def} is the same as if
+where $x_t \sim N(0, \theta^2)$ and we have assumed that the $\log
+\sigma_t$ process was started in the infinite past with $\log
+\sigma_{-\infty} = x_{-\infty}$. In addition, we assume $\log
+\sigma_t$ is a stationary process with $|\phi| < 1$. Clearly $\log
+\sigma_t$ is normally distributed with mean 0 and variance ${\theta^2
+  / (1 - \phi^2)}$. According to \eqref{eq:greens}, the spectral
+density of $\bm E$ as appears in \eqref{eq:E_def} is the same as if
 $\sigma_t^2$'s were uncorrelated but $\log \sigma_t \sim N(0,
-1/(1 - \phi^2))$.
+\theta^2/(1 - \phi^2))$.
 
 To find the spectral density of $\bm C$ with normally distributed $\bm
 \eta$ and uncorrelated, log-normally distributed $\sigma_t$, we use

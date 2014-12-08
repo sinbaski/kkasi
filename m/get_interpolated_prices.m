@@ -19,14 +19,24 @@ end
 
 price = NaN(N, 1);
 price(t) = p;
+c = NaN;
+for k = 2 : N
+    if (isnan(price(k)))
+        price(k) = price(k-1);
+    elseif isnan(c)
+        c = k;
+    end
+end
+price(1:c-1) = price(c);
+
 
 % interpolate. Potential out-of-range assignment in the previous
 % line can result in zeros.
 
-for k = t(1):t(end)
-    if isnan(price(k)) || price(k) == 0
-        price(k) = price(k-1);
-    end
-end
-price = price(~isnan(price));
+% for k = t(1):t(end)
+%     if isnan(price(k)) || price(k) == 0
+%         price(k) = price(k-1);
+%     end
+% end
+% price = price(~isnan(price));
 
