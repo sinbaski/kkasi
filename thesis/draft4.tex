@@ -22,6 +22,9 @@
 \begin{document}
 \maketitle
 
+\section{Introduction}
+
+
 \section{Separation of the Heteroscedasticity Effect}
 Consider a covariance matrix constructed as
 $$
@@ -156,7 +159,9 @@ where $x_t \sim N(0, \theta^2)$ and we have assumed that the $\log
 \sigma_{-\infty} = x_{-\infty}$. In addition, we assume $\log
 \sigma_t$ is a stationary process with $|\phi| < 1$. Clearly $\log
 \sigma_t$ is normally distributed with mean 0 and variance ${\theta^2
-  / (1 - \phi^2)}$. According to \eqref{eq:greens}, the spectral
+  / (1 - \phi^2)}$. The auto-correlation function $\rho(n)$ decays
+exponentially: $\rho_n = \phi^{n-1} = exp[-(n-1)\ln(1/\phi)]$.
+According to \eqref{eq:greens}, the spectral
 density of $\bm E$ as appears in \eqref{eq:E_def} is the same as if
 $\sigma_t^2$'s were uncorrelated but $\log \sigma_t \sim N(0,
 \theta^2/(1 - \phi^2))$.
@@ -215,7 +220,10 @@ G$ axis.
   \centering
     \includegraphics[scale=0.45, clip=true, trim=66 0 84
     0]{../pics/LognormalBlue.eps}
-  \caption{\small \it The Blue function $B$. q = 0.45, v = 3}
+  \caption{\small \it The Blue function $B$. q = 0.5, v = 0.5. The
+    thick black curve in the left figure is the $\im B = 0$ curve. The
+    smallest (largest) eigenvalue is achieved at the left (right) end
+    of the curve.}
   \label{fig:LognormalBlue}
 \end{figure}
 The spectral density function $\rho(\lambda)$ obtained as numerical
@@ -249,7 +257,7 @@ From figures \ref{fig:LognormalSpectra} one can see that the
 Marcenko-Pastur law is recovered when $v \to 0$, as expected.
 
 When $v$ is small, the integrands in \eqref{eq:LognormalBlueReal} and
-\eqref{eq:LognormalBlueImag} have sharp maxima at $v = 0$. Hence it is
+\eqref{eq:LognormalBlueImag} have sharp maxima at $s = 0$. Hence it is
 useful to approximate them by Taylor expansion. Let's write
 \begin{eqnarray*}
   \lambda &=& \int _{-\infty }^{\infty }\!g \left( s,v \right) F \left( s
@@ -268,8 +276,12 @@ G(s) &=& \frac{q \mathop{\rm  }y }{\left(e^{-2\mathop{\rm  }s }-q
     \mathop{\rm  }x \right)^{2}+q ^{2}\mathop{\rm  }y ^{2}}\\
 \end{eqnarray*}
 
-Taylor-expanding $F(s)$ and $G(s)$ to 2nd order in $s$ and plugging
-them into \eqref{eq:LognormalBlueReal} and
+Taylor-expand $F(s)$ and $G(s)$ to 2nd order in $s$
+\begin{eqnarray*}
+\lambda &=& F(0) + {v \over 2}F^{''}(0) + O(v^2) \\
+0 &=& G(0) + {v \over 2}G^{''}(0) + O(v^2) \\
+\end{eqnarray*}
+Plugging them into \eqref{eq:LognormalBlueReal} and
 \eqref{eq:LognormalBlueImag} gives
 \begin{eqnarray}
 \lambda &=& {-q x+1 \over (-q x+1)^2+q^2 y^2} + {v \over 2}\left\{
