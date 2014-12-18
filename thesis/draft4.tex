@@ -23,17 +23,26 @@
 \maketitle
 
 \section{Introduction}
-Applying free probability thoery to the study of spectra of large
-random matrices has acheived encouraging results. M. Politi, E. Scalas
-and G. Germano \cite{politi2010} studied the empirical covariance
-matrix of iid sequences having an $\alpha$-stable distribution, and
-derived formulas for the spectral density. Burda et al
-\cite{burda2011} investigated empirical covariance matrices of not
-only iid sequences but also those with auto- and
-cross-correlations. In the same paper, they also studied the case of
-I-GARCH sequences ($\sigma^2_t = \alpha \sigma^2_{t-1} + (1 - \alpha)
-r^2_{t-1}$) and derived formulas for the spectral density in the
-limiting situation $T(1-\alpha) \to \text{const}$.
+In financial applications such as principle component analysis, it is
+of major interest to identify the most influential factors in a
+portfolio, whose variances are the largest eigenvalues of the
+covariance matrix of the portfolio \cite{Potters2003}. For this
+purpose, it is important to know the eigenvalue distribution of a
+large random covariance matrix. This distribution constitutes a
+background noise that must be filtered out before the true eigenvalues
+can be reliablly identified.
+
+Applying free probability thoery to the study of eigenvalue
+distributions of large random matrices has acheived encouraging
+results. M. Politi, E. Scalas and G. Germano \cite{politi2010} studied
+the empirical covariance matrix of iid sequences having an
+$\alpha$-stable distribution, and derived formulas for the spectral
+density. Burda et al \cite{burda2011} investigated empirical
+covariance matrices of not only iid sequences but also those with
+auto- and cross-correlations. In the same paper, they also studied the
+case of I-GARCH sequences ($\sigma^2_t = \alpha \sigma^2_{t-1} + (1 -
+\alpha) r^2_{t-1}$) and derived formulas for the spectral density in
+the limiting situation $T(1-\alpha) \to \text{const}$.
 
 However, covariance matrices of sequences of a stochastic volatility
 (SV) model, which often gives more accurate volatility forecast than
@@ -200,10 +209,10 @@ the Blue function of $\bm C$ as
 \begin{eqnarray*}
   B(z) &=& \frac{1}{z} + \int \frac{\sigma ^2 P(s) ds}{1-q \sigma ^2 z}
 \end{eqnarray*}
-where $q = N/T$ and $\sigma$ has the stationary distribution of
-$\sigma_t$, whose probability density function is $P(s)$. Now we are
-specifically considering lognormally distributed $\sigma_t$, so we
-rewrite the above equation as
+where $z$ is a complex argument $z = x + i y$, $q = N/T$ and $\sigma$
+has the stationary distribution of $\sigma_t$, whose probability
+density function is $P(s)$. Now we are specifically considering
+lognormally distributed $\sigma_t$, so we rewrite the above equation as
 \begin{eqnarray}
 B(z) &=& \int_{-\infty }^{\infty } \frac{e^{2 s} \exp \left(-\frac{s^2}{2
       v}\right)}{\sqrt{2 \pi  v} \left(1-q e^{2 s} z\right)} \,
@@ -341,7 +350,7 @@ eigenvalue, respectively. That is
 \begin{eqnarray}
   \lambda_{+} &=& \lambda_{+}^{MP} [1+2v(2\sqrt q +
   1)] \label{eq:lambda_3} \\
-  \lambda_{-} &=& \lambda_{-}^{MP} [1+2v(2\sqrt q -
+  \lambda_{-} &=& \lambda_{-}^{MP} [1-2v(2\sqrt q -
   1)] \label{eq:lambda_4}
 \end{eqnarray}
 This result is checked against simulations, as shown in figure
@@ -392,7 +401,8 @@ The same comparison for the smallest eigenvalue is shown in figure
     \label{fig:lambda_min_q1.0}
   }
   \caption{\small \it Simulated $\E \lambda_\m$ against its linear
-    approximation.}
+    approximation. Green: $\E \lambda_\m$ of simulated
+    eigenvalues. Red: linear approximation.}
   \label{fig:lambda_min_verified}
 \end{figure}
 

@@ -16,7 +16,7 @@ spec = cellstr(['b  '; 'c  '; 'g  '; 'm  '; 'r  '; 'k  ';...
 texts = {};
 c = 1;
 % hold on
-q = 1.0;
+q = 1;
 lam1 = NaN(length(sig), length(phi), 2);
 lam2 = NaN(length(sig), length(phi), 2);
 variance = NaN(length(sig), length(phi));
@@ -36,7 +36,7 @@ for m = 1 : length(sig)
         lam2(m, n, :) = [mean(eigmax), (1+sqrt(q))^2 * ...
                             (1 + 2*v*(2*sqrt(q)+1))];
         lam1(m, n, :) = [mean(eigmin), (1-sqrt(q))^2 * ...
-                            (1 + 2*v*(2*sqrt(q)-1))];
+                            (1 - 2*v*(2*sqrt(q)-1))];
         
         c = c + 1;
     end
@@ -55,15 +55,17 @@ B(:, 1) = B(I, 1);
 B(:, 2) = reshape(lam2(:, :, 2), numel(lam2(:, :, 2)), 1);
 B(:, 2) = B(I, 2);
 
-f = @(param, X) param(1) .* exp(param(2) .* X) + param(3);
-param1 = lsqcurvefit(f, [1, 1, (1 - sqrt(q))^2], variance, A(:, 1));
-param2 = lsqcurvefit(f, [1, 1, (1 + sqrt(q))^2], variance, B(:, 1));
+% f = @(param, X) param(1) .* exp(param(2) .* X) + param(3);
+% param1 = lsqcurvefit(f, [1, 1, (1 - sqrt(q))^2], variance, A(:, 1));
+% param2 = lsqcurvefit(f, [1, 1, (1 + sqrt(q))^2], variance, B(:, 1));
 
-X = linspace(min(variance), max(variance), 500)';
-semilogx(variance, A(:, 1), '+', X, f(param1, X), variance, A(:, 2), '-o');
+% X = linspace(min(variance), max(variance), 500)';
+% semilogx(variance, A(:, 1), '+', X, f(param1, X), variance, A(:, ...
+%                                                   2), '-o');
+semilogx(variance, A(:, 1), 'g-', variance, A(:, 2), 'r-');
 grid on
-legend('simulated E(\lambda_{min})', 'Fit to exponential', ['Linear ' ...
-                    'approximation'], 'Location', 'Northwest');
+% legend('simulated E(\lambda_{min})', 'Fit to exponential', ['Linear ' ...
+%                    'approximation'], 'Location', 'Northwest');
 xlabel('log(v)');
 ylabel('E (\lambda_{min})');
 
