@@ -17,11 +17,12 @@ Nu = Mu + S*xi;
 C = exp(-(2*xi'*Mu + xi'*S^2*xi)./2);
 D = 1/C;
 num = 1.4e+4;
-R = mvnrnd(Nu, S, num)';
-L = -1.0e+3*sum(R);
 
 Q = linspace(VaR-5, VaR+5, 4.0e+2)';
 Fbar = NaN(length(Q), 1);
+
+R = mvnrnd(Nu, S, num)';
+L = -1.0e+3*sum(R);
 for k = 1 : length(Q)
     I = find(L > Q(k));
     Fbar(k) = sum(D*exp(-xi' * R(:, I)))/num;
