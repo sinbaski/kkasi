@@ -6,9 +6,10 @@ L1 = -L1(:, 2);
 
 %% compound into 10-day returns
 A = log(prices);
-L10 = A(1:end-10) - A(11:end);
+B = A(1:10:length(A));
+L10 = B(2:end) - B(1:end - 1);
 
-L = L1;
+L = L10;
 
 n = length(L);
 alfa = 0.99;
