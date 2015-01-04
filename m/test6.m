@@ -1,27 +1,28 @@
 clear all
 close all
-% filename = 'data/sp.csv';
-% price = dlmread(filename, ',', [1, 4, 16084, 4]);
 
-% Volvo B 2007-06-01 -- 2008-12-31 down
-% Volvo B 2009-01-01 -- 2010-12-31 up
-% filename = 'data/volvo_b_20121203-20131202.csv';
+sig = [0.1, 0.2, 0.5];
+spec = cellstr(['b  '; 'c  '; 'g  '; 'm  '; 'r  '; 'k  ';...
+                'b--'; 'c--'; 'g--'; 'm--'; 'r--'; 'k--';...
+                'b: '; 'c: '; 'g: '; 'm: '; 'r: '; 'k: ';...
+                'b-.'; 'c-.'; 'g-.'; 'm-.'; 'r-.'; 'k-.';...
+                ]);
+texts = {};
+c = 1;
+hold on
+q = 0.1;
+for m = 1 : length(sig)
+    % for sig = 0.1
+    v = sig(m)^2;
+    load(sprintf(['../matfys/data/sv/normal_ret/lognormal_vol/q%.1f/Eig-' ...
+                  'sig%.4f-phi%.4f.mat'], q, sig(m), 0), 'ev');
 
-%% daily returns
-filename = 'data/OMXS30.csv';
-price = dlmread(filename, ';', [1, 1, 6849, 6]);
-
-price = price(price(:, 1) > 0 & price(:, 6) > 0, :);
-price = price(price(:, 1) ~= price(:, 2), :);
-
-flipud(price); 
-ret = price2ret(price(:, 3));
-
-v1 = log(price(:,1)./price(:, 2));
-v1 = v1(2:end);
-
-v2 = price(:, 6)/mean(price(:, 6));
-v2 = v2(2:end);
-
-corr([ret.^2, v1, v2])
-% probplot(ret ./ sig);
+    % ev = reshape(ev, 1, prod(size(ev)));
+    % eigmax = max(ev)';
+    eigmin = min(ev)';
+    epdf(eigmin, 4, min(eigmin), max(eigmin), 160, spec{c});
+    texts{c} = sprintf('v = %.2f', v);
+    grid on;
+    c = c + 1;
+end
+legend(texts);

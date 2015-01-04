@@ -1,0 +1,146 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Long Lined Cover Letter
+% LaTeX Template
+% Version 1.0 (1/6/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Matthew J. Miller
+% http://www.matthewjmiller.net/howtos/customized-cover-letter-scripts/
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[10pt,stdletter,dateno,sigleft]{newlfm} % Extra options: 'sigleft' for a left-aligned signature, 'stdletternofrom' to remove the from address, 'letterpaper' for US letter paper - consult the newlfm class manual for more options
+
+\usepackage{charter} % Use the Charter font for the document text
+
+% \newsavebox{\Luiuc}\sbox{\Luiuc}{\parbox[b]{1.75in}{\vspace{0.5in}
+%\includegraphics[width=1.2\linewidth]{logo.png}}} % Company/institution logo at the top left of the page
+% \makeletterhead{Uiuc}{\Lheader{\usebox{\Luiuc}}}
+
+\newlfmP{sigsize=10pt} % Slightly decrease the height of the signature field
+%\newlfmP{addrfromphone} % Print a phone number under the sender's address
+%\newlfmP{addrfromemail} % Print an email address under the sender's address
+% \PhrPhone{Phone} % Customize the "Telephone" text
+% \PhrEmail{Email} % Customize the "E-mail" text
+
+% \lthUiuc % Print the company/institution logo
+
+%----------------------------------------------------------------------------------------
+%	YOUR NAME AND CONTACT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\namefrom{Xie Xiaolei} % Name
+
+\addrfrom{
+%\today\\[12pt] % Date
+% Kiviksgatan 7C \\ % Address
+% 21440 Malm\"o
+% Sweden
+}
+
+% \phonefrom{+46 70 489 0472} % Phone number
+
+% \emailfrom{xie.xiaolei@gmail.com} % Email address
+
+%----------------------------------------------------------------------------------------
+%	ADDRESSEE AND GREETING/CLOSING
+%----------------------------------------------------------------------------------------
+
+\greetto{Dear Sir or Madam,} % Greeting text
+\closeline{Sincerely Yours,} % Closing text
+
+\nameto{
+% Evaluation Committee
+} % Addressee of the letter above the to address
+
+\addrto{
+% Recruitment Officer \\ % To address
+% The Corporation \\
+% 123 Pleasant Lane \\
+% City, State 12345
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+\begin{newlfm}
+
+%----------------------------------------------------------------------------------------
+%	LETTER CONTENT
+%----------------------------------------------------------------------------------------
+
+I understand from your department's website that you are offering Ph.D
+stipends, and found it a truly exciting opportunity. I have hence
+contacted Prof. Thomas Valentin Mikosch and asked for his
+supervision. After a kind discussion with me about my master's 
+thesis, his research area, and a very interesting Ph.D project in
+random matrix theory (RMT) and extreme value theory (EVT), he
+encouraged me to apply. The project that he outlined perfectly
+continued my master's studies and I really look forward to it. So I
+would like to present to you what I did as my master's thesis project
+and what my research interests are.
+
+I wrote my thesis under the supervision of Prof. Sven \AA berg at Lund
+university in the department of mathematical physics. I first compared
+GARCH and stochastic volatility (SV) models by case studying of
+intraday returns of a few Swedish stocks, and then I continued to
+study the covariance matrix of Gaussian and GARCH(1,1) returns. There
+I encountered the problem of eigenvalues distribution of a Wishart
+matrix and found its large and charming literature.
+
+By numerical simulation, I studied in the cases of Gaussian and
+GARCH(1,1) returns, how the matrix elements and eigenvalues were
+distributed, how the eigenvectors were composed, and in particular,
+how the situation was changed by autocorrelations in the return
+series. For example, I found in the case of GARCH(1,1) returns that
+prolonged return series increased the extent of the eigenvectors'
+localization while strengthened autocorrelations decreased the extent
+of localization.
+
+Among the many fascinating things that I was led to by the thesis
+project were the extreme value theory and the random matrix
+theory. In my studies of the intraday stock returns, heavy-tailed
+distributions, and in particular L\'evy distributions, are very
+important, so I read books such as ``Modeling Extremal Events'',
+``Handbook of Financial Time Series'', and papers about the tail
+behavior of GARCH and SV models, as well as those on the eigenvalues
+distribution of random matrices. Quite naturally, these books and
+papers led me to Prof. Mikosch. So when I met him and he outlined the
+Ph.D project on RMT and EVT, which followed directly from my master's
+project, I knew it was truly a great opportunity for me.
+
+If I am so honored to be accepted, I will, first of all, learn more
+about EVT in connection with multivariate time 
+series, and also about its application in the research of RMT. Then I
+would like to explore, for example, if and how the methods developed in the
+research of the largest eigenvalue distribution and the spectral
+density of random matrices, particularly Wishart matrices, can
+be applied, presumably with EVT, to find the eigenvalues distribution
+of a covariance matrix of heavy-tailed returns, such as those generated
+by GARCH or SV models.
+
+In particular, I understand that the problem of the exact
+distribution of the largest eigenvalue of a Wishart matrix has been
+attacked by the holonomic gradient method as an alternative to the
+more conventional approach of series expansion around the origin. It
+would be interesting to see if the same methods are applicable to the
+aforementioned problem.
+
+I look forward to an interview with you. If you would like to know more
+about me, you are most welcome to call me at +46 70 489 0472 or find
+me on LinkedIn as ``Xie Xiaolei''. If you want to contact my thesis
+supervisor, Prof. Sven \AA berg, he is reachable via telephone +46 46
+222 96 33 or mobile +46 70 557 35 69.
+
+\end{newlfm}
+\end{document}

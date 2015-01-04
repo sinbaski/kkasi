@@ -1,0 +1,189 @@
+% Jason R. Blevins - Curriculum Vitae
+%
+% Copyright (C) 2004-2010 Jason R. Blevins
+% http://jblevins.org/projects/cv-template/
+%
+% You may use use this document as a template to create your own CV
+% and you may redistribute the source code freely. No attribution is
+% required in any resulting documents. I do ask that you please leave
+% this notice and the above URL in the source code if you choose to
+% redistribute this file.
+
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{amsfonts, amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+% Comment the following line to use the default Computer Modern font
+% instead of the Palatino font provided by the mathpazo package.
+% Remove the 'osf' bit if you don't like the old style figures.
+%\usepackage[sc,osf]{mathpazo}
+
+% In practice, I use the following font packages instead of mathpazo.
+% beramono provides a nice fixed-width font. xagaramon uses the
+% (commercial) Adobe Garamond font.
+%\usepackage[scaled=0.75]{beramono}
+%\usepackage[osf]{xagaramon}
+
+% Set your name here
+\def\name{Xie Xiaolei}
+
+% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = true,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {computer, mobile, information security},
+  pdftitle = {\name: Curriculum Vitae},
+  pdfsubject = {Curriculum Vitae},
+  pdfpagemode = UseNone
+}
+
+\geometry{
+  body={6.5in, 9.0in},
+  left=1.0in,
+  top=1.0in
+}
+
+% Customize page headers
+\pagestyle{myheadings}
+\markright{\name}
+\thispagestyle{empty}
+
+% Custom section fonts
+\usepackage{sectsty}
+\sectionfont{\ttfamily\mdseries\Large}
+\subsectionfont{\ttfamily\mdseries\itshape\large}
+
+% Other possible font commands include:
+% \ttfamily for teletype,
+% \sffamily for sans serif,
+% \bfseries for bold,
+% \scshape for small caps,
+% \normalsize, \large, \Large, \LARGE sizes.
+
+% Don't indent paragraphs.
+\setlength\parindent{0em}
+
+% Make lists without bullets and compact spacing
+%\renewenvironment{itemize}{
+\newenvironment{aperiod}{
+  \begin{list}{}{
+    \setlength{\leftmargin}{1.5em}
+    \setlength{\itemsep}{1em}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0.25em}
+  }
+}{
+  \end{list}
+}
+
+\begin{document}
+
+% Place name at left
+{\huge Xie Xiaolei}
+
+% Alternatively, print name centered and bold:
+%\centerline{\huge \bf \name}
+
+\vspace{0.25in}
+
+\begin{minipage}[t]{0.5\textwidth}
+  Citizenship: Sweden \\
+  Phone: +46 70 489 0472 \\
+  Email: \href{mailto:xie.xiaolei@gmail.com}{\tt xie.xiaolei@gmail.com} \\
+  Address: Kiviksgatan 7C, 21440 Malm\"{o}, Sweden
+\end{minipage}
+
+\section*{Education}
+\begin{itemize}
+\item Ph.D of Financial Mathematics, October 2014 - present
+  \begin{itemize}
+    \item {\it Reseach Areas:} I am mainly interested in the
+      determination of the largest eigenvalues of a covariance matrix
+      built from samples with heavy-tails. The purpose is dimension
+      reduction, by which the behaviour of a diverse portfolio is
+      replicated by one with much few components and hence analysis of
+      the portfolio becomes more simplified and focused.
+
+      I am also interested in efficient simulation of multivariate
+      GARCH structures, which, among others, helps the determination of
+      model parameters when fitting such a model to a large
+      multi-dimensional data set.
+  \end{itemize}  
+
+\item Master of Physics, Lund University, January 2011 - June 2014
+  \begin{itemize}
+  \item {\it Major Subject:} Econophysics. In my thesis I studied the
+    average eigenvalue distribution of sample covariance matrices,
+    with a focus on the impact of autocorrelations and heavy tails.
+
+    % The returns' models are fitted to such Swedish stocks as Volvo B,
+    % Ericsson B, and Nordea Bank, using both publicly available daily
+    % statistics and intra-day transaction data that I have been
+    % collecting using home-developed software.
+
+    % The studies are carried out analytically wherever feasible, and
+    % otherwise by approximation and simulation. The application of
+    % probability theories, random matrices, and stochastic processes
+    % are the most involved subjects.
+  \end{itemize}
+
+\item M.Sc.(Tech) Computer Science and Engineering, Helsinki
+  University of Technology, 2005 - 2008.
+  \begin{itemize}
+  \item {\it Major Subject:} Mobile Computing - Services and Security
+  \item {\it Average grade:} 4.17/5.
+  \end{itemize}
+
+\item B.Sc. Computer Science \& Technology, Beijing Institute of
+  Technology, 2001- 2005.
+  \begin{itemize}
+  \item {\it Average grade:} 85.5/100.
+  \item {\it Honors:} \textit{Distinguished Graduates of 2005}.
+  \end{itemize}
+\end{itemize}
+
+\section*{Employment}
+\begin{aperiod}
+\item {\it \href{http://www.stericsson.com}{\tt
+      ST-Ericsson}, Audio, Multimedia, Development Engineer, Sep 2008
+    - Jan 2011}
+
+  My main responsibility is software development in C, and sometimes
+  C++ and Java, in the Linux operating system.
+
+\item {\it \href{http://www.hiit.fi}{\tt Helsinki
+      Institute of Information Technology}, Thesis Worker, Oct 2007 -
+    May 2008}
+
+  Funded by HIIT, I wrote my thesis ``A Mutual authentication and Key
+  Agreement Protocol for the UMTS Network''. The algorithm of my
+  protocol proposal was based on the Diffie-Hellman Exchange, but had
+  significant modifications and extensions so that the mutual
+  authentication between the mobile user and the network was delegated
+  to the serving instead of the home network. The protocol design
+  incorporated puzzle schemes that demanded unbalanced computing
+  resources on the two sides to mitigate Denial-of-Service attacks.
+
+\item {\it May 2007 - April 2004}
+  I worked as software engineer in several companies. The programming
+  languages used included C, C++, Java and python.
+\end{aperiod}
+
+\section*{Private Project}
+{\it Trade data collector and analyzer}
+With this home-developed software I have been collecting intra-day
+transaction data and analyzing them in real-time with Matlab. I make
+heavy use of the Matlab economitrics toolbox with its built-in
+routines for estimating ARIMA and GARCH models and then forecasting
+using the obtained model. The idea is to pre-estimate a model and thus
+fix its structure, such as the distribution of the residuals, the
+order of the auto-regressive and the moving-average components, the
+order of differencing/fractional differencing, etc., and then to 
+evolve the model parameters in real-time as new data are fed into
+the system.
+\end{document}
