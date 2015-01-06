@@ -1,0 +1,57 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
+% \usepackage{bookmark}
+
+\input{../physics_common.tex}
+\author{Xie Xiaolei}
+\date{\today}
+\title{Solutions to Final Term Test}
+\begin{document}
+\maketitle
+
+\begin{enumerate}[1.]
+\item
+  \begin{enumerate}[(a)]
+  \item In the following we write $M_{m, n}=\max(Y_m, Y_{m+1}, \cdots,
+    Y_n)$ and $F_i(x) = P(Y_i \le x, \cdots, Y_{i+k-1} \le x)$ so that
+    $P(X_i \le x) = F_{i+1}(x)$. Obviously $F_1 = F$. Now we consider,
+    for $i \ge 1$
+    \begin{eqnarray}
+      && F_{i+1}(x) \nonumber \\
+      &=& P(M_{i+1, i+k} \le x) \nonumber \\
+      &=& P(M_{i+1, i+k} \le x | M_{i, i+k-1} \le x) F_i(x) +
+      \nonumber \\
+      && P(M_{i+1, i+k} \le x | M_{i, i+k-1} > x) (1- F_i(x)) \label{eq:1a}
+    \end{eqnarray}
+    Meanwhile
+    \begin{eqnarray*}
+      && P(M_{i+1, i+k} \le x | M_{i, i+k-1} \le x) \\
+      &=& P(Y_{i+k} \le x) \\
+      &=& F^{1/k}(x)
+    \end{eqnarray*}
+    and
+    \begin{eqnarray*}
+      && P(M_{i+1, i+k} \le x | M_{i, i+k-1} > x) \\
+      &=& P(M_{i+1, i+k} \le x | Y_i > x, M_{i+1, i+k-1} \le x) + \\
+      && P(M_{i+1, i+k} \le x | M_{i+1, i+k-1} > x) \\
+      &=& P(Y_{i+k} \le x) + 0 \\
+      &=& F^{1/k}(x)
+    \end{eqnarray*}
+    Substituting the two conditional probabilities into \eqref{eq:1a},
+    we get
+    \[
+    F_{i+1} = F^{1/k}(x)
+    \]
+    The df. of $\{X_1, X_2, \cdots, X_i, \cdots\}$ are $\{F_2(x), F_3(x),
+    \cdots, F_{i+1}(x), \cdots\}$, none of which depends on its
+    respective index. Hence $X_i$ is a strictly stationary sequence.
+  \end{enumerate}
+\end{enumerate}
+\end{document}
