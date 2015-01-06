@@ -26,9 +26,9 @@
     \begin{eqnarray}
       && F_{i+1}(x) \nonumber \\
       &=& P(M_{i+1, i+k} \le x) \nonumber \\
-      &=& P(M_{i+1, i+k} \le x | M_{i, i+k-1} \le x) F_i(x)
+      &=& P(M_{i+1, i+k} \le x | M_{i, i+k-1} \le x) F_i(x) +
       \nonumber \\
-      && +P(M_{i+1, i+k} \le x | M_{i, i+k-1} > x) (1- F_i(x)) \label{eq:1a}
+      && P(M_{i+1, i+k} \le x | M_{i, i+k-1} > x) (1- F_i(x)) \label{eq:1a}
     \end{eqnarray}
     Meanwhile
     \begin{eqnarray*}
@@ -39,8 +39,8 @@
     and
     \begin{eqnarray*}
       && P(M_{i+1, i+k} \le x | M_{i, i+k-1} > x) \\
-      &=& P(M_{i+1, i+k} \le x | Y_i > x, M_{i+1, i+k-1} \le x) \\
-      && +P(M_{i+1, i+k} \le x | M_{i+1, i+k-1} > x) \\
+      &=& P(M_{i+1, i+k} \le x | Y_i > x, M_{i+1, i+k-1} \le x) + \\
+      && P(M_{i+1, i+k} \le x | M_{i+1, i+k-1} > x) \\
       &=& P(Y_{i+k} \le x) + 0 \\
       &=& F^{1/k}(x)
     \end{eqnarray*}
@@ -51,35 +51,93 @@
     \]
     The distribution function of $X_i$ is $F^{1/k}(x)$.
 
-  \item The df. of $\{X_1, X_2, \cdots, X_i, \cdots\}$ are $\{F_2(x), F_3(x),
-    \cdots, F_{i+1}(x), \cdots\}$, none of which depends on its
-    respective index. Hence $X_i$ is a strictly stationary sequence.
+  \item We want to prove, for some $n \ge 1, h \ge 1$, $(X_1, \cdots,
+    X_n) \ed (X_{1+h}, \cdots, X_{n+h})$.
+
+    When $n = 1$, this is already proven in the solution to the last
+    question since $X_i \sim F^{1/k}$, for any $i$.
+
+    Now suppose $(X_1, \cdots, X_n) \ed (X_{1+h}, \cdots, X_{n+h})$
+    for any $n \ge 1, h \ge 1$. In the following we prove
+    \[
+    (X_1, \cdots, X_{n+1}) \ed (X_{1+h}, \cdots, X_{n+1+h})
+    \]
+    
+    In fact we only need to prove the statement for $h=1$. Because
+    $(Y_i)$ is an iid sequence, we can always remove the first element
+    and relabel the sequence so that $Y_{i+1} \to Y_{i}$. Applying the
+    statement for $h=1$ gives $(X_2, \cdots, X_{n+1}) \ed (X_{3},
+    \cdots, X_{n+2})$ with the previous labeling, thus establishing
+    the statement for $h=2$. This procedure can be repeated, proving
+    the statement for all values of $h$.
+
+    In the case $h=1$, we need to prove
+    \begin{eqnarray*}
+      && P\left[(X_1 \le a_1, \cdots, X_{n+1} \le a_{n+1}) \le (a_1,
+        \cdots, a_{n+1}) \right] \\
+      &=& P\left[(X_2 \le a_1, \cdots, X_{n+2} \le a_{n+1}) \right]
+    \end{eqnarray*}
+    Consider
+    \begin{eqnarray*}
+      && P(X_1 \le a_1, \cdots, X_{n+1} \le a_{n+1}) \\
+      &=& P(X_{n+1} \le a_{n+1} | X_1 \le a_1, \cdots, X_{n} \le
+      a_{n}) \cdot \\
+      && P(X_1 \le a_1, \cdots, X_{n} \le a_{n})
+    \end{eqnarray*}
+    \begin{eqnarray*}
+      && P(X_{n+1} \le a_{n+1} | X_1 \le a_1, \cdots, X_{n} \le
+      a_{n}) \\
+      &=& P(Y_{n+2} \le a_{n+1}, \cdots, Y_{n+k+1} \le a_{n+1} | Y_2
+      \le b_1, \cdots, Y_{n+k} \le b_{n+k-1})
+    \end{eqnarray*}
+    where $b_1, \cdots, b_{n+k-1}$ are constants depending on $a_1,
+    \cdots, a_n$. Because $(Y_i)$ are iid, the above conditional
+    probability can be factorized
+    \begin{eqnarray*}
+      && P(Y_{n+2} \le a_{n+1}, \cdots, Y_{n+k+1} \le a_{n+1} | Y_2
+      \le b_1, \cdots, Y_{n+k} \le b_{n+k-1}) \\
+      &=& P(Y_{n+2} \le a_{n+1} | Y_{n+2} \le b_{n+1}) \cdots
+      P(Y_{n+k} \le a_{n+1} | Y_{n+k} \le b_{n+k-1}) \cdot \\
+      && P(Y_{n+k+1} \le a_{n+1}) \\
+      &=& {F^{1/k}(a_{n+1}) \over F^{1/k}(b_{n+1})} \cdots
+      {F^{1/k}(a_{n+1}) \over F^{1/k}(b_{n+k-1})} F^{1/k}(a_{n+1})
+    \end{eqnarray*}
+    
+    In comparison,
+    \begin{eqnarray*}
+      && P(X_2 \le a_1, \cdots, X_{n+2} \le a_{n+1}) \\
+      &=& P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
+      a_{n}) \cdot \\
+      && P(X_2 \le a_1, \cdots, X_{n+1} \le a_{n})
+    \end{eqnarray*}
+    By assumption, $(X_2, \cdots, X_{n+1}) \ed (X_1, \cdots, X_{n})$,
+    meaning
+    \[
+    P(X_2 \le a_1, \cdots, X_{n+1} \le a_{n}) = P(X_1 \le
+    a_1, \cdots, X_{n} \le a_{n})
+    \]
+    
 
   \item Notice that $M_n=\max(X_1, \cdots, X_n) = \max(Y_2, \cdots,
-    Y_{n+k+1})$. Because $n \bar{F}(u_n) \to \tau$, Poisson's
-    approximation gives
+    Y_{n+k+1})$. Since $(Y_i)$ is an iid sequence
     \[
-    \lim_{n \to \infty} P(\max(Y_1, \cdots, Y_n) \le u_n) = e^{-\tau}
+    P(M_n \le x) = F^{n+k \over k}(x)
     \]
-    But
+    Because
+    \[
+    \lim_{n \to \infty} n \bar{F}(u_n) = \tau
+    \]
+    by Poisson approximation,
     \begin{eqnarray*}
-      && P(\max(Y_1, \cdots, Y_n) \le u_n) \\
-      &=& P(Y_1 = \max(Y_1, \cdots, Y_n)) P(Y_1 \le u_n) \\
-      && +P(Y_1 \ne \max(Y_1, \cdots, Y_n)) P(\max(Y_2, \cdots, Y_n) \le
-      u_n) \\
-      &=& {1 \over n} F^{1/k}(u_n) + {n-1 \over n} P(\max(Y_2, \cdots,
-      Y_n) \le u_n)
+      \lim_{n \to \infty} F^n(u_n) &=& e^{-\tau} \\
+      \lim_{n \to \infty} (F^n)^{\frac{n+k}{k} \frac{1}{n}} (u_n) &=&
+      \lim_{n \to \infty} (e^{-\tau})^{\frac{n+k}{k} \frac{1}{n}} =
+      e^{-\tau / k} \\
     \end{eqnarray*}
-    Since ${1 \over n} F^{1/k}(u_n) \to 0$ and ${n-1 \over n} \to 1$
-    as $n \to \infty$, we have $P(\max(Y_2, \cdots, Y_n) \le u_n)
-    \to e^{-\tau}$, i.e.
-    \begin{eqnarray*}
-      \lim_{n \to \infty} P(\max(X_1, \cdots, X_{n-k-1}) \le u_n) &=&
-      e^{-\tau}\\
-      \lim_{n \to \infty} P(\max(X_1, \cdots, X_{n}) \le u_{n+k+1}) &=&
-      e^{-\tau}\\
-    \end{eqnarray*}
-
+    That is
+    \[
+    \lim_{n \to \infty} P(M_n \le u_n) = e^{-\tau / k}
+    \]
   \item It is straight-forward to calculate
     \begin{eqnarray*}
       N_n &=& \E \sum_{i=1}^{n-1} I_{\{X_i = X_{i+1}\}} \\
