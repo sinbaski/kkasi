@@ -1,0 +1,108 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
+% \usepackage{bookmark}
+
+\input{../physics_common.tex}
+\author{Xie Xiaolei}
+\date{\today}
+\title{Solutions to the Final Term Test}
+\begin{document}
+\maketitle
+
+\begin{enumerate}[1.]
+\item
+  \begin{enumerate}[(a)]
+  \item In the following we write $M_{m, n}=\max(Y_m, Y_{m+1}, \cdots,
+    Y_n)$ and $F_i(x) = P(Y_i \le x, \cdots, Y_{i+k-1} \le x)$ so that
+    $P(X_i \le x) = F_{i+1}(x)$. Obviously $F_1 = F$. Now we consider,
+    for $i \ge 1$
+    \begin{eqnarray}
+      && F_{i+1}(x) \nonumber \\
+      &=& P(M_{i+1, i+k} \le x) \nonumber \\
+      &=& P(M_{i+1, i+k} \le x | M_{i, i+k-1} \le x) F_i(x)
+      \nonumber \\
+      && +P(M_{i+1, i+k} \le x | M_{i, i+k-1} > x) (1- F_i(x)) \label{eq:1a}
+    \end{eqnarray}
+    Meanwhile
+    \begin{eqnarray*}
+      && P(M_{i+1, i+k} \le x | M_{i, i+k-1} \le x) \\
+      &=& P(Y_{i+k} \le x) \\
+      &=& F^{1/k}(x)
+    \end{eqnarray*}
+    and
+    \begin{eqnarray*}
+      && P(M_{i+1, i+k} \le x | M_{i, i+k-1} > x) \\
+      &=& P(M_{i+1, i+k} \le x | Y_i > x, M_{i+1, i+k-1} \le x) \\
+      && +P(M_{i+1, i+k} \le x | M_{i+1, i+k-1} > x) \\
+      &=& P(Y_{i+k} \le x) + 0 \\
+      &=& F^{1/k}(x)
+    \end{eqnarray*}
+    Substituting the two conditional probabilities into \eqref{eq:1a},
+    we get
+    \[
+    F_{i+1} = F^{1/k}(x)
+    \]
+    The distribution function of $X_i$ is $F^{1/k}(x)$.
+
+  \item The df. of $\{X_1, X_2, \cdots, X_i, \cdots\}$ are $\{F_2(x), F_3(x),
+    \cdots, F_{i+1}(x), \cdots\}$, none of which depends on its
+    respective index. Hence $X_i$ is a strictly stationary sequence.
+
+  \item Notice that $M_n=\max(X_1, \cdots, X_n) = \max(Y_2, \cdots,
+    Y_{n+k+1})$. Because $n \bar{F}(u_n) \to \tau$, Poisson's
+    approximation gives
+    \[
+    \lim_{n \to \infty} P(\max(Y_1, \cdots, Y_n) \le u_n) = e^{-\tau}
+    \]
+    But
+    \begin{eqnarray*}
+      && P(\max(Y_1, \cdots, Y_n) \le u_n) \\
+      &=& P(Y_1 = \max(Y_1, \cdots, Y_n)) P(Y_1 \le u_n) \\
+      && +P(Y_1 \ne \max(Y_1, \cdots, Y_n)) P(\max(Y_2, \cdots, Y_n) \le
+      u_n) \\
+      &=& {1 \over n} F^{1/k}(u_n) + {n-1 \over n} P(\max(Y_2, \cdots,
+      Y_n) \le u_n)
+    \end{eqnarray*}
+    Since ${1 \over n} F^{1/k}(u_n) \to 0$ and ${n-1 \over n} \to 1$
+    as $n \to \infty$, we have $P(\max(Y_2, \cdots, Y_n) \le u_n)
+    \to e^{-\tau}$, i.e.
+    \begin{eqnarray*}
+      \lim_{n \to \infty} P(\max(X_1, \cdots, X_{n-k-1}) \le u_n) &=&
+      e^{-\tau}\\
+      \lim_{n \to \infty} P(\max(X_1, \cdots, X_{n}) \le u_{n+k+1}) &=&
+      e^{-\tau}\\
+    \end{eqnarray*}
+
+  \item It is straight-forward to calculate
+    \begin{eqnarray*}
+      N_n &=& \E \sum_{i=1}^{n-1} I_{\{X_i = X_{i+1}\}} \\
+      &=& \sum_{i=1}^{n-1} P(X_i = X_{i+1}) \\
+    \end{eqnarray*}
+    where
+    \begin{eqnarray*}
+      && P(X_i = X_{i+1}) \\
+      &=& P[Y_{i+1} \ne \max(Y_{i+1}, \cdots,
+      Y_{i+k}), Y_{i+k+1} \ne \max(Y_{i+2}, \cdots, Y_{i+k+1})]
+    \end{eqnarray*}
+    Because $Y_i$ is an iid sequence, the two events of the above
+    joint probability are independent. Thus we have
+    \begin{eqnarray*}
+      P(X_i = X_{i+1}) &=& \left({k-1 \over k}\right)^2
+    \end{eqnarray*}
+    and
+    \begin{eqnarray*}
+      N_n &=& (n-1) \left({k-1 \over k}\right)^2 \\
+      &\ge& {n-1 \over 4}
+    \end{eqnarray*}
+    The expected number of equal pairs is at least 1/4 of the number
+    of pairs.
+  \end{enumerate}
+\end{enumerate}
+\end{document}
