@@ -19,57 +19,39 @@
 \begin{enumerate}[1.]
 \item
   \begin{enumerate}[(a)]
-  \item In the following we write $M_{m, n}=\max(Y_m, Y_{m+1}, \cdots,
-    Y_n)$ and $F_i(x) = P(Y_i \le x, \cdots, Y_{i+k-1} \le x)$ so that
-    $P(X_i \le x) = F_{i+1}(x)$. Obviously $F_1 = F$. Now we consider,
-    for $i \ge 1$
-    \begin{eqnarray}
-      && F_{i+1}(x) \nonumber \\
-      &=& P(M_{i+1, i+k} \le x) \nonumber \\
-      &=& P(M_{i+1, i+k} \le x | M_{i, i+k-1} \le x) F_i(x) +
-      \nonumber \\
-      && P(M_{i+1, i+k} \le x | M_{i, i+k-1} > x) (1- F_i(x)) \label{eq:1a}
-    \end{eqnarray}
-    Meanwhile
+  \item We consider the probability
     \begin{eqnarray*}
-      && P(M_{i+1, i+k} \le x | M_{i, i+k-1} \le x) \\
-      &=& P(Y_{i+k} \le x) \\
-      &=& F^{1/k}(x)
+      && P(X_i < x) \\
+      &=& P(\bigcap_{j=1}^k \{Y_{i+j} \le x\}) \\
     \end{eqnarray*}
-    and
+    Since the $(Y_i)$ are iid with df. $F^{1/k}$, we have
     \begin{eqnarray*}
-      && P(M_{i+1, i+k} \le x | M_{i, i+k-1} > x) \\
-      &=& P(M_{i+1, i+k} \le x | Y_i > x, M_{i+1, i+k-1} \le x) + \\
-      && P(M_{i+1, i+k} \le x | M_{i+1, i+k-1} > x) \\
-      &=& P(Y_{i+k} \le x) + 0 \\
-      &=& F^{1/k}(x)
+      && P(\bigcap_{j=1}^k \{Y_{i+j} \le x\}) \\
+      &=& [F^{1/k}(x)]^k \\
+      &=& F(x) \\
     \end{eqnarray*}
-    Substituting the two conditional probabilities into \eqref{eq:1a},
-    we get
-    \[
-    F_{i+1} = F^{1/k}(x)
-    \]
-    The distribution function of $X_i$ is $F^{1/k}(x)$.
+    The distribution function of $X_i$ is $F(x)$.
 
-  \item We want to prove, for some $n \ge 1, h \ge 1$, $(X_1, \cdots,
-    X_n) \ed (X_{1+h}, \cdots, X_{n+h})$.
+  \item We want to prove, $\forall n \ge 1, \forall h \ge 1$, $(X_1,
+    \cdots, X_n) \ed (X_{1+h}, \cdots, X_{n+h})$.
 
     When $n = 1$, this is already proven in the solution to the last
-    question since $X_i \sim F^{1/k}$, for any $i$.
+    question since $X_i \sim F$, for any $i$.
 
     Now suppose $(X_1, \cdots, X_n) \ed (X_{1+h}, \cdots, X_{n+h})$
-    for any $n \ge 1, h \ge 1$. In the following we prove
+    for some $n \ge 1$ and $\forall h \ge 1$. In the following we
+    prove 
     \[
     (X_1, \cdots, X_{n+1}) \ed (X_{1+h}, \cdots, X_{n+1+h})
     \]
     
     In fact we only need to prove the statement for $h=1$. Because
     $(Y_i)$ is an iid sequence, we can always remove the first element
-    and relabel the sequence so that $Y_{i+1} \to Y_{i}$. Applying the
-    statement for $h=1$ gives $(X_2, \cdots, X_{n+1}) \ed (X_{3},
-    \cdots, X_{n+2})$ with the previous labeling, thus establishing
-    the statement for $h=2$. This procedure can be repeated, proving
-    the statement for all values of $h$.
+    and relabel the sequence so that the old $Y_{i+1}$ is the new
+    $Y_{i}$. Applying the statement for $h=1$ gives $(X_2, \cdots,
+    X_{n+1}) \ed (X_{3}, \cdots, X_{n+2})$ with the old indices,
+    thus establishing the statement for $h=2$. This procedure can be
+    repeated, proving the statement for all values of $h$.
 
     In the case $h=1$, we need to prove
     \begin{eqnarray*}
@@ -77,7 +59,7 @@
         \cdots, a_{n+1}) \right] \\
       &=& P\left[(X_2 \le a_1, \cdots, X_{n+2} \le a_{n+1}) \right]
     \end{eqnarray*}
-    Consider
+    We may write
     \begin{eqnarray*}
       && P(X_1 \le a_1, \cdots, X_{n+1} \le a_{n+1}) \\
       &=& P(X_{n+1} \le a_{n+1} | X_1 \le a_1, \cdots, X_{n} \le
@@ -99,8 +81,9 @@
       &=& P(Y_{n+2} \le a_{n+1} | Y_{n+2} \le b_{n+1}) \cdots
       P(Y_{n+k} \le a_{n+1} | Y_{n+k} \le b_{n+k-1}) \cdot \\
       && P(Y_{n+k+1} \le a_{n+1}) \\
-      &=& {F^{1/k}(a_{n+1}) \over F^{1/k}(b_{n+1})} \cdots
-      {F^{1/k}(a_{n+1}) \over F^{1/k}(b_{n+k-1})} F^{1/k}(a_{n+1})
+      &=& {F^{1/k}(a_{n+1} \wedge b_{n+1}) \over F^{1/k}(b_{n+1})} \cdots
+      {F^{1/k}(a_{n+1} \wedge b_{n+k-1}) \over F^{1/k}(b_{n+k-1})}
+      F^{1/k}(a_{n+1})
     \end{eqnarray*}
     
     In comparison,
@@ -116,12 +99,35 @@
     P(X_2 \le a_1, \cdots, X_{n+1} \le a_{n}) = P(X_1 \le
     a_1, \cdots, X_{n} \le a_{n})
     \]
-    
+    It remains to establish
+    \begin{eqnarray*}
+    && P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
+    a_{n}) \\
+    &=& P(X_{n+1} \le a_{n+1} | X_1 \le a_1, \cdots, X_{n} \le
+    a_{n})
+    \end{eqnarray*}
+    Analogous to the calculation before
+    \begin{eqnarray*}
+      && P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
+      a_{n})      \\
+      &=& P(Y_{n+3} \le a_{n+1}, \cdots, Y_{n+k+2} \le a_{n+1} | Y_3
+      \le b_1, \cdots, Y_{n+k+1} \le b_{n+k-1}) \\
+      &=& P(Y_{n+3} \le a_{n+1} | Y_{n+3} \le b_{n+1}) \cdots
+      P(Y_{n+k+1} \le a_{n+1} | Y_{n+k+1} \le b_{n+k-1}) \cdot \\
+      && P(Y_{n+k+2} \le a_{n+1}) \\
+      &=& {F^{1/k}(a_{n+1} \wedge b_{n+1}) \over F^{1/k}(b_{n+1})} \cdots
+      {F^{1/k}(a_{n+1} \wedge b_{n+k-1}) \over F^{1/k}(b_{n+k-1})}
+      F^{1/k}(a_{n+1}) \\
+      &=& P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
+      a_{n})\\
+      \Box
+    \end{eqnarray*}
+
 
   \item Notice that $M_n=\max(X_1, \cdots, X_n) = \max(Y_2, \cdots,
-    Y_{n+k+1})$. Since $(Y_i)$ is an iid sequence
+    Y_{n+k})$. Since $(Y_i)$ is an iid sequence
     \[
-    P(M_n \le x) = F^{n+k \over k}(x)
+    P(M_n \le x) = F^{n+k-1 \over k}(x)
     \]
     Because
     \[
@@ -130,8 +136,8 @@
     by Poisson approximation,
     \begin{eqnarray*}
       \lim_{n \to \infty} F^n(u_n) &=& e^{-\tau} \\
-      \lim_{n \to \infty} (F^n)^{\frac{n+k}{k} \frac{1}{n}} (u_n) &=&
-      \lim_{n \to \infty} (e^{-\tau})^{\frac{n+k}{k} \frac{1}{n}} =
+      \lim_{n \to \infty} (F^n)^{\frac{n+k-1}{k} \frac{1}{n}} (u_n) &=&
+      \lim_{n \to \infty} (e^{-\tau})^{\frac{n+k-1}{k} \frac{1}{n}} =
       e^{-\tau / k} \\
     \end{eqnarray*}
     That is
@@ -161,6 +167,28 @@
     \end{eqnarray*}
     The expected number of equal pairs is at least 1/4 of the number
     of pairs.
+  \end{enumerate}
+
+\item
+  \begin{enumerate}[(a)]
+  \item Proof:
+
+    \begin{eqnarray*}
+      e_F(u) &=& \int_{u}^{\infty} {\bar{F}(y) \over \bar{F}(u)} dy
+    \end{eqnarray*}
+    Let $z = y - u$ and change variable of integration. We get
+    \begin{eqnarray*}
+      e_F(u) &=& \int_{0}^{\infty} {\bar{F}(z+u) \over \bar{F}(u)} dz
+    \end{eqnarray*}
+    Due to the assumed property we have
+    \begin{eqnarray*}
+      \lim_{z \to \infty} {\bar{F}(u+z) \over \bar{F}(u)} &=&
+      e^{-\gamma z}
+    \end{eqnarray*}
+    So
+    \begin{eqnarray*}
+      \lim_{u \to \infty} e_F(u) = \int_{0}^{\infty} e^{-\gamma z} dz
+    \end{eqnarray*}
   \end{enumerate}
 \end{enumerate}
 \end{document}
