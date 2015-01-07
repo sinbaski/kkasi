@@ -19,22 +19,22 @@ d = 1;
 e = 1;
 A = [];
 B = [];
-% C = [];
-for k = 60 : N-1
+T = 60;
+for k = T : N-1
     if isempty(A)
-        A = closing(k-59 : k);
+        A = closing(k-T+1 : k);
         B = price2ret(A);
     else
         A = [A(2:end); closing(k)];
         B = [B(2:end); price2ret(closing(k-1:k))];
     end
     % C = price2ret(closing(k-9:9:k))/9;    
-    if (sum(A <= closing(k)) <= 3 && ...
+    if (sum(A <= closing(k)) <= T/20 && ...
         ret(k) >= quantile(B, 0.9))
         Jup(c) = k+1;
         c = c + 1;
     elseif (ret(k) <= quantile(B, 0.1) &&...
-            sum(A >= closing(k)) <= 3)
+            sum(A >= closing(k)) <= T/20)
         Jdown(d) = k+1;
         d = d + 1;
     % elseif (sum(A > closing(k)) <= 3 &&...
