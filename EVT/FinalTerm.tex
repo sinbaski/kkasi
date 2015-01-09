@@ -81,49 +81,49 @@
         && P(Y_{n+2} \le a_{n+1}, \cdots, Y_{n+k+1} \le a_{n+1} | Y_2
         \le b_1, \cdots, Y_{n+k} \le b_{n+k-1}) \\
         &=& P(Y_{n+2} \le a_{n+1} | Y_{n+2} \le b_{n+1}) \cdots
-      P(Y_{n+k} \le a_{n+1} | Y_{n+k} \le b_{n+k-1}) \cdot \\
-      && P(Y_{n+k+1} \le a_{n+1}) \\
-      &=& {F^{1/k}(a_{n+1} \wedge b_{n+1}) \over F^{1/k}(b_{n+1})} \cdots
-      {F^{1/k}(a_{n+1} \wedge b_{n+k-1}) \over F^{1/k}(b_{n+k-1})}
-      F^{1/k}(a_{n+1})
-    \end{eqnarray*}
-    
-    In comparison,
-    \begin{eqnarray*}
-      && P(X_2 \le a_1, \cdots, X_{n+2} \le a_{n+1}) \\
-      &=& P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
-      a_{n}) \cdot \\
-      && P(X_2 \le a_1, \cdots, X_{n+1} \le a_{n})
-    \end{eqnarray*}
-    By assumption, $(X_2, \cdots, X_{n+1}) \ed (X_1, \cdots, X_{n})$,
-    meaning
-    \[
-    P(X_2 \le a_1, \cdots, X_{n+1} \le a_{n}) = P(X_1 \le
-    a_1, \cdots, X_{n} \le a_{n})
-    \]
-    It remains to establish
-    \begin{eqnarray*}
-    && P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
-    a_{n}) \\
-    &=& P(X_{n+1} \le a_{n+1} | X_1 \le a_1, \cdots, X_{n} \le
-    a_{n})
-    \end{eqnarray*}
-    Analogous to the calculation before
-    \begin{eqnarray*}
-      && P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
-      a_{n})      \\
-      &=& P(Y_{n+3} \le a_{n+1}, \cdots, Y_{n+k+2} \le a_{n+1} | Y_3
-      \le b_1, \cdots, Y_{n+k+1} \le b_{n+k-1}) \\
-      &=& P(Y_{n+3} \le a_{n+1} | Y_{n+3} \le b_{n+1}) \cdots
-      P(Y_{n+k+1} \le a_{n+1} | Y_{n+k+1} \le b_{n+k-1}) \cdot \\
-      && P(Y_{n+k+2} \le a_{n+1}) \\
-      &=& {F^{1/k}(a_{n+1} \wedge b_{n+1}) \over F^{1/k}(b_{n+1})} \cdots
-      {F^{1/k}(a_{n+1} \wedge b_{n+k-1}) \over F^{1/k}(b_{n+k-1})}
-      F^{1/k}(a_{n+1}) \\
-      &=& P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
-      a_{n})\\
-    \end{eqnarray*}
-  \end{proof}
+        P(Y_{n+k} \le a_{n+1} | Y_{n+k} \le b_{n+k-1}) \cdot \\
+        && P(Y_{n+k+1} \le a_{n+1}) \\
+        &=& {F^{1/k}(a_{n+1} \wedge b_{n+1}) \over F^{1/k}(b_{n+1})} \cdots
+        {F^{1/k}(a_{n+1} \wedge b_{n+k-1}) \over F^{1/k}(b_{n+k-1})}
+        F^{1/k}(a_{n+1})
+      \end{eqnarray*}
+      
+      In comparison,
+      \begin{eqnarray*}
+        && P(X_2 \le a_1, \cdots, X_{n+2} \le a_{n+1}) \\
+        &=& P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
+        a_{n}) \cdot \\
+        && P(X_2 \le a_1, \cdots, X_{n+1} \le a_{n})
+      \end{eqnarray*}
+      By assumption, $(X_2, \cdots, X_{n+1}) \ed (X_1, \cdots, X_{n})$,
+      meaning
+      \[
+      P(X_2 \le a_1, \cdots, X_{n+1} \le a_{n}) = P(X_1 \le
+      a_1, \cdots, X_{n} \le a_{n})
+      \]
+      It remains to establish
+      \begin{eqnarray*}
+        && P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
+        a_{n}) \\
+        &=& P(X_{n+1} \le a_{n+1} | X_1 \le a_1, \cdots, X_{n} \le
+        a_{n})
+      \end{eqnarray*}
+      Analogous to the calculation before
+      \begin{eqnarray*}
+        && P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
+        a_{n})      \\
+        &=& P(Y_{n+3} \le a_{n+1}, \cdots, Y_{n+k+2} \le a_{n+1} | Y_3
+        \le b_1, \cdots, Y_{n+k+1} \le b_{n+k-1}) \\
+        &=& P(Y_{n+3} \le a_{n+1} | Y_{n+3} \le b_{n+1}) \cdots
+        P(Y_{n+k+1} \le a_{n+1} | Y_{n+k+1} \le b_{n+k-1}) \cdot \\
+        && P(Y_{n+k+2} \le a_{n+1}) \\
+        &=& {F^{1/k}(a_{n+1} \wedge b_{n+1}) \over F^{1/k}(b_{n+1})} \cdots
+        {F^{1/k}(a_{n+1} \wedge b_{n+k-1}) \over F^{1/k}(b_{n+k-1})}
+        F^{1/k}(a_{n+1}) \\
+        &=& P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
+        a_{n})\\
+      \end{eqnarray*}
+    \end{proof}
 
   \item Notice that $M_n=\max(X_1, \cdots, X_n) = \max(Y_2, \cdots,
     Y_{n+k})$. Since $(Y_i)$ is an iid sequence
@@ -275,35 +275,113 @@
       That is, $\gamma = \infty$ and $\lim_{u \to \infty} e_F(u) =
       0$.
     \end{enumerate}
+  \end{enumerate}
+\item
+  \begin{enumerate}{(a)}
+    \begin{enumerate}[(i)]
+    \item The Cauchy distribution has regularly varying tail with index
+      -1, which we prove below, hence it belongs to
+      $\text{MDA}(\Phi_{1})$.
 
-  \item The Cauchy distribution has regularly varying tail with index
-    -1, which we prove below, hence it belongs to
-    $\text{MDA}(\Phi_{-1})$.
-    \begin{proof}
-      \begin{eqnarray*}
-        \lim_{x \to \infty} {\bar{F}(ax) \over \bar{F}(x)} &=&
-        \lim_{x \to \infty}
-        {
-          1/2 - {1 \over \pi} \arctan(ax)
-          \over
-          1/2 - {1 \over \pi} \arctan(x)
+      \begin{proof}
+        \begin{eqnarray*}
+          \lim_{x \to \infty} {\bar{F}(ax) \over \bar{F}(x)} &=&
+          \lim_{x \to \infty}
+          {
+            1/2 - {1 \over \pi} \arctan(ax)
+            \over
+            1/2 - {1 \over \pi} \arctan(x)
+          }
+        \end{eqnarray*}
+        Using l'Hopital's rule, we have
+        \begin{eqnarray*}
+          \lim_{x \to \infty}
+          {
+            1/2 - {1 \over \pi} \arctan(ax)
+            \over
+            1/2 - {1 \over \pi} \arctan(x)
+          } &=&
+          \lim_{x \to \infty} {
+            a(x^2 + 1)
+            \over
+            a^2 x^2 + 1
+          } = {1 \over a}
+        \end{eqnarray*}
+      \end{proof}
+
+    \item For a simulated sample of size 1000, the Hill and the
+      Pickands, Dekkers-Einmahl plots are shown in figure
+      \ref{fig:Hill-Pickands-1000}.
+      \begin{figure}[htb!]
+        \centering
+        \subfigure[sample size 1000, $\var(\xi^{(H)})$ = 0.0102, $\var(\xi^{(P)})$ = 2.5723]{
+          \includegraphics[scale=0.35, clip=true, trim=74 232 94 186]{Hill-Pickands-1000.pdf}
+          \label{fig:Hill-Pickands-1000}
         }
-      \end{eqnarray*}
-      Using l'Hopital's rule, we have
-      \begin{eqnarray*}
-        \lim_{x \to \infty}
-        {
-          1/2 - {1 \over \pi} \arctan(ax)
-          \over
-          1/2 - {1 \over \pi} \arctan(x)
-        } &=&
-        \lim_{x \to \infty} {
-          a(x^2 + 1)
-          \over
-          a^2 x^2 + 1
-        } = {1 \over a}\\
-      \end{eqnarray*}
-    \end{proof}
+        \subfigure[sample size 100, $\var(\xi^{(H)})$ = 0.1019, $\var(\xi^{(P)})$ = 2.8868]{
+          \includegraphics[scale=0.35, clip=true, trim=86 232 94 186]{Hill-Pickands-100.pdf}
+          \label{fig:Hill-Pickands-100}
+        }
+        \caption{\small \it: Hill and Pickands estimator of the extreme
+          value index $\xi$.}
+        \label{fig:Hill-Pickands}
+      \end{figure}
+      Clearly, when the sample size is significantly smaller, both
+      estimators have larger variances.
+    \end{enumerate}
+
+  \item
+  \item 
+    \begin{enumerate}[(i)]
+    \item The Hill plot showing the tail indices of the gains,
+      losses, and absolute values of the log-returns are shown in
+      figure \ref{fig:Hill-TailIndices}.
+      \begin{figure}[htb!]
+        \centering
+        \includegraphics[scale=0.6, clip=true, trim=0 240 0
+        194]{Hill-TailIndices.pdf}
+        \caption{\small \it: Hill plot of the tail indices $\xi$.}
+        \label{fig:Hill-TailIndices}
+      \end{figure}
+      
+    \item The following values are reasonable estimates of the 3 tail
+      indices:
+      \begin{table}[htb!]
+        \centering
+        \begin{tabular}{c|c|c|c}
+          & k & tail index & sample size\\
+          \hline
+          Gains & 289 & 2.72 & 10389\\
+          \hline
+          Losses & 232 & 3.00 & 8871\\
+          \hline
+          Absolute values & 287 & 2.89 & 19260\\
+        \end{tabular}
+        \caption{Tail indices of the S\&P 500 index}
+        \label{tab:SP500_tail_indices}
+      \end{table}
+
+    \item Using Hill's method, $C$ is estimated as
+      \[
+      \hat{C} = {k \over n} X_{k, n}^{\hat{\alpha}^{(H)}}
+      \]
+      where $X_{k,n}$ is the k-th upper order statistic of $X$. Using
+      this method, the 99\% quantile as a function of k is plotted in
+      figure \ref{fig:99_percentile}.
+      \begin{figure}[htb!]
+        \centering
+        \includegraphics[scale=0.6, clip=true, trim=20 233 28
+        185]{99_percentile.pdf}
+        \caption{\small \it: 99\% quantile of gains, losses and the
+          absolute returns.}
+        \label{fig:99_percentile}
+      \end{figure}
+
+      The figure shows the gains have significantly lower values for the 99\%
+      quantile than do the losses. Hence it confirms that losses
+      indeed have heavier tails than do gains. Around $k=285$, the
+      quantile estimates are stable. So $k=285$ is recommended.
+    \end{enumerate}
   \end{enumerate}
 \end{enumerate}
 \end{document}
