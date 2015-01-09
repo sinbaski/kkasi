@@ -46,7 +46,7 @@ grid on
 % legend('gains', 'losses', 'absolute values');
 xlabel('k: # upper order statistics');
 % ylabel('Tail index \alpha');
-ylabel('99\% quantile');
+ylabel('99% quantile');
 
 % alfa = [2.72, 3.00, 2.89];
 % K = [289, 232, 287];
