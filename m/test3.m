@@ -41,18 +41,18 @@ for m = 1 : length(sig)
     end
 end
 
-[V, I] = sort(reshape(variance, numel(variance), 1));
-A = NaN(numel(lam1(:, :, 1)), 2);
-B = NaN(numel(lam2(:, :, 1)), 2);
+% [V, I] = sort(reshape(variance, numel(variance), 1));
+% A = NaN(numel(lam1(:, :, 1)), 2);
+% B = NaN(numel(lam2(:, :, 1)), 2);
 
-A(:, 1) = reshape(lam1(:, :, 1), numel(lam1(:, :, 1)), 1);
-A(:, 1) = A(I, 1);
-A(:, 2) = reshape(lam1(:, :, 2), numel(lam1(:, :, 2)), 1);
-A(:, 2) = A(I, 2);
-B(:, 1) = reshape(lam2(:, :, 1), numel(lam2(:, :, 1)), 1);
-B(:, 1) = B(I, 1);
-B(:, 2) = reshape(lam2(:, :, 2), numel(lam2(:, :, 2)), 1);
-B(:, 2) = B(I, 2);
+% A(:, 1) = reshape(lam1(:, :, 1), numel(lam1(:, :, 1)), 1);
+% A(:, 1) = A(I, 1);
+% A(:, 2) = reshape(lam1(:, :, 2), numel(lam1(:, :, 2)), 1);
+% A(:, 2) = A(I, 2);
+% B(:, 1) = reshape(lam2(:, :, 1), numel(lam2(:, :, 1)), 1);
+% B(:, 1) = B(I, 1);
+% B(:, 2) = reshape(lam2(:, :, 2), numel(lam2(:, :, 2)), 1);
+% B(:, 2) = B(I, 2);
 
 %% full distribution
 
