@@ -1,0 +1,29 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{amssymb}
+\usepackage{amsfonts, amsmath}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\input{../physics_common.tex}
+
+\DeclareGraphicsExtensions{.pdf}
+\begin{document}
+\begin{figure}[htb!]
+  \centering
+  \subfigure[q = 0.1]{
+    \includegraphics[scale=0.5]{../r/eigmax_TW_q0dot1.pdf}
+  }
+  \subfigure[q = 0.2]{
+    \includegraphics[scale=0.5]{../r/eigmax_TW_q0dot2.pdf}
+  }
+  \caption{\small \it Comparison of the largest eigenvalue's
+    distribution with Tracy-Widom.}
+  \label{fig:eig1_TW}
+\end{figure}
+
+\end{document}
