@@ -53,12 +53,13 @@
       $Y_{i}$. Applying the statement for $h=1$ gives $(X_2, \cdots,
       X_{n+1}) \ed (X_{3}, \cdots, X_{n+2})$ with the old indices,
       thus establishing the statement for $h=2$. This procedure can be
-      repeated, proving the statement for all $h \geq 1$.
+      repeated, proving the statement for all values of $h$.
 
       In the case $h=1$, we need to prove
       \begin{eqnarray*}
-        && P(X_1 \le a_1, \cdots, X_{n+1} \le a_{n+1}) \\
-        &=& P(X_2 \le a_1, \cdots, X_{n+2} \le a_{n+1})
+        && P\left[(X_1 \le a_1, \cdots, X_{n+1} \le a_{n+1}) \le (a_1,
+          \cdots, a_{n+1}) \right] \\
+        &=& P\left[(X_2 \le a_1, \cdots, X_{n+2} \le a_{n+1}) \right]
       \end{eqnarray*}
       We may write
       \begin{eqnarray*}
@@ -67,7 +68,6 @@
         a_{n}) \cdot \\
         && P(X_1 \le a_1, \cdots, X_{n} \le a_{n})
       \end{eqnarray*}
-      The conditional probability on the right-hand-side is
       \begin{eqnarray*}
         && P(X_{n+1} \le a_{n+1} | X_1 \le a_1, \cdots, X_{n} \le
         a_{n}) \\
@@ -88,7 +88,7 @@
         F^{1/k}(a_{n+1})
       \end{eqnarray*}
       
-      Analogously,
+      In comparison,
       \begin{eqnarray*}
         && P(X_2 \le a_1, \cdots, X_{n+2} \le a_{n+1}) \\
         &=& P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
@@ -108,7 +108,7 @@
         &=& P(X_{n+1} \le a_{n+1} | X_1 \le a_1, \cdots, X_{n} \le
         a_{n})
       \end{eqnarray*}
-      Similar to the calculation before
+      Analogous to the calculation before
       \begin{eqnarray*}
         && P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
         a_{n})      \\
@@ -122,11 +122,6 @@
         F^{1/k}(a_{n+1}) \\
         &=& P(X_{n+2} \le a_{n+1} | X_2 \le a_1, \cdots, X_{n+1} \le
         a_{n})\\
-      \end{eqnarray*}
-      So we may conclude
-      \begin{eqnarray*}
-        P(X_1 \le a_1, \cdots, X_{n+1} \le a_{n+1}) &=& P(X_2 \le a_1,
-        \cdots, X_{n+2} \le a_{n+1})
       \end{eqnarray*}
     \end{proof}
 
@@ -177,90 +172,53 @@
 
 \item
   \begin{enumerate}[(a)]
-  \item
-    \begin{proof}
-      First of all, we show that, if
-      \begin{eqnarray}
-        \lim_{x \to \infty} \frac{\bar{F}(x - y)}{\bar{F}(x)} &=&
-        e^{\gamma y} \label{eq:property}
-      \end{eqnarray}
-      holds for $y > 0$, it also holds for $y < 0$.
-      
-      Clearly
-      \begin{eqnarray*}
-        \lim_{x \to \infty} \frac{\bar{F}(x)}{\bar{F}(x - y)} &=&
-        e^{-\gamma y}      
-      \end{eqnarray*}
-      Because $x - y \to \infty$ as $x \to \infty$, we may replace $x -
-      y$ by $x'$ and write
-      \begin{eqnarray*}
-        \lim_{x \to \infty} \frac{\bar{F}(x' + y)}{\bar{F}(x')} &=&
-        e^{-\gamma y}      
-      \end{eqnarray*}
-      Let $y' = -y < 0$, then we see \eqref{eq:property} also holds for
-      $y < 0$.
+  \item Proof:
+    First of all, we show that, if
+    \begin{eqnarray}
+      \lim_{x \to \infty} \frac{\bar{F}(x - y)}{\bar{F}(x)} &=&
+      e^{\gamma y} \label{eq:property}
+    \end{eqnarray}
+    holds for $y > 0$, it also holds for $y < 0$.
+    
+    Clearly
+    \begin{eqnarray*}
+      \lim_{x \to \infty} \frac{\bar{F}(x)}{\bar{F}(x - y)} &=&
+      e^{-\gamma y}      
+    \end{eqnarray*}
+    Because $x - y \to \infty$ as $x \to \infty$, we may replace $x -
+    y$ by $x'$ and write
+    \begin{eqnarray*}
+      \lim_{x \to \infty} \frac{\bar{F}(x' + y)}{\bar{F}(x')} &=&
+      e^{-\gamma y}      
+    \end{eqnarray*}
+    Let $y' = -y < 0$, then we see \eqref{eq:property} also holds for
+    $y < 0$.
 
-      Now we assume \eqref{eq:property} holds for all $y \in
-      R$. $e_F(u)$ can be easier evaluated by changing the variable of
-      integration:
-      \begin{eqnarray*}
-        e_F(u) &=& \int_{u}^{\infty} \frac{\bar{F}(y)}{\bar{F}(u)} dy
-      \end{eqnarray*}
-      let $y = \ln z$, so that
-      \begin{eqnarray}
-        e_F(u) &=& \int_{e^u}^{\infty} \frac{\bar{F}(\ln
-          z)}{\bar{F}(u)}{1 \over z} dz \label{eq:e_F}
-      \end{eqnarray}
-      Because
-      \begin{eqnarray*}
-        \lim_{x \to \infty} {\bar{F}(x - y) \over \bar{F}(x)} &=&
-        e^{\gamma y}
-      \end{eqnarray*}
-      $\bar{F}(\ln x)$ is a regularly varying function with index
-      $-\gamma$:
-      \begin{eqnarray*}
-        \lim_{x \to \infty} {\bar{F}(\ln(a x)) \over \bar{F}(\ln(x))}
-        &=& \lim_{x \to \infty} {\bar{F}(\ln x + \ln a) \over
-          \bar{F}(\ln x)} \\
-        &=& e^{-\gamma \ln a} \\
-        &=& a^{-\gamma}
-      \end{eqnarray*}
-      where the second last equality is due to \eqref{eq:property}.
-
-      Now that $\bar{F}(\ln x)$ is regularly varying, we may write
-      $\bar{F}(\ln x) = L(x) x^{-\gamma}$ as $x \to \infty$, where
-      $L(x)$ is a slowing varying function. Inserting this
-      representation into \eqref{eq:e_F} and applying Karamata's
-      theorem, we obtain
-      \begin{eqnarray*}
-        \lim_{u \to \infty} e_F(u) &=& \lim_{u \to \infty}
-        \int_{e^u}^{\infty} {L(z) z^{-\gamma - 1} \over L(e^u)
-          e^{-\gamma u}} dz \\
-        &=& \lim_{u \to \infty} {1 \over
-          \gamma} L(e^u) e^{-\gamma u} [L(e^u) e^{-\gamma u}]^{-1} \\
-        &=& {1 \over \gamma}
-      \end{eqnarray*}
-      
-      % Let $y = \ln y' + u$. Then we have
-      % \begin{eqnarray*}
-      %   e_F(u) &=& \int_{1}^{\infty} \frac{\bar{F}(\ln y' +
-      %     u)}{\bar{F}(u)}{1 \over y'} dy' \\
-      % \end{eqnarray*}
-      % Applying \eqref{eq:property} to the integrand gives
-      % \begin{eqnarray*}
-      %   \lim_{u \to \infty} e_F(u) &=& \lim_{u \to \infty}
-      %   \int_{1}^{\infty} \frac{\bar{F}(\ln y' + u)}{\bar{F}(u)}{1 \over
-      %     y'} dy' \\
-      %   &=& \int_{1}^{\infty} e^{-\gamma \ln y'}{1 \over
-      %     y'} dy' \\
-      %   &=& \int_{1}^{\infty} {1 \over y'^{\gamma + 1}} dy' \\
-      % \end{eqnarray*}
-      % By Karamata's theorem we have
-      % \begin{eqnarray*}
-      %   \lim_{u \to \infty} e_F(u) &=& - {1 \over \gamma} \left[{1 \over
-      %       y'^\gamma}\right]_{y'=1}^{\infty} = {1 \over \gamma}\\
-      % \end{eqnarray*}
-    \end{proof}
+    Now we assume \eqref{eq:property} holds for all $y \in
+    R$. $e_F(u)$ can be easier evaluated by changing the variable of
+    integration:
+    \begin{eqnarray*}
+      e_F(u) &=& \int_{u}^{\infty} \frac{\bar{F}(y)}{\bar{F}(u)} dy
+    \end{eqnarray*}
+    Let $y = \ln y' + u$. Then we have
+    \begin{eqnarray*}
+      e_F(u) &=& \int_{1}^{\infty} \frac{\bar{F}(\ln y' +
+        u)}{\bar{F}(u)}{1 \over y'} dy' \\
+    \end{eqnarray*}
+    Applying \eqref{eq:property} to the integrand gives
+    \begin{eqnarray*}
+      \lim_{u \to \infty} e_F(u) &=& \lim_{u \to \infty}
+      \int_{1}^{\infty} \frac{\bar{F}(\ln y' + u)}{\bar{F}(u)}{1 \over
+        y'} dy' \\
+      &=& \int_{1}^{\infty} e^{-\gamma \ln y'}{1 \over
+        y'} dy' \\
+      &=& \int_{1}^{\infty} {1 \over y'^{\gamma + 1}} dy' \\
+    \end{eqnarray*}
+    By Karamata's theorem we have
+    \begin{eqnarray*}
+      \lim_{u \to \infty} e_F(u) &=& - {1 \over \gamma} \left[{1 \over
+          y'^\gamma}\right]_{y'=1}^{\infty} = {1 \over \gamma}\\
+    \end{eqnarray*}
     % \begin{eqnarray*}
     %   e_F(u) &=& \int_{u}^{\infty} {\bar{F}(y) \over \bar{F}(u)} dy
     % \end{eqnarray*}
@@ -386,8 +344,8 @@
         \label{fig:Hill-TailIndices}
       \end{figure}
       
-    \item Reasonable estimates of the 3 tail indices are listed in
-      table \ref{tab:SP500_tail_indices}.
+    \item The following values are reasonable estimates of the 3 tail
+      indices:
       \begin{table}[htb!]
         \centering
         \begin{tabular}{c|c|c|c}
@@ -419,9 +377,8 @@
         \label{fig:99_percentile}
       \end{figure}
 
-      Figure \ref{fig:99_percentile} shows the gains have
-      significantly lower values for the 99\% quantile than do the
-      losses. Hence it confirms that losses 
+      The figure shows the gains have significantly lower values for the 99\%
+      quantile than do the losses. Hence it confirms that losses
       indeed have heavier tails than do gains. Around $k=285$, the
       quantile estimates are stable. So $k=285$ is recommended.
     \end{enumerate}

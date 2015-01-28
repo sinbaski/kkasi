@@ -43,3 +43,4 @@ X = linspace(0, 4, 400);
 plot(X, X, 'r', 'Linewidth', 2);
 xlabel('Upper tail index');
 ylabel('lower tail index');
+grid on

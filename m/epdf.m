@@ -15,3 +15,13 @@ y = y(lag:end);
 if ~isempty(spec)
     plot((x), (y), spec, 'LineWidth', 2);
 end
+x = x';
+y = y';
+% function [Y, X] = epdf(data)
+% X = sort(data, 'ascend');
+% n = length(X);
+% spacing = diff(X);
+% Y = 1./spacing./n;
+% Y(end+1) = Y(end);
+
+
