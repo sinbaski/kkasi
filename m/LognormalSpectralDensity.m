@@ -42,7 +42,7 @@ end
 close(mysql);
 
 c = 1;
-q = 0.8;
+q = 0.65;
 
 n = floor(N/q);
 sections = floor(T/n);
@@ -59,30 +59,44 @@ sig = ev(1);
 ev = ev ./ sig;
 v = 0.8;
 
-ops = statset('mlecustom');
-ops.MaxFunEvals = 600;
-ops.MaxIter = 300;
-vhat = mle(ev, 'pdf', @(x, va) abs(sig*imag(LognormalGreen(sig*x, va, q))/pi), ...
-           'start', v, 'lowerbound', 0.4, 'upperbound', 0.95, ...
-           'options', ops);
+if exist(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'file') == 2
+    load(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'vhat');
+else
+    ops = statset('mlecustom');
+    ops.MaxFunEvals = 600;
+    ops.MaxIter = 300;
+    vhat = mle(ev, 'pdf', @(x, va) abs(sig*imag(LognormalGreen(sig*x, va, q))/pi), ...
+               'start', v, 'lowerbound', 0.4, 'upperbound', 0.95, ...
+               'options', ops);
+    save(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'vhat');    
+end
 
-[X, Y] = epdf(ev, 1, min(ev), max(ev), 100, '');
-plot(X, Y, ev, density, 'LineWidth', 2);
-title(sprintf('q = %.2f', q));
-grid on
+[X, Y] = epdf(ev, 4, min(ev), max(ev), 800, '');
+% plot(X, Y, ev, density, 'LineWidth', 2);
+% title(sprintf('q = %.2f', q));
+% grid on
 
 G = LognormalGreen(sig.*X, vhat, q);
 density = -sig*imag(G)/pi;
 
-MPdensity = MarcenkoPasturPDF(X, [q, v]);
+MPdensity = sig*MarcenkoPasturPDF(sig*X, [q, vhat]);
+
+plot(X, Y, X, density, X, MPdensity, 'LineWidth', 2);
+title(sprintf('q = %.2f', q));
+grid on
+legend('Empirical', 'Lognormal', 'MP');
+xlim([0, 0.3]);
+ylim([0, 10]);
 
 dx = X(2) - X(1);
-KL_entropy1 = sum(Y .* dx .* log(Y./density));
-KL_entropy2 = sum(Y .* dx .* log(Y./MPdensity));
 
-%% compute the Kullback-Leibler distance and the Hellinger distance
+%% Hellinger
+% Hellinger distance between the empirical and the theoretical
+H1 = sum((sqrt(density) - sqrt(Y)).^2 * dx)^(1/2) / sqrt(2);
+% Hellinger distance between the empirical and the theoretical
+H2 = sum((sqrt(MPdensity) - sqrt(Y)).^2 * dx)^(1/2) / sqrt(2);
 
-% [X, edos] = epdf(ev, 2, min(ev), max(ev), 60, 'b-');
-% plot(X, edos, lam, density, 'LineWidth', 2);
-% grid on
-
+%% Kullback-Leibler divergence of the theoretical from the empirical
+I = Y > 0;
+KL1 = sum(log(Y(I)./density(I)) .* Y(I) * dx);
+KL2 = sum(log(Y(I)./MPdensity(I)) .* Y(I) * dx);

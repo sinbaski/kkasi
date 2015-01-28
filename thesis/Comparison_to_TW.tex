@@ -13,17 +13,54 @@
 
 \DeclareGraphicsExtensions{.pdf}
 \begin{document}
+How the maximum eigenvalue's distribution compares to Tracy-Widom:
+
 \begin{figure}[htb!]
   \centering
-  \subfigure[q = 0.1]{
-    \includegraphics[scale=0.5]{../r/eigmax_TW_q0dot1.pdf}
-  }
-  \subfigure[q = 0.2]{
-    \includegraphics[scale=0.5]{../r/eigmax_TW_q0dot2.pdf}
-  }
+  \includegraphics[scale=0.5]{../r/eigmax_TW_q0dot1.pdf}
   \caption{\small \it Comparison of the largest eigenvalue's
-    distribution with Tracy-Widom.}
-  \label{fig:eig1_TW}
+    distribution with Tracy-Widom. $q=N/T=0.1$}
+  \label{fig:eig1_TW_q0.1}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5]{../r/eigmax_TW_q0dot2.pdf}
+  \caption{\small \it Comparison of the largest eigenvalue's
+    distribution with Tracy-Widom. $q=N/T=0.2$}
+  \label{fig:eig1_TW_q0.2}
+\end{figure}
+
+Comparison between the empirical spectral density and the theoretical
+density. The value of $v$ used to obtain the theoretical density is
+the result of {\it maximum likelihood estimation}.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[q = 0.5, KL = 0.19]{
+    \includegraphics[scale=0.4, clip=true, trim=115 271 109
+    204]{../pics/spectral_density_q0dot5.pdf}
+  }
+  \subfigure[q = 0.65, KL = 0.15]{
+    \includegraphics[scale=0.4, clip=true, trim=115 271 109
+    204]{../pics/spectral_density_q0dot65.pdf}
+  }
+  \subfigure[q = 0.8, KL=0.14]{
+    \includegraphics[scale=0.4, clip=true, trim=115 271 109
+    204]{../pics/spectral_density_q0dot8.pdf}
+  }
+  \subfigure[q = 0.95, KL=0.15]{
+    \includegraphics[scale=0.4, clip=true, trim=115 271 109
+    204]{../pics/spectral_density_q0dot95.pdf}
+  }
+  \caption{\small \it Comparison of the empirical and theoretical
+    spectral densities. The largest empirical eigenvalue ($\lambda_1$)
+    is excluded. The rest is rescaled by $1/\lambda_1$. The
+    theoretical density functions are ajusted accordingly. KL is the
+    Kullback-Leibler divergence of the theoretical density function from
+    the empirical density function. Only intervals on which the
+    empirical density is non-zero are included in the calculation of
+    KL.}
+  \label{fig:spectral_density}
 \end{figure}
 
 \end{document}
