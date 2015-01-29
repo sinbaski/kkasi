@@ -7,13 +7,13 @@ matlab <- Matlab();
 open(matlab);
 phi <- c(0, 0.5, 0.8160);
 sig <- c(0.1, 0.2, 0.5);
-q <- 1.0;
+q <- 0.5;
 m <- 3;
 n <- 3;
-## pdf(sprintf("eigmax_TW_q%.1f.pdf", q));
-## par(mfrow=c(3, 3));
-## for (m in 1:length(sig)) {
-##     for (n in 1:length(phi)) {
+pdf(sprintf("eigmax_TW_q%.2f.pdf", q));
+par(mfrow=c(3, 3));
+for (m in 1:length(sig)) {
+    for (n in 1:length(phi)) {
 
         v <- sig[m]^2/(1 - phi[n]^2);
         data <- readMat(sprintf(paste("../matfys/data/sv/normal_ret/lognormal_vol/",
@@ -24,11 +24,12 @@ n <- 3;
             eigmax[k] <- max(data$ev[, k])
         }
 
-        eigmax1 <- rWishartMax(length(eigmax), ndf=data$T, pdim=dim(data$ev)[1], var=exp(v/2), beta=1);
+        eigmax1 <- rWishartMax(length(eigmax), ndf=data$T, pdim=dim(data$ev)[1],
+                               var=exp(v/2), beta=1);
         qqplot(eigmax, eigmax1, xlab=sprintf("v=%.4f", v), ylab="", col="blue", type="l");
-##     }
-## }
-# dev.off();
+    }
+}
+dev.off();
 close(matlab);
 # rm(list = ls())
 
