@@ -21,23 +21,25 @@ lam2 = NaN(length(sig), length(phi), 2);
 variance = NaN(length(sig), length(phi));
 
 % for q = [0.1, 0.2, 0.5, 1]
-q = 0.1;
+q = 0.5;
+% sig = 0.2;
+% phi = 0.5;
 for m = 1 : length(sig)
     for n = 1 : length(phi)
         % for sig = 0.1
         v = sig(m)^2/(1 - phi(n)^2);
         variance(m, n) = v;
         load(sprintf(['../matfys/data/sv/normal_ret/lognormal_vol/q%.1f/Eig-' ...
-                      'sig%.4f-phi%.4f.mat'], q, sig(m), phi(n)), 'ev');
-
+                      'sig%.4f-phi%.4f.mat'], q, sig(m), phi(n)));
+        fprintf('N=%d, T=%d, ');
         % ev = reshape(ev, 1, prod(size(ev)));
-        eigmax = max(ev)';
-        eigmin = min(ev)';
+        % eigmax = max(ev)';
+        % eigmin = min(ev)';
         
-        lam1(m, n, :) = [mean(eigmin), (1-sqrt(q))^2 * ...
-                         (1 - 2*v*(2*sqrt(q)-1))];
-        lam2(m, n, :) = [mean(eigmax), (1+sqrt(q))^2 * ...
-                         (1 + 2*v*(2*sqrt(q)+1))];
+        % lam1(m, n, :) = [mean(eigmin), (1-sqrt(q))^2 * ...
+        %                  (1 - 2*v*(2*sqrt(q)-1))];
+        % lam2(m, n, :) = [mean(eigmax), (1+sqrt(q))^2 * ...
+        %                  (1 + 2*v*(2*sqrt(q)+1))];
     end
 end
 
