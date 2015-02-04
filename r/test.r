@@ -23,10 +23,19 @@ for (m in 1:length(sig)) {
         for (k in 1:length(eigmax)) {
             eigmax[k] <- max(data$ev[, k])
         }
-
-        eigmax1 <- rWishartMax(length(eigmax), ndf=data$T, pdim=dim(data$ev)[1],
-                               var=exp(v/2), beta=1);
-        qqplot(eigmax, eigmax1, xlab=sprintf("v=%.4f", v), ylab="", col="blue", type="l");
+        ## Par = WishartMaxPar(ndf=data$T, pdim=dim(data$ev)[1],
+        ##     var=exp(v/2), beta=1);
+        ## eigmax = (eigmax - Par$centering) / Par$scaling;
+        plot(density(eigmax), col='blue');
+        X = seq(from=min(eigmax), to=max(eigmax), length.out=400);
+        den = dWishartMax(X, ndf=data$T, pdim=dim(data$ev)[1],
+            var=exp(v/2), beta=1);
+        # den = dtw(X);
+        lines(den, col='red');
+        
+        ## eigmax1 <- rWishartMax(length(eigmax), ndf=data$T, pdim=dim(data$ev)[1],
+        ##                        var=exp(v/2), beta=1);
+        ## qqplot(eigmax, eigmax1, xlab=sprintf("v=%.4f", v), ylab="", col="blue", type="l");
     }
 }
 dev.off();

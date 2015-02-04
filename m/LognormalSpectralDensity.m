@@ -86,33 +86,33 @@ for k = 1 : sections
 end
 
 ev = sort(ev, 'descend');
-large_ev = ev(1:sections*4);
-ev = ev(sections*4 + 1 : end);
+large_ev = ev(1:sections*10);
+ev = ev(sections*10 + 1 : end);
 normalizer = ev(1);
 ev = ev ./ normalizer;
 
-if exist(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'file') == 2
-    load(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'vhat');
-else
-    ops = statset('mlecustom');
-    ops.MaxFunEvals = 600;
-    ops.MaxIter = 300;
-    vhat = mle(ev, 'pdf', @(x, va) abs(normalizer*imag(LognormalGreen(normalizer*x, va, q))/pi), ...
-               'start', mean(V), 'lowerbound', min(V), 'upperbound', max(V), ...
-               'options', ops);
-    save(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'vhat');    
-end
+% if exist(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'file') == 2
+%     load(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'vhat');
+% else
+%     ops = statset('mlecustom');
+%     ops.MaxFunEvals = 600;
+%     ops.MaxIter = 300;
+%     vhat = mle(ev, 'pdf', @(x, va) abs(normalizer*imag(LognormalGreen(normalizer*x, va, q))/pi), ...
+%                'start', mean(V), 'lowerbound', min(V), 'upperbound', max(V), ...
+%                'options', ops);
+%     save(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'vhat');    
+% end
 
 [X, Y] = epdf(ev, 1, min(ev), max(ev), 400, '');
 % plot(X, Y, ev, density, 'LineWidth', 2);
 % title(sprintf('q = %.2f', q));
 % grid on
-% vhat = mean(V);
+vhat = mean(V);
 
 G = LognormalGreen(normalizer.*X, vhat, q);
 density = -normalizer*imag(G)/pi;
 
-MPdensity = normalizer*MarcenkoPasturPDF(normalizer*X, [q, vhat]);
+MPdensity = normalizer*MarcenkoPasturPDF(normalizer*X, [q, exp(vhat/2)]);
 
 plot(X, Y, X, density, X, MPdensity, 'LineWidth', 2);
 title(sprintf('q = %.2f', q));

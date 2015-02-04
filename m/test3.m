@@ -20,23 +20,23 @@ lam1 = NaN(length(sig), length(phi), 2);
 lam2 = NaN(length(sig), length(phi), 2);
 variance = NaN(length(sig), length(phi));
 
-% for q = [0.1, 0.2, 0.5, 1]
-q = 0.5;
-sig = 0.5;
-phi = 0.7070;
-for m = 1 : length(sig)
-    for n = 1 : length(phi)
+phi = 0.8160;
+for q = [0.1, 0.2, 0.5, 1]
+    for m = 1 : length(sig)
         % for sig = 0.1
-        v = sig(m)^2/(1 - phi(n)^2);
-        variance(m, n) = v;
+        v = sig(m)^2/(1 - phi^2);
         load(sprintf(['../matfys/data/sv/normal_ret/lognormal_vol/q%.1f/Eig-' ...
-                      'sig%.4f-phi%.4f.mat'], q, sig(m), phi(n)), 'ev');
+                      'sig%.4f-phi%.4f.mat'], q, sig(m), phi), 'ev');
         % fprintf('N=%d, T=%d, ');
         % ev = reshape(ev, 1, prod(size(ev)));
         eigmax = max(ev)';
         [y, x] = ecdf(eigmax);
-        I = x > quantile(eigmax, 0.8);
-        loglog(x(I), 1 - y(I));
+        I = x > quantile(eigmax, 0.3) & x < quantile(eigmax, 0.85);
+        subplot(4, 3, c);
+        loglog(x(I), 1 - y(I), 'LineWidth', 2);
+        title(sprintf('q = %.1f, v=%.4f', q, v));
+        grid on
+        c = c + 1;
         % eigmin = min(ev)';
         
         % lam1(m, n, :) = [mean(eigmin), (1-sqrt(q))^2 * ...
