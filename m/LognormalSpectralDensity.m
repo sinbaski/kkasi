@@ -7,7 +7,7 @@ symbols = fetch(mysql, stmt);
 
 N = size(symbols, 1);
 numRec = NaN(N, 1);
-day1 = '2000-01-02';
+day1 = '2005-01-02';
 day2 = '2015-01-23';
 for k = 1 : N
     data = fetch(mysql, sprintf(['select count(*) ' ...
@@ -16,7 +16,7 @@ for k = 1 : N
                                 day2));
     numRec(k) = cell2mat(data(1, 1));
 end
-T = 3788;
+T = max(numRec);
 to_include = find(numRec == T);
 % d1 = datenum(day1);
 % d2 = datenum(day2);
@@ -30,22 +30,37 @@ to_include = find(numRec == T);
 N = length(to_include);
 R = NaN(T-1, N);
 V = NaN(1, N);
+Mu = NaN(1, N);
 j = 1;
 for k = to_include'
+    % stmt = sprintf(['select closing from %s_US ' ...
+    %                 'where day between "%s" and "%s" order by day;'], ...
+    %                strrep(symbols{k}, '.', '_'), day1, day2);
     stmt = sprintf(['select closing, (high - low)/low from %s_US ' ...
                     'where day between "%s" and "%s" order by day;'], ...
                    strrep(symbols{k}, '.', '_'), day1, day2);
     data = cell2mat(fetch(mysql, stmt));
-    vola = data(2:end, 2);
-    R(:, j) = price2ret(data(:, 1)) ./ median(vola);
-    V(j) = var(log(vola));
+    Z = log(data(2:end, 2));
+    V(j) = var(Z);
+    Mu(j) = mean(Z);
+    R(:, j) = price2ret(data(:, 1)) ./ exp(Mu(j));
+    % R(:, j) = price2ret(data(:, 1));
+    % R(:, j) = R(:, j) ./ std(R(:, j));
+
     j = j + 1;
 end
 close(mysql);
 
 c = 1;
-q = 0.50;
-% q = 0.65;
+% K = 1;
+% C = R' * R / T / K;
+% for offset = 1 : 20
+%     A = R(1 : end-offset, :);
+%     B = R(offset+1 : end, :);
+%     C = C + (A'*B + B'*A)/2/T/K;
+% end
+% ev = eig(C);
+q = 0.65;
 % q = 0.80;
 % q = 0.95;
 
@@ -71,8 +86,10 @@ for k = 1 : sections
 end
 
 ev = sort(ev, 'descend');
-large_ev = ev(1:sections*1);
-ev = ev(sections*1 + 1 : end);
+large_ev = ev(1:sections*4);
+ev = ev(sections*4 + 1 : end);
+normalizer = ev(1);
+ev = ev ./ normalizer;
 
 if exist(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'file') == 2
     load(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'vhat');
@@ -86,13 +103,12 @@ else
     save(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'vhat');    
 end
 
-[X, Y] = epdf(ev, 4, min(ev), max(ev), 800, '');
+[X, Y] = epdf(ev, 1, min(ev), max(ev), 400, '');
 % plot(X, Y, ev, density, 'LineWidth', 2);
 % title(sprintf('q = %.2f', q));
 % grid on
-vhat = 0.8;
+% vhat = mean(V);
 
-normalizer = large_ev(1);
 G = LognormalGreen(normalizer.*X, vhat, q);
 density = -normalizer*imag(G)/pi;
 
@@ -102,8 +118,8 @@ plot(X, Y, X, density, X, MPdensity, 'LineWidth', 2);
 title(sprintf('q = %.2f', q));
 grid on
 legend('Empirical', 'Lognormal', 'MP');
-xlim([0, 0.3]);
-ylim([0, 10]);
+xlim([0, 1]);
+ylim([0, max(Y)]);
 
 dx = X(2) - X(1);
 
