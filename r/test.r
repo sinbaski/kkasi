@@ -2,9 +2,9 @@
 
 library(R.matlab);
 library(RMTstat)
-Matlab$startServer();
-matlab <- Matlab();
-open(matlab);
+## Matlab$startServer();
+## matlab <- Matlab();
+## open(matlab);
 phi <- c(0, 0.5, 0.8160);
 sig <- c(0.1, 0.2, 0.5);
 q <- 0.5;
@@ -31,7 +31,7 @@ for (m in 1:length(sig)) {
         den = dWishartMax(X, ndf=data$T, pdim=dim(data$ev)[1],
             var=exp(v/2), beta=1);
         # den = dtw(X);
-        lines(den, col='red');
+        lines(den, col="red");
         
         ## eigmax1 <- rWishartMax(length(eigmax), ndf=data$T, pdim=dim(data$ev)[1],
         ##                        var=exp(v/2), beta=1);
@@ -39,7 +39,7 @@ for (m in 1:length(sig)) {
     }
 }
 dev.off();
-close(matlab);
+# close(matlab);
 # rm(list = ls())
 
 

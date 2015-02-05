@@ -1,5 +1,5 @@
 clear all
-close all
+% close all
 mysql = get_mysql();
 name='SP500';
 stmt = sprintf('select symbol from %s_components;', name);
@@ -86,8 +86,8 @@ for k = 1 : sections
 end
 
 ev = sort(ev, 'descend');
-large_ev = ev(1:sections*10);
-ev = ev(sections*10 + 1 : end);
+large_ev = ev(1:sections*4);
+ev = ev(sections*4 + 1 : end);
 normalizer = ev(1);
 ev = ev ./ normalizer;
 
@@ -103,7 +103,13 @@ ev = ev ./ normalizer;
 %     save(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'vhat');    
 % end
 
-[X, Y] = epdf(ev, 1, min(ev), max(ev), 400, '');
+save('/tmp/DataSample.mat', 'ev');
+!Rscript ../r/EstimateDensity.r
+load('/tmp/DensityFunction.mat', 'density');
+X = density(:, 1);
+Y = density(:, 2);
+
+% [X, Y] = epdf(ev, 1, min(ev), max(ev), 400, '');
 % plot(X, Y, ev, density, 'LineWidth', 2);
 % title(sprintf('q = %.2f', q));
 % grid on
@@ -115,7 +121,7 @@ density = -normalizer*imag(G)/pi;
 MPdensity = normalizer*MarcenkoPasturPDF(normalizer*X, [q, exp(vhat/2)]);
 
 plot(X, Y, X, density, X, MPdensity, 'LineWidth', 2);
-title(sprintf('q = %.2f', q));
+title(sprintf('q = %.2f, largest 4 removed', q));
 grid on
 legend('Empirical', 'Lognormal', 'MP');
 xlim([0, 1]);
