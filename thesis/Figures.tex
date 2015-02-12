@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{amssymb,amsmath,amsthm,bm}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{mathrsfs}
+\graphicspath{{/home/xxie/econophysics/pics/InCaseNeeded/}}
+
+\input{/home/xxie/econophysics/physics_common.tex}
+
+\begin{document}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.6]{eigmax_TW.pdf}
+  \caption{Distribution of simulated $\lambda_\M$ compared to
+    Tracy-Widom. From the 1st to the 4th row, q = 0.1, 0.2, 0.5, 1.}
+  \label{fig:eigmax_TW}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.6, clip=true, trim=98 233 120
+  127]{AppleLogvol-QQ.pdf}
+  \caption{QQ-plot of $\ln{ S_\M - S_\m \over S_\m}$. The data are daily trading statistics of Apple from
+    2005-01-02 to 2015-01-23. The lower tail of sample log-vol is a
+    bit lighter and the upper tail a bit heavier than their
+    counterparts of standard normal. }
+  \label{fig:qqplot_logvol}
+\end{figure}
+
+\end{document}

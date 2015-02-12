@@ -31,6 +31,7 @@ N = length(to_include);
 R = NaN(T-1, N);
 V = NaN(1, N);
 Mu = NaN(1, N);
+
 j = 1;
 for k = to_include'
     % stmt = sprintf(['select closing from %s_US ' ...
