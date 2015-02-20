@@ -6,8 +6,10 @@ T = 600;
 q = N/T;
 
 ev1 = NaN(N, fold);
-for sig = [0.1, 0.2, 0.5]
-    for phi = [0, 0.25, 0.5, 0.7070, 0.8160]
+% for sig = [0.1, 0.2, 0.5]
+    %    for phi = [0, 0.25, 0.5, 0.7070, 0.8160]
+for sig = [sqrt(1.0e-3)]
+    for phi = [0]
         for a = 1:fold
             s = [randn()*sig, NaN(1, T-1)];
             for t = 2:T
@@ -41,7 +43,7 @@ for sig = [0.1, 0.2, 0.5]
         % dgnl = [dgnl, dgnl1];
 
         save(sprintf(['../matfys/data/sv/normal_ret/lognormal_vol/q%.1f/Eig-' ...
-                      'sig%.4f-phi%.4f.mat'], q, sig, phi));
+                      'sig%.4f-phi%.4f.mat'], q, sig, phi), 'ev');
         % save(sprintf(['../matfys/data/sv/normal_ret/lognormal_vol/Diag-' ...
         %               'sig%.4f-phi%.4f.mat'], sig, phi));
     end
