@@ -1,5 +1,3 @@
-# just a test
-
 rm(list=ls());
 library(R.matlab);
 library(RMTstat)
@@ -18,12 +16,12 @@ n = 1;
 TWmean <- -1.2065335745820;
 TWsd <- sqrt(1.607781034581);
 
-X = seq(from=-4, to=4, length.out=2000);
-Y = TWsd*dtw(TWsd * X + TWmean);
+X = seq(from=0.5, to=4, length.out=2000);
+Y = ptw(TWsd * X + TWmean, lower.tail=FALSE);
 counter = 1;
 
 for (n in 1:length(q)) {
-    pdf(sprintf("./eigmax_q%.1f_dtw.pdf", q[n]));
+    pdf(sprintf("./eigmax_q%.1f_dtw_loglog.pdf", q[n]));
     ##    par(mfrow=c(1, length(sig)));
     counter = 1;
     for (m in 1:length(sig)) {
@@ -44,17 +42,18 @@ for (n in 1:length(q)) {
         ## ind = which(E > threshold);
         ## TailIndices[n, m] = 1/mean(log(E[ind] / threshold));
 
-        epdf = density(eigmax);
+        F = ecdf(eigmax);
         if (counter == 1) {
-            plot(epdf$x, epdf$y, type="l", col=sprintf("#%06X", bitwShiftL(0xFF, 8*(m-1))),
+            plot(X, 1 - F(X), type="l", col=sprintf("#%06X", bitwShiftL(0xFF, 8*(m-1))),
                  ## main=sprintf("v=%.4f, tail index = %.4f", v, TailIndices[n, m]),
                  ## main=sprintf("v=%.4f, q=%.1f", v, q[n]),
+                 log="xy",
                  main=sprintf("q=%.1f", q[n]),
-                 xlab="X",
-                 ylab="Densities");
+                 xlab="x",
+                 ylab="Tail Function");
                  ## col="blue", type="l");
         } else {
-            lines(epdf$x, epdf$y, type="l", col=sprintf("#%06X", bitwShiftL(0xFF, 8*(m-1))));
+            lines(X, 1 - F(X), type="l", col=sprintf("#%06X", bitwShiftL(0xFF, 8*(m-1))));
         }
         counter = counter + 1;
         ## Y = dWishartMax(epdf$x, data$T, dim(data$ev)[1], exp(2*v));
