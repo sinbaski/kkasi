@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\input{../physics_common}
+\begin{document}
+\section{iid sequences}
+We want to prove
+\[
+\|\mtx C - \diag(\mtx C)\|_2 \to 0
+\]
+where $\mtx C$ has elements
+\[
+c_{ij} = a_n^{-2} \sum_{t=1}^n X_{it} X_{jt}
+\]
+where each $X_{it}$ are iid and distributed as $\pr(|X_{it}| > x) = L(x)
+x^{-\alpha}$ for a slowly varying function $L(x)$. The normalizing
+sequence $a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1 \over n}$.
+\begin{proof}
+  Using the inequality
+  \[
+  \|\mtx C\|_2 \leq \|\mtx C\|_\infty
+  \]
+  we have
+  \begin{align*}
+  \pr(\|\mtx C\|_2 \geq a_n^2 \epsilon) & \leq
+  \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
+  X_{it} X_{jt}| > a_n^2 \epsilon) \\
+  &\leq \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p \sum_{t=1}^n
+  |X_{it} X_{jt}| > a_n^2 \epsilon) \\
+  &= \pr(\max_{1\leq i \leq p} \sum_{t=1}^n |X_{it}| \sum_{j=1, j\neq i}^p
+  |X_{jt}| > a_n^2 \epsilon) \\
+  \end{align*}
+  Note that $\pr(|X_{it}| > x) = L(x) x^{-\alpha}$ imples $\pr(\sum_{j=1,
+    j\neq i}^p |X_{jt}| > x) \sim (p-1)L(x) x^{-\alpha}$. If we define
+  a sequence $b_n$ such that
+  \[
+  \pr(|X_{it}| \sum_{j=1}^n |X_{jt}| > b_n) \sim {1 \over n}
+  \]
+  then
+  \[
+  
+  \]
+\end{proof}
+
+\end{document}
