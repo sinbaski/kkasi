@@ -1,59 +1,71 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage{enumerate}
 
 \input{../physics_common}
 \begin{document}
 \section{iid sequences}
 We want to prove
 \[
-\|\mtx C - \diag(\mtx C)\|_2 \to 0
+a_n^{-2}\|\mtx C - \diag(\mtx C)\|_2 \xrightarrow{P} 0
 \]
 where $\mtx C$ has elements
 \[
-c_{ij} = a_n^{-2} \sum_{t=1}^n X_{it} X_{jt}
+c_{ij} = \sum_{t=1}^n X_{it} X_{jt}
 \]
-where each $X_{it}$ are iid and distributed as $\pr(|X_{it}| > x) = L(x)
-x^{-\alpha}$ for a slowly varying function $L(x)$. The normalizing
-sequence $a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1 \over n}$,
-implying $a_n = n^{1/\alpha}$.
+where each $X_{it}$ are iid with regularly varying tails such that
+$\pr(X_{it} > x) = p_+ L(x) x^{-\alpha}$, $\pr(X_{it} < -x) = p_- L(x) x^{-\alpha}$
+for a slowly varying function $L(x)$, and $p_+ + p_- = 1$. The
+normalizing sequence $a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1
+  \over n}$, implying $a_n \sim n^{1/\alpha}$.
 \begin{proof}
   Using the inequality
   \[
-  \|\mtx C\|_2 \leq \|\mtx C\|_\infty
+  \|\mtx A\|_2 \leq \|\mtx A\|_\infty
   \]
-  we have
+  for an arbitrary matrix $\mtx A$, we have
   \begin{align*}
-  \pr(\|\mtx C\|_2 \geq a_n^2 \epsilon) & \leq
+  \pr(\|\mtx C - \diag(\mtx C)\|_2 \geq a_n^2 \epsilon) & \leq
   \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
   X_{it} X_{jt}| > a_n^2 \epsilon) \\
-  &\leq \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p \sum_{t=1}^n
-  |X_{it} X_{jt}| > a_n^2 \epsilon) \\
-  &= \pr(\max_{1\leq i \leq p} \sum_{t=1}^n |X_{it}| \sum_{j=1, j\neq i}^p
-  |X_{jt}| > a_n^2 \epsilon) \\
+  &\leq \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr(|\sum_{t=1}^n
+  X_{it} X_{jt}| > a_n^2 \epsilon) \\
+  &= \sum_{i=1}^p \sum_{j=1, j\neq i}^p \left[\pr(\sum_{t=1}^n
+    X_{it} X_{jt} > a_n^2 \epsilon) + \pr(\sum_{t=1}^n
+    X_{it} X_{jt} < -a_n^2 \epsilon) \right]\\
   \end{align*}
-  Note that $\pr(|X_{it}| > x) = L(x) x^{-\alpha}$ imples $\pr(\sum_{j=1,
-    j\neq i}^p |X_{jt}| > x) \sim (p-1)L(x) x^{-\alpha}$. Therefore
-  $|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}|$ is regularly varying with
-  index $-\alpha$. It follows
-  \begin{align*}
-    & \pr(\max_{1\leq i \leq p} \sum_{t=1}^n |X_{it}| \sum_{j=1, j\neq i}^p
-    |X_{jt}| > a_n^2 \epsilon) \\
-    &\sim p n \pr(|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}| > a_n^2
-    \epsilon) \\
-    &\sim p n \epsilon^{-\alpha} \pr(|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}| > a_n^2)
-  \end{align*}
-  If we define $b_n$ by
-  \[
-  \pr(|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}| > b_n) = {1 \over n}
-  \]
-  then by regular variation, $b_n \sim n^{1/\alpha}$. So $b_n \sim
-  n^{1/\alpha} \leq n^{2/\alpha} \sim a_n^2$. Thus
-  \begin{align*}
-    \pr(|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}| > a_n^2) &\leq
-    \pr(|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}| > b_n) \\
-    &\sim {1 \over n} \to 0
-  \end{align*}
+  Here we note that $X_{it}$ and $X_{jt}$ are iid.
+  \begin{enumerate}[i)]
+  \item The case $\alpha < 1$ or $\alpha = 1$ \& $\E|X_{it}| =
+    \infty$. Because $a_n^2 \epsilon / a_n \to \infty$, the large
+    deviation result found in Cline and Hsing \cite{ClingHsing1998} is
+    applicable. With it we obtain
+    \begin{align*}
+      \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
+      p_+ n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon)
+    \end{align*}
+    Now that $|X_{it}|$ and $|X_{jt}|$ are iid and have regularly
+    varying tail function $\pr(|X_{it}| > x) = L(x)x^{-\alpha}$,
+    $|X_{it} X_{jt}|$ also has reguarly varying tail so that
+    $\pr(|X_{it} X_{jt}| > x) = L_2(x) x^{-\alpha}$ according to
+    A.H.Jessen and Mikosch \cite{JessenMikosch2006}. Thus we have
+    \begin{align*}
+      \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
+      p_+ n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon) \\
+      &\sim p_+ n  \epsilon^{-\alpha} \pr(|X_{it} X_{jt}| > a_n^2) \\
+    \end{align*}
+    Define sequence $b_n$ such that $\pr(|X_{it} X_{jt}| > b_n^2) \sim
+    1/n^2$, then it follows $b_n \sim n^{1/\alpha} \sim a_n$. Thus
+    \begin{align*}
+      \pr(|X_{it} X_{jt}| > a_n^2) &\sim {1 \over n^2} \\
+      \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
+      \epsilon^{-\alpha} {p_+ \over n} \to 0,\; n \to \infty
+    \end{align*}
+
+    \item The case $\alpha = 1$ \& $\E |X_{it}| < \infty$.
+  \end{enumerate}
   
 \end{proof}
-
+\bibliographystyle{unsrt}
+\bibliography{../thesis/econophysics}
 \end{document}
