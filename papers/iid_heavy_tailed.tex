@@ -14,7 +14,8 @@ c_{ij} = a_n^{-2} \sum_{t=1}^n X_{it} X_{jt}
 \]
 where each $X_{it}$ are iid and distributed as $\pr(|X_{it}| > x) = L(x)
 x^{-\alpha}$ for a slowly varying function $L(x)$. The normalizing
-sequence $a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1 \over n}$.
+sequence $a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1 \over n}$,
+implying $a_n = n^{1/\alpha}$.
 \begin{proof}
   Using the inequality
   \[
@@ -31,15 +32,28 @@ sequence $a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1 \over n}$.
   |X_{jt}| > a_n^2 \epsilon) \\
   \end{align*}
   Note that $\pr(|X_{it}| > x) = L(x) x^{-\alpha}$ imples $\pr(\sum_{j=1,
-    j\neq i}^p |X_{jt}| > x) \sim (p-1)L(x) x^{-\alpha}$. If we define
-  a sequence $b_n$ such that
+    j\neq i}^p |X_{jt}| > x) \sim (p-1)L(x) x^{-\alpha}$. Therefore
+  $|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}|$ is regularly varying with
+  index $-\alpha$. It follows
+  \begin{align*}
+    & \pr(\max_{1\leq i \leq p} \sum_{t=1}^n |X_{it}| \sum_{j=1, j\neq i}^p
+    |X_{jt}| > a_n^2 \epsilon) \\
+    &\sim p n \pr(|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}| > a_n^2
+    \epsilon) \\
+    &\sim p n \epsilon^{-\alpha} \pr(|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}| > a_n^2)
+  \end{align*}
+  If we define $b_n$ by
   \[
-  \pr(|X_{it}| \sum_{j=1}^n |X_{jt}| > b_n) \sim {1 \over n}
+  \pr(|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}| > b_n) = {1 \over n}
   \]
-  then
-  \[
+  then by regular variation, $b_n \sim n^{1/\alpha}$. So $b_n \sim
+  n^{1/\alpha} \leq n^{2/\alpha} \sim a_n^2$. Thus
+  \begin{align*}
+    \pr(|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}| > a_n^2) &\leq
+    \pr(|X_{it}| \sum_{j=1, j\neq i}^p |X_{jt}| > b_n) \\
+    &\sim {1 \over n} \to 0
+  \end{align*}
   
-  \]
 \end{proof}
 
 \end{document}
