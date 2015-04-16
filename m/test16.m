@@ -14,7 +14,7 @@ end
 C = contour(X, Y, Bim, [0, 0]);
 
 subplot(1, 2, 1);
-contourf(X, Y, Bre, [-1:0.1:1]);
+contourf(X, Y, Bre, [0:0.1:10]);
 colorbar('location', 'EastOutside');
 hold on
 plot(C(1, 2:end), C(2, 2:end), 'k-', 'Linewidth', 2);

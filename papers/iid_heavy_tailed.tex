@@ -5,19 +5,26 @@
 \input{../physics_common}
 \begin{document}
 \section{iid sequences}
-We want to prove
+Consider iid sequences $\{X_{it}\}$, $1 \leq i \leq p$, $1 \leq t \leq
+n$. $p$ is fixed while $n \to \infty$. $\pr(X_{it} > x) = p_+ L(x)
+x^{-\alpha}$, $\pr(X_{it} < -x) = p_- L(x) x^{-\alpha}$ for a slowly
+varying function $L(x)$, and $p_+ + p_- = 1$. The normalizing sequence
+$a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1 \over n}$, implying
+$a_n \sim n^{1/\alpha} l(n)$, where $l(n)$ is a slowing varying
+function. The sample covariance matrix is
+\[
+\mtx C = \sum_{t=1}^n \mtx X_t \mtx{X'_t}
+\]
+where $\mtx X_t = (X_{1t}, \cdots, X_{pt})'$.
+For convenience, we let $c$ stand for any constant whose value is not
+of importance in the rest of this report.
+
+\subsection{The case $\E|X_{it}| = \infty$ with $\alpha \leq 1$}
+In this case we want to prove
 \[
 a_n^{-2}\|\mtx C - \diag(\mtx C)\|_2 \xrightarrow{P} 0
 \]
-where $\mtx C$ has elements
-\[
-c_{ij} = \sum_{t=1}^n X_{it} X_{jt}
-\]
-where each $X_{it}$ are iid with regularly varying tails such that
-$\pr(X_{it} > x) = p_+ L(x) x^{-\alpha}$, $\pr(X_{it} < -x) = p_- L(x) x^{-\alpha}$
-for a slowly varying function $L(x)$, and $p_+ + p_- = 1$. The
-normalizing sequence $a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1
-  \over n}$, implying $a_n \sim n^{1/\alpha}$.
+
 \begin{proof}
   Using the inequality
   \[
@@ -25,45 +32,126 @@ normalizing sequence $a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1
   \]
   for an arbitrary matrix $\mtx A$, we have
   \begin{align*}
-  \pr(\|\mtx C - \diag(\mtx C)\|_2 \geq a_n^2 \epsilon) & \leq
-  \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
-  X_{it} X_{jt}| > a_n^2 \epsilon) \\
-  &\leq \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr(|\sum_{t=1}^n
-  X_{it} X_{jt}| > a_n^2 \epsilon) \\
-  &= \sum_{i=1}^p \sum_{j=1, j\neq i}^p \left[\pr(\sum_{t=1}^n
-    X_{it} X_{jt} > a_n^2 \epsilon) + \pr(\sum_{t=1}^n
-    X_{it} X_{jt} < -a_n^2 \epsilon) \right]\\
+    \pr(\|\mtx C - \diag(\mtx C)\|_2 \geq a_n^2 \epsilon) & \leq
+    \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
+    X_{it} X_{jt}| > a_n^2 \epsilon) \\
+    &\leq \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr(|\sum_{t=1}^n
+    X_{it} X_{jt}| > a_n^2 \epsilon) \\
+    &= \sum_{i=1}^p \sum_{j=1, j\neq i}^p \left[\pr(\sum_{t=1}^n
+      X_{it} X_{jt} > a_n^2 \epsilon) + \pr(\sum_{t=1}^n
+      X_{it} X_{jt} < -a_n^2 \epsilon) \right]\\
   \end{align*}
-  Here we note that $X_{it}$ and $X_{jt}$ are iid.
-  \begin{enumerate}[i)]
-  \item The case $\alpha < 1$ or $\alpha = 1$ \& $\E|X_{it}| =
-    \infty$. Because $a_n^2 \epsilon / a_n \to \infty$, the large
-    deviation result found in Cline and Hsing \cite{ClingHsing1998} is
-    applicable. With it we obtain
-    \begin{align*}
-      \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
-      p_+ n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon)
-    \end{align*}
-    Now that $|X_{it}|$ and $|X_{jt}|$ are iid and have regularly
-    varying tail function $\pr(|X_{it}| > x) = L(x)x^{-\alpha}$,
-    $|X_{it} X_{jt}|$ also has reguarly varying tail so that
-    $\pr(|X_{it} X_{jt}| > x) = L_2(x) x^{-\alpha}$ according to
-    A.H.Jessen and Mikosch \cite{JessenMikosch2006}. Thus we have
-    \begin{align*}
-      \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
-      p_+ n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon) \\
-      &\sim p_+ n  \epsilon^{-\alpha} \pr(|X_{it} X_{jt}| > a_n^2) \\
-    \end{align*}
-    Define sequence $b_n$ such that $\pr(|X_{it} X_{jt}| > b_n^2) \sim
-    1/n^2$, then it follows $b_n \sim n^{1/\alpha} \sim a_n$. Thus
-    \begin{align*}
-      \pr(|X_{it} X_{jt}| > a_n^2) &\sim {1 \over n^2} \\
-      \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
-      \epsilon^{-\alpha} {p_+ \over n} \to 0,\; n \to \infty
-    \end{align*}
+  Here we note that $X_{it}$ and $X_{jt}$ are iid, and, assuming $\alpha
+  < 1$, $\E |X_{it} X_{jt}| = \infty$. Furthermore, $a_n^2 \epsilon /
+  a_n \to \infty$. Hence the large deviation result found in 
+  Cline and Hsing \cite{ClingHsing1998} is applicable. With it we
+  obtain
+  \begin{align*}
+    \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
+    c n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon)
+  \end{align*}
+  Now that $|X_{it}|$ and $|X_{jt}|$ are iid and have regularly
+  varying tail function $\pr(|X_{it}| > x) = L(x)x^{-\alpha}$,
+  $|X_{it} X_{jt}|$ also has reguarly varying tail so that
+  $\pr(|X_{it} X_{jt}| > x) = L_2(x) x^{-\alpha}$ according to
+  A.H.Jessen and Mikosch \cite{JessenMikosch2006}. Thus we have
+  \begin{align*}
+    \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
+    c n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon) \\
+    &\sim c n a_n^{-2\alpha} \\
+    &= c l(n)^{-2\alpha} n^{-1} \to 0
+  \end{align*}
+  Similarly
+  \begin{eqnarray*}
+    \pr(\sum_{t=1}^n X_{it} X_{jt} < -a_n^2 \epsilon) &\leq& c n
+    a_n^{-2\alpha} \to 0
+  \end{eqnarray*}
+\end{proof}
 
-    \item The case $\alpha = 1$ \& $\E |X_{it}| < \infty$.
-  \end{enumerate}
+\subsection{The case $\E|X_{it}| < \infty$ with $1 \leq \alpha \leq
+  2$}
+In this case we prove a similar result on
+\[
+\mtx A = \mtx C - \E \mtx C
+\]
+In the following we prove
+\[
+a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 \xrightarrow{P} 0
+\]
+\begin{proof}
+  \begin{eqnarray}
+    && \pr(a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 > \epsilon) \nonumber \\
+    &\leq& \pr(a_n^{-2} \|\mtx A - \diag(\mtx A)\|_\infty > \epsilon) \nonumber \\
+    &=& \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
+    X_{it} X_{jt} - \E X_{it} X_{jt} | > a_n^2 \epsilon) \nonumber \\
+    &\leq& \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr(|\sum_{t=1}^n
+    X_{it} X_{jt} - \E X_{it} X_{jt} | > a_n^2 \epsilon) \nonumber \\
+    &=& \sum_{i=1}^p \sum_{j=1, j\neq i}^p \left[\pr(\sum_{t=1}^n
+      X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2 \epsilon) + \right.\nonumber \\
+    && \left. \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
+    \epsilon) \right] \label{eq:A}
+  \end{eqnarray}
+  To use Cline and Hsing's result \cite{ClingHsing1998} of large
+  deviations, we first need to verify $\E |X_{it} X_{jt} - \E X_{it} X_{jt}|
+  < \infty$. It is obvious $\E (X_{it} X_{jt} - \E X_{it} X_{jt}) = 0$.
+  \begin{align*}
+    \E |X_{it} X_{jt} - \E X_{it} X_{jt}| &\leq \E |X_{it} X_{jt}| +
+    \E |\E X_{it} X_{jt}|
+  \end{align*}
+  By Jensen's inequality
+  \[
+  |\E X_{it} X_{jt}| \leq \E |X_{it} X_{jt}|
+  \]
+  Therefore
+  \begin{align*}
+    \E |X_{it} X_{jt} - \E X_{it} X_{jt}| &\leq 2 \E |X_{it} X_{jt}|
+    \\
+    &= 2 \E|X_{it}| \E| X_{jt}| < \infty
+  \end{align*}
+  Secondly, we need to establish that, for any sequence $(b_n)$ satisfying
+  \[
+  \pr\left(
+    |X_{it} X_{jt} - \E X_{it} X_{jt}| > b_n
+  \right) \sim 1/n
+  \]
+  we have $a_n^2 \epsilon / b_n \to \infty$, which is required by
+  Cline and Hsing \cite{ClingHsing1998}. For this reason, we note
+  \begin{eqnarray*}
+    && \pr\left(
+    |X_{it} X_{jt} - \E X_{it} X_{jt}| > b_n
+  \right) \\
+  &=& \pr(X_{it} X_{jt} > b_n + \E X_{it} X_{jt}) + \pr(X_{it} X_{jt} <
+  -b_n + \E X_{it} X_{jt})
+  \end{eqnarray*}
+  Because $X_{it} X_{jt}$ has regularly varying tail with index
+  $-\alpha$ according to A.H.Jessen and Mikosch
+  \cite{JessenMikosch2006}, we have
+  \begin{eqnarray*}
+    && \pr(X_{it} X_{jt} > b_n + \E X_{it} X_{jt}) + \pr(X_{it} X_{jt} <
+    -b_n + \E X_{it} X_{jt}) \\
+    &\sim& L_1(b_n + \E X_{it} X_{jt}) (b_n + \E X_{it}
+    X_{jt})^{-\alpha} \\
+    && +L_2(b_n - \E X_{it} X_{jt}) (b_n - \E X_{it}
+    X_{jt})^{-\alpha} \\
+    &\sim& [L_1(b_n) + L_2(b_n)] b_n^{-\alpha}
+  \end{eqnarray*}
+  where $L_1$ and $L_2$ are slowing varying functions. Then it follows
+  $b_n = n^{1/\alpha} l_1(n)$ for a slowing varying function
+  $l_1(n)$. Apparently
+  \begin{eqnarray*}
+    {a_n^2 \over b_n} &=& {l^2(n) \over l_1(n)} n^{1/\alpha} \to \infty
+  \end{eqnarray*}
+  Therefore Cline and Hsing's large deviation result
+  \cite{ClingHsing1998} gives
+  \begin{eqnarray*}
+    && \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2
+    \epsilon) \\
+    &\sim& c n \pr(|X_{it} X_{jt} - \E X_{it} X_{jt}| > a_n^2
+    \epsilon) \\
+    &\sim& cn [L_1(a_n^2) + L_2(a_n^2)] a_n^{-2\alpha} \\
+    &\sim& c {L_1(a_n^2) + L_2(a_n^2) \over l^{2\alpha}(n)} n^{-1}
+    \to 0 \text{ , }n \to \infty
+  \end{eqnarray*}
   
 \end{proof}
 \bibliographystyle{unsrt}
