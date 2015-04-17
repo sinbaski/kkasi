@@ -37,23 +37,26 @@ for k = to_include'
     % stmt = sprintf(['select closing from %s_US ' ...
     %                 'where day between "%s" and "%s" order by day;'], ...
     %                strrep(symbols{k}, '.', '_'), day1, day2);
-    stmt = sprintf(['select closing, (high - low)/low from %s_US ' ...
+    stmt = sprintf(['select closing, (high-low)/low from %s_US ' ...
                     'where day between "%s" and "%s" order by day;'], ...
                    strrep(symbols{k}, '.', '_'), day1, day2);
     data = cell2mat(fetch(mysql, stmt));
     R(:, j) = price2ret(data(:, 1));
-    % 1.233700550
-    V(j) = var(log(abs(R(:, j)))) - 1.233700550;
-    a = sqrt(pi/2) * mean(abs(R(:, j))) * exp(-V(j)/2);
-    R(:, j) = R(:, j) ./ a;    
+    A = log(data(:, 2));
+    V(j) = var(A);
+    mu = mean(A);
+    % a = kurtosis(R(:, j));
+    % b = var(R(:, j));
+    % V(j) = log(a/3)/4;
+    % mu = log(b/sqrt(a/3))/2;
+    R(:, j) = R(:, j) .* exp(-mu);
     j = j + 1;
 end
 close(mysql);
 
 C = R' * R / T;
 ev = sort(eig(C), 'descend');
-a = sum(ev);
-ev = ev(11:end) ./ sum(ev(11:end)) .* a;
+ev = ev(11:end) ./ sum(ev(11:end)) .* sum(ev);
 
 % n = floor(N/q);
 % ev = NaN(N, 1);
@@ -107,17 +110,15 @@ Y = density(:, 2);
 % vhat = mean(V);
 
 q = N/T;
-G = LognormalGreen(X, 1, q);
-density = -normalizer*imag(G)/pi;
+G = LognormalGreen(X, v, q);
+density = -imag(G)/pi;
 
-MPdensity = MarcenkoPasturPDF(X, [q, 1]);
+MPdensity = MarcenkoPasturPDF(X, [q, exp(v/2)]);
 
 plot(X, Y, X, density, X, MPdensity, 'LineWidth', 2);
 title(sprintf('q = %.2f, largest 10 removed', q));
 grid on
 legend('Empirical', 'Lognormal', 'MP');
-xlim([0, ev(1)]);
-ylim([0, max(Y)]);
 
 % dx = X(2) - X(1);
 
