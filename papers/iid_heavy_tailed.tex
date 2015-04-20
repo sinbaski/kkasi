@@ -69,7 +69,7 @@ a_n^{-2}\|\mtx C - \diag(\mtx C)\|_2 \xrightarrow{P} 0
 \end{proof}
 
 \subsection{The case $\E|X_{it}| < \infty$ with $1 \leq \alpha \leq
-  2$}
+  2$} \label{sec:B}
 In this case we prove a similar result on
 \[
 \mtx A = \mtx C - \E \mtx C
@@ -109,11 +109,12 @@ a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 \xrightarrow{P} 0
     &= 2 \E|X_{it}| \E| X_{jt}| < \infty
   \end{align*}
   Secondly, we need to establish that, for any sequence $(b_n)$ satisfying
-  \[
-  \pr\left(
-    |X_{it} X_{jt} - \E X_{it} X_{jt}| > b_n
-  \right) \sim 1/n
-  \]
+  \begin{equation}
+    \label{eq:B2}
+    \pr\left(
+      |X_{it} X_{jt} - \E X_{it} X_{jt}| > b_n
+    \right) \sim 1/n
+  \end{equation}
   we have $a_n^2 \epsilon / b_n \to \infty$, which is required by
   Cline and Hsing \cite{ClingHsing1998}. For this reason, we note
   \begin{eqnarray*}
@@ -143,16 +144,49 @@ a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 \xrightarrow{P} 0
   \end{eqnarray*}
   Therefore Cline and Hsing's large deviation result
   \cite{ClingHsing1998} gives
-  \begin{eqnarray*}
+  \begin{eqnarray}
     && \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2
-    \epsilon) \\
+    \epsilon) \nonumber \\
     &\sim& c n \pr(|X_{it} X_{jt} - \E X_{it} X_{jt}| > a_n^2
-    \epsilon) \\
-    &\sim& cn [L_1(a_n^2) + L_2(a_n^2)] a_n^{-2\alpha} \\
+    \epsilon) \nonumber \\
+    &\sim& cn [L_1(a_n^2) + L_2(a_n^2)] a_n^{-2\alpha} \nonumber \\
     &\sim& c {L_1(a_n^2) + L_2(a_n^2) \over l^{2\alpha}(n)} n^{-1}
-    \to 0 \text{ , }n \to \infty
+    \to 0 \text{ , }n \to \infty \label{eq:B3}
+  \end{eqnarray}
+  Analogously,
+  \begin{eqnarray}
+    && \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
+    \epsilon) \nonumber \\
+    &\sim& c n \pr(|X_{it} X_{jt} - \E X_{it} X_{jt}| > a_n^2 \to 0
+    \text{ , }n \to \infty \label{eq:B4}
+  \end{eqnarray}
+
+\end{proof}
+
+\subsection{The case $\alpha \in (2, 4)$}
+As in the case of \S\ref{sec:B}, we shall prove
+\[
+a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 \xrightarrow{P} 0
+\]
+\begin{proof}
+  The arguments are the same as those leading to \eqref{eq:A}. Now
+  that $\alpha > 2$, we need to verify $a_n^2\epsilon > \sqrt{(\alpha
+    - 2)n \ln n}$ in order to use the large deviation result of Nagaev
+  \cite{nagaev1979}.
+  \begin{eqnarray*}
+    {a_n^2 \over \sqrt{(\alpha - 2)n \ln n}} &=&
+    {l^2(n) \over \sqrt{(\alpha - 2)\ln n}} n^{2/\alpha - 1/2}
   \end{eqnarray*}
-  
+  Since $2 < \alpha < 4$, the RHS of the last expression tends to
+  $\infty$. So the condition $a_n^2\epsilon > \sqrt{(\alpha
+    - 2)n \ln n}$ is satisfied. Therefore, by the same arguments as in
+  \S\ref{sec:B}, we reach the conclusions
+  \begin{eqnarray*}
+    \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2
+    \epsilon) &\to& 0 \\
+    \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
+    \epsilon) &\to& 0
+  \end{eqnarray*}
 \end{proof}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
