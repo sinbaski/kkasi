@@ -11,7 +11,7 @@ function G = LognormalGreen(Z, v, q, varargin)
     if (length(varargin) > 0)
         Ginit = varargin{1};
     else
-        Ginit = NaN;
+        Ginit = [];
     end
     for n = 1 : length(Z)
         % if (Z(n) > a && Z(n) < b)
@@ -19,7 +19,7 @@ function G = LognormalGreen(Z, v, q, varargin)
         % else
         %     initial = 0;
         % end
-        if ~isnan(Ginit)
+        if ~isempty(Ginit)
             initial = Ginit(n);
         elseif n > 1
             initial = G(n-1);

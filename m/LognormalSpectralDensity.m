@@ -95,13 +95,13 @@ ev = ev(11:end) ./ sum(ev(11:end)) .* sum(ev);
 %     save(sprintf('%s_logvol_variance_q%.2f.mat', name, q), 'vhat');    
 % end
 
-v = mean(V);
-sample = ev;
-save('/tmp/DataSample.mat', 'sample');
-!Rscript ../r/EstimateDensity.r
-load('/tmp/DensityFunction.mat', 'density');
-X = density(:, 1);
-Y = density(:, 2);
+[X, Y] = epdf(ev, 1, min(ev), max(ev), 100, '');
+% sample = ev;
+% save('/tmp/DataSample.mat', 'sample');
+% !Rscript ../r/EstimateDensity.r
+% load('/tmp/DensityFunction.mat', 'density');
+% X = density(:, 1);
+% Y = density(:, 2);
 
 % [X, Y] = epdf(ev, 1, min(ev), max(ev), 400, '');
 % plot(X, Y, ev, density, 'LineWidth', 2);
@@ -110,13 +110,14 @@ Y = density(:, 2);
 % vhat = mean(V);
 
 q = N/T;
+v = mean(V);
 G = LognormalGreen(X, v, q);
 density = -imag(G)/pi;
 
 MPdensity = MarcenkoPasturPDF(X, [q, exp(v/2)]);
 
 plot(X, Y, X, density, X, MPdensity, 'LineWidth', 2);
-title(sprintf('q = %.2f, largest 10 removed', q));
+title(sprintf('S&P500, N=442, T=2531, q = %.2f, ', q));
 grid on
 legend('Empirical', 'Lognormal', 'MP');
 
