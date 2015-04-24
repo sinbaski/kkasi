@@ -239,7 +239,6 @@ Pfaffel\cite{Mikosch2014}, it can be proven
 \end{enumerate}
 
 \subsection[alpha in (0,2)]{\texorpdfstring{The case $\alpha \in (0, 2)$}}
-% \subsection{alpha < 2}
 We have in this case
 \[
 a_n^{-2} \|\mtx X^{(m)} (\mtx X^{(m)})' - \sum_{q=-m}^p D_q \mtx M_q^{(m)}\|_2
@@ -303,12 +302,20 @@ Because $p$ is assumed constant, the same arguments employed in
 \cite{Mikosch2014} is applicable here with $a_{np}$ replaced by
 $a_n$. With these arguments, one can prove
 \begin{eqnarray*}
-  \pr\left( a_n^{-1} \|\mtx I^{(1)} - \sum_{q=-m}^p D_q \mtx M_{q;
+  &\pr\left( a_n^{-2} \|\mtx I^{(1)} - \sum_{q=-m}^p D_q \mtx M_{q;
       ij}^{(m)} \|_2 > \epsilon \right) \to 0 \text{, $\forall \epsilon > 0$
     as } n \to \infty \\
-  \pr\left(
-  \right) \t
+  & \pr\left(
+    a_n^{-2} \|\mtx I^{(2)}\|_2 > \epsilon
+  \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to
+  \infty \\
+  & \pr\left(
+    a_n^{-2} \|\mtx I^{(3)}\|_2 > \epsilon
+  \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to \infty
 \end{eqnarray*}
+
+\subsection[alpha in (2,4)]{The case $\alpha \in (2,4)$}
+
 
 \section{Lognormal Volatility Model}
 We consider the model
