@@ -292,12 +292,11 @@ a_n^{-2} \|\mtx X^{(m)} (\mtx X^{(m)})' - \sum_{q=-m}^p D_q \mtx M_q^{(m)}\|_2
     &=& \sum_{t=1}^n \sum_{k=0}^m \left(
       \sum_{l=0}^\infty h_{kl}h_{j-i+k,l} Z_{i-k, t-l}^2 - \sum_{l=0}^{\infty}
       h_{kl} h_{j-i+k, l} Z_{i-k, t}^2  \right) \\
-    &=& \sum_{k=0}^m \sum_{l=0}^\infty \left(
+    &=& \sum_{k=0}^m \sum_{l=0}^\infty h_{kl} h_{j-i+k, l}\left(
       \sum_{t=1}^l Z_{i-k, t-l}^2 - \sum_{t=n-l+1}^n Z_{i-k, t}^2
     \right)
   \end{eqnarray*}
 \end{proof}
-
 Because $p$ is assumed constant, the same arguments employed in
 \cite{Mikosch2014} is applicable here with $a_{np}$ replaced by
 $a_n$. With these arguments, one can prove
@@ -315,6 +314,12 @@ $a_n$. With these arguments, one can prove
 \end{eqnarray*}
 
 \subsection[alpha in (2,4)]{The case $\alpha \in (2,4)$}
+In this case we prove
+\[
+a_n^{-2} \|\mtx{X^{(m)} (X^{(m)})'} - \E(\mtx{X^{(m)} (X^{(m)})'}) -
+\sum_{q=-m}^p (D_q - \E D) \mtx M_q^{(m)}\|_2
+\xrightarrow{P} 0
+\]
 
 
 \section{Lognormal Volatility Model}
