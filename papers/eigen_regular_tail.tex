@@ -296,6 +296,45 @@ a_n^{-2} \|\mtx X^{(m)} (\mtx X^{(m)})' - \sum_{q=-m}^p D_q \mtx M_q^{(m)}\|_2
       \sum_{t=1}^l Z_{i-k, t-l}^2 - \sum_{t=n-l+1}^n Z_{i-k, t}^2
     \right)
   \end{eqnarray*}
+  Next we prove $\pr\left[\sum_{k=0}^m \sum_{l=0}^\infty h_{kl} h_{j-i+k, l}
+    \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \to 0$ as
+  $n \to \infty$.
+  \begin{eqnarray*}
+    && \pr\left[\sum_{k=0}^m \sum_{l=0}^\infty h_{kl} h_{j-i+k, l}
+      \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
+    &\leq& \pr\left[\sum_{k=0}^m \sum_{l=0}^\infty | h_{kl} h_{j-i+k,
+        l} | \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
+    &\leq& \pr\left[c \sum_{k=0}^m \sum_{l=0}^\infty | h_{kl} |
+      \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
+    &\leq& \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
+      \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
+    &\leq& \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
+      \sum_{q=0}^{l-1} Z_{i-k, -q}^2 > a_n^2 \epsilon \right] \\
+  \end{eqnarray*}
+  Using the fact that the sequence of $Z$ is iid and re-arranging the
+  indices, we get
+  \begin{eqnarray*}
+    && \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
+      \sum_{q=0}^{l-1} Z_{i-k, -q}^2 > a_n^2 \epsilon \right] \\
+    &=& \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
+      \sum_{q=0}^{l-1} Z_{i-k, q}^2 > a_n^2 \epsilon \right] \\
+    &=& \sum_{k=0}^m \pr\left[c \sum_{q=0}^{\infty} Z_{i-k, q}^2
+      \sum_{l=q+1}^\infty |h_{kl}| > a_n^2 \epsilon \right] \\
+  \end{eqnarray*}
+  Then by applying Jessen and Mikosch \cite{JessenMikosch2006} to the
+  iid sequence of $(Z_{i-k, q}^2)_{q=0}^{\infty}$ we get
+  \begin{eqnarray*}
+    && \sum_{k=0}^m \pr\left[c \sum_{q=0}^{\infty} Z_{i-k, q}^2
+      \sum_{l=q+1}^\infty |h_{kl}| > a_n^2 \epsilon \right] \\
+    &\sim& \sum_{k=0}^m \pr(Z^2 > a_n^2 \epsilon/c) c_1
+    \sum_{q=0}^{\infty} \left( \sum_{l=q+1}^\infty |h_{kl}|
+    \right)^{\alpha/2} \\
+    &\sim& c {L(n) \over n} \sum_{k=0}^m \sum_{q=0}^{\infty} \left(
+      \sum_{l=q+1}^\infty |h_{kl}| \right)^{\alpha/2} \to 0
+  \end{eqnarray*}
+  where in the last step the assumption $\sum_{k=0}^{\infty}
+  \left(\sum_{l=k}^{\infty} |h_{kl}|\right)^{\alpha/2-\epsilon} <
+  \infty$, $\forall \epsilon > 0$ has been used.
 \end{proof}
 Because $p$ is assumed constant, the same arguments employed in
 \cite{Mikosch2014} is applicable here with $a_{np}$ replaced by
@@ -327,6 +366,60 @@ We consider the model
 \[
 X_{it} = 
 \]
+
+\section{A Proof}
+Here we prove that, for a positive semidefinite $p \times p$ matrix
+$\mtx M = (m_{ij})$, whose $k$th principle minor is denoted $M_k$ satisfies
+\[
+\lambda_1(\mtx M) \leq \lambda_1(M_{k}) + \sum_{i=k+1}^p m_{ii}
+\]
+\begin{proof}
+  Because $M_k$ is positive semidefinite, we only need to prove the
+  claim for $k=p-1$. If $m_{pp} = 0$, $\lambda_1(\mtx M) =
+  \lambda_1(M_{k})$, the claim is true.
+
+  Next we prove the claim when $m_{pp} > 0$ and $\mtx M_{p-1}$ is
+  positive definite. For notational convenience, write $A$ for
+  $M_{p-1}$ and $d$ for $m_{pp}$. We have
+  \begin{eqnarray*}
+    \mtx M &=&
+    \begin{pmatrix}
+      A & v \\
+      v' & d
+    \end{pmatrix} \\
+    &=&
+    \begin{pmatrix}
+      A & 0 \\
+      v' & d - v' A^{-1} v
+    \end{pmatrix}\left(
+      \begin{array}{cc}
+        I & -A^{-1} v \\
+        0 & 1
+      \end{array}\right)^{-1} \\
+    &=& U V
+  \end{eqnarray*}
+  From $\det(M) \geq 0$ it follows $\det(A) (d - v' A^{-1} v) \geq
+  0$. Since $\det(A) > 0$, $d - v' A^{-1} v \geq 0$. Then according to
+  Bai and Silverstein\cite{BaiSilverstein2010} we have $\lambda_1(M)
+  \leq s_1(U)$. Moreover, $A$ is assumed positive definite, so $v'
+  A^{-1} v \geq 0$.
+  \begin{eqnarray*}
+    \lambda_1(M) &\leq& s_1(U) \\
+    &=& \max\left\{\lambda_1(A), d - v' A^{-1} v \right\} \\
+    &\leq& \lambda_1(A) + d
+  \end{eqnarray*}
+  When $A$ is only semidefinite and not positive definite, we may
+  write
+  \[
+  A = 
+  Q \begin{pmatrix}
+    0 & & & \\
+      &\ddots & & \\
+      & & 0 & \\
+      & & & B
+  \end{pmatrix} Q'
+  \]
+\end{proof}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}
