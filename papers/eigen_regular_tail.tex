@@ -368,19 +368,18 @@ X_{it} =
 \]
 
 \section{A Proof}
-Here we prove that, for a positive semidefinite $p \times p$ matrix
-$\mtx M = (m_{ij})$, whose $k$th principle minor is denoted $M_k$ satisfies
+Here we prove that, for a symmetric, positive semidefinite $p \times
+p$ matrix $\mtx M = (m_{ij})$, whose $k$th principle minor is denoted
+$M_k$ satisfies
 \[
 \lambda_1(\mtx M) \leq \lambda_1(M_{k}) + \sum_{i=k+1}^p m_{ii}
 \]
 \begin{proof}
-  Because $M_k$ is positive semidefinite, we only need to prove the
-  claim for $k=p-1$. If $m_{pp} = 0$, $\lambda_1(\mtx M) =
-  \lambda_1(M_{k})$, the claim is true.
-
-  Next we prove the claim when $m_{pp} > 0$ and $\mtx M_{p-1}$ is
-  positive definite. For notational convenience, write $A$ for
-  $M_{p-1}$ and $d$ for $m_{pp}$. We have
+  Because $M_k$ is positive semidefinite for each $k$ , we only need
+  to prove the claim for $k=p-1$. If $m_{pp} = 0$, $\lambda_1(\mtx M) =
+  \lambda_1(M_{k})$, the claim is true. For notational convenience,
+  write $A$ for $M_{p-1}$ and $d$ for $m_{pp}$. Next we prove the
+  claim when $m_{pp} > 0$ and $\mtx M_{p-1}$ is positive definite. 
   \begin{eqnarray*}
     \mtx M &=&
     \begin{pmatrix}
@@ -408,17 +407,38 @@ $\mtx M = (m_{ij})$, whose $k$th principle minor is denoted $M_k$ satisfies
     &=& \max\left\{\lambda_1(A), d - v' A^{-1} v \right\} \\
     &\leq& \lambda_1(A) + d
   \end{eqnarray*}
-  When $A$ is only semidefinite and not positive definite, we may
-  write
+  Now we consider the case where $ d > 0$ and $A$ is not positive
+  definite, i.e. it contains zero eigenvalues. When $A$ has only zero
+  eigenvalues, our claim is clearly true; when $A$ has at least 1
+  non-zero eigenvalue, we may re-arrange the rows and columns of $A$,
+  or in other words, multiply $M$ by an orthogonal matrix $Q$ and its
+  transpose $Q'$ so that
+  \begin{eqnarray*}
+    M = Q
+    \begin{pmatrix}
+      A_1 & B_1 & u_1 \\
+      B'_1 & A_2 & u_2 \\
+      u'_1 & u'_2 & d
+    \end{pmatrix} Q'
+  \end{eqnarray*}
+  where $A_2$ is positive definite and has the same rank as A. Then
+  $A$ has the same non-zero eigenvalues as the matrix
   \[
-  A = 
-  Q \begin{pmatrix}
-    0 & & & \\
-      &\ddots & & \\
-      & & 0 & \\
-      & & & B
-  \end{pmatrix} Q'
+  \begin{pmatrix}
+      A_1 & B_1 \\
+      B'_1 & A_2 \\
+  \end{pmatrix}
   \]
+  and $M$ has the same non-zero eigenvalues as the matrix
+  \[
+  M_1 = 
+  \begin{pmatrix}
+      A_2 & u_2 \\
+      u'_2 & d
+  \end{pmatrix}
+  \]
+  So we only need to prove the claim for $M_1$. Since $A_2$ is
+  positive definite, this is clear from our earlier argument.
 \end{proof}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
