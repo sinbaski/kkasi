@@ -6,493 +6,399 @@
 
 \input{../physics_common}
 \begin{document}
-% \section{iid sequences}\label{sec:iid}
-% Consider iid sequences $\{X_{it}\}$, $1 \leq i \leq p$, $1 \leq t \leq
-% n$. $p$ is fixed while $n \to \infty$. $\pr(X_{it} > x) = p_+ L(x)
-% x^{-\alpha}$, $\pr(X_{it} < -x) = p_- L(x) x^{-\alpha}$ for a slowly
-% varying function $L(x)$, and $p_+ + p_- = 1$. The normalizing sequence
-% $a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1 \over n}$, implying
-% $a_n \sim n^{1/\alpha} l(n)$, where $l(n)$ is a slowing varying
-% function. The sample covariance matrix is
-% \[
-% \mtx C = \sum_{t=1}^n \mtx X_t \mtx{X'_t}
-% \]
-% where $\mtx X_t = (X_{1t}, \cdots, X_{pt})'$.
-% For convenience, we let $c$ stand for any constant whose value is not
-% of importance in the rest of this report.
-
-% \subsection[E(X) infinite, alpha in {(0, 1]}]{\texorpdfstring{The case
-%     $\E|X_{it}| = \infty$ with $\alpha \in (0, 1]$}}
-% In this case we want to prove
-% \[
-% a_n^{-2}\|\mtx C - \diag(\mtx C)\|_2 \xrightarrow{P} 0
-% \]
-
-% \begin{proof}
-%   Using the inequality
-%   \[
-%   \|\mtx A\|_2 \leq \|\mtx A\|_\infty
-%   \]
-%   for an arbitrary matrix $\mtx A$, we have
-%   \begin{align*}
-%     \pr(\|\mtx C - \diag(\mtx C)\|_2 \geq a_n^2 \epsilon) & \leq
-%     \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
-%     X_{it} X_{jt}| > a_n^2 \epsilon) \\
-%     &\leq \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr(|\sum_{t=1}^n
-%     X_{it} X_{jt}| > a_n^2 \epsilon) \\
-%     &= \sum_{i=1}^p \sum_{j=1, j\neq i}^p \left[\pr(\sum_{t=1}^n
-%       X_{it} X_{jt} > a_n^2 \epsilon) + \pr(\sum_{t=1}^n
-%       X_{it} X_{jt} < -a_n^2 \epsilon) \right]\\
-%   \end{align*}
-%   Here we note that $X_{it}$ and $X_{jt}$ are iid, and, assuming $\alpha
-%   < 1$, $\E |X_{it} X_{jt}| = \infty$. Furthermore, $a_n^2 \epsilon /
-%   a_n \to \infty$. Hence the large deviation result found in 
-%   Cline and Hsing \cite{ClingHsing1998} is applicable. With it we
-%   obtain
-%   \begin{align*}
-%     \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
-%     c n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon)
-%   \end{align*}
-%   Now that $|X_{it}|$ and $|X_{jt}|$ are iid and have regularly
-%   varying tail function $\pr(|X_{it}| > x) = L(x)x^{-\alpha}$,
-%   $|X_{it} X_{jt}|$ also has reguarly varying tail so that
-%   $\pr(|X_{it} X_{jt}| > x) = L_2(x) x^{-\alpha}$ according to
-%   A.H.Jessen and Mikosch \cite{JessenMikosch2006}. Thus we have
-%   \begin{align*}
-%     \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
-%     c n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon) \\
-%     &\sim c n a_n^{-2\alpha} \\
-%     &= c l(n)^{-2\alpha} n^{-1} \to 0
-%   \end{align*}
-%   Similarly
-%   \begin{eqnarray*}
-%     \pr(\sum_{t=1}^n X_{it} X_{jt} < -a_n^2 \epsilon) &\leq& c n
-%     a_n^{-2\alpha} \to 0
-%   \end{eqnarray*}
-% \end{proof}
-
-% \subsection[E(X) finite, alpha in {[1,2]}]{\texorpdfstring{The case
-%     $\E|X_{it}| < \infty$ and $\alpha \in [1,2]$}} \label{sec:B}
-% In this case we prove a similar result on
-% \[
-% \mtx A = \mtx C - \E \mtx C
-% \]
-% In the following we prove
-% \[
-% a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 \xrightarrow{P} 0
-% \]
-% \begin{proof}
-%   \begin{eqnarray}
-%     && \pr(a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 > \epsilon) \nonumber \\
-%     &\leq& \pr(a_n^{-2} \|\mtx A - \diag(\mtx A)\|_\infty > \epsilon) \nonumber \\
-%     &=& \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
-%     X_{it} X_{jt} - \E X_{it} X_{jt} | > a_n^2 \epsilon) \nonumber \\
-%     &\leq& \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr(|\sum_{t=1}^n
-%     X_{it} X_{jt} - \E X_{it} X_{jt} | > a_n^2 \epsilon) \nonumber \\
-%     &=& \sum_{i=1}^p \sum_{j=1, j\neq i}^p \left[\pr(\sum_{t=1}^n
-%       X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2 \epsilon) + \right.\nonumber \\
-%     && \left. \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
-%     \epsilon) \right] \label{eq:A}
-%   \end{eqnarray}
-%   To use Cline and Hsing's result \cite{ClingHsing1998} of large
-%   deviations, we first need to verify $\E |X_{it} X_{jt} - \E X_{it} X_{jt}|
-%   < \infty$. It is obvious $\E (X_{it} X_{jt} - \E X_{it} X_{jt}) = 0$.
-%   \begin{align*}
-%     \E |X_{it} X_{jt} - \E X_{it} X_{jt}| &\leq \E |X_{it} X_{jt}| +
-%     \E |\E X_{it} X_{jt}|
-%   \end{align*}
-%   By Jensen's inequality
-%   \[
-%   |\E X_{it} X_{jt}| \leq \E |X_{it} X_{jt}|
-%   \]
-%   Therefore
-%   \begin{align*}
-%     \E |X_{it} X_{jt} - \E X_{it} X_{jt}| &\leq 2 \E |X_{it} X_{jt}|
-%     \\
-%     &= 2 \E|X_{it}| \E| X_{jt}| < \infty
-%   \end{align*}
-%   Secondly, we need to establish that, for any sequence $(b_n)$ satisfying
-%   \begin{equation}
-%     \label{eq:B2}
-%     \pr\left(
-%       |X_{it} X_{jt} - \E X_{it} X_{jt}| > b_n
-%     \right) \sim 1/n
-%   \end{equation}
-%   we have $a_n^2 \epsilon / b_n \to \infty$, which is required by
-%   Cline and Hsing \cite{ClingHsing1998}. For this reason, we note
-%   \begin{eqnarray*}
-%     && \pr\left(
-%     |X_{it} X_{jt} - \E X_{it} X_{jt}| > b_n
-%   \right) \\
-%   &=& \pr(X_{it} X_{jt} > b_n + \E X_{it} X_{jt}) + \pr(X_{it} X_{jt} <
-%   -b_n + \E X_{it} X_{jt})
-%   \end{eqnarray*}
-%   Because $X_{it} X_{jt}$ has regularly varying tail with index
-%   $-\alpha$ according to A.H.Jessen and Mikosch
-%   \cite{JessenMikosch2006}, we have
-%   \begin{eqnarray*}
-%     && \pr(X_{it} X_{jt} > b_n + \E X_{it} X_{jt}) + \pr(X_{it} X_{jt} <
-%     -b_n + \E X_{it} X_{jt}) \\
-%     &\sim& L_1(b_n + \E X_{it} X_{jt}) (b_n + \E X_{it}
-%     X_{jt})^{-\alpha} \\
-%     && +L_2(b_n - \E X_{it} X_{jt}) (b_n - \E X_{it}
-%     X_{jt})^{-\alpha} \\
-%     &\sim& [L_1(b_n) + L_2(b_n)] b_n^{-\alpha}
-%   \end{eqnarray*}
-%   where $L_1$ and $L_2$ are slowing varying functions. Then it follows
-%   $b_n = n^{1/\alpha} l_1(n)$ for a slowing varying function
-%   $l_1(n)$. Apparently
-%   \begin{eqnarray*}
-%     {a_n^2 \over b_n} &=& {l^2(n) \over l_1(n)} n^{1/\alpha} \to \infty
-%   \end{eqnarray*}
-%   Therefore Cline and Hsing's large deviation result
-%   \cite{ClingHsing1998} gives
-%   \begin{eqnarray}
-%     && \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2
-%     \epsilon) \nonumber \\
-%     &\sim& c n \pr(|X_{it} X_{jt} - \E X_{it} X_{jt}| > a_n^2
-%     \epsilon) \nonumber \\
-%     &\sim& cn [L_1(a_n^2) + L_2(a_n^2)] a_n^{-2\alpha} \nonumber \\
-%     &\sim& c {L_1(a_n^2) + L_2(a_n^2) \over l^{2\alpha}(n)} n^{-1}
-%     \to 0 \text{ , }n \to \infty \label{eq:B3}
-%   \end{eqnarray}
-%   Analogously,
-%   \begin{eqnarray}
-%     && \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
-%     \epsilon) \nonumber \\
-%     &\sim& c n \pr(|X_{it} X_{jt} - \E X_{it} X_{jt}| > a_n^2 \to 0
-%     \text{ , }n \to \infty \label{eq:B4}
-%   \end{eqnarray}
-
-% \end{proof}
-
-% \subsection[alpha in (2,4)]{\texorpdfstring{The case $\alpha \in (2, 4)$}}
-% As in the case of \S\ref{sec:B}, we shall prove
-% \[
-% a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 \xrightarrow{P} 0
-% \]
-% \begin{proof}
-%   The arguments are the same as those leading to \eqref{eq:A}. Now
-%   that $\alpha > 2$, we need to verify $a_n^2\epsilon > \sqrt{(\alpha
-%     - 2)n \ln n}$ in order to use the large deviation result of Nagaev
-%   \cite{nagaev1979}.
-%   \begin{eqnarray*}
-%     {a_n^2 \over \sqrt{(\alpha - 2)n \ln n}} &=&
-%     {l^2(n) \over \sqrt{(\alpha - 2)\ln n}} n^{2/\alpha - 1/2}
-%   \end{eqnarray*}
-%   Since $2 < \alpha < 4$, the RHS of the last expression tends to
-%   $\infty$. So the condition $a_n^2\epsilon > \sqrt{(\alpha
-%     - 2)n \ln n}$ is satisfied. Therefore, by the same arguments as in
-%   \S\ref{sec:B}, we reach the conclusions
-%   \begin{eqnarray*}
-%     \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2
-%     \epsilon) &\to& 0 \\
-%     \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
-%     \epsilon) &\to& 0
-%   \end{eqnarray*}
-% \end{proof}
-% \section{Correlated Sequences}
-% Now we consider the situation where the sequences $X_{it}$ is
-% constructed as
-% \[
-% X_{it} = \sum_{k=0}^{\infty} \sum_{l=0}^{\infty} h_{kl} Z_{i-k, t-l}
-% \]
-% where $Z_{a,b}$ are iid and $a,b \in \mathbb{Z}$ while $i=1,\cdots,p$,
-% $t=1,\cdots,n$ with $p$ fixed and $n \to \infty$. $Z_{a,b}$ has
-% regularly varying tails as specified in \S\ref{sec:iid}.
-% Define matrix $\mtx M = \mtx {H H'}$ and matrix $\mtx M^{(m)}_q$ with
-% elements
-% \[
-% M^{(m)}_{q; i,j} = \left\{
-%   \begin{array}{ll}
-%     M_{i-q, j-q} & \text{if } i,j = q, q+1, \cdots, q+m \\
-%     0 & \text{otherwise}
-%   \end{array}
-% \right.
-% i,j = 1,2,\cdots,p
-% \]
-% In addition define $\mtx X^{(m)}$ to have elements
-% \[
-% X^{(m)}_{ij} = \sum_{k=0}^{m} \sum_{l=0}^{\infty} h_{kl} Z_{i-k, t-l}
-% \]
-% and
-% \[
-% D_i = \sum_{j=1}^p Z_{ij}^2
-% \]
-% Following the arguments of Davis, Mikosch and
-% Pfaffel\cite{Mikosch2014} and replacing $a_{np}$ with $a_n$, it can be
-% proven
-% \begin{enumerate}[i)]
-% \item if $\alpha \in (0, 1]$ and $\E|Z| = \infty$ or if $\alpha \in
-%   [1, 2)$, $\E|Z| < \infty$ and $\E Z = 0$.
-%   \[
-%   \lim_{m\to \infty} \limsup_{n\to\infty} \pr\left(
-%     \|\mtx{X X'} - \mtx X^{(m)} \mtx X'^{(m)}\|_2 \geq a_n^2 \epsilon
-%   \right) = 0 \text{, } \forall \epsilon > 0  
-%   \]
-% \item if $\alpha \in [2, 4)$ and $\E Z = 0$
-%   \begin{align*}
-%     & \lim_{m\to \infty} \limsup_{n\to\infty} \pr\left(
-%       \|(\mtx{XX'} - \E\mtx {XX'}) - (\mtx{X^{(m)} X'^{(m)}} - \E
-%       \mtx{X^{(m)} X'^{(m)}})\|_2 \geq a_n^2 \epsilon \right) \\
-%     &= 0 \text{, } \forall \epsilon > 0
-%   \end{align*}
-% \end{enumerate}
-
-% % \subsection[Approximating XX' when alpha in (0,2)]{Approximating $XX'$
-% %   when $\alpha \in (0,2)$}
-% % \begin{eqnarray*}
-% %   \|XX' - X^{(m)}(X^{(m)})'\|_2 &\leq& \|XX' -
-% %   X^{(m)}(X^{(m)})'\|_\infty \\
-% %   &=& \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
-% %     \sum_{t=1}^n \sum_{k \vee k' > m} \sum_{l,l'=0}^\infty
-% %     h_{k,l}h_{k',l'} Z_{i-k, t-l} Z_{j-k', t-l'} \right| \\
-% %   &=& \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
-% %     \sum_{t=1}^n \sum_{k \vee (k+j-i) > m} \sum_{l=0}^\infty
-% %     h_{k,l}h_{j-i+k,l} Z_{i-k, t-l}^2 \right| \\
-% %   && + \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
-% %     \sum_{t=1}^n \sum_{k \vee k'>m} \sum_{l \neq l'}
-% %     h_{k,l} h_{k',l'} Z_{i-k, t-l} Z_{j-k',t-l} \right| \\
-% %   && + \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
-% %     \sum_{t=1}^n \sum_{\substack{k \vee k'>m \\i-k \neq j-k'}}
-% %     \sum_{l=0}^\infty h_{k,l}h_{k',l'} Z_{i-k, t-l} Z_{j-k',t-l}
-% %   \right| \\
-% %   &=& I_n^{(1)} + I_n^{(2)} + I_n^{(3)}
-% % \end{eqnarray*}
-
-% \subsection[Approximation by DM when alpha in (0,2)]{Approximating
-%   $X^{(m)}(X^{(m)})'$ when $\alpha \in (0, 2)$}
-% We have in this case
-% \[
-% a_n^{-2} \|\mtx X^{(m)} (\mtx X^{(m)})' - \sum_{q=-m}^p D_q \mtx M_q^{(m)}\|_2
-% \xrightarrow{P} 0
-% \]
-% \begin{proof}
-%   The proof is essentially the same as its counterpart in Davis,
-%   Mikosch and Pfaffel \cite{Mikosch2014}. The $(i,j)$-th element of
-%   $\mtx{X^{(m)} X'^{(m)}}$ is
-%   \begin{eqnarray*}
-%     (\mtx{X^{(m)} X'^{(m)}})_{ij} &=&
-%     \sum_{t=1}^n \sum_{k=0}^m \sum_{l=0}^\infty \sum_{k'=0}^m
-%     \sum_{l'=0}^\infty h_{kl} h_{k'l'} Z_{i-k, t-l} Z_{j-k', t-l'} \\
-%     &=& \sum_{t=1}^n \sum_{k=0}^m \sum_{l=0}^\infty h_{kl}h_{j-i+k,l}
-%     Z_{i-k, t-l}^2 \\
-%     && + \sum_{t=1}^n \sum_{k, k'=0}^m \sum_{\substack{l,l'=0\\l\neq l'}}^\infty
-%     h_{kl} h_{k'l'} Z_{i-k, t-l} Z_{j-k', t-l'} \\
-%     && + \sum_{t=1}^n \sum_{\substack{k,k'=0\\ i-k \neq j-k'}}^m \sum_{l=0}^{\infty}
-%     h_{kl} h_{k'l'} Z_{i-k, t-l} Z_{j-k', t-l} \\
-%     &=& I^{(1)}_{ij} + I^{(2)}_{ij} + I^{(3)}_{ij}
-%   \end{eqnarray*}
-%   Next we prove
-%   \begin{eqnarray*}
-%     \pr\left(
-%       a_n^{-2} \|\mtx I^{(1)} - \sum_{q=-m}^p D_q \mtx M_{q}^{(m)}\|_2 > \epsilon
-%     \right) \to 0 \text{, as } n \to 0
-%   \end{eqnarray*}
-%   From $\|\cdot\|_2 \leq \|\cdot\|_\infty$ it follows
-%   \begin{eqnarray*}
-%     && \pr\left(
-%       a_n^{-2} \|\mtx I^{(1)} - \sum_{q=-m}^p D_q \mtx M_{q}^{(m)}\|_2 > \epsilon
-%     \right) \\
-%     &\leq& \sum_{i=1}^p \sum_{j=1}^p \pr\left(
-%       \left| I^{(1)}_{ij} - \sum_{q=-m}^p D_q M_{q; ij}^{(m)} \right| > a_n^2
-%       \epsilon \right)
-%   \end{eqnarray*}
-%   Observe
-%   \begin{eqnarray*}
-%     && I^{(1)}_{ij} - \sum_{q=-m}^p D_q M_{q; ij}^{(m)} \\
-%     &=& \sum_{t=1}^n \sum_{k=0}^m \sum_{l=0}^\infty h_{kl}h_{j-i+k,l}
-%     Z_{i-k, t-l}^2 - \sum_{k=i-p}^{i+m} D_{i-k} M_{i-k; ij}^{(m)}
-%   \end{eqnarray*}
-%   Note that $M_{i-k; ij}^{(m)}$ is non-zero only if $i-k \leq i \leq
-%   i-k+m$, that is, if $0 \leq k \leq m$. Hence we can write
-%   \begin{eqnarray*}
-%     && \sum_{t=1}^n \sum_{k=0}^m \sum_{l=0}^\infty h_{kl}h_{j-i+k,l}
-%     Z_{i-k, t-l}^2 - \sum_{k=i-p}^{i+m} D_{i-k} M_{i-k; ij}^{(m)} \\
-%     &=& \sum_{t=1}^n \sum_{k=0}^m \left(
-%       \sum_{l=0}^\infty h_{kl}h_{j-i+k,l} Z_{i-k, t-l}^2 - Z_{i-k, t}^2 M_{k,
-%         j-i+k} \right) \\
-%     &=& \sum_{t=1}^n \sum_{k=0}^m \left(
-%       \sum_{l=0}^\infty h_{kl}h_{j-i+k,l} Z_{i-k, t-l}^2 - \sum_{l=0}^{\infty}
-%       h_{kl} h_{j-i+k, l} Z_{i-k, t}^2  \right) \\
-%     &=& \sum_{k=0}^m \sum_{l=0}^\infty h_{kl} h_{j-i+k, l}\left(
-%       \sum_{t=1}^l Z_{i-k, t-l}^2 - \sum_{t=n-l+1}^n Z_{i-k, t}^2
-%     \right)
-%   \end{eqnarray*}
-%   Next we prove $\pr\left[\sum_{k=0}^m \sum_{l=0}^\infty h_{kl} h_{j-i+k, l}
-%     \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \to 0$ as
-%   $n \to \infty$.
-%   \begin{eqnarray*}
-%     && \pr\left[\sum_{k=0}^m \sum_{l=0}^\infty h_{kl} h_{j-i+k, l}
-%       \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
-%     &\leq& \pr\left[\sum_{k=0}^m \sum_{l=0}^\infty | h_{kl} h_{j-i+k,
-%         l} | \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
-%     &\leq& \pr\left[c \sum_{k=0}^m \sum_{l=0}^\infty | h_{kl} |
-%       \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
-%     &\leq& \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
-%       \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
-%     &\leq& \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
-%       \sum_{q=0}^{l-1} Z_{i-k, -q}^2 > a_n^2 \epsilon \right] \\
-%   \end{eqnarray*}
-%   Using the fact that the sequence of $Z$ is iid and re-arranging the
-%   indices, we get
-%   \begin{eqnarray*}
-%     && \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
-%       \sum_{q=0}^{l-1} Z_{i-k, -q}^2 > a_n^2 \epsilon \right] \\
-%     &=& \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
-%       \sum_{q=0}^{l-1} Z_{i-k, q}^2 > a_n^2 \epsilon \right] \\
-%     &=& \sum_{k=0}^m \pr\left[c \sum_{q=0}^{\infty} Z_{i-k, q}^2
-%       \sum_{l=q+1}^\infty |h_{kl}| > a_n^2 \epsilon \right] \\
-%   \end{eqnarray*}
-%   Then by applying Jessen and Mikosch \cite{JessenMikosch2006} to the
-%   iid sequence of $(Z_{i-k, q}^2)_{q=0}^{\infty}$ we get
-%   \begin{eqnarray*}
-%     && \sum_{k=0}^m \pr\left[c \sum_{q=0}^{\infty} Z_{i-k, q}^2
-%       \sum_{l=q+1}^\infty |h_{kl}| > a_n^2 \epsilon \right] \\
-%     &\sim& \sum_{k=0}^m \pr(Z^2 > a_n^2 \epsilon/c) c_1
-%     \sum_{q=0}^{\infty} \left( \sum_{l=q+1}^\infty |h_{kl}|
-%     \right)^{\alpha/2} \\
-%     &\sim& c {L(n) \over n} \sum_{k=0}^m \sum_{q=0}^{\infty} \left(
-%       \sum_{l=q+1}^\infty |h_{kl}| \right)^{\alpha/2} \to 0
-%   \end{eqnarray*}
-%   where in the last step the assumption $\sum_{k=0}^{\infty}
-%   \left(\sum_{l=k}^{\infty} |h_{kl}|\right)^{\alpha/2-\epsilon} <
-%   \infty$, $\forall \epsilon > 0$ has been used.
-
-%   Because $p$ is assumed constant, the same arguments employed in
-%   \cite{Mikosch2014} can be applied here with $a_{np}$ replaced by
-%   $a_n$ to show
-%   \begin{eqnarray*}
-%     & \pr\left(
-%       a_n^{-2} \|\mtx I^{(2)}\|_2 > \epsilon
-%     \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to
-%     \infty \\
-%     & \pr\left(
-%       a_n^{-2} \|\mtx I^{(3)}\|_2 > \epsilon
-%     \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to \infty
-%   \end{eqnarray*}
-% \end{proof}
-
-% \subsection[alpha in (2,4)]{The case $\alpha \in (2,4)$}
-% In this case we have
-% \[
-% a_n^{-2} \|\mtx{X^{(m)} (X^{(m)})'} - \E(\mtx{X^{(m)} (X^{(m)})'}) -
-% \sum_{q=-m}^p (D_q - \E D) \mtx M_q^{(m)}\|_2
-% \xrightarrow{P} 0
-% \]
-% The proof is the same as its counterpart in \cite{Mikosch2014} except
-% that the approximating sequence in this case is $\sum_{q=-m}^p (D_q -
-% \E D) \mtx M_q^{(m)}$ and, because $p$ is fixed, this sequence doesn't
-% need further approximation.
-
-% \section{Lognormal Volatility Model}
-% We consider the model
-% \[
-% X_{it} = \sigma_{it} Z_{it}
-% \]
-% where $\pr(Z_{it} > x) = p_+ L(x) x^{-\alpha}$, $\pr(Z_{it} < -x) =
-% p_- L(x) x^{-\alpha}$ for a slowly varying function $L(x)$. $p_+ +
-% p_- = 1$ and $0 < \alpha < 4$.
-% \begin{eqnarray*}
-%   \ln \sigma_{it} = \sum_{k=0}^\infty \sum_{l=0}^\infty h_{k,l}
-%   \eta_{i-k,t-l}
-% \end{eqnarray*}
-% where $\eta_{i,t} \sim N(0, 1)$.
-
-\section{Proof of the Lemma}
-Here we prove that, for a symmetric, positive semidefinite $p \times
-p$ matrix $\mtx M = (m_{ij})$, whose $k$th principle sub-matrix is denoted
-$M_k$, satisfies
+\section{iid sequences}\label{sec:iid}
+Consider iid sequences $\{X_{it}\}$, $1 \leq i \leq p$, $1 \leq t \leq
+n$. $p$ is fixed while $n \to \infty$. $\pr(X_{it} > x) = p_+ L(x)
+x^{-\alpha}$, $\pr(X_{it} < -x) = p_- L(x) x^{-\alpha}$ for a slowly
+varying function $L(x)$, and $p_+ + p_- = 1$. The normalizing sequence
+$a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1 \over n}$, implying
+$a_n \sim n^{1/\alpha} l(n)$, where $l(n)$ is a slowing varying
+function. The sample covariance matrix is
 \[
-\lambda_1(\mtx M) \leq \lambda_1(M_{k}) + \sum_{i=k+1}^p m_{ii}
+\mtx C = \sum_{t=1}^n \mtx X_t \mtx{X'_t}
+\]
+where $\mtx X_t = (X_{1t}, \cdots, X_{pt})'$.
+For convenience, we let $c$ stand for any constant whose value is not
+of importance in the rest of this report.
+
+\subsection[E(X) infinite, alpha in {(0, 1]}]{\texorpdfstring{The case
+    $\E|X_{it}| = \infty$ with $\alpha \in (0, 1]$}}
+In this case we want to prove
+\[
+a_n^{-2}\|\mtx C - \diag(\mtx C)\|_2 \xrightarrow{P} 0
+\]
+
+\begin{proof}
+  Using the inequality
+  \[
+  \|\mtx A\|_2 \leq \|\mtx A\|_\infty
+  \]
+  for an arbitrary matrix $\mtx A$, we have
+  \begin{align*}
+    \pr(\|\mtx C - \diag(\mtx C)\|_2 \geq a_n^2 \epsilon) & \leq
+    \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
+    X_{it} X_{jt}| > a_n^2 \epsilon) \\
+    &\leq \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr(|\sum_{t=1}^n
+    X_{it} X_{jt}| > a_n^2 \epsilon) \\
+    &= \sum_{i=1}^p \sum_{j=1, j\neq i}^p \left[\pr(\sum_{t=1}^n
+      X_{it} X_{jt} > a_n^2 \epsilon) + \pr(\sum_{t=1}^n
+      X_{it} X_{jt} < -a_n^2 \epsilon) \right]\\
+  \end{align*}
+  Here we note that $X_{it}$ and $X_{jt}$ are iid, and, assuming $\alpha
+  < 1$, $\E |X_{it} X_{jt}| = \infty$. Furthermore, $a_n^2 \epsilon /
+  a_n \to \infty$. Hence the large deviation result found in 
+  Cline and Hsing \cite{ClingHsing1998} is applicable. With it we
+  obtain
+  \begin{align*}
+    \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
+    c n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon)
+  \end{align*}
+  Now that $|X_{it}|$ and $|X_{jt}|$ are iid and have regularly
+  varying tail function $\pr(|X_{it}| > x) = L(x)x^{-\alpha}$,
+  $|X_{it} X_{jt}|$ also has reguarly varying tail so that
+  $\pr(|X_{it} X_{jt}| > x) = L_2(x) x^{-\alpha}$ according to
+  A.H.Jessen and Mikosch \cite{JessenMikosch2006}. Thus we have
+  \begin{align*}
+    \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
+    c n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon) \\
+    &\sim c n a_n^{-2\alpha} \\
+    &= c l(n)^{-2\alpha} n^{-1} \to 0
+  \end{align*}
+  Similarly
+  \begin{eqnarray*}
+    \pr(\sum_{t=1}^n X_{it} X_{jt} < -a_n^2 \epsilon) &\leq& c n
+    a_n^{-2\alpha} \to 0
+  \end{eqnarray*}
+\end{proof}
+
+\subsection[E(X) finite, alpha in {[1,2]}]{\texorpdfstring{The case
+    $\E|X_{it}| < \infty$ and $\alpha \in [1,2]$}} \label{sec:B}
+In this case we prove a similar result on
+\[
+\mtx A = \mtx C - \E \mtx C
+\]
+In the following we prove
+\[
+a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 \xrightarrow{P} 0
 \]
 \begin{proof}
-  Because $M_k$ is positive semidefinite for each $k$ , we only need
-  to prove the claim for $k=p-1$. For notational convenience, write
-  $A$ for $M_{p-1}$ and $d$ for $m_{pp}$. Next we prove the claim when
-  $A$ is positive definite.
+  \begin{eqnarray}
+    && \pr(a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 > \epsilon) \nonumber \\
+    &\leq& \pr(a_n^{-2} \|\mtx A - \diag(\mtx A)\|_\infty > \epsilon) \nonumber \\
+    &=& \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
+    X_{it} X_{jt} - \E X_{it} X_{jt} | > a_n^2 \epsilon) \nonumber \\
+    &\leq& \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr(|\sum_{t=1}^n
+    X_{it} X_{jt} - \E X_{it} X_{jt} | > a_n^2 \epsilon) \nonumber \\
+    &=& \sum_{i=1}^p \sum_{j=1, j\neq i}^p \left[\pr(\sum_{t=1}^n
+      X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2 \epsilon) + \right.\nonumber \\
+    && \left. \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
+    \epsilon) \right] \label{eq:A}
+  \end{eqnarray}
+  To use Cline and Hsing's result \cite{ClingHsing1998} of large
+  deviations, we first need to verify $\E |X_{it} X_{jt} - \E X_{it} X_{jt}|
+  < \infty$. It is obvious $\E (X_{it} X_{jt} - \E X_{it} X_{jt}) = 0$.
+  \begin{align*}
+    \E |X_{it} X_{jt} - \E X_{it} X_{jt}| &\leq \E |X_{it} X_{jt}| +
+    \E |\E X_{it} X_{jt}|
+  \end{align*}
+  By Jensen's inequality
+  \[
+  |\E X_{it} X_{jt}| \leq \E |X_{it} X_{jt}|
+  \]
+  Therefore
+  \begin{align*}
+    \E |X_{it} X_{jt} - \E X_{it} X_{jt}| &\leq 2 \E |X_{it} X_{jt}|
+    \\
+    &= 2 \E|X_{it}| \E| X_{jt}| < \infty
+  \end{align*}
+  Secondly, we need to establish that, for any sequence $(b_n)$ satisfying
+  \begin{equation}
+    \label{eq:B2}
+    \pr\left(
+      |X_{it} X_{jt} - \E X_{it} X_{jt}| > b_n
+    \right) \sim 1/n
+  \end{equation}
+  we have $a_n^2 \epsilon / b_n \to \infty$, which is required by
+  Cline and Hsing \cite{ClingHsing1998}. For this reason, we note
   \begin{eqnarray*}
-    \mtx M &=&
-    \begin{pmatrix}
-      A & v \\
-      v' & d
-    \end{pmatrix} \\
-    &=&
-    \begin{pmatrix}
-      A & 0 \\
-      v' & d - v' A^{-1} v
-    \end{pmatrix}\left(
-      \begin{array}{cc}
-        I & -A^{-1} v \\
-        0 & 1
-      \end{array}\right)^{-1} \\
-    &=& U V
+    && \pr\left(
+    |X_{it} X_{jt} - \E X_{it} X_{jt}| > b_n
+  \right) \\
+  &=& \pr(X_{it} X_{jt} > b_n + \E X_{it} X_{jt}) + \pr(X_{it} X_{jt} <
+  -b_n + \E X_{it} X_{jt})
   \end{eqnarray*}
-  From $\det(M) \geq 0$ it follows $\det(A) (d - v' A^{-1} v) \geq
-  0$. Since $\det(A) > 0$, $d - v' A^{-1} v \geq 0$. Moreover, $A$ is
-  assumed positive definite, so $v' A^{-1} v \geq 0$. According
-  to Bai and Silverstein\cite{BaiSilverstein2010} we have
-  $\lambda_1(M) \leq s_1(U)$, where $s_1(U)$ denotes the largest
-  singular value of $U$.
+  Because $X_{it} X_{jt}$ has regularly varying tail with index
+  $-\alpha$ according to A.H.Jessen and Mikosch
+  \cite{JessenMikosch2006}, we have
   \begin{eqnarray*}
-    \lambda_1(M) &\leq& s_1(U) \\
-    &=& \max\left\{\lambda_1(A), d - v' A^{-1} v \right\} \\
-    &\leq& \lambda_1(A) + d
+    && \pr(X_{it} X_{jt} > b_n + \E X_{it} X_{jt}) + \pr(X_{it} X_{jt} <
+    -b_n + \E X_{it} X_{jt}) \\
+    &\sim& L_1(b_n + \E X_{it} X_{jt}) (b_n + \E X_{it}
+    X_{jt})^{-\alpha} \\
+    && +L_2(b_n - \E X_{it} X_{jt}) (b_n - \E X_{it}
+    X_{jt})^{-\alpha} \\
+    &\sim& [L_1(b_n) + L_2(b_n)] b_n^{-\alpha}
   \end{eqnarray*}
-  When $A$ is not positive definite, i.e. $\det(A)=0$,
-  semi-positiveness implies $\det(A) d - v' v \geq 0$, hence $v =
-  0$. It immediately follows
+  where $L_1$ and $L_2$ are slowing varying functions. Then it follows
+  $b_n = n^{1/\alpha} l_1(n)$ for a slowing varying function
+  $l_1(n)$. Apparently
   \begin{eqnarray*}
-    M &=&
-    \begin{pmatrix}
-      A & 0 \\
-      0 & d
-    \end{pmatrix} \\
-    \lambda_1(M) &=& \max\{\lambda_1(A), d\} \\
-    &\leq& \lambda_1(A) + d
+    {a_n^2 \over b_n} &=& {l^2(n) \over l_1(n)} n^{1/\alpha} \to \infty
   \end{eqnarray*}
+  Therefore Cline and Hsing's large deviation result
+  \cite{ClingHsing1998} gives
+  \begin{eqnarray}
+    && \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2
+    \epsilon) \nonumber \\
+    &\sim& c n \pr(|X_{it} X_{jt} - \E X_{it} X_{jt}| > a_n^2
+    \epsilon) \nonumber \\
+    &\sim& cn [L_1(a_n^2) + L_2(a_n^2)] a_n^{-2\alpha} \nonumber \\
+    &\sim& c {L_1(a_n^2) + L_2(a_n^2) \over l^{2\alpha}(n)} n^{-1}
+    \to 0 \text{ , }n \to \infty \label{eq:B3}
+  \end{eqnarray}
+  Analogously,
+  \begin{eqnarray}
+    && \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
+    \epsilon) \nonumber \\
+    &\sim& c n \pr(|X_{it} X_{jt} - \E X_{it} X_{jt}| > a_n^2 \to 0
+    \text{ , }n \to \infty \label{eq:B4}
+  \end{eqnarray}
 
-
-  % Now we consider the case where $ d > 0$ and $A$ is not positive
-  % definite, i.e. it has zero eigenvalues and $\det(A)=0$. First notice
-  % $\det(A) = 0$ implies $v = 0$ because semi-positiveness requires $0 =
-  % d \det(A) \geq v' v$.
-
-  % When $A$ has only zero eigenvalues, $A$ and $v$ contain only zeros
-  % and hence $\lambda_1(M) = d$, our claim is true; when $A$
-  % has at least 1 non-zero eigenvalue, we may re-arrange the rows and
-  % columns of $M$, or in other words, multiply $M$ by an orthogonal
-  % matrix $Q$ and its transpose $Q'$ so that
-  % \begin{eqnarray*}
-  %   M = Q
-  %   \begin{pmatrix}
-  %     A_1 & B_1 & 0 \\
-  %     B'_1 & A_2 & 0 \\
-  %     0 & 0 & d
-  %   \end{pmatrix} Q'
-  % \end{eqnarray*}
-  % where $A_2$ is positive definite and has the same rank as $A$. Thus
-  % the rows of $(A_1, B_1, 0)$ are linear combinations of those of
-  % $(B'_1, A_2, 0)$ and hence can be eliminated. Then it follows
-  % that $A$ has the same eigenvalues as the matrix
-  % \[
-  % \begin{pmatrix}
-  %     A_1 & B_1 \\
-  %     B'_1 & A_2 \\
-  % \end{pmatrix}
-  % \]
-  % and the same non-zero eigenvalues as $A_2$; $M$ has the same
-  % non-zero eigenvalues as the matrix
-  % \[
-  % M_1 = 
-  % \begin{pmatrix}
-  %     A_2 & 0 \\
-  %     0 & d
-  % \end{pmatrix}
-  % \]
-  % So we only need to prove the claim for $M_1$. Since $A_2$ is
-  % positive definite, this is clear from our earlier argument.
 \end{proof}
+
+\subsection[alpha in (2,4)]{\texorpdfstring{The case $\alpha \in (2, 4)$}}
+As in the case of \S\ref{sec:B}, we shall prove
+\[
+a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 \xrightarrow{P} 0
+\]
+\begin{proof}
+  The arguments are the same as those leading to \eqref{eq:A}. Now
+  that $\alpha > 2$, we need to verify $a_n^2\epsilon > \sqrt{(\alpha
+    - 2)n \ln n}$ in order to use the large deviation result of Nagaev
+  \cite{nagaev1979}.
+  \begin{eqnarray*}
+    {a_n^2 \over \sqrt{(\alpha - 2)n \ln n}} &=&
+    {l^2(n) \over \sqrt{(\alpha - 2)\ln n}} n^{2/\alpha - 1/2}
+  \end{eqnarray*}
+  Since $2 < \alpha < 4$, the RHS of the last expression tends to
+  $\infty$. So the condition $a_n^2\epsilon > \sqrt{(\alpha
+    - 2)n \ln n}$ is satisfied. Therefore, by the same arguments as in
+  \S\ref{sec:B}, we reach the conclusions
+  \begin{eqnarray*}
+    \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2
+    \epsilon) &\to& 0 \\
+    \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
+    \epsilon) &\to& 0
+  \end{eqnarray*}
+\end{proof}
+\section{Correlated Sequences}
+Now we consider the situation where the sequences $X_{it}$ is
+constructed as
+\[
+X_{it} = \sum_{k=0}^{\infty} \sum_{l=0}^{\infty} h_{kl} Z_{i-k, t-l}
+\]
+where $Z_{a,b}$ are iid and $a,b \in \mathbb{Z}$ while $i=1,\cdots,p$,
+$t=1,\cdots,n$ with $p$ fixed and $n \to \infty$. $Z_{a,b}$ has
+regularly varying tails as specified in \S\ref{sec:iid}.
+Define matrix $\mtx M = \mtx {H H'}$ and matrix $\mtx M^{(m)}_q$ with
+elements
+\[
+M^{(m)}_{q; i,j} = \left\{
+  \begin{array}{ll}
+    M_{i-q, j-q} & \text{if } i,j = q, q+1, \cdots, q+m \\
+    0 & \text{otherwise}
+  \end{array}
+\right.
+i,j = 1,2,\cdots,p
+\]
+In addition define $\mtx X^{(m)}$ to have elements
+\[
+X^{(m)}_{ij} = \sum_{k=0}^{m} \sum_{l=0}^{\infty} h_{kl} Z_{i-k, t-l}
+\]
+and
+\[
+D_i = \sum_{j=1}^p Z_{ij}^2
+\]
+Following the arguments of Davis, Mikosch and
+Pfaffel\cite{Mikosch2014} and replacing $a_{np}$ with $a_n$, it can be
+proven
+\begin{enumerate}[i)]
+\item if $\alpha \in (0, 1]$ and $\E|Z| = \infty$ or if $\alpha \in
+  [1, 2)$, $\E|Z| < \infty$ and $\E Z = 0$.
+  \[
+  \lim_{m\to \infty} \limsup_{n\to\infty} \pr\left(
+    \|\mtx{X X'} - \mtx X^{(m)} \mtx X'^{(m)}\|_2 \geq a_n^2 \epsilon
+  \right) = 0 \text{, } \forall \epsilon > 0  
+  \]
+\item if $\alpha \in [2, 4)$ and $\E Z = 0$
+  \begin{align*}
+    & \lim_{m\to \infty} \limsup_{n\to\infty} \pr\left(
+      \|(\mtx{XX'} - \E\mtx {XX'}) - (\mtx{X^{(m)} X'^{(m)}} - \E
+      \mtx{X^{(m)} X'^{(m)}})\|_2 \geq a_n^2 \epsilon \right) \\
+    &= 0 \text{, } \forall \epsilon > 0
+  \end{align*}
+\end{enumerate}
+
+% \subsection[Approximating XX' when alpha in (0,2)]{Approximating $XX'$
+%   when $\alpha \in (0,2)$}
+% \begin{eqnarray*}
+%   \|XX' - X^{(m)}(X^{(m)})'\|_2 &\leq& \|XX' -
+%   X^{(m)}(X^{(m)})'\|_\infty \\
+%   &=& \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
+%     \sum_{t=1}^n \sum_{k \vee k' > m} \sum_{l,l'=0}^\infty
+%     h_{k,l}h_{k',l'} Z_{i-k, t-l} Z_{j-k', t-l'} \right| \\
+%   &=& \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
+%     \sum_{t=1}^n \sum_{k \vee (k+j-i) > m} \sum_{l=0}^\infty
+%     h_{k,l}h_{j-i+k,l} Z_{i-k, t-l}^2 \right| \\
+%   && + \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
+%     \sum_{t=1}^n \sum_{k \vee k'>m} \sum_{l \neq l'}
+%     h_{k,l} h_{k',l'} Z_{i-k, t-l} Z_{j-k',t-l} \right| \\
+%   && + \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
+%     \sum_{t=1}^n \sum_{\substack{k \vee k'>m \\i-k \neq j-k'}}
+%     \sum_{l=0}^\infty h_{k,l}h_{k',l'} Z_{i-k, t-l} Z_{j-k',t-l}
+%   \right| \\
+%   &=& I_n^{(1)} + I_n^{(2)} + I_n^{(3)}
+% \end{eqnarray*}
+
+\subsection[Approximation by DM when alpha in (0,2)]{Approximating
+  $X^{(m)}(X^{(m)})'$ when $\alpha \in (0, 2)$}
+We have in this case
+\[
+a_n^{-2} \|\mtx X^{(m)} (\mtx X^{(m)})' - \sum_{q=-m}^p D_q \mtx M_q^{(m)}\|_2
+\xrightarrow{P} 0
+\]
+\begin{proof}
+  The proof is essentially the same as its counterpart in Davis,
+  Mikosch and Pfaffel \cite{Mikosch2014}. The $(i,j)$-th element of
+  $\mtx{X^{(m)} X'^{(m)}}$ is
+  \begin{eqnarray*}
+    (\mtx{X^{(m)} X'^{(m)}})_{ij} &=&
+    \sum_{t=1}^n \sum_{k=0}^m \sum_{l=0}^\infty \sum_{k'=0}^m
+    \sum_{l'=0}^\infty h_{kl} h_{k'l'} Z_{i-k, t-l} Z_{j-k', t-l'} \\
+    &=& \sum_{t=1}^n \sum_{k=0}^m \sum_{l=0}^\infty h_{kl}h_{j-i+k,l}
+    Z_{i-k, t-l}^2 \\
+    && + \sum_{t=1}^n \sum_{k, k'=0}^m \sum_{\substack{l,l'=0\\l\neq l'}}^\infty
+    h_{kl} h_{k'l'} Z_{i-k, t-l} Z_{j-k', t-l'} \\
+    && + \sum_{t=1}^n \sum_{\substack{k,k'=0\\ i-k \neq j-k'}}^m \sum_{l=0}^{\infty}
+    h_{kl} h_{k'l'} Z_{i-k, t-l} Z_{j-k', t-l} \\
+    &=& I^{(1)}_{ij} + I^{(2)}_{ij} + I^{(3)}_{ij}
+  \end{eqnarray*}
+  Next we prove
+  \begin{eqnarray*}
+    \pr\left(
+      a_n^{-2} \|\mtx I^{(1)} - \sum_{q=-m}^p D_q \mtx M_{q}^{(m)}\|_2 > \epsilon
+    \right) \to 0 \text{, as } n \to 0
+  \end{eqnarray*}
+  From $\|\cdot\|_2 \leq \|\cdot\|_\infty$ it follows
+  \begin{eqnarray*}
+    && \pr\left(
+      a_n^{-2} \|\mtx I^{(1)} - \sum_{q=-m}^p D_q \mtx M_{q}^{(m)}\|_2 > \epsilon
+    \right) \\
+    &\leq& \sum_{i=1}^p \sum_{j=1}^p \pr\left(
+      \left| I^{(1)}_{ij} - \sum_{q=-m}^p D_q M_{q; ij}^{(m)} \right| > a_n^2
+      \epsilon \right)
+  \end{eqnarray*}
+  Observe
+  \begin{eqnarray*}
+    && I^{(1)}_{ij} - \sum_{q=-m}^p D_q M_{q; ij}^{(m)} \\
+    &=& \sum_{t=1}^n \sum_{k=0}^m \sum_{l=0}^\infty h_{kl}h_{j-i+k,l}
+    Z_{i-k, t-l}^2 - \sum_{k=i-p}^{i+m} D_{i-k} M_{i-k; ij}^{(m)}
+  \end{eqnarray*}
+  Note that $M_{i-k; ij}^{(m)}$ is non-zero only if $i-k \leq i \leq
+  i-k+m$, that is, if $0 \leq k \leq m$. Hence we can write
+  \begin{eqnarray*}
+    && \sum_{t=1}^n \sum_{k=0}^m \sum_{l=0}^\infty h_{kl}h_{j-i+k,l}
+    Z_{i-k, t-l}^2 - \sum_{k=i-p}^{i+m} D_{i-k} M_{i-k; ij}^{(m)} \\
+    &=& \sum_{t=1}^n \sum_{k=0}^m \left(
+      \sum_{l=0}^\infty h_{kl}h_{j-i+k,l} Z_{i-k, t-l}^2 - Z_{i-k, t}^2 M_{k,
+        j-i+k} \right) \\
+    &=& \sum_{t=1}^n \sum_{k=0}^m \left(
+      \sum_{l=0}^\infty h_{kl}h_{j-i+k,l} Z_{i-k, t-l}^2 - \sum_{l=0}^{\infty}
+      h_{kl} h_{j-i+k, l} Z_{i-k, t}^2  \right) \\
+    &=& \sum_{k=0}^m \sum_{l=0}^\infty h_{kl} h_{j-i+k, l}\left(
+      \sum_{t=1}^l Z_{i-k, t-l}^2 - \sum_{t=n-l+1}^n Z_{i-k, t}^2
+    \right)
+  \end{eqnarray*}
+  Next we prove $\pr\left[\sum_{k=0}^m \sum_{l=0}^\infty h_{kl} h_{j-i+k, l}
+    \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \to 0$ as
+  $n \to \infty$.
+  \begin{eqnarray*}
+    && \pr\left[\sum_{k=0}^m \sum_{l=0}^\infty h_{kl} h_{j-i+k, l}
+      \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
+    &\leq& \pr\left[\sum_{k=0}^m \sum_{l=0}^\infty | h_{kl} h_{j-i+k,
+        l} | \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
+    &\leq& \pr\left[c \sum_{k=0}^m \sum_{l=0}^\infty | h_{kl} |
+      \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
+    &\leq& \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
+      \sum_{t=1}^l Z_{i-k, t-l}^2 > a_n^2 \epsilon \right] \\
+    &\leq& \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
+      \sum_{q=0}^{l-1} Z_{i-k, -q}^2 > a_n^2 \epsilon \right] \\
+  \end{eqnarray*}
+  Using the fact that the sequence of $Z$ is iid and re-arranging the
+  indices, we get
+  \begin{eqnarray*}
+    && \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
+      \sum_{q=0}^{l-1} Z_{i-k, -q}^2 > a_n^2 \epsilon \right] \\
+    &=& \sum_{k=0}^m \pr\left[c \sum_{l=0}^\infty | h_{kl} |
+      \sum_{q=0}^{l-1} Z_{i-k, q}^2 > a_n^2 \epsilon \right] \\
+    &=& \sum_{k=0}^m \pr\left[c \sum_{q=0}^{\infty} Z_{i-k, q}^2
+      \sum_{l=q+1}^\infty |h_{kl}| > a_n^2 \epsilon \right] \\
+  \end{eqnarray*}
+  Then by applying Jessen and Mikosch \cite{JessenMikosch2006} to the
+  iid sequence of $(Z_{i-k, q}^2)_{q=0}^{\infty}$ we get
+  \begin{eqnarray*}
+    && \sum_{k=0}^m \pr\left[c \sum_{q=0}^{\infty} Z_{i-k, q}^2
+      \sum_{l=q+1}^\infty |h_{kl}| > a_n^2 \epsilon \right] \\
+    &\sim& \sum_{k=0}^m \pr(Z^2 > a_n^2 \epsilon/c) c_1
+    \sum_{q=0}^{\infty} \left( \sum_{l=q+1}^\infty |h_{kl}|
+    \right)^{\alpha/2} \\
+    &\sim& c {L(n) \over n} \sum_{k=0}^m \sum_{q=0}^{\infty} \left(
+      \sum_{l=q+1}^\infty |h_{kl}| \right)^{\alpha/2} \to 0
+  \end{eqnarray*}
+  where in the last step the assumption $\sum_{k=0}^{\infty}
+  \left(\sum_{l=k}^{\infty} |h_{kl}|\right)^{\alpha/2-\epsilon} <
+  \infty$, $\forall \epsilon > 0$ has been used.
+
+  Because $p$ is assumed constant, the same arguments employed in
+  \cite{Mikosch2014} can be applied here with $a_{np}$ replaced by
+  $a_n$ to show
+  \begin{eqnarray*}
+    & \pr\left(
+      a_n^{-2} \|\mtx I^{(2)}\|_2 > \epsilon
+    \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to
+    \infty \\
+    & \pr\left(
+      a_n^{-2} \|\mtx I^{(3)}\|_2 > \epsilon
+    \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to \infty
+  \end{eqnarray*}
+\end{proof}
+
+\subsection[alpha in (2,4)]{The case $\alpha \in (2,4)$}
+In this case we have
+\[
+a_n^{-2} \|\mtx{X^{(m)} (X^{(m)})'} - \E(\mtx{X^{(m)} (X^{(m)})'}) -
+\sum_{q=-m}^p (D_q - \E D) \mtx M_q^{(m)}\|_2
+\xrightarrow{P} 0
+\]
+The proof is the same as its counterpart in \cite{Mikosch2014} except
+that the approximating sequence in this case is $\sum_{q=-m}^p (D_q -
+\E D) \mtx M_q^{(m)}$ and, because $p$ is fixed, this sequence doesn't
+need further approximation.
+
+\section{Lognormal Volatility Model}
+We consider the model
+\[
+X_{it} = \sigma_{it} Z_{it}
+\]
+where $\pr(Z_{it} > x) = p_+ L(x) x^{-\alpha}$, $\pr(Z_{it} < -x) =
+p_- L(x) x^{-\alpha}$ for a slowly varying function $L(x)$. $p_+ +
+p_- = 1$ and $0 < \alpha < 4$.
+\begin{eqnarray*}
+  \ln \sigma_{it} = \sum_{k=0}^\infty \sum_{l=0}^\infty h_{k,l}
+  \eta_{i-k,t-l}
+\end{eqnarray*}
+where $\eta_{i,t} \sim N(0, 1)$.
+
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}

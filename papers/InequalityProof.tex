@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{bookmark}
+
+\input{../physics_common}
+\begin{document}
+\section{Proof of the Lemma}
+Here we prove that, for a symmetric, positive semidefinite $p \times
+p$ matrix $\mtx M = (m_{ij})$, whose $k$th principle sub-matrix is denoted
+$M_k$, satisfies
+\[
+\lambda_1(\mtx M) \leq \lambda_1(M_{k}) + \sum_{i=k+1}^p m_{ii}
+\]
+\begin{proof}
+  Because $M_k$ is positive semidefinite for each $k$ , we only need
+  to prove the claim for $k=p-1$. For notational convenience, write
+  $A$ for $M_{p-1}$ and $d$ for $m_{pp}$. Next we prove the claim when
+  $A$ is positive definite.
+  \begin{eqnarray*}
+    \mtx M &=&
+    \begin{pmatrix}
+      A & v \\
+      v' & d
+    \end{pmatrix} \\
+    &=&
+    \begin{pmatrix}
+      A & 0 \\
+      v' & d - v' A^{-1} v
+    \end{pmatrix}\left(
+      \begin{array}{cc}
+        I & -A^{-1} v \\
+        0 & 1
+      \end{array}\right)^{-1} \\
+    &=& U V
+  \end{eqnarray*}
+  From $\det(M) \geq 0$ it follows $\det(A) (d - v' A^{-1} v) \geq
+  0$. Since $\det(A) > 0$, $d - v' A^{-1} v \geq 0$. Moreover, $A$ is
+  assumed positive definite, so $v' A^{-1} v \geq 0$. According
+  to Bai and Silverstein\cite{BaiSilverstein2010} we have
+  $\lambda_1(M) \leq s_1(U)$, where $s_1(U)$ denotes the largest
+  singular value of $U$.
+  \begin{eqnarray*}
+    \lambda_1(M) &\leq& s_1(U) \\
+    &=& \max\left\{\lambda_1(A), d - v' A^{-1} v \right\} \\
+    &\leq& \lambda_1(A) + d
+  \end{eqnarray*}
+  When $A$ is not positive definite, i.e. $\det(A)=0$,
+  semi-positiveness implies $\det(A) d - v' v \geq 0$, hence $v =
+  0$. It immediately follows
+  \begin{eqnarray*}
+    M &=&
+    \begin{pmatrix}
+      A & 0 \\
+      0 & d
+    \end{pmatrix} \\
+    \lambda_1(M) &=& \max\{\lambda_1(A), d\} \\
+    &\leq& \lambda_1(A) + d
+  \end{eqnarray*}
+\end{proof}
+\bibliographystyle{unsrt}
+\bibliography{../thesis/econophysics}
+\end{document}
