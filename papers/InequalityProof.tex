@@ -46,18 +46,58 @@ $M_k$, satisfies
     &=& \max\left\{\lambda_1(A), d - v' A^{-1} v \right\} \\
     &\leq& \lambda_1(A) + d
   \end{eqnarray*}
-  When $A$ is not positive definite, i.e. $\det(A)=0$,
-  semi-positiveness implies $\det(A) d - v' v \geq 0$, hence $v =
-  0$. It immediately follows
+  Now we consider the case where $ d > 0$ and $A$ is not positive
+  definite, i.e. it contains zero eigenvalues. When $A$ has only zero
+  eigenvalues, our claim is clearly true; when $A$ has at least 1
+  non-zero eigenvalue, we may apply elementary transforms to $M$,
+  or in other words, multiply $M$ by an upper triangular matrix $T$
+  and its transpose $T'$
   \begin{eqnarray*}
-    M &=&
+    T &=& 
     \begin{pmatrix}
-      A & 0 \\
-      0 & d
-    \end{pmatrix} \\
-    \lambda_1(M) &=& \max\{\lambda_1(A), d\} \\
-    &\leq& \lambda_1(A) + d
+      1 & T_{12} & \cdots & T_{1,p} \\
+      0 & 1 & \cdots & T_{2, p} \\
+      \vdots & \vdots & \ddots & \vdots \\
+      0 & 0 & \cdots & 1 \\
+    \end{pmatrix}
   \end{eqnarray*}
+  so that
+  \begin{eqnarray*}
+    T M T'&=&
+    \begin{pmatrix}
+      0 & 0 & u_1 \\
+      0 & A_2 & u_2 \\
+      u'_1 & u'_2 & d
+    \end{pmatrix} \\
+    M  &=& T^{-1} M_1 T'^{-1}
+  \end{eqnarray*}
+  where $A_2$ is positive definite and has the same rank as
+  A. Obviously $A_2$ has the same non-zero eigenvalues as $A$.
+  Because $M$ is positive semi-definite, so is $M_1$. Then it follows
+  $|M_{1;ij}| \leq \sqrt{M_{1;i,i} M_{1;j,j}}$ for all $1 \leq i,j
+  \leq p$, implying $u_1 = 0$. Now we have
+  \begin{eqnarray*}
+    M &=& T^{-1} M_1 T'^{-1} \\
+    &=& T^{-1}
+    \begin{pmatrix}
+      0 & 0 & 0 \\
+      0 & A_2 & u_2 \\
+      0 & u'_2 & d
+    \end{pmatrix} T'^{-1} \\
+  \end{eqnarray*}
+  By the same inequality found in \cite{BaiSilverstein2010},
+  \begin{eqnarray*}
+    \lambda_1(M) &\leq& s_1(T^{-1}) \lambda_1(M_1) s_1(T'^{-1}) \\
+    &=& \lambda_1(M_1) \\
+    &=& \lambda_1 \left[\left(
+      \begin{array}{cc}
+        A_2 & u_2 \\
+        u'_2 & d
+      \end{array} \right)\right] \\
+  &\leq& \lambda_1(A_2) + d
+  \end{eqnarray*}
+  where in the last inequality we apply the claim proven in the case
+  of positive definite principle sub-matrix.
 \end{proof}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
