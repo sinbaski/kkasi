@@ -220,7 +220,8 @@ and
 D_i = \sum_{j=1}^p Z_{ij}^2
 \]
 Following the arguments of Davis, Mikosch and
-Pfaffel\cite{Mikosch2014}, it can be proven
+Pfaffel\cite{Mikosch2014} and replacing $a_{np}$ with $a_n$, it can be
+proven
 \begin{enumerate}[i)]
 \item if $\alpha \in (0, 1]$ and $\E|Z| = \infty$ or if $\alpha \in
   [1, 2)$, $\E|Z| < \infty$ and $\E Z = 0$.
@@ -238,7 +239,29 @@ Pfaffel\cite{Mikosch2014}, it can be proven
   \end{align*}
 \end{enumerate}
 
-\subsection[alpha in (0,2)]{\texorpdfstring{The case $\alpha \in (0, 2)$}}
+% \subsection[Approximating XX' when alpha in (0,2)]{Approximating $XX'$
+%   when $\alpha \in (0,2)$}
+% \begin{eqnarray*}
+%   \|XX' - X^{(m)}(X^{(m)})'\|_2 &\leq& \|XX' -
+%   X^{(m)}(X^{(m)})'\|_\infty \\
+%   &=& \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
+%     \sum_{t=1}^n \sum_{k \vee k' > m} \sum_{l,l'=0}^\infty
+%     h_{k,l}h_{k',l'} Z_{i-k, t-l} Z_{j-k', t-l'} \right| \\
+%   &=& \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
+%     \sum_{t=1}^n \sum_{k \vee (k+j-i) > m} \sum_{l=0}^\infty
+%     h_{k,l}h_{j-i+k,l} Z_{i-k, t-l}^2 \right| \\
+%   && + \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
+%     \sum_{t=1}^n \sum_{k \vee k'>m} \sum_{l \neq l'}
+%     h_{k,l} h_{k',l'} Z_{i-k, t-l} Z_{j-k',t-l} \right| \\
+%   && + \max_{i = 1,\dots,p} \sum_{j=1}^p \left|
+%     \sum_{t=1}^n \sum_{\substack{k \vee k'>m \\i-k \neq j-k'}}
+%     \sum_{l=0}^\infty h_{k,l}h_{k',l'} Z_{i-k, t-l} Z_{j-k',t-l}
+%   \right| \\
+%   &=& I_n^{(1)} + I_n^{(2)} + I_n^{(3)}
+% \end{eqnarray*}
+
+\subsection[Approximation by DM when alpha in (0,2)]{Approximating
+  $X^{(m)}(X^{(m)})'$ when $\alpha \in (0, 2)$}
 We have in this case
 \[
 a_n^{-2} \|\mtx X^{(m)} (\mtx X^{(m)})' - \sum_{q=-m}^p D_q \mtx M_q^{(m)}\|_2
@@ -335,111 +358,47 @@ a_n^{-2} \|\mtx X^{(m)} (\mtx X^{(m)})' - \sum_{q=-m}^p D_q \mtx M_q^{(m)}\|_2
   where in the last step the assumption $\sum_{k=0}^{\infty}
   \left(\sum_{l=k}^{\infty} |h_{kl}|\right)^{\alpha/2-\epsilon} <
   \infty$, $\forall \epsilon > 0$ has been used.
+
+  Because $p$ is assumed constant, the same arguments employed in
+  \cite{Mikosch2014} can be applied here with $a_{np}$ replaced by
+  $a_n$ to show
+  \begin{eqnarray*}
+    & \pr\left(
+      a_n^{-2} \|\mtx I^{(2)}\|_2 > \epsilon
+    \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to
+    \infty \\
+    & \pr\left(
+      a_n^{-2} \|\mtx I^{(3)}\|_2 > \epsilon
+    \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to \infty
+  \end{eqnarray*}
 \end{proof}
-Because $p$ is assumed constant, the same arguments employed in
-\cite{Mikosch2014} is applicable here with $a_{np}$ replaced by
-$a_n$. With these arguments, one can prove
-\begin{eqnarray*}
-  &\pr\left( a_n^{-2} \|\mtx I^{(1)} - \sum_{q=-m}^p D_q \mtx M_{q;
-      ij}^{(m)} \|_2 > \epsilon \right) \to 0 \text{, $\forall \epsilon > 0$
-    as } n \to \infty \\
-  & \pr\left(
-    a_n^{-2} \|\mtx I^{(2)}\|_2 > \epsilon
-  \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to
-  \infty \\
-  & \pr\left(
-    a_n^{-2} \|\mtx I^{(3)}\|_2 > \epsilon
-  \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to \infty
-\end{eqnarray*}
 
 \subsection[alpha in (2,4)]{The case $\alpha \in (2,4)$}
-In this case we prove
+In this case we have
 \[
 a_n^{-2} \|\mtx{X^{(m)} (X^{(m)})'} - \E(\mtx{X^{(m)} (X^{(m)})'}) -
 \sum_{q=-m}^p (D_q - \E D) \mtx M_q^{(m)}\|_2
 \xrightarrow{P} 0
 \]
-
+The proof is the same as its counterpart in \cite{Mikosch2014} except
+that the approximating sequence in this case is $\sum_{q=-m}^p (D_q -
+\E D) \mtx M_q^{(m)}$ and, because $p$ is fixed, this sequence doesn't
+need further approximation.
 
 \section{Lognormal Volatility Model}
 We consider the model
 \[
-X_{it} = 
+X_{it} = \sigma_{it} Z_{it}
 \]
+where $\pr(Z_{it} > x) = p_+ L(x) x^{-\alpha}$, $\pr(Z_{it} < -x) =
+p_- L(x) x^{-\alpha}$ for a slowly varying function $L(x)$. $p_+ +
+p_- = 1$ and $0 < \alpha < 4$.
+\begin{eqnarray*}
+  \ln \sigma_{it} = \sum_{k=0}^\infty \sum_{l=0}^\infty h_{k,l}
+  \eta_{i-k,t-l}
+\end{eqnarray*}
+where $\eta_{i,t} \sim N(0, 1)$.
 
-\section{A Proof}
-Here we prove that, for a symmetric, positive semidefinite $p \times
-p$ matrix $\mtx M = (m_{ij})$, whose $k$th principle minor is denoted
-$M_k$ satisfies
-\[
-\lambda_1(\mtx M) \leq \lambda_1(M_{k}) + \sum_{i=k+1}^p m_{ii}
-\]
-\begin{proof}
-  Because $M_k$ is positive semidefinite for each $k$ , we only need
-  to prove the claim for $k=p-1$. If $m_{pp} = 0$, $\lambda_1(\mtx M) =
-  \lambda_1(M_{k})$, the claim is true. For notational convenience,
-  write $A$ for $M_{p-1}$ and $d$ for $m_{pp}$. Next we prove the
-  claim when $m_{pp} > 0$ and $\mtx M_{p-1}$ is positive definite. 
-  \begin{eqnarray*}
-    \mtx M &=&
-    \begin{pmatrix}
-      A & v \\
-      v' & d
-    \end{pmatrix} \\
-    &=&
-    \begin{pmatrix}
-      A & 0 \\
-      v' & d - v' A^{-1} v
-    \end{pmatrix}\left(
-      \begin{array}{cc}
-        I & -A^{-1} v \\
-        0 & 1
-      \end{array}\right)^{-1} \\
-    &=& U V
-  \end{eqnarray*}
-  From $\det(M) \geq 0$ it follows $\det(A) (d - v' A^{-1} v) \geq
-  0$. Since $\det(A) > 0$, $d - v' A^{-1} v \geq 0$. Then according to
-  Bai and Silverstein\cite{BaiSilverstein2010} we have $\lambda_1(M)
-  \leq s_1(U)$. Moreover, $A$ is assumed positive definite, so $v'
-  A^{-1} v \geq 0$.
-  \begin{eqnarray*}
-    \lambda_1(M) &\leq& s_1(U) \\
-    &=& \max\left\{\lambda_1(A), d - v' A^{-1} v \right\} \\
-    &\leq& \lambda_1(A) + d
-  \end{eqnarray*}
-  Now we consider the case where $ d > 0$ and $A$ is not positive
-  definite, i.e. it contains zero eigenvalues. When $A$ has only zero
-  eigenvalues, our claim is clearly true; when $A$ has at least 1
-  non-zero eigenvalue, we may re-arrange the rows and columns of $A$,
-  or in other words, multiply $M$ by an orthogonal matrix $Q$ and its
-  transpose $Q'$ so that
-  \begin{eqnarray*}
-    M = Q
-    \begin{pmatrix}
-      A_1 & B_1 & u_1 \\
-      B'_1 & A_2 & u_2 \\
-      u'_1 & u'_2 & d
-    \end{pmatrix} Q'
-  \end{eqnarray*}
-  where $A_2$ is positive definite and has the same rank as A. Then
-  $A$ has the same non-zero eigenvalues as the matrix
-  \[
-  \begin{pmatrix}
-      A_1 & B_1 \\
-      B'_1 & A_2 \\
-  \end{pmatrix}
-  \]
-  and $M$ has the same non-zero eigenvalues as the matrix
-  \[
-  M_1 = 
-  \begin{pmatrix}
-      A_2 & u_2 \\
-      u'_2 & d
-  \end{pmatrix}
-  \]
-  So we only need to prove the claim for $M_1$. Since $A_2$ is
-  positive definite, this is clear from our earlier argument.
-\end{proof}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}

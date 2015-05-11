@@ -1,0 +1,104 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{bookmark}
+
+\input{../physics_common}
+\begin{document}
+\section{Proof of the Lemma}
+Here we prove that, for a symmetric, positive semidefinite $p \times
+p$ matrix $\mtx M = (m_{ij})$, whose $k$th principle sub-matrix is denoted
+$M_k$, satisfies
+\[
+\lambda_1(\mtx M) \leq \lambda_1(M_{k}) + \sum_{i=k+1}^p m_{ii}
+\]
+\begin{proof}
+  Because $M_k$ is positive semidefinite for each $k$ , we only need
+  to prove the claim for $k=p-1$. For notational convenience, write
+  $A$ for $M_{p-1}$ and $d$ for $m_{pp}$. Next we prove the claim when
+  $A$ is positive definite.
+  \begin{eqnarray*}
+    \mtx M &=&
+    \begin{pmatrix}
+      A & v \\
+      v' & d
+    \end{pmatrix} \\
+    &=&
+    \begin{pmatrix}
+      A & 0 \\
+      v' & d - v' A^{-1} v
+    \end{pmatrix}\left(
+      \begin{array}{cc}
+        I & -A^{-1} v \\
+        0 & 1
+      \end{array}\right)^{-1} \\
+    &=& U V
+  \end{eqnarray*}
+  From $\det(M) \geq 0$ it follows $\det(A) (d - v' A^{-1} v) \geq
+  0$. Since $\det(A) > 0$, $d - v' A^{-1} v \geq 0$. Moreover, $A$ is
+  assumed positive definite, so $v' A^{-1} v \geq 0$. According
+  to Bai and Silverstein\cite{BaiSilverstein2010} we have
+  $\lambda_1(M) \leq s_1(U)$, where $s_1(U)$ denotes the largest
+  singular value of $U$.
+  \begin{eqnarray*}
+    \lambda_1(M) &\leq& s_1(U) \\
+    &=& \max\left\{\lambda_1(A), d - v' A^{-1} v \right\} \\
+    &\leq& \lambda_1(A) + d
+  \end{eqnarray*}
+  Now we consider the case where $ d > 0$ and $A$ is not positive
+  definite, i.e. it contains zero eigenvalues. When $A$ has only zero
+  eigenvalues, our claim is clearly true; when $A$ has at least 1
+  non-zero eigenvalue, we may apply elementary transforms to $M$,
+  or in other words, multiply $M$ by an upper triangular matrix $T$
+  and its transpose $T'$
+  \begin{eqnarray*}
+    T &=& 
+    \begin{pmatrix}
+      1 & T_{12} & \cdots & T_{1,p} \\
+      0 & 1 & \cdots & T_{2, p} \\
+      \vdots & \vdots & \ddots & \vdots \\
+      0 & 0 & \cdots & 1 \\
+    \end{pmatrix}
+  \end{eqnarray*}
+  so that
+  \begin{eqnarray*}
+    T M T'&=&
+    \begin{pmatrix}
+      0 & 0 & u_1 \\
+      0 & A_2 & u_2 \\
+      u'_1 & u'_2 & d
+    \end{pmatrix} \\
+    M  &=& T^{-1} M_1 T'^{-1}
+  \end{eqnarray*}
+  where $A_2$ is positive definite and has the same rank as
+  A. Obviously $A_2$ has the same non-zero eigenvalues as $A$.
+  Because $M$ is positive semi-definite, so is $M_1$. Then it follows
+  $|M_{1;ij}| \leq \sqrt{M_{1;i,i} M_{1;j,j}}$ for all $1 \leq i,j
+  \leq p$, implying $u_1 = 0$. Now we have
+  \begin{eqnarray*}
+    M &=& T^{-1} M_1 T'^{-1} \\
+    &=& T^{-1}
+    \begin{pmatrix}
+      0 & 0 & 0 \\
+      0 & A_2 & u_2 \\
+      0 & u'_2 & d
+    \end{pmatrix} T'^{-1} \\
+  \end{eqnarray*}
+  By the same inequality found in \cite{BaiSilverstein2010},
+  \begin{eqnarray*}
+    \lambda_1(M) &\leq& s_1(T^{-1}) \lambda_1(M_1) s_1(T'^{-1}) \\
+    &=& \lambda_1(M_1) \\
+    &=& \lambda_1 \left[\left(
+      \begin{array}{cc}
+        A_2 & u_2 \\
+        u'_2 & d
+      \end{array} \right)\right] \\
+  &\leq& \lambda_1(A_2) + d
+  \end{eqnarray*}
+  where in the last inequality we apply the claim proven in the case
+  of positive definite principle sub-matrix.
+\end{proof}
+\bibliographystyle{unsrt}
+\bibliography{../thesis/econophysics}
+\end{document}
