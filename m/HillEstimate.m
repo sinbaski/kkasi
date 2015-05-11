@@ -1,43 +1,50 @@
 clear all
 close all
 mysql = get_mysql();
-name='SP500';
+name='OMXS30';
 stmt = sprintf('select symbol from %s_components;', name);
 symbols = fetch(mysql, stmt);
 
 p = size(symbols, 1);
-T = 3000;
+T = 1600;
 numRec = NaN(p, 1);
 
 for k = 1 : p
-    numRec(k) = cell2mat(fetch(mysql, sprintf(['select count(*) from %s_US'], ...
-                                              strrep(symbols{k}, '.', '_'))));
+    name = strrep(symbols{k}, '.', '_');
+    name = strrep(name, '-', '_series_');
+    numRec(k) = cell2mat(fetch(mysql, sprintf(['select count(*) ' ...
+                        'from %s_SE'], name)));
 end
 
 to_include = find(numRec >= T+1);
 p = length(to_include);
 
-tail_index = NaN(p, 2);
+tail_index = cell(p, 3);
 c = 1;
-names = {};
 for k = to_include'
-    closing = fetch(mysql, sprintf(['select closing from %s_US order by day desc ' ...
-                        'limit %d;'], strrep(symbols{k}, '.', '_'), ...
-          T+1));
+    name = strrep(symbols{k}, '.', '_');
+    name = strrep(name, '-', '_series_');
+
+    closing = fetch(mysql, sprintf(['select closing from %s_SE order ' ...
+                        'by day desc limit %d;'], name, T+1));
     R = price2ret(cell2mat(flipud(closing)));
+    
+    tail_index{c, 1} = symbols{k};
     
     qlower = quantile(R, 0.03);
     Rlower = R(R < qlower);
-    tail_index(c, 1) = 1/mean(log(Rlower./qlower));
+    tail_index{c, 2} = 1/mean(log(Rlower./qlower));
     
     qupper = quantile(R, 0.97);
     Rupper = R(R > qupper);
-    tail_index(c, 2) = 1/mean(log(Rupper./qupper));
-    names{c} = symbols{k};
+    tail_index{c, 3} = 1/mean(log(Rupper./qupper));
+
     c = c + 1;
 end
 close(mysql);
-plot(tail_index(:, 2), tail_index(:, 1), '.');
+
+save('OMXS30TailIndices.mat', 'tail_index');
+plot(cell2mat(tail_index(:, 3)), cell2mat(tail_index(:, 2)), '.');
 hold on
 X = linspace(0, 4, 400);
 plot(X, X, 'r', 'Linewidth', 2);

@@ -24,6 +24,7 @@ for k = to_include'
                         'limit %d;'], strrep(symbols{k}, '.', '_'), ...
           T+1));
     R(:, c) = price2ret(cell2mat(flipud(closing)));
+    R(:, c) = R(:, c) - mean(R(:, c));
     c = c + 1;
 end
 close(mysql);
@@ -32,7 +33,7 @@ k0 = 5;
 M = NaN(p, p, k0+1);
 for k = 1 : k0 + 1
     S = R(1:T-(k-1), :)' * R(k:T, :);
-    M(:, :, k) = S * S';
+    M(:, :, k) = S * S' / (T-k+1);
 end
 A = cumsum(M, 3);
 LamA = NaN(p, k0+1);
