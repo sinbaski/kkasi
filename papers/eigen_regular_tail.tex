@@ -13,19 +13,13 @@ x^{-\alpha}$, $\pr(X_{it} < -x) = p_- L(x) x^{-\alpha}$ for a slowly
 varying function $L(x)$, and $p_+ + p_- = 1$. The normalizing sequence
 $a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1 \over n}$, implying
 $a_n \sim n^{1/\alpha} l(n)$, where $l(n)$ is a slowing varying
-function. The sample covariance matrix is
-\[
-\mtx C = \sum_{t=1}^n \mtx X_t \mtx{X'_t}
-\]
-where $\mtx X_t = (X_{1t}, \cdots, X_{pt})'$.
-For convenience, we let $c$ stand for any constant whose value is not
-of importance in the rest of this report.
+function. Moreover, we assume $\E X_{11} = 0$ if $\E X_{11} <
+\infty$. The sample covariance matrix is $\mtx {XX'}$.
 
-\subsection[E(X) infinite, alpha in {(0, 1]}]{\texorpdfstring{The case
-    $\E|X_{it}| = \infty$ with $\alpha \in (0, 1]$}}
-In this case we want to prove
+For convenience, we let $c$ stand for any constant whose value is not
+of importance in the rest of this report. We shall prove
 \[
-a_n^{-2}\|\mtx C - \diag(\mtx C)\|_2 \xrightarrow{P} 0
+a_n^{-2}\|\mtx {XX'} - \diag(\mtx {XX'})\|_2 \xrightarrow{P} 0
 \]
 
 \begin{proof}
@@ -35,181 +29,75 @@ a_n^{-2}\|\mtx C - \diag(\mtx C)\|_2 \xrightarrow{P} 0
   \]
   for an arbitrary matrix $\mtx A$, we have
   \begin{align*}
-    \pr(\|\mtx C - \diag(\mtx C)\|_2 \geq a_n^2 \epsilon) & \leq
-    \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
-    X_{it} X_{jt}| > a_n^2 \epsilon) \\
-    &\leq \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr(|\sum_{t=1}^n
-    X_{it} X_{jt}| > a_n^2 \epsilon) \\
-    &= \sum_{i=1}^p \sum_{j=1, j\neq i}^p \left[\pr(\sum_{t=1}^n
-      X_{it} X_{jt} > a_n^2 \epsilon) + \pr(\sum_{t=1}^n
-      X_{it} X_{jt} < -a_n^2 \epsilon) \right]\\
+    \pr(\|\mtx {XX'} - \diag(\mtx {XX'})\|_2 \geq a_n^2 \epsilon) & \leq
+    \pr\left(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
+    X_{it} X_{jt}| > a_n^2 \epsilon\right) \\
+    &\leq \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr\left(|\sum_{t=1}^n
+    X_{1t} X_{2t}| > {a_n^2 \epsilon \over p-1}\right) \\
   \end{align*}
-  Here we note that $X_{it}$ and $X_{jt}$ are iid, and, assuming $\alpha
-  < 1$, $\E |X_{it} X_{jt}| = \infty$. Furthermore, $a_n^2 \epsilon /
-  a_n \to \infty$. Hence the large deviation result found in 
-  Cline and Hsing \cite{ClingHsing1998} is applicable. With it we
-  obtain
+  Since $\E X_{1t} X_{2t} = (\E X_{11})^2$, which is either 0 or
+  $\infty$, the large deviation result found in Cline and Hsing
+  \cite{ClingHsing1998} and Nagaev \cite{nagaev1979} is
+  applicable. With it we obtain
   \begin{align*}
-    \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
-    c n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon)
+    \pr\left(|\sum_{t=1}^n X_{1t} X_{2t}| > {a_n^2 \epsilon \over p-1}\right) &\sim
+    c n \pr\left(|X_{11} X_{21}| > {a_n^2 \epsilon \over p-1 }\right)
   \end{align*}
-  Now that $|X_{it}|$ and $|X_{jt}|$ are iid and have regularly
-  varying tail function $\pr(|X_{it}| > x) = L(x)x^{-\alpha}$,
-  $|X_{it} X_{jt}|$ also has reguarly varying tail so that
-  $\pr(|X_{it} X_{jt}| > x) = L_2(x) x^{-\alpha}$ according to
-  A.H.Jessen and Mikosch \cite{JessenMikosch2006}. Thus we have
-  \begin{align*}
-    \pr(\sum_{t=1}^n X_{it} X_{jt} > a_n^2 \epsilon) &\leq
-    c n \pr(|X_{it} X_{jt}| > a_n^2 \epsilon) \\
-    &\sim c n a_n^{-2\alpha} \\
-    &= c l(n)^{-2\alpha} n^{-1} \to 0
-  \end{align*}
-  Similarly
-  \begin{eqnarray*}
-    \pr(\sum_{t=1}^n X_{it} X_{jt} < -a_n^2 \epsilon) &\leq& c n
-    a_n^{-2\alpha} \to 0
-  \end{eqnarray*}
-\end{proof}
-
-\subsection[E(X) finite, alpha in {[1,2]}]{\texorpdfstring{The case
-    $\E|X_{it}| < \infty$ and $\alpha \in [1,2]$}} \label{sec:B}
-In this case we prove a similar result on
-\[
-\mtx A = \mtx C - \E \mtx C
-\]
-In the following we prove
-\[
-a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 \xrightarrow{P} 0
-\]
-\begin{proof}
-  \begin{eqnarray}
-    && \pr(a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 > \epsilon) \nonumber \\
-    &\leq& \pr(a_n^{-2} \|\mtx A - \diag(\mtx A)\|_\infty > \epsilon) \nonumber \\
-    &=& \pr(\max_{1\leq i \leq p} \sum_{j=1, j\neq i}^p |\sum_{t=1}^n
-    X_{it} X_{jt} - \E X_{it} X_{jt} | > a_n^2 \epsilon) \nonumber \\
-    &\leq& \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr(|\sum_{t=1}^n
-    X_{it} X_{jt} - \E X_{it} X_{jt} | > a_n^2 \epsilon) \nonumber \\
-    &=& \sum_{i=1}^p \sum_{j=1, j\neq i}^p \left[\pr(\sum_{t=1}^n
-      X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2 \epsilon) + \right.\nonumber \\
-    && \left. \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
-    \epsilon) \right] \label{eq:A}
-  \end{eqnarray}
-  To use Cline and Hsing's result \cite{ClingHsing1998} of large
-  deviations, we first need to verify $\E |X_{it} X_{jt} - \E X_{it} X_{jt}|
-  < \infty$. It is obvious $\E (X_{it} X_{jt} - \E X_{it} X_{jt}) = 0$.
-  \begin{align*}
-    \E |X_{it} X_{jt} - \E X_{it} X_{jt}| &\leq \E |X_{it} X_{jt}| +
-    \E |\E X_{it} X_{jt}|
-  \end{align*}
-  By Jensen's inequality
+  Now that $|X_{11}|$ and $|X_{21}|$ are iid and regularly varying
+  with index $\alpha$, so is $|X_{11} X_{21}|$, according to Jessen
+  and Mikosch \cite{JessenMikosch2006}. Thus we have
   \[
-  |\E X_{it} X_{jt}| \leq \E |X_{it} X_{jt}|
+  c n \pr\left(|X_{11} X_{21}| > {a_n^2 \epsilon \over p-1 }\right)
+  \to 0
   \]
-  Therefore
-  \begin{align*}
-    \E |X_{it} X_{jt} - \E X_{it} X_{jt}| &\leq 2 \E |X_{it} X_{jt}|
-    \\
-    &= 2 \E|X_{it}| \E| X_{jt}| < \infty
-  \end{align*}
-  Secondly, we need to establish that, for any sequence $(b_n)$ satisfying
-  \begin{equation}
-    \label{eq:B2}
-    \pr\left(
-      |X_{it} X_{jt} - \E X_{it} X_{jt}| > b_n
-    \right) \sim 1/n
-  \end{equation}
-  we have $a_n^2 \epsilon / b_n \to \infty$, which is required by
-  Cline and Hsing \cite{ClingHsing1998}. For this reason, we note
-  \begin{eqnarray*}
-    && \pr\left(
-    |X_{it} X_{jt} - \E X_{it} X_{jt}| > b_n
-  \right) \\
-  &=& \pr(X_{it} X_{jt} > b_n + \E X_{it} X_{jt}) + \pr(X_{it} X_{jt} <
-  -b_n + \E X_{it} X_{jt})
-  \end{eqnarray*}
-  Because $X_{it} X_{jt}$ has regularly varying tail with index
-  $-\alpha$ according to A.H.Jessen and Mikosch
-  \cite{JessenMikosch2006}, we have
-  \begin{eqnarray*}
-    && \pr(X_{it} X_{jt} > b_n + \E X_{it} X_{jt}) + \pr(X_{it} X_{jt} <
-    -b_n + \E X_{it} X_{jt}) \\
-    &\sim& L_1(b_n + \E X_{it} X_{jt}) (b_n + \E X_{it}
-    X_{jt})^{-\alpha} \\
-    && +L_2(b_n - \E X_{it} X_{jt}) (b_n - \E X_{it}
-    X_{jt})^{-\alpha} \\
-    &\sim& [L_1(b_n) + L_2(b_n)] b_n^{-\alpha}
-  \end{eqnarray*}
-  where $L_1$ and $L_2$ are slowing varying functions. Then it follows
-  $b_n = n^{1/\alpha} l_1(n)$ for a slowing varying function
-  $l_1(n)$. Apparently
-  \begin{eqnarray*}
-    {a_n^2 \over b_n} &=& {l^2(n) \over l_1(n)} n^{1/\alpha} \to \infty
-  \end{eqnarray*}
-  Therefore Cline and Hsing's large deviation result
-  \cite{ClingHsing1998} gives
-  \begin{eqnarray}
-    && \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2
-    \epsilon) \nonumber \\
-    &\sim& c n \pr(|X_{it} X_{jt} - \E X_{it} X_{jt}| > a_n^2
-    \epsilon) \nonumber \\
-    &\sim& cn [L_1(a_n^2) + L_2(a_n^2)] a_n^{-2\alpha} \nonumber \\
-    &\sim& c {L_1(a_n^2) + L_2(a_n^2) \over l^{2\alpha}(n)} n^{-1}
-    \to 0 \text{ , }n \to \infty \label{eq:B3}
-  \end{eqnarray}
-  Analogously,
-  \begin{eqnarray}
-    && \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
-    \epsilon) \nonumber \\
-    &\sim& c n \pr(|X_{it} X_{jt} - \E X_{it} X_{jt}| > a_n^2 \to 0
-    \text{ , }n \to \infty \label{eq:B4}
-  \end{eqnarray}
-
 \end{proof}
-
-\subsection[alpha in (2,4)]{\texorpdfstring{The case $\alpha \in (2, 4)$}}
-As in the case of \S\ref{sec:B}, we shall prove
+Now, using the result just proved and applying Weyl's perturbation
+theorem we obtain
 \[
-a_n^{-2} \|\mtx A - \diag(\mtx A)\|_2 \xrightarrow{P} 0
+a_n^{-2} \max_{i=1,\dots,p} |\lambda^C_{(i)} -
+\lambda^{\text{diag}}_{(i)}| \leq  a_n^{-2}\|C - \diag{C}\| \to 0
 \]
-\begin{proof}
-  The arguments are the same as those leading to \eqref{eq:A}. Now
-  that $\alpha > 2$, we need to verify $a_n^2\epsilon > \sqrt{(\alpha
-    - 2)n \ln n}$ in order to use the large deviation result of Nagaev
-  \cite{nagaev1979}.
-  \begin{eqnarray*}
-    {a_n^2 \over \sqrt{(\alpha - 2)n \ln n}} &=&
-    {l^2(n) \over \sqrt{(\alpha - 2)\ln n}} n^{2/\alpha - 1/2}
-  \end{eqnarray*}
-  Since $2 < \alpha < 4$, the RHS of the last expression tends to
-  $\infty$. So the condition $a_n^2\epsilon > \sqrt{(\alpha
-    - 2)n \ln n}$ is satisfied. Therefore, by the same arguments as in
-  \S\ref{sec:B}, we reach the conclusions
-  \begin{eqnarray*}
-    \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} > a_n^2
-    \epsilon) &\to& 0 \\
-    \pr(\sum_{t=1}^n X_{it} X_{jt} - \E X_{it} X_{jt} < -a_n^2
-    \epsilon) &\to& 0
-  \end{eqnarray*}
-\end{proof}
+Therefore the eigenvalues of $C$ can be approximated by those of
+$\diag(C)$:
+\begin{eqnarray*}
+a_n^{-2}\lambda^{\text{diag}}_{i}  &=& a_n^{-2} \sum_{t=1}^n X_{it}^2
+\end{eqnarray*}
+
+\subsection{Upper Order Statistics of the eigenvalues}
+Because $\pr(X_{11}^2 > a_n^2) \sim 1/n$, the central limit theorem
+gives, according to Mikosch et al\cite{Embrechts1997},
+\[
+a_n^{-2} \sum_{t=1}^n X_{it}^2 \xrightarrow{d} \xi_i \sim S_{\alpha/2}
+\]
+where $S_{\alpha/2}$ denotes an $\alpha/2$-stable distribution. Since
+$(\xi_i)_{i=1}^p$ are iid, the joint density function of the $k$ upper
+order statistics of $\lambda_i$, the eigenvalues of $a_n^{-2} X X'$
+follows as
+\begin{eqnarray*}
+  f_{\lambda_{(1)}, \dots, \lambda_{(k)}}(x_1, \dots, x_k) &=&
+  p(p-1)\cdots(p-k+1) S_{\alpha/2}^{p-k}(x_k) \prod_{i=1}^k
+  f_{\alpha/2}(x_i)
+\end{eqnarray*}
+where $f_{\alpha/2}(x) = {d S_{\alpha/2}(x) \over dx}$.
 \section{Correlated Sequences}
 Now we consider the situation where the sequences $X_{it}$ is
 constructed as
 \[
 X_{it} = \sum_{k=0}^{\infty} \sum_{l=0}^{\infty} h_{kl} Z_{i-k, t-l}
 \]
-where $Z_{a,b}$ are iid and $a,b \in \mathbb{Z}$ while $i=1,\cdots,p$,
-$t=1,\cdots,n$ with $p$ fixed and $n \to \infty$. $Z_{a,b}$ has
+where $Z_{a,b}$ are iid and $a,b \in \mathbb{Z}$ while $i=1,\dots,p$,
+$t=1,\dots,n$ with $p$ fixed and $n \to \infty$. $Z_{a,b}$ has
 regularly varying tails as specified in \S\ref{sec:iid}.
 Define matrix $\mtx M = \mtx {H H'}$ and matrix $\mtx M^{(m)}_q$ with
 elements
 \[
 M^{(m)}_{q; i,j} = \left\{
   \begin{array}{ll}
-    M_{i-q, j-q} & \text{if } i,j = q, q+1, \cdots, q+m \\
+    M_{i-q, j-q} & \text{if } i,j = q, q+1, \dots, q+m \\
     0 & \text{otherwise}
   \end{array}
 \right.
-i,j = 1,2,\cdots,p
+i,j = 1,2,\dots,p
 \]
 In addition define $\mtx X^{(m)}$ to have elements
 \[

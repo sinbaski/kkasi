@@ -1,7 +1,7 @@
 clear all
 close all
 mysql = get_mysql();
-name='OMXS30';
+name='SP500';
 stmt = sprintf('select symbol from %s_components;', name);
 symbols = fetch(mysql, stmt);
 
@@ -25,7 +25,7 @@ for k = to_include'
     name = strrep(symbols{k}, '.', '_');
     name = strrep(name, '-', '_series_');
 
-    closing = fetch(mysql, sprintf(['select closing from %s_SE order ' ...
+    closing = fetch(mysql, sprintf(['select closing from %s_US order ' ...
                         'by day desc limit %d;'], name, T+1));
     R = price2ret(cell2mat(flipud(closing)));
     
@@ -43,7 +43,7 @@ for k = to_include'
 end
 close(mysql);
 
-save('OMXS30TailIndices.mat', 'tail_index');
+save('SP500TailIndices.mat', 'tail_index');
 plot(cell2mat(tail_index(:, 3)), cell2mat(tail_index(:, 2)), '.');
 hold on
 X = linspace(0, 4, 400);

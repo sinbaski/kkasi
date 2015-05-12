@@ -15,40 +15,51 @@ spec = cellstr(['b  '; 'c  '; 'g  '; 'm  '; 'r  '; 'k  ';...
                 ]);
 texts = {};
 c = 1;
-% hold on
-lam1 = NaN(length(sig), length(phi), 2);
-lam2 = NaN(length(sig), length(phi), 2);
-variance = NaN(length(sig), length(phi));
-
-phi = 0.8160;
+parameters = NaN(4, 4);
+f = @(param, X) param(1) .* exp(param(2) .* X);
 for q = [0.1, 0.2, 0.5, 1]
+    variance = NaN(length(sig), length(phi));
+    B = NaN(length(sig), length(phi), length(q));
     for m = 1 : length(sig)
-        % for sig = 0.1
-        v = sig(m)^2/(1 - phi^2);
-        load(sprintf(['../matfys/data/sv/normal_ret/lognormal_vol/q%.1f/Eig-' ...
-                      'sig%.4f-phi%.4f.mat'], q, sig(m), phi), 'ev');
-        % fprintf('N=%d, T=%d, ');
-        % ev = reshape(ev, 1, prod(size(ev)));
-        eigmax = max(ev)';
-        [y, x] = ecdf(eigmax);
-        I = x > quantile(eigmax, 0.3) & x < quantile(eigmax, 0.85);
-        subplot(4, 3, c);
-        loglog(x(I), 1 - y(I), 'LineWidth', 2);
-        title(sprintf('q = %.1f, v=%.4f', q, v));
-        grid on
-        c = c + 1;
-        % eigmin = min(ev)';
-        
-        % lam1(m, n, :) = [mean(eigmin), (1-sqrt(q))^2 * ...
-        %                  (1 - 2*v*(2*sqrt(q)-1))];
-        % lam2(m, n, :) = [mean(eigmax), (1+sqrt(q))^2 * ...
-        %                  (1 + 2*v*(2*sqrt(q)+1))];
+        for n = 1 : length(phi)
+            v = sig(m)^2/(1 - phi(n)^2);
+            variance(m, n) = v;
+            load(sprintf(['../matfys/data/sv/normal_ret/lognormal_vol/q%.1f/Eig-' ...
+                          'sig%.4f-phi%.4f.mat'], q, sig(m), phi(n)), 'ev');
+            % fprintf('N=%d, T=%d, ');
+            % ev = reshape(ev, 1, prod(size(ev)));
+            eigmax = max(ev)';
+            % [y, x] = ecdf(eigmax);
+            % I = x > quantile(eigmax, 0.3) & x < quantile(eigmax, 0.85);
+            % subplot(4, 3, c);
+            % loglog(x(I), 1 - y(I), 'LineWidth', 2);
+            % title(sprintf('q = %.1f, v=%.4f', q, v));
+            % grid on
+            % eigmin = min(ev)';
+            
+            B(m, n, c) = mean(eigmax);
+            % lam1(m, n, :) = [mean(eigmin), (1-sqrt(q))^2 * ...
+            %                  (1 - 2*v*(2*sqrt(q)-1))];
+            % lam2(m, n, :) = [mean(eigmax), (1+sqrt(q))^2 * ...
+            %                  (1 + 2*v*(2*sqrt(q)+1))];
+        end
     end
+    [V, I] = sort(reshape(variance, numel(variance), 1));
+    eigmax = reshape(B(:, :, c), length(sig) * length(phi), 1);
+    eigmax = eigmax(I);
+    subplot(2,2,c);
+    param1 = [(1 + sqrt(q))^2, 2*(2*sqrt(q) + 1)];
+    param2 = lsqcurvefit(f, param1, V, eigmax);
+    parameters(c, :) = [param1(1), param2(1), param1(2), param2(2)];
+    plot(V, eigmax, V, f(param2, V));
+    grid on
+    c = c + 1;
 end
 
-% [V, I] = sort(reshape(variance, numel(variance), 1));
+
 % A = NaN(numel(lam1(:, :, 1)), 2);
 % B = NaN(numel(lam2(:, :, 1)), 2);
+
 
 % A(:, 1) = reshape(lam1(:, :, 1), numel(lam1(:, :, 1)), 1);
 % A(:, 1) = A(I, 1);
@@ -80,10 +91,6 @@ end
 % xlabel('v');
 % ylabel('\lambda_{min}');
 % legend('exp fit', 'empirical');
-
-% f = @(param, X) param(1) .* exp(param(2) .* X);
-% param1 = lsqcurvefit(f, [1, 1, (1 - sqrt(q))^2], V, A(:, 1));
-% param2 = lsqcurvefit(f, [1, 1, (1 + sqrt(q))^2], V, B(:, 1));
 
 % X = linspace(min(V), max(V), 500)';
 % semilogx(V, A(:, 1), '+', X, f(param1, X), V, A(:, ...
