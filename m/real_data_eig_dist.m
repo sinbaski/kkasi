@@ -1,33 +1,9 @@
 clear all
 close all
-mysql = get_mysql();
 name='SP500';
-stmt = sprintf('select symbol from %s_components;', name);
-symbols = fetch(mysql, stmt);
-
-p = size(symbols, 1);
 T = 3000;
-numRec = NaN(p, 1);
-
-for k = 1 : p
-    numRec(k) = cell2mat(fetch(mysql, sprintf(['select count(*) from %s_US'], ...
-                                              strrep(symbols{k}, '.', '_'))));
-end
-
-to_include = find(numRec >= T+1);
-p = length(to_include);
-
-R = NaN(T, p);
-c = 1;
-for k = to_include'
-    closing = fetch(mysql, sprintf(['select closing from %s_US order by day desc ' ...
-                        'limit %d;'], strrep(symbols{k}, '.', '_'), ...
-          T+1));
-    R(:, c) = price2ret(cell2mat(flipud(closing)));
-    R(:, c) = R(:, c) - mean(R(:, c));
-    c = c + 1;
-end
-close(mysql);
+R = get_latest_data_from_index(name, T, true);
+p = size(R, 2);
 
 k0 = 5;
 M = NaN(p, p, k0+1);
