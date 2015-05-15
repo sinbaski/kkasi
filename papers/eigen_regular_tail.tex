@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{enumerate}
 \usepackage[bookmarks=true]{hyperref}
 \usepackage{bookmark}
@@ -79,6 +80,7 @@ follows as
   f_{\alpha/2}(x_i)
 \end{eqnarray*}
 where $f_{\alpha/2}(x) = {d S_{\alpha/2}(x) \over dx}$.
+
 \section{Correlated Sequences}
 Now we consider the situation where the sequences $X_{it}$ is
 constructed as
@@ -156,9 +158,7 @@ a_n^{-2} \|\mtx X^{(m)} (\mtx X^{(m)})' - \sum_{q=-m}^p D_q \mtx M_q^{(m)}\|_2
 \xrightarrow{P} 0
 \]
 \begin{proof}
-  The proof is essentially the same as its counterpart in Davis,
-  Mikosch and Pfaffel \cite{Mikosch2014}. The $(i,j)$-th element of
-  $\mtx{X^{(m)} X'^{(m)}}$ is
+  The $(i,j)$-th element of $\mtx{X^{(m)} X'^{(m)}}$ is
   \begin{eqnarray*}
     (\mtx{X^{(m)} X'^{(m)}})_{ij} &=&
     \sum_{t=1}^n \sum_{k=0}^m \sum_{l=0}^\infty \sum_{k'=0}^m
@@ -260,6 +260,42 @@ a_n^{-2} \|\mtx X^{(m)} (\mtx X^{(m)})' - \sum_{q=-m}^p D_q \mtx M_q^{(m)}\|_2
     \right) \to 0 \text{, } \forall \epsilon > 0 \text{ as } n \to \infty
   \end{eqnarray*}
 \end{proof}
+Next we show
+\[
+a_n^{-2}\sum_{q=-m}^p D_q M_q^{(m)}
+\]
+can be approximated by $a_n^{-2} D_{L_1} M_{L_1}^{(m)}$, where $L_1$ is the
+index of $D_{(1)}$, i.e. $D_{L_1} = D_{(1)}$.
+\begin{proof}
+  \begin{eqnarray*}
+    && a_n^{-2} \sum_{q=-m}^p D_q M_q^{(m)} \\
+    &=& D_{L_1} a_n^{-2} \sum_{q=1}^{p-m+1} {D_{L_q} \over D_{L_1}}
+    M_{L_q}^{(m)}
+  \end{eqnarray*}
+  By lemma \ref{lem:A}, ${D_{L_q} \over D_{L_1}} \xrightarrow{P} 0$,
+  for $q = 2, \dots, p-m+1$ as $n \to \infty$.
+\end{proof}
+\begin{lemma}\label{lem:A}
+  \begin{eqnarray*}
+    \lim_{n \to \infty} \pr(a_n^{-2} {D_{(2)} \over D_{(1)}} >
+    \epsilon) &=& 0
+  \end{eqnarray*}
+\end{lemma}
+\begin{proof}
+  Because $\pr(Z^2 > a_n^2) \sim {1 \over n}$, by CLT (see Mikosch et
+  al \cite{Embrechts1997}, theorem 2.2.15), $a_n^{-2} \sum_{t=1}^n
+  Z_t^2 \xrightarrow{d} \xi_{\alpha/2}$, where $\xi_{\alpha/2}$ is a
+  $alpha/2$-stable r.v. Write $F$ for the df of
+  $\xi_{\alpha/2}$ and $f$ for its density. Therefore
+  \begin{eqnarray*}
+    && \pr(a_n^{-2} {D_{(2)} \over D_{(1)}} > \epsilon) \\
+    &=& \pr(a_n^{-2} {a_n^{-2} D_{(2)} \over a_n^{-2} D_{(1)}} >
+    \epsilon) \\
+    &=& \int_{\epsilon a_n^2} (p-m+1)p \bar{F}(x_2)^{n-2} f(x_1)
+    f(x_2) 
+  \end{eqnarray*}
+\end{proof}
+
 
 \subsection[alpha in (2,4)]{The case $\alpha \in (2,4)$}
 In this case we have
