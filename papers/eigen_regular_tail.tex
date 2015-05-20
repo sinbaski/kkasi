@@ -36,21 +36,24 @@ a_n^{-2}\|\mtx {XX'} - \diag(\mtx {XX'})\|_2 \xrightarrow{P} 0
     &\leq \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr\left(|\sum_{t=1}^n
     X_{1t} X_{2t}| > {a_n^2 \epsilon \over p-1}\right) \\
   \end{align*}
-  Since $\E X_{1t} X_{2t} = (\E X_{11})^2$, which is either 0 or
-  $\infty$, the large deviation result found in Cline and Hsing
+  When $\E|X_1 X_2| < \infty$, $\E|X_1| =\sqrt{\E|X_1 X_2|} < \infty$.
+  By assumption $\E X_1 = 0$ and hence $\E X_1 X_2 = (\E X_1)^2 = 0$.
+  Thus the large deviation result found in Cline and Hsing
   \cite{ClingHsing1998} and Nagaev \cite{nagaev1979} is
   applicable. With it we obtain
   \begin{align*}
-    \pr\left(|\sum_{t=1}^n X_{1t} X_{2t}| > {a_n^2 \epsilon \over p-1}\right) &\sim
+    \pr\left(|\sum_{t=1}^n X_{1t} X_{2t}| > {a_n^2 \epsilon \over p-1}\right)
+    &\sim
     c n \pr\left(|X_{11} X_{21}| > {a_n^2 \epsilon \over p-1 }\right)
   \end{align*}
   Now that $|X_{11}|$ and $|X_{21}|$ are iid and regularly varying
   with index $\alpha$, so is $|X_{11} X_{21}|$, according to Jessen
   and Mikosch \cite{JessenMikosch2006}. Thus we have
-  \[
-  c n \pr\left(|X_{11} X_{21}| > {a_n^2 \epsilon \over p-1 }\right)
-  \to 0
-  \]
+  \begin{eqnarray*}
+    c n \pr\left(|X_{11} X_{21}| > {a_n^2 \epsilon \over p-1 }\right)
+    &\sim& c n L_{12}(n) (n^{2/\alpha})^{-\alpha} \to 0\text{,  }n\to\infty
+  \end{eqnarray*}
+  where $L_{12}$ is a slowly varying function.
 \end{proof}
 Now, using the result just proved and applying Weyl's perturbation
 theorem we obtain
@@ -65,14 +68,15 @@ a_n^{-2}\lambda^{\text{diag}}_{i}  &=& a_n^{-2} \sum_{t=1}^n X_{it}^2
 \end{eqnarray*}
 
 \subsection{Upper Order Statistics of the eigenvalues}
-Because $\pr(X_{11}^2 > a_n^2) \sim 1/n$, the central limit theorem
-gives, according to Mikosch et al\cite{Embrechts1997},
+When $\alpha \in (0,2)$, $\E X^2 = \infty$. Now that
+$\pr(X_{11}^2 > a_n^2) \sim 1/n$, the central limit theorem 
+gives, according to Mikosch et al\cite{Embrechts1997} 
 \[
 a_n^{-2} \sum_{t=1}^n X_{it}^2 \xrightarrow{d} \xi_i \sim S_{\alpha/2}
 \]
-where $S_{\alpha/2}$ denotes an $\alpha/2$-stable distribution. Since
-$(\xi_i)_{i=1}^p$ are iid, the joint density function of the $k$ upper
-order statistics of $\lambda_i$, the eigenvalues of $a_n^{-2} X X'$
+where $S_{\alpha/2}$ denotes an $\alpha/2$-stable distribution.
+Since $(\xi_i)_{i=1}^p$ are iid, the joint density function of the $k$
+upper order statistics of $\lambda_i$, the eigenvalues of $a_n^{-2} X X'$
 follows as
 \begin{eqnarray*}
   f_{\lambda_{(1)}, \dots, \lambda_{(k)}}(x_1, \dots, x_k) &=&
@@ -80,6 +84,16 @@ follows as
   f_{\alpha/2}(x_i)
 \end{eqnarray*}
 where $f_{\alpha/2}(x) = {d S_{\alpha/2}(x) \over dx}$.
+
+When $\alpha \in (2,4)$ the central limit theorem gives
+\[
+a_n^{-2} (\sum_{t=1}^n X_{it}^2 - n \E X^2)\xrightarrow{d}
+\xi_i \sim S_{\alpha/2}
+\]
+Since $a_n \sim n^{1/\alpha} l(n)$, it is clear
+\[
+a_n^{-2} \sum_{t=1}^n X_{it}^2 \xrightarrow{a.s}\infty
+\]
 
 \section{Correlated Sequences}
 Now we consider the situation where the sequences $X_{it}$ is
