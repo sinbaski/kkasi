@@ -249,7 +249,7 @@ In this case we have
   (XX')_{ij} &=& \sum_{t=1}^n \sum_{l=0}^\infty \sum_{l'=0}^\infty
   \theta_l\theta_{l'} Z_{i,t-l} Z_{j,t-l'} + \\
   && \sum_{t=1}^n \sum_{k=0}^\infty \sum_{k'=0}^\infty \varphi_{k'}
-  Z_{i-k,t} \varphi_k Z_{j-k,t} \\
+  Z_{i-k,t} \varphi_k Z_{j-k',t} \\
   && \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty \varphi_k
   Z_{i-k,t} \theta_l Z_{j,t-l} \\
   && \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty \varphi_k
@@ -322,12 +322,12 @@ to
   &\sim& L_{12}(a_n) a_n^{2(\beta - \alpha)}
 \end{eqnarray*}
 Thus we have
-\begin{eqnarray*}
+\begin{eqnarray}
   P_1 &\leq& n L'_{12}(a_n) a_n^{2(1 - \alpha/\beta)-2}
   \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq l}}^\infty |\theta_l
-  \theta_{l'}| \\
-  &\leq& l_{12}(n) n^{-2/\beta + 1} \to 0
-\end{eqnarray*}
+  \theta_{l'}| \nonumber \\
+  &\leq& l_{12}(n) n^{-2/\beta + 1} \to 0 \label{eq:Jensen}
+\end{eqnarray}
 For $P_2$ we have
 \begin{eqnarray*}
   P_2 &=& \pr\left[
@@ -352,11 +352,99 @@ Then it follows
     \bigcup_{t=1}^{n} A_{ll'}
   \right) \\
   &\leq& n\pr\left(\sum_{l,l' \geq 0, l\neq l'}|\theta_l
-    \theta_{l'}|Z_1Z_{2} > a_n^2 \epsilon/2\right) \\
-  &\sim& c n a_n^{-2\alpha} \\
-  &\sim& c n^{-1} l_1(n)\to 0
+    \theta_{l'}|Z_lZ_{l'} > a_n^2 \epsilon/2\right) \\
+  &\leq& c n a_n^{-2\alpha} \sum_{l,l' \geq 0, l\neq l'}|\theta_l
+    \theta_{l'}| \E |Z_lZ_{l'}|
 \end{eqnarray*}
 where $l_1(\cdot)$ is a slowly varying function.
+
+For $I_{ij}^{(13)}$ we have
+\begin{eqnarray*}
+  && \pr\left(|I_{ij}^{(13)}| > a_n^{2}\epsilon\right) \\
+  &=& \pr\left(\left|\sum_{t=1}^n \sum_{l=0}^\infty \sum_{l'=0}^\infty
+  \theta_l\theta_{l'} Z_{i,t-l} Z_{j,t-l'} \I{i\neq j}\right| > a_n^2
+\epsilon\right) \\
+&\leq& \pr\left(\left|\sum_{t=1}^n (\sum_{l=0}^\infty \theta_l
+    Z_{i,t-l}) (\sum_{l'=0}^\infty \theta_{l'} Z_{j,t-l'})\right| >
+  a_n^2 \epsilon\right) \\
+\end{eqnarray*}
+where we have suppressed the indicator $\I{i\neq j}$. Note by Mikosch
+and Jessen \cite{JessenMikosch2006}
+\begin{eqnarray*}
+  && \pr\left( \sum_{l=0}^\infty \theta_l Z_{l} > x \right) \\
+  &\sim& \pr(|Z_1| > x) \sum_{l=0}^\infty \left(
+    p_+ \I{\theta_l > 0} + p_- \I{\theta_l < 0}
+  \right)
+\end{eqnarray*}
+That is, $\sum_{l=0}^\infty \theta_l Z_{l} \in \mathcal R_{-\alpha}$
+as is $Z$. Denote $Y_{it}$ for $\sum_{l=0}^\infty \theta_l
+Z_{i,t-l}$. Thus
+\begin{eqnarray*}
+  && \pr\left(|I_{ij}^{(13)}| > a_n^{2}\epsilon/2\right) \\
+  &\leq& \pr\left( \sum_{t=1}^n \left| Y_{it} Y_{jt} \right| > a_n^2
+    \epsilon \right) \\
+  &\leq& \pr\left( \sum_{t=1}^n \left| Y_{it} Y_{jt} \right| \I{|Y_{it}
+      Y_{jt}| \leq a_n^2 \epsilon / 2} > a_n^2 \epsilon/2 \right) \\
+  && + \pr\left( \sum_{t=1}^n \left| Y_{it} Y_{jt} \right| \I{|Y_{it}
+      Y_{jt}| > a_n^2 \epsilon / 2} > a_n^2 \epsilon/2 \right) \\
+  &=& P_1 + P_2
+\end{eqnarray*}
+Analagous to the arguments for $I_{ij}^{12} \to 0$,
+\begin{eqnarray*}
+  P_1 &\leq& 2 \epsilon^{-1} a_n^{-2}\sum_{t=1}^n \E \left| Y_{it}
+    Y_{jt} \right| \I{|Y_{it} Y_{jt}| \leq a_n^2 \epsilon / 2} \to 0 \\
+  P_2 &\leq& \sum_{t=1}^n \pr\left(
+    |Y_{it} Y_{jt}| > a_n^2 \epsilon / 2
+  \right) \sim n^{-1} L_{12}(n) \to 0
+\end{eqnarray*}
+Similarly for $I^{(3)}_{ij}$ we have
+\begin{eqnarray*}
+  && I^{(2)}_{ij} \\
+  &=& \sum_{t=1}^n \sum_{k=0}^\infty \varphi_k \varphi_{j-i+k}
+  Z_{i-k,t}^2  \\
+  && + \sum_{t=1}^n \sum_{k=0}^\infty \sum_{k'=0}^\infty \varphi_k
+  Z_{i-k,t}  \varphi_{k'} Z_{j-k',t} \I{i-k\neq j-k'}\\
+  &=& I^{(21)}_{ij} + I^{(22)}_{ij}
+\end{eqnarray*}
+\begin{eqnarray*}
+  && \pr(|I^{(22)}_{ij}| > a_n^2 \epsilon) \\
+  &\leq& \pr( \sum_{t=1}^n \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
+    \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k,t} 
+  Z_{j-k',t} \right| > a_n^2 \epsilon) \\
+&\leq& \pr( \sum_{t=1}^n \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
+    \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k,t} 
+  Z_{j-k',t} \right|\I{A^c_{kk'}} > a_n^2 \epsilon/2) \\
+&& + \pr( \sum_{t=1}^n \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
+    \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k,t} 
+  Z_{j-k',t} \right|\I{A_{kk'}} > a_n^2 \epsilon/2) \\
+&=& P_1 + P_2
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+  A_{kk'} &=& \left\{
+    \exists t:\sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
+    \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k,t} 
+  Z_{j-k',t} \right| > a_n^2 \epsilon/2 \right\}
+\end{eqnarray*}
+We have
+\begin{eqnarray*}
+  P_1 &\leq& \sum_{t=1}^n \pr\left[
+    \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
+        \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k} 
+      Z_{j-k'} \right| > a_n^2 \epsilon/2 \right] \\
+  &\leq& c a_n^{-2} \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
+      \neq j-k'}}^\infty |\varphi_k \varphi_{k'}| \E |Z_{i-k} 
+  Z_{j-k'}| \I{A^c_{kk'}} \\
+\end{eqnarray*}
+By the same arguments based on Jensen's inequality that leads to
+\eqref{eq:Jensen} we conclude $P_1 \to 0$.
+\begin{eqnarray*}
+  P_2 &\leq& \sum_{t=1}^n \pr\left[
+    \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
+        \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k} 
+      Z_{j-k'} \right| > a_n^2 \epsilon/2
+  \right]
+\end{eqnarray*}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}

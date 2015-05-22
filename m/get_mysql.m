@@ -1,11 +1,11 @@
 function mysql = get_mysql()
 timefmt = 'yyyy-mm-dd HH:MM:SS';
 if exist('/nfs/users3/xiexiaol', 'dir') == 7
-    hostname = '83.176.196.41';
+    hostname = '85.228.154.211';
     jdbc = ['/nfs/users3/xiexiaol/lib/mysql-connector-java-5.1.26/'...
             'mysql-connector-java-5.1.26-bin.jar'];
 elseif exist('/home/lxb353', 'dir') == 7
-    hostname = '83.176.196.41';
+    hostname = '85.228.154.211';
     jdbc = ['/home/lxb353/myspace/lib/mysql-connector-java-5.1.33-bin.jar'];
 else
     hostname = 'localhost';

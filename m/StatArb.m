@@ -7,8 +7,8 @@ p = size(R, 2);
 
 C = R' * R / T;
 [portfolios, D] = eig(C);
-% X = R * portfolios(:, end-1:end);
-X = R * portfolios(:, 20);
+X = R * portfolios(:, end-1);
+% X = R * portfolios(:, 20);
 % Y = ts_difference(X(:, 2), [10, 1; 1, 1]);
 Y = ts_difference(X, [10, 1; 1, 1]);
 % X = R * ones(p, 1);
