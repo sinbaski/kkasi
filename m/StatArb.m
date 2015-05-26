@@ -1,26 +1,27 @@
 clear all
 close all
-name='OMXS30';
+name='OMXS30_components';
 T = 1000;
-R = get_latest_data_from_index(name, T, true);
+[R, syms] = get_latest_data_from_index(name, T, '2015-05-22', true, false);
 p = size(R, 2);
 
 acf = NaN(60, p);
 C = R' * R / T;
 [portfolios, D] = eig(C);
-for k = 0 : p-1
-    X = R * portfolios(:, end-k);
-    A = autocorr(X, 60);
-    acf(:,k+1) = A(2:end);
+portfolios = portfolios * diag(1./sum(abs(portfolios)));
+factors = R * portfolios;
+for k = 1 : p
+    A = autocorr(factors(:, k), 60);
+    acf(:, k) = A(2:end);
 end
-I = abs(portfolios(:, 1)) > 0.05;
-ptfl = zeros(p, 1);
-ptfl(I) = portfolios(I, 1);
-X = R * ptfl;
-% X1 = ts_difference(X, [5, 2; 1, 1]);
-% autocorr(X1, 40);
-autocorr(X);
 
+ptfl = portfolios(:, end);
+ptfl = ptfl ./ sum(abs(ptfl));
+I = find(abs(ptfl) > 0);
+s = sum(abs(ptfl(I)));
+ptfl = ptfl(I) ./ s;
+X = R(:, 1) - R(:, I) * ptfl;
+autocorr(X);
 
 % Y = X;
 % X = R * portfolios(:, 20);
