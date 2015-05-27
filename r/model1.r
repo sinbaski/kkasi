@@ -4,15 +4,15 @@ rm(list=ls());
 n_obs = 1000;
 database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
     dbname='avanza', host=Sys.getenv("PB"));
-ptfl = data.frame(c("ELUX_series_B_ST_SE",
-    "ERIC_series_B_ST_SE",
-    "LUPE_ST_SE",
-    "NDA_series_SEK_ST_SE",
-    "SKA_series_B_ST_SE"),
-    c(0.4306, 0.0656, -0.1065, 0.2999, 0.0974));
-## ptfl = data.frame(c("ATCO_series_A_ST_SE",
-##     "ATCO_series_B_ST_SE"),
-##     c(0.7568, -0.7000));
+## ptfl = data.frame(c("ELUX_series_B_ST_SE",
+##     "ERIC_series_B_ST_SE",
+##     "LUPE_ST_SE",
+##     "NDA_series_SEK_ST_SE",
+##     "SKA_series_B_ST_SE"),
+##     c(0.4306, 0.0656, -0.1065, 0.2999, 0.0974));
+ptfl = data.frame(c("ATCO_series_A_ST_SE",
+    "ATCO_series_B_ST_SE"),
+    c(0.7568, -0.7000));
 R = matrix(nrow=n_obs, ncol=dim(ptfl)[1]);
 for (k in 1:nrow(ptfl)) {
     results = dbSendQuery(database,
