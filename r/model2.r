@@ -25,16 +25,17 @@ dbDisconnect(database);
 C <- t(R) %*% R / n.obs;
 E <- eigen(C, symmetric=TRUE);
 M <- E$vectors;
-for (k in 1 : dim(M)[1]) {
+for (k in 1 : dim(M)[2]) {
     M[,k] <- M[,k]/sum(abs(M[,k]));
 }
 factors <- R %*% M;
-corr <- matrix(nrow=30, ncol=dim(M)[1]);
-for (k in 1:dim(M)[1]) {
-    A <- acf(factors[,k], plot=FALSE)$acf;
-    corr[,k] <- A[-1];
+models <- list();
+par(mfrow=c(3,4));
+for (k in 1:dim(M)[2]) {
+    mdl <- lm(R[,k] ~ factors);
+    models <- c(models, mdl);
+    acf(mdl$residuals, main=tables[k]);
 }
-lm1 <- lm(R[,1] ~ factors);
 
 
 
