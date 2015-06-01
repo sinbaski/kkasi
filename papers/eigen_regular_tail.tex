@@ -242,39 +242,6 @@ Now we consider the model
 \begin{eqnarray*}
   X_{it} &=& \sum_{k=0}^\infty \sum_{l=0}^\infty h_{kl} Z_{i-k,t-l}
 \end{eqnarray*}
-
-\subsubsection[alpha in (0,2)]{$\alpha \in (0,2)$}
-First of all, we prove $a_n^{-2}\E|Z_1 Z_2| \to 0$, as $n \to \infty$
-for $Z_1$ independent of $Z_2$.
-\begin{proof}
-  \begin{eqnarray*}
-    \E|Z_1 Z_2| &=& \E|Z_1 Z_2|\I{|Z_1 Z_2| \leq a_n^2} + \E|Z_1
-    Z_2|\I{|Z_1 Z_2| > a_n^2} \\
-  \end{eqnarray*}
-  According to Mikosch and Jessen \cite{JessenMikosch2006}, $Z_1 Z_2
-  \in \mathcal R_{-\alpha}$. if $\alpha < 1$
-  \begin{eqnarray*}
-    \E|Z_1 Z_2|\I{|Z_1 Z_2| \leq a_n^2} &\sim& \pr(|Z_1 Z_2| > a_n^2)
-    {\alpha \over 1 - \alpha} \to 0
-  \end{eqnarray*}
-  If $\alpha \geq 1$, by Jensen's inequality for $\delta > 0$
-  \begin{eqnarray*}
-    \E|Z_1 Z_2|\I{|Z_1 Z_2| \leq a_n^2} &\leq&
-    \left(\E|Z_1 Z_2|^{\alpha + \delta}\I{|Z_1 Z_2| \leq
-        a_n^2}\right)^{1/(\alpha + \delta)}
-  \end{eqnarray*}
-  Then Karamata's theorem gives
-  \begin{eqnarray*}
-    && \left(\E|Z_1 Z_2|^{\alpha + \delta}\I{|Z_1 Z_2| \leq
-        a_n^2}\right)^{1/(\alpha + \delta)} \\
-    &\sim& \left[
-      {\alpha \over \delta} \pr(|Z_1 Z_2| > a_n^2)
-      \right]^{1/(\alpha + \delta)} \to 0
-  \end{eqnarray*}
-
-  
-\end{proof}
-
 We have
 \begin{eqnarray*}
   (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=0}^\infty \sum_{k'=0}^\infty
@@ -289,216 +256,106 @@ We have
   &=& I^{(1)}_{ij} + I^{(2)}_{ij} + I^{(3)}_{ij}
 \end{eqnarray*}
 \begin{eqnarray*}
-  && \pr(I^{(2)}_{ij} > a_n^2 \epsilon) \\
+  && \pr(\left| I^{(2)}_{ij} \right| > a_n^2 \epsilon) \\
+  &\leq& \pr\left(
+    \sum_{t=1}^n \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \left|
+      Z_{i-k,t-l} Z_{j-k',t-l'} \right| > a_n^2 \epsilon
+  \right) \\
+  &\leq& a_n^{-2} \epsilon^{-1} \sum_{t=1}^n \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \E |Z_1 Z_2| \\
+  &=& \epsilon^{-1} n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \left(
+      \E |Z_1 Z_2| \I{|Z_1 Z_2| > a_n^2} +
+      \E |Z_1 Z_2| \I{|Z_1 Z_2| \leq a_n^2}
+    \right)
 \end{eqnarray*}
+\begin{enumerate}[i)]
+\item In case $\alpha \leq 1$. 
+  Because $x^{\alpha - \delta}$ for some $\delta > 0$ is a concave function
+  \begin{eqnarray*}
+    && \E |Z_1 Z_2| \I{ |Z_1 Z_2| > a_n^2} \\
+    &\leq& \E |Z_1 Z_2|^{\alpha-\delta} \I{|Z_1 Z_2| > a_n^2} \\
+    &\sim& {\alpha \over \delta} \pr(|Z_1 Z_2| > a_n^2) \\
+    &\sim& {\alpha \over \delta} a_n^{-2\alpha} L_{12}(a_n)
+  \end{eqnarray*}
+  Therefore
+  \begin{eqnarray*}
+    && \epsilon^{-1} n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \E |Z_1 Z_2| \I{|Z_1 Z_2| >
+      a_n^2} \\
+    &\sim& c n a_n^{-2(1 + \alpha)} L_{12}(a_n) \\
+    &\leq& c l_{12}(n) n^{-2/\alpha-1} \to 0
+  \end{eqnarray*}
+  On the other hand, 
+  \begin{eqnarray*}
+    && \epsilon^{-1} n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'}
+    \E |Z_1 Z_2| \I{|Z_1 Z_2| \leq a_n^2} \\
+    &\leq& c n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \E |Z_1 Z_2|^{\alpha -
+      \delta}
+    \I{|Z_1 Z_2| \leq a_n^2} \\
+    &\sim& c n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} {\alpha \over \delta}
+    \pr(|Z_1 Z_2| > a_n^2)\\
+    &\sim& c n a_n^{-2(\alpha + 1)}L_{12}(a_n) \to 0
+  \end{eqnarray*}
 
-% Now we consider the case
-% \begin{eqnarray*}
-%   X_{it} &=& \sum_{l=0}^\infty \theta_l Z_{i,t-l} + \sum_{k=0}^\infty
-%   \varphi_k Z_{i-k,t}
-% \end{eqnarray*}
-% \subsubsection[alpha in (0,2)]{In case $\alpha \in (0,2)$}
-% In this case we have
-% \begin{eqnarray*}
-%   (XX')_{ij} &=& \sum_{t=1}^n \sum_{l=0}^\infty \sum_{l'=0}^\infty
-%   \theta_l\theta_{l'} Z_{i,t-l} Z_{j,t-l'} + \\
-%   && \sum_{t=1}^n \sum_{k=0}^\infty \sum_{k'=0}^\infty \varphi_{k'}
-%   Z_{i-k,t} \varphi_k Z_{j-k',t} \\
-%   && \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty \varphi_k
-%   Z_{i-k,t} \theta_l Z_{j,t-l} \\
-%   && \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty \varphi_k
-%   Z_{j-k,t} \theta_l Z_{i,t-l} \\
-%   &=& I^{(1)}_{ij} + I^{(2)}_{ij} + I^{(3)}_{ij} + I^{(4)}_{ij}
-% \end{eqnarray*}
-% \begin{eqnarray*}
-%   I^{(1)}_{ij} &=& \sum_{t=1}^n \sum_{l=0}^\infty \theta_{l}^2
-%   Z_{i,t-l}^2 \I{i=j}\\
-%   && + \sum_{t=1}^n \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq
-%       l}}^\infty \theta_l\theta_{l'} Z_{i,t-l} Z_{i,t-l'} \I{i=j} \\
-%   && + \sum_{t=1}^n \sum_{l=0}^\infty \sum_{l'=0}^\infty
-%   \theta_l\theta_{l'} Z_{i,t-l} Z_{j,t-l'} \I{i\neq j} \\
-%   &=& I^{(11)}_{i,j} + I^{(12)}_{i,j} + I^{(13)}_{i,j} \\
-% \end{eqnarray*}
-% First we look into $I^{(12)}_{i,j}$. Notice that $Z_{i,t-l}
-% Z_{i,t-l'} \in \mathcal R_{-\alpha}$ when $l \neq l'$. In addition $\E
-% Z_{i,t-l} Z_{i,t-l'} = 0$ if $\E|Z_{i,t-l} Z_{i,t-l'}| < \infty$, by
-% assumption. Thus the large deviation results by Cline and Hsing
-% \cite{ClingHsing1998} and Nagaev \cite{nagaev1979} give
-% \begin{eqnarray*}
-%   && \pr(|I^{(12)}_{i,j}| > a_n^2 \epsilon) \\
-%   &\sim& \pr\left[\left|
-%     \sum_{t=1}^n \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq
-%         l}}^\infty \theta_l\theta_{l'} Z_{t-l} Z_{t-l'} \right|
-%     > a_n^2 \epsilon\right] \\
-%   &\leq& \pr\left[
-%     \sum_{t=1}^n \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq
-%         l}}^\infty \left|\theta_l\theta_{l'} Z_{t-l} Z_{t-l'} \right|
-%     > a_n^2 \epsilon\right]
-% \end{eqnarray*}
-% Write $s_{t,l,l'}$ for $\left|Z_{t-l} Z_{t-l'}\right|\I{l\neq
-%   l'}$. Then we have
-% \begin{eqnarray*}
-%   && \pr(|I^{(12)}_{i,j}| > a_n^2 \epsilon) \\
-%   &=& \pr\left[
-%     \sum_{t=1}^n \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq
-%         l}}^\infty |\theta_l \theta_{l'}| \left(s_{tll'} \I{|\theta_l \theta_{l'}|s_{tll'} \leq a_n^2
-%         \epsilon/2} + s_{tll'} \I{|\theta_l \theta_{l'}|s_{tll'} > a_n^2
-%         \epsilon/2}\right) > a_n^2 \epsilon\right] \\
-%   &\leq& \pr\left[
-%     \sum_{t=1}^n \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq
-%         l}}^\infty |\theta_l \theta_{l'}|s_{tll'} \I{|\theta_l \theta_{l'}|s_{tll'} \leq a_n^2 \epsilon/2} >
-%     a_n^2 \epsilon/2\right] \\
-%   && + \pr\left[
-%     \sum_{t=1}^n \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq
-%         l}}^\infty |\theta_l \theta_{l'}|s_{tll'} \I{|\theta_l \theta_{l'}|s_{tll'} > a_n^2 \epsilon/2} >
-%     a_n^2 \epsilon/2\right] \\
-%   &=& P_1 + P_2
-% \end{eqnarray*}
-% Applying Markov's inequality we obtain
-% \begin{eqnarray*}
-%   P_1 &\leq& 2 a_n^{-2} \epsilon^{-1}
-%     \sum_{t=1}^n \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq
-%         l}}^\infty |\theta_l \theta_{l'}| \E s_{tll'} \I{|\theta_l
-%       \theta_{l'}|s_{tll'} \leq a_n^2 \epsilon/2}
-% \end{eqnarray*}
-% For a $\beta > \max(\alpha, 1)$ we have by Jensen's inequality
-% \begin{eqnarray*}
-%   \E s_{tll'} \I{|\theta_l \theta_{l'}|s_{tll'} \leq a_n^2 \epsilon/2} &\leq&
-%   \left[
-%     \E s_{tll'}^{\beta} \I{|\theta_l \theta_{l'}|s_{tll'} \leq a_n^2 \epsilon/2}
-%   \right]^{1/\beta}
-% \end{eqnarray*}
-% Since $s_{tll'} \in \mathcal R_{-\alpha}$, Karamata's theorem leads
-% to
-% \begin{eqnarray*}
-%   \E s_{tll'}^{\beta} \I{|\theta_l \theta_{l'}|s_{tll'} \leq a_n^2 \epsilon/2} &\sim&
-%   c \pr(s_{tll'} > a_n^2) a_n^{2\beta} \\
-%   &\sim& L_{12}(a_n) a_n^{2(\beta - \alpha)}
-% \end{eqnarray*}
-% Thus we have
-% \begin{eqnarray}
-%   P_1 &\leq& n L'_{12}(a_n) a_n^{2(1 - \alpha/\beta)-2}
-%   \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq l}}^\infty |\theta_l
-%   \theta_{l'}| \nonumber \\
-%   &\leq& l_{12}(n) n^{-2/\beta + 1} \to 0 \label{eq:Jensen}
-% \end{eqnarray}
-% For $P_2$ we have
-% \begin{eqnarray*}
-%   P_2 &=& \pr\left[
-%     \sum_{t=1}^n \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq
-%         l}}^\infty |\theta_l \theta_{l'}|s_{tll'} \I{|\theta_l
-%       \theta_{l'}|s_{tll'} > a_n^2 \epsilon/2} > a_n^2
-%     \epsilon/2\right] \\
-%   &\leq& \pr\left[
-%     \sum_{t=1}^n \sum_{l=0}^\infty \sum_{\substack{l'=0 \\l'\neq
-%         l}}^\infty |\theta_l \theta_{l'}|s_{tll'} \mathbf{1}_{A_{ll'}}
-%     > a_n^2 \epsilon/2\right]
-% \end{eqnarray*}
-% where the sets $A_{ll'}$ are
-% \begin{eqnarray*}
-%   A_{ll'} &=& \left\{
-%     \exists t:\sum_{l,l' \geq 0, l\neq l'}|\theta_l
-%     \theta_{l'}|s_{tll'} > a_n^2 \epsilon/2\right\}
-% \end{eqnarray*}
-% Then it follows
-% \begin{eqnarray*}
-%   P_2 &\leq& \pr\left(
-%     \bigcup_{t=1}^{n} A_{ll'}
-%   \right) \\
-%   &\leq& n\pr\left(\sum_{l,l' \geq 0, l\neq l'}|\theta_l
-%     \theta_{l'}|Z_lZ_{l'} > a_n^2 \epsilon/2\right) \\
-%   &\leq& c n a_n^{-2\alpha} \sum_{l,l' \geq 0, l\neq l'}|\theta_l
-%     \theta_{l'}| \E |Z_lZ_{l'}|
-% \end{eqnarray*}
-% where $l_1(\cdot)$ is a slowly varying function.
-
-% For $I_{ij}^{(13)}$ we have
-% \begin{eqnarray*}
-%   && \pr\left(|I_{ij}^{(13)}| > a_n^{2}\epsilon\right) \\
-%   &=& \pr\left(\left|\sum_{t=1}^n \sum_{l=0}^\infty \sum_{l'=0}^\infty
-%   \theta_l\theta_{l'} Z_{i,t-l} Z_{j,t-l'} \I{i\neq j}\right| > a_n^2
-% \epsilon\right) \\
-% &\leq& \pr\left(\left|\sum_{t=1}^n (\sum_{l=0}^\infty \theta_l
-%     Z_{i,t-l}) (\sum_{l'=0}^\infty \theta_{l'} Z_{j,t-l'})\right| >
-%   a_n^2 \epsilon\right) \\
-% \end{eqnarray*}
-% where we have suppressed the indicator $\I{i\neq j}$. Note by Mikosch
-% and Jessen \cite{JessenMikosch2006}
-% \begin{eqnarray*}
-%   && \pr\left( \sum_{l=0}^\infty \theta_l Z_{l} > x \right) \\
-%   &\sim& \pr(|Z_1| > x) \sum_{l=0}^\infty \left(
-%     p_+ \I{\theta_l > 0} + p_- \I{\theta_l < 0}
-%   \right)
-% \end{eqnarray*}
-% That is, $\sum_{l=0}^\infty \theta_l Z_{l} \in \mathcal R_{-\alpha}$
-% as is $Z$. Denote $Y_{it}$ for $\sum_{l=0}^\infty \theta_l
-% Z_{i,t-l}$. Thus
-% \begin{eqnarray*}
-%   && \pr\left(|I_{ij}^{(13)}| > a_n^{2}\epsilon/2\right) \\
-%   &\leq& \pr\left( \sum_{t=1}^n \left| Y_{it} Y_{jt} \right| > a_n^2
-%     \epsilon \right) \\
-%   &\leq& \pr\left( \sum_{t=1}^n \left| Y_{it} Y_{jt} \right| \I{|Y_{it}
-%       Y_{jt}| \leq a_n^2 \epsilon / 2} > a_n^2 \epsilon/2 \right) \\
-%   && + \pr\left( \sum_{t=1}^n \left| Y_{it} Y_{jt} \right| \I{|Y_{it}
-%       Y_{jt}| > a_n^2 \epsilon / 2} > a_n^2 \epsilon/2 \right) \\
-%   &=& P_1 + P_2
-% \end{eqnarray*}
-% Analagous to the arguments for $I_{ij}^{12} \to 0$,
-% \begin{eqnarray*}
-%   P_1 &\leq& 2 \epsilon^{-1} a_n^{-2}\sum_{t=1}^n \E \left| Y_{it}
-%     Y_{jt} \right| \I{|Y_{it} Y_{jt}| \leq a_n^2 \epsilon / 2} \to 0 \\
-%   P_2 &\leq& \sum_{t=1}^n \pr\left(
-%     |Y_{it} Y_{jt}| > a_n^2 \epsilon / 2
-%   \right) \sim n^{-1} L_{12}(n) \to 0
-% \end{eqnarray*}
-% Similarly for $I^{(3)}_{ij}$ we have
-% \begin{eqnarray*}
-%   && I^{(2)}_{ij} \\
-%   &=& \sum_{t=1}^n \sum_{k=0}^\infty \varphi_k \varphi_{j-i+k}
-%   Z_{i-k,t}^2  \\
-%   && + \sum_{t=1}^n \sum_{k=0}^\infty \sum_{k'=0}^\infty \varphi_k
-%   Z_{i-k,t}  \varphi_{k'} Z_{j-k',t} \I{i-k\neq j-k'}\\
-%   &=& I^{(21)}_{ij} + I^{(22)}_{ij}
-% \end{eqnarray*}
-% \begin{eqnarray*}
-%   && \pr(|I^{(22)}_{ij}| > a_n^2 \epsilon) \\
-%   &\leq& \pr( \sum_{t=1}^n \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
-%     \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k,t} 
-%   Z_{j-k',t} \right| > a_n^2 \epsilon) \\
-% &\leq& \pr( \sum_{t=1}^n \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
-%     \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k,t} 
-%   Z_{j-k',t} \right|\I{A^c_{kk'}} > a_n^2 \epsilon/2) \\
-% && + \pr( \sum_{t=1}^n \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
-%     \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k,t} 
-%   Z_{j-k',t} \right|\I{A_{kk'}} > a_n^2 \epsilon/2) \\
-% &=& P_1 + P_2
-% \end{eqnarray*}
-% where
-% \begin{eqnarray*}
-%   A_{kk'} &=& \left\{
-%     \exists t:\sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
-%     \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k,t} 
-%   Z_{j-k',t} \right| > a_n^2 \epsilon/2 \right\}
-% \end{eqnarray*}
-% We have
-% \begin{eqnarray*}
-%   P_1 &\leq& \sum_{t=1}^n \pr\left[
-%     \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
-%         \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k} 
-%       Z_{j-k'} \right| > a_n^2 \epsilon/2 \right] \\
-%   &\leq& c a_n^{-2} \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
-%       \neq j-k'}}^\infty |\varphi_k \varphi_{k'}| \E |Z_{i-k} 
-%   Z_{j-k'}| \I{A^c_{kk'}} \\
-% \end{eqnarray*}
-% By the same arguments based on Jensen's inequality that leads to
-% \eqref{eq:Jensen} we conclude $P_1 \to 0$.
-% \begin{eqnarray*}
-%   P_2 &\leq& \sum_{t=1}^n \pr\left[
-%     \sum_{k=0}^\infty \sum_{\substack{k'=0\\i-k
-%         \neq j-k'}}^\infty \left| \varphi_k \varphi_{k'} Z_{i-k} 
-%       Z_{j-k'} \right| > a_n^2 \epsilon/2
-%   \right]
-% \end{eqnarray*}
+\item In case $\alpha > 1$.
+  \begin{eqnarray*}
+    && \E |Z_1 Z_2| \I{|Z_1 Z_2| > a_n^2} \\
+    &\leq& {\alpha \over \alpha - 1} \pr(|Z_1 Z_2| > a_n^2) \\
+    &\sim& {\alpha \over \alpha - 1} a_n^{-2\alpha} L_{12}(a_n)
+  \end{eqnarray*}
+  Thus
+  \begin{eqnarray*}
+    && \epsilon^{-1} n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \E |Z_1 Z_2| \I{|Z_1 Z_2| >
+      a_n^2} \\
+    &\leq& c n a_n^{-2(\alpha + 1)}L_{12}(a_n) \to 0
+  \end{eqnarray*}
+  Where $|Z_1 Z_2| \leq a_n^2 $, we use Jensen's inequality for some $\delta > 0$
+  \begin{eqnarray*}
+    && \E |Z_1 Z_2| \I{|Z_1 Z_2| \leq a_n^2} \\
+    &\leq& \left[
+      \E |Z_1 Z_2|^{\alpha + \delta} \I{|Z_1 Z_2| \leq a_n^2}
+      \right]^{1/(\alpha + \delta)}\\
+    &\sim& {\alpha \over \delta} \pr(|Z_1 Z_2| > a_n^2) \\
+    &\sim& {\alpha \over \delta} a_n^{-2\alpha} L_{12}(a_n) \\
+  \end{eqnarray*}
+  And we conclude
+  \begin{eqnarray*}
+    && \epsilon^{-1} n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'}
+      \E |Z_1 Z_2| \I{|Z_1 Z_2| \leq a_n^2} \\
+    &\leq& cn a_n^{-2(1 + \alpha)} L_{12}(a_n) \to 0
+  \end{eqnarray*}
+\end{enumerate}
+By the same arguments as for $I^{(2)}_{ij}$, it is seen
+\begin{eqnarray*}
+  && \pr(|I^{(3)}_{ij}| > a_n^2 \epsilon) \to 0
+\end{eqnarray*}
+Now we see that $(XX')_{ij}$ has the structure:
+\begin{eqnarray*}
+  (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
+  h_{kl} h_{k+j-i,l} Z_{i-k, t-l}^2
+\end{eqnarray*}
+When $j < i$, one may re-write
+\begin{eqnarray*}
+  (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=j-i}^\infty \sum_{l=0}^\infty
+  h_{k+|j-i|,l} h_{kl} Z_{j-k, t-l}^2
+\end{eqnarray*}
+Because $h_{kl} = 0$ if $\min\{k,l\} < 0$ we have
+\begin{eqnarray*}
+  (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
+  h_{k+|j-i|,l} h_{kl} Z_{j-k, t-l}^2
+\end{eqnarray*}
+In summary
+\begin{eqnarray*}
+  (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
+  h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2
+\end{eqnarray*}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}
