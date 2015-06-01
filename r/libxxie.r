@@ -7,7 +7,7 @@ getAssetReturns <- function(day1, day2, tables) {
         results <- dbSendQuery(
             database,
             sprintf("select distinct day from %s where
-day between '%s' and '%s' order by day", tables[i], day1, day2));
+day between '%s' and '%s' order by day;", tables[i], day1, day2));
         D = fetch(results, n=-1)[[1]];
         dbClearResult(results);
         if (length(days) > 0) {
@@ -26,9 +26,8 @@ day between '%s' and '%s' order by day", tables[i], day1, day2));
     for (i in 1:length(tables)) {
         results <- dbSendQuery(database, sprintf("select closing from
 %s where day in (%s) order by day;", tables[i], str));
-        prices <- log(fetch(results, n=-1)[[1]]);
-        # R[,i] <- A[-1] - A[-n.days];
-        R[,i] = tail(prices, -1) - head(prices, -1);
+        prices <- fetch(results, n=-1)[[1]];
+        R[,i] <- diff(log(prices));
     }
     dbDisconnect(database);
     return (data.frame(days[-1], R));
