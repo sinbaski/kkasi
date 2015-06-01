@@ -258,83 +258,91 @@ We have
 \begin{eqnarray*}
   && \pr(\left| I^{(2)}_{ij} \right| > a_n^2 \epsilon) \\
   &\leq& \pr\left(
-    \sum_{t=1}^n \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
-    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \left|
-      Z_{i-k,t-l} Z_{j-k',t-l'} \right| > a_n^2 \epsilon
+    \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty | h_{kl} h_{k'l'}| \left|
+      \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right| > a_n^2 \epsilon
   \right) \\
-  &\leq& a_n^{-2} \epsilon^{-1} \sum_{t=1}^n \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
-    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \E |Z_1 Z_2| \\
-  &=& \epsilon^{-1} n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
-    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \left(
-      \E |Z_1 Z_2| \I{|Z_1 Z_2| > a_n^2} +
-      \E |Z_1 Z_2| \I{|Z_1 Z_2| \leq a_n^2}
-    \right)
+  &=& \pr\left(
+    \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty | h_{kl} h_{k'l'}| \left|
+      \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right|
+    \I{A_{kk'll'}} > a_n^2 \epsilon
+  \right) \\
+  && + \pr\left(
+    \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+    \sum_{l,l'=0}^\infty | h_{kl} h_{k'l'}| \left|
+      \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right|
+    \I{A^c_{kk'll'}} > a_n^2 \epsilon
+  \right) \\
+  &=& P_1 + P_2
 \end{eqnarray*}
-\begin{enumerate}[i)]
-\item In case $\alpha \leq 1$. 
-  Because $x^{\alpha - \delta}$ for some $\delta > 0$ is a concave function
-  \begin{eqnarray*}
-    && \E |Z_1 Z_2| \I{ |Z_1 Z_2| > a_n^2} \\
-    &\leq& \E |Z_1 Z_2|^{\alpha-\delta} \I{|Z_1 Z_2| > a_n^2} \\
-    &\sim& {\alpha \over \delta} \pr(|Z_1 Z_2| > a_n^2) \\
-    &\sim& {\alpha \over \delta} a_n^{-2\alpha} L_{12}(a_n)
-  \end{eqnarray*}
-  Therefore
-  \begin{eqnarray*}
-    && \epsilon^{-1} n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
-    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \E |Z_1 Z_2| \I{|Z_1 Z_2| >
-      a_n^2} \\
-    &\sim& c n a_n^{-2(1 + \alpha)} L_{12}(a_n) \\
-    &\leq& c l_{12}(n) n^{-2/\alpha-1} \to 0
-  \end{eqnarray*}
-  On the other hand, 
-  \begin{eqnarray*}
-    && \epsilon^{-1} n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
-    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'}
-    \E |Z_1 Z_2| \I{|Z_1 Z_2| \leq a_n^2} \\
-    &\leq& c n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
-    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \E |Z_1 Z_2|^{\alpha -
-      \delta}
-    \I{|Z_1 Z_2| \leq a_n^2} \\
-    &\sim& c n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
-    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} {\alpha \over \delta}
-    \pr(|Z_1 Z_2| > a_n^2)\\
-    &\sim& c n a_n^{-2(\alpha + 1)}L_{12}(a_n) \to 0
-  \end{eqnarray*}
-
-\item In case $\alpha > 1$.
-  \begin{eqnarray*}
-    && \E |Z_1 Z_2| \I{|Z_1 Z_2| > a_n^2} \\
-    &\leq& {\alpha \over \alpha - 1} \pr(|Z_1 Z_2| > a_n^2) \\
-    &\sim& {\alpha \over \alpha - 1} a_n^{-2\alpha} L_{12}(a_n)
-  \end{eqnarray*}
-  Thus
-  \begin{eqnarray*}
-    && \epsilon^{-1} n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
-    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'} \E |Z_1 Z_2| \I{|Z_1 Z_2| >
-      a_n^2} \\
-    &\leq& c n a_n^{-2(\alpha + 1)}L_{12}(a_n) \to 0
-  \end{eqnarray*}
-  Where $|Z_1 Z_2| \leq a_n^2 $, we use Jensen's inequality for some $\delta > 0$
-  \begin{eqnarray*}
-    && \E |Z_1 Z_2| \I{|Z_1 Z_2| \leq a_n^2} \\
-    &\leq& \left[
-      \E |Z_1 Z_2|^{\alpha + \delta} \I{|Z_1 Z_2| \leq a_n^2}
-      \right]^{1/(\alpha + \delta)}\\
-    &\sim& {\alpha \over \delta} \pr(|Z_1 Z_2| > a_n^2) \\
-    &\sim& {\alpha \over \delta} a_n^{-2\alpha} L_{12}(a_n) \\
-  \end{eqnarray*}
-  And we conclude
-  \begin{eqnarray*}
-    && \epsilon^{-1} n a_n^{-2} \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
-    \sum_{l,l'=0}^\infty h_{kl} h_{k'l'}
-      \E |Z_1 Z_2| \I{|Z_1 Z_2| \leq a_n^2} \\
-    &\leq& cn a_n^{-2(1 + \alpha)} L_{12}(a_n) \to 0
-  \end{eqnarray*}
-\end{enumerate}
-By the same arguments as for $I^{(2)}_{ij}$, it is seen
+where the events $A_{kk'll'}$ are
 \begin{eqnarray*}
-  && \pr(|I^{(3)}_{ij}| > a_n^2 \epsilon) \to 0
+  A_{kk'll'} &=& \left\{
+  k,k',l,l': | h_{kl} h_{k'l'}| \left| \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'}
+  \right| > a_n^2 \epsilon
+  \right\}
+\end{eqnarray*}
+Then we have
+\begin{eqnarray*}
+  P_1 &\leq& \pr\left(
+    \bigcup_{\substack{k \geq 0 \\ i-k \neq j-k' \\ l,l'\geq0}}
+    A_{kk'll'}
+  \right) \\
+  &\leq& \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+  \sum_{l,l'=0}^\infty \pr\left(
+    \left| \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'}
+    \right| > | h_{kl} h_{k'l'}|^{-1} a_n^2 \epsilon 
+  \right)
+\end{eqnarray*}
+Note $\E Z_1 Z_2 = (\E Z_1)^2 = 0$ if $\E|Z_1| < \infty$. Thus the
+large deviation results of Cline and Hsing \cite{ClingHsing1998} and
+Nagaev \cite{nagaev1979} give
+\begin{eqnarray*}
+  && \pr\left(
+    \left| \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'}
+    \right| > | h_{kl} h_{k'l'}|^{-1} a_n^2 \epsilon 
+  \right) \\
+  &\sim& c n \pr(|Z_1 Z_2| > | h_{kl} h_{k'l'}|^{-1} a_n^2 \epsilon) \\
+  &\sim& c n | h_{kl} h_{k'l'}|^{\alpha} a_n^{-2\alpha}
+\end{eqnarray*}
+\begin{eqnarray*}
+  P_1 &\leq& c \left( \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+  \sum_{l,l'=0}^\infty | h_{kl} h_{k'l'}|^{\alpha} \right) l(n) n^{-1}
+\to 0
+\end{eqnarray*}
+As for $P_2$ we first apply Markov's inequality
+\begin{eqnarray*}
+  P_2 &\leq& a_n^{-2} \epsilon^{-1}
+  \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+  \sum_{l,l'=0}^\infty | h_{kl} h_{k'l'}| \E \left|
+  \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right|
+  \I{A^c_{kk'll'}}
+\end{eqnarray*}
+Using the same large deviation results as above we obtain
+\begin{eqnarray*}
+  && | h_{kl} h_{k'l'}| \E \left| \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right|
+  \I{A^c_{kk'll'}} \\
+  &\leq& \left(
+    | h_{kl} h_{k'l'}|^{\alpha + \delta} \E \left| \sum_{t=1}^n
+      Z_{i-k,t-l} Z_{j-k',t-l'} \right|^{\alpha + \delta}
+    \I{A^c_{kk'll'}} \right)^{1/(\alpha + \delta)} \\
+    &\sim& \left[
+      {\alpha \over \delta} \pr\left(
+      | h_{kl} h_{k'l'}| \left| \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'}
+      \right| > a_n^2 \epsilon \right) \right]^{1/(\alpha + \delta)} \\
+  &\sim& \left[
+    {\alpha \over \delta} | h_{kl} h_{k'l'}|^{\alpha}
+    c n a_n^{-2\alpha} L_{12}(a_n)
+    \right]^{1/(\alpha + \delta)}
+\end{eqnarray*}
+where $\delta$ is some constant such that $\delta > \max\{1-\alpha,
+0\}$. Therefore
+\begin{eqnarray*}
+  P_2 &\leq& c  \left[\sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+  \sum_{l,l'=0}^\infty |h_{kl} h_{k'l'}|^{\alpha/(\alpha + \delta)}\right]
+  n^{1/(\alpha + \delta)} a_n^{-2\alpha/(\alpha + \delta )-2} \\
+  &\to&  0
 \end{eqnarray*}
 Now we see that $(XX')_{ij}$ has the structure:
 \begin{eqnarray*}
