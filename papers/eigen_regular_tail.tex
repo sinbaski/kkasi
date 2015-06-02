@@ -242,7 +242,8 @@ Now we consider the model
 \begin{eqnarray*}
   X_{it} &=& \sum_{k=0}^\infty \sum_{l=0}^\infty h_{kl} Z_{i-k,t-l}
 \end{eqnarray*}
-We have
+\subsubsection[alpha in (0,2)]{$\alpha \in (0,2)$}
+In this case we have
 \begin{eqnarray*}
   (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=0}^\infty \sum_{k'=0}^\infty
   \sum_{l=0}^\infty \sum_{l'=0}^\infty h_{kl} h_{k'l'} Z_{i-k,t-l}
@@ -319,7 +320,8 @@ As for $P_2$ we first apply Markov's inequality
   \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right|
   \I{A^c_{kk'll'}}
 \end{eqnarray*}
-Using the same large deviation results as above we obtain
+Since the large deviation results imply $\pr(\sum_{t=1}^n  Z_{i-k,t-l}
+Z_{j-k',t-l'} > x) \sim n \pr(|Z_1 Z_2| > x)$, we have
 \begin{eqnarray*}
   && | h_{kl} h_{k'l'}| \E \left| \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right|
   \I{A^c_{kk'll'}} \\
@@ -341,10 +343,80 @@ where $\delta$ is some constant such that $\delta > \max\{1-\alpha,
 \begin{eqnarray*}
   P_2 &\leq& c  \left[\sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
   \sum_{l,l'=0}^\infty |h_{kl} h_{k'l'}|^{\alpha/(\alpha + \delta)}\right]
-  n^{1/(\alpha + \delta)} a_n^{-2\alpha/(\alpha + \delta )-2} \\
+  n^{1/(\alpha + \delta)} a_n^{-2\alpha/(\alpha + \delta )-2} L_{12}(a_n)\\
   &\to&  0
 \end{eqnarray*}
-Now we see that $(XX')_{ij}$ has the structure:
+Next we show
+\begin{eqnarray*}
+  \pr(|I^{(3)}_{ij}| > a_n^2 \epsilon) &\to& 0
+\end{eqnarray*}
+\begin{eqnarray*}
+  && \pr(|I^{(3)}_{ij}| > a_n^2 \epsilon) \\
+  &\leq& \pr(\sum_{t=1}^n \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty
+  \left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}\right|
+  \I{A_{tll'}} > a_n^2 \epsilon ) \\
+  && + \pr(\sum_{t=1}^n \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty
+  \left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}\right|
+  \I{A^c_{tll'}} > a_n^2 \epsilon ) \\
+  &=& P_1 + P_2
+\end{eqnarray*}
+where the events $A_{tll'}$ are
+\begin{eqnarray*}
+  A_{tll'} &=& \left\{t,l,l': \left|
+      \sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}
+    \right| > a_n^2 \epsilon \right\}
+\end{eqnarray*}
+\begin{eqnarray*}
+  P_1 &\leq& n \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty \pr\left(
+    \left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}\right| > a_n^2 \epsilon
+  \right) \\
+  &\sim& n \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty \sum_{k=0}^\infty |h_{kl}h_{j-i+k,l'}|^{\alpha} \pr(|Z_1 Z_2| > a_n^2 \epsilon)
+  \\
+  &\sim& c n \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty
+  \sum_{k=0}^\infty |h_{kl}h_{j-i+k,l'}|^{\alpha} a_n^{-2\alpha} L_{12}(a_n)\\  
+  &\sim& c n^{-1} l(n)  \to 0
+\end{eqnarray*}
+where $L_{12}(\cdot)$ and $l(\cdot)$ are slowly varying functions. As
+for $P_2$, Markov's inequality gives
+\begin{eqnarray*}
+  P_2 &\leq& c n a_n^{-2} \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty
+  \E\left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'}
+    Z_{i-k,t-l}Z_{i-k,t-l'}\right| \I{A^c_{tll'}}
+\end{eqnarray*}
+\begin{enumerate}[i)]
+\item In case $\alpha < 1$. Karamata's theorem yields
+  \begin{eqnarray*}
+    && \E \left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}\right| \I{A^c_{tll'}} \\
+    &\sim& {\alpha \over 1 -\alpha} \pr(\left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}\right| > a_n^2
+    \epsilon) \\
+    &\sim& c \sum_{k=0}^\infty |h_{kl}h_{j-i+k,l'}|^{\alpha} a_n^{-2\alpha} L_{12}(a_n) \\
+  \end{eqnarray*}
+  Thus
+  \begin{eqnarray*}
+    P_2 &\leq& c n a_n^{-2(1 + \alpha)} \to 0
+  \end{eqnarray*}
+\item In case $\alpha \geq 1$. By regular variation of $|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'}
+  Z_{i-k,t-l}Z_{i-k,t-l'}|$
+  \begin{eqnarray*}
+    && \E\left| \sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'} \right| \I{A^c_{tll'}} \\
+    &\sim& \int_{M}^{a_n^2 \epsilon} L_{kll'}(x) x^{-\alpha} dx \\
+  \end{eqnarray*}
+  where $M < a_n^2 \epsilon$ is an arbitrary large number and $\pr(|\sum_{k=0}^\infty
+  h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}| > x) \sim L_{kll'}(x)
+  x^{-\alpha}$. Then Karamata's theorem gives
+  \begin{eqnarray*}
+    && \E\left| \sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'} \right| \I{A^c_{tll'}} \\
+    &\sim& L_{12}(a_n)
+  \end{eqnarray*}
+  where $L_{12}(\cdot)$ is a slowly varying function. So we have
+  \begin{eqnarray*}
+    P_2 &\leq& c n a_n^{-2} L_{12}(a_n)\\
+    &\sim& c n^{-2/\alpha + 1} l(n) \to 0
+  \end{eqnarray*}
+\end{enumerate}
+Now we have shown $I^{(2)}_{ij}, I^{(3)}_{ij} \xrightarrow{P} 0$ as $n
+\to \infty$. Then it is clear $(XX')_{ij}$ has the following structure
+as $n \to \infty$:
 \begin{eqnarray*}
   (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
   h_{kl} h_{k+j-i,l} Z_{i-k, t-l}^2
@@ -364,6 +436,7 @@ In summary
   (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
   h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2
 \end{eqnarray*}
+
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}
