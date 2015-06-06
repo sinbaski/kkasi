@@ -37,25 +37,28 @@ A <- rep(1/p, p);
 A[1] <- 1;
 result <- auglag(par=A, fn=my.fun, R=R, heq=heq);
 ret <- R %*% result$par;
-auto <- acf(ret);
+acov <- acf(ret, type="covariance", plot=FALSE);
+inno <- inferInnovations(ret);
 
-Akaike <- matrix(nrow=5,ncol=5);
-Beysian <- matrix(nrow=5,ncol=5);
-for (p in 1:5) {
-    for (q in 1:5) {
-        model <- Arima(ret, order=c(p,0,q));
-        Akaike[p,q] <- model$aic;
-        Beysian[p,q] <- model$bic;
-    }
-}
+
+### incorrect unless Gaussian innocations are assumed.
+## Akaike <- matrix(nrow=5,ncol=5);
+## Beysian <- matrix(nrow=5,ncol=5);
+## for (p in 1:5) {
+##     for (q in 1:5) {
+##         model <- Arima(ret, order=c(p,0,q));
+##         Akaike[p,q] <- model$aic;
+##         Beysian[p,q] <- model$bic;
+##     }
+## }
 
 ## ARMA(3,1)
-n = floor((T-1)/4);
-model <- Arima(ret[1:(T-n)], order=c(3,0,1));
+## n = floor((T-1)/4);
+## model <- Arima(ret[1:(T-n)], order=c(3,0,1));
 
-predicted <- rep(NA, n);
-for (i in 1 : n) {
-    predicted[i] <- forecast.Arima(model, h=1)$mean;
-    model <- Arima(ret[1:(T-n+i)], model=model);
-}
+## predicted <- rep(NA, n);
+## for (i in 1 : n) {
+##     predicted[i] <- forecast.Arima(model, h=1)$mean;
+##     model <- Arima(ret[1:(T-n+i)], model=model);
+## }
 
