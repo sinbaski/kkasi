@@ -52,45 +52,43 @@ library(rugarch);
 ##
 ## For the generalized hyperbolic skewed t distribution
 ## alpha 
-spec <- ugarchspec(mean.model=list(armaOrder=c(1, 3)),
+spec <- ugarchspec(mean.model=list(armaOrder=c(2, 1)),
                    distribution.model="ghst",
                    variance.model=list(
-                       model="sGARCH",
+                       model="gjrGARCH",
                        garchOrder=c(1, 1)
                    )
                    );
 model <- ugarchfit(spec=spec, data=ret);
+library(parallel);
+cluster <- makePSOCKcluster(4);
+roll <- ugarchroll(spec, ret, n.start=floor(T*0.9), refit.every=60,
+                   refit.window="moving", window.size=200,
+                   solver="hybrid", calculate.VaR=TRUE,
+                   VaR.alpha=0.05, cluster=cluster, keep.coef=TRUE);
+stopCluster(cluster);
 
 ## acov <- acf(ret, type="covariance", plot=FALSE);
 ## inno <- inferInnovations(ret);
 
 
-Akaike <- matrix(nrow=5,ncol=5);
-Beysian <- matrix(nrow=5,ncol=5);
-for (p in 1:5) {
-    for (q in 1:5) {
-        spec <- ugarchspec(mean.model=list(armaOrder=c(p, q)),
-                           distribution.model="ghst",
-                           variance.model=list(
-                               model="sGARCH",
-                               garchOrder=c(1, 1)
-                           )
-                           );
-        model <- ugarchfit(spec=spec, data=ret);
-        if (0 == convergence(model)) {
-            Akaike[p,q] <- infocriteria(model)[1];
-            Beysian[p,q] <- infocriteria(model)[2];
-        }
-    }
-}
-
-## ARMA(3,1)
-## n = floor((T-1)/4);
-## model <- Arima(ret[1:(T-n)], order=c(3,0,1));
-
-## predicted <- rep(NA, n);
-## for (i in 1 : n) {
-##     predicted[i] <- forecast.Arima(model, h=1)$mean;
-##     model <- Arima(ret[1:(T-n+i)], model=model);
+## Akaike <- matrix(nrow=5,ncol=5);
+## Beysian <- matrix(nrow=5,ncol=5);
+## for (p in 1:5) {
+##     for (q in 1:5) {
+##         spec <- ugarchspec(mean.model=list(armaOrder=c(p, q)),
+##                            distribution.model="ghst",
+##                            variance.model=list(
+##                                model="sGARCH",
+##                                garchOrder=c(1, 1)
+##                            )
+##                            );
+##         model <- ugarchfit(spec=spec, data=ret);
+##         if (0 == convergence(model)) {
+##             Akaike[p,q] <- infocriteria(model)[1];
+##             Beysian[p,q] <- infocriteria(model)[2];
+##         }
+##     }
 ## }
+
 
