@@ -10,12 +10,13 @@
 \section{iid sequences}\label{sec:iid}
 Consider iid sequences $\{X_{it}\}$, $1 \leq i \leq p$, $1 \leq t \leq
 n$. $p$ is fixed while $n \to \infty$. $\pr(X_{it} > x) = p_+ L(x)
-x^{-\alpha}$, $\pr(X_{it} < -x) = p_- L(x) x^{-\alpha}$ for a slowly
-varying function $L(x)$, and $p_+ + p_- = 1$. The normalizing sequence
-$a_n$ is such that $\pr(|x_{it}| > a_n) \sim {1 \over n}$, implying
-$a_n \sim n^{1/\alpha} l(n)$, where $l(n)$ is a slowing varying
-function. Moreover, we assume $\E X_{11} = 0$ if $\E |X_{11}| <
-\infty$. The sample covariance matrix is $\mtx {XX'}$.
+x^{-\alpha}$, $\pr(X_{it} < -x) = p_- L(x) x^{-\alpha}$, $\alpha \in
+(0,4)$ for a slowly varying function $L(x)$, and $p_+ + p_- = 1$. The
+normalizing sequence $a_n$ is such that $\pr(|X_{it}| > a_n) \sim {1
+  \over n}$, implying $a_n \sim n^{1/\alpha} l(n)$, where $l(n)$ is a
+slowing varying function. Moreover, we assume $\E X_{11} = 0$ if $\E
+|X_{11}| < \infty$. The sample covariance matrix is $\mtx
+{XX'}$.
 
 For convenience, we let $c$ stand for any constant whose value is not
 of importance in the rest of this report. We shall prove
@@ -36,8 +37,6 @@ a_n^{-2}\|\mtx {XX'} - \diag(\mtx {XX'})\|_2 \xrightarrow{P} 0
     &\leq \sum_{i=1}^p \sum_{j=1, j\neq i}^p \pr\left(|\sum_{t=1}^n
     X_{1t} X_{2t}| > {a_n^2 \epsilon \over p-1}\right) \\
   \end{align*}
-  When $\E|X_1 X_2| < \infty$, $\E|X_1| =\sqrt{\E|X_1 X_2|} < \infty$.
-  By assumption $\E X_1 = 0$ and hence $\E X_1 X_2 = (\E X_1)^2 = 0$.
   Thus the large deviation result found in Cline and Hsing
   \cite{ClingHsing1998} and Nagaev \cite{nagaev1979} is
   applicable. With it we obtain
@@ -61,8 +60,8 @@ theorem we obtain
 a_n^{-2} \max_{i=1,\dots,p} |\lambda^C_{(i)} -
 \lambda^{\text{diag}}_{(i)}| \leq  a_n^{-2}\|C - \diag{C}\| \to 0
 \]
-Therefore the eigenvalues of $C$ can be approximated by those of
-$\diag(C)$:
+Therefore the eigenvalues of $XX'$ can be approximated by those of
+$\diag(XX')$:
 \begin{eqnarray*}
 a_n^{-2}\lambda^{\text{diag}}_{i}  &=& a_n^{-2} \sum_{t=1}^n X_{it}^2
 \end{eqnarray*}
