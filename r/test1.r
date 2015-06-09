@@ -8,8 +8,9 @@ source("libxxie.r");
 my.fun <- function(coef, R) {
     auto <- acf(R %*% coef, plot = FALSE)$acf[-1];
     p <- length(auto);
-    auto <- auto * exp(-(0:(p-1)/5));
-    auto <- auto[which(abs(auto) > 2/sqrt(dim(R)[1]))];
+    I <- which(abs(auto) <= 2/sqrt(dim(R)[1]));
+    auto[I] <- 0;
+    auto <- auto * exp(-(0:(p-1)/3));
     return(-sum(abs(auto)));
 }
 
@@ -24,9 +25,20 @@ database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
     dbname='avanza', host=Sys.getenv("PB"));
 
 assetSet <- "indices";
-results = dbSendQuery(database, sprintf("select tblname from %s;", assetSet));
-tables <- fetch(results, n=-1)[[1]];
-p = length(tables);
+if (assetSet == "indices") {
+    results = dbSendQuery(database, sprintf("select tblname from %s;", assetSet));
+    tables <- fetch(results, n=-1)[[1]];
+    p = length(tables);
+} else {
+    results = dbSendQuery(database, sprintf("select symbol from %s;", assetSet));
+    tables <- fetch(results, n=-1)[[1]];
+    p = length(tables);
+    for (i in 1 : p) {
+        tables[i] <- gsub("[.]", "_", tables[i]);
+        tables[i] <- gsub("-", "_series_", tables[i]);
+        tables[i] <- paste(tables[i], "_SE", sep="");
+    }
+}
 dbClearResult(results);
 dbDisconnect(database);
 data <- getAssetReturns(day1, day2, tables);
