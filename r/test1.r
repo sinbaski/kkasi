@@ -19,7 +19,7 @@ heq <- function(coef, R) {
 }
 
 day2 = '2015-05-28';
-day1 = '2013-01-01';
+day1 = '2010-01-01';
 
 database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
     dbname='avanza', host=Sys.getenv("PB"));
@@ -64,20 +64,23 @@ library(rugarch);
 ##
 ## For the generalized hyperbolic skewed t distribution
 ## alpha 
-
-spec <- ugarchspec(mean.model=list(armaOrder=c(4, 3),
+fitted <- fitdist(distribution="ghyp", ret);
+spec <- ugarchspec(mean.model=list(
+                       armaOrder=c(1, 2),
                        include.mean=FALSE),
                    distribution.model="ghyp",
                    variance.model=list(
-                       model="gjrGARCH",
+                       model="sGARCH",
                        garchOrder=c(1, 1)
-                   )
+                   ),
+                   fixed.pars=list(
+                       mu=fitted$pars[1], skew=fitted$pars[3],
+                       shape=fitted$pars[4], ghlambda=fitted$pars[5]),
                    );
 model <- ugarchfit(spec=spec, data=ret);
-library(parallel);
 cluster <- makePSOCKcluster(4);
 # solver.control=list(n.restarts=3, parallel=TRUE, pkg="multicore", cores=4, n.sim=3)
-roll <- ugarchroll(spec, ret, n.start=floor(T*0.8), refit.every=60,
+roll <- ugarchroll(spec, ret, n.start=floor(T*0.8), refit.every=40,
                    refit.window="moving", window.size=1000,
                    solver="hybrid", calculate.VaR=TRUE,
                    VaR.alpha=0.05, cluster=cluster, keep.coef=TRUE);
@@ -88,24 +91,24 @@ stopCluster(cluster);
 ## inno <- inferInnovations(ret);
 
 
-Akaike <- matrix(nrow=5,ncol=5);
-Beysian <- matrix(nrow=5,ncol=5);
-for (p in 1:5) {
-    for (q in 1:5) {
-        spec <- ugarchspec(mean.model=list(armaOrder=c(p, q),
-                               include.mean=FALSE),
-                           distribution.model="ghyp",
-                           variance.model=list(
-                               model="sGARCH",
-                               garchOrder=c(1, 1)
-                           )
-                           );
-        model <- ugarchfit(spec=spec, data=ret);
-        if (0 == convergence(model)) {
-            Akaike[p,q] <- infocriteria(model)[1];
-            Beysian[p,q] <- infocriteria(model)[2];
-        }
-    }
-}
+## Akaike <- matrix(nrow=5,ncol=5);
+## Beysian <- matrix(nrow=5,ncol=5);
+## for (p in 1:5) {
+##     for (q in 1:5) {
+##         spec <- ugarchspec(mean.model=list(armaOrder=c(p, q),
+##                                include.mean=FALSE),
+##                            distribution.model="ghyp",
+##                            variance.model=list(
+##                                model="sGARCH",
+##                                garchOrder=c(1, 1)
+##                            )
+##                            );
+##         model <- ugarchfit(spec=spec, data=ret);
+##         if (0 == convergence(model)) {
+##             Akaike[p,q] <- infocriteria(model)[1];
+##             Beysian[p,q] <- infocriteria(model)[2];
+##         }
+##     }
+## }
 
 
