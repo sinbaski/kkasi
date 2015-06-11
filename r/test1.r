@@ -44,11 +44,16 @@ dbDisconnect(database);
 data <- getAssetReturns(day1, day2, tables);
 R = matrix(unlist(data[, -1]), nrow=dim(data)[1], byrow=FALSE);
 T = dim(R)[1];
+C <- t(R) %*% R / T;
+E <- eigen(C);
+comb <- E$vectors[,p];
+comb <- comb /sum(abs(comb));
+ret <- R %*% comb;
 
-A <- rep(1/p, p);
-A[1] <- 1;
-result <- auglag(par=A, fn=my.fun, R=R, heq=heq);
-ret <- R %*% result$par;
+## A <- rep(1/p, p);
+## A[1] <- 1;
+## result <- auglag(par=A, fn=my.fun, R=R, heq=heq);
+## ret <- R %*% result$par;
 
 library(rugarch);
 ## For the generalized hyperbolic distribution
