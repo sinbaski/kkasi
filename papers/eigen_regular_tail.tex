@@ -4,9 +4,15 @@
 \usepackage{enumerate}
 \usepackage[bookmarks=true]{hyperref}
 \usepackage{bookmark}
+\usepackage{graphicx}
 
 \input{../physics_common}
+\title{Eigenvalue Estimation of fixed- \& almost-fixed- dimensional
+  sample covariance matrices}
+\author{Xie Xiaolei}
+\date{\today}
 \begin{document}
+\maketitle
 \section{iid sequences}\label{sec:iid}
 Consider iid sequences $\{X_{it}\}$, $1 \leq i \leq p$, $1 \leq t \leq
 n$. $p$ is fixed while $n \to \infty$. $\pr(X_{it} > x) = p_+ L(x)
@@ -518,16 +524,23 @@ Explicitly for $p=3$ we have
 \begin{eqnarray*}
   && a_n^{-2} XX' \\
   &=& \sum_{k=0}^M \sum_{l=0}^M
+  h_{kl}
   \begin{pmatrix}
-    h_{kl}^2 \xi_{1-k} & 
-     h_{kl} h_{k+1,l} \xi_{1-k} & 
-     h_{kl} h_{k+2,l} \xi_{1-k} \\
-      h_{kl} h_{k+1,l} \xi_{1-k} &
-      h_{kl}^2 \xi_{2-k} & 
-     h_{kl} h_{k+1,l} \xi_{2-k} \\
-      h_{kl} h_{k+2,l} \xi_{1-k} &
-      h_{kl} h_{k+1,l} \xi_{2-k} & 
-     h_{kl}^2 \xi_{3-k} \\
+    h_{kl} \xi_{1-k} & 
+     h_{k+1,l} \xi_{1-k} & 
+     h_{k+2,l} \xi_{1-k} & \cdots & h_{k+p-1,l}
+    \xi_{1-k}\\
+     h_{k+1,l} \xi_{1-k} &
+    h_{kl} \xi_{2-k} & 
+     h_{k+1,l} \xi_{2-k} & \cdots & h_{k+p-2,l}
+    \xi_{2-k}\\
+     h_{k+2,l} \xi_{1-k} &
+     h_{k+1,l} \xi_{2-k} & 
+    h_{kl} \xi_{3-k} & \cdots &
+    h_{k+p-3,l} \xi_{3-k}\\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    h_{k+p-1} \xi_{1-k} & h_{k+p-2} \xi_{2-k} &
+    h_{k+p-3} \xi_{3-k} & \cdots & h_{kl} \xi_{p-k}
   \end{pmatrix}
 \end{eqnarray*}
 \subsection{When the matrix dimension tends to infinity}
@@ -547,6 +560,14 @@ proven in \S\ref{sec:GeneralModel}, we have
 \end{eqnarray*}
 if $n^{-\delta(\alpha)} p(n) \to 0$, e.g. when $p(n)$ is slowly varying, the RHS
 tends to 0.
+
+\section{Empirical Studies}
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[clip=true, trim=95 258 107 204]{/tmp/SP500-Tails.pdf}
+  \caption{Tail Indices of S\&P 500 stock returns}
+  \label{fig:SP500-Tails}
+\end{figure}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}

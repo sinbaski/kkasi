@@ -13,7 +13,7 @@ for k = 1 : p
     name = strrep(symbols{k}, '.', '_');
     name = strrep(name, '-', '_series_');
     numRec(k) = cell2mat(fetch(mysql, sprintf(['select count(*) ' ...
-                        'from %s_SE'], name)));
+                        'from %s_US'], name)));
 end
 
 to_include = find(numRec >= T+1);
