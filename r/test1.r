@@ -11,7 +11,8 @@ my.fun <- function(coef, R) {
     I <- which(abs(auto) <= 2/sqrt(dim(R)[1]));
     auto[I] <- 0;
     ## auto <- auto * exp(-(0:(p-1)/10));
-    return(-sum(abs(auto)));
+    ## TODO: use squares instead of abs
+    return(-sum(auto^2));
 }
 
 heq <- function(coef, R) {
@@ -21,6 +22,7 @@ heq <- function(coef, R) {
 day2 = '2015-05-28';
 day1 = '2010-01-01';
 
+## databased located at 85.228.154.211
 database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
     dbname='avanza', host=Sys.getenv("PB"));
 
@@ -44,16 +46,16 @@ dbDisconnect(database);
 data <- getAssetReturns(day1, day2, tables);
 R = matrix(unlist(data[, -1]), nrow=dim(data)[1], byrow=FALSE);
 T = dim(R)[1];
-C <- t(R) %*% R / T;
-E <- eigen(C);
-comb <- E$vectors[,p];
-comb <- comb /sum(abs(comb));
-ret <- R %*% comb;
+## C <- t(R) %*% R / T;
+## E <- eigen(C);
+## comb <- E$vectors[,p];
+## comb <- comb /sum(abs(comb));
+## ret <- R %*% comb;
 
-## A <- rep(1/p, p);
-## A[1] <- 1;
-## result <- auglag(par=A, fn=my.fun, R=R, heq=heq);
-## ret <- R %*% result$par;
+A <- rep(1/p, p);
+A[1] <- 1;
+result <- auglag(par=A, fn=my.fun, R=R, heq=heq);
+ret <- R %*% result$par;
 
 library(rugarch);
 ## For the generalized hyperbolic distribution
@@ -71,7 +73,7 @@ library(rugarch);
 ## alpha 
 fitted <- fitdist(distribution="ghyp", ret);
 spec <- ugarchspec(mean.model=list(
-                       armaOrder=c(1, 2),
+                       armaOrder=c(1, 1),
                        include.mean=FALSE),
                    distribution.model="ghyp",
                    variance.model=list(

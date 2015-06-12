@@ -236,7 +236,7 @@ A =
 \]
 where each $\xi_i \sim S_{\alpha/2}$.
 
-\subsection{A more general model}
+\subsection{A more general model}\label{sec:GeneralModel}
 Now we consider the model
 \begin{eqnarray*}
   X_{it} &=& \sum_{k=0}^\infty \sum_{l=0}^\infty h_{kl} Z_{i-k,t-l}
@@ -274,7 +274,7 @@ In this case we have
       \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right|
     \I{A^c_{kk'll'}} > a_n^2 \epsilon
   \right) \\
-  &=& P_1 + P_2
+  &=& P^{(2)}_1 + P^{(2)}_2
 \end{eqnarray*}
 where the events $A_{kk'll'}$ are
 \begin{eqnarray*}
@@ -285,7 +285,7 @@ where the events $A_{kk'll'}$ are
 \end{eqnarray*}
 Then we have
 \begin{eqnarray*}
-  P_1 &\leq& \pr\left(
+  P^{(2)}_1 &\leq& \pr\left(
     \bigcup_{\substack{k \geq 0 \\ i-k \neq j-k' \\ l,l'\geq0}}
     A_{kk'll'}
   \right) \\
@@ -307,13 +307,13 @@ Nagaev \cite{nagaev1979} give
   &\sim& c n | h_{kl} h_{k'l'}|^{\alpha} a_n^{-2\alpha}
 \end{eqnarray*}
 \begin{eqnarray*}
-  P_1 &\leq& c \left( \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+  P^{(2)}_1 &\leq& c \left( \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
   \sum_{l,l'=0}^\infty | h_{kl} h_{k'l'}|^{\alpha} \right) l(n) n^{-1}
 \to 0
 \end{eqnarray*}
-As for $P_2$ we first apply Markov's inequality
+As for $P^{(2)}_2$ we first apply Markov's inequality
 \begin{eqnarray*}
-  P_2 &\leq& 2 a_n^{-2} \epsilon^{-1}
+  P^{(2)}_2 &\leq& a_n^{-2} \epsilon^{-1}
   \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
   \sum_{l,l'=0}^\infty | h_{kl} h_{k'l'}| \E \left|
   \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right|
@@ -340,7 +340,7 @@ Z_{j-k',t-l'} > x) \sim n \pr(|Z_1 Z_2| > x)$, we have
 where $\delta$ is some constant such that $\delta > \max\{1-\alpha,
 0\}$. Therefore
 \begin{eqnarray*}
-  P_2 &\leq& c  \left[\sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
+  P^{(2)}_2 &\leq& c  \left[\sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
   \sum_{l,l'=0}^\infty |h_{kl} h_{k'l'}|^{\alpha/(\alpha + \delta)}\right]
   n^{1/(\alpha + \delta)} a_n^{-2\alpha/(\alpha + \delta )-2} L_{12}(a_n)\\
   &\to&  0
@@ -357,7 +357,7 @@ Next we show
   && + \pr(\sum_{t=1}^n \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty
   \left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}\right|
   \I{A^c_{tll'}} > a_n^2 \epsilon ) \\
-  &=& P_1 + P_2
+  &=& P^{(3)}_1 + P^{(3)}_2
 \end{eqnarray*}
 where the events $A_{tll'}$ are
 \begin{eqnarray*}
@@ -366,7 +366,7 @@ where the events $A_{tll'}$ are
     \right| > a_n^2 \epsilon \right\}
 \end{eqnarray*}
 \begin{eqnarray*}
-  P_1 &\leq& n \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty \pr\left(
+  P^{(3)}_1 &\leq& n \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty \pr\left(
     \left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}\right| > a_n^2 \epsilon
   \right) \\
   &\sim& n \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty \sum_{k=0}^\infty |h_{kl}h_{j-i+k,l'}|^{\alpha} \pr(|Z_1 Z_2| > a_n^2 \epsilon)
@@ -376,40 +376,54 @@ where the events $A_{tll'}$ are
   &\sim& c n^{-1} l(n)  \to 0
 \end{eqnarray*}
 where $L_{12}(\cdot)$ and $l(\cdot)$ are slowly varying functions. As
-for $P_2$, Markov's inequality gives
+for $P^{(3)}_2$, Markov's inequality gives
 \begin{eqnarray*}
-  P_2 &\leq& c n a_n^{-2} \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty
+  P^{(3)}_2 &\leq& c n a_n^{-2} \sum_{\substack{l,l'=0 \\ l \neq l'}}^\infty
   \E\left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'}
-    Z_{i-k,t-l}Z_{i-k,t-l'}\right| \I{A^c_{tll'}}
+    Z_{i-k,l}Z_{i-k,l'}\right| \I{A^c_{tll'}} \\
+\end{eqnarray*}
+Let
+\begin{eqnarray*}
+  Y_{tll'} &=& \left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'}
+              Z_{i-k,t-l}Z_{i-k,t-l'}\right|
 \end{eqnarray*}
 \begin{enumerate}[i)]
 \item In case $\alpha < 1$. Karamata's theorem yields
   \begin{eqnarray*}
-    && \E \left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}\right| \I{A^c_{tll'}} \\
-    &\sim& {\alpha \over 1 -\alpha} \pr(\left|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}\right| > a_n^2
-    \epsilon) \\
-    &\sim& c \sum_{k=0}^\infty |h_{kl}h_{j-i+k,l'}|^{\alpha} a_n^{-2\alpha} L_{12}(a_n) \\
+    && \E Y_{tll'}\I{A^c_{tll'}} \\
+    &\sim& {\alpha \over 1 -\alpha} \pr(Y_{tll'} > a_n^2 \epsilon) \\
+    &\sim& c \sum_{k=0}^\infty |h_{kl}h_{j-i+k,l'}|^{\alpha}
+           a_n^{-2\alpha} L_{12}(a_n) \\
   \end{eqnarray*}
   Thus
   \begin{eqnarray*}
-    P_2 &\leq& c n a_n^{-2(1 + \alpha)} \to 0
+    P^{(3)}_2 &\leq& c n^{-2(1/\alpha + 1)+1}l(n) \to 0
   \end{eqnarray*}
-\item In case $\alpha \geq 1$. By regular variation of $|\sum_{k=0}^\infty h_{kl}h_{j-i+k,l'}
-  Z_{i-k,t-l}Z_{i-k,t-l'}|$
+
+\item In case $\alpha > 1$. 
   \begin{eqnarray*}
-    && \E\left| \sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'} \right| \I{A^c_{tll'}} \\
-    &\sim& \int_{M}^{a_n^2 \epsilon} L_{kll'}(x) x^{-\alpha} dx \\
+    && \E Y_{tll'} \I{A^c_{tll'}} \leq \E Y_{tll'} = \text{constant}
   \end{eqnarray*}
-  where $M < a_n^2 \epsilon$ is an arbitrary large number and $\pr(|\sum_{k=0}^\infty
-  h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'}| > x) \sim L_{kll'}(x)
-  x^{-\alpha}$. Then Karamata's theorem gives
   \begin{eqnarray*}
-    && \E\left| \sum_{k=0}^\infty h_{kl}h_{j-i+k,l'} Z_{i-k,t-l}Z_{i-k,t-l'} \right| \I{A^c_{tll'}} \\
-    &\sim& L_{12}(a_n)
+    P^{(3)}_2 &\leq& cna_n^{-2} \sim c n^{1-2/\alpha} l(n) \to 0
   \end{eqnarray*}
-  where $L_{12}(\cdot)$ is a slowly varying function. So we have
+\item In case $\alpha=1$.
+  Choose $M$ so large that $\pr(Y_{tll'} > x) \leq {L(x) \over x}
+  (1 + \epsilon)$ for a slowly varying function $L(x)$
+  where $x > M$. Then we have
   \begin{eqnarray*}
-    P_2 &\leq& c n a_n^{-2} L_{12}(a_n)\\
+    && \E Y_{tll'} \I{A^c_{tll'}} \\
+    &\leq& \text{constant} + \int_{M}^{a_n^2 \epsilon}
+           {L(x) \over x} dx
+  \end{eqnarray*}
+  According to Mikosch et al \cite{Embrechts1997},
+  \begin{eqnarray*}
+    \int_{M}^{a_n^2 \epsilon}
+    {L(x) \over x} dx &=& L_1(a_n^2)
+  \end{eqnarray*}
+  where $L_1(\cdot)$ is a slowly varying function. So we have
+  \begin{eqnarray*}
+    P^{(3)}_2 &\leq& c n a_n^{-2} L_1(a_n)\\
     &\sim& c n^{-2/\alpha + 1} l(n) \to 0
   \end{eqnarray*}
 \end{enumerate}
@@ -516,6 +530,23 @@ Explicitly for $p=3$ we have
      h_{kl}^2 \xi_{3-k} \\
   \end{pmatrix}
 \end{eqnarray*}
+\subsection{When the matrix dimension tends to infinity}
+Consider the 1-norm
+\begin{eqnarray*}
+  && \| a_n^{-2} XX' - a_n^{-2} \sum_{t=1}^n
+     \sum_{k=0}^\infty \sum_{l=0}^\infty
+     h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2\|_1 \\
+  &=& a_n^{-2} \sum_{i=1}^p (I^{(2)}_{ii} + I^{(3)}_{ii})
+\end{eqnarray*}
+Because $\pr(|I^{(a)}_{ii}| > a_n^2 \epsilon) < l(n)
+n^{-\delta(\alpha)}$ for $a = 2,3$ and $\delta(\alpha) > 0$, as is
+proven in \S\ref{sec:GeneralModel}, we have
+\begin{eqnarray*}
+  \pr(\sum_{i=1}^p a_n^{-2} I^{(a)}_{ii} > \epsilon) &\leq& p l(n)
+  n^{-\delta(\alpha)}
+\end{eqnarray*}
+if $n^{-\delta(\alpha)} p(n) \to 0$, e.g. when $p(n)$ is slowly varying, the RHS
+tends to 0.
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}
