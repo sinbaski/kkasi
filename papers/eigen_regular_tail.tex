@@ -4,9 +4,15 @@
 \usepackage{enumerate}
 \usepackage[bookmarks=true]{hyperref}
 \usepackage{bookmark}
+\usepackage{graphicx}
 
 \input{../physics_common}
+\title{Eigenvalue Estimation of fixed- \& almost-fixed- dimensional
+  sample covariance matrices}
+\author{Xie Xiaolei}
+\date{\today}
 \begin{document}
+\maketitle
 \section{iid sequences}\label{sec:iid}
 Consider iid sequences $\{X_{it}\}$, $1 \leq i \leq p$, $1 \leq t \leq
 n$. $p$ is fixed while $n \to \infty$. $\pr(X_{it} > x) = p_+ L(x)
@@ -236,7 +242,7 @@ A =
 \]
 where each $\xi_i \sim S_{\alpha/2}$.
 
-\subsection{A more general model}
+\subsection{A more general model}\label{sec:GeneralModel}
 Now we consider the model
 \begin{eqnarray*}
   X_{it} &=& \sum_{k=0}^\infty \sum_{l=0}^\infty h_{kl} Z_{i-k,t-l}
@@ -256,13 +262,13 @@ In this case we have
   &=& I^{(1)}_{ij} + I^{(2)}_{ij} + I^{(3)}_{ij}
 \end{eqnarray*}
 \begin{eqnarray*}
-  && \pr(\left| I^{(2)}_{ij} \right| > a_n^2 \epsilon) \\
+  && \pr(\left| I^{(2)}_{ij} \right| > 2 a_n^2 \epsilon) \\
   &\leq& \pr\left(
     \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
     \sum_{l,l'=0}^\infty | h_{kl} h_{k'l'}| \left|
-      \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right| > a_n^2 \epsilon
-  \right) \\
-  &=& \pr\left(
+      \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right| > 2 a_n^2
+    \epsilon \right) \\
+  &\leq& \pr\left(
     \sum_{k=0}^\infty \sum_{i-k \neq j-k'}^\infty
     \sum_{l,l'=0}^\infty | h_{kl} h_{k'l'}| \left|
       \sum_{t=1}^n  Z_{i-k,t-l} Z_{j-k',t-l'} \right|
@@ -347,7 +353,7 @@ where $\delta$ is some constant such that $\delta > \max\{1-\alpha,
 \end{eqnarray*}
 Next we show
 \begin{eqnarray*}
-  \pr(|I^{(3)}_{ij}| > a_n^2 \epsilon) &\to& 0
+  \pr(|I^{(3)}_{ij}| > 2 a_n^2 \epsilon) &\to& 0
 \end{eqnarray*}
 \begin{eqnarray*}
   && \pr(|I^{(3)}_{ij}| > a_n^2 \epsilon) \\
@@ -419,7 +425,7 @@ Let
   According to Mikosch et al \cite{Embrechts1997},
   \begin{eqnarray*}
     \int_{M}^{a_n^2 \epsilon}
-    {L(x) \over x} dx &=& L_1{a_n^2}
+    {L(x) \over x} dx &=& L_1(a_n^2)
   \end{eqnarray*}
   where $L_1(\cdot)$ is a slowly varying function. So we have
   \begin{eqnarray*}
@@ -431,25 +437,112 @@ Now we have shown $I^{(2)}_{ij}, I^{(3)}_{ij} \xrightarrow{P} 0$ as $n
 \to \infty$. Then it is clear $(XX')_{ij}$ has the following structure
 as $n \to \infty$:
 \begin{eqnarray*}
-  (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
-  h_{kl} h_{k+j-i,l} Z_{i-k, t-l}^2
+  a_n^{-2}(XX')_{ij} &=& a_n^{-2} \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
+  h_{kl} h_{k+j-i,l} Z_{i-k, t-l}^2 + o_P(1)
 \end{eqnarray*}
 When $j < i$, one may re-write
 \begin{eqnarray*}
-  (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=j-i}^\infty \sum_{l=0}^\infty
-  h_{k+|j-i|,l} h_{kl} Z_{j-k, t-l}^2
+  a_n^{-2}(XX')_{ij} &=& a_n^{-2} \sum_{t=1}^n \sum_{k=j-i}^\infty \sum_{l=0}^\infty
+  h_{k+|j-i|,l} h_{kl} Z_{j-k, t-l}^2 + o_P(1)
 \end{eqnarray*}
 Because $h_{kl} = 0$ if $\min\{k,l\} < 0$ we have
 \begin{eqnarray*}
-  (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
-  h_{k+|j-i|,l} h_{kl} Z_{j-k, t-l}^2
+  a_n^{-2}(XX')_{ij} &=& a_n^{-2}\sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
+  h_{k+|j-i|,l} h_{kl} Z_{j-k, t-l}^2 + o_P(1)
 \end{eqnarray*}
 In summary
 \begin{eqnarray*}
-  (XX')_{ij} &=& \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
-  h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2
+  a_n^{-2}(XX')_{ij} &=& a_n^{-2} \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
+  h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2 + o_P(1)
 \end{eqnarray*}
 
+\subsection[Approximating XX']{Approximating $XX'$}
+Here we prove
+\begin{eqnarray*}
+  a_n^{-2}(XX')_{ij} &=& a_n^{-2}\sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
+  h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2 + o_P(1) \\
+  &=& a_n^{-2} \sum_{t=1}^n \sum_{k=0}^M \sum_{l=0}^M
+  h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2 + o_P(1) \\
+\end{eqnarray*}
+where $M \to \infty$.
+\begin{proof}
+  \begin{eqnarray*}
+    && \pr\left(\left|a_n^{-2}(XX')_{ij} - a_n^{-2} \sum_{t=1}^n \sum_{k=0}^M \sum_{l=0}^M
+    h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2\right| > \epsilon \right) \\
+   &=& \pr\left(\left|a_n^{-2} \sum_{t=1}^n \sum_{k=M+1}^\infty \sum_{l=M+1}^\infty
+    h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2\right| > \epsilon \right)
+  \end{eqnarray*}
+  Since
+  \begin{eqnarray*}
+    a_n^{-2} \sum_{t=1}^n Z_{i \wedge j -k, t-l}^2 &\xrightarrow{d}&
+    \xi_{i \wedge j - k} \sim S_{\alpha/2}
+  \end{eqnarray*}
+  We have
+  \begin{eqnarray*}
+   && \pr\left(\left|a_n^{-2} \sum_{t=1}^n \sum_{k=M+1}^\infty \sum_{l=M+1}^\infty
+    h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2 \right| > \epsilon \right)
+  \\
+  &\leq& \pr\left(\sum_{k=M+1}^\infty \sum_{l=M+1}^\infty \left|
+    h_{k+|j-i|,l} h_{kl} \xi_{i \wedge j -k} \I{A_{kl}}\right| > \epsilon/2 \right)
+  \\
+  && + \pr\left(\sum_{k=M+1}^\infty \sum_{l=M+1}^\infty \left|
+    h_{k+|j-i|,l} h_{kl} \xi_{i \wedge j -k} \I{A^c_{kl}} \right| > \epsilon/2 \right)
+  \\
+  \end{eqnarray*}
+  where
+  \begin{eqnarray*}
+    A_{kl} = \left\{
+      k,l \geq M+1: \left| h_{k+|j-i|,l} h_{kl} \xi_{i \wedge j -k}
+      \right| > \epsilon/2
+    \right\}
+  \end{eqnarray*}
+  So 
+  \begin{eqnarray*}
+    && \pr\left(\left|a_n^{-2} \sum_{t=1}^n \sum_{k=M+1}^\infty \sum_{l=M+1}^\infty
+        h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2\right| > \epsilon
+    \right) \\
+    &\leq& \sum_{k=M+1}^\infty \sum_{l=M+1}^\infty \pr\left(
+      \left| h_{k+|j-i|,l} h_{kl} \xi_{i \wedge j -k}\right| >
+      \epsilon/2\right) \\
+    && + 2 \epsilon^{-1}\sum_{k=M+1}^\infty \sum_{l=M+1}^\infty
+    |h_{k+|j-i|,l} h_{kl}| \E \xi_{i \wedge j -k} \I{A^c_{kl}} \\
+    &\leq& \sum_{k=M+1}^\infty \sum_{l=M+1}^\infty |h_{k+|j-i|,l}
+    h_{kl}|^{\alpha/2} \\
+    && + 2 \epsilon^{-1}\sum_{k=M+1}^\infty \sum_{l=M+1}^\infty
+    |h_{k+|j-i|,l} h_{kl}|^{1+\alpha/2} {\alpha/2 \over 1 - \alpha/2} \\
+    &\to& 0 \text{ as } M \to \infty
+  \end{eqnarray*}
+\end{proof}
+Now it is clear
+\begin{eqnarray*}
+  a_n^{-2}(XX')_{ij} &=& a_n^{-2} \sum_{t=1}^n \sum_{k=0}^M \sum_{l=0}^M
+  h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2 + o_P(1) \\
+  &=& \sum_{k=0}^M \left(\sum_{l=0}^M h_{k+|j-i|,l}
+    h_{kl}\right)\xi_{i \wedge j -k}
+\end{eqnarray*}
+Explicitly for $p=3$ we have
+\begin{eqnarray*}
+  && a_n^{-2} XX' \\
+  &=& \sum_{k=0}^M \sum_{l=0}^M
+  h_{kl}
+  \begin{pmatrix}
+    h_{kl} \xi_{1-k} & 
+     h_{k+1,l} \xi_{1-k} & 
+     h_{k+2,l} \xi_{1-k} & \cdots & h_{k+p-1,l}
+    \xi_{1-k}\\
+     h_{k+1,l} \xi_{1-k} &
+    h_{kl} \xi_{2-k} & 
+     h_{k+1,l} \xi_{2-k} & \cdots & h_{k+p-2,l}
+    \xi_{2-k}\\
+     h_{k+2,l} \xi_{1-k} &
+     h_{k+1,l} \xi_{2-k} & 
+    h_{kl} \xi_{3-k} & \cdots &
+    h_{k+p-3,l} \xi_{3-k}\\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    h_{k+p-1} \xi_{1-k} & h_{k+p-2} \xi_{2-k} &
+    h_{k+p-3} \xi_{3-k} & \cdots & h_{kl} \xi_{p-k}
+  \end{pmatrix}
+\end{eqnarray*}
 \subsection{When the matrix dimension tends to infinity}
 Consider the 1-norm
 \begin{eqnarray*}
@@ -458,7 +551,23 @@ Consider the 1-norm
      h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2\|_1 \\
   &=& a_n^{-2} \sum_{i=1}^p (I^{(2)}_{ii} + I^{(3)}_{ii})
 \end{eqnarray*}
+Because $\pr(|I^{(a)}_{ii}| > a_n^2 \epsilon) < l(n)
+n^{-\delta(\alpha)}$ for $a = 2,3$ and $\delta(\alpha) > 0$, as is
+proven in \S\ref{sec:GeneralModel}, we have
+\begin{eqnarray*}
+  \pr(\sum_{i=1}^p a_n^{-2} I^{(a)}_{ii} > \epsilon) &\leq& p l(n)
+  n^{-\delta(\alpha)}
+\end{eqnarray*}
+if $n^{-\delta(\alpha)} p(n) \to 0$, e.g. when $p(n)$ is slowly varying, the RHS
+tends to 0.
 
+\section{Empirical Studies}
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[clip=true, trim=95 258 107 204]{/tmp/SP500-Tails.pdf}
+  \caption{Tail Indices of S\&P 500 stock returns}
+  \label{fig:SP500-Tails}
+\end{figure}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}
