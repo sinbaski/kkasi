@@ -13,7 +13,7 @@ results = dbSendQuery(database, sprintf("select symbol from %s;",
     assetSet));
 tables <- fetch(results, n=-1)[[1]];
 dbClearResult(results);
-p <- length(tables);
+n.stocks <- length(tables);
 
 results <- dbSendQuery(
     database,
@@ -50,6 +50,7 @@ day between '%s' and '%s';", tables[i], day1, day2)
     }
 
 }
+
 prices <- matrix(NA, nrow=n.records, ncol=sum(to.include));
 
 results <- dbSendQuery(
@@ -118,8 +119,8 @@ for (i in 1 : length(stocks.included)) {
 }
 p <- sum(to.include);
 E <- eigen((n.records * p)^(-2) * t(R.trans) %*% R.trans);
-lambda <- sort(E$values);
 
-plot(lambda[1:p-1]/lambda[2:p]);
+## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
+plot(E$values[2:p]/E$values[1:p-1], type="b", xlim=c(1, 30), ylim=c(0, 1));
 
 
