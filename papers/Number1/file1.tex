@@ -1,0 +1,196 @@
+%last edited 18.05.2015
+\documentclass[11pt,reqno]{amsart}
+\usepackage{amsmath,epsfig,graphicx,color}
+%\usepackage[english,ngerman]{babel}
+%\usepackage[latin1]{inputenc}
+\usepackage{ifthen}
+\usepackage{dsfont}
+\usepackage{shadethm}
+\usepackage{framed}
+%\usepackage{pstricks}
+%\usepackage{graphics}
+%\usepackage{tocbibind}
+%\usepackage{showkeys}
+%\usepackage{units}
+\usepackage{amssymb,latexsym}
+%\usepackage{amsfonts}j
+%\usepackage{makeidx,showidx}
+%\usepackage[sc]{mathpazo}
+%\linespread{1.05}
+
+%\usepackage[backref=page]{hyperref}
+\usepackage{hyperref}
+\hypersetup{
+%linktoc=page,
+%bookmarks=true, % show bookmarks bar?
+%unicode=false, % non-Latin characters in Acrobat? bookmarks
+%pdftoolbar=true, % show Acrobat? toolbar?
+%pdfmenubar=true, % show Acrobat? menu?
+%pdffitwindow=true, % window fit to page when opened
+%pdfstartview={FitH}, % fits the width of the page to the window
+pdftitle={Paper}, % title
+pdfauthor={Richard Davis, Johannes Heinny, Xie Xiaolei}, % author
+pdfsubject={Title}, % subject of the document
+%pdfcreator={Creator}, % creator of the document
+%pvdfproducer={Producer}, % producer of the document
+pdfkeywords={multivariate regular variation} , % list of keywords
+%pdfnewwindow=true, % links in new window
+%colorlinks=true, % false: boxed links; true: colored links
+%linkcolor=blue, % color of internal links
+%citecolor=blue, % color of links to bibliography
+%filecolor=blue, % color of file links
+%urlcolor=blue, % color of external links
+urlcolor=black, 
+  menucolor=black, 
+  citecolor=black, 
+  anchorcolor=black, 
+  filecolor=black, 
+  linkcolor=black, 
+  colorlinks=true,
+}
+
+\textwidth 6.50in
+\topmargin -0.50in
+\oddsidemargin 0in
+\evensidemargin 0in
+\textheight 9.00in
+%\pagestyle{plain}
+
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\1}{\mathds{1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Fo}{\bar{F}}
+\renewcommand{\b}[1]{\boldsymbol{#1}}
+\newcommand{\Rq}{\mkern 1.5mu\overline{\mkern-1.5mu\R\mkern-3.0mu}\mkern 1.5mu}
+\newcommand{\Frechet}{Fr\'{e}chet }
+\renewcommand{\Finv}{F^{\gets}}
+\DeclareMathOperator{\e}{e}
+\newcommand{\inv}[1]{#1^{\gets}}
+\newcommand{\x}{\boldsymbol{x}}
+\newcommand{\y}{\boldsymbol{y}}
+\newcommand{\X}{\boldsymbol{X}}
+\newcommand{\Y}{\boldsymbol{Y}}
+\newcommand{\0}{\boldsymbol{0}}
+\newcommand{\dint}{\,\mathrm{d}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\twonorm}[1]{\|#1\|_2}
+\newcommand{\inftynorm}[1]{\|#1\|_\infty}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\nto}{n \to \infty}
+\newcommand{\xto}{x \to \infty}
+\newcommand{\lhs}{left-hand side}
+\newcommand{\rhs}{right-hand side}
+\newcommand{\fidi}{finite-dimensional distribution}
+\newcommand{\rv}{random variable}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\anp}{a_{np}^{-2}}
+\newcommand{\Zbar}{\overline{Z}}
+%\renewcommand*{\backref}[1]{}
+%\renewcommand*{\backrefalt}[4]{%
+%    \ifcase #1 (Not cited.)%
+%    \or        (Cited on page~#2.)%
+%    \else      (Cited on pages~#2.)%
+%    \fi}
+
+%von Schmock
+\newcommand{\4}{\mathchoice{\mskip1.5mu}{\mskip1.5mu}{}{}}
+\newcommand{\5}{\mathchoice{\mskip-1.5mu}{\mskip-1.5mu}{}{}}
+\newcommand{\2}{\penalty250\mskip\thickmuskip\mskip-\thinmuskip} % after comma
+
+\newcommand{\levy}{L\'evy}
+\newcommand{\slln}{strong law of large numbers}
+\newcommand{\clt}{central limit theorem}
+\newcommand{\sde}{stochastic differential equation}
+\newcommand{\It}{It\^o}
+\newcommand{\sta}{St\u aric\u a}
+\newcommand{\ex}{{\rm e}\,}
+
+\def\theequation{\thesection.\arabic{equation}}
+\def\tag{\refstepcounter{equation}\leqno }
+\def\neqno{\refstepcounter{equation}\leqno(\thesection.\arabic{equation})}
+
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{figur}[lemma]{Figure}
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{corollary}[lemma]{Corollary}
+\newtheorem{example}[lemma]{Example}
+\newtheorem{exercise}[lemma]{Exercise}
+\newtheorem{remark}[lemma]{Remark}
+\newtheorem{fig}[lemma]{Figure}
+\newtheorem{tab}[lemma]{Table}
+
+\newcommand{\cid}{\stackrel{d}{\rightarrow}}
+\newcommand{\cip}{\stackrel{\P}{\rightarrow}}
+
+\newcommand{\var}{{\rm var}}
+\newcommand{\med}{{\rm med}}
+\newcommand{\cov}{{\rm cov}}
+\newcommand{\corr}{{\rm corr}}
+\newcommand{\as}{{\rm a.s.}}
+\newcommand{\io}{{\rm i.o.}}
+\newcommand{\Holder}{H\"older}
+
+
+
+\newcommand{\beao}{\begin{eqnarray*}}
+\newcommand{\eeao}{\end{eqnarray*}\noindent}
+
+\newcommand{\beam}{\begin{eqnarray}}
+\newcommand{\eeam}{\end{eqnarray}\noindent}
+
+\newcommand{\beqq}{\begin{equation}}
+\newcommand{\eeqq}{\end{equation}\noindent}
+
+\newcommand{\cadlag}{c\`adl\`ag}
+
+%\newcommand{\vague}{\stackrel{\lower0.2ex\hbox{$\scriptscriptstyle\it{v} $}}{\rightarrow}}
+%\newcommand{\weak}{\stackrel{\lower0.2ex\hbox{$\scriptscriptstyle\it{w} $}}{\rightarrow}}
+%\newcommand{\what}{\stackrel{\lower0.2ex\hbox{$\scriptscriptstyle\it{\hat{w}} $}}{\rightarrow}}
+
+\newcommand{\bdis}{\begin{displaymath}}
+\newcommand{\edis}{\end{displaymath}\noindent}
+
+%--------------------------------------------------------------------------------------------
+\begin{document}
+\today
+\bibliographystyle{plain}
+\title{Recent Advances in Random Matrix Theory applied to Heavy-tailed
+Multivariate time series}
+%\author[Johannes Heiny]{Johannes Heiny}
+%\address{Department  of Mathematics,
+%University of Copenhagen,
+%Universitetsparken 5,
+%DK-2100 Copenhagen,
+%Denmark}
+%\email{johannes.heiny@math.ku.dk}
+\begin{abstract}
+  We eat, we drink, we sleep, we fight and we die.
+\end{abstract}
+%\keywords{enter keywords}
+%\subjclass{Primary 60B20; Secondary 60F05 60F10 60G10 60G55 60G70}
+
+\maketitle
+
+%--------------------------------------------------------------
+\section{Introduction}\setcounter{equation}{0}
+\section{Independent Identically Distributed Sequences}
+\input{IID.tex}
+\section{Extension to Linear Dependence 1-sided \& 2-sided Filters}
+\section{Applications of the Results}
+
+\section{Non-Linear Theory}
+\section{Future Directions}
+
+
+\end{document}
+
+
+
