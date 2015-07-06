@@ -1,1 +1,27 @@
 \subsection{Rank-transformed S\&P 500 Data}
+
+For real financial data, it is unreasonable to expect all
+the time series under consideration to have the same tail index. So a
+preocedure of standardization has to be adopted. In this section we
+use the rank transform.
+
+Suppose we have $p$ time series each of length $n$ and have arranged
+them in a $p\times n$ matrix $X_t^{(i)}$, where $i = 1, 2, \dots, p$ and
+$t=1,2, \dots, n$. For each row of $X$, we transform it as
+\begin{eqnarray*}
+  R_t^{(i)} &=& -\left[
+    \log \left({1 \over n+1} \sum_{\tau=1}^n \1_{X_\tau^{(i)} \leq X_{t}^{(i)}} \right)
+  \right]^{-1}
+\end{eqnarray*}
+When $X_t^{(i)}$ are iid, the argument to the $\log$ function is
+uniformly distributed, and hence $R_t^{(i)}$ is a standard Fr\'echet r.v.
+
+Figure \ref{fig:EigenRatio} shows the ratio of successive eigenvalues
+of the sample covariance matrix of a number of selected time series
+included in the S\&P 500 index.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.6]{EigenRatio.pdf}
+  \caption{$\lambda_{(i+1)} / \lambda_{(i)}$ versus $i$}
+  \label{fig:EigenRatio}
+\end{figure}
