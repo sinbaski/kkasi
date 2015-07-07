@@ -6,22 +6,65 @@ preocedure of standardization has to be adopted. In this section we
 use the rank transform.
 
 Suppose we have $p$ time series each of length $n$ and have arranged
-them in a $p\times n$ matrix $X_t^{(i)}$, where $i = 1, 2, \dots, p$ and
+them in a $p\times n$ matrix $X_{it}$, where $i = 1, 2, \dots, p$ and
 $t=1,2, \dots, n$. For each row of $X$, we transform it as
 \begin{eqnarray*}
-  R_t^{(i)} &=& -\left[
-    \log \left({1 \over n+1} \sum_{\tau=1}^n \1_{X_\tau^{(i)} \leq X_{t}^{(i)}} \right)
+  R_{it} &=& -\left[
+    \log \left({1 \over n+1} \sum_{\tau=1}^n \1_{X_{i\tau} \leq X_{it}} \right)
   \right]^{-1}
 \end{eqnarray*}
-When $X_t^{(i)}$ are iid, the argument to the $\log$ function is
-uniformly distributed, and hence $R_t^{(i)}$ is a standard Fr\'echet r.v.
+When $X_{it}$ are iid for each $i$, the argument to the $\log$
+function is asymptotically uniformly distributed as $n \to \infty$,
+and hence $R_{it}$ is a standard Fr\'echet r.v.
 
 Figure \ref{fig:EigenRatio} shows the ratio of successive eigenvalues
-of the sample covariance matrix of a number of selected time series
-included in the S\&P 500 index.
+of the matrix $a_{np}^{-2}RR'$, where the rows of matrix $R$ comprise
+the rank-transformed sequences of a number of selected time series
+in the S\&P 500 index.
 \begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.6]{EigenRatio.pdf}
+  \subfigure[]{
+    \includegraphics[scale=0.40]{EigenRatioSP500_100_shown.pdf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.40]{EigenRatioSP500_200_shown.pdf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.40]{EigenRatioSP500_300_shown.pdf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.40]{EigenRatioSP500_400_shown.pdf}
+  }
   \caption{$\lambda_{(i+1)} / \lambda_{(i)}$ versus $i$}
   \label{fig:EigenRatio}
 \end{figure}
+It is seen that, as $i \to \infty$, $\lambda_{(i+1)} / \lambda_{(i)}
+\to 1$. Indeed, as argued in previous sections, $ \lambda_{(i)} \to
+\Gamma_k^{-2/\alpha} v_{(l)}$.  Now consider $\lambda_{(i+1)}$. One
+possibility is $\lambda_{(i+1)} \to \Gamma_{k+1}^{-2/\alpha}
+v_{(l)}$. In this case
+\begin{eqnarray*}
+  {\lambda_{i+1} \over \lambda_{i}} &\to& \left(
+    \Gamma_{i} \over \Gamma_{i+1} \right)^{2/\alpha}
+  \overset{d}{=} U_{1,i} \overset{a.s.}{\longrightarrow} 1\text{, as }i
+  \to \infty
+\end{eqnarray*}
+where $U_{a,b}$ denotes the $a$-th upper order statistic in a uniform
+sample of size $b$.
+So $ \lambda_{i+1} \to \Gamma_{k+1}^{-2/\alpha} v_{(l)}$ can be untrue
+only if $\exists m\exists l'(m,l') \neq (1, l)$ such that $ \lambda_{i+1} \to
+\Gamma_{k+m}^{-2/\alpha} v_{(l')}$ and
+\begin{equation}
+  \label{eq:X_A}
+  \Gamma_{k+m}^{-2/\alpha} v_{(l')} \overset{a.s.}{\longrightarrow}
+  \Gamma_{k}^{-2/\alpha} v_{(l)}
+\end{equation}
+Suppose $m > 1$.
+\[
+\left(
+  \Gamma_{k} \over \Gamma_{k+m}
+\right)^{2/\alpha} \overset{d}{=} (U_{m,k+m-1})^{2/\alpha}
+\]
+The variance of $(U_{m,k+m-1})^{2/\alpha}$ remains finite regardless
+of $k$ and $m$ (\textcolor{red}{to be proven}), so the almost sure
+convergence in \eqref{eq:X_A} cannot happen.

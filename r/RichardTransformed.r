@@ -109,7 +109,7 @@ where day between '%s' and '%s'",
 }
 dbDisconnect(database);
 R <- diff(log(prices));
-R.trfm <- matrix(NA, nrow=dim(R)[1]-1, ncol=dim(R)[2]);
+R.trfm <- matrix(NA, nrow=dim(R)[1], ncol=dim(R)[2]);
 
 for (i in 1 : length(stocks.included)) {
     ## Fn <- ecdf(R[, i]);
@@ -120,9 +120,9 @@ for (i in 1 : length(stocks.included)) {
 E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
 
 ## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
-jpeg("EigenRatio.jpeg")
-plot(E$values[2:p]/E$values[1:p-1], type="b", xlim=c(1, 50), ylim=c(0, 1),
-     xlab="", ylab="");
+pdf("EigenRatio.pdf")
+plot(E$values[2:p]/E$values[1:p-1], type="b", xlim=c(1, 300), ylim=c(0, 1),
+     xlab=expression(i), ylab=expression(lambda[(i+1)]/lambda[(i)]));
 dev.off();
 
 
