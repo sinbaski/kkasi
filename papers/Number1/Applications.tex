@@ -39,32 +39,33 @@ in the S\&P 500 index.
   \label{fig:EigenRatio}
 \end{figure}
 It is seen that, as $i \to \infty$, $\lambda_{(i+1)} / \lambda_{(i)}
-\to 1$. Indeed, as argued in previous sections, $ \lambda_{(i)} \to
-\Gamma_k^{-2/\alpha} v_{(l)}$.  Now consider $\lambda_{(i+1)}$. One
-possibility is $\lambda_{(i+1)} \to \Gamma_{k+1}^{-2/\alpha}
-v_{(l)}$. In this case
-\begin{eqnarray*}
-  {\lambda_{i+1} \over \lambda_{i}} &\to& \left(
-    \Gamma_{i} \over \Gamma_{i+1} \right)^{2/\alpha}
-  \overset{d}{=} U_{1,i} \overset{a.s.}{\longrightarrow} 1\text{, as }i
-  \to \infty
-\end{eqnarray*}
-where $U_{a,b}$ denotes the $a$-th upper order statistic in a uniform
-sample of size $b$.
-So $ \lambda_{i+1} \to \Gamma_{k+1}^{-2/\alpha} v_{(l)}$ can be untrue
-only if $\exists m\exists l'(m,l') \neq (1, l)$ such that $ \lambda_{i+1} \to
-\Gamma_{k+m}^{-2/\alpha} v_{(l')}$ and
-\begin{equation}
-  \label{eq:X_A}
-  \Gamma_{k+m}^{-2/\alpha} v_{(l')} \overset{a.s.}{\longrightarrow}
-  \Gamma_{k}^{-2/\alpha} v_{(l)}
-\end{equation}
-Suppose $m > 1$.
-\[
-\left(
-  \Gamma_{k} \over \Gamma_{k+m}
-\right)^{2/\alpha} \overset{d}{=} (U_{m,k+m-1})^{2/\alpha}
-\]
-The variance of $(U_{m,k+m-1})^{2/\alpha}$ remains finite regardless
-of $k$ and $m$ (\textcolor{red}{to be proven}), so the almost sure
-convergence in \eqref{eq:X_A} cannot happen.
+\to 1$. This is in fact expected based on the theory explained in the previous sections. Suppose the sequences are iid and serial correlations are absent, i.e. the matrix $M=H H'$ has only one eigen value. Then it is clear ${\lambda_{i+1} \over \lambda_i}=\left({\Gamma_i \over \Gamma_{i+1}}\right)^{2/\alpha}=\left(1 - {E_{i+1} \over E_1 + E_2 + \dots E_{i+1}}\right)^{2/\alpha} \to 1$, where $E_k, k=1,2,\dots,i+1$ are iid. exponential rv.
+% Indeed, as argued in previous sections, $ \lambda_{(i)} \to
+% \Gamma_k^{-2/\alpha} v_{(l)}$.  Now consider $\lambda_{(i+1)}$. One
+% possibility is $\lambda_{(i+1)} \to \Gamma_{k+1}^{-2/\alpha}
+% v_{(l)}$. In this case
+% \begin{eqnarray*}
+%   {\lambda_{i+1} \over \lambda_{i}} &\to& \left(
+%     \Gamma_{i} \over \Gamma_{i+1} \right)^{2/\alpha}
+%   \overset{d}{=} U_{1,i} \overset{a.s.}{\longrightarrow} 1\text{, as }i
+%   \to \infty
+% \end{eqnarray*}
+% where $U_{a,b}$ denotes the $a$-th upper order statistic in a uniform
+% sample of size $b$.
+% So $ \lambda_{i+1} \to \Gamma_{k+1}^{-2/\alpha} v_{(l)}$ can be untrue
+% only if $\exists m\exists l'(m,l') \neq (1, l)$ such that $ \lambda_{i+1} \to
+% \Gamma_{k+m}^{-2/\alpha} v_{(l')}$ and
+% \begin{equation}
+%   \label{eq:X_A}
+%   \Gamma_{k+m}^{-2/\alpha} v_{(l')} \overset{a.s.}{\longrightarrow}
+%   \Gamma_{k}^{-2/\alpha} v_{(l)}
+% \end{equation}
+% Suppose $m > 1$.
+% \[
+% \left(
+%   \Gamma_{k} \over \Gamma_{k+m}
+% \right)^{2/\alpha} \overset{d}{=} (U_{m,k+m-1})^{2/\alpha}
+% \]
+% The variance of $(U_{m,k+m-1})^{2/\alpha}$ remains finite regardless
+% of $k$ and $m$ (\textcolor{red}{to be proven}), so the almost sure
+% convergence in \eqref{eq:X_A} cannot happen.
