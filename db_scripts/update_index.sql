@@ -1,0 +1,19 @@
+update SP500_components set available=0 where
+symbol="DTV" or
+symbol="NE" or
+symbol="FDO" or
+symbol="ATI" or
+symbol="TEG" or
+symbol="QEP" or
+symbol="LO" or
+symbol="WIN" or
+symbol="AGN" or
+symbol="DNR" or
+symbol="NBR" or
+symbol="AVP" or
+symbol="CFN" or
+symbol="PETM" or
+symbol="SWY" or
+symbol="COV" or
+symbol="BMS";
+
