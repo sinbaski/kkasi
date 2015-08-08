@@ -1,6 +1,5 @@
 rm(list=ls());
 library(RMySQL);
-source("../../cake/libxxie.r");
 
 day2 = '2015-02-28';
 day1 = '2010-01-01';
@@ -132,7 +131,7 @@ for (i in 1:dim(R)[2]) {
 ## E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
 
 ## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
-pdf("HillEstimators.pdf")
+pdf("SP500_tail_indices.pdf")
 plot(tailIndices[, 1], tailIndices[, 2], type="p",
      xlab="Lower tail index", ylab="Upper tail index");
 X <- seq(min(tailIndices[, 1]), max(tailIndices[, 1]), 0.01);

@@ -1,6 +1,5 @@
 rm(list=ls());
 library(RMySQL);
-source("../../cake/libxxie.r");
 
 day2 = '2015-02-28';
 day1 = '2010-01-01';
@@ -120,8 +119,8 @@ for (i in 1 : length(stocks.included)) {
 E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
 
 ## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
-pdf("EigenRatio.pdf")
-plot(E$values[2:p]/E$values[1:p-1], type="b", xlim=c(1, 300), ylim=c(0, 1),
+pdf("EigenRatioSP500_400_shown.pdf")
+plot(E$values[2:p]/E$values[1:p-1], type="b", xlim=c(1, 400), ylim=c(0, 1),
      xlab=expression(i), ylab=expression(lambda[(i+1)]/lambda[(i)]));
 dev.off();
 

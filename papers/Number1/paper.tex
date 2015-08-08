@@ -12,6 +12,7 @@
 %\usepackage{tocbibind}
 %\usepackage{showkeys}
 %\usepackage{units}
+\usepackage{subfigure}
 \usepackage{amssymb,latexsym}
 %\usepackage{amsfonts}
 %\usepackage{makeidx,showidx}
@@ -159,7 +160,19 @@ urlcolor=black,
 %------------------------------------------------------------------------
 \section{Introduction}\setcounter{equation}{0}
 
-\subsection{Motivation: Lam + Yao, PCA, Hill plot of upper/lower tails of S\&P data}
+\subsection{Motivation: Lam + Yao, PCA, indices of upper/lower tails of S\&P
+  components}
+Figure \ref{fig:SP500_tail_indices} shows the estimated lower- and upper-tail indices of stocks
+included in the S\&P 500 index.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5]{SP500_tail_indices.pdf}
+  \caption{Tail indices of stocks included in the S\&P 500 index. The tail
+    indices are obtained as their Hill estimators. The red line is the line with equal lower- and upper
+    tail indices.}
+  \label{fig:SP500_tail_indices}
+\end{figure}
+
 \subsection{Overview of light-tailed case}
 \subsection{Finite $p$: Anderson}
 \subsection{Growing $p$: Johnstone, Tao + Vu}
@@ -189,6 +202,53 @@ urlcolor=black,
 \subsection{Functions acting on the eigenvalues}
 \subsection{Figures: Ratios of consecutive eigenvalues, illustrations for financial data, ...}
 \subsection{S\&P data using ranks}
+For real financial data, it is unreasonable to expect all
+the time series under consideration to have the same tail index. So a
+preocedure of standardization has to be adopted. In this section we
+use the rank transform.
+
+Suppose we have $p$ time series each of length $n$ and have arranged
+them in a $p\times n$ matrix $X_{it}$, where $i = 1, 2, \dots, p$ and
+$t=1,2, \dots, n$. For each row of $X$, we transform it as
+\begin{eqnarray*}
+  R_{it} &=& -\left[
+    \log \left({1 \over n+1} \sum_{\tau=1}^n \1_{X_{i\tau} \leq X_{it}} \right)
+  \right]^{-1}
+\end{eqnarray*}
+When $X_{it}$ are iid for each $i$, the argument to the $\log$
+function is asymptotically uniformly distributed as $n \to \infty$,
+and hence $R_{it}$ is a standard Fr\'echet r.v.
+
+Figure \ref{fig:EigenRatio} shows the ratio of successive eigenvalues
+of the matrix $a_{np}^{-2}RR'$, where the rows of matrix $R$ comprise
+the rank-transformed sequences of a number of selected time series
+in the S\&P 500 index.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[]{
+    \includegraphics[scale=0.40]{EigenRatioSP500_100_shown.pdf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.40]{EigenRatioSP500_200_shown.pdf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.40]{EigenRatioSP500_300_shown.pdf}
+  }
+  \subfigure[]{
+    \includegraphics[scale=0.40]{EigenRatioSP500_400_shown.pdf}
+  }
+  \caption{$\lambda_{(i+1)} / \lambda_{(i)}$ versus $i$}
+  \label{fig:EigenRatio}
+\end{figure}
+It is seen that, as $i \to \infty$, $\lambda_{(i+1)} / \lambda_{(i)}
+\to 1$. This is in fact expected based on the theory explained in the
+previous sections. Suppose the sequences are iid and serial
+correlations are absent, i.e. the matrix $M=H H'$ has only one eigen
+value. Then it is clear ${\lambda_{(i+1)} \over
+  \lambda_i}=\left({\Gamma_i \over
+    \Gamma_{i+1}}\right)^{2/\alpha}=\left(1 - {E_{i+1} \over E_1 + E_2
+    + \dots E_{i+1}}\right)^{2/\alpha} \to 1$, where $E_k,
+k=1,2,\dots,i+1$ are iid. exponential rv.
 
 %------------------------------------------------------------------------
 \section{A further extension: The sample autocovariance function}
