@@ -93,6 +93,7 @@ urlcolor=black,
 \newcommand{\tr}{\operatorname{tr}}
 \newcommand{\anp}{a_{np}^{-2}}
 \newcommand{\Zbar}{\overline{Z}}
+\newcommand{\M}{\text{max}}
 %\renewcommand*{\backref}[1]{}
 %\renewcommand*{\backrefalt}[4]{%
 %    \ifcase #1 (Not cited.)%
@@ -174,6 +175,17 @@ included in the S\&P 500 index.
 \end{figure}
 
 \subsection{Overview of light-tailed case}
+Yin, Bai and Krishnaiah proved in their 1988 paper
+\cite{yin:bai:Krishnaiah:1988} the followng result for a $p \times n$
+matrix $\bf W$ with iid entries $w_{ij}$ under the assumption $\E
+w_{11} = 0$ and $\E w_{11}^4 < \infty$.
+\[
+\lim_{n \to \infty} \lambda_{\M}\left({1 \over n}\bf{WW'}\right) = \left(
+  1 + \sqrt{p \over n}
+\right)^2 \E w_{11}
+\]
+
+
 \subsection{Finite $p$: Anderson}
 \subsection{Growing $p$: Johnstone, Tao + Vu}
 
@@ -437,6 +449,12 @@ Physics {\bf 690}. Springer, Berlin, pp. 351--364.
 {\sc Tao, T. and Vu, V.}\ (2012)
 Random covariance matrices; universality of local statistics of eigenvalues.
 {\em Ann.~Probab.} {\bf 40} (3), 1285--1315.
+
+\bibitem{yin:bai:Krishnaiah:1988}
+{\sc Y.Q. Yin and Z.D. Bai and P.R. Krishnaiah}\ (1988)
+On the Limit of the Largest Eigenvalue of the Large Dimensional Sample
+Covariance Matrix.
+{\em Probability Theory and Related Fields} {\bf 78}, 509--521.
 
 \end{thebibliography}
 \end{document}
