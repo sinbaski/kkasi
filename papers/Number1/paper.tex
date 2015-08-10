@@ -177,14 +177,33 @@ included in the S\&P 500 index.
 \subsection{Overview of light-tailed case}
 Yin, Bai and Krishnaiah proved in their 1988 paper
 \cite{yin:bai:Krishnaiah:1988} the followng result for a $p \times n$
-matrix $\bf W$ with iid entries $w_{ij}$ under the assumption $\E
-w_{11} = 0$ and $\E w_{11}^4 < \infty$.
+matrix $\bf X$ with iid entries $X_{ij}$ under the assumption $\E
+X_{11} = 0$ and $\E x_{11}^4 < \infty$.
 \[
-\lim_{n \to \infty} \lambda_{\M}\left({1 \over n}\bf{WW'}\right) = \left(
+\lim_{n \to \infty} \lambda_{\M}\left({1 \over n}\bf{XX'}\right) = \left(
   1 + \sqrt{p \over n}
-\right)^2 \E w_{11}
+\right)^2 \E x_{11}
 \]
-
+Later on, several authors \cite{Pillai:Yin:2011, tao:vu:2012,
+  Wang:2012} looked into empirical covariance matrix $S_{n, p} = {1
+  \over n} \bf{XX}'$, where the entries of $\bf X$, denoted $x_{ij}$
+are independent and have an exponential decay: $\exists B_1, B_2 > 0$
+such that
+\begin{equation}
+  \label{eq:C0}
+  \forall i \in \{1, 2, \dots, p\}\text{, }
+  \forall j \in \{1, 2, \dots, n\}\text{, }
+  \P(|x_{ij}| > t^{B_1}) \leq e^{-t}
+\end{equation}
+for all $t > B_2$. Pillai and Yin \cite{Pillai:Yin:2011} proved that,
+given condition \eqref{eq:C0} and in additon $1 < n/p < \infty$,
+the empirical eigenvalues are localized to their theoretical
+values: $\exists c, C > 0$ such that $\forall 1 \leq j \leq p$
+\[
+\P(\left|
+  \lambda_{(j)} - \gamma_{j}^{n,p}
+\right|) \geq  (\log p)
+\]
 
 \subsection{Finite $p$: Anderson}
 \subsection{Growing $p$: Johnstone, Tao + Vu}
@@ -193,18 +212,25 @@ w_{11} = 0$ and $\E w_{11}^4 < \infty$.
 \section{The iid heavy-tailed case}
 
 \subsection{$\alpha \in (0,2)$: Overview of existing results: Davis et al., Soshnikov, Auffiner et al.}
-\subsection{$\alpha \in (0,2)$: Our extension of these results; only order statistics of $Z_{it}$'s necessary and no sums (proof by the technical result)}
+\subsection{$\alpha \in (0,2)$: Our extension of these results; only
+  order statistics of $Z_{it}$'s necessary and no sums (proof by the
+  technical result)}
 \subsection{$\alpha \in [2,4)$: Overview of existing results: Davis et al., Soshnikov, Auffiner et al.}
 \subsection{$\alpha \in [2,4)$: The problem of centering and restrictions on $p_n$}
-\subsection{$\alpha \in [2,10/3)$: Our new result for the UNCENTERED sample covariance matrix; only order statistics of $Z_{it}$'s necessary and no sums (proof by the technical result)}
-\subsection{$\alpha \in [10/3,4)$: A conjecture with partial proof for the UNCENTERED sample covariance matrix)}
+\subsection{$\alpha \in [2,10/3)$: Our new result for the UNCENTERED
+  sample covariance matrix; only order statistics of $Z_{it}$'s
+  necessary and no sums (proof by the technical result)}
+\subsection{$\alpha \in [10/3,4)$: A conjecture with partial proof for
+  the UNCENTERED sample covariance matrix)}
 
 %------------------------------------------------------------------------
 \section{Extension to linear dependence, two-sided filters}
 
 \subsection{$\alpha \in (0,10/3)$: Eigenvalues of the sample covariance matrix}
 \subsection{$\alpha \in [10/3,4)$: Eigenvalues of the CENTERED sample covariance matrix}
-\subsection{$\alpha \in [2,4)$ and $p/n \to \gamma \in (0,1]$: Eigenvalues of the sample covariance matrix using Auffinger's result}
+\subsection{$\alpha \in [2,4)$ and $p/n \to \gamma \in (0,1]$:
+  Eigenvalues of the sample covariance matrix using Auffinger's
+  result}
 \subsection{Point process convergence}
 
 %------------------------------------------------------------------------
@@ -271,11 +297,15 @@ k=1,2,\dots,i+1$ are iid. exponential rv.
 %------------------------------------------------------------------------
 \section{Applications of the results for the autocovariance function}
 
-\subsection{Sums of largest eigenvalues vs.~ largest eigenvalues of sums, application to real data + plots}
-\subsection{Explanation of these plots in the separable case, discussion of the two methods to ensure real eigenvalues, link to Lam + Yao}
+\subsection{Sums of largest eigenvalues vs.~ largest eigenvalues of
+  sums, application to real data + plots}
+\subsection{Explanation of these plots in the separable case,
+  discussion of the two methods to ensure real eigenvalues, link to
+  Lam + Yao}
 
 %------------------------------------------------------------------------
-\section{Non-linear theory, independent rows + large deviations, SV and GARCH, SV with multivariate Gaussian and t-distributed noise}
+\section{Non-linear theory, independent rows + large deviations, SV
+  and GARCH, SV with multivariate Gaussian and t-distributed noise}
 %------------------------------------------------------------------------
 \section{Future directions, discussion of the conjecture}
 
@@ -283,8 +313,12 @@ k=1,2,\dots,i+1$ are iid. exponential rv.
 %------------------------------------------------------------------------
 \appendix 
 \section{Regular variation, large deviations and point processes}
-\section{The key technical result to identify the largest eigenvalues with the order statistics of the squares of the matrix entries in the iid case}
-\section{A lemma which shows that the sample covariance matrix is approximated by its diagonal in the iid case (more involved than simple matrix norms)}
+\section{The key technical result to identify the largest eigenvalues
+  with the order statistics of the squares of the matrix entries in
+  the iid case}
+\section{A lemma which shows that the sample covariance matrix is
+  approximated by its diagonal in the iid case (more involved than
+  simple matrix norms)}
 \section{The Proofs}
 
 
@@ -455,6 +489,19 @@ Random covariance matrices; universality of local statistics of eigenvalues.
 On the Limit of the Largest Eigenvalue of the Large Dimensional Sample
 Covariance Matrix.
 {\em Probability Theory and Related Fields} {\bf 78}, 509--521.
+
+\bibitem{Pillai:Yin:2011}
+{\sc N. Pillai and J. Yin}\ (2011)
+Universality of covariance matrices
+{\em arXiv:1110.2501,2011}
+
+%K. Wang. Random covariance matrices: universality of local statistics of
+%eigenvalues up to the edge. RMTA, 1(1), 2012.
+\bibitem{Wang:2012}
+{\sc K. Wang}\ (2012)
+Random covariance matrices: universality of local statistics of
+eigenvalues up to the edge
+{\em RMTA} {\bf 1} (1)
 
 \end{thebibliography}
 \end{document}
