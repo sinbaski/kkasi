@@ -12,6 +12,8 @@
 %\usepackage{tocbibind}
 %\usepackage{showkeys}
 %\usepackage{units}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
 \usepackage{subfigure}
 \usepackage{amssymb,latexsym}
 %\usepackage{amsfonts}
@@ -94,6 +96,7 @@ urlcolor=black,
 \newcommand{\anp}{a_{np}^{-2}}
 \newcommand{\Zbar}{\overline{Z}}
 \newcommand{\M}{\text{max}}
+\newcommand{\m}{\text{min}}
 %\renewcommand*{\backref}[1]{}
 %\renewcommand*{\backrefalt}[4]{%
 %    \ifcase #1 (Not cited.)%
@@ -169,41 +172,94 @@ included in the S\&P 500 index.
   \centering
   \includegraphics[scale=0.5]{SP500_tail_indices.pdf}
   \caption{Tail indices of stocks included in the S\&P 500 index. The tail
-    indices are obtained as their Hill estimators. The red line is the line with equal lower- and upper
-    tail indices.}
+    indices are obtained as their Hill estimators. The red line is the
+    line with equal lower- and upper tail indices.}
   \label{fig:SP500_tail_indices}
 \end{figure}
+Clearly the number of 
 
 \subsection{Overview of light-tailed case}
 Yin, Bai and Krishnaiah proved in their 1988 paper
 \cite{yin:bai:Krishnaiah:1988} the followng result for a $p \times n$
 matrix $\bf X$ with iid entries $X_{ij}$ under the assumption $\E
-X_{11} = 0$ and $\E x_{11}^4 < \infty$.
+X_{11} = 0$, $\E X_{11}^4 < \infty$, and $q = \lim_{n \to \infty} p/n
+> 0$
 \[
-\lim_{n \to \infty} \lambda_{\M}\left({1 \over n}\bf{XX'}\right) = \left(
-  1 + \sqrt{p \over n}
-\right)^2 \E x_{11}
+\lambda_{\M}\left({1 \over n}\bf{XX'}\right) \overset{\as}{\to} \left(
+  1 + \sqrt{q}
+\right)^2 \E X_{11}^2 \text{ as }n \to \infty
+\]
+When $\E X_{11} = \infty$, Yin and Silverstein proved in 1988
+\cite{yin:silverstein:1988}
+\[
+\lim_{n \to \infty} \sup \lambda_{\M}\left({1 \over
+    n}\bf{XX'}\right) = \infty
 \]
 Later on, several authors \cite{Pillai:Yin:2011, tao:vu:2012,
   Wang:2012} looked into empirical covariance matrix $S_{n, p} = {1
-  \over n} \bf{XX}'$, where the entries of $\bf X$, denoted $x_{ij}$
-are independent and have an exponential decay: $\exists B_1, B_2 > 0$
-such that
-\begin{equation}
-  \label{eq:C0}
-  \forall i \in \{1, 2, \dots, p\}\text{, }
-  \forall j \in \{1, 2, \dots, n\}\text{, }
-  \P(|x_{ij}| > t^{B_1}) \leq e^{-t}
-\end{equation}
-for all $t > B_2$. Pillai and Yin \cite{Pillai:Yin:2011} proved that,
-given condition \eqref{eq:C0} and in additon $1 < n/p < \infty$,
-the empirical eigenvalues are localized to their theoretical
-values: $\exists c, C > 0$ such that $\forall 1 \leq j \leq p$
+  \over n} \bf{XX}'$, where the entries of $\bf X$, denoted $X_{ij}$
+are independent and satisfy the following condition which is refered
+to as condition {\bf C0}.
+\begin{enumerate}
+\item $\E X_{ij} = 0$, $\E X_{ij}^2 = 1$ and
+\item $\forall u > 1, \exists \theta > 0$ such that
+  \[
+  \P(X_{ij} > u) = \theta^{-1} e^{-u^{\theta}}
+  \]
+\end{enumerate}
+Under condition {\bf C0}, Pillai and Yin \cite{Pillai:Yin:2011} proved
+that, for $q = \lim_{n \to \infty} {p \over n} \in (0, \infty)
+\setminus \{1\}$, $\forall \zeta > 0, \exists C > 0, \exists \delta >
+0$,
 \[
-\P(\left|
-  \lambda_{(j)} - \gamma_{j}^{n,p}
-\right|) \geq  (\log p)
+\P\left[
+  \left|
+    \lambda_{(j)}(S_{n,p}) - \gamma_{j}^{n, p}
+  \right| > \varphi^{C} p^{-2/3} \tilde{j}^{-1/3}
+\right] \leq p^{\delta} \exp(-\varphi^\zeta)
 \]
+where $\lambda_{(j)}(S_{n,p})$ is the $j$-th largest eigenvalue of
+$S_{n,p}$ and
+\begin{eqnarray*}
+  \varphi &=& (\log p)^{\log \log p} \\
+  \tilde j &=& \min\{(p \wedge n) + 1 - j, j\} \\
+  \gamma_{j}^{n, p} &=& \text{inf}\left\{\gamma: \int_\gamma^{\lambda_\M}
+  \mu_{n,p}(x) dx \leq {j \over p}\right\} \\
+  \lambda_\M &=& (1 + \sqrt q)^2 \\
+  \lambda_\m &=& (1 - \sqrt q)^2 \\
+  \mu_{n,p}(x) &=& {1 \over 2\pi q x} \sqrt{(x - \lambda_\m)(\lambda_\M - x)}
+\end{eqnarray*}
+
+Tao and Vu \cite{tao:vu:2012} relaxed the expoential decay condition
+of {\bf C0} and replaced it with a high-moment condition, and proved the
+four-moment theorem, which was later extended by Wang
+\cite{Wang:2012}. In their setting, a $p \times n$ matrix $\bf X$ is
+said to obey condition {\bf C1} with constant $C_0$ if $\forall 1
+\leq i \leq p, \forall 1 \leq j \leq n$, $\E X_{ij} = 0$, $\E
+X_{ij}^2 = 1 $ and $\sup_{i,j} \E|X_{ij}|^{C_0} < C$ for some constant
+$C$ independent of $p$ and $n$.
+
+Assume matrices $\bf X$ and $\bf Y$ both satisfy condition {\bf C1}
+with constant $C_0$ and in addition they match up to order $4$,
+i.e. for all $m, l \geq 0$ such that $m + l \leq 4$, $\E[\mathscr{
+R}(X_{ij})^m \mathscr{I}(X_{ij})^l] = \E[\mathscr{R}(Y_{ij})^m
+\mathscr{I}(Y_{ij})^l]$. Assume also $\lim_{n \to \infty} p/n = q \in
+(0, 1]$. Let $G: \mathbb R^k \to \mathbb R$ be a smooth function
+obeying the derivative bounds
+\[
+\left| \nabla^j G(x) \right| < n^{c_0}
+\]
+for some $c_0 > 0$. Then the following holds for all $1 \leq i_1 \leq
+i_2 \leq \cdots \leq i_{k} \leq p$, $1 \leq k \leq p$:
+\[
+\left|
+\E G(n\lambda_{i_1}, \dots, n\lambda_{i_k}) - 
+\E G(n\omega_{i_1}, \dots, n\omega_{i_k})
+\right| < n^{- c_0}
+\]
+where $\lambda_1 \leq \lambda_2, \leq \cdots \leq \lambda_p$ are the
+eigenvalues of ${1 \over n} XX'$ and $\omega_1 \leq \omega_2, \leq
+\cdots \leq \omega_p$ are those of ${1 \over n} YY'$.
 
 \subsection{Finite $p$: Anderson}
 \subsection{Growing $p$: Johnstone, Tao + Vu}
@@ -211,11 +267,13 @@ values: $\exists c, C > 0$ such that $\forall 1 \leq j \leq p$
 %------------------------------------------------------------------------
 \section{The iid heavy-tailed case}
 
-\subsection{$\alpha \in (0,2)$: Overview of existing results: Davis et al., Soshnikov, Auffiner et al.}
+\subsection{$\alpha \in (0,2)$: Overview of existing results: Davis et
+  al., Soshnikov, Auffiner et al.}
 \subsection{$\alpha \in (0,2)$: Our extension of these results; only
   order statistics of $Z_{it}$'s necessary and no sums (proof by the
   technical result)}
-\subsection{$\alpha \in [2,4)$: Overview of existing results: Davis et al., Soshnikov, Auffiner et al.}
+\subsection{$\alpha \in [2,4)$: Overview of existing results: Davis et
+  al., Soshnikov, Auffiner et al.} 
 \subsection{$\alpha \in [2,4)$: The problem of centering and restrictions on $p_n$}
 \subsection{$\alpha \in [2,10/3)$: Our new result for the UNCENTERED
   sample covariance matrix; only order statistics of $Z_{it}$'s
@@ -455,6 +513,18 @@ Oxford.
 {\em Extreme Values, Regular Variation, and Point Processes.}
 Sprin\-ger, New York.
 
+\bibitem{yin:bai:Krishnaiah:1988}
+{\sc Y.Q. Yin and Z.D. Bai and P.R. Krishnaiah}\ (1988)
+On the Limit of the Largest Eigenvalue of the Large Dimensional Sample
+Covariance Matrix.
+{\em Probability Theory and Related Fields} {\bf 78}, 509--521.
+
+\bibitem{yin:silverstein:1988}
+{\sc Y.Q. Yin and Jack W. Silverstein}\ (1988)
+A Note on the Largest Eigenvalue of a Large Dimensional Sample
+Covariance Matrix
+{\em Journal of Multivariate Analysis} {\bf 26} (2), 166--168.
+
 \bibitem{resnick:2007}
 {\sc Resnick, S.I.}\ (2007)
 {\em Heavy-Tail Phenomena: Probabilistic and Statistical Modeling.}
@@ -479,21 +549,15 @@ ensembles.
 In: {\em Mathematical Physics of Quantum Mechanics.} Lecture Notes in
 Physics {\bf 690}. Springer, Berlin, pp. 351--364.
 
-\bibitem{tao:vu:2012}
-{\sc Tao, T. and Vu, V.}\ (2012)
-Random covariance matrices; universality of local statistics of eigenvalues.
-{\em Ann.~Probab.} {\bf 40} (3), 1285--1315.
-
-\bibitem{yin:bai:Krishnaiah:1988}
-{\sc Y.Q. Yin and Z.D. Bai and P.R. Krishnaiah}\ (1988)
-On the Limit of the Largest Eigenvalue of the Large Dimensional Sample
-Covariance Matrix.
-{\em Probability Theory and Related Fields} {\bf 78}, 509--521.
-
 \bibitem{Pillai:Yin:2011}
 {\sc N. Pillai and J. Yin}\ (2011)
 Universality of covariance matrices
 {\em arXiv:1110.2501,2011}
+
+\bibitem{tao:vu:2012}
+{\sc Tao, T. and Vu, V.}\ (2012)
+Random covariance matrices; universality of local statistics of eigenvalues.
+{\em Ann.~Probab.} {\bf 40} (3), 1285--1315.
 
 %K. Wang. Random covariance matrices: universality of local statistics of
 %eigenvalues up to the edge. RMTA, 1(1), 2012.
