@@ -166,8 +166,12 @@ urlcolor=black,
 
 \subsection{Motivation: Lam + Yao, PCA, indices of upper/lower tails of S\&P
   components}
-Figure \ref{fig:SP500_tail_indices} shows the estimated lower- and upper-tail indices of stocks
-included in the S\&P 500 index.
+As reviewed in \S\ref{sec:light_tail_review}, much of the literature
+so far is focused on sample covariance matrices with a light-tailed atomic
+distribution, which in particular implies finite 4th moment. However,
+this is untrue when real financial data such as stock returns are
+concerned. Figure \ref{fig:SP500_tail_indices} shows the estimated
+lower- and upper-tail indices of stocks included in the S\&P 500 index.
 \begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.5]{SP500_tail_indices.pdf}
@@ -176,9 +180,14 @@ included in the S\&P 500 index.
     line with equal lower- and upper tail indices.}
   \label{fig:SP500_tail_indices}
 \end{figure}
-Clearly the number of 
+It is clear that a large number of stocks have a tail index smaller
+than 4, implying a possibly divergent 4th moment. Thus it is of great
+importance to study situations where the atomic distribution is
+heavy-tailed. This is the topic of the current paper. In particular,
+we look into sample covariance matrices with an atomic distribution
+that has regularly varying tails.
 
-\subsection{Overview of light-tailed case}
+\subsection{Overview of light-tailed case}\label{sec:light_tail_review}
 Yin, Bai and Krishnaiah proved in their 1988 paper
 \cite{yin:bai:Krishnaiah:1988} the followng result for a $p \times n$
 matrix $\bf X$ with iid entries $X_{ij}$ under the assumption $\E
