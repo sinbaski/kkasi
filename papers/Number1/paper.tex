@@ -85,6 +85,7 @@ urlcolor=black,
 \newcommand{\norm}[1]{\|#1\|}
 \newcommand{\twonorm}[1]{\|#1\|_2}
 \newcommand{\inftynorm}[1]{\|#1\|_\infty}
+\newcommand{\pp}[1]{\mathscr E_{#1}}
 \newcommand{\vep}{\varepsilon}
 \newcommand{\nto}{n \to \infty}
 \newcommand{\xto}{x \to \infty}
@@ -97,6 +98,7 @@ urlcolor=black,
 \newcommand{\Zbar}{\overline{Z}}
 \newcommand{\M}{\text{max}}
 \newcommand{\m}{\text{min}}
+
 %\renewcommand*{\backref}[1]{}
 %\renewcommand*{\backrefalt}[4]{%
 %    \ifcase #1 (Not cited.)%
@@ -320,9 +322,10 @@ $t=1,2, \dots, n$. For each row of $X$, we transform it as
     \log \left({1 \over n+1} \sum_{\tau=1}^n \1_{X_{i\tau} \leq X_{it}} \right)
   \right]^{-1}
 \end{eqnarray*}
-When $X_{it}$ are iid for each $i$, the argument to the $\log$
-function is asymptotically uniformly distributed as $n \to \infty$,
-and hence $R_{it}$ is a standard Fr\'echet r.v.
+When $X_{i1}, X_{i2}, \dots, X_{in}$ are iid for each $i$, the
+argument to the $\log$ function is asymptotically uniformly
+distributed as $n \to \infty$, and hence $R_{it}$ is a standard
+Fr\'echet r.v.
 
 Figure \ref{fig:EigenRatio} shows the ratio of successive eigenvalues
 of the matrix $a_{np}^{-2}RR'$, where the rows of matrix $R$ comprise
@@ -342,24 +345,50 @@ in the S\&P 500 index.
   \subfigure[]{
     \includegraphics[scale=0.40]{EigenRatioSP500_400_shown.pdf}
   }
-  \caption{$\lambda_{(i+1)} / \lambda_{(i)}$ versus $i$}
+  \caption{$\lambda_{(i+1)} / \lambda_{(i)}$ versus $i$, The blue line
+  is the expected value of the ratio, the red line is the 5\% quantile
+  and the green line is the 95\% quantile.}
   \label{fig:EigenRatio}
 \end{figure}
 It is seen that, as $i \to \infty$, $\lambda_{(i+1)} / \lambda_{(i)}
 \to 1$. This is in fact expected based on the theory explained in the
-previous sections. Suppose the sequences are iid and serial
-correlations are absent, i.e. the matrix $M=H H'$ has only one
-eigenvalue. Then it is clear ${\lambda_{(i+1)} \over
-  \lambda_i}=\left({\Gamma_i \over
-    \Gamma_{i+1}}\right)^{2/\alpha}=\left(1 - {E_{i+1} \over E_1 + E_2
-    + \dots E_{i+1}}\right)^{2/\alpha} \to 1$, where $E_k,
-k=1,2,\dots,i+1$ are iid. exponential rv.
+previous sections. Suppose the coefficients $h_{kl}$ is separable,
+i.e. $h_{kl} = \theta_k c_l$, then, as shown in previous sections,
+\[
+\sum_{i=1}^p \pp{a_{np}^{-2}\lambda_{(i)}} \overset{d}{\to}
+\sum_{i=1}^\infty \pp{\Gamma_i^{-2} \lambda_H}
+\]
+where $\lambda_H$ is the solo non-zero eigenvalue of $\bf H$. Note
+that the tail index $\alpha=1$ for the ranks. So it is clear
+\[
+{\lambda_{(i+1)} \over 
+  \lambda_{(i)}} \overset{d}{=} \left({\Gamma_i \over
+    \Gamma_{i+1}}\right)^{2}=\left(1 - {E_{i+1} \over E_1 + E_2
+    + \dots E_{i+1}}\right)^{2} \to 1 \text{ as } i \to \infty
+\]
+where $E_k, k=1,2,\dots,i+1$ are iid. exponential rv. In fact the
+distribution function of $\lambda_{(i+1)} / \lambda_{(i)}$ is rather
+simple. Recall
+\[
+{\Gamma_{i} \over \Gamma_{i+1}} \overset{d}{=} U_{1, i}
+\]
+where $U_{1, i}$ is the largest upper order statistic of a
+$\text{Uniform}(0, 1)$ sample of size $i$. So
+\begin{eqnarray*}
+\P\left[{\lambda_{(i+1)} \over \lambda_{(i)}} \leq x \right] &=& x^{i/2} \\
+\E \left[{\lambda_{(i+1)} \over \lambda_{(i)}} \right] &=& {i \over i + 2}
+\end{eqnarray*}
+The expected values and confident intervals marked in figure
+\ref{fig:EigenRatio} are calculated according to the above formulas.
+
 
 %------------------------------------------------------------------------
 \section{A further extension: The sample autocovariance function}
 
-\subsection{$\alpha \in (0,10/3)$: Eigenvalues of the sample autocovariance matrix}
-\subsection{$\alpha \in [10/3,4)$: Eigenvalues of the CENTERED sample autocovariance matrix}
+\subsection{$\alpha \in (0,10/3)$: Eigenvalues of the sample
+  autocovariance matrix} 
+\subsection{$\alpha \in [10/3,4)$: Eigenvalues of the CENTERED sample
+  autocovariance matrix}
 
 %------------------------------------------------------------------------
 \section{Applications of the results for the autocovariance function}

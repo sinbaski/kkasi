@@ -6,8 +6,10 @@ day1 = '2010-01-01';
 
 assetSet <- "SP500_components";
 
+## database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
+##     dbname='avanza', host=Sys.getenv("PB"));
 database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
-    dbname='avanza', host=Sys.getenv("PB"));
+    dbname='avanza', host="localhost");
 results = dbSendQuery(database, sprintf("select symbol from %s;",
     assetSet));
 tables <- fetch(results, n=-1)[[1]];
@@ -119,9 +121,20 @@ for (i in 1 : length(stocks.included)) {
 E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
 
 ## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
-pdf("EigenRatioSP500_400_shown.pdf")
-plot(E$values[2:p]/E$values[1:p-1], type="b", xlim=c(1, 400), ylim=c(0, 1),
+
+N = 400;
+pdf(sprintf("EigenRatioSP500_%d_shown.pdf", N));
+plot(E$values[2:p]/E$values[1:p-1], type="b", pch=20, xlim=c(1, N), ylim=c(0, 1),
      xlab=expression(i), ylab=expression(lambda[(i+1)]/lambda[(i)]));
+I <- 1:(N-1);
+q = 0.95;
+Q <- matrix(NA, ncol=2, nrow=N-1);
+Q[, 1] = q^(2/I);
+Q[, 2] = (1-q)^(2/I);
+expected <- I / (I+2);
+lines(I, expected, col="#0000FF", type="l");
+lines(I, Q[, 2], col="#FF0000");
+lines(I, Q[, 1], col="#00FF00");
 dev.off();
 
 

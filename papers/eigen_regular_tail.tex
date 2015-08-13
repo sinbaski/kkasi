@@ -453,59 +453,59 @@ Because $h_{kl} = 0$ if $\min\{k,l\} < 0$ we have
 In summary
 \begin{eqnarray*}
   a_n^{-2}(XX')_{ij} &=& a_n^{-2} \sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
-  h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2 + o_P(1)
+  h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2 + o_P(1)
 \end{eqnarray*}
 
 \subsection[Approximating XX']{Approximating $XX'$}
 Here we prove
 \begin{eqnarray*}
   a_n^{-2}(XX')_{ij} &=& a_n^{-2}\sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
-  h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2 + o_P(1) \\
+  h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2 + o_P(1) \\
   &=& a_n^{-2} \sum_{t=1}^n \sum_{k=0}^M \sum_{l=0}^M
-  h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2 + o_P(1) \\
+  h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2 + o_P(1) \\
 \end{eqnarray*}
 where $M \to \infty$.
 \begin{proof}
   \begin{eqnarray*}
     && \pr\left(\left|a_n^{-2}(XX')_{ij} - a_n^{-2} \sum_{t=1}^n \sum_{k=0}^M \sum_{l=0}^M
-    h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2\right| > \epsilon \right) \\
+    h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2\right| > \epsilon \right) \\
    &=& \pr\left(\left|a_n^{-2} \sum_{t=1}^n \sum_{k=M+1}^\infty \sum_{l=M+1}^\infty
-    h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2\right| > \epsilon \right)
+    h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2\right| > \epsilon \right)
   \end{eqnarray*}
   Since
   \begin{eqnarray*}
-    a_n^{-2} \sum_{t=1}^n Z_{i \wedge j -k, t-l}^2 &\xrightarrow{d}&
-    \xi_{i \wedge j - k} \sim S_{\alpha/2}
+    a_n^{-2} \sum_{t=1}^n Z_{(i \wedge j) -k, t-l}^2 &\xrightarrow{d}&
+    \xi_{(i \wedge j) - k} \sim S_{\alpha/2}
   \end{eqnarray*}
   We have
   \begin{eqnarray*}
    && \pr\left(\left|a_n^{-2} \sum_{t=1}^n \sum_{k=M+1}^\infty \sum_{l=M+1}^\infty
-    h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2 \right| > \epsilon \right)
+    h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2 \right| > \epsilon \right)
   \\
   &\leq& \pr\left(\sum_{k=M+1}^\infty \sum_{l=M+1}^\infty \left|
-    h_{k+|j-i|,l} h_{kl} \xi_{i \wedge j -k} \I{A_{kl}}\right| > \epsilon/2 \right)
+    h_{k+|j-i|,l} h_{kl} \xi_{(i \wedge j) -k} \I{A_{kl}}\right| > \epsilon/2 \right)
   \\
   && + \pr\left(\sum_{k=M+1}^\infty \sum_{l=M+1}^\infty \left|
-    h_{k+|j-i|,l} h_{kl} \xi_{i \wedge j -k} \I{A^c_{kl}} \right| > \epsilon/2 \right)
+    h_{k+|j-i|,l} h_{kl} \xi_{(i \wedge j) -k} \I{A^c_{kl}} \right| > \epsilon/2 \right)
   \\
   \end{eqnarray*}
   where
   \begin{eqnarray*}
     A_{kl} = \left\{
-      k,l \geq M+1: \left| h_{k+|j-i|,l} h_{kl} \xi_{i \wedge j -k}
+      k,l \geq M+1: \left| h_{k+|j-i|,l} h_{kl} \xi_{(i \wedge j) -k}
       \right| > \epsilon/2
     \right\}
   \end{eqnarray*}
   So 
   \begin{eqnarray*}
     && \pr\left(\left|a_n^{-2} \sum_{t=1}^n \sum_{k=M+1}^\infty \sum_{l=M+1}^\infty
-        h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2\right| > \epsilon
+        h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2\right| > \epsilon
     \right) \\
     &\leq& \sum_{k=M+1}^\infty \sum_{l=M+1}^\infty \pr\left(
-      \left| h_{k+|j-i|,l} h_{kl} \xi_{i \wedge j -k}\right| >
+      \left| h_{k+|j-i|,l} h_{kl} \xi_{(i \wedge j) -k}\right| >
       \epsilon/2\right) \\
     && + 2 \epsilon^{-1}\sum_{k=M+1}^\infty \sum_{l=M+1}^\infty
-    |h_{k+|j-i|,l} h_{kl}| \E \xi_{i \wedge j -k} \I{A^c_{kl}} \\
+    |h_{k+|j-i|,l} h_{kl}| \E \xi_{(i \wedge j) -k} \I{A^c_{kl}} \\
     &\leq& \sum_{k=M+1}^\infty \sum_{l=M+1}^\infty |h_{k+|j-i|,l}
     h_{kl}|^{\alpha/2} \\
     && + 2 \epsilon^{-1}\sum_{k=M+1}^\infty \sum_{l=M+1}^\infty
@@ -516,9 +516,9 @@ where $M \to \infty$.
 Now it is clear
 \begin{eqnarray*}
   a_n^{-2}(XX')_{ij} &=& a_n^{-2} \sum_{t=1}^n \sum_{k=0}^M \sum_{l=0}^M
-  h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2 + o_P(1) \\
+  h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2 + o_P(1) \\
   &=& \sum_{k=0}^M \left(\sum_{l=0}^M h_{k+|j-i|,l}
-    h_{kl}\right)\xi_{i \wedge j -k}
+    h_{kl}\right)\xi_{(i \wedge j) -k}
 \end{eqnarray*}
 Explicitly for $p=3$ we have
 \begin{eqnarray*}
@@ -548,7 +548,7 @@ Consider the 1-norm
 \begin{eqnarray*}
   && \| a_n^{-2} XX' - a_n^{-2} \sum_{t=1}^n
      \sum_{k=0}^\infty \sum_{l=0}^\infty
-     h_{k+|j-i|,l} h_{kl} Z_{i \wedge j -k, t-l}^2\|_1 \\
+     h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2\|_1 \\
   &=& a_n^{-2} \sum_{i=1}^p (I^{(2)}_{ii} + I^{(3)}_{ii})
 \end{eqnarray*}
 Because $\pr(|I^{(a)}_{ii}| > a_n^2 \epsilon) < l(n)
@@ -562,7 +562,7 @@ if $n^{-\delta(\alpha)} p(n) \to 0$, e.g. when $p(n)$ is slowly varying, the RHS
 tends to 0.
 
 
-\input{Mikosch_correlated_sequences}
+% \input{Mikosch_correlated_sequences}
 
 % \section{Empirical Studies}
 % \begin{figure}[htb!]
