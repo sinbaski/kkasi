@@ -85,7 +85,7 @@ urlcolor=black,
 \newcommand{\norm}[1]{\|#1\|}
 \newcommand{\twonorm}[1]{\|#1\|_2}
 \newcommand{\inftynorm}[1]{\|#1\|_\infty}
-\newcommand{\pp}[1]{\mathscr E_{#1}}
+\newcommand{\pp}[1]{\varepsilon_{#1}}
 \newcommand{\vep}{\varepsilon}
 \newcommand{\nto}{n \to \infty}
 \newcommand{\xto}{x \to \infty}
@@ -315,39 +315,39 @@ procedure of standardization has to be adopted. In this section we
 use the rank transform.
 
 Suppose we have $p$ time series each of length $n$ and have arranged
-them in a $p\times n$ matrix $X_{it}$, where $i = 1, 2, \dots, p$ and
+them in a $p\times n$ matrix $R_{it}$, where $i = 1, 2, \dots, p$ and
 $t=1,2, \dots, n$. For each row of $X$, we transform it as
 \begin{eqnarray*}
-  R_{it} &=& -\left[
-    \log \left({1 \over n+1} \sum_{\tau=1}^n \1_{X_{i\tau} \leq X_{it}} \right)
+  X_{it} &=& -\left[
+    \log \left({1 \over n+1} \sum_{\tau=1}^n \1_{R_{i\tau} \leq R_{it}} \right)
   \right]^{-1}
 \end{eqnarray*}
-When $X_{i1}, X_{i2}, \dots, X_{in}$ are iid for each $i$, the
+When $R_{i1}, R_{i2}, \dots, R_{in}$ are iid for each $i$, the
 argument to the $\log$ function is asymptotically uniformly
-distributed as $n \to \infty$, and hence $R_{it}$ is a standard
+distributed as $n \to \infty$, and hence $X_{it}$ is a standard
 Fr\'echet r.v.
 
 Figure \ref{fig:EigenRatio} shows the ratio of successive eigenvalues
-of the matrix $a_{np}^{-2}RR'$, where the rows of matrix $R$ comprise
+of the matrix $a_{np}^{-2}XX'$, where the rows of matrix $X$ comprise
 the rank-transformed sequences of a number of selected time series
 in the S\&P 500 index.
 \begin{figure}[htb!]
   \centering
   \subfigure[]{
-    \includegraphics[scale=0.40]{EigenRatioSP500_100_shown.pdf}
+    \includegraphics[scale=0.40]{EigenRatioSP500_50_shown.pdf}
   }
   \subfigure[]{
-    \includegraphics[scale=0.40]{EigenRatioSP500_200_shown.pdf}
+    \includegraphics[scale=0.40]{EigenRatioSP500_150_shown.pdf}
   }
   \subfigure[]{
-    \includegraphics[scale=0.40]{EigenRatioSP500_300_shown.pdf}
+    \includegraphics[scale=0.40]{EigenRatioSP500_250_shown.pdf}
   }
   \subfigure[]{
-    \includegraphics[scale=0.40]{EigenRatioSP500_400_shown.pdf}
+    \includegraphics[scale=0.40]{EigenRatioSP500_350_shown.pdf}
   }
   \caption{$\lambda_{(i+1)} / \lambda_{(i)}$ versus $i$, The blue line
-  is the expected value of the ratio, the red line is the 5\% quantile
-  and the green line is the 95\% quantile.}
+  is the median of the ratio, the red line is the 1\% quantile
+  and the green line is the 99\% quantile.}
   \label{fig:EigenRatio}
 \end{figure}
 It is seen that, as $i \to \infty$, $\lambda_{(i+1)} / \lambda_{(i)}
@@ -375,10 +375,10 @@ simple. Recall
 where $U_{1, i}$ is the largest upper order statistic of a
 $\text{Uniform}(0, 1)$ sample of size $i$. So
 \begin{eqnarray*}
-\P\left[{\lambda_{(i+1)} \over \lambda_{(i)}} \leq x \right] &=& x^{i/2} \\
-\E \left[{\lambda_{(i+1)} \over \lambda_{(i)}} \right] &=& {i \over i + 2}
+\P\left[{\lambda_{(i+1)} \over \lambda_{(i)}} \leq x \right] &=& x^{i/2}
+%\E \left[{\lambda_{(i+1)} \over \lambda_{(i)}} \right] &=& {i \over i + 2}
 \end{eqnarray*}
-The expected values and confident intervals marked in figure
+The median and confident intervals marked in figure
 \ref{fig:EigenRatio} are calculated according to the above formulas.
 
 
