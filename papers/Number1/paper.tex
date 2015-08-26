@@ -283,6 +283,40 @@ eigenvalues of ${1 \over n} XX'$ and $\omega_1 \leq \omega_2, \leq
 \subsection{$\alpha \in (0,2)$: Our extension of these results; only
   order statistics of $Z_{it}$'s necessary and no sums (proof by the
   technical result)}
+To illustrate the validity of the results, we pick the following
+distribution function for $Z$ and compare the eigenvalues with
+the order statistics of $D_i = \sum_{t=1}^n Z_{it}^2$ and $Z^2$ using
+simulated data.
+\[
+f(x) = {d \over dx}\P(Z \leq x) = \left\{
+  \begin{array}{ll}
+    {\alpha \over (4x)^{\alpha + 1}} & |x| > 1/4 \\
+    \alpha & \text{ otherwise }
+  \end{array}
+\right.
+\]
+This function is shown in figure \ref{fig:densitySim}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.40]{densitySim.pdf}
+  \caption{Density function of simulated data. $\alpha=1.6$ is chosen
+    for simulation.}
+  \label{fig:densitySim}
+\end{figure}
+Using the simulated data, empirical density functions are obtained for
+$a_{np}^{-2}\lambda_{(i)} - a_{np}^{-2}D_{(i)}$ and
+$a_{np}^{-2}\lambda_{(i)} - a_{np}^{-2}Z^2_{(i)}$. These are shown in
+figure \ref{fig:lambda_comparison}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.40]{lambda_comparison.pdf}
+  \caption{A total of 20000 pairs are compared in each case.}
+  \label{fig:lambda_comparison}
+\end{figure}
+
+
+
+
 \subsection{$\alpha \in [2,4)$: Overview of existing results: Davis et
   al., Soshnikov, Auffiner et al.} 
 \subsection{$\alpha \in [2,4)$: The problem of centering and restrictions on $p_n$}

@@ -1,5 +1,3 @@
-# just a test
-
 rm(list=ls());
 library(R.matlab);
 library(RMTstat)
