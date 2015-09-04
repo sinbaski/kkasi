@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{bookmark}
+\usepackage{graphicx}
+
+\input{../physics_common}
+\title{Distribution Functions Of The Determinant And The Eigenvalue Spacings}
+\author{Xie Xiaolei}
+\date{\today}
+\begin{document}
+\maketitle
+\section{Distribution Function of the Determinant}
+First recall that the eigenvalues of the sample covariance matrix in
+the case of an iid data matrix converge to $\alpha/2$-stable random
+variables when normalized by $a_n^2$, i.e. $a_n^{-2} \lambda_{(i)}
+\overset{d}{\to} \xi_{(i)}$, $\xi_{(i)} \sim S_{\alpha/2}$. Therefore
+according to Samorodnitsky and Taqqu\cite{SamorodnitskyTaqqu1994}
+Theorem 4.4.1,
+\[
+\lim_{x \to \infty} \frac{
+  \lim_{n \to \infty} \P(a_n^{-2} \lambda_{(i)} > x)
+}{
+  x^{-\alpha/2} C_{\alpha/2} \int_{0}^{\infty} f^{\alpha/2}(x) m(dx)
+} = 1
+\]
+where $f(x) > 0$ and $m(dx)$ are found in the stochastic integral
+representation of $\xi$:
+\[
+\xi=\int_{0}^\infty f(x) m(dx)
+\]
+and
+\[
+C_\alpha = \left(
+\int_0^\infty x^{-\alpha} \sin x dx
+\right)^{-1} = \left\{
+  \begin{array}{ll}
+    {1 - \alpha \over \Gamma(2 - \alpha) \cos(\pi \alpha / 2)} & \text{ if } \alpha \neq 1
+    \\
+    2/\pi & \text{ if }\alpha = 1
+  \end{array}
+\right.
+\]
+then it is clear
+\begin{eqnarray}
+  \lim_{n \to \infty} a_n^{-2p} \det \mtx(xx') &=& \lim_{n \to \infty}
+  \prod_{i=1}^p a_n^{-2} \lambda_{(i)} \nonumber \\
+  &\overset{d}{=}& \prod_{i=1}^p \xi_{i} \label{eq:a}
+\end{eqnarray}
+Because RHS of \eqref{eq:a} is a product of iid r.v. with Pareto
+tails, we have
+\[
+\P\left(
+\prod_{i=1}^p \xi_{i} > x
+\right) \sim {\alpha^{p-1} c^p \over (n-1)!}  x^{-\alpha/2} \log^{p-1} x 
+\text{, as } x \to \infty
+\]
+Where
+\[
+c =  C_{\alpha/2} \int_{0}^{\infty} f^\alpha(x) m(dx)
+\]
+
+\section{Joint Distribution Function Of The Eigenvalue Spacings}
+We are interested in the joint distribution of
+\[
+a_n^{-2}(\lambda_{(1)} - \lambda_{(2)}, \lambda_{(2)} - \lambda_{(3)}, \dots, \lambda_{(p-1)} - \lambda_{(p)})
+\]
+First recall
+\[
+a_n^{-2}(\lambda_{(1)}, \lambda_{(2)}, \dots, \lambda_{(p)})
+\overset{d}{=} (\xi_1, \xi_2, \dots, \xi_p)
+\]
+\bibliographystyle{unsrt}
+\bibliography{../thesis/econophysics}
+\end{document}
