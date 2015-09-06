@@ -72,6 +72,35 @@ First recall
 a_n^{-2}(\lambda_{(1)}, \lambda_{(2)}, \dots, \lambda_{(p)})
 \overset{d}{=} (\xi_1, \xi_2, \dots, \xi_p)
 \]
+
+Let $\bar{F}(x)$ denote the asymptotic distribution function described in the previous section.
+\begin{eqnarray*}
+  \bar{F}(x) &=& x^{-\alpha/2} C_{\alpha/2} \int_0^\infty f(y)^{\alpha/2} dy  \\
+  &=& x^{-\alpha/2} D_{\alpha/2}
+\end{eqnarray*}
+and let $G(x_1, \dots, x_p)$ denote the joint distribution function of the upper order statistics of an iid
+uniform sample of size $p$. Then we can write
+\begin{eqnarray*}
+\P(\xi_1 \leq x_1, \xi_2 \leq x_2, \dots, \xi_p \leq x_p) &=&
+\P(U_1 \leq F(x_1), U_2 \leq F(x_2), \dots, U_p \leq F(x_p)) \\
+  &=& G(F(x_1), F(x_2), \dots, F(x_p)) \\
+\frac{\partial^p}{\partial x_1\partial x_2 \cdots \partial x_p}
+\P(\xi_1 \leq x_1, \xi_2 \leq x_2, \dots, \xi_p \leq x_p) &=&
+g(F(x_1), F(x_2), \dots, F(x_p)) \prod_{i=1}^p F'(x_i) \\
+  &=& p! \left(
+      {\alpha \over 2} D_{\alpha/2}
+      \right)^p \prod_{i=1}^p x_i^{-\alpha/2 - 1}
+\end{eqnarray*}
+Denote the spacings as $(s_1, \dots, s_p) = a_n^{-2} (\lambda_{(1)} - \lambda_{(2)}, \dots,
+\lambda_{(p-1)} - \lambda_{(p)}, \lambda_p)$, and denote their joint density function as
+$f_s(s_1, \dots, s_p)$. Then $\xi_i = \sum_{j=i}^p s_j$ and we may write
+\begin{eqnarray*}
+  f_s(s_1, \dots, s_p) &=& p! \left(
+      {\alpha \over 2} D_{\alpha/2}
+      \right)^p \prod_{i=1}^p \left(
+                           \sum_{j=i}^p s_j
+                           \right)^{-\alpha/2 - 1}
+\end{eqnarray*}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}
