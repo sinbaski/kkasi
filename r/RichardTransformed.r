@@ -122,12 +122,15 @@ E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
 
 ## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
 
-N = 350;
-pdf(sprintf("EigenRatioSP500_%d_shown.pdf", N));
+N = 250;
+pdf(sprintf("EigenRatioSP500_lin2_%d_shown.pdf", N));
 ## plot(E$values[2:p]/E$values[1:p-1], type="b", pch=20, xlim=c(1, N), ylim=c(0, 1),
 ##      xlab=expression(i), ylab=expression(lambda[(i+1)]/lambda[(i)]), log="y");
-plot(log(E$values[2:p]/E$values[1:p-1]), type="b", pch=20, xlim=c(1, N), ylim=c(-2.1, 0),
-     xlab=expression(i), ylab=expression(log(lambda[(i+1)]/lambda[(i)])));
+
+plot((1:(N-1)), (E$values[2:N]/E$values[1:(N-1)]), type="b",
+     ylim=c(0.9, 1),
+     xlab=expression(i),
+     ylab=expression(lambda[(i+1)]/lambda[(i)]));
 I <- 1:(N-1);
 q = 0.99;
 Q <- matrix(NA, ncol=3, nrow=N-1);
@@ -135,9 +138,9 @@ Q[, 1] = q^(2/I);
 Q[, 2] = (0.5)^(2/I);
 Q[, 3] = (1-q)^(2/I);
 ## expected <- I / (I+2);
-lines(I, log(Q[, 2]), col="#0000FF", type="l");
-lines(I, log(Q[, 3]), col="#FF0000");
-lines(I, log(Q[, 1]), col="#00FF00");
+lines((I), (Q[, 2]), col="#0000FF", type="l", lwd=2);
+lines((I), (Q[, 3]), col="#FF0000", lwd=2);
+lines((I), (Q[, 1]), col="#00FF00", lwd=2);
 dev.off();
 
 
