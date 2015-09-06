@@ -276,7 +276,15 @@ is monotone convergence. It is clear $\P(Z_{j, n}^2 a_n^{-2} > u) \leq
 \[
 q_n(x) = \P(Z^2 > x a_n^2)
 \]
-and note $q_{n+1}(x) \leq q_n(x)$, due to monotonicity of $a_n$.
+and note $q_{n+1}(x) \leq q_n(x)$, due to the monotonicity of
+$a_n$. Now expand $\P(Z_{k, n+1}^2 a_{n+1}^{-2} > u)$:
+\begin{eqnarray*}
+  && \P(Z_{k, n+1}^2 a_{n+1}^{-2} > u)\\
+  &=& \sum_{r=0}^{n+1-k} {n+1 \choose r} \P(Z^2 \leq ua_n^2)^r \P(Z^2 >
+  u a_n^2)^{n+1-r} \\
+  &\geq& \sum_{r=0}^{n+1-k} {n+1 \choose r} \P(Z^2 \leq ua_n^2)^r \P(Z^2 >
+  u a_n^2)^{n+1-r} \\
+\end{eqnarray*}
 
 \end{proof}
 
