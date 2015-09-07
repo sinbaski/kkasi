@@ -21,22 +21,76 @@ rMyDist <- function(n, a) {
     U <- runif(n);
     return (qMyDist(U, a));
 }
+
+q3Point <- function(U, p, loc) {
+    X <- rep(NA, length(U));
+    I1 <- U < p;
+    I3 <- U > 1 - p;
+    I2 <- rep(TRUE, length(U)) & !I1 & !I3;
     
-alpha <- 1.6;
+    X[I1] <- -loc;
+    X[I2] <- 0;
+    X[I3] <- loc;
+    return(X);
+}
+
+r3Point <- function(n, p, loc) {
+    U <- runif(n);
+    return (q3Point(U, p, loc));
+}
+    
 p <- 200;
 n <- 1000;
 
-for (i in (1:100)) {
-    Anp <- (n*p)^(1/alpha);
-    data <- rMyDist(p*n, alpha);
-    X <- matrix(data, nrow=p, ncol=n);
-    C <- X %*% t(X);
-    E <- eigen(C/Anp^2, only.values=TRUE);
-    D <- sort(rowSums(X^2/Anp^2), decreasing=TRUE);
-    Zupp <- sort((data/Anp)^2, decreasing=TRUE)[1:p];
-    save(E, D, Zupp, file=sprintf("Eigen_D_Nbr%d_alpha%.1f_n%d_p%d.dat",
-                   i, alpha, n, p), compress="gzip");
-}
+mu <- (sqrt(n-1) + sqrt(p))^2;
+sigma <- (sqrt(n-1) + sqrt(p)) * (1/sqrt(n-1) + 1/sqrt(p))^(1/3);
+
+## Simulate using the 3-point distribution
+
+
+## Simulate using N(0, 1)
+## N <- 2000;
+## lambda <- rep(NA, N);
+## for (i in (1001:2000)) {
+##     X <- matrix(rnorm(p*n), nrow=p, ncol=n);
+##     C <- X %*% t(X);
+##     E <- eigen(C, only.values=TRUE);
+##     lambda[i] <- E$values[1];
+## }
+
+## W <- (lambda[1:N] - mu)/sigma;
+## den <- density(W);
+
+## pdf(sprintf("3point-TW.pdf"));
+## plot(den$x, den$y, type="l", xlab="x", ylab="density",
+##      main="Sample Density function and Tracy-Widom");
+## Y <- dtw(den$x);
+## lines(den$x, Y, col="#FF0000");
+## grid(nx=20);
+## explanations <- c(
+##     "sample",
+##     "Tracy-Widom"
+##     );
+## legend("topleft", legend=explanations,
+##        lty=c(1, 1), lwd=c(1, 1),
+##        col=c("#000000", "#FF0000"));
+## dev.off();
+
+## Simulate with myDist: uniform in the center and symmetric pareto on the tails
+## alpha <- 1.6;
+## for (i in (1:100)) {
+##     Anp <- (n*p)^(1/alpha);
+##     data <- rMyDist(p*n, alpha);
+##     X <- matrix(data, nrow=p, ncol=n);
+##     C <- X %*% t(X);
+##     E <- eigen(C/Anp^2, only.values=TRUE);
+##     D <- sort(rowSums(X^2/Anp^2), decreasing=TRUE);
+##     Zupp <- sort((data/Anp)^2, decreasing=TRUE)[1:p];
+##     save(E, D, Zupp, file=sprintf("Eigen_D_Nbr%d_alpha%.1f_n%d_p%d.dat",
+##                    i, alpha, n, p), compress="gzip");
+## }
+
+
 
 
 ## for (n in seq(1000, 2000, by=200)) {
