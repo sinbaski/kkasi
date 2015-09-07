@@ -189,8 +189,19 @@ heavy-tailed. This is the topic of the current paper. In particular,
 we look into sample covariance matrices with an atomic distribution
 that has regularly varying tails.
 
-\subsection{Overview of light-tailed case}\label{sec:light_tail_review}
-Yin, Bai and Krishnaiah proved in their 1988 paper
+\subsection{Overview of light-tailed
+  case}\label{sec:light_tail_review}
+As early as in 1962, T. W. Anderson \cite{anderson:1963} showed that,
+when the entries of the data matrix has normal distribution ($\E
+X_{ij} = 0$ for $i,j = 1,2,\dots, p$; $\E X_{ii}^2 = 2\sigma^2, \E
+X_{ij}^2 = \sigma^2$ for $i \neq j$), the joint density function
+of the eigenvalues of the sample covariance matrix is given by
+\[
+f(\lambda_1, \lambda_2, \dots, \lambda_p; \sigma, p) \propto \prod_{i=1}^p \exp\left(
+  -{\lambda_i^2 \over 4\sigma^2}
+\right) \prod_{i < j} (\lambda_i - \lambda_j)
+\]
+In 1988, Yin, Bai and Krishnaiah proved in
 \cite{yin:bai:Krishnaiah:1988} the following result for a $p \times n$
 matrix $\bf X$ with iid entries $X_{ij}$ under the assumption $\E
 X_{11} = 0$, $\E X_{11}^4 < \infty$, and $q = \lim_{n \to \infty} p/n
@@ -200,14 +211,49 @@ X_{11} = 0$, $\E X_{11}^4 < \infty$, and $q = \lim_{n \to \infty} p/n
   1 + \sqrt{q}
 \right)^2 \E X_{11}^2 \text{ as }n \to \infty
 \]
-When $\E X_{11} = \infty$, Yin and Silverstein proved in 1988
+When $\E X_{11}^4 = \infty$, Yin and Silverstein proved in 1988
 \cite{yin:silverstein:1988}
 \[
 \lim_{n \to \infty} \sup \lambda_{\M}\left({1 \over
     n}\bf{XX'}\right) = \infty
 \]
+Later in 2001, I. M. Johnstone showed that, when the data matrix has
+standard normal distribution, i.e. $X_{ij} \sim N(0, 1)$, the largest
+eigenvalue of the sample covariance matrix follows the Tracy-Widom
+distribution:
+\[
+{ł_1 - \mu_{np} \over \sigma_{np}} \overset{d}{\to} W_1 \sim F_1
+\text{ as }{n, p \to \infty}
+\]
+where $\mu_{np}$ and $\sigma_{np}$ are constants dependent on $p$ and
+$n$ and the distribution function $F_1$ is given by
+\[
+F_1(s) = \exp\left\{
+  -{1 \over 2} \int_{s}^\infty \left[
+    q(x) + (x - s) q^2(x)
+  \right] dx
+\right\}
+\]
+where $q(x)$ is the unique solution to the Painlev\'e II differential
+equation
+\begin{eqnarray*}
+  q''(x) &=& xq(x) + 2 q^3(x) \\
+  q(x) &\sim& \text{Ai}(x) \text{ as } x \to \infty
+\end{eqnarray*}
+Figure \ref{fig:normal-TW} illustrates the density function of the largest
+eigenvalue from a simulated sample and that of the Tracy-Widom.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5]{normal-TW.pdf}
+  \caption{Sample density function of the largest eigenvalue compared
+    with the Tracy-Widom density function. The data matrix has
+    dimension $200 \times 1000$. An ensamble of 2000 matrices are
+    simulated.}
+  \label{fig:normal-TW}
+\end{figure}
+
 Later on, several authors \cite{Pillai:Yin:2011, tao:vu:2012,
-  Wang:2012} looked into empirical covariance matrix $S_{n, p} = {1
+  Wang:2012} looked into sample covariance matrix $S_{n, p} = {1
   \over n} \bf{XX}'$, where the entries of $\bf X$, denoted $X_{ij}$
 are independent and satisfy the following condition which is referred
 to as condition {\bf C0}.
@@ -220,8 +266,14 @@ to as condition {\bf C0}.
 \end{enumerate}
 Under condition {\bf C0}, Pillai and Yin \cite{Pillai:Yin:2011} proved
 that, for $q = \lim_{n \to \infty} {p \over n} \in (0, \infty)
-\setminus \{1\}$, $\forall \zeta > 0, \exists C > 0, \exists \delta >
-0$,
+\setminus \{1\}$, the probability of the $j$-th largest eigenvalue of
+the sample covariance matrix deviating significantly from its
+theoretical value computed as the $1 - j/p$ quantile of the
+Marcenko-Pastur distribution decreases exponentially\footnotemark.
+
+\footnotetext{
+In precise terms, this means $\forall \zeta > 0, \exists C > 0,
+\exists \delta > 0$,
 \[
 \P\left[
   \left|
@@ -240,40 +292,48 @@ $S_{n,p}$ and
   \lambda_\m &=& (1 - \sqrt q)^2 \\
   \mu_{n,p}(x) &=& {1 \over 2\pi q x} \sqrt{(x - \lambda_\m)(\lambda_\M - x)}
 \end{eqnarray*}
+}
 
 Tao and Vu \cite{tao:vu:2012} relaxed the exponential decay condition
 of {\bf C0} and replaced it with a high-moment condition, and proved the
 four-moment theorem, which was later extended by Wang
 \cite{Wang:2012}. In their setting, a $p \times n$ matrix $\bf X$ is
-said to obey condition {\bf C1} with constant $C_0$ if $\forall 1
+said to obey condition {\bf C1} with constant $c_0$ if $\forall 1
 \leq i \leq p, \forall 1 \leq j \leq n$, $\E X_{ij} = 0$, $\E
-X_{ij}^2 = 1 $ and $\sup_{i,j} \E|X_{ij}|^{C_0} < C$ for some constant
+X_{ij}^2 = 1 $ and $\sup_{i,j} \E|X_{ij}|^{c_0} < C$ for some constant
 $C$ independent of $p$ and $n$.
 
 Assume matrices $\bf X$ and $\bf Y$ both satisfy condition {\bf C1}
-with constant $C_0$ and in addition they match up to order $4$,
+with constant $c_0$ and in addition they match up to order $4$,
 i.e. for all $m, l \geq 0$ such that $m + l \leq 4$, $\E[\mathscr{
 R}(X_{ij})^m \mathscr{I}(X_{ij})^l] = \E[\mathscr{R}(Y_{ij})^m
-\mathscr{I}(Y_{ij})^l]$. Assume also $\lim_{n \to \infty} p/n = q \in
-(0, 1]$. Let $G: \mathbb R^k \to \mathbb R$ be a smooth function
-obeying the derivative bounds
+\mathscr{I}(Y_{ij})^l]$ for all $1 \leq i,j \leq p$. Assume also
+$\lim_{n \to \infty} p/n = q \in (0, 1]$. Let $G: \mathbb R^k \to
+\mathbb R$ be a smooth function obeying the derivative bounds
 \[
-\left| \nabla^j G(x) \right| < n^{c_0}
+\left| \nabla^j G(\vec x) \right| < n^{c_0}
 \]
-for some $c_0 > 0$. Then the following holds for all $1 \leq i_1 \leq
-i_2 \leq \cdots \leq i_{k} \leq p$, $1 \leq k \leq p$:
+for some $c_0 > 0$ and for all $\vec x \in \mathbb R^k$ and all $0
+\leq j \leq 5$. Then the following holds for all $1 \leq i_1 \leq i_2
+\leq \cdots \leq i_{k} \leq p$, $1 \leq k \leq p$:
 \[
 \left|
-\E G(n\lambda_{i_1}, \dots, n\lambda_{i_k}) - 
-\E G(n\omega_{i_1}, \dots, n\omega_{i_k})
+\E G(\lambda_{i_1}, \dots, \lambda_{i_k}) - 
+\E G(\omega_{i_1}, \dots, \omega_{i_k})
 \right| < n^{- c_0}
 \]
 where $\lambda_1 \leq \lambda_2, \leq \cdots \leq \lambda_p$ are the
-eigenvalues of ${1 \over n} XX'$ and $\omega_1 \leq \omega_2, \leq
-\cdots \leq \omega_p$ are those of ${1 \over n} YY'$.
+eigenvalues of $\bf XX'$ and $\omega_1 \leq \omega_2, \leq
+\cdots \leq \omega_p$ are those of $\bf YY'$.
 
-\subsection{Finite $p$: Anderson}
-\subsection{Growing $p$: Johnstone, Tao + Vu}
+Moreover, even when ${\bf XX'}$ and ${\bf YY'}$ only match to order
+3, the above inequality still holds provided that the bounds on the
+derivatives are strengthened to
+\[
+|\nabla^j G(\vec x)| < n^{-j c_1}
+\]
+for all $0 \leq j \leq 5$, all $\vec x \in \mathbb R^k$ and some $c_1$
+that is sufficiently large compared to $c_0$.
 
 %------------------------------------------------------------------------
 \section{The iid heavy-tailed case}

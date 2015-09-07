@@ -16,7 +16,7 @@
 First recall that the eigenvalues of the sample covariance matrix in
 the case of an iid data matrix converge to $\alpha/2$-stable random
 variables when normalized by $a_n^2$, i.e. $a_n^{-2} \lambda_{(i)}
-\overset{d}{\to} \xi_{(i)}$, $\xi_{(i)} \sim S_{\alpha/2}$. Therefore
+\overset{d}{\to} \xi_{i}$, $\xi_{i} \sim S_{\alpha/2}$. Therefore
 according to Samorodnitsky and Taqqu\cite{SamorodnitskyTaqqu1994}
 Theorem 4.4.1,
 \[
@@ -65,7 +65,8 @@ c =  C_{\alpha/2} \int_{0}^{\infty} f^\alpha(x) m(dx)
 \section{Joint Distribution Function Of The Eigenvalue Spacings}
 We are interested in the joint distribution of
 \[
-a_n^{-2}(\lambda_{(1)} - \lambda_{(2)}, \lambda_{(2)} - \lambda_{(3)}, \dots, \lambda_{(p-1)} - \lambda_{(p)})
+a_n^{-2}(\lambda_{(1)} - \lambda_{(2)}, \lambda_{(2)} - \lambda_{(3)},
+\dots, \lambda_{(p-1)} - \lambda_{(p)})
 \]
 First recall
 \[
@@ -92,7 +93,7 @@ g(F(x_1), F(x_2), \dots, F(x_p)) \prod_{i=1}^p F'(x_i) \\
       \right)^p \prod_{i=1}^p x_i^{-\alpha/2 - 1}
 \end{eqnarray*}
 Denote the spacings as $(s_1, \dots, s_p) = a_n^{-2} (\lambda_{(1)} - \lambda_{(2)}, \dots,
-\lambda_{(p-1)} - \lambda_{(p)}, \lambda_p)$, and denote their joint density function as
+\lambda_{(p-1)} - \lambda_{(p)}, \lambda_{(p)})$, and denote their joint density function as
 $f_s(s_1, \dots, s_p)$. Then $\xi_i = \sum_{j=i}^p s_j$ and we may write
 \begin{eqnarray*}
   f_s(s_1, \dots, s_p) &=& p! \left(
