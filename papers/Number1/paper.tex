@@ -240,16 +240,22 @@ equation
   q''(x) &=& xq(x) + 2 q^3(x) \\
   q(x) &\sim& \text{Ai}(x) \text{ as } x \to \infty
 \end{eqnarray*}
-Figure \ref{fig:normal-TW} illustrates the density function of the largest
-eigenvalue from a simulated sample and that of the Tracy-Widom.
+Figure \ref{fig:3point-TW} illustrates the density function of the largest
+eigenvalue from a simulated 3-point sample compared with that of the
+Tracy-Widom.
 \begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.5]{normal-TW.pdf}
+  % \subfigure[Normal]{
+  %   \includegraphics[scale=0.5]{normal-TW.pdf}
+  % }
+  \subfigure[3-point: $\P(X=sqrt(3)) = \P(X=-sqrt(3)) = 1/6$, $\P(X=0)=2/3$]{
+    \includegraphics[scale=0.3]{3point-TW.pdf}
+  }
   \caption{Sample density function of the largest eigenvalue compared
     with the Tracy-Widom density function. The data matrix has
     dimension $200 \times 1000$. An ensamble of 2000 matrices are
     simulated.}
-  \label{fig:normal-TW}
+  \label{fig:3point-TW}
 \end{figure}
 
 Later on, several authors \cite{Pillai:Yin:2011, tao:vu:2012,

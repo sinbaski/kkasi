@@ -46,6 +46,14 @@ mu <- (sqrt(n-1) + sqrt(p))^2;
 sigma <- (sqrt(n-1) + sqrt(p)) * (1/sqrt(n-1) + 1/sqrt(p))^(1/3);
 
 ## Simulate using the 3-point distribution
+N <- 2000;
+lambda <- rep(NA, N);
+for (i in (2:1000)) {
+    X <- matrix(r3Point(p*n, 1/6, sqrt(3)), nrow=p, ncol=n);
+    C <- X %*% t(X);
+    E <- eigen(C, only.values=TRUE);
+    lambda[i] <- E$values[1];
+}
 
 
 ## Simulate using N(0, 1)
@@ -58,23 +66,23 @@ sigma <- (sqrt(n-1) + sqrt(p)) * (1/sqrt(n-1) + 1/sqrt(p))^(1/3);
 ##     lambda[i] <- E$values[1];
 ## }
 
-## W <- (lambda[1:N] - mu)/sigma;
-## den <- density(W);
+W <- (lambda[1:1000] - mu)/sigma;
+den <- density(W);
 
-## pdf(sprintf("3point-TW.pdf"));
-## plot(den$x, den$y, type="l", xlab="x", ylab="density",
-##      main="Sample Density function and Tracy-Widom");
-## Y <- dtw(den$x);
-## lines(den$x, Y, col="#FF0000");
-## grid(nx=20);
-## explanations <- c(
-##     "sample",
-##     "Tracy-Widom"
-##     );
-## legend("topleft", legend=explanations,
-##        lty=c(1, 1), lwd=c(1, 1),
-##        col=c("#000000", "#FF0000"));
-## dev.off();
+pdf(sprintf("3point-TW.pdf"));
+plot(den$x, den$y, type="l", xlab="x", ylab="density",
+     main="Sample Density function and Tracy-Widom");
+Y <- dtw(den$x);
+lines(den$x, Y, col="#FF0000");
+grid(nx=20);
+explanations <- c(
+    "sample",
+    "Tracy-Widom"
+    );
+legend("topleft", legend=explanations,
+       lty=c(1, 1), lwd=c(1, 1),
+       col=c("#000000", "#FF0000"));
+dev.off();
 
 ## Simulate with myDist: uniform in the center and symmetric pareto on the tails
 ## alpha <- 1.6;
