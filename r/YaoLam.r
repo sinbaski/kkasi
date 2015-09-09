@@ -131,24 +131,27 @@ for (i in 0:5) {
 
 A <- matrix(0, nrow=p, ncol=p);
 for (i in 1:6) {
-    B <- M[, , i] %*% t(M[, , i]);
-    # B <- M[, , i]/2 + t(M[, , i])/2;
+    # B <- M[, , i] %*% t(M[, , i]);
+    B <- M[, , i]/2 + t(M[, , i])/2;
     A <- A + B;
-    E <- eigen(A, only.values=TRUE);
-    lambda[i, 1] <- E$values[1];
-    E <- eigen(B, only.values=TRUE);
-    lambda[i, 2] <- E$values[1];
+    # E <- eigen(A, only.values=TRUE);
+    E <- svd(A, , nu=0, nv=0);
+    lambda[i, 1] <- E$d[1];
+    # E <- eigen(B, only.values=TRUE);
+    E <- svd(B, nu=0, nv=0);
+    lambda[i, 2] <- E$d[1];
 }
 
-pdf("../papers/Number1/eigen_sum.pdf")
-plot(0:5, cumsum(lambda[, 2]), xlab="k", ylab="", type="b",
-     col="#0000FF", ylim=c(2400, 3000));
-# 
+pdf("../papers/Number1/eigen_sum_plus.pdf")
+plot(0:5, cumsum(lambda[, 2]), xlab=expression(s[0]), ylab="", type="b",
+     col="#0000FF", ylim=c(0, 90));
+
+# ylim=c(2400, 3000)
 lines(0:5, lambda[, 1], type="b", pch=2, col="#FF0000");
 
 explanations <- c(
-    expression(sum(lambda[1](A[n](s) * A[n](s)^T), s==0, s[0])),
-    expression(lambda[1](sum(A[n](s) * A[n](s)^T, s==0, s[0])))
+    expression(sum(lambda[1](A[n](s)/2 + A[n](s)^T/2), s==0, s[0])),
+    expression(lambda[1](sum(A[n](s)/2 + A[n](s)^T/2, s==0, s[0])))
     );
 legend("topleft", legend=explanations,
        lty=c(1, 1), lwd=c(1, 1),
