@@ -189,11 +189,11 @@ heavy-tailed. This is the topic of the current paper. In particular,
 we look into sample covariance matrices with an atomic distribution
 that has regularly varying tails.
 
+\newpage
 Figure \ref{fig:LamYao} compares the largest eigenvalue of the sum of
 time-lagged covariance matrices with the sum of the largest
 eigenvalues of individual time-lagged covariance matrices. The data
-are rank-transformed return series of 478 stocks selected from the S\&P
-500 index.
+are return series of 478 stocks selected from the S\&P 500 index.
 \begin{figure}[htb!]
   \centering
   \subfigure[] {
@@ -202,14 +202,16 @@ are rank-transformed return series of 478 stocks selected from the S\&P
   }
   \subfigure[] {
     \includegraphics[scale=0.4]{eigen_sum_plus.pdf}
-    \label{fig:LamYao:a}
+    \label{fig:LamYao:b}
   }
-  \label{fig:LamYao}
   \caption{The largest eigenvalue of summed time-lagged covariance
     matrices and the sum of the largest eigenvalues of time-lagged
     covariance matrices. In both cases $(C_i)_{lm} =
-    (np)^{-2}\sum_{t=1}^{n-i} X_{lt} X_{m,t+i}$}
+    \sum_{t=1}^{n-i} X_{lt} X_{m,t+i}$.}
+  \label{fig:LamYao}
 \end{figure}
+
+\newpage
 
 \subsection{Overview of light-tailed
   case}\label{sec:light_tail_review}
@@ -271,7 +273,8 @@ that of the Tracy-Widom.
     \includegraphics[scale=0.4]{normal-TW.pdf}
   }
   \subfigure[Entry distribution: $\P(X=\sqrt 3) = \P(X=-\sqrt 3 ) =
-  1/6$, $\P(X=0)=2/3$]{
+  1/6$, $\P(X=0)=2/3$. Note $\E X = 0$, $\E X^2 = 1$, $\E X^3 = 0$ and
+  $\E X^4 = 3$, i.e. the first 4 moments match those of $N(0, 1).$]{
     \includegraphics[scale=0.4]{3point-TW.pdf}
   }
   \caption{Sample density function of the largest eigenvalue compared
@@ -280,17 +283,23 @@ that of the Tracy-Widom.
     simulated.}
   \label{fig:normal-3point-TW}
 \end{figure}
+
+\newpage
 In the case of entry distributions with infinite 4th moment, the
 Tracy-Widom law no longer applies and gives way to the Frechet
 distribution. Figure \ref{fig:MyDist-Frechet} illustrates this with a
 simulated ensemble whose entries are distributed according to
-\eqref{eq:mydist}.
+\eqref{eq:mydist} with $\alpha = 1.6$.
 \begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.5]{MyDist-Frechet.pdf}  
-  \caption{Sample distribution function of the largest eigenvalue compared with that of Frechet}
+  \caption{Sample distribution function of the largest eigenvalue
+    compared with that of Frechet. The data matrices have dimensions
+    $200 \times 1000$. An ensemble of 2000 matrices are simulated.}
   \label{fig:MyDist-Frechet}
 \end{figure}
+
+\newpage
 Later on, several authors \cite{Pillai:Yin:2011, tao:vu:2012,
   Wang:2012} looked into sample covariance matrix $S_{n, p} = {1
   \over n} \bf{XX}'$, where the entries of $\bf X$, denoted $X_{ij}$

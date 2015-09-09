@@ -110,21 +110,22 @@ where day between '%s' and '%s'",
 }
 dbDisconnect(database);
 R <- t(diff(log(prices)));
-R.trfm <- matrix(NA, nrow=dim(R)[1], ncol=dim(R)[2]);
-for (i in 1 : length(stocks.included)) {
-    ## Fn <- ecdf(R[, i]);
-    ## U <- Fn(R[, i]);
-    ## U <- U[U < 1];
-    R.trfm[i,] <- -1/log(rank(R[i,])/(n.records+1));
-}
-rm(R);
+## R.trfm <- matrix(NA, nrow=dim(R)[1], ncol=dim(R)[2]);
+## for (i in 1 : length(stocks.included)) {
+##     ## Fn <- ecdf(R[, i]);
+##     ## U <- Fn(R[, i]);
+##     ## U <- U[U < 1];
+##     R.trfm[i,] <- -1/log(rank(R[i,])/(n.records+1));
+## }
+## rm(R);
 
-p <- dim(R.trfm)[1];
-n <- dim(R.trfm)[2];
+p <- dim(R)[1];
+n <- dim(R)[2];
 M <- array(NA, dim=c(p, p, 6));
 lambda <- matrix(NA, 6, 2);
 for (i in 0:5) {
-    M[, ,i+1] <- R.trfm[, 1:(p-i)] %*% t(R.trfm[, (1+i):p]) / (n*(p-i))^2;
+    # M[, ,i+1] <- R.trfm[, 1:(p-i)] %*% t(R.trfm[, (1+i):p]) / (n*(p-i))^2;
+    M[, ,i+1] <- R[, 1:(p-i)] %*% t(R[, (1+i):p]);
     # M[, ,i+1] <- R[, 1:(p-i)]/2 + t(R[, (1+i):p])/2;
 }
 
@@ -141,12 +142,13 @@ for (i in 1:6) {
 
 pdf("../papers/Number1/eigen_sum.pdf")
 plot(0:5, cumsum(lambda[, 2]), xlab="k", ylab="", type="b",
-     col="#0000FF");
+     col="#0000FF", ylim=c(2400, 3000));
+# 
 lines(0:5, lambda[, 1], type="b", pch=2, col="#FF0000");
 
 explanations <- c(
-    expression(sum(lambda[1](C[i] * C[i]^T), i==0, k)),
-    expression(lambda[1](sum(C[i] * C[i]^T, i==0, k)))
+    expression(sum(lambda[1](A[n](s) * A[n](s)^T), s==0, s[0])),
+    expression(lambda[1](sum(A[n](s) * A[n](s)^T, s==0, s[0])))
     );
 legend("topleft", legend=explanations,
        lty=c(1, 1), lwd=c(1, 1),
