@@ -189,6 +189,28 @@ heavy-tailed. This is the topic of the current paper. In particular,
 we look into sample covariance matrices with an atomic distribution
 that has regularly varying tails.
 
+Figure \ref{fig:LamYao} compares the largest eigenvalue of the sum of
+time-lagged covariance matrices with the sum of the largest
+eigenvalues of individual time-lagged covariance matrices. The data
+are rank-transformed return series of 478 stocks selected from the S\&P
+500 index.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[] {
+    \includegraphics[scale=0.4]{eigen_sum.pdf}
+    \label{fig:LamYao:a}
+  }
+  \subfigure[] {
+    \includegraphics[scale=0.4]{eigen_sum_plus.pdf}
+    \label{fig:LamYao:a}
+  }
+  \label{fig:LamYao}
+  \caption{The largest eigenvalue of summed time-lagged covariance
+    matrices and the sum of the largest eigenvalues of time-lagged
+    covariance matrices. In both cases $(C_i)_{lm} =
+    (np)^{-2}\sum_{t=1}^{n-i} X_{lt} X_{m,t+i}$}
+\end{figure}
+
 \subsection{Overview of light-tailed
   case}\label{sec:light_tail_review}
 As early as in 1962, T. W. Anderson \cite{anderson:1963} showed that,
@@ -355,11 +377,12 @@ that is sufficiently large compared to $c_0$.
 %------------------------------------------------------------------------
 \section{The iid heavy-tailed case}
 
-\subsection{$\alpha \in (0,2)$: Overview of existing results: Davis et
-  al., Soshnikov, Auffiner et al.}
-\subsection{$\alpha \in (0,2)$: Our extension of these results; only
-  order statistics of $Z_{it}$'s necessary and no sums (proof by the
-  technical result)}
+\subsection{\texorpdfstring{$\alpha \in (0,2)$}{alpha in (0,2)}:
+  Overview of existing results: Davis et al., Soshnikov, Auffiner et
+  al.}
+\subsection{\texorpdfstring{$\alpha \in (0,2)$}{alpha in (0,2)}: Our
+  extension of these results; only order statistics of \texorpdfstring{$Z_{it}$}{Z[it]}'s
+  necessary and no sums (proof by the technical result)}
 To illustrate the validity of the results, we pick the following
 distribution function for $Z$ and compare the eigenvalues with
 the order statistics of $D_i = \sum_{t=1}^n Z_{it}^2$ and $Z^2$ using
@@ -395,21 +418,22 @@ figure \ref{fig:lambda_comparison}.
 
 
 
-\subsection{$\alpha \in [2,4)$: Overview of existing results: Davis et
-  al., Soshnikov, Auffiner et al.} 
-\subsection{$\alpha \in [2,4)$: The problem of centering and restrictions on $p_n$}
-\subsection{$\alpha \in [2,10/3)$: Our new result for the UN-CENTERED
-  sample covariance matrix; only order statistics of $Z_{it}$'s
+\subsection{\texorpdfstring{$\alpha \in [2,4)$}{alpha in [2,4)}: Overview of existing results: Davis et
+  al., Soshnikov, Auffiner et al.}
+\subsection{\texorpdfstring{$\alpha \in [2,4)$}{alpha in [2,4)}: The problem of centering and restrictions on \texorpdfstring{$p_n$}{p[n]}}
+\subsection{\texorpdfstring{$\alpha \in [2,10/3)$}{alpha in [2,10/3)}: Our new result for the UN-CENTERED
+  sample covariance matrix; only order statistics of \texorpdfstring{\texorpdfstring{$Z_{it}$}{Z[it]}}{Z[it]}'s
   necessary and no sums (proof by the technical result)}
-\subsection{$\alpha \in [10/3,4)$: A conjecture with partial proof for
+\subsection{\texorpdfstring{$\alpha \in [10/3,4)$}{alpha in [10/3,4)}: A conjecture with partial proof for
   the UN-CENTERED sample covariance matrix)}
 
 %------------------------------------------------------------------------
 \section{Extension to linear dependence, two-sided filters}
 
-\subsection{$\alpha \in (0,10/3)$: Eigenvalues of the sample covariance matrix}
-\subsection{$\alpha \in [10/3,4)$: Eigenvalues of the CENTERED sample covariance matrix}
-\subsection{$\alpha \in [2,4)$ and $p/n \to \gamma \in (0,1]$:
+\subsection{\texorpdfstring{$\alpha \in (0,10/3)$}{alpha in (0,10/3)}: Eigenvalues of the sample covariance matrix}
+\subsection{\texorpdfstring{$\alpha \in [10/3,4)$}{alpha in [10/3,4)}: Eigenvalues of the CENTERED sample covariance matrix}
+\subsection{\texorpdfstring{$\alpha \in [2,4)$}{alpha in [2,4)} and
+  \texorpdfstring{$p/n \to \gamma \in (0,1]$}{p/n tends to gamma in (0,1]}:
   Eigenvalues of the sample covariance matrix using Auffinger's
   result}
 \subsection{Point process convergence}
@@ -493,13 +517,34 @@ $\text{Uniform}(0, 1)$ sample of size $i$. So
 The median and confident intervals marked in figure
 \ref{fig:EigenRatio} are calculated according to the above formulas.
 
+\subsection{Probability Mass Due To Correlations}
+In figure \ref{fig:ProbMass} the distribution function of
+${\lambda_{(1)} - \lambda_{(2)} \over \lambda_{(1)}}$ in the cases of
+iid data and correlated data, which are described in {\color{red} fill
+in here}, is illuatrated. The predicted probability mass at 3/4 is
+clearly seen.
+\begin{figure}[htb!]
+  \centering
+  \subfigure[iid data]{
+    \includegraphics[scale=0.4]{lambda_1_2_Gaps_iid.pdf}
+  }
+  \subfigure[Correlated data]{
+    \includegraphics[scale=0.4]{lambda_1_2_Gaps.pdf}
+  }
+  \caption{Distribution function of ${\lambda_{(1)} - \lambda_{(2)} \over
+      \lambda_{(1)}}$ in the cases of iid data and correlated
+    data. The data matrices have dimension $200 \times 1000$. 1000
+    data matrices are simulated in each case. The data have the
+    distribution described in \eqref{eq:mydist} with $\alpha=0.6$.}
+  \label{fig:ProbMass}
+\end{figure}
 
 %------------------------------------------------------------------------
 \section{A further extension: The sample autocovariance function}
 
-\subsection{$\alpha \in (0,10/3)$: Eigenvalues of the sample
-  autocovariance matrix} 
-\subsection{$\alpha \in [10/3,4)$: Eigenvalues of the CENTERED sample
+\subsection{\texorpdfstring{$\alpha \in (0,10/3)$}{alpha in (0,10/3)}: Eigenvalues of the sample
+  autocovariance matrix}
+\subsection{\texorpdfstring{$\alpha \in [10/3,4)$}{alpha in [10/3,4)}: Eigenvalues of the CENTERED sample
   autocovariance matrix}
 
 %------------------------------------------------------------------------
