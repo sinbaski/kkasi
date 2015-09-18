@@ -312,6 +312,45 @@ $(X_n, S_n)$, where
 \begin{eqnarray*}
   S_n &=& \sum_{i=1}^n \xi_i = \log(\|W_n\|) \\
   \xi_i &=& \log(\|W_i\|) - \log(\|W_{i-1}\|)
-  \end{eqnarray*}
+\end{eqnarray*}
+$(X_n, S_n)$ is a Markov additive process:
+\begin{eqnarray*}
+  && \P\left[
+    (X_n, S_n) \in A \times (\Gamma + s) |
+    (X_0, S_0) = (x_0, s_0)
+  \right] \\
+  &=& \P\left(
+    X_n \in A, \log\|M_n \cdots M_1 v\| \in \Gamma + s_0 \left|
+    \frac{v}{\|v\|} = x_0, \log \|v\|=s_0 \right.
+  \right) \\
+  &=& \P\left(
+    X_n \in A, \log\|M_n \cdots M_1 \frac{v}{\|v\|}\| \in \Gamma \left|
+    \frac{v}{\|v\|}=x_0, \log \|v\|=s_0 \right.
+  \right) \\
+  &=& \P\left(
+    X_n \in A, \log\|M_n \cdots M_1 \frac{v}{\|v\|}\| \in \Gamma \left|
+    \frac{v}{\|v\|}=x_0 \right.
+  \right) \\
+  &=& \P\left[
+    (X_n, S_n) \in A \times \Gamma |
+    (X_0, S_0) = (x_0, 0)
+  \right]
+\end{eqnarray*}
+Then by theorem 5.1 of Iscoe, Ney and Nummelin \cite{NeyNummelin1985},
+the MA process $(X_n, S_n)$ satisfy the large deviation principle,
+i.e. for a closed set $F \subseteq (-\infty, 0)$ and an open set $G
+\subseteq (-\infty, 0)$,
+\begin{eqnarray*}
+  \limsup_{n \to \infty} {1 \over n} P^n (x, S_n \in n F) &\leq&
+  -\inf_{v \in F} \sup_{\alpha \in \mathbb R}\{v \alpha - \log
+  \lambda(\alpha)\} \\
+  \liminf_{n \to \infty} {1 \over n} P^n (x, S_n \in n G) &\geq&
+  -\inf_{v \in G} \sup_{\alpha \in \mathbb R}\{v \alpha - \log
+  \lambda(\alpha)\}
+\end{eqnarray*}
+\[
+\]
 
+\bibliographystyle{unsrt}
+\bibliography{../thesis/econophysics}
 \end{document}
