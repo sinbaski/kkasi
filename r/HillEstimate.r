@@ -131,10 +131,13 @@ for (i in 1:dim(R)[2]) {
 ## E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
 
 ## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
+a <- min(tailIndices[, 1]);
+b <- max(tailIndices[, 1]);
 pdf("SP500_tail_indices.pdf")
 plot(tailIndices[, 1], tailIndices[, 2], type="p",
-     xlab="Lower tail index", ylab="Upper tail index");
-X <- seq(min(tailIndices[, 1]), max(tailIndices[, 1]), 0.01);
+     xlab="Lower tail index", ylab="Upper tail index",
+     xlim=c(a, b), ylim=c(a, b));
+X <- seq(a, b, 0.01);
 lines(X, X, col="#FF0000");
 dev.off();
 
