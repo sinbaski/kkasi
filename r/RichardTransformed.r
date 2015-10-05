@@ -118,7 +118,7 @@ for (i in 1 : length(stocks.included)) {
     ## U <- U[U < 1];
     R.trfm[, i] <- -1/log(rank(R[,i])/(n.records+1));
 }
-# E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
+## E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
 E <- eigen((n.records * p)^(-2) * t(R) %*% R);
 
 ## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
@@ -128,8 +128,9 @@ pdf(sprintf("EigenRatioSP500_lin2_%d_shown.pdf", N));
 ## plot(E$values[2:p]/E$values[1:p-1], type="b", pch=20, xlim=c(1, N), ylim=c(0, 1),
 ##      xlab=expression(i), ylab=expression(lambda[(i+1)]/lambda[(i)]), log="y");
 
-plot((1:(N-1)), (E$values[2:N]/E$values[1:(N-1)]), type="b",
-     ylim=c(0.9, 1),
+plot((1:(N-1)), log(E$values[2:N]/E$values[1:(N-1)]), type="b",
+     xlim=c(0,50),
+     ylim=log(c(0.9, 1)),
      xlab=expression(i),
      ylab=expression(lambda[(i+1)]/lambda[(i)]));
 I <- 1:(N-1);

@@ -7,42 +7,42 @@ source("liblxb353.r");
 p <- 200;
 n <- 1000;
 
-mu <- (sqrt(n-1) + sqrt(p))^2;
-sigma <- (sqrt(n-1) + sqrt(p)) * (1/sqrt(n-1) + 1/sqrt(p))^(1/3);
+## mu <- (sqrt(n-1) + sqrt(p))^2;
+## sigma <- (sqrt(n-1) + sqrt(p)) * (1/sqrt(n-1) + 1/sqrt(p))^(1/3);
 
 ## Simulate using myDist distribution
-N <- 2000;
-a <- 1.6;
-a.np <- qMyDist(1 - 1/(n*p), a) * 1.6;
-lambda <- rep(NA, N);
-for (i in (1001:2000)) {
-    X <- matrix(rMyDist(p*n, a), nrow=p, ncol=n);
-    C <- X %*% t(X);
-    E <- eigen(C, only.values=TRUE);
-    lambda[i] <- E$values[1];
-}
-W <- lambda[1:N]/a.np^2;
-W1 <- (lambda - mu)/sigma;
+## N <- 2000;
+## a <- 1.6;
+## a.np <- qMyDist(1 - 1/(n*p), a) * 1.6;
+## lambda <- rep(NA, N);
+## for (i in (1001:2000)) {
+##     X <- matrix(rMyDist(p*n, a), nrow=p, ncol=n);
+##     C <- X %*% t(X);
+##     E <- eigen(C, only.values=TRUE);
+##     lambda[i] <- E$values[1];
+## }
+## W <- lambda[1:N]/a.np^2;
+## W1 <- (lambda - mu)/sigma;
 
-Fn <- ecdf(W);
-X <- exp(seq(min(log(W)), max(log(W)), length.out=200));
-Y <- Fn(X);
+## Fn <- ecdf(W);
+## X <- exp(seq(min(log(W)), max(log(W)), length.out=200));
+## Y <- Fn(X);
 
-pdf("MyDist-Frechet.pdf")
-plot(log(X), (Y), type="p", xlab=expression(log(x)),
-     ylab=expression(P(lambda[(1)] < x)),
-     main="Sample Distribution Function and Frechet");
-Y.f <- pfrechet(X, shape=a/2);
-lines(log(X), Y.f, col="#FF0000");
-grid(nx=20);
-explanations <- c(
-    "sample",
-    "Frechet"
-    );
-legend("topleft", legend=explanations,
-       lty=c(1, 1), lwd=c(1, 1),
-       col=c("#000000", "#FF0000"));
-dev.off();
+## pdf("MyDist-Frechet.pdf")
+## plot(log(X), (Y), type="p", xlab=expression(log(x)),
+##      ylab=expression(P(lambda[(1)] < x)),
+##      main="Sample Distribution Function and Frechet");
+## Y.f <- pfrechet(X, shape=a/2);
+## lines(log(X), Y.f, col="#FF0000");
+## grid(nx=20);
+## explanations <- c(
+##     "sample",
+##     "Frechet"
+##     );
+## legend("topleft", legend=explanations,
+##        lty=c(1, 1), lwd=c(1, 1),
+##        col=c("#000000", "#FF0000"));
+## dev.off();
 
 
 
@@ -87,18 +87,18 @@ dev.off();
 ## dev.off();
 
 ## Simulate with myDist: uniform in the center and symmetric pareto on the tails
-## alpha <- 1.6;
-## for (i in (1:100)) {
-##     Anp <- (n*p)^(1/alpha);
-##     data <- rMyDist(p*n, alpha);
-##     X <- matrix(data, nrow=p, ncol=n);
-##     C <- X %*% t(X);
-##     E <- eigen(C/Anp^2, only.values=TRUE);
-##     D <- sort(rowSums(X^2/Anp^2), decreasing=TRUE);
-##     Zupp <- sort((data/Anp)^2, decreasing=TRUE)[1:p];
-##     save(E, D, Zupp, file=sprintf("Eigen_D_Nbr%d_alpha%.1f_n%d_p%d.dat",
-##                    i, alpha, n, p), compress="gzip");
-## }
+alpha <- 1.6;
+for (i in (101:1000)) {
+    Anp <- qMyDist(1 - 1/(n*p), alpha);
+    data <- rMyDist(p*n, alpha);
+    X <- matrix(data, nrow=p, ncol=n);
+    C <- X %*% t(X);
+    E <- eigen(C/Anp^2, only.values=TRUE);
+    D <- sort(rowSums(X^2/Anp^2), decreasing=TRUE);
+    Zupp <- sort((data/Anp)^2, decreasing=TRUE)[1:p];
+    save(E, D, Zupp, file=sprintf("dat/Eigen_D_Nbr%d_alpha%.1f_n%d_p%d.dat",
+                   i, alpha, n, p), compress="gzip");
+}
 
 
 
