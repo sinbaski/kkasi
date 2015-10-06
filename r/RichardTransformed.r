@@ -118,8 +118,8 @@ for (i in 1 : length(stocks.included)) {
     ## U <- U[U < 1];
     R.trfm[, i] <- -1/log(rank(R[,i])/(n.records+1));
 }
-## E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
-E <- eigen((n.records * p)^(-2) * t(R) %*% R);
+E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
+## E <- eigen((n.records * p)^(-2) * t(R) %*% R);
 
 ## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
 

@@ -131,8 +131,8 @@ for (i in 0:5) {
 
 A <- matrix(0, nrow=p, ncol=p);
 for (i in 1:6) {
-    # B <- M[, , i] %*% t(M[, , i]);
-    B <- M[, , i]/2 + t(M[, , i])/2;
+    B <- M[, , i] %*% t(M[, , i]);
+    # B <- M[, , i]/2 + t(M[, , i])/2;
     A <- A + B;
     # E <- eigen(A, only.values=TRUE);
     E <- svd(A, , nu=0, nv=0);
@@ -142,19 +142,26 @@ for (i in 1:6) {
     lambda[i, 2] <- E$d[1];
 }
 
-pdf("../papers/Number1/eigen_sum_plus.pdf")
+## pdf("../papers/Number1/eigen_sum_plus.pdf")
+pdf("/tmp/eigen_sum.pdf")
 plot(0:5, cumsum(lambda[, 2]), xlab=expression(s[0]), ylab="", type="b",
-     col="#0000FF", ylim=c(0, 90));
+     col="#0000FF", ylim=c(2400, 3000));
 
 # ylim=c(2400, 3000)
 lines(0:5, lambda[, 1], type="b", pch=2, col="#FF0000");
 
+## explanations <- c(
+##     expression(sum(lambda[(1)](A[n](s)/2 + A[n](s)*minute/2), s==0, s[0])),
+##     expression(lambda[(1)](sum(A[n](s)/2 + A[n](s)*minute/2, s==0, s[0])))
+##     );
 explanations <- c(
-    expression(sum(lambda[1](A[n](s)/2 + A[n](s)^T/2), s==0, s[0])),
-    expression(lambda[1](sum(A[n](s)/2 + A[n](s)^T/2, s==0, s[0])))
+    expression(sum(lambda[(1)](A[n](s) * A[n](s)*minute), s==0, s[1])),
+    expression(lambda[(1)](sum(A[n](s) * A[n](s)*minute, s==0, s[1])))
     );
-legend("topleft", legend=explanations,
+legend("bottomleft", legend=explanations,
        lty=c(1, 1), lwd=c(1, 1),
+       pch=c(1, 2),
+       cex=1.6,
        col=c("#0000FF", "#FF0000"));
 grid(nx=20);
 dev.off();
