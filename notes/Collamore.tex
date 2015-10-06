@@ -348,9 +348,72 @@ i.e. for a closed set $F \subseteq (-\infty, 0)$ and an open set $G
   -\inf_{v \in G} \sup_{\alpha \in \mathbb R}\{v \alpha - \log
   \lambda(\alpha)\}
 \end{eqnarray*}
-\[
-\]
 
+\section{Stochastic recurrence Equations}
+\begin{theorem}
+The stochastic recurrence equation
+\begin{equation}
+  \label{eq:A}
+  X_t = A_t X_{t-1} + B_t  
+\end{equation}
+has a unique, causal, strictly stationary, ergodic solution if one of the following
+conditions hold
+\begin{enumerate}
+\item $\P(A = 0) > 0$
+\item $\E(\log\|A\| \1{\|A\| > 1}) < \infty$, and $\E(\log\|B\|
+  \1{\|B\| > 1}) < \infty$ and top Lyapunov exponent is negative.
+\end{enumerate}
+The solution is given by
+\begin{equation}
+  \label{eq:solution}
+  X_t = \sum_{i=-\infty}^t \Pi_{t, i+1} B_i  
+\end{equation}
+This series converges a.s. for every $t \in \mathds Z$.
+\end{theorem}
+
+\begin{theorem}
+  Assume the following conditions on \eqref{eq:A}
+  \begin{enumerate}
+  \item The model is irredicible
+  \item The equation has a strictly stationary, causal solution
+  \end{enumerate}
+  Then
+  \begin{enumerate}
+  \item $\lim_{n \to \infty} \|\Pi_n\| = 0$, a.s.
+  \item The series $\sum_{i=-\infty}^t \Pi_{t, i+1} B_i$ converges
+    a.s.
+    \item The solution given by \eqref{eq:solution} is unique.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+  Assume
+  \begin{enumerate}
+  \item There exists a strictly stationary, causal solution to
+  \eqref{eq:A} and the supoort of this solution is not contained in a
+  affine hyperspace of $\mathds R^d$.
+  \item $\E(\log\|A\| \1{\|A\| > 1}) < \infty$, and $\E(\log\|B\|
+    \1{\|B\| > 1}) < \infty$
+  \end{enumerate}
+  Then the following hold
+  \begin{enumerate}
+  \item The top Lyapunov exponent is negative
+  \item The model \eqref{eq:A} is irreducible
+  \item The solution is unique w.p. 1
+  \end{enumerate}
+\end{theorem}
+
+\begin{lemma}
+  For any sequence $a_n$, if
+  \[
+  a_{n+s} \leq a_n + a_s
+  \]
+  then
+  \[
+  \lim_{n \to \infty} a_n = \inf_{n \geq 1} a_n
+  \]
+  Thomas recalled this lemma but didn't give a reference.
+\end{lemma}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}
