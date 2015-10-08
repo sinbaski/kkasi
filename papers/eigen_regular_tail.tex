@@ -561,16 +561,45 @@ proven in \S\ref{sec:GeneralModel}, we have
 if $n^{-\delta(\alpha)} p(n) \to 0$, e.g. when $p(n)$ is slowly varying, the RHS
 tends to 0.
 
+\section{Stochastic volatility model}
+Here we consider the model
+$$
+X_t = \{\sigma_{it} Z_{it}\}_{i=1,2,\dots,p;\; t=1,2\dots,n}
+$$
+where we fix $p$ and let $n \to \infty$. We assume $Z_{it} \in \mathcal R_{-\alpha}$ are iid, $\sigma_{it}$ is strictly stationary for all $i$ and independent of each and every $Z$. Moreover we assume $\E \sigma^{\alpha + \delta} < \infty$. In the following we show that the eigenvalues of $a_n^{-2} XX'$ are asymptotically equal to those of $a_n^{-2} \text{diag}(XX')$. Because $p$ is constant, it suffices to show for all $i \neq j$
+$$
+a_n^{-2}|(XX')_{ij}| \overset{\P}{\to} 0 \text{ as } n \to \infty
+$$
+For a given $\epsilon > 0$, consider
+\begin{eqnarray*}
+&& \P(|a_n^{-2} \sum_{t=1}^n \sigma_{it}\sigma_{jt} Z_{it} Z_{jt}| > \epsilon) \\
+\end{eqnarray*}
+First assume, in addition
+\begin{enumerate}
+\item the distribution of $Z$ is symmetric
+\item $\E \sigma_0^{\delta} < \infty$ for some $\delta > 2\alpha$ and
+  $\sigma_t$ is strongly mixing with rate $\alpha_j$ such that
+  $\alpha_j < c j^{-a}$ for some $a > 1$
+\end{enumerate}
+Then according to Mikosch and Wintenberger\cite{Mikosch.Wintenberger.2013}
+\begin{eqnarray*}
+\P(|\sum_{t=1}^n \sigma_{it}\sigma_{jt} Z_{it} Z_{jt}| > a_n^{2} \epsilon) &\sim& 2 b_+ n \P(|\sigma_{i}\sigma_{j} Z_{i} Z_{j}| > a_n^2 \epsilon)
+\end{eqnarray*}
+where 
+\begin{eqnarray*}
+b_+ &=& {\P(Z > x) \over \P(|Z| > x)}
+\end{eqnarray*}
+Since for $i \neq j$, $Z_{i}$ and $Z_{j}$ are both regularly varying with index $-\alpha$ and $\E \sigma_{i}^{\alpha + \delta} < \infty$, $\sigma_{i}\sigma_{j} Z_{i} Z_{j}$ are symmetric and regularly varying with index $-\alpha$. Therefore
+\begin{eqnarray*}
+\P(|\sigma_{i}\sigma_{j} Z_{i} Z_{j}| > a_n^2 \epsilon)
+&\sim& (a_n^2)^{-\alpha} L(a_n^2) \\
+&\sim& n^{-2}l(n)
+\end{eqnarray*}
+Then it is clear
+$$
+\P(|\sum_{t=1}^n \sigma_{it}\sigma_{jt} Z_{it} Z_{jt}| > a_n^{2} \epsilon) \to 0 \text{ as } n \to \infty
+$$
 
-% \input{Mikosch_correlated_sequences}
-
-% \section{Empirical Studies}
-% \begin{figure}[htb!]
-%   \centering
-%   \includegraphics[clip=true, trim=95 258 107 204]{/tmp/SP500-Tails.pdf}
-%   \caption{Tail Indices of S\&P 500 stock returns}
-%   \label{fig:SP500-Tails}
-% \end{figure}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}
