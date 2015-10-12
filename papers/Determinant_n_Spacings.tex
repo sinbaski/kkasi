@@ -79,37 +79,30 @@ Let $\bar{F}(x)$ denote the asymptotic distribution function described in the pr
   \bar{F}(x) &\sim& x^{-\alpha/2} C_{\alpha/2} \int_0^\infty f(y)^{\alpha/2} dy  \\
   &\sim& x^{-\alpha/2} D_{\alpha/2}
 \end{eqnarray*}
-and let $G(x_1, \dots, x_p)$ denote the joint distribution function of the upper order statistics of an iid
-uniform sample of size $p$. Then we can write
+Then
 \begin{eqnarray*}
-\P(\xi_1 \leq x_1, \xi_2 \leq x_2, \dots, \xi_p \leq x_p) &=&
-\P(U_1 \leq F(x_1), U_2 \leq F(x_2), \dots, U_p \leq F(x_p)) \\
-  &=& G(F(x_1), F(x_2), \dots, F(x_p)) \\
 \frac{\partial^p}{\partial x_1\partial x_2 \cdots \partial x_p}
-\P(\xi_1 \leq x_1, \xi_2 \leq x_2, \dots, \xi_p \leq x_p) &=&
-g(F(x_1), F(x_2), \dots, F(x_p)) \prod_{i=1}^p F'(x_i) \\
-  &=& p! \prod_{i=1}^p F'(x_i)
+\P(\xi_1 \leq x_1, \xi_2 \leq x_2, \dots, \xi_p \leq x_p)
+&=& p! \prod_{i=1}^p F'(x_i)
 \end{eqnarray*}
 where acoording to Zolotarev \cite{Zolotarev1983} theorem 2.5.2
 \begin{eqnarray*}
-  F'(x) &\sim& {\nu \over \sqrt{\pi \alpha}} \left(2\xi/\alpha\right)^{2/\alpha - 1/2}
-  e^{-\xi} \left[
-    1 + \sum_{n=1}^\infty Q_n(\alpha_*) (\alpha_* \xi)^{-n}
+  F'(x) &\sim& {\nu \over \sqrt{\pi \alpha}} \left(2y/\alpha\right)^{2/\alpha - 1/2}
+  e^{-y} \left[
+    1 + \sum_{n=1}^\infty Q_n(\alpha_*) (\alpha_* y)^{-n}
   \right] \\
-  \xi &=& |1 - \alpha/2|(2x/\alpha)^{2\alpha/(2\alpha-1)}\\
+  y &=& |1 - \alpha/2|(2x/\alpha)^{2\alpha/(2\alpha-1)}\\
   \alpha_* &=& \max\{2/\alpha, \alpha/2\} \\
   \nu &=& |1 - \alpha/2|^{-2/\alpha}
 \end{eqnarray*}
 
 Denote the spacings as $(s_1, \dots, s_p) = a_n^{-2} (\lambda_{(1)} - \lambda_{(2)}, \dots,
 \lambda_{(p-1)} - \lambda_{(p)}, \lambda_{(p)})$, and denote their joint density function as
-$f_s(s_1, \dots, s_p)$. Then $\xi_i = \sum_{j=i}^p s_j$ and we may write
+$f_s(s_1, \dots, s_p)$. Then $\lambda_{(i)} = \sum_{j=i}^p s_j$ and we may write
 \begin{eqnarray*}
-  f_s(s_1, \dots, s_p) &=& p! \left(
-      {\alpha \over 2} D_{\alpha/2}
-      \right)^p \prod_{i=1}^p \left(
-                           \sum_{j=i}^p s_j
-                           \right)^{-\alpha/2 - 1}
+  f_s(s_1, \dots, s_p) &=& p! \prod_{i=1}^p \left[
+                           \sum_{j=i}^p F'\left(\sum_{j=i}^p s_j\right)
+                           \right]
 \end{eqnarray*}
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}

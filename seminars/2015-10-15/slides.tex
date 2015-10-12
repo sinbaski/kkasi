@@ -80,6 +80,7 @@
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule
                       % in tables
 
+\input{../../physics_common}
 \renewcommand{\P}{
 \mathbb P
 }
@@ -88,7 +89,10 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title{Eigenvalues of a fixed-dimensional matrix} % The short title appears at the bottom of every slide, the full title is only on the title page
+\title{Eigenvalues of a fixed-dimensional Heavy-tailed matrix} % The
+                                % short title appears at the bottom of
+                                % every slide, the full title is only
+                                % on the title page
 
 \author{Xie Xiaolei} % Your name
 \institute[UCPH] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
@@ -115,7 +119,168 @@ Copenhagen University  \\ % Your institution for the title page
 %----------------------------------------------------------------------------------------
 % \section{Simple dependence models}
 %------------------------------------------------
-\section{Approximating Sample Covariance Matrices}
+\section[iid data]{$X_{it}$ are iid.}
+\subsection{Approximating Sample Covariance Matrices}
+\begin{frame}
+  \frametitle{$X_{it}$ are iid.}
+  $$
+  (XX')_{ij} = \sum_{t=1}^n X_{it}X_{jt}
+  $$
+  Assume $\E X = 0$.
+  \begin{itemize}
+  \item when $0 < \alpha < 1$, $i \neq j$
+    $$
+    {1 \over n^{1/\alpha} L(n)} \sum_{t=1}^n X_{it}X_{jt}
+    \overset{d}{\to} \xi \sim S_{\alpha}
+    $$
+    But $a_n^2 \sim n^{2/\alpha} L(n)$, hence $a_n^{-2} \sum_{t=1}^n
+    X_{it}X_{jt} \overset{P}{\to} 0$.
+
+  \item when $1 \leq \alpha < 2$, $i \neq j$, the large
+    deviation results of Cline and Hsing \cite{ClingHsing1998} and
+    Nagaev \cite{nagaev1979} give
+    \[
+    \P(a_n^{-2} |\sum_{t=1}^n X_{it}X_{jt}| > \epsilon) \sim n
+    \P(|X_{it}X_{jt}| > \epsilon a_n^2) \sim n^{-1} L(n) \to 0
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{$X_{it}$ are iid.}
+  \begin{itemize}
+  \item when $2 < \alpha < 4$ or $\alpha = 2$ but $\E|X|^{\alpha} <
+    \infty$, CLT gives
+    $$
+    a_n^{-2}(\sum_{t=1}^n X_{1t}^2 - n \E X^2) \overset{d}{\to} \xi_1
+    \sim S_{\alpha/2}
+    $$
+    and, also by CLT
+    \begin{eqnarray*}
+      n^{-1/\alpha} L^{-1}(n)(\sum_{t=1}^n X_{1t}X_{2t} - n (\E X)^2)
+      &\overset{d}{\to}& S_{\alpha} \\
+    \end{eqnarray*}
+    but
+    $$
+    a_n^{-2} n^{1/\alpha} L(n) \sim n^{-\alpha} L(n) \to 0
+    $$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{$X_{it}$ are iid.}
+  Thus Weyl's perturbation theorem gives
+  \begin{itemize}
+  \item when $0 < \alpha < 2$
+    \begin{eqnarray*}
+    && \max_{i=1,\dots,p} a_n^{-2} |\lambda_{(i)}(XX') - \lambda_{(i)}(\diag(XX'))| \\
+    &\leq& a_n^{-2} \|\lambda_{(i)}(XX) - \diag(XX')\| \\
+    &\leq& a_n^{-2} \max_{i=1,\dots,p} \sum_{j\neq i} |(XX')_{ij}|
+    \overset{P}{\to} 0
+    \end{eqnarray*}
+  \item when $2 \leq \alpha < 4$, by similar arguments
+    \begin{eqnarray*}
+      \max_{i=1,\dots,p} a_n^{-2} |\lambda_{(i)}(XX' - \E XX') -
+      \lambda_{(i)}(\diag(XX' - \E XX'))|
+      &\overset{P}{\to}& 0
+    \end{eqnarray*}
+  \end{itemize}
+\end{frame}
+
+\subsection{Distribution of the Determinant}
+\begin{frame}
+\frametitle{Distribution of the determinant}
+When the data matrix has iid entries, $a_n^{-2} \lambda_{(i)} \overset{d}{\to}
+\xi_{(i)}$, $\xi \sim S_{\alpha/2}$, where $\lambda_{(i)}$ denotes
+the $i$-th largest eigenvalue of $H = XX'$ when $0 < \alpha < 2$ and that
+of $H = XX' - \E XX'$ when $2 < \alpha < 4$. According to Samorodnitsky and
+Taqqu\cite{SamorodnitskyTaqqu1994} Theorem 4.4.1
+$$
+\P(\xi > x) \sim x^{-\alpha/2} C_{\alpha/2}
+$$
+as $x \to \infty$ and $n \to \infty$. $C_{\alpha/2}$ is a constant
+dependent only on $\alpha$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Distribution of the determinant}
+  \begin{eqnarray*}
+    \lim_{n \to \infty} a_n^{-2p} \det(H) &=& \lim_{n \to \infty}
+    \prod_{i=1}^p a_n^{-2} \lambda_{(i)} \nonumber \\
+    &\overset{d}{=}& \prod_{i=1}^p \xi_{i} \label{eq:a}
+  \end{eqnarray*}
+  Because RHS of \eqref{eq:a} is a product of iid r.v. with Pareto
+  tails, we have
+  \[
+  \P\left(
+    \prod_{i=1}^p \xi_{i} > x
+  \right) \sim {\alpha^{p-1} C_{\alpha/2}^p \over (p-1)!}  x^{-\alpha/2} \log^{p-1} x 
+  \text{, as } x \to \infty
+  \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Distribution of the Eigenvalue Spacings}
+  \begin{eqnarray*}
+    \lim_{n \to \infty} a_n^{-2p} \det(H) &=& \lim_{n \to \infty}
+    \prod_{i=1}^p a_n^{-2} \lambda_{(i)} \nonumber \\
+    &\overset{d}{=}& \prod_{i=1}^p \xi_{i} \label{eq:a}
+  \end{eqnarray*}
+  Because RHS of \eqref{eq:a} is a product of iid r.v. with Pareto
+  tails, we have
+  \[
+  \P\left(
+    \prod_{i=1}^p \xi_{i} > x
+  \right) \sim {\alpha^{p-1} C_{\alpha/2}^p \over (p-1)!}  x^{-\alpha/2} \log^{p-1} x 
+  \text{, as } x \to \infty
+  \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Distribution of the eigenvalue Spacings}
+  Consider the joint distribution of
+  \[
+  a_n^{-2}(\lambda_{(1)} - \lambda_{(2)}, \lambda_{(2)} - \lambda_{(3)},
+  \dots, \lambda_{(p-1)} - \lambda_{(p)})
+  \]
+  Let $F(x) = \P(\xi \leq x)$. $\bar{F}(x) \sim x^{-\alpha/2}
+  C_{\alpha/2}$
+Then
+\begin{eqnarray*}
+\frac{\partial^p}{\partial x_1\partial x_2 \cdots \partial x_p}
+\P(\xi_1 \leq x_1, \xi_2 \leq x_2, \dots, \xi_p \leq x_p)
+&=& p! \prod_{i=1}^p F'(x_i)
+\end{eqnarray*}
+where acoording to Zolotarev \cite{Zolotarev1983} theorem 2.5.2
+\begin{eqnarray*}
+  F'(x) &\sim& {\nu \over \sqrt{\pi \alpha}} \left(2y/\alpha\right)^{2/\alpha - 1/2}
+  e^{-y} \left[
+    1 + \sum_{n=1}^\infty Q_n(\alpha_*) (\alpha_* y)^{-n}
+  \right] \\
+  y &=& |1 - \alpha/2|(2x/\alpha)^{2\alpha/(2\alpha-1)}\\
+  \alpha_* &=& \max\{2/\alpha, \alpha/2\} \\
+  \nu &=& |1 - \alpha/2|^{-2/\alpha}
+\end{eqnarray*}
+\end{frame}
+
+% \begin{frame}
+%   \frametitle{Distribution of the eigenvalue Spacings}
+%   Denote the spacings as $(s_1, \dots, s_p) = a_n^{-2} (\lambda_{(1)} - \lambda_{(2)}, \dots,
+%   \lambda_{(p-1)} - \lambda_{(p)}, \lambda_{(p)})$, and denote their joint density function as
+%   $f_s(s_1, \dots, s_p)$. Then $\lambda_{(i)} = \sum_{j=i}^p s_j$ and we may write
+%   \begin{eqnarray*}
+%     f_s(s_1, \dots, s_p) &=& p! \prod_{i=1}^p
+%       F'\left(\sum_{j=i}^p s_j\right)
+%   \end{eqnarray*}
+%   This is to be compared with the case when $p,n \to \infty$. In that
+%   case
+%   $$
+  
+%   $$
+% \end{frame}
+
+\section[dependent data]{Dependent Data}
+\subsection{auto- and cross-correlated data}
 \begin{frame}
 \frametitle{$X_{it} = \theta Z_{i, t-1} + Z_{i, t}$}
 Consider a data matrix $X$ each of whose rows comprises an MA(1) process:
@@ -201,83 +366,10 @@ theorem
   \end{scriptsize}
   $\xi_i$ are iid and follow $S_{\alpha/2}$ distribution.
 \end{frame}
-%------------------------------------------------
 
-% \begin{frame}
-% \frametitle{Blocks of Highlighted Text}
-% \begin{block}{Block 1}
-% Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-% \end{block}
+\subsection{Stochastic Volatility data}
+Consider
 
-% \begin{block}{Block 2}
-% Pellentesque sed tellus purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum quis magna at risus dictum tempor eu vitae velit.
-% \end{block}
-
-% \begin{block}{Block 3}
-% Suspendisse tincidunt sagittis gravida. Curabitur condimentum, enim sed venenatis rutrum, ipsum neque consectetur orci, sed blandit justo nisi ac lacus.
-% \end{block}
-% \end{frame}
-
-%------------------------------------------------
-
-% \begin{frame}
-% \frametitle{Multiple Columns}
-% \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-
-% \column{.45\textwidth} % Left column and width
-% \textbf{Heading}
-% \begin{enumerate}
-% \item Statement
-% \item Explanation
-% \item Example
-% \end{enumerate}
-
-% \column{.5\textwidth} % Right column and width
-% Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-
-% \end{columns}
-% \end{frame}
-
-%------------------------------------------------
-\section{Distribution of the Determinant and the Gaps between Eigenvalues}
-%------------------------------------------------
-\begin{frame}
-\frametitle{Distribution of the determinant}
-When the data matrix has iid entries, $a_n^{-2} \lambda_{(i)} \overset{d}{\to}
-\xi_{i}$, $\xi_{i} \sim S_{\alpha/2}$. According to Samorodnitsky and
-Taqqu\cite{SamorodnitskyTaqqu1994} Theorem 4.4.1
-$$
-\P(\xi_{(i)} > x) \sim x^{-\alpha/2} C_{\alpha/2}
-\int_{0}^{\infty} f^{\alpha/2}(x) m(dx)
-$$
-as $x \to \infty$ and $n \to \infty$. Here $f(x) > 0$ and $m(dx)$ are found in
-the stochastic integral representation of $\xi$:
-\[
-\xi=\int_{0}^\infty f(x) m(dx)
-\]
-$C_{\alpha}$ is a constant dependent on $\alpha$ only.
-\end{frame}
-
-\begin{frame}
-  \frametitle{Distribution of the determinant}
-  \begin{eqnarray*}
-    \lim_{n \to \infty} a_n^{-2p} \det(XX') &=& \lim_{n \to \infty}
-    \prod_{i=1}^p a_n^{-2} \lambda_{(i)} \nonumber \\
-    &\overset{d}{=}& \prod_{i=1}^p \xi_{i} \label{eq:a}
-  \end{eqnarray*}
-  Because RHS of \eqref{eq:a} is a product of iid r.v. with Pareto
-  tails, we have
-  \[
-  \P\left(
-    \prod_{i=1}^p \xi_{i} > x
-  \right) \sim {\alpha^{p-1} c^p \over (p-1)!}  x^{-\alpha/2} \log^{p-1} x 
-  \text{, as } x \to \infty
-  \]
-  Where
-  \[
-  c =  C_{\alpha/2} \int_{0}^{\infty} f^\alpha(x) m(dx)
-  \]
-\end{frame}
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
