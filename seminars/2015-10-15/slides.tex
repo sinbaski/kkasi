@@ -89,7 +89,7 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title{Eigenvalues of a fixed-dimensional Heavy-tailed matrix} % The
+\title{Eigenvalues of a fixed-dimensional heavy-tailed matrix} % The
                                 % short title appears at the bottom of
                                 % every slide, the full title is only
                                 % on the title page
@@ -123,25 +123,41 @@ Copenhagen University  \\ % Your institution for the title page
 \subsection{Approximating Sample Covariance Matrices}
 \begin{frame}
   \frametitle{$X_{it}$ are iid.}
-  $$
-  (XX')_{ij} = \sum_{t=1}^n X_{it}X_{jt}
-  $$
-  Assume $\E X = 0$.
-  \begin{itemize}
-  \item when $0 < \alpha < 1$, $i \neq j$
-    $$
-    {1 \over n^{1/\alpha} L(n)} \sum_{t=1}^n X_{it}X_{jt}
-    \overset{d}{\to} \xi \sim S_{\alpha}
-    $$
-    But $a_n^2 \sim n^{2/\alpha} L(n)$, hence $a_n^{-2} \sum_{t=1}^n
-    X_{it}X_{jt} \overset{P}{\to} 0$.
+  Let $\mathbf X = (X_{it})_{i=1,\dots,p; t = 1,\dots, n}$ be sequences of iid. r.v.
+  \[
+  (\mathbf{XX'})_{ij} = \sum_{t=1}^n X_{it}X_{jt}
+  \]
+  Assume $\E X = 0$ if $\E |X| < \infty$. Define $a_n$ such that
+  \begin{eqnarray*}
+    \P(|Z| > a_n) &=& 1/n  \\
+    a_n &\sim& n^{1/\alpha} l(n) \text{ where } l(n) \in \mathcal R_{0}
+  \end{eqnarray*}
+  Let $L(\cdot)$ be slowly varying whose form is of no interest.
+  \[
+  \lambda_{(1)} > \lambda_{(2)} > \cdots > \lambda_{(p)}
+  \]
+  are eigenvalues of $\mathbf{XX'}$ when $\alpha \in (0, 2)$ and those of $\mathbf{XX'}
+  - \E \mathbf{XX'}$ when $\alpha \in (2, 4)$.
+\end{frame}
 
-  \item when $1 \leq \alpha < 2$, $i \neq j$, the large
-    deviation results of Cline and Hsing \cite{ClingHsing1998} and
-    Nagaev \cite{nagaev1979} give
+\begin{frame}
+  \frametitle{$X_{it}$ are iid}
+  \begin{itemize}
+  \item when $0 < \alpha  < 2$ the large deviation results of Cline
+    and Hsing \cite{ClingHsing1998} gives, for $i \neq j$
     \[
     \P(a_n^{-2} |\sum_{t=1}^n X_{it}X_{jt}| > \epsilon) \sim n
-    \P(|X_{it}X_{jt}| > \epsilon a_n^2) \sim n^{-1} L(n) \to 0
+    \P(|X_{it}X_{jt}| > \epsilon a_n^2)
+    \]
+    According to Embrechts and Goldie \cite{Embrechts1982263},
+    $X_{it}X_{jt} \in \mathcal R_{-\alpha}$, hence
+    \[
+    \P(a_n^{-2} |\sum_{t=1}^n X_{it}X_{jt}| > \epsilon) \sim n
+    [n^{2/\alpha} L(n)]^{-\alpha} \sim n^{-1} L(n) \to 0
+    \]
+    for $i = j$, CLT yields
+    \[
+    a_n^{-2} \sum_{t=1}^n X_{it}^2 \overset{d}{\to} \xi_i \sim S_{\alpha/2}
     \]
   \end{itemize}
 \end{frame}
@@ -149,21 +165,20 @@ Copenhagen University  \\ % Your institution for the title page
 \begin{frame}
   \frametitle{$X_{it}$ are iid.}
   \begin{itemize}
-  \item when $2 < \alpha < 4$ or $\alpha = 2$ but $\E|X|^{\alpha} <
-    \infty$, CLT gives
-    $$
-    a_n^{-2}(\sum_{t=1}^n X_{1t}^2 - n \E X^2) \overset{d}{\to} \xi_1
-    \sim S_{\alpha/2}
-    $$
-    and, also by CLT
+  \item when $2 < \alpha < 4$, CLT gives, for $i \neq j$
     \begin{eqnarray*}
-      n^{-1/\alpha} L^{-1}(n)(\sum_{t=1}^n X_{1t}X_{2t} - n (\E X)^2)
-      &\overset{d}{\to}& S_{\alpha} \\
+      n^{-1/2} \sum_{t=1}^n X_{it}X_{jt} &\overset{d}{\to}& N(0, (\E X^2)^2)
     \end{eqnarray*}
+    and, also by CLT
+    \[
+    a_n^{-2}(\sum_{t=1}^n X_{it}^2 - n \E X^2) \overset{d}{\to} \xi_i
+    \sim S_{\alpha/2}
+    \]
     but
-    $$
-    a_n^{-2} n^{1/\alpha} L(n) \sim n^{-\alpha} L(n) \to 0
-    $$
+    \[
+    {n^{1/2} \over a_n^2} \sim {n^{-2/\alpha + 1/2} \over L(n)} \to 0
+    \]
+    Note $2 < \alpha < 4$ and hence $2/\alpha > 1/2$.
   \end{itemize}
 \end{frame}
 
@@ -173,15 +188,15 @@ Copenhagen University  \\ % Your institution for the title page
   \begin{itemize}
   \item when $0 < \alpha < 2$
     \begin{eqnarray*}
-    && \max_{i=1,\dots,p} a_n^{-2} |\lambda_{(i)}(XX') - \lambda_{(i)}(\diag(XX'))| \\
-    &\leq& a_n^{-2} \|\lambda_{(i)}(XX) - \diag(XX')\| \\
-    &\leq& a_n^{-2} \max_{i=1,\dots,p} \sum_{j\neq i} |(XX')_{ij}|
+    && \max_{i=1,\dots,p} a_n^{-2} |\lambda_{(i)}(\mathbf{XX'}) - \lambda_{(i)}(\diag(\mathbf{XX'}))| \\
+    &\leq& a_n^{-2} \|\mathbf{XX'} - \diag(\mathbf{XX'})\|_2 \\
+    &\leq& a_n^{-2} \max_{i=1,\dots,p} \left|\sum_{j\neq i} (\mathbf{XX'})_{ij}\right|
     \overset{P}{\to} 0
     \end{eqnarray*}
-  \item when $2 \leq \alpha < 4$, by similar arguments
+  \item when $2 < \alpha < 4$, by similar arguments
     \begin{eqnarray*}
-      \max_{i=1,\dots,p} a_n^{-2} |\lambda_{(i)}(XX' - \E XX') -
-      \lambda_{(i)}(\diag(XX' - \E XX'))|
+      \max_{i=1,\dots,p} a_n^{-2} |\lambda_{(i)}(\mathbf{XX'} - \E \mathbf{XX'}) -
+      \lambda_{(i)}(\diag(\mathbf{XX'} - \E \mathbf{XX'}))|
       &\overset{P}{\to}& 0
     \end{eqnarray*}
   \end{itemize}
@@ -192,8 +207,8 @@ Copenhagen University  \\ % Your institution for the title page
 \frametitle{Distribution of the determinant}
 When the data matrix has iid entries, $a_n^{-2} \lambda_{(i)} \overset{d}{\to}
 \xi_{(i)}$, $\xi \sim S_{\alpha/2}$, where $\lambda_{(i)}$ denotes
-the $i$-th largest eigenvalue of $H = XX'$ when $0 < \alpha < 2$ and that
-of $H = XX' - \E XX'$ when $2 < \alpha < 4$. According to Samorodnitsky and
+the $i$-th largest eigenvalue of $H = \mathbf{XX'}$ when $0 < \alpha < 2$ and that
+of $H = \mathbf{XX'} - \E \mathbf{XX'}$ when $2 < \alpha < 4$. According to Samorodnitsky and
 Taqqu\cite{SamorodnitskyTaqqu1994} Theorem 4.4.1
 $$
 \P(\xi > x) \sim x^{-\alpha/2} C_{\alpha/2}
@@ -204,23 +219,6 @@ dependent only on $\alpha$.
 
 \begin{frame}
   \frametitle{Distribution of the determinant}
-  \begin{eqnarray*}
-    \lim_{n \to \infty} a_n^{-2p} \det(H) &=& \lim_{n \to \infty}
-    \prod_{i=1}^p a_n^{-2} \lambda_{(i)} \nonumber \\
-    &\overset{d}{=}& \prod_{i=1}^p \xi_{i} \label{eq:a}
-  \end{eqnarray*}
-  Because RHS of \eqref{eq:a} is a product of iid r.v. with Pareto
-  tails, we have
-  \[
-  \P\left(
-    \prod_{i=1}^p \xi_{i} > x
-  \right) \sim {\alpha^{p-1} C_{\alpha/2}^p \over (p-1)!}  x^{-\alpha/2} \log^{p-1} x 
-  \text{, as } x \to \infty
-  \]
-\end{frame}
-
-\begin{frame}
-  \frametitle{Distribution of the Eigenvalue Spacings}
   \begin{eqnarray*}
     \lim_{n \to \infty} a_n^{-2p} \det(H) &=& \lim_{n \to \infty}
     \prod_{i=1}^p a_n^{-2} \lambda_{(i)} \nonumber \\
@@ -289,21 +287,29 @@ X_{it} = \theta Z_{i, t-1} + Z_{i, t}
 $$
 where $Z_{i,t} \in \mathcal R_{-\alpha}$ are iid. It is shown
 $$
-a_n^{-2} |XX' - \text{diag}(XX')| \overset{d}{\to} 0
+a_n^{-2} |\mathbf{XX'} - \text{diag}(\mathbf{XX'})| \overset{P}{\to} 0
 $$
-where $a_n$ is chosen such that $\P(Z > a_n) = 1/n$. By Weyl's perturbation
-theorem
+For $i \neq j$
 \begin{eqnarray*}
-&& \max_{j=1,\dots,p}|\lambda_{(j)}(XX') - \lambda_{(j)}(\text{diag}(XX'))|\\
-&\leq& a_n^{-2} \|XX' - \text{diag}(XX')\| \\
-&\leq& \max_{i=1,\dots,p}\sum_{j \neq i}(XX')_{ij} \overset{d}{\to} 0
+  a_n^{-2}(XX')_{ij} &=& a_n^{-2} \sum_{t=1}^n Z_{it} Z_{jt} +
+  a_n^{-2} \theta \sum_{t=1}^n Z_{it} Z_{j,t-1} \\
+  && +\theta a_n^{-2} \sum_{t=1}^n Z_{i, t-1}
+  Z_{j,t} + \theta^2 a_n^{-2} \sum_{t=1}^n Z_{i,t-1} Z_{j,t-1}
 \end{eqnarray*}
+
+% where $a_n$ is chosen such that $\P(Z > a_n) = 1/n$. By Weyl's perturbation
+% theorem
+% \begin{eqnarray*}
+% && \max_{j=1,\dots,p}|\lambda_{(j)}(\mathbf{XX'}) - \lambda_{(j)}(\text{diag}(\mathbf{XX'}))|\\
+% &\leq& a_n^{-2} \|\mathbf{XX'} - \text{diag}(\mathbf{XX'})\| \\
+% &\leq& \max_{i=1,\dots,p}\sum_{j \neq i}(\mathbf{XX'})_{ij} \overset{d}{\to} 0
+% \end{eqnarray*}
 \end{frame}
 
 \begin{frame}
   \frametitle{$X_{it} = \theta Z_{i, t-1} + Z_{i, t}$}
   $$
-  a_n^{-2}\text{diag}(XX') \overset{d}{\to} (1+\theta^2)
+  a_n^{-2}\text{diag}(\mathbf{XX'}) \overset{d}{\to} (1+\theta^2)
   \begin{pmatrix}
     \sum_{t=1}^n Z_{1t}^2 & 0 & \cdots & 0 \\
     0 & \sum_{t=1}^n Z_{2t}^2 & \cdots & 0 \\
@@ -317,10 +323,10 @@ theorem
 \begin{frame}
   \frametitle{$X_{it} = \varphi Z_{i-1, t} + Z_{i,t}$}
   Since $Z_1Z_2 \in \mathcal R_{-\alpha}$ while $Z^2 \in \mathcal
-  R_{-\alpha/2}$, among the components that add up to $(XX')_{ij}$, only those
+  R_{-\alpha/2}$, among the components that add up to $(\mathbf{XX'})_{ij}$, only those
   that comprise terms like $Z^2$ actually contribute. Hence it is shown
   $$
-  a_n^{-2} (XX' - A) \overset{P}{\to} 0
+  a_n^{-2} (\mathbf{XX'} - A) \overset{P}{\to} 0
   $$
   where
   \[
@@ -339,7 +345,7 @@ theorem
 \begin{frame}
   \frametitle{$X_{it} = \sum_{k=0}^\infty \sum_{l=0}^\infty h_{kl}
     Z_{i-k,t-l}$}
-  With this model $a_n^{-2}(XX' - A) \overset{P}{\to} 0$ where
+  With this model $a_n^{-2}(\mathbf{XX'} - A) \overset{P}{\to} 0$ where
   $A_{ij} = \sum_{k=0}^\infty \left(\sum_{l=0}^\infty h_{k+|j-i|,l}
     h_{kl}\right)\xi_{(i \wedge j) -k}$
   \begin{scriptsize}
@@ -368,8 +374,41 @@ theorem
 \end{frame}
 
 \subsection{Stochastic Volatility data}
-Consider
+Consider the model
+\[
+X_{it} = \sigma_{it} Z_{it}
+\]
+where
+\begin{enumerate}
+\item $Z_{it} \in \mathcal R_{-\alpha}$, independent of $\sigma_{it}$
+\item $\E Z = 0$
+\item $\sigma_{it}$ strictly stationary
+\item $\E \sigma_{i,0}^q < \infty$ for some $q > 2\alpha$
+\item $\sigma_{it}$ is strongly mixing with rate $\alpha_j \leq c
+  j^{-a}$ for some $a > \max\{1, {(\alpha - 2) q \over 2 q - \alpha}\}$.
+\end{enumerate}
+On these conditions, it can be shown, for $i \neq j$
+\[
+a_n^{-2 }(\mathbf{XX'})_{ij} \overset{P}{\to} 0
+\]
+Thus the eigenvalues of $a_n^{-2 } \mathbf{XX'}$ can be approximated by those
+of $\diag(\mathbf{XX'})$.
 
+\begin{frame}
+  \frametitle{Sketch of the proof}
+  For $i \neq j$, $    a_n^{-2} (\mathbf{XX'})_{ij} = a_n^{-2} \sum_{t=1}^n
+  \sigma_{it} \sigma_{jt} Z_{it} Z_{jt}$. The large deviation result
+  of Mikosch and Wintenberger gives
+  \begin{eqnarray*}
+    && \P\left(
+      \left|\sum_{t=1}^n \sigma_{it} \sigma_{jt} Z_{it} Z_{jt}\right| > a_n^2 \epsilon
+    \right) \\
+    &\sim& n \P(|\sigma_{it} \sigma_{jt} Z_{it} Z_{jt}| > a_n^2
+    \epsilon) \\
+    &\sim& \E |\sigma_{it} \sigma_{jt}|^\alpha n
+    (n^{2/\alpha})^{-\alpha} L(n) \to 0
+  \end{eqnarray*}
+\end{frame}
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
