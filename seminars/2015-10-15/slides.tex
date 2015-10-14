@@ -140,6 +140,14 @@ Copenhagen University  \\ % Your institution for the title page
   - \E \mathbf{XX'}$ when $\alpha \in (2, 4)$.
 \end{frame}
 
+% \begin{frame}
+%   \frametitle{$X_{it}$ are iid.}
+%   Later we show $\lambda_{(i)} \overset{d}{\to} \xi_{(i)} \sim
+%   S_{\alpha/2}$, where $\xi_{(i)}$ is the $i$-th largest order
+%   statistic of an iid. sample of $\alpha/2$-stable distribution. An
+%   $\alpha$-stable distribution, denoted $S_{\alpha}$ here 
+% \end{frame}
+
 \begin{frame}
   \frametitle{$X_{it}$ are iid}
   \begin{itemize}
@@ -322,33 +330,68 @@ For $i \neq j$
 
 \begin{frame}
   \frametitle{$X_{it} = \varphi Z_{i-1, t} + Z_{i,t}$}
-  Since $Z_1Z_2 \in \mathcal R_{-\alpha}$ while $Z^2 \in \mathcal
-  R_{-\alpha/2}$, among the components that add up to $(\mathbf{XX'})_{ij}$, only those
-  that comprise terms like $Z^2$ actually contribute. Hence it is shown
-  $$
-  a_n^{-2} (\mathbf{XX'} - A) \overset{P}{\to} 0
-  $$
+  Here
+  \begin{footnotesize}
+    \begin{eqnarray*}
+      (XX')_{ij} &=& \sum_{t=1}^n (Z_{it} + \varphi Z_{i-1,t})(Z_{jt} +
+      \varphi Z_{j-1,t}) \\
+      &=& \sum_{t=1}^n (Z_{it}^2 + \varphi^2 Z_{i-1,t}^2)\I{i=j}
+      + \sum_{t=1}^n (Z_{it}Z_{jt}+\varphi^2 Z_{i-1,t}Z_{j-1,t})\I{i\neq j}
+      \\
+      && + \varphi \sum_{t=1}^n Z_{it}^2 \I{i=j-1} 
+      +\varphi\sum_{t=1}^n Z_{it} Z_{j-1,t}\I{i\neq j-1} \\
+      && + \varphi \sum_{t=1}^n Z_{i-1,t}^2 \I{i=j+1} 
+      +\varphi\sum_{t=1}^n Z_{jt} Z_{i-1,t}\I{i\neq j+1} \\
+    \end{eqnarray*}
+  \end{footnotesize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{$X_{it} = \varphi Z_{i-1, t} + Z_{i,t}$}
+  \begin{itemize}
+  \item if $0 < \alpha < 2$
+    \[
+    a_n^{-2} XX' - A \overset{P}{\to} \mathbf 0_ {p\times p}
+    \]
+  \item if $2 < \alpha < 4$
+    \[
+    a_n^{-2} (XX' - \E XX' )- A \overset{P}{\to} \mathbf 0_ {p\times p}
+    \]
+  \end{itemize}
   where
-  \[
-  A =
-  \begin{pmatrix}
-    \xi_1 + \varphi^2 \xi_0 & \varphi \xi_1 & 0 & \cdots & 0 \\
-    \varphi \xi_1 & \xi_2 + \varphi^2 \xi_1 & \varphi \xi_2 & \cdots & 0 \\
-    0 & \varphi \xi_2 & \xi_3 + \varphi^2 \xi_2 & \cdots & 0 \\
-    \vdots & \vdots & \vdots & \ddots & \vdots \\
-    0 & 0 & 0 & \cdots & \xi_p + \varphi^2 \xi_{p-1}
-  \end{pmatrix}
-  \]
-  $\xi_i$ are iid and follow $S_{\alpha/2}$ distribution.
+  \begin{footnotesize}
+    \[
+    A =
+    \begin{pmatrix}
+      \xi_1 + \varphi^2 \xi_0 & \varphi \xi_1 & 0 & \cdots & 0 \\
+      \varphi \xi_1 & \xi_2 + \varphi^2 \xi_1 & \varphi \xi_2 & \cdots & 0 \\
+      0 & \varphi \xi_2 & \xi_3 + \varphi^2 \xi_2 & \cdots & 0 \\
+      \vdots & \vdots & \vdots & \ddots & \vdots \\
+      0 & 0 & 0 & \cdots & \xi_p + \varphi^2 \xi_{p-1}
+    \end{pmatrix}
+    \]
+    Here $a_n^{-2}\sum_{t=1}^n Z_{it}^2 \overset{d}{\to} \xi_i \sim
+    S_{\alpha/2}$ or $a_n^{-2}\left(\sum_{t=1}^n Z_{it}^2 - n \E
+      Z^2\right) \overset{d}{\to} \xi_i \sim S_{\alpha/2}$
+  \end{footnotesize}
 \end{frame}
 
 \begin{frame}
   \frametitle{$X_{it} = \sum_{k=0}^\infty \sum_{l=0}^\infty h_{kl}
     Z_{i-k,t-l}$}
-  With this model $a_n^{-2}(\mathbf{XX'} - A) \overset{P}{\to} 0$ where
-  $A_{ij} = \sum_{k=0}^\infty \left(\sum_{l=0}^\infty h_{k+|j-i|,l}
-    h_{kl}\right)\xi_{(i \wedge j) -k}$
-  \begin{scriptsize}
+  Similar to the previous case
+  \begin{itemize}
+  \item if $0 < \alpha < 2$
+    \[
+    a_n^{-2} XX' - A \overset{P}{\to} \mathbf 0_ {p\times p}
+    \]
+  \item if $2 < \alpha < 4$
+    \[
+    a_n^{-2} (XX' - \E XX' )- A \overset{P}{\to} \mathbf 0_ {p\times p}
+    \]
+  \end{itemize}
+  where
+  \begin{footnotesize}
     \begin{eqnarray*}
       A &=& \sum_{k=0}^\infty \sum_{l=0}^\infty h_{kl}
       \begin{pmatrix}
@@ -369,8 +412,7 @@ For $i \neq j$
         h_{k+p-3} \xi_{3-k} & \cdots & h_{kl} \xi_{p-k}
       \end{pmatrix}
     \end{eqnarray*}
-  \end{scriptsize}
-  $\xi_i$ are iid and follow $S_{\alpha/2}$ distribution.
+  \end{footnotesize}
 \end{frame}
 
 \subsection{Stochastic Volatility data}
@@ -408,6 +450,9 @@ of $\diag(\mathbf{XX'})$.
     &\sim& \E |\sigma_{it} \sigma_{jt}|^\alpha n
     (n^{2/\alpha})^{-\alpha} L(n) \to 0
   \end{eqnarray*}
+Later we will drop the strong-mixing condition and prove the same
+convergence to 0 in probability on condition $\sum_{t=1}^\infty
+\sigma_{it} \sigma_{jt} < \infty$.
 \end{frame}
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}

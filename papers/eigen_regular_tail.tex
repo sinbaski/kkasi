@@ -576,128 +576,202 @@ show for all $i \neq j$
 $$
 a_n^{-2}|(XX')_{ij}| \overset{P}{\to} 0 \text{ as } n \to \infty
 $$
-For a given $\epsilon > 0$, consider
+In the rest of this section, we write $L(\cdot)$ for a slowly varying
+function whose particular form is of no interest. Now, for a given
+$\epsilon > 0$, consider
 \begin{eqnarray*}
-&& \P(|a_n^{-2} \sum_{t=1}^n \sigma_{1t}\sigma_{2t} Z_{1t} Z_{2t}| > \epsilon) \\
-&\leq& \P(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| > \epsilon a_n^{2}) \\ 
-\end{eqnarray*}
-In the following we will write $L(\cdot)$ to denote any slowly varying
-function, whose particular form is of no interest.
-
-\subsection[The case alpha > 1]{The case $\alpha > 1$}
-if $\alpha > 1$, by H\"older's inequality
-\begin{eqnarray*}
-&& \sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| \\
-&\leq& \left(\sum_{t=1}^n |
-  \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \left(
-  \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta}\right)^{1/\beta} \\
-\end{eqnarray*}
-where $\beta$ is chosen such that $1/\alpha + 1/\beta = 1$.
-
-We have
-\begin{eqnarray*}
-&& \P(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| > \epsilon a_n^{2}) \\
-&\leq& \P\left[
-\left(\sum_{t=1}^n |
-  \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \left(
-  \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta}\right)^{1/\beta} > a_n^{2}
-\epsilon
-\right]
-\end{eqnarray*}
-It follows from Breiman's result
-\begin{eqnarray*}
-&& \P\left[
-\left(\sum_{t=1}^n |
-  \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \left(
-  \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta}\right)^{1/\beta} > a_n^{2}
-\epsilon \right] \\
-&\sim& \E \left[ \left(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \right]
-\P \left[ \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta} \epsilon^{\beta} \right] \\
-&=& n^{1/\alpha} \E \left[ \left({1 \over n}\sum_{t=1}^n |
-    \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \right] \P\left[
-  \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta}
-  \epsilon^{\beta} \right] \\
-&\sim& n^{1/\alpha} \left( \E | \sigma_{1t}\sigma_{2t}|^{\alpha} \right)^{1/\alpha}
-\P \left[ \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta} \epsilon^{\beta} \right] \\
-\end{eqnarray*}
-where the continuous mapping theorem has been used for the last step.
-
-Since $|Z_{1t}|$ and $|Z_{2t}|$ are independent and both regularly
-varying w1th index $\alpha$, their product is also regularly varying
-with index $\alpha$, and hence $|Z_{1t} Z_{2t}|^{\beta}$ is regularly
-varying with index $\alpha/\beta$. So, by the central limit theorem
-$$
-b_n^{-1} \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} \overset{d}{\to} \xi_{\alpha/\beta} \sim S_{\alpha/\beta}
-$$
-where $b_n$ is chosen such that $\P(|Z_1 Z_2| > b_n) \sim 1/n$. It
-follows $b_n \sim n^{\beta/\alpha} l(n)$ for a slowly varying function
-$l(\cdot)$. Thus
-\begin{eqnarray*}
-&& \P \left[\sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta} \epsilon^{\beta} \right] \\
-&\sim& \P \left[ \xi_{\alpha/\beta} > b_n^{-1} a_n^{2\beta} \epsilon^{\beta} \right] \\
-&\sim& [n^{2\beta/\alpha - \beta/\alpha} l^{-1}(n)]^{-\alpha/\beta}
-L(n) \\
-&\sim& n^{-1}L(n) \to 0
+&& \P(|a_n^{-2} \sum_{t=1}^n \sigma_{it}\sigma_{jt} Z_{it} Z_{jt}| > \epsilon)
 \end{eqnarray*}
 
-\subsection[The case alpha < 1]{The case $\alpha < 1$}
-In this case, we first note that $(\cdot)^{\alpha}$ is a concave
-function and hence, by sub-additivity of concave functions, we have
+Let $b_n$ be a sequence such that $\P(|Z_1 Z_2| > b_n) = 1/n$. and $x
+> 0$ Using Breiman's result
 \begin{eqnarray*}
-&& \sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| \\
-&\leq& \sum_{t=1}^n\left(|\sigma_{1t}\sigma_{2t}|^{\alpha}
-  |Z_{1t} Z_{2t}|^{\alpha}\right)^{1/\alpha} \\
+  && \P(\sigma_{it} \sigma_{jt} Z_{it} Z_{jt} > b_n x) \\
+  &\sim& \E(\sigma_{it} \sigma_{jt})^{\alpha} \P(Z_{it} Z_{jt} > b_n x) \\
+  &\sim& {\E(\sigma_{it} \sigma_{jt})^{\alpha}x^{-\alpha} \over n} \\
 \end{eqnarray*}
-Then H\"older's inequality yields
+and by symmetry
+\[
+\P(\sigma_{it} \sigma_{jt} Z_{it} Z_{jt} < -b_n x) \sim
+{\E(\sigma_{it} \sigma_{jt})^{\alpha}x^{-\alpha} \over n}
+\]
+Thus according to Resnick \cite{Resnick1987} proposition 3.21, we have
+the following point process convergence
+\[
+\sum_{t=1}^{n} \epsilon_{b_n^{-1} \sigma_{it} \sigma_{jt} Z_{it}
+  Z_{jt}} \overset{v}{\to} N
+\]
+where $N$ is a Poisson random measure with mean measure $\mu$ defined
+on the metric space $((E, \sigma(E)$. $E=(-\infty, 0)\cup(0, \infty)$
+and $\mu$ is defined by
+\[
+\mu(x, y) = \E(\sigma_{it} \sigma_{jt})^{\alpha} \left||x|^{-\alpha} - |y|^{-\alpha}\right|
+\]
+for $xy > 0$. Meanwhile we also have
+\[
+\sum_{t=1}^\infty\epsilon_{(nU_t)^{-1/\alpha}
+  (\E(\sigma_{it}\sigma_{jt})^{\alpha})^{1/\alpha}} +
+\sum_{t=1}^\infty \epsilon_{-(nV_t)^{-1/\alpha}
+  (\E(\sigma_{it}\sigma_{jt})^{\alpha})^{1/\alpha}} \overset{v}{\to}
+\text{PRM}(\mu)
+\]
+where $U_t$ and $V_t$ are iid. sequences of $\text{Unif}(0, 1)$ r.v. Therefore we obtain
 \begin{eqnarray*}
-&& \sum_{t=1}^n\left(|\sigma_{1t}\sigma_{2t}|^{\alpha}
-  |Z_{1t} Z_{2t}|^{\alpha}\right)^{1/\alpha} \\
-&\leq& \left(\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
-\left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} \\
+  \lim_{n\to \infty} \sum_{t=1}^{n} b_n^{-1} \sigma_{it} \sigma_{jt}
+  Z_{it} Z_{jt} &\overset{d}{=}& \lim_{n\to \infty} \sum_{t=1}^{n}
+  (nU_t)^{-1/\alpha} (\E(\sigma_{it}\sigma_{jt})^{\alpha})^{1/\alpha}
+  \\
+  && - \lim_{n\to \infty} \sum_{t=1}^{n}(nV_t)^{-1/\alpha}
+  (\E(\sigma_{it}\sigma_{jt})^{\alpha})^{1/\alpha}
 \end{eqnarray*}
-where $1/\beta + 1/\gamma = 1/\alpha$. So
-\begin{eqnarray*}
-  && \P\left(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| >
-    a_n^2 \epsilon\right) \\
-  &\leq& \P\left[
-    \left(\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
-    \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} >
-    a_n^2 \epsilon\right] \\
-  &\sim& \P\left[
-    \left(n^{-1}\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
-    \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} >
-    n^{-1/\beta} a_n^2 \epsilon\right] \\
-\end{eqnarray*}
-Using Breiman's result we obtain
-\begin{eqnarray*}
-  && \P\left(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| >
-    a_n^2 \epsilon\right) \\
-  &\sim&
-  \E\left(n^{-1}\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
-  \P\left[
-    \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} >
-    n^{-1/\beta} a_n^2 \epsilon\right]  
-\end{eqnarray*}
-By the law of large numbers
-$$
-\E\left(n^{-1}\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
-\overset{a.s.}{\to} \E |\sigma_{1t}\sigma_{2t}|^{\beta} < \infty
-$$
-And using the central limit theorem one obtains
-$$
-b_n^{-1} \sum_{t=1}^n |Z_{1t}Z_{2t}|^\gamma \overset{d}{\to}
-\xi_{\alpha/\gamma} \sim S_{\alpha/\gamma}
-$$
-where $\P(|Z_{1t} Z_{2t}| > b_n) \sim 1/n$ and $b_n \sim
-n^{\gamma/\alpha} L(n)$. Thus
-$$
-  \P\left[
-    b_n^{-1} \sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma} >
-    n^{-\gamma/\beta} b_n^{-1} a_n^{2\gamma} L(n) \epsilon\right] \sim
-  n^{\alpha/\beta - 1} L(n) \to 0
-$$
-where in the last step $\beta > \alpha$ is implied by the relation
-$1/\beta + 1/\gamma = 1/\alpha$.
+\begin{enumerate}[(i)]
+\item when $0 < \alpha < 1$
+  Since $(U_t)^{-1/\alpha} \sim \text{Pareto}(\alpha)$, CLT gives
+  \[
+  \lim_{n\to \infty} n^{-1/\alpha} \sum_{t=1}^{n}
+  U_t^{-1/\alpha} \overset{d}{=} \xi_U \sim S_{\alpha}
+  \]
+and 
+  \[
+  \lim_{n\to \infty} n^{-1/\alpha} \sum_{t=1}^{n}
+  V_t^{-1/\alpha} \overset{d}{=} \xi_V \sim S_{\alpha}
+  \]
+  But $\frac{n^{1/\alpha}}{a_n^2} \sim n^{1/\alpha - 2/\alpha} L(n)
+  \to 0$. Therefore $a_n^{-2}\sum_{t=1}^{n} b_n^{-1} \sigma_{it}
+  \sigma_{jt} Z_{it} Z_{jt} \overset{P}{\to} 0$
+\item when $1 < \alpha < 2$, $\E U_1^{-1/\alpha} < \infty$
+  \begin{eqnarray*}
+    \lim_{n\to \infty} n^{-1/\alpha} \left( \sum_{t=1}^{n}
+      U_t^{-1/\alpha} - n \E U_1^{-1/\alpha}\right) &\overset{d}{=}&
+    S_{\alpha}
+  \end{eqnarray*}
+  Since $a_n^{-2} n \sim n^{-2/\alpha + 1} L(n) \to 0$, we may write
+  \begin{eqnarray*}
+    \lim_{n \to \infty} a_n^{-2} \sum_{t=1}^{n}U_t^{-1/\alpha} &=&
+    \lim_{n \to \infty} a_n^{-2}\left( \sum_{t=1}^{n} U_t^{-1/\alpha}
+      - n \E U_1^{-1/\alpha}\right)
+  \end{eqnarray*}
+  Since $\frac{n^{1/\alpha}}{a_n^2} \to 0$, again we have
+  \[
+  \P\left( a_n^{-2} \sum_{t=1}^{n} \sigma_{it} \sigma_{jt} Z_{it}
+    Z_{jt} > \epsilon\right) \to 0
+\]
+\item when $2 < \alpha < 4$
+\end{enumerate}
+% \subsection[The case alpha > 1]{The case $\alpha > 1$}
+% if $\alpha > 1$, by H\"older's inequality
+% \begin{eqnarray*}
+% && \sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| \\
+% &\leq& \left(\sum_{t=1}^n |
+%   \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \left(
+%   \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta}\right)^{1/\beta} \\
+% \end{eqnarray*}
+% where $\beta$ is chosen such that $1/\alpha + 1/\beta = 1$.
+
+% We have
+% \begin{eqnarray*}
+% && \P(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| > \epsilon a_n^{2}) \\
+% &\leq& \P\left[
+% \left(\sum_{t=1}^n |
+%   \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \left(
+%   \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta}\right)^{1/\beta} > a_n^{2}
+% \epsilon
+% \right]
+% \end{eqnarray*}
+% It follows from Breiman's result
+% \begin{eqnarray*}
+% && \P\left[
+% \left(\sum_{t=1}^n |
+%   \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \left(
+%   \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta}\right)^{1/\beta} > a_n^{2}
+% \epsilon \right] \\
+% &\sim& \E \left[ \left(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \right]
+% \P \left[ \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta} \epsilon^{\beta} \right] \\
+% &=& n^{1/\alpha} \E \left[ \left({1 \over n}\sum_{t=1}^n |
+%     \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \right] \P\left[
+%   \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta}
+%   \epsilon^{\beta} \right] \\
+% &\sim& n^{1/\alpha} \left( \E | \sigma_{1t}\sigma_{2t}|^{\alpha} \right)^{1/\alpha}
+% \P \left[ \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta} \epsilon^{\beta} \right] \\
+% \end{eqnarray*}
+% where the continuous mapping theorem has been used for the last step.
+
+% Since $|Z_{1t}|$ and $|Z_{2t}|$ are independent and both regularly
+% varying w1th index $\alpha$, their product is also regularly varying
+% with index $\alpha$, and hence $|Z_{1t} Z_{2t}|^{\beta}$ is regularly
+% varying with index $\alpha/\beta$. So, by the central limit theorem
+% $$
+% b_n^{-1} \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} \overset{d}{\to} \xi_{\alpha/\beta} \sim S_{\alpha/\beta}
+% $$
+% where $b_n$ is chosen such that $\P(|Z_1 Z_2| > b_n) \sim 1/n$. It
+% follows $b_n \sim n^{\beta/\alpha} l(n)$ for a slowly varying function
+% $l(\cdot)$. Thus
+% \begin{eqnarray*}
+% && \P \left[\sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta} \epsilon^{\beta} \right] \\
+% &\sim& \P \left[ \xi_{\alpha/\beta} > b_n^{-1} a_n^{2\beta} \epsilon^{\beta} \right] \\
+% &\sim& [n^{2\beta/\alpha - \beta/\alpha} l^{-1}(n)]^{-\alpha/\beta}
+% L(n) \\
+% &\sim& n^{-1}L(n) \to 0
+% \end{eqnarray*}
+
+% \subsection[The case alpha < 1]{The case $\alpha < 1$}
+% In this case, we first note that $(\cdot)^{\alpha}$ is a concave
+% function and hence, by sub-additivity of concave functions, we have
+% \begin{eqnarray*}
+% && \sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| \\
+% &\leq& \sum_{t=1}^n\left(|\sigma_{1t}\sigma_{2t}|^{\alpha}
+%   |Z_{1t} Z_{2t}|^{\alpha}\right)^{1/\alpha} \\
+% \end{eqnarray*}
+% Then H\"older's inequality yields
+% \begin{eqnarray*}
+% && \sum_{t=1}^n\left(|\sigma_{1t}\sigma_{2t}|^{\alpha}
+%   |Z_{1t} Z_{2t}|^{\alpha}\right)^{1/\alpha} \\
+% &\leq& \left(\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
+% \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} \\
+% \end{eqnarray*}
+% where $1/\beta + 1/\gamma = 1/\alpha$. So
+% \begin{eqnarray*}
+%   && \P\left(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| >
+%     a_n^2 \epsilon\right) \\
+%   &\leq& \P\left[
+%     \left(\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
+%     \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} >
+%     a_n^2 \epsilon\right] \\
+%   &\sim& \P\left[
+%     \left(n^{-1}\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
+%     \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} >
+%     n^{-1/\beta} a_n^2 \epsilon\right] \\
+% \end{eqnarray*}
+% Using Breiman's result we obtain
+% \begin{eqnarray*}
+%   && \P\left(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| >
+%     a_n^2 \epsilon\right) \\
+%   &\sim&
+%   \E\left(n^{-1}\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
+%   \P\left[
+%     \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} >
+%     n^{-1/\beta} a_n^2 \epsilon\right]  
+% \end{eqnarray*}
+% By the law of large numbers
+% \[
+% \E\left(n^{-1}\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
+% \overset{a.s.}{\to} \E |\sigma_{1t}\sigma_{2t}|^{\beta} < \infty
+% \]
+% And using the central limit theorem one obtains
+% \[
+% b_n^{-1} \sum_{t=1}^n |Z_{1t}Z_{2t}|^\gamma \overset{d}{\to}
+% \xi_{\alpha/\gamma} \sim S_{\alpha/\gamma}
+% \]
+% where $\P(|Z_{1t} Z_{2t}| > b_n) \sim 1/n$ and $b_n \sim
+% n^{\gamma/\alpha} L(n)$. Thus
+% $$
+%   \P\left[
+%     b_n^{-1} \sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma} >
+%     n^{-\gamma/\beta} b_n^{-1} a_n^{2\gamma} L(n) \epsilon\right] \sim
+%   n^{\alpha/\beta - 1} L(n) \to 0
+% $$
+% where in the last step $\beta > \alpha$ is implied by the relation
+% $1/\beta + 1/\gamma = 1/\alpha$.
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}
