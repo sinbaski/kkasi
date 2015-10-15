@@ -134,7 +134,7 @@ Copenhagen University  \\ % Your institution for the title page
   \end{eqnarray*}
   Let $L(\cdot)$ be slowly varying whose form is of no interest.
   \[
-  \lambda_{(1)} > \lambda_{(2)} > \cdots > \lambda_{(p)}
+  \lambda_{(1)} \geq \lambda_{(2)} \geq \cdots \geq \lambda_{(p)}
   \]
   are eigenvalues of $\mathbf{XX'}$ when $\alpha \in (0, 2)$ and those of $\mathbf{XX'}
   - \E \mathbf{XX'}$ when $\alpha \in (2, 4)$.
@@ -295,7 +295,7 @@ X_{it} = \theta Z_{i, t-1} + Z_{i, t}
 $$
 where $Z_{i,t} \in \mathcal R_{-\alpha}$ are iid. It is shown
 $$
-a_n^{-2} |\mathbf{XX'} - \text{diag}(\mathbf{XX'})| \overset{P}{\to} 0
+a_n^{-2} \|\mathbf{XX'} - \text{diag}(\mathbf{XX'})\|_2 \overset{P}{\to} 0
 $$
 For $i \neq j$
 \begin{eqnarray*}
@@ -304,20 +304,12 @@ For $i \neq j$
   && +\theta a_n^{-2} \sum_{t=1}^n Z_{i, t-1}
   Z_{j,t} + \theta^2 a_n^{-2} \sum_{t=1}^n Z_{i,t-1} Z_{j,t-1}
 \end{eqnarray*}
-
-% where $a_n$ is chosen such that $\P(Z > a_n) = 1/n$. By Weyl's perturbation
-% theorem
-% \begin{eqnarray*}
-% && \max_{j=1,\dots,p}|\lambda_{(j)}(\mathbf{XX'}) - \lambda_{(j)}(\text{diag}(\mathbf{XX'}))|\\
-% &\leq& a_n^{-2} \|\mathbf{XX'} - \text{diag}(\mathbf{XX'})\| \\
-% &\leq& \max_{i=1,\dots,p}\sum_{j \neq i}(\mathbf{XX'})_{ij} \overset{d}{\to} 0
-% \end{eqnarray*}
 \end{frame}
 
 \begin{frame}
   \frametitle{$X_{it} = \theta Z_{i, t-1} + Z_{i, t}$}
   $$
-  a_n^{-2}\text{diag}(\mathbf{XX'}) \overset{d}{\to} (1+\theta^2)
+  a_n^{-2}\text{diag}(\mathbf{XX'}) = a_n^{-2} (1+\theta^2)
   \begin{pmatrix}
     \sum_{t=1}^n Z_{1t}^2 & 0 & \cdots & 0 \\
     0 & \sum_{t=1}^n Z_{2t}^2 & \cdots & 0 \\
@@ -351,11 +343,11 @@ For $i \neq j$
   \begin{itemize}
   \item if $0 < \alpha < 2$
     \[
-    a_n^{-2} XX' - A \overset{P}{\to} \mathbf 0_ {p\times p}
+    a_n^{-2} XX' \overset{d}{\to} A
     \]
   \item if $2 < \alpha < 4$
     \[
-    a_n^{-2} (XX' - \E XX' )- A \overset{P}{\to} \mathbf 0_ {p\times p}
+    a_n^{-2} (XX' - \E XX' ) \overset{d}{\to} A
     \]
   \end{itemize}
   where
@@ -383,11 +375,11 @@ For $i \neq j$
   \begin{itemize}
   \item if $0 < \alpha < 2$
     \[
-    a_n^{-2} XX' - A \overset{P}{\to} \mathbf 0_ {p\times p}
+    a_n^{-2} XX'  \overset{d}{\to} A 
     \]
   \item if $2 < \alpha < 4$
     \[
-    a_n^{-2} (XX' - \E XX' )- A \overset{P}{\to} \mathbf 0_ {p\times p}
+    a_n^{-2} (XX' - \E XX' ) \overset{d}{\to} A
     \]
   \end{itemize}
   where
@@ -450,9 +442,8 @@ of $\diag(\mathbf{XX'})$.
     &\sim& \E |\sigma_{it} \sigma_{jt}|^\alpha n
     (n^{2/\alpha})^{-\alpha} L(n) \to 0
   \end{eqnarray*}
-Later we will drop the strong-mixing condition and prove the same
-convergence to 0 in probability on condition $\sum_{t=1}^\infty
-\sigma_{it} \sigma_{jt} < \infty$.
+Work is still ongoing to prove the same convergence to 0 in
+probability on a condition weaker than strong mixing.
 \end{frame}
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
