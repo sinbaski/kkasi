@@ -1,0 +1,92 @@
+\documentclass[12pt]{article}
+\title{On Importance Sampling}
+
+\input{../physics_common.tex}
+
+\begin{document}
+\maketitle
+
+We consider the model
+\begin{eqnarray*}
+V_n &=& A_n V_{n-1} \\
+V_0 &=& x_0 \in \mathbb S^{d-1}\\
+\end{eqnarray*}
+Use the following notations
+\begin{eqnarray*}
+X_n &=& \frac{V_n}{\|V_n\|} \\
+S_n &=& \log \|A_n \cdots A_1 x_0\| \\
+\xi_n &=& S_n - S_{n-1} = \log\frac{\|A_n \cdots A_1 x_0\|}{\|A_{n-1} \cdots A_1 x_0\|} \\
+&=& \log\left\| A_n \frac{A_{n-1} \cdots A_1 x_0}{\|A_{n-1} \cdots A_1 x_0\|} \right\|\\
+&=& \log \|A_n X_{n-1}\|
+\end{eqnarray*}
+The pair $(X_n, S_n)$ is a Markov additive process with transition kernel $P$
+Assume the following conditions for the above model
+\begin{enumerate}
+\item The top Lyapunov exponent is negative, i.e.
+  $$
+  \inf_{n \geq 1} \E \log \|A_n \cdots A_1\| < 0
+  $$
+\item $\exists s > 0$ such that $1 \leq \lambda(s) < \infty$, where
+  $$
+  \lambda(s) := \inf_{n \geq 1} (\|A_n \cdots A_1\|^s )^{1/n}
+  $$
+  The support of $\lambda(s)$ is $\{s \in \mathbb R_+: \E \|A\|^s < \infty\}$.
+\end{enumerate}
+Then according to lemma 4.4.1 of Buraczewski, Damek and Mikosch, there
+is a $\theta > 0$ such that $\lambda(\theta) = 1$. According to lemma
+2.3 of Collamore et al, there is a unique, strictly positive function
+$r_\theta(x)$ such that
+$$
+\int |a x|^\theta r_\theta (\frac{a x}{|a x|}) d \mu_A(a) = r_\theta(x)
+$$
+Now define the $\theta$-shifted transition kernel $P_\theta$ as
+$$
+P_\theta(x_0, dy \times ds) = e^{\theta s} \frac{r_\theta(y)}{r_\theta(x_0)} P(x_0, dy \times ds)
+$$
+Consider the expected value of
+$$
+N_u = \sum_{i=0}^{\tau - 1} \mathbf 1_{(u, \infty]}(\|V_i\|)
+$$
+Because $\xi_i$ is a function of $X_{i-1}$, $N_u$ is a function of
+$X_1, X_2, \dots, X_{\tau-2}$. Now we may write
+\begin{eqnarray*}
+\E_D N_u &=& \E_D [N_u \1{T_u < \tau}] + \E_D [N_u \1{T_u \geq \tau}] \\
+\E_D [N_u \1{T_u < \tau}] &=& \int_{x_1 \in \mathbb S^{d-1}} \cdots
+\int_{x_{\tau-2} \in \mathbb S^{d-1}} N_u \prod_{i=1}^{\tau-1}
+P_\theta(x_{i-1}, dx_i \times ds_i) \\ 
+&=& \int_{x_1 \in \mathbb S^{d-1}} \cdots \int_{x_{\tau-2} \in \mathbb
+  S^{d-1}} N_u \prod_{i=1}^{\tau-1} e^{\theta \xi_i} \frac{r_\theta
+  (x_{i})}{r_\theta (x_{i-1})}P (x_{i-1}, dx_i \times ds_i) \\ 
+&=& \int_{x_1 \in \mathbb S^{d-1}} \cdots \int_{x_{\tau-2} \in \mathbb
+  S^{d-1}} N_u e^{\theta S_{\tau-1}} \frac{r_\theta
+  (x_{\tau-1})}{r_\theta (x_{0})} \prod_{i=1}^{\tau-1} P (x_{i-1},
+dx_i \times ds_i) \\
+&=& \E \left[N_u e^{\theta S_{\tau-1}} \frac{r_\theta
+    (x_{\tau-1})}{r_\theta (x_{0})}\right]
+\end{eqnarray*}
+Then it immediately follows
+$$
+\E_\theta \left[N_u e^{-\theta S_{\tau-1}} \frac{r_\theta (x_{0})}{r_\theta (x_{\tau-1})}\right] = \E N_u
+$$
+If we consider the expected value of $N_u$ under the dual transition kernel
+$$
+P_D(x_n, dx_{n+1} \times ds_{n+1}) =
+\left\{
+\begin{array}{ll}
+e^{\theta \xi_{n+1}} \frac{r_\theta(y)}{r_\theta(x_n)} P(x_n, dx_{n+1} \times ds_{n+1}) &
+\text{ for }n=1,2,\dots,T_u \\
+P(x_n, dx_{n+1} \times ds_{n+1}) & \text{ for } n > T_u 
+\end{array}
+\right.
+$$
+then we have
+\begin{eqnarray*}
+E_D(N_u | T_u) &=& \int_{x_1 \in \mathbb S^{d-1}} \cdots
+\int_{x_{\tau-2} \in \mathbb S^{d-1}} N_u \prod_{i=1}^{T_u}
+P_\theta(x_{i-1}, dx_i \times ds_i) \prod_{i=Tu + 1}^{\tau-2}
+P(x_{i-1}, dx_i \times ds_i) \times \\
+&& P(x_{\tau-2}, \mathbb S^{d-1} \times \mathbb R)
+\end{eqnarray*}
+\bibliographystyle{unsrt}
+\bibliography{../thesis/econophysics}
+\end{document}
