@@ -123,7 +123,6 @@ for (i in 1:dim(R)[2]) {
 }
 
 ## R.trfm <- matrix(NA, nrow=dim(R)[1], ncol=dim(R)[2]);
-
 ## for (i in 1 : length(stocks.included)) {
 ##     ## Fn <- ecdf(R[, i]);
 ##     ## U <- Fn(R[, i]);
@@ -131,6 +130,8 @@ for (i in 1:dim(R)[2]) {
 ##     R.trfm[, i] <- -1/log(rank(R[,i])/(n.records+1));
 ## }
 ## E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
+
+## E <- eigen((n.records * p)^(-2) * t(R) %*% R);
 
 ## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
 a <- min(tailIndices[, 1]);
@@ -141,20 +142,42 @@ results <- dbSendQuery(database, "select distinct(sector) from company_info;");
 sector.names <- fetch(results)[[1]];
 dbClearResult(results);
 colors <- rainbow(length(sector.names));
+
+## Record the eigenvalues
+lambda <- matrix(NA, nrow=1+length(sector.names), ncol=p);
+company.num <- rep(NA, length(sector.names));
 for (i in 1:length(sector.names)) {
     I <- which(sectors[to.include] == sector.names[i]);
-    if (i == 1) {
-        plot(tailIndices[I, 1], tailIndices[I, 2],
-             col=colors[i], pch=i,
-             xlim=c(a, 6.8), ylim=c(a, b),
-             xlab="Lower tail index", ylab="Upper tail index");
-    }
-    else {
-        points(tailIndices[I, 1], tailIndices[I, 2], col=colors[i], pch=i);
-    }
+    ## if (i == 1) {
+    ##     plot(tailIndices[I, 1], tailIndices[I, 2],
+    ##          col=colors[i], pch=i,
+    ##          xlim=c(a, 6.8), ylim=c(a, b),
+    ##          xlab="Lower tail index", ylab="Upper tail index");
+    ## } else {
+    ##     points(tailIndices[I, 1], tailIndices[I, 2], col=colors[i], pch=i);
+    ## }
+
+    ## pdf(sprintf("/tmp/%s_tail_indices.pdf", sector.names[i]));
+    ## plot(tailIndices[I, 1], tailIndices[I, 2],
+    ##      col="#0000FF", pch=i,
+    ##      xlim=c(a, b), ylim=c(a, b),
+    ##      main=sector.names[i],
+    ##      xlab="Lower tail index", ylab="Upper tail index");
+    ## X <- seq(a, b, 0.01);
+    ## lines(X, X, col="#FF0000");
+    ## grid(nx=20);
+    ## dev.off();
+    company.num[i] <- length(I);
+    R.trfm <- rank.transform(R, I);
+    E <- eigen((n.records * length(I))^(-2) * t(R.trfm) %*% R.trfm, only.values=TRUE);
+    lambda[i,1:length(I)] <- E$values;
+    ## dev.off();
 }
-grid(nx=20);
-legend("bottomright", legend=sector.names, col=colors, pch=seq(1, length(sector.names)));
-dev.off();
+R.trfm <- rank.transform(R, 1:(dim(R)[2]));
+E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm, only.values=TRUE);
+lambda[1+length(sector.names),] <- E$values;
+## grid(nx=20);
+## legend("bottomright", legend=sector.names, col=colors, pch=seq(1, length(sector.names)));
+## dev.off();
 
 dbDisconnect(database);
