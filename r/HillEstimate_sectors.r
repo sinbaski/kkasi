@@ -136,7 +136,7 @@ for (i in 1:dim(R)[2]) {
 a <- min(tailIndices[, 1]);
 b <- max(tailIndices[, 1]);
 
-## pdf("SP500_tail_indices_colored_by_sector.pdf")
+pdf("SP500_tail_indices_colored_by_sector.pdf")
 results <- dbSendQuery(database, "select distinct(sector) from company_info;");
 sector.names <- fetch(results)[[1]];
 dbClearResult(results);
@@ -146,7 +146,7 @@ for (i in 1:length(sector.names)) {
     if (i == 1) {
         plot(tailIndices[I, 1], tailIndices[I, 2],
              col=colors[i], pch=i,
-             xlim=c(a, 5.5), ylim=c(a, b),
+             xlim=c(a, 6.8), ylim=c(a, b),
              xlab="Lower tail index", ylab="Upper tail index");
     }
     else {
@@ -155,6 +155,6 @@ for (i in 1:length(sector.names)) {
 }
 grid(nx=20);
 legend("bottomright", legend=sector.names, col=colors, pch=seq(1, length(sector.names)));
-## dev.off();
+dev.off();
 
 dbDisconnect(database);

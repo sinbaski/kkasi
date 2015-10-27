@@ -49,7 +49,6 @@ day between '%s' and '%s';", tables[i], day1, day2)
         to.include[i] <- FALSE;
         next;
     }
-
 }
 p <- sum(to.include);
 prices <- matrix(NA, nrow=n.records, ncol=p);
@@ -66,10 +65,10 @@ stocks.included <- which(to.include);
 for (i in 1:length(stocks.included)) {
     results <- dbSendQuery(
         database,
-        sprintf("select day, closing from %s
-where day between '%s' and '%s'",
-                tables[stocks.included[i]],
-                day1, day2)
+        sprintf(
+            "select day, closing from %s where day between '%s' and '%s'",
+            tables[stocks.included[i]],
+            day1, day2)
     );
     A <- fetch(results, n=-1);
     dbClearResult(results);

@@ -4,7 +4,7 @@ rm(list=ls());
 
 source("liblxb353.r");
 
-p <- 200;
+p <- 10;
 n <- 1000;
 
 ## mu <- (sqrt(n-1) + sqrt(p))^2;
@@ -88,17 +88,33 @@ n <- 1000;
 
 ## Simulate with myDist: uniform in the center and symmetric pareto on the tails
 alpha <- 1.6;
-for (i in (101:1000)) {
+for (i in (1:1000)) {
     Anp <- qMyDist(1 - 1/(n*p), alpha);
     data <- rMyDist(p*n, alpha);
     X <- matrix(data, nrow=p, ncol=n);
     C <- X %*% t(X);
     E <- eigen(C/Anp^2, only.values=TRUE);
-    D <- sort(rowSums(X^2/Anp^2), decreasing=TRUE);
+    X2 <- X^2/Anp^2;
+    D <- sort(rowSums(X2), decreasing=TRUE);
     Zupp <- sort((data/Anp)^2, decreasing=TRUE)[1:p];
-    save(E, D, Zupp, file=sprintf("dat/Eigen_D_Nbr%d_alpha%.1f_n%d_p%d.dat",
+    Y <- rep(NA, p);
+    for (j in 1:p) {
+        Y[j] <- max(X2[j,]);
+    }
+    save(E, D, Zupp, Y, file=sprintf("dat/iid/Eigen_D_Nbr%d_alpha%.1f_n%d_p%d.dat",
                    i, alpha, n, p), compress="gzip");
 }
+## for (i in (101:1000)) {
+##     Anp <- qMyDist(1 - 1/(n*p), alpha);
+##     data <- rMyDist(p*n, alpha);
+##     X <- matrix(data, nrow=p, ncol=n);
+##     C <- X %*% t(X);
+##     E <- eigen(C/Anp^2, only.values=TRUE);
+##     D <- sort(rowSums(X^2/Anp^2), decreasing=TRUE);
+##     Zupp <- sort((data/Anp)^2, decreasing=TRUE)[1:p];
+##     save(E, D, Zupp, file=sprintf("dat/Eigen_D_Nbr%d_alpha%.1f_n%d_p%d.dat",
+##                    i, alpha, n, p), compress="gzip");
+## }
 
 
 
