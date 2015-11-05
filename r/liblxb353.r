@@ -40,3 +40,10 @@ r3Point <- function(n, p, loc) {
     return (q3Point(U, p, loc));
 }
     
+rank.transform <- function(R, indices) {
+    ranks <- matrix(NA, nrow=dim(R)[1], ncol=length(indices));
+    for (j in 1:length(indices)) {
+        ranks[, j] <- -1/log(rank(R[,indices[j]])/(dim(R)[1]+1));
+    }
+    return(ranks);
+}
