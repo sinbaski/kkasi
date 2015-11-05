@@ -10,9 +10,12 @@ assetSet <- "SP500_components";
 ##     dbname='avanza', host=Sys.getenv("PB"));
 database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
     dbname='avanza', host="localhost");
-results = dbSendQuery(database, sprintf("select symbol from %s;",
+results = dbSendQuery(database, sprintf("select t1.symbol, t2.sector from
+SP500_components as t1 join company_info as t2 on t1.symbol = t2.symbol;",
     assetSet));
-tables <- fetch(results, n=-1)[[1]];
+H <- fetch(results, n=-1);
+tables <- H[[1]];
+sectors <- H[[2]];
 dbClearResult(results);
 n.stocks <- length(tables);
 
@@ -49,7 +52,6 @@ day between '%s' and '%s';", tables[i], day1, day2)
         to.include[i] <- FALSE;
         next;
     }
-
 }
 p <- sum(to.include);
 prices <- matrix(NA, nrow=n.records, ncol=p);
@@ -66,10 +68,10 @@ stocks.included <- which(to.include);
 for (i in 1:length(stocks.included)) {
     results <- dbSendQuery(
         database,
-        sprintf("select day, closing from %s
-where day between '%s' and '%s'",
-                tables[stocks.included[i]],
-                day1, day2)
+        sprintf(
+            "select day, closing from %s where day between '%s' and '%s'",
+            tables[stocks.included[i]],
+            day1, day2)
     );
     A <- fetch(results, n=-1);
     dbClearResult(results);
@@ -108,38 +110,51 @@ where day between '%s' and '%s'",
         prices[j, i] <- prices[j-1, i];
     }
 }
-dbDisconnect(database);
-R <- t(diff(log(prices)));
+
+R <- diff(log(prices));
+tailIndices = matrix(NA, nrow=dim(R)[2], ncol=2);
+for (i in 1:dim(R)[2]) {
+    X = R[, i];
+    a <- quantile(X, probs=0.03);
+    tailIndices[i, 1] <- 1/mean(log(X[which(X < a)]/a));
+
+    b <- quantile(X, probs=0.97);
+    tailIndices[i, 2] <- 1/mean(log(X[which(X > b)]/b));
+}
+
 ## R.trfm <- matrix(NA, nrow=dim(R)[1], ncol=dim(R)[2]);
+
 ## for (i in 1 : length(stocks.included)) {
 ##     ## Fn <- ecdf(R[, i]);
 ##     ## U <- Fn(R[, i]);
 ##     ## U <- U[U < 1];
-##     R.trfm[i,] <- -1/log(rank(R[i,])/(n.records+1));
+##     R.trfm[, i] <- -1/log(rank(R[,i])/(n.records+1));
 ## }
-## rm(R);
+## E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm);
 
-p <- dim(R)[1];
-n <- dim(R)[2];
-M <- array(NA, dim=c(p, p, 6));
-lambda <- matrix(NA, 6, 2);
-for (i in 0:5) {
-    # M[, ,i+1] <- R.trfm[, 1:(p-i)] %*% t(R.trfm[, (1+i):p]) / (n*(p-i))^2;
-    M[, ,i+1] <- R[, 1:(p-i)] %*% t(R[, (1+i):p]);
-    # M[, ,i+1] <- R[, 1:(p-i)]/2 + t(R[, (1+i):p])/2;
+## plot(lambda[2:p]/lambda[1:p-1], type="b", xlim=c(1, 20), ylim=c(0,1));
+a <- min(tailIndices[, 1]);
+b <- max(tailIndices[, 1]);
+
+## pdf("SP500_tail_indices_colored_by_sector.pdf")
+results <- dbSendQuery(database, "select distinct(sector) from company_info;");
+sector.names <- fetch(results)[[1]];
+dbClearResult(results);
+colors <- rainbow(length(sector.names));
+for (i in 1:length(sector.names)) {
+    I <- which(sectors[to.include] == sector.names[i]);
+    if (i == 1) {
+        plot(tailIndices[I, 1], tailIndices[I, 2],
+             col=colors[i], pch=i,
+             xlim=c(a, 5.5), ylim=c(a, b),
+             xlab="Lower tail index", ylab="Upper tail index");
+    }
+    else {
+        points(tailIndices[I, 1], tailIndices[I, 2], col=colors[i], pch=i);
+    }
 }
+grid(nx=20);
+legend("bottomright", legend=sector.names, col=colors, pch=seq(1, length(sector.names)));
+## dev.off();
 
-A <- matrix(0, nrow=p, ncol=p);
-for (i in 1:6) {
-    B <- M[, , i] %*% t(M[, , i]);
-    # B <- M[, , i]/2 + t(M[, , i])/2;
-    A <- A + B;
-    # E <- eigen(A, only.values=TRUE);
-    E <- svd(A, , nu=0, nv=0);
-    lambda[i, 1] <- E$d[1];
-    # E <- eigen(B, only.values=TRUE);
-    E <- svd(B, nu=0, nv=0);
-    lambda[i, 2] <- E$d[1];
-}
-
-## pdf("../papers/Number1/eigen_sum_plus.pdf")
+dbDisconnect(database);
