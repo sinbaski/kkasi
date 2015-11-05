@@ -6,13 +6,19 @@
 \usepackage{bookmark}
 \usepackage{graphicx}
 
+\newif\ifALL
+
+\ALLtrue
+
 \input{../physics_common}
-\title{Eigenvalue Estimation of fixed- \& almost-fixed- dimensional
-  sample covariance matrices}
+\title{Eigenvalue Estimation of fixed-dimensional sample covariance
+  matrices}
 \author{Xie Xiaolei}
 \date{\today}
 \begin{document}
 \maketitle
+
+\ifALL
 \section{iid sequences}\label{sec:iid}
 Consider iid sequences $\{X_{it}\}$, $1 \leq i \leq p$, $1 \leq t \leq
 n$. $p$ is fixed while $n \to \infty$. $\P(X_{it} > x) = p_+ L(x)
@@ -561,6 +567,7 @@ proven in \S\ref{sec:GeneralModel}, we have
 if $n^{-\delta(\alpha)} p(n) \to 0$, e.g. when $p(n)$ is slowly varying, the RHS
 tends to 0.
 
+\fi
 \section{Stochastic volatility model}
 Here we consider the model
 $$
@@ -569,209 +576,200 @@ $$
 where we fix $p$ and let $n \to \infty$. We assume $Z_{it} \in
 \mathcal R_{-\alpha}$ are iid, $\sigma_{it}$ is strictly stationary
 for all $i$ and independent of each and every $Z$. Moreover we assume
-$\E \sigma^{\alpha + \delta} < \infty$. In the following we show that
-the eigenvalues of $a_n^{-2} XX'$ are asymptotically equal to those of
-$a_n^{-2} \text{diag}(XX')$. Because $p$ is constant, it suffices to
-show for all $i \neq j$
+$\E \sigma^{\alpha + s} < \infty$ and $\E (\sigma_{i1}
+\sigma_{j1})^{\alpha + s'} < \infty$ for some $s, s' > 0$ and $i \neq j$.
+
+In subsection \ref{sec:SV1} we show that the eigenvalues of $a_n^{-2}
+XX'$ are asymptotically equal to those of $a_n^{-2} \diag(XX')$, and
+in section \ref{sec:SV2} we show that $i-th$ diagonal entry of
+$a_n^{-2} XX'$ tends to a $S_{\alpha/2}$ rv.
+
+In the rest of this section, we write $L(\cdot)$ for a slowly varying
+function whose particular form is of no interest.
+
+\subsection{Off-diagonal elements vanish in probability} \label{sec:SV1}
+Here we show that the eigenvalues of $a_n^{-2}XX'$ are asymptotically
+equal to those of $a_n^{-2} \diag(XX')$. Because $p$ is constant, it
+suffices to show for all $i \neq j$
 $$
 a_n^{-2}|(XX')_{ij}| \overset{P}{\to} 0 \text{ as } n \to \infty
 $$
-In the rest of this section, we write $L(\cdot)$ for a slowly varying
-function whose particular form is of no interest. Now, for a given
-$\epsilon > 0$, consider
+ Let
+\[
+\sum_{k=1}^\infty \pop{\tilde P^{(i)}_{k,l}}
+\]
+be PRM($\mu_l$) where
 \begin{eqnarray*}
-&& \P(|a_n^{-2} \sum_{t=1}^n \sigma_{it}\sigma_{jt} Z_{it} Z_{jt}| > \epsilon)
+\mu_l (dx) &=& \left\{
+  \begin{array}{lr}
+    p_0 \alpha x^{-\alpha - 1} \1{x > 0} dx + (1 - p_0)
+    \alpha (-x)^{-\alpha - 1} \1{x < 0} dx & \text{ if } l=0 \\
+    p_1 \alpha x^{-\alpha - 1} \1{x > 0} dx + (1 - p_1)
+    \alpha (-x)^{-\alpha - 1} \1{x < 0} dx & \text{ if } l \geq 1
+  \end{array} \right. \\
+  p_1 &=& p_0^2 + (1- p_0)^2
 \end{eqnarray*}
+For fixed $1 \leq i \leq p$ and $1 \leq h \leq p-i$, let
+\[
+P^{(i)}_{k,0} = (\E\sigma_{i1}^\alpha)^{1/\alpha} \tilde P^{(i)}_{k,0}
+\]
+and
+\[
+P^{(i)}_{k,h} = [\E(\sigma_{i1} \sigma_{i+h, 1})^\alpha]^{1/\alpha} \tilde P^{(i)}_{k,h}
+\]
+These notations are meaningful due to the stationarity of
+$\{\sigma_{it}\}_{i=1,\dots,p; t=1,\dots,n}$
 
-Let $b_n$ be a sequence such that $\P(|Z_1 Z_2| > b_n) = 1/n$. and $x
-> 0$ Using Breiman's result
+By the same arguments as found in the proof of theorem 3.1 in Davis
+and Mikosch \cite{davis2001} it may be shown
+\begin{equation}
+  \label{eq:pp_convergence}
+N^{(i)}_n = \sum_{t=1}^n \pop{(0,\dots,0, a_n^{-1} X_{it}, b_n^{-1} X_{it} X_{i+1,
+    t}, \dots, b_n^{-1} X_{it} X_{pt})} \overset{d}{\to}
+N^{(i)} = \sum_{k=1}^\infty \sum_{j=0}^{p-i} \pop{P^{(i)}_{k,j} \vec{e}_{i+j}}
+\end{equation}
+where $\vec{e}_{i+j} \in \mathds R^{p}$ is the unit vector with $(i+j)$-th
+component equal to 1 and the rest 0. $a_n$ and $b_n$ are defined such
+that 
 \begin{eqnarray*}
-  && \P(\sigma_{it} \sigma_{jt} Z_{it} Z_{jt} > b_n x) \\
-  &\sim& \E(\sigma_{it} \sigma_{jt})^{\alpha} \P(Z_{it} Z_{jt} > b_n x) \\
-  &\sim& {\E(\sigma_{it} \sigma_{jt})^{\alpha}x^{-\alpha} \over n} \\
+  \P(|Z| > a_n) &=& 1/n \\
+  \P(|Z_1 Z_2| > b_n) &=& 1/n
 \end{eqnarray*}
-and by symmetry
+For $\delta > 0$, $1 \leq h \leq p-i$ , define mapping
+$T^{(i)}_{\delta, h} $ from $M_p(\mathds R^p \setminus \{(0,
+\dots, 0)\})$ to $\mathds R$:
 \[
-\P(\sigma_{it} \sigma_{jt} Z_{it} Z_{jt} < -b_n x) \sim
-{\E(\sigma_{it} \sigma_{jt})^{\alpha}x^{-\alpha} \over n}
+T^{(i)}_{\delta, h} \left(\sum_{t=1}^\infty \pop{(g_{1t}, g_{2t},
+    \dots, g_{pt})}\right) = \sum_{t=1}^\infty g_{i+h, t}
+\1{|g_{i+h,t}|> \delta}
 \]
-Thus according to Resnick \cite{Resnick1987} proposition 3.21, we have
-the following point process convergence
+Using an argument similar to that given in section 3 of Resnick
+\cite{Resnick1986}, it maybe shown that $T^{(i)}_{\delta, h}$ is a.s. continuous
+with respect to the limit point process $N^{(i)}$ defined in
+\eqref{eq:pp_convergence}. Thus by the continuous mapping theorem
 \[
-\sum_{t=1}^{n} \epsilon_{b_n^{-1} \sigma_{it} \sigma_{jt} Z_{it}
-  Z_{jt}} \overset{v}{\to} N
+T^{(i)}_{\delta, h}(N^{(i)}_n) \overset{d}{\to} T^{(i)}_{\delta, h}(N^{(i)})
 \]
-where $N$ is a Poisson random measure with mean measure $\mu$ defined
-on the metric space $((E, \sigma(E)$. $E=(-\infty, 0)\cup(0, \infty)$
-and $\mu$ is defined by
+i.e.
 \[
-\mu(x, y) = \E(\sigma_{it} \sigma_{jt})^{\alpha} \left||x|^{-\alpha} - |y|^{-\alpha}\right|
+\sum_{t=1}^n b_n^{-1} X_{it} X_{i+h, t}\1{|X_{it} X_{i+h,t}| > b_n \delta} \overset{d}{\to}
+\sum_{k=1}^\infty P^{(i)}_{k,h}
 \]
-for $xy > 0$. Meanwhile we also have
+Choose $\delta = n^{-\beta/\alpha}$, $\beta > 1$ such that $b_n \delta
+\to 0$. Then 
 \[
-\sum_{t=1}^\infty\epsilon_{(nU_t)^{-1/\alpha}
-  (\E(\sigma_{it}\sigma_{jt})^{\alpha})^{1/\alpha}} +
-\sum_{t=1}^\infty \epsilon_{-(nV_t)^{-1/\alpha}
-  (\E(\sigma_{it}\sigma_{jt})^{\alpha})^{1/\alpha}} \overset{v}{\to}
-\text{PRM}(\mu)
+\lim_{\delta \to 0} \sum_{t=1}^n b_n^{-1} X_{it} X_{i+h, t}
+\1{|X_{it} X_{i+h,t}| > b_n \delta} \to \sum_{t=1}^\infty b_n^{-1}
+X_{it} X_{i+h, t}
 \]
-where $U_t$ and $V_t$ are iid. sequences of $\text{Unif}(0, 1)$ r.v. Therefore we obtain
+So it remains to show
+\[
+\lim_{\delta \to 0} \limsup_{n \to \infty} \P\left[
+\left|\sum_{t=1}^n b_n^{-1} X_{it} X_{i+h, t} \1{b_n^{-1} |X_{it} X_{i+h,
+    t}| \leq \delta} \right| > \epsilon\right] = 0
+\]
+Using Markov's inequality
 \begin{eqnarray*}
-  \lim_{n\to \infty} \sum_{t=1}^{n} b_n^{-1} \sigma_{it} \sigma_{jt}
-  Z_{it} Z_{jt} &\overset{d}{=}& \lim_{n\to \infty} \sum_{t=1}^{n}
-  (nU_t)^{-1/\alpha} (\E(\sigma_{it}\sigma_{jt})^{\alpha})^{1/\alpha}
-  \\
-  && - \lim_{n\to \infty} \sum_{t=1}^{n}(nV_t)^{-1/\alpha}
-  (\E(\sigma_{it}\sigma_{jt})^{\alpha})^{1/\alpha}
+  && \P\left[\left|\sum_{t=1}^n b_n^{-1} X_{it} X_{i+h, t} \1{b_n^{-1} |X_{it}
+        X_{i+h, t}| \leq \delta} \right|> \epsilon \right] \\
+  &\leq& \epsilon^{-1} b_n^{-1} \sum_{t=1}^n \E \left|X_{it}
+    X_{i+h, t}\1{b_n^{-1} |X_{it} X_{i+h, t} | \leq \delta} \right|
 \end{eqnarray*}
+Since $\E(\sigma_{it} \sigma_{i+h, t})^{\alpha} < \infty$ and
+$Z_{it} Z_{i+h, t} \in \mathcal R_{-\alpha}$, $X_{it} X_{i+h,t} \in
+\mathcal R_{-\alpha}$. By H\"older's inequality,
+\begin{eqnarray*}
+  && \E \left|X_{it} X_{i+h, t}\1{b_n^{-1} |X_{it} X_{i+h, t} | \leq
+      \delta} \right|  \\
+  &\leq& \left [\E \left|X_{it} X_{i+h, t} \right|^2\1{b_n^{-1} |X_{it} X_{i+h, t} | \leq
+      \delta} \right]^{1/2}  \\
+  &\sim& \left({\alpha \over 2 - \alpha}\right)^{1/2}  \delta^{1 -
+    \alpha/2} b_n n^{-1/2}
+\end{eqnarray*}
+Since $0 < \alpha < 2$, and $\delta = n^{-\beta/\alpha}$, the above
+expression tends to 0 as $n \to \infty$. Now applying theorem 4.2 in
+Billingsley \cite{billingsley1968convergence}, we have
+\[
+\sum_{t=1}^n b_n^{-1} X_{it} X_{i+h, t} \overset{d}{\to}
+\sum_{k=1}^\infty P^{(i)}_{k,h}
+\]
+Now let $\sum_{k=1}^\infty \pop{\tilde P^{(i)}_{k,h}}$ be the limit point
+process of $\sum_{k=1}^n \pop{b_n^{-1} j_{k,h}}$ where $j_{k,h} \sim
+\mu_h$
 \begin{enumerate}[(i)]
-\item when $0 < \alpha < 1$
-  Since $(U_t)^{-1/\alpha} \sim \text{Pareto}(\alpha)$, CLT gives
-  \[
-  \lim_{n\to \infty} n^{-1/\alpha} \sum_{t=1}^{n}
-  U_t^{-1/\alpha} \overset{d}{=} \xi_U \sim S_{\alpha}
-  \]
-and 
-  \[
-  \lim_{n\to \infty} n^{-1/\alpha} \sum_{t=1}^{n}
-  V_t^{-1/\alpha} \overset{d}{=} \xi_V \sim S_{\alpha}
-  \]
-  But $\frac{n^{1/\alpha}}{a_n^2} \sim n^{1/\alpha - 2/\alpha} L(n)
-  \to 0$. Therefore $a_n^{-2}\sum_{t=1}^{n} b_n^{-1} \sigma_{it}
-  \sigma_{jt} Z_{it} Z_{jt} \overset{P}{\to} 0$
-\item when $1 < \alpha < 2$, $\E U_1^{-1/\alpha} < \infty$
+\item if $0 < \alpha < 1$, by the central limit theorem
   \begin{eqnarray*}
-    \lim_{n\to \infty} n^{-1/\alpha} \left( \sum_{t=1}^{n}
-      U_t^{-1/\alpha} - n \E U_1^{-1/\alpha}\right) &\overset{d}{=}&
+    \sum_{k=1}^\infty P^{(i)}_{k,h} &=& [\E(\sigma_{it} \sigma_{i+h,
+      t})^{\alpha}]^{1/\alpha} \lim_{n \to \infty}
+    b_n^{-1}\sum_{k=1}^n j_{k,h} \overset{d}{=} \zeta_{i,h} \sim
     S_{\alpha}
   \end{eqnarray*}
-  Since $a_n^{-2} n \sim n^{-2/\alpha + 1} L(n) \to 0$, we may write
-  \begin{eqnarray*}
-    \lim_{n \to \infty} a_n^{-2} \sum_{t=1}^{n}U_t^{-1/\alpha} &=&
-    \lim_{n \to \infty} a_n^{-2}\left( \sum_{t=1}^{n} U_t^{-1/\alpha}
-      - n \E U_1^{-1/\alpha}\right)
-  \end{eqnarray*}
-  Since $\frac{n^{1/\alpha}}{a_n^2} \to 0$, again we have
+  But $b_n/a_n^2 \sim n^{1/\alpha - 2/\alpha} L(n) \to 0$, so
   \[
-  \P\left( a_n^{-2} \sum_{t=1}^{n} \sigma_{it} \sigma_{jt} Z_{it}
-    Z_{jt} > \epsilon\right) \to 0
-\]
-\item when $2 < \alpha < 4$
+  a_n^{-2} \sum_{t=1}^n X_{it} X_{i+h, t} \overset{P}{\to} 0
+  \]
+
+\item if $1 < \alpha < 2$, the central limit theorem gives
+  \begin{eqnarray*}
+    b_n^{-1} (\sum_{k=1}^n j_{k,h} - n \E j_{k,h}) &\overset{d}{\to}&
+    \zeta_{i,h} \sim S_{\alpha} \\
+    b_n a_n^{-2} \left(
+      \sum_{k=1}^n b_n^{-1} j_{k,h} - b_n^{-1} n \E j_{k,h}
+    \right) &\overset{P}{\to}& 0
+  \end{eqnarray*}
+  Since $n a_n^{-2} \sim n^{1 - 2/\alpha} L(n)\to 0$, it follows
+  \[
+  a_n^{-2} \sum_{t=1}^n X_{it} X_{i+h, t} \overset{P}{\to} 0
+  \]
 \end{enumerate}
-% \subsection[The case alpha > 1]{The case $\alpha > 1$}
-% if $\alpha > 1$, by H\"older's inequality
-% \begin{eqnarray*}
-% && \sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| \\
-% &\leq& \left(\sum_{t=1}^n |
-%   \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \left(
-%   \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta}\right)^{1/\beta} \\
-% \end{eqnarray*}
-% where $\beta$ is chosen such that $1/\alpha + 1/\beta = 1$.
 
-% We have
-% \begin{eqnarray*}
-% && \P(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| > \epsilon a_n^{2}) \\
-% &\leq& \P\left[
-% \left(\sum_{t=1}^n |
-%   \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \left(
-%   \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta}\right)^{1/\beta} > a_n^{2}
-% \epsilon
-% \right]
-% \end{eqnarray*}
-% It follows from Breiman's result
-% \begin{eqnarray*}
-% && \P\left[
-% \left(\sum_{t=1}^n |
-%   \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \left(
-%   \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta}\right)^{1/\beta} > a_n^{2}
-% \epsilon \right] \\
-% &\sim& \E \left[ \left(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \right]
-% \P \left[ \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta} \epsilon^{\beta} \right] \\
-% &=& n^{1/\alpha} \E \left[ \left({1 \over n}\sum_{t=1}^n |
-%     \sigma_{1t}\sigma_{2t}|^{\alpha}\right)^{1/\alpha} \right] \P\left[
-%   \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta}
-%   \epsilon^{\beta} \right] \\
-% &\sim& n^{1/\alpha} \left( \E | \sigma_{1t}\sigma_{2t}|^{\alpha} \right)^{1/\alpha}
-% \P \left[ \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta} \epsilon^{\beta} \right] \\
-% \end{eqnarray*}
-% where the continuous mapping theorem has been used for the last step.
-
-% Since $|Z_{1t}|$ and $|Z_{2t}|$ are independent and both regularly
-% varying w1th index $\alpha$, their product is also regularly varying
-% with index $\alpha$, and hence $|Z_{1t} Z_{2t}|^{\beta}$ is regularly
-% varying with index $\alpha/\beta$. So, by the central limit theorem
-% $$
-% b_n^{-1} \sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} \overset{d}{\to} \xi_{\alpha/\beta} \sim S_{\alpha/\beta}
-% $$
-% where $b_n$ is chosen such that $\P(|Z_1 Z_2| > b_n) \sim 1/n$. It
-% follows $b_n \sim n^{\beta/\alpha} l(n)$ for a slowly varying function
-% $l(\cdot)$. Thus
-% \begin{eqnarray*}
-% && \P \left[\sum_{t=1}^n |Z_{1t} Z_{2t}|^{\beta} > a_n^{2\beta} \epsilon^{\beta} \right] \\
-% &\sim& \P \left[ \xi_{\alpha/\beta} > b_n^{-1} a_n^{2\beta} \epsilon^{\beta} \right] \\
-% &\sim& [n^{2\beta/\alpha - \beta/\alpha} l^{-1}(n)]^{-\alpha/\beta}
-% L(n) \\
-% &\sim& n^{-1}L(n) \to 0
-% \end{eqnarray*}
-
-% \subsection[The case alpha < 1]{The case $\alpha < 1$}
-% In this case, we first note that $(\cdot)^{\alpha}$ is a concave
-% function and hence, by sub-additivity of concave functions, we have
-% \begin{eqnarray*}
-% && \sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| \\
-% &\leq& \sum_{t=1}^n\left(|\sigma_{1t}\sigma_{2t}|^{\alpha}
-%   |Z_{1t} Z_{2t}|^{\alpha}\right)^{1/\alpha} \\
-% \end{eqnarray*}
-% Then H\"older's inequality yields
-% \begin{eqnarray*}
-% && \sum_{t=1}^n\left(|\sigma_{1t}\sigma_{2t}|^{\alpha}
-%   |Z_{1t} Z_{2t}|^{\alpha}\right)^{1/\alpha} \\
-% &\leq& \left(\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
-% \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} \\
-% \end{eqnarray*}
-% where $1/\beta + 1/\gamma = 1/\alpha$. So
-% \begin{eqnarray*}
-%   && \P\left(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| >
-%     a_n^2 \epsilon\right) \\
-%   &\leq& \P\left[
-%     \left(\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
-%     \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} >
-%     a_n^2 \epsilon\right] \\
-%   &\sim& \P\left[
-%     \left(n^{-1}\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
-%     \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} >
-%     n^{-1/\beta} a_n^2 \epsilon\right] \\
-% \end{eqnarray*}
-% Using Breiman's result we obtain
-% \begin{eqnarray*}
-%   && \P\left(\sum_{t=1}^n | \sigma_{1t}\sigma_{2t} ||Z_{1t} Z_{2t}| >
-%     a_n^2 \epsilon\right) \\
-%   &\sim&
-%   \E\left(n^{-1}\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
-%   \P\left[
-%     \left(\sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma}\right)^{1/\gamma} >
-%     n^{-1/\beta} a_n^2 \epsilon\right]  
-% \end{eqnarray*}
-% By the law of large numbers
+\subsection[Diagonal Elements tend to alpha/2 stable rv]{Diagonal
+  Elements tend to $\alpha/2$ stable rv}\label{sec:SV2}
+By the same arguments as for mapping $T^{(i)}_{\delta, h}$, one can
+show
+\[
+T^{(i)}_{\delta} \left(\sum_{t=1}^\infty \pop{(g_{1t}, g_{2t},
+    \dots, g_{pt})}\right) = \sum_{t=1}^\infty g_{it}^2
+\1{|g_{t}|> \delta}
+\]
+is a.s. continuous. Thus using \eqref{eq:pp_convergence} and
+the continuous mapping theorem, it follows
+\[
+\sum_{t=1}^n a_n^{-2} X_{it}^2 \1{|X_{it}| > \delta a_n}
+\overset{d}{\to} \sum_{k=1}^\infty P^{(i)}_{k0}
+\]
+Choose $\delta = n^{-1/(\alpha - \epsilon)}$. Then $\delta a_n \to 0$,
+and
+\[
+\lim_{\delta \to 0}\sum_{t=1}^n a_n^{-2} X_{it}^2 \1{|X_{it}| > \delta
+  a_n} = \sum_{t=1}^n a_n^{-2} X_{it}^2
+\]
+Using Markov's inequality and the Karamata theorem as in subsection
+\ref{sec:SV1}, it is easily shown
+\[
+\P\left[
+  \left|
+\sum_{t=1}^n a_n^{-2} X_{it}^2 \1{|X_{it}| \leq \delta a_n}
+\right|> \epsilon
+\right] \leq {\alpha \over 2 - \alpha} \epsilon^{-1} \delta^{2-\alpha}
+\to 0
+\]
+So by Billingsley \cite{billingsley1968convergence}, it follows
+\[
+a_n^{-2} \sum_{t=1}^n  X_{it}^2 \overset{d}{\to} \sum_{k=1}^\infty P^{(i)}_{k0}
+\]
+Choose $\sum_{k=1}^\infty \pop{\tilde P_{k0}}$ as $\lim_{n \to \infty}\sum_{k=1}^n \pop{a_n^{-2} j_{k0}}$, where $j_{k0} \sim
+\mu_0$. Then the central limit theorem gives
+\[
+a_n^{-2} \sum_{t=1}^n  X_{it}^2 \overset{d}{\to} (\E
+\sigma_{i1}^\alpha)^{1/\alpha} \xi_{i}
+\]
+where $\xi_i \sim S_{\alpha/2}$.
+% we conclude
 % \[
-% \E\left(n^{-1}\sum_{t=1}^n|\sigma_{1t}\sigma_{2t}|^{\beta}\right)^{1/\beta}
-% \overset{a.s.}{\to} \E |\sigma_{1t}\sigma_{2t}|^{\beta} < \infty
+% a_n^{-2} \mtx{XX'} \overset{d}{\to} \diag(\xi_1, \xi_2, \dots, \xi_p)
 % \]
-% And using the central limit theorem one obtains
-% \[
-% b_n^{-1} \sum_{t=1}^n |Z_{1t}Z_{2t}|^\gamma \overset{d}{\to}
-% \xi_{\alpha/\gamma} \sim S_{\alpha/\gamma}
-% \]
-% where $\P(|Z_{1t} Z_{2t}| > b_n) \sim 1/n$ and $b_n \sim
-% n^{\gamma/\alpha} L(n)$. Thus
-% $$
-%   \P\left[
-%     b_n^{-1} \sum_{t=1}^n|Z_{1t}Z_{2t}|^{\gamma} >
-%     n^{-\gamma/\beta} b_n^{-1} a_n^{2\gamma} L(n) \epsilon\right] \sim
-%   n^{\alpha/\beta - 1} L(n) \to 0
-% $$
-% where in the last step $\beta > \alpha$ is implied by the relation
-% $1/\beta + 1/\gamma = 1/\alpha$.
+
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}

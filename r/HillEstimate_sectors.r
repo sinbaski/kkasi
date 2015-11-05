@@ -144,10 +144,10 @@ dbClearResult(results);
 colors <- rainbow(length(sector.names));
 
 ## Record the eigenvalues
-lambda <- matrix(NA, nrow=1+length(sector.names), ncol=p);
+## lambda <- matrix(NA, nrow=1+length(sector.names), ncol=p);
 company.num <- rep(NA, length(sector.names));
 for (i in 1:length(sector.names)) {
-    I <- which(sectors[to.include] == sector.names[i]);
+    I <- which(sectors[to.include] != sector.names[i]);
     ## if (i == 1) {
     ##     plot(tailIndices[I, 1], tailIndices[I, 2],
     ##          col=colors[i], pch=i,
@@ -157,7 +157,7 @@ for (i in 1:length(sector.names)) {
     ##     points(tailIndices[I, 1], tailIndices[I, 2], col=colors[i], pch=i);
     ## }
 
-    ## pdf(sprintf("/tmp/%s_tail_indices.pdf", sector.names[i]));
+    ## pdf(sprintf("../papers/%s_tail_indices.pdf", sector.names[i]));
     ## plot(tailIndices[I, 1], tailIndices[I, 2],
     ##      col="#0000FF", pch=i,
     ##      xlim=c(a, b), ylim=c(a, b),
@@ -167,15 +167,76 @@ for (i in 1:length(sector.names)) {
     ## lines(X, X, col="#FF0000");
     ## grid(nx=20);
     ## dev.off();
+
+    pdf(sprintf("../papers/%s_eigenvalue_ratios.pdf", sector.names[i]));
     company.num[i] <- length(I);
-    R.trfm <- rank.transform(R, I);
-    E <- eigen((n.records * length(I))^(-2) * t(R.trfm) %*% R.trfm, only.values=TRUE);
-    lambda[i,1:length(I)] <- E$values;
-    ## dev.off();
+    # R.trfm <- rank.transform(R, I);
+    E <- eigen(t(R[, I]) %*% R[, I], only.values=TRUE);
+    l <- length(E$values);
+    plot(1:(l-1), (E$values[2:l] / E$values[1:(l-1)]), type="b",
+         xlab="", ylab="", xlim=c(1, 100), ylim=c(0.1, 1),
+         main=sprintf("\"%s\" removed", sector.names[i]));
+    dev.off();
 }
-R.trfm <- rank.transform(R, 1:(dim(R)[2]));
-E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm, only.values=TRUE);
-lambda[1+length(sector.names),] <- E$values;
+
+pdf(sprintf("../papers/SP500_eigenvalue_ratios.pdf"));
+E <- eigen(t(R) %*% R, only.values=TRUE);
+l <- length(E$values);
+plot(1:(l-1), (E$values[2:l] / E$values[1:(l-1)]), type="b",
+     xlab="", ylab="", xlim=c(1, 100), ylim=c(0.1, 1));
+dev.off();
+
+################################################
+## Remove the companies with small tail indices
+################################################
+min.index <- rep(NA, p);
+for (i in 1:dim(tailIndices)[1]) {
+    min.index[i] <- tailIndices[i,];
+}
+
+pdf("../papers/eigenvalue_ratios_selective.pdf");
+colors <- rainbow(7);
+largest <- rep(NA, 7);
+E <- eigen(t(R) %*% R, only.values=TRUE);
+largest[1] <- E$values[2]/E$values[1];
+plot(1:(p-1), log10(E$values[2:p] / E$values[1:(p-1)]), type="b",
+     xlab="", ylab="", xlim=c(1, 50), ylim=log10(c(0.1, 1)), col=colors[1]);
+i <- 2;
+thresholds <- seq(2, 2.5, by=0.1);
+for (threshold in thresholds) {
+    I <- which(min.index >= threshold);
+    E <- eigen(t(R[, I]) %*% R[, I], only.values=TRUE);
+    largest[i] <- E$values[2]/E$values[1];
+    l <- length(E$values);
+
+    ## pdf(sprintf("../papers/eigenvalue_ratios_%.1f.pdf", threshold));
+    points(1:(l-1), log10(E$values[2:l] / E$values[1:(l-1)]), type="b", col=colors[i]);
+    i <- i+1;
+    ## dev.off();
+
+    ## orders[i:(i+l-2)] <- 1:(l-1);
+    ## ratios[i:(i+l-2)] <- E$values[2:l] / E$values[1:(l-1)];
+    ## i <- i+l;
+}
+explanations <- c(
+    "All included",
+    expression(min*group("{", list(alpha["lower"], alpha["upper"]), "}") >= 2.0),
+    expression(min*group("{", list(alpha["lower"], alpha["upper"]), "}") >= 2.1),
+    expression(min*group("{", list(alpha["lower"], alpha["upper"]), "}") >= 2.2),
+    expression(min*group("{", list(alpha["lower"], alpha["upper"]), "}") >= 2.3),
+    expression(min*group("{", list(alpha["lower"], alpha["upper"]), "}") >= 2.4),
+    expression(min*group("{", list(alpha["lower"], alpha["upper"]), "}") >= 2.5)
+    );
+legend("bottomright", legend=explanations, col=colors, lty=rep(1, 7));
+dev.off();
+
+## pdf(sprintf("../papers/eigenvalue_ratios_%.1f.pdf", threshold));
+## dev.off();
+## R.trfm <- rank.transform(R, 1:(dim(R)[2]));
+## E <- eigen((n.records * p)^(-2) * t(R.trfm) %*% R.trfm, only.values=TRUE);
+## lambda[1+length(sector.names),] <- E$values;
+
+
 ## grid(nx=20);
 ## legend("bottomright", legend=sector.names, col=colors, pch=seq(1, length(sector.names)));
 ## dev.off();
