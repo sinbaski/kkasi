@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{bookmark}
+\usepackage{graphicx}
+
+\input{../../physics_common}
+\title{Importance Sampling}
+% \author{Xie Xiaolei}
+% \date{\today}
+\begin{document}
+\maketitle
+\section{Consistency}\label{sec:consistency}
+By the law of large numbers
+\begin{eqnarray*}
+  && \P(|V| > u) \\
+  &=& \lim_{n \to \infty} {1 \over n} \sum_{i=0}^n \1{|V_i| > u}
+\end{eqnarray*}
+Define
+\[
+R_n := \inf\{0 \leq i \leq n: V_i \in \mathcal C\}
+\]
+and
+\[
+K_i := \inf\{k \geq 1: k > K_{i-1}, V_k \in \mathcal C, K_0 = 0\}
+\]
+Then one can write
+\begin{eqnarray*}
+  && \lim_{n \to \infty} {1 \over n} \sum_{i=1}^n \1{|V_i| > u} \\
+  &=& \lim_{n \to \infty} {1 \over n} \left[
+    \sum_{i=0}^{K_{R_n}-1} \1{|V_i| > u} + \sum_{i=K_{R_n}}^n \1{|V_i| > u}
+\right]
+\end{eqnarray*}
+For the 2nd term, by a Borel-Cantelli argument, it maybe shown
+\[
+\lim_{n \to \infty} {1 \over n}\sum_{i=K_{R_n}}^n \1{|V_i| > u} = 0
+\]
+For the 1st term,
+\begin{eqnarray*}
+&& \lim_{n \to \infty} {1 \over n} \sum_{i=0}^{K_{R_n}-1} \1{|V_i| >
+  u}  \\
+&=& \lim_{n \to \infty} {R_n \over n} {1 \over R_n} \sum_{i=1}^{R_n}
+\sum_{j=K_{i-1}}^{K_i-1}\1{|V_i| > u} \\
+&=& \pi(\mathcal C) \E_\gamma N_u
+\end{eqnarray*}
+where the law of large numbers of Markov chains has been used to reach
+the last line. In addition, it is assumed
+\begin{eqnarray*}
+  V_{K_i} &\sim& \gamma \; \forall i \geq 0 \\
+  \gamma(E) &=& \pi(E)/\pi(\mathcal C)\; \forall E \in \mathcal
+  B(\mathcal C)
+\end{eqnarray*}
+Define
+\begin{eqnarray*}
+  T_u &=& \inf\{n \geq 1: |V_n| > u\} \\
+  \tau &\overset{d}{=}& K_i - K_{i-1} \\
+  N_u &:=& \sum_{i=0}^{\tau-1} \1{|V_i| > u}  \\
+\end{eqnarray*}
+Then $\E_\gamma N_u$ may be evaluated as
+\begin{eqnarray*}
+  && \E_\gamma N_u \\
+  &=& \E_\gamma N_u \1{T_u < \tau} \\
+  &=& \int_{\mathds S^{d-1}} \int_{\mathds R} \cdots \int_{\mathds
+    S^{d-1}} \int_{\mathds R} N_u \1{T_u < \tau} \times \\
+  && \prod_{i=1}^{T_u} e^{-\xi(s_i - s_{i-1}) + \Lambda(\xi)}
+  {r(x_{i-1}; \xi) \over r(x_{i}; \xi)}P_\xi(x_{i-1}, dx_i \times ds_i) \times \\
+  && \prod_{i=T_u+1}^{\tau-1} P(x_{i-1}, dx_i \times d s_i)
+\end{eqnarray*}
+where
+\[
+P_\xi(x_{i-1}, dx_i \times ds_i) = e^{\xi(s_i - s_{i-1}) -
+  \Lambda(\xi)} {r(x_i; \xi) \over r(x_{i-1}; \xi)} P(x_{i-1}, dx_i
+\times ds_i)
+\]
+is the $\xi$-shifted transition kernel of the {\it Markov Additive
+  process} $(X_n, S_n)$.
+% $\xi$ is chosen such that 
+% \[
+% \lim_{n \to \infty} \left(
+% \E \|A_n \cdots A_1\|^\xi
+% \right)^{1/n} = 1
+% \]
+Thus we have obtained a consistent estimator $\mathcal E_u$ for
+$\P(|V| > u)$:
+\[
+\mathcal E_u := \pi(\mathcal C) \E_\gamma (N_u)
+\]
+
+\section{Efficiency}\label{sec:efficiency}
+\begin{theorem}
+  The estimator $\mathcal E_u$ has bounded relative error, i.e.
+  \begin{equation*}
+    {\var(\mathcal E_u) \over (\E_D \mathcal E_u)^2} < \infty
+  \end{equation*}
+\end{theorem}
+\bibliographystyle{unsrt}
+\bibliography{../thesis/econophysics}
+\end{document}
