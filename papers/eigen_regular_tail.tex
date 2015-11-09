@@ -11,8 +11,7 @@
 \ALLtrue
 
 \input{../physics_common}
-\title{Eigenvalue Estimation of fixed-dimensional sample covariance
-  matrices}
+\title{Eigenvalues of fixed-dimensional sample covariance matrices}
 \author{Xie Xiaolei}
 \date{\today}
 \begin{document}
@@ -173,7 +172,7 @@ So for the eigenvalues of $a_n^{-2}XX'$, $\lambda_{(1)} > \lambda_{(2)} >
 \]
 As argued in the iid case in \S\ref{sec:iid}, if $\alpha \in (0,2)$,
 $\sum_{t=1}^n Z_{it}^2 \xrightarrow{d} \xi_{i}$, where $\xi_{i}$ is an
-$\alpha/2$-stable rv; if $\alpha \in (2,4)$, $\sum_{t=1}^n Z_{it}^2
+$\alpha/2$-stable random variable; if $\alpha \in (2,4)$, $\sum_{t=1}^n Z_{it}^2
 \xrightarrow{a.s.} \infty$.
 
 \subsection{Cross-correlation limited to order 1}\label{sec:B1}
@@ -466,7 +465,7 @@ In summary
 Here we prove
 \begin{eqnarray*}
   a_n^{-2}(XX')_{ij} &=& a_n^{-2}\sum_{t=1}^n \sum_{k=0}^\infty \sum_{l=0}^\infty
-  h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2 + o_P(1) \\
+  h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2 \\
   &=& a_n^{-2} \sum_{t=1}^n \sum_{k=0}^M \sum_{l=0}^M
   h_{k+|j-i|,l} h_{kl} Z_{(i \wedge j) -k, t-l}^2 + o_P(1) \\
 \end{eqnarray*}
@@ -582,12 +581,13 @@ $\E \sigma^{\alpha + s} < \infty$ and $\E (\sigma_{i1}
 In subsection \ref{sec:SV1} we show that the eigenvalues of $a_n^{-2}
 XX'$ are asymptotically equal to those of $a_n^{-2} \diag(XX')$, and
 in section \ref{sec:SV2} we show that $i-th$ diagonal entry of
-$a_n^{-2} XX'$ tends to a $S_{\alpha/2}$ rv.
+$a_n^{-2} XX'$ tends to a $S_{\alpha/2}$ random variable.
 
 In the rest of this section, we write $L(\cdot)$ for a slowly varying
 function whose particular form is of no interest.
 
-\subsection{Off-diagonal elements vanish in probability} \label{sec:SV1}
+\subsection[Off-diagonal elements are infinitesimally small in
+probability]{Off-diagonal elements are $o_P(1)$} \label{sec:SV1}
 Here we show that the eigenvalues of $a_n^{-2}XX'$ are asymptotically
 equal to those of $a_n^{-2} \diag(XX')$. Because $p$ is constant, it
 suffices to show for all $i \neq j$
@@ -622,12 +622,13 @@ $\{\sigma_{it}\}_{i=1,\dots,p; t=1,\dots,n}$
 
 By the same arguments as found in the proof of theorem 3.1 in Davis
 and Mikosch \cite{davis2001} it may be shown
-\begin{equation}
-  \label{eq:pp_convergence}
-N^{(i)}_n = \sum_{t=1}^n \pop{(0,\dots,0, a_n^{-1} X_{it}, b_n^{-1} X_{it} X_{i+1,
-    t}, \dots, b_n^{-1} X_{it} X_{pt})} \overset{d}{\to}
-N^{(i)} = \sum_{k=1}^\infty \sum_{j=0}^{p-i} \pop{P^{(i)}_{k,j} \vec{e}_{i+j}}
-\end{equation}
+\begin{eqnarray}
+  N^{(i)}_n &=& \sum_{t=1}^n \pop{(0,\dots,0, a_n^{-1} X_{it}, b_n^{-1} X_{it} X_{i+1,
+                t}, \dots, b_n^{-1} X_{it} X_{pt})} \nonumber \\
+            &\overset{d}{\to}& \sum_{k=1}^\infty \sum_{j=0}^{p-i}
+                               \pop{P^{(i)}_{k,j} \vec{e}_{i+j}} :=
+                               N^{(i)}   \label{eq:pp_convergence}
+\end{eqnarray}
 where $\vec{e}_{i+j} \in \mathds R^{p}$ is the unit vector with $(i+j)$-th
 component equal to 1 and the rest 0. $a_n$ and $b_n$ are defined such
 that 
@@ -659,16 +660,17 @@ Choose $\delta = n^{-\beta/\alpha}$, $\beta > 1$ such that $b_n \delta
 \to 0$. Then 
 \[
 \lim_{\delta \to 0} \sum_{t=1}^n b_n^{-1} X_{it} X_{i+h, t}
-\1{|X_{it} X_{i+h,t}| > b_n \delta} \to \sum_{t=1}^\infty b_n^{-1}
+\1{|X_{it} X_{i+h,t}| > b_n \delta} = \sum_{t=1}^\infty b_n^{-1}
 X_{it} X_{i+h, t}
 \]
-So it remains to show
-\[
-\lim_{\delta \to 0} \limsup_{n \to \infty} \P\left[
-\left|\sum_{t=1}^n b_n^{-1} X_{it} X_{i+h, t} \1{b_n^{-1} |X_{it} X_{i+h,
-    t}| \leq \delta} \right| > \epsilon\right] = 0
-\]
-Using Markov's inequality
+So it remains to show, for arbitrary $\epsilon > 0$
+\begin{equation}
+  \label{eq:diff_to_0}
+  \lim_{\delta \to 0} \limsup_{n \to \infty} \P\left[
+    \left|\sum_{t=1}^n b_n^{-1} X_{it} X_{i+h, t} \1{b_n^{-1} |X_{it} X_{i+h,
+          t}| \leq \delta} \right| > \epsilon\right] = 0
+\end{equation}
+Markov's inequality immediately gives
 \begin{eqnarray*}
   && \P\left[\left|\sum_{t=1}^n b_n^{-1} X_{it} X_{i+h, t} \1{b_n^{-1} |X_{it}
         X_{i+h, t}| \leq \delta} \right|> \epsilon \right] \\
@@ -686,16 +688,20 @@ $Z_{it} Z_{i+h, t} \in \mathcal R_{-\alpha}$, $X_{it} X_{i+h,t} \in
   &\sim& \left({\alpha \over 2 - \alpha}\right)^{1/2}  \delta^{1 -
     \alpha/2} b_n n^{-1/2}
 \end{eqnarray*}
-Since $0 < \alpha < 2$, and $\delta = n^{-\beta/\alpha}$, the above
-expression tends to 0 as $n \to \infty$. Now applying theorem 4.2 in
-Billingsley \cite{billingsley1968convergence}, we have
+Since $0 < \alpha < 2$, and $\delta = n^{-\beta/\alpha}$, the left
+hand side of \eqref{eq:diff_to_0} tends to 0 as $n \to \infty$. Now
+applying theorem 4.2 in Billingsley \cite{billingsley1968convergence},
+we have
 \[
 \sum_{t=1}^n b_n^{-1} X_{it} X_{i+h, t} \overset{d}{\to}
 \sum_{k=1}^\infty P^{(i)}_{k,h}
 \]
-Now let $\sum_{k=1}^\infty \pop{\tilde P^{(i)}_{k,h}}$ be the limit point
-process of $\sum_{k=1}^n \pop{b_n^{-1} j_{k,h}}$ where $j_{k,h} \sim
-\mu_h$
+According to Resnick \cite{Resnick1986}
+\[
+\sum_{k=1}^n \pop{b_n^{-1} j_{k,h}} \overset{d}{\to}
+\sum_{k=1}^\infty \pop{\tilde P^{(i)}_{k,h}}
+\]
+where $j_{k,h} \sim \mu_h$.
 \begin{enumerate}[(i)]
 \item if $0 < \alpha < 1$, by the central limit theorem
   \begin{eqnarray*}
@@ -723,8 +729,8 @@ process of $\sum_{k=1}^n \pop{b_n^{-1} j_{k,h}}$ where $j_{k,h} \sim
   \]
 \end{enumerate}
 
-\subsection[Diagonal Elements tend to alpha/2 stable rv]{Diagonal
-  Elements tend to $\alpha/2$ stable rv}\label{sec:SV2}
+\subsection[Diagonal Elements tend to alpha/2 stable random variable]{Diagonal
+  Elements tend to $\alpha/2$ stable random variable}\label{sec:SV2}
 By the same arguments as for mapping $T^{(i)}_{\delta, h}$, one can
 show
 \[
@@ -754,12 +760,13 @@ Using Markov's inequality and the Karamata theorem as in subsection
 \right] \leq {\alpha \over 2 - \alpha} \epsilon^{-1} \delta^{2-\alpha}
 \to 0
 \]
-So by Billingsley \cite{billingsley1968convergence}, it follows
+So by theorem 4.2 of Billingsley \cite{billingsley1968convergence}, it follows
 \[
 a_n^{-2} \sum_{t=1}^n  X_{it}^2 \overset{d}{\to} \sum_{k=1}^\infty P^{(i)}_{k0}
 \]
-Choose $\sum_{k=1}^\infty \pop{\tilde P_{k0}}$ as $\lim_{n \to \infty}\sum_{k=1}^n \pop{a_n^{-2} j_{k0}}$, where $j_{k0} \sim
-\mu_0$. Then the central limit theorem gives
+Note $\sum_{k=1}^\infty \pop{\tilde P_{k0}} = \lim_{n \to
+  \infty}\sum_{k=1}^n \pop{a_n^{-2} j_{k0}}$, where $j_{k0} \sim
+\mu_0$. The central limit theorem gives
 \[
 a_n^{-2} \sum_{t=1}^n  X_{it}^2 \overset{d}{\to} (\E
 \sigma_{i1}^\alpha)^{1/\alpha} \xi_{i}
