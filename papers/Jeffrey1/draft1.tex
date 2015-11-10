@@ -8,10 +8,40 @@
 
 \input{../../physics_common}
 \title{Importance Sampling}
-% \author{Xie Xiaolei}
-% \date{\today}
+\author{Xie Xiaolei}
+\date{\today}
+
 \begin{document}
 \maketitle
+\section{Introduction}
+We consider the model
+\begin{eqnarray*}
+V_n &=& A_n V_{n-1} \\
+V_0 &=& x_0 \in \mathbb S^{d-1}\\
+\end{eqnarray*}
+Use the following notations
+\begin{eqnarray*}
+X_n &=& \frac{V_n}{\|V_n\|} \\
+S_n &=& \log \|A_n \cdots A_1 x_0\| \\
+\xi_n &=& S_n - S_{n-1} = \log\frac{\|A_n \cdots A_1 x_0\|}{\|A_{n-1} \cdots A_1 x_0\|} \\
+&=& \log\left\| A_n \frac{A_{n-1} \cdots A_1 x_0}{\|A_{n-1} \cdots A_1 x_0\|} \right\|\\
+&=& \log \|A_n X_{n-1}\|
+\end{eqnarray*}
+The pair $(X_n, S_n)$ is a Markov additive process with transition kernel $P$.
+Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
+\begin{enumerate}
+\item The top Lyapunov exponent is negative, i.e.
+  \begin{equation}
+    \label{eq:neg_top_Lyapunov}
+    \inf_{n \geq 1} \E \log \|A_n \cdots A_1\| < 0    
+  \end{equation}
+\item $\exists \xi > 0$ such that $\lambda(\xi) = 1$, where
+  $$
+  \lambda(\xi) := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
+  $$
+\item $\E[\|A\|^\xi \log^+\|A\|] < \infty$
+\end{enumerate}
+
 \section{Consistency}\label{sec:consistency}
 By the law of large numbers
 \begin{eqnarray*}
@@ -66,7 +96,11 @@ Then $\E_\gamma N_u$ may be evaluated as
     S^{d-1}} \int_{\mathds R} N_u \1{T_u < \tau} \times \\
   && \prod_{i=1}^{T_u} e^{-\xi(s_i - s_{i-1}) + \Lambda(\xi)}
   {r(x_{i-1}; \xi) \over r(x_{i}; \xi)}P_\xi(x_{i-1}, dx_i \times ds_i) \times \\
-  && \prod_{i=T_u+1}^{\tau-1} P(x_{i-1}, dx_i \times d s_i)
+  && \prod_{i=T_u+1}^{\tau-1} P(x_{i-1}, dx_i \times d s_i) \\
+  &=& \E_{\mathcal D} \left[
+    N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(x_0; \xi)
+      \over r(x_{T_u}; \xi)}
+  \right]
 \end{eqnarray*}
 where
 \[
@@ -75,17 +109,33 @@ P_\xi(x_{i-1}, dx_i \times ds_i) = e^{\xi(s_i - s_{i-1}) -
 \times ds_i)
 \]
 is the $\xi$-shifted transition kernel of the {\it Markov Additive
-  process} $(X_n, S_n)$.
-% $\xi$ is chosen such that 
-% \[
-% \lim_{n \to \infty} \left(
-% \E \|A_n \cdots A_1\|^\xi
-% \right)^{1/n} = 1
-% \]
-Thus we have obtained a consistent estimator $\mathcal E_u$ for
-$\P(|V| > u)$:
+  process} $(X_n, S_n)$. $\xi$ is chosen such that 
 \[
-\mathcal E_u := \pi(\mathcal C) \E_\gamma (N_u)
+\Lambda(\xi) = \lim_{n \to \infty} \log \left(
+\E \|A_n \cdots A_1\|^\xi
+\right)^{1/n} = 0
+\]
+$\E_{\mathcal D}$ denotes expectation taken with respect to the dual
+measure defined as
+\[
+P_{\mathcal D} (x_i, dx_{i+1} \times ds) = \left\{
+  \begin{array}{ll}
+    P_\xi (x_i, dx_{i+1} \times ds) & \text{ if } i < T_u \\
+    P(x_i, dx_{i+1} \times ds) & \text{ if } i \geq T_u \\
+  \end{array}
+\right.
+\]
+Because the top Lyapunov exponent is negative, it follows from a lemma
+in Kesten \cite{Kesten1973} that there is a $s > 0$ such that
+$\Lambda(s) < 0$.
+
+Thus we have obtained a consistent estimator
+$\mathcal E_u$ for $\P(|V| > u)$:
+\[
+\mathcal E_u := \pi(\mathcal C) \E_{\mathcal D} \left[
+    N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(x_0; \xi)
+      \over r(x_{T_u}; \xi)}
+  \right]
 \]
 
 \section{Efficiency}\label{sec:efficiency}
@@ -96,5 +146,5 @@ $\P(|V| > u)$:
   \end{equation*}
 \end{theorem}
 \bibliographystyle{unsrt}
-\bibliography{../thesis/econophysics}
+\bibliography{../../thesis/econophysics}
 \end{document}
