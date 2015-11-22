@@ -147,7 +147,7 @@ colors <- rainbow(length(sector.names));
 ## lambda <- matrix(NA, nrow=1+length(sector.names), ncol=p);
 company.num <- rep(NA, length(sector.names));
 for (i in 1:length(sector.names)) {
-    I <- which(sectors[to.include] != sector.names[i]);
+    I <- which(sectors[to.include] == sector.names[i]);
     ## if (i == 1) {
     ##     plot(tailIndices[I, 1], tailIndices[I, 2],
     ##          col=colors[i], pch=i,
@@ -168,14 +168,15 @@ for (i in 1:length(sector.names)) {
     ## grid(nx=20);
     ## dev.off();
 
-    pdf(sprintf("../papers/%s_eigenvalue_ratios.pdf", sector.names[i]));
+    pdf(sprintf("/tmp/%s_eigenvalue_ratios.pdf", sector.names[i]));
     company.num[i] <- length(I);
     # R.trfm <- rank.transform(R, I);
     E <- eigen(t(R[, I]) %*% R[, I], only.values=TRUE);
     l <- length(E$values);
     plot(1:(l-1), (E$values[2:l] / E$values[1:(l-1)]), type="b",
          xlab="", ylab="", xlim=c(1, 100), ylim=c(0.1, 1),
-         main=sprintf("\"%s\" removed", sector.names[i]));
+         main=sprintf("\"%s\"", sector.names[i]));
+    grid(nx=20);
     dev.off();
 }
 
