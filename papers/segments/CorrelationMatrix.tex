@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{subfigure}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{bookmark}
+\usepackage{graphicx}
+
+\input{../../physics_common}
+\title{Eigenvalues and Eigenvectors of Correlation/Covariance Matrices}
+\author{Xie Xiaolei}
+\date{\today}
+\begin{document}
+\maketitle
+\section{Eigenvalues}
+% \begin{figure}[htb!]
+%   \centering
+%   \subfigure[]{
+%     \includegraphics[scale=0.3]{Eigenvalues_of_CovarianceMatrix_SP500.pdf}
+%   }
+%   \subfigure[]{
+%     \includegraphics[scale=0.3]{Eigenvalues_of_CorrelationMatrix_SP500.pdf}
+%   }
+%   \caption{$\log_{10}(\lambda_{(i+1)} / \lambda_{(i)})$ versus $i$}
+%   \label{fig:EigenRatio}
+% \end{figure}
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5]{Eigenvalues_Cor_n_Cov_Matrix.pdf}  
+  \caption{$\log_{10}(\lambda_{(i)})$}
+  \label{fig:EigenRatio}
+\end{figure}
+
+\section{Eigenvectors}
+% \begin{figure}[htb!]
+%   \centering
+%   \subfigure[]{
+%     \includegraphics[scale=0.3]{LargestComponent_of_Eigenvectors_of_CovarianceMatrix_SP500.pdf}
+%   }
+%   \subfigure[]{
+%     \includegraphics[scale=0.3]{LargestComponent_of_Eigenvectors_of_CorrelationMatrix_SP500.pdf}
+%   }
+%   \caption{$\max_{1 \leq k \leq p} |V_{ki}|$, where $V_{ki}$ is the
+%     $k$-th component of the eigenvector associated with the $i$-th
+%     largest eigenvalue.}
+%   \label{fig:Eigenvector_largest_comp}
+% \end{figure}
+\begin{figure}[htb!]
+  \centering
+  \subfigure[Covariance Matrix]{
+    \includegraphics[scale=0.3]{V1_CovarianceMatrix.pdf}
+  }
+  \subfigure[Correlation Matrix]{
+    \includegraphics[scale=0.3]{V1_CorrelationMatrix.pdf}
+  }
+  \caption{Eigenvector corresponding to the largest eigenvalue}
+  \label{fig:Eigenvector_largest_comp}
+\end{figure}
+\bibliographystyle{unsrt}
+\bibliography{../thesis/econophysics}
+\end{document}
