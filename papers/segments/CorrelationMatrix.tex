@@ -25,12 +25,29 @@
 %   \caption{$\log_{10}(\lambda_{(i+1)} / \lambda_{(i)})$ versus $i$}
 %   \label{fig:EigenRatio}
 % \end{figure}
+
 \begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.5]{Eigenvalues_Cor_n_Cov_Matrix.pdf}  
-  \caption{$\log_{10}(\lambda_{(i)})$}
-  \label{fig:EigenRatio}
+  \subfigure[$\lambda_{(i)}$]{
+    \includegraphics[scale=0.3]{Eigenvalues_Cor_n_Cov_Matrix.pdf}
+  }
+  \subfigure[$\log_{10}\lambda^{\text{corr}}_{(i)}$
+  vs. $\log_{10}\lambda^{\text{cov}}_{(i)}$]{
+    \includegraphics[scale=0.3]{Eigenvalues_Cor_vs_Cov_Matrix.pdf}
+  }
 \end{figure}
+
+% \begin{figure}[htb!]
+%   \centering
+%   \includegraphics[scale=0.5]{Eigenvalues_Cor_n_Cov_Matrix.pdf}  
+%   \caption{$\lambda_{(i)}$}
+% \end{figure}
+
+% \begin{figure}[htb!]
+%   \centering
+%   \includegraphics[scale=0.5]{Eigenvalues_Cor_vs_Cov_Matrix.pdf}  
+%   \caption{$\lambda^{\text{corr}}_{(i)}$ vs. $\lambda^{\text{cov}}_{(i)}$}
+% \end{figure}
 
 \section{Eigenvectors}
 % \begin{figure}[htb!]
@@ -57,6 +74,67 @@
   \caption{Eigenvector corresponding to the largest eigenvalue}
   \label{fig:Eigenvector_largest_comp}
 \end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[Covariance Matrix]{
+    \includegraphics[scale=0.3]{V2_CovarianceMatrix.pdf}
+  }
+  \subfigure[Correlation Matrix]{
+    \includegraphics[scale=0.3]{V2_CorrelationMatrix.pdf}
+  }
+  \caption{Eigenvector corresponding to the 2nd largest eigenvalue}
+  \label{fig:Eigenvector_largest_comp}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[Covariance Matrix]{
+    \includegraphics[scale=0.3]{V3_CovarianceMatrix.pdf}
+  }
+  \subfigure[Correlation Matrix]{
+    \includegraphics[scale=0.3]{V3_CorrelationMatrix.pdf}
+  }
+  \caption{Eigenvector corresponding to the 3rd largest eigenvalue}
+  \label{fig:Eigenvector_largest_comp}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[Covariance Matrix]{
+    \includegraphics[scale=0.3]{V4_CovarianceMatrix.pdf}
+  }
+  \subfigure[Correlation Matrix]{
+    \includegraphics[scale=0.3]{V4_CorrelationMatrix.pdf}
+  }
+  \caption{Eigenvector corresponding to the 4th largest eigenvalue}
+  \label{fig:Eigenvector_largest_comp}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[Covariance Matrix]{
+    \includegraphics[scale=0.3]{V5_CovarianceMatrix.pdf}
+  }
+  \subfigure[Correlation Matrix]{
+    \includegraphics[scale=0.3]{V5_CorrelationMatrix.pdf}
+  }
+  \caption{Eigenvector corresponding to the 5th largest eigenvalue}
+  \label{fig:Eigenvector_largest_comp}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \subfigure[Covariance Matrix]{
+    \includegraphics[scale=0.3]{V6_CovarianceMatrix.pdf}
+  }
+  \subfigure[Correlation Matrix]{
+    \includegraphics[scale=0.3]{V6_CorrelationMatrix.pdf}
+  }
+  \caption{Eigenvector corresponding to the 6th largest eigenvalue}
+  \label{fig:Eigenvector_largest_comp}
+\end{figure}
+
 \bibliographystyle{unsrt}
 \bibliography{../thesis/econophysics}
 \end{document}
