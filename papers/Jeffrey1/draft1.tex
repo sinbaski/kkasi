@@ -23,12 +23,14 @@ Use the following notations
 \begin{eqnarray*}
 X_n &=& \frac{V_n}{\|V_n\|} \\
 S_n &=& \log \|A_n \cdots A_1 x_0\| \\
-\xi_n &=& S_n - S_{n-1} = \log\frac{\|A_n \cdots A_1 x_0\|}{\|A_{n-1} \cdots A_1 x_0\|} \\
-&=& \log\left\| A_n \frac{A_{n-1} \cdots A_1 x_0}{\|A_{n-1} \cdots A_1 x_0\|} \right\|\\
+\xi_n &=& S_n - S_{n-1} = \log\frac{\|A_n \cdots A_1 x_0\|}{\|A_{n-1}
+  \cdots A_1 x_0\|} \\
+&=& \log\left\| A_n \frac{A_{n-1} \cdots A_1 x_0}{\|A_{n-1} \cdots A_1
+    x_0\|} \right\|\\
 &=& \log \|A_n X_{n-1}\|
 \end{eqnarray*}
-The pair $(X_n, S_n)$ is a Markov additive process with transition kernel $P$.
-Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
+The pair $(X_n, S_n)$ is a Markov additive process with transition
+kernel $P$. Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
 \begin{enumerate}
 \item The top Lyapunov exponent is negative, i.e.
   \begin{equation}
@@ -155,8 +157,10 @@ $\mathcal E_u$ for $\P(|V| > u)$:
   u^{-\xi}$. Hence, to prove the claim, one needs to check
   $u^{2\xi}\E_D \mathcal E_u^2 < \infty$, i.e.
   \[
-  u^{2\xi} \E_D N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r^2(x_0; \xi)
-    \over r^2(x_{T_u}; \xi)} < \infty
+  u^{2\xi} \E_D  \left[ 
+    N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r^2(x_0; \xi)
+      \over r^2(x_{T_u}; \xi)}\right]
+  < \infty
   \]
 \end{proof}
 
