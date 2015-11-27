@@ -52,7 +52,7 @@ for (i in 1:6) {
     dev.off();
 
     pdf(sprintf("V%d_CorrelationMatrix.pdf", i));
-    plot(1:p, E.adjusted$vectors[,2], xlab="k",
+    plot(1:p, E.adjusted$vectors[,i], xlab="k",
          ylab="kth comp",
          main=sprintf("Eigenvector of the %dth largest eigenvalue", i));
     grid(nx=10);
