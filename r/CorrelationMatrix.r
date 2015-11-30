@@ -43,21 +43,21 @@ dev.off();
 ## dev.off();
 
 
-for (i in 1:6) {
-    pdf(sprintf("V%d_CovarianceMatrix.pdf", i));
-    plot(1:p, E$vectors[,i], xlab="k",
-         ylab="kth comp",
-         main=sprintf("Eigenvector of the %dth largest eigenvalue", i));
-    grid(nx=10);
-    dev.off();
+## for (i in 1:6) {
+##     pdf(sprintf("V%d_CovarianceMatrix.pdf", i));
+##     plot(1:p, E$vectors[,i], xlab="k",
+##          ylab="kth comp",
+##          main=sprintf("Eigenvector of the %dth largest eigenvalue", i));
+##     grid(nx=10);
+##     dev.off();
 
-    pdf(sprintf("V%d_CorrelationMatrix.pdf", i));
-    plot(1:p, E.adjusted$vectors[,i], xlab="k",
-         ylab="kth comp",
-         main=sprintf("Eigenvector of the %dth largest eigenvalue", i));
-    grid(nx=10);
-    dev.off();
-}
+##     pdf(sprintf("V%d_CorrelationMatrix.pdf", i));
+##     plot(1:p, E.adjusted$vectors[,i], xlab="k",
+##          ylab="kth comp",
+##          main=sprintf("Eigenvector of the %dth largest eigenvalue", i));
+##     grid(nx=10);
+##     dev.off();
+## }
 
 ## pdf("Eigenvalues_of_CovarianceMatrix_SP500.pdf");
 ## plot(1:(p-1), log10(E$values[2:p]/E$values[1:(p-1)]), type="b",
@@ -66,11 +66,11 @@ for (i in 1:6) {
 ##      main="Eigenvalue Ratios of SP500 Covariance Matrix");
 ## dev.off();
 
-## pdf("LargestComponent_of_Eigenvectors_of_CovarianceMatrix_SP500.pdf");
-## plot(1:p, apply(abs(E$vectors), 1, "max"),
-##      main="Component of largest abs. value of cov. matrix's eigenvectors",
-##      xlab="i", ylab="comp. of largest abs. value");
-## dev.off();
+pdf("LargestComponent_of_Eigenvectors_of_CovarianceMatrix_SP500.pdf");
+plot(1:p, apply(abs(E$vectors), 2, "max"),
+     main="Component of largest abs. value of cov. matrix's eigenvectors",
+     xlab="i", ylab="comp. of largest abs. value", xlim=c(1, p));
+dev.off();
 
 
 ## pdf("Eigenvalues_of_CorrelationMatrix_SP500.pdf");

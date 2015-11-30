@@ -132,7 +132,7 @@ in Kesten \cite{Kesten1973} that there is a $s > 0$ such that
 $\Lambda(s) < 0$.
 
 Thus we have obtained a consistent estimator
-$\mathcal E_u$ for $\P(|V| > u)$:
+$\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
 \begin{eqnarray*}
 \P(|V| > u) &=& \pi(\mathcal C) \E_{\mathcal D} \mathcal E_u \\
 &=& \pi(\mathcal C) \E_{\mathcal D} \left[
@@ -145,23 +145,89 @@ $\mathcal E_u$ for $\P(|V| > u)$:
 \begin{theorem}
   The estimator $\mathcal E_u$ has bounded relative error, i.e.
   \begin{equation*}
-    {\var(\mathcal E_u) \over [\E_D \mathcal E_u]^2} < \infty
+    \limsup_{u \to \infty} {\var(\mathcal E_u) \over [\P(|V| > u)]^2} < \infty
   \end{equation*}
 \end{theorem}
 \begin{proof}
   The claim is equivalent to
   \[
-  {\E_D \mathcal E_u^2 \over (\E_D \mathcal E_u)^2} < \infty
+  \limsup_{u \to \infty} {\E_D \mathcal E_u^2 \over [\P(|V| > u)]^2} < \infty
   \]
   By Kesten's theorem \cite{Kesten1973}, $\P(|V| > u) \sim C
   u^{-\xi}$. Hence, to prove the claim, one needs to check
   $u^{2\xi}\E_D \mathcal E_u^2 < \infty$, i.e.
   \[
-  u^{2\xi} \E_D  \left[ 
+  f(\xi) = \limsup_{u \to \infty} \E_D  \left[u^{2\xi}
     N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r^2(x_0; \xi)
       \over r^2(x_{T_u}; \xi)}\right]
   < \infty
   \]
+  Since $|V_{T_u} > u|$, we have
+  \begin{eqnarray*}
+    f(\xi) &\leq& \limsup_{u \to \infty} \E_D  \left[|V_{T_u}|^{2\xi}
+      N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r_\xi^2(x_0)
+        \over r_\xi^2(x_{T_u})}\right] \\
+    &=& \limsup_{u \to \infty} \E_D \left[
+      N_u^2 \frac{
+        \left|
+          \sum_{n=0}^{T_u}
+          A_{T_u} \cdots A_{n+1} B_n
+        \right|^{2\xi}
+      }{
+        |A_{T_u} \cdots A_1 V_0|^{2\xi}
+      }
+      \frac{
+        r_\xi^2(X_0)
+      }{
+        r_\xi^2(X_{T_u})
+      } \1{T_u < \tau}
+    \right] \\
+    &=& \limsup_{u \to \infty} \E_D \left|
+      \sum_{n=1}^{T_u} N_u^{1/\xi} \frac{
+          \sum_{n=0}^{T_u}
+          A_{T_u} \cdots A_{n+1} B_n
+      }{
+        |A_{T_u} \cdots A_1 V_0|
+      }
+      \frac{
+        r_\xi^{1/\xi}(X_0)
+      }{
+        r_\xi^{1/\xi} (X_{T_u})
+      } \1{T_u < \tau}
+    \right|^{2 \xi} \\
+    &=& \limsup_{u \to \infty} \E_D f_u(\xi)
+  \end{eqnarray*}
+    By Minkowski's inequality,
+    \begin{eqnarray*}
+      && (\E_D f_u(\xi))^{1/2\xi} \\
+      &\leq& \sum_{n=1}^{T_u} \left[\E_D \left(
+          N_u^2 \frac{
+            |A_{T_u} \cdots A_{n+1} \tilde B_n|^{2\xi}
+          }{
+            |A_{T_u} \cdots A_{n+1} X_n|^{2\xi}
+          } \frac{
+            |B_n|^{2\xi}
+          }{
+            |A_n \cdots A_1 V_0|^{2\xi}
+          } \frac{
+            r_\xi^2(X_0)
+          }{
+            r_\xi^2(X_{T_u})
+          }
+          \1{T_u < \tau}
+      \right)\right]^{1/2\xi} \\
+    &\leq& \sum_{n=1}^{T_u} \left[ \E_D f_{u,n}(\xi) \right]^{1/2\xi}
+    \end{eqnarray*}
+    Applying H\"older's inequality leads to
+    \begin{eqnarray*}
+      \E_D f_{u,n}(\xi) \leq (\E_D N_u^r)^{1/r} \left(
+        \E_D \frac{
+            |A_{T_u} \cdots A_{n+1} \tilde B_n|^{2 s \xi}
+          }{
+            |A_{T_u} \cdots A_{n+1} X_n|^{2 s \xi}
+          } \right)^{1/s}
+        
+    \end{eqnarray*}
 \end{proof}
 
 \subsection{The Drift Condition}
