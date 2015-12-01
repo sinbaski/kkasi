@@ -220,13 +220,12 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
     \end{eqnarray*}
     Applying H\"older's inequality leads to
     \begin{eqnarray*}
-      \E_D f_{u,n}(\xi) \leq (\E_D N_u^r)^{1/r} \left(
+      \E_D f_{u,n}(\xi) \leq (\E_D N_u^{2r})^{1/r} \left(
         \E_D \frac{
             |A_{T_u} \cdots A_{n+1} \tilde B_n|^{2 s \xi}
           }{
             |A_{T_u} \cdots A_{n+1} X_n|^{2 s \xi}
           } \right)^{1/s}
-        
     \end{eqnarray*}
 \end{proof}
 
@@ -316,7 +315,7 @@ for some $\rho < 1$.
     &=& \E\left[\int_{S^{d-1}} \inn{V_n, y}^\alpha dl^*_\alpha(y)|
       F_{n-1} \right]
     \\
-    &\leq& \E\left[\int_{S^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
+    &=& \E\left[\int_{S^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
         y})^\alpha dl^*_\alpha(y) | F_{n-1} \right]
   \end{eqnarray*}
   \begin{enumerate}[(i)]
@@ -350,7 +349,6 @@ for some $\rho < 1$.
     \E \left[ |V_n|^\alpha r_\alpha(\tilde V_n) | F_{n-1} \right] \leq
     \rho |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})
     \]
-    
   \end{enumerate}    
 \end{proof}
 
