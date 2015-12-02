@@ -142,94 +142,146 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
 \end{eqnarray*}
 
 \section{Efficiency}\label{sec:efficiency}
-\begin{theorem}
-  The estimator $\mathcal E_u$ has bounded relative error, i.e.
-  \begin{equation*}
-    \limsup_{u \to \infty} {\var(\mathcal E_u) \over [\P(|V| > u)]^2} < \infty
-  \end{equation*}
-\end{theorem}
-\begin{proof}
-  The claim is equivalent to
+\begin{lemma}
+  Assume the following conditions
+  \begin{enumerate}[(i)]
+  \item There exists $\xi > 0$ such that $\lambda(\xi) = 1$
+  \item $\E\left[
+      \|A\|^{\xi} \log\|A\|\1{\|A\| > 1}
+      \right] < \infty$.
+  \item $\E \|B\|^{\xi} < \infty$.
+  \end{enumerate}
+  then for $0 < \alpha < \alpha_0$, for which $\E\|A\|^{\xi + \alpha} <
+  \infty$ is satisfied, the following holds true
+  \begin{equation}
+    \label{eq:drift}
+    \E \left[\left.
+        |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \I{\bar C}(V_{n-1}) \right|
+      \mathcal F_{n-1} \right] \leq |V_{n-1}|^\alpha r_{\alpha}(|\tilde
+    V_{n-1}|) \I{\bar C}(V_{n-1})
+  \end{equation}
+  where $r_{\alpha}(\cdot)$ is the unique right eigen function of the
+  operator
   \[
-  \limsup_{u \to \infty} {\E_D \mathcal E_u^2 \over [\P(|V| > u)]^2} < \infty
+  P_{\alpha} f(x) = \int |\hat a x|^\alpha f\left(
+    {\hat a x \over |\hat a x|}
+  \right) d\mu_A(\hat a)
   \]
-  By Kesten's theorem \cite{Kesten1973}, $\P(|V| > u) \sim C
-  u^{-\xi}$. Hence, to prove the claim, one needs to check
-  $u^{2\xi}\E_D \mathcal E_u^2 < \infty$, i.e.
-  \[
-  f(\xi) = \limsup_{u \to \infty} \E_D  \left[u^{2\xi}
-    N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r^2(x_0; \xi)
-      \over r^2(x_{T_u}; \xi)}\right]
-  < \infty
-  \]
-  Since $|V_{T_u} > u|$, we have
-  \begin{eqnarray*}
-    f(\xi) &\leq& \limsup_{u \to \infty} \E_D  \left[|V_{T_u}|^{2\xi}
-      N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r_\xi^2(x_0)
-        \over r_\xi^2(x_{T_u})}\right] \\
-    &=& \limsup_{u \to \infty} \E_D \left[
-      N_u^2 \frac{
-        \left|
-          \sum_{n=0}^{T_u}
-          A_{T_u} \cdots A_{n+1} B_n
-        \right|^{2\xi}
-      }{
-        |A_{T_u} \cdots A_1 V_0|^{2\xi}
-      }
-      \frac{
-        r_\xi^2(X_0)
-      }{
-        r_\xi^2(X_{T_u})
-      } \1{T_u < \tau}
-    \right] \\
-    &=& \limsup_{u \to \infty} \E_D \left|
-      \sum_{n=1}^{T_u} N_u^{1/\xi} \frac{
-          \sum_{n=0}^{T_u}
-          A_{T_u} \cdots A_{n+1} B_n
-      }{
-        |A_{T_u} \cdots A_1 V_0|
-      }
-      \frac{
-        r_\xi^{1/\xi}(X_0)
-      }{
-        r_\xi^{1/\xi} (X_{T_u})
-      } \1{T_u < \tau}
-    \right|^{2 \xi} \\
-    &=& \limsup_{u \to \infty} \E_D f_u(\xi)
-  \end{eqnarray*}
-    By Minkowski's inequality,
-    \begin{eqnarray*}
-      && (\E_D f_u(\xi))^{1/2\xi} \\
-      &\leq& \sum_{n=1}^{T_u} \left[\E_D \left(
-          N_u^2 \frac{
-            |A_{T_u} \cdots A_{n+1} \tilde B_n|^{2\xi}
-          }{
-            |A_{T_u} \cdots A_{n+1} X_n|^{2\xi}
-          } \frac{
-            |B_n|^{2\xi}
-          }{
-            |A_n \cdots A_1 V_0|^{2\xi}
-          } \frac{
-            r_\xi^2(X_0)
-          }{
-            r_\xi^2(X_{T_u})
-          }
-          \1{T_u < \tau}
-      \right)\right]^{1/2\xi} \\
-    &\leq& \sum_{n=1}^{T_u} \left[ \E_D f_{u,n}(\xi) \right]^{1/2\xi}
-    \end{eqnarray*}
-    Applying H\"older's inequality leads to
-    \begin{eqnarray*}
-      \E_D f_{u,n}(\xi) \leq (\E_D N_u^{2r})^{1/r} \left(
-        \E_D \frac{
-            |A_{T_u} \cdots A_{n+1} \tilde B_n|^{2 s \xi}
-          }{
-            |A_{T_u} \cdots A_{n+1} X_n|^{2 s \xi}
-          } \right)^{1/s}
-    \end{eqnarray*}
-\end{proof}
+\end{lemma}
 
-\subsection{The Drift Condition}
+\begin{proof}
+  Since it is assumed $\E\left[\|A\|^{\xi} \log\|A\|\1{\|A\| > 1}
+  \right] < \infty$,
+  \[
+  \E \|A\|^\xi < \infty
+  \]
+  Then, using the results of Buraczewski and Collamore et al
+  \cite{BCDZ2014}, one may conclude that an eigen function as well as
+  an eigen measure exists and, by defining the adjoint operator under
+  the shifted measure, the right eigen function $r_{\alpha}(x)$ can be
+  represented as
+  \[
+  r_{\alpha}(x) = c \int_{S_+^{d-1}} \inn{x, y}^\alpha dl^*_{\alpha}(x)
+  \]
+Now, to prove \eqref{eq:drift}, consider
+  \begin{eqnarray*}
+    && \E \left[ |V_n|^\alpha r_{\alpha}(\tilde V_n) | \mathcal F_{n-1} \right]
+    \\
+    &=& \E\left[\int_{S_+^{d-1}} \inn{V_n, y}^\alpha dl^*_{\alpha}(y)|
+      \mathcal F_{n-1} \right]
+    \\
+    &=& \E\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
+        y})^\alpha dl^*_{\alpha}(y) | \mathcal F_{n-1} \right]
+  \end{eqnarray*}
+  \begin{enumerate}[(i)]
+  \item if $\alpha < 1$, by subadditivity we have
+    \begin{eqnarray*}
+      &&\E\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
+          y})^\alpha dl^*_{\alpha}(y) | \mathcal F_{n-1} \right]\\
+      &\leq& \E\left[\int_{S_+^{d-1}} \inn{A_n V_{n-1}, y}^\alpha
+        dl^*_{\alpha}(y) | \mathcal F_{n-1} \right]
+      + \E\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_{\alpha}(y) |
+        \mathcal F_{n-1} \right] \\
+      &=& \E\left[|V_{n-1}|^\alpha |A_n \tilde V_{n-1}|^\alpha\int_{S_+^{d-1}}
+        \inn{{A_n V_{n-1} \over |A_n V_{n-1}|}, y}^\alpha
+        dl^*_{\alpha}(y) | \mathcal F_{n-1} \right] \\
+      && + \E\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_{\alpha}(y) |
+        \mathcal F_{n-1} \right] \\
+      &=& |V_{n-1}|^\alpha \left\{
+        (P_{\alpha} r_{\alpha})(\tilde V_{n-1}) +
+        {1 \over |V_{n-1}|^\alpha} \E |B_n|^\alpha r_{\alpha}(\tilde
+        B_n) \right\} \\
+      &=& |V_{n-1}|^\alpha r_{\alpha}(\tilde V_{n-1})\left\{
+        \lambda_{\alpha} +
+        {1 \over |V_{n-1}|^\alpha r_{\alpha}(\tilde V_{n-1})} \E
+        |B_n|^\alpha r_{\alpha}(\tilde B_n) \right\} \\
+    \end{eqnarray*}
+    Clearly $\E\left[|B_n|^\alpha r_{\alpha}(\tilde B_n)\right] <
+    \infty$. Hence the infimum of the expression in the curly bracket
+    over all $n \geq 1$ is $\lambda_{\alpha}$, which is less than 1 for $0 < \alpha < \xi$.    
+    Therefore, when $|V_{n-1}|$ is sufficiently large, $\rho, \alpha$ an be
+    chosen such that
+    \begin{eqnarray*}
+      \rho &<& 1 \\
+      \E \left[ |V_n|^\alpha r_{\alpha}(\tilde V_n)  \I{\bar C}(V_{n-1})
+        | \mathcal F_{n-1} \right] &\leq&
+      \rho |V_{n-1}|^\alpha r_{\alpha}(\tilde V_{n-1}) \I{\bar C}(V_{n-1})
+    \end{eqnarray*}
+    where $\bar C$ denotes the complement of the set $C$:
+    \[
+    C = \left\{
+      v: |v| \leq M, M = \left[
+        \E (|B|^\alpha r_\alpha(\tilde B)) 
+        \over
+        (1 - \lambda_\alpha) r_\alpha(\tilde v)
+      \right]^{1/\alpha}
+    \right\}
+    \]
+  \end{enumerate}    
+% that there exist a unique
+%   probability measure $l_\alpha$ on $\mathbb S_+^{d-1}$ and a unique
+%   and strictly positive function $r_\alpha \in \mathscr C_b(\mathbb
+%   S_+^{d-1})$ such that
+%   \begin{eqnarray*}
+%     P_\alpha r_\alpha(x) &=& \lambda(\alpha) r_\alpha(x) \\
+%     l_\alpha P_\alpha (S) &=& \lambda(\alpha) l_\alpha(S) \\
+%     \int_{S_+^{d-1}} r_\alpha(x) l_\alpha(dx) &=& 1
+%   \end{eqnarray*}
+\end{proof}
+  Iterating \eqref{eq:drift} yields
+  \[
+  \E \left[
+         |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \prod_{i=1}^{n-1}\I{\bar
+          C}(V_i)\right]
+      \leq \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{\bar C}(V_1)
+  \]
+  Then it follows
+  \[
+  \E \left[
+         |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \prod_{i=1}^{n}\I{\bar
+          C}(V_i)\right]
+      \leq \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{\bar C}(V_1)
+  \]
+  But $\prod_{i=1}^{n}\I{\bar C}(V_i)$ implies $\tau > n$, and in this
+  case $|V_n| > M$, where
+  \[
+  M = \left[
+        \E (|B|^\alpha r_\alpha(\tilde B)) 
+        \over
+        (1 - \lambda_\alpha) r_\alpha(\tilde v)
+      \right]^{1/\alpha}
+  \]
+  Hence
+  \begin{eqnarray}
+    \E \left[
+      M^\alpha \inf_{|\tilde V_n|} r_{\alpha}(|\tilde V_n|) \1{\tau > n}\right]
+    &\leq& \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{\bar
+      C}(V_1) \nonumber \\
+    \P(\tau > n) &\leq& K \rho^{n-1} \label{eq:ret_time}
+  \end{eqnarray}
+  for some constant $K$.
+  
+%% \subsection{The Drift Condition}
 %%% What follows is the proof in the 1D case.
 % Consider
 % \begin{eqnarray*}
@@ -302,55 +354,202 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
 %     1 - (\E_\beta|A_n|^\alpha)^{1/\alpha}
 %   }\right]^{1/\alpha}
 % \]
-In this section we prove
-\[
-\E \left[ |V_n|^\alpha r_\alpha(\tilde V_n) | F_{n-1} \right] \leq
-\rho |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})
-\]
-for some $\rho < 1$.
+
+
+% In this section we prove
+% \[
+% \E \left[ |V_n|^\alpha r_{\xi, \alpha}(\tilde V_n) | \mathcal F_{n-1} \right] \leq
+% \rho |V_{n-1}|^\alpha r_{\xi,\alpha}(\tilde V_{n-1})
+% \]
+% for some $\rho < 1$.
+% where 
+% \begin{proof}
+%   \begin{eqnarray*}
+%     && \E \left[ |V_n|^\alpha r_\alpha(\tilde V_n) | \mathcal F_{n-1} \right]
+%     \\
+%     &=& \E\left[\int_{S_+^{d-1}} \inn{V_n, y}^\alpha dl^*_\alpha(y)|
+%       \mathcal F_{n-1} \right]
+%     \\
+%     &=& \E\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
+%         y})^\alpha dl^*_\alpha(y) | \mathcal F_{n-1} \right]
+%   \end{eqnarray*}
+%   \begin{enumerate}[(i)]
+%   \item if $\alpha < 1$, by subadditivity we have
+%     \begin{eqnarray*}
+%       &&\E\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
+%           y})^\alpha dl^*_\alpha(y) | \mathcal F_{n-1} \right]\\
+%       &\leq& \E\left[\int_{S_+^{d-1}} \inn{A_n V_{n-1}, y}^\alpha
+%         dl^*_\alpha(y) | \mathcal F_{n-1} \right]
+%       + \E\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_\alpha(y) |
+%         \mathcal F_{n-1} \right] \\
+%       &=& \E\left[|V_{n-1}|^\alpha |A_n \tilde V_{n-1}|^\alpha\int_{S_+^{d-1}}
+%         \inn{{A_n V_{n-1} \over |A_n V_{n-1}|}, y}^\alpha
+%         dl^*_\alpha(y) | \mathcal F_{n-1} \right] \\
+%       && + \E\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_\alpha(y) |
+%         \mathcal F_{n-1} \right] \\
+%       &=& |V_{n-1}|^\alpha \left\{
+%         (P_\alpha r_\alpha)(\tilde V_{n-1}) +
+%         {1 \over |V_{n-1}|^\alpha} \E |B_n|^\alpha r_\alpha(\tilde
+%         B_n) \right\} \\
+%       &=& |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})\left\{
+%         \lambda(\alpha) +
+%         {1 \over |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})} \E
+%         |B_n|^\alpha r_\alpha(\tilde B_n) \right\} \\
+%     \end{eqnarray*}
+%     Clearly $\E\left[|B_n|^\alpha r_\alpha(\tilde B_n)\right] <
+%     \infty$. Hence the infimum of the expression in the curly bracket
+%     over all $n \geq 1$ is $\lambda(\alpha) < 1$. Therefore, when
+%     $|V_{n-1}|$ is sufficiently large, we have
+%     \[
+%     \E \left[ |V_n|^\alpha r_\alpha(\tilde V_n) | \mathcal F_{n-1} \right] \leq
+%     \rho |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})
+%     \]
+%   \end{enumerate}    
+% \end{proof}
+
+\begin{theorem}
+  The estimator $\mathcal E_u$ has bounded relative error, i.e.
+  \begin{equation*}
+    \limsup_{u \to \infty} {\var(\mathcal E_u) \over [\P(|V| > u)]^2} < \infty
+  \end{equation*}
+\end{theorem}
 \begin{proof}
+  The claim is equivalent to
+  \[
+  \limsup_{u \to \infty} {\E_D \mathcal E_u^2 \over [\P(|V| > u)]^2} < \infty
+  \]
+  By Kesten's theorem \cite{Kesten1973}, $\P(|V| > u) \sim C
+  u^{-\xi}$. Hence, to prove the claim, one needs to check
+  $u^{2\xi}\E_D \mathcal E_u^2 < \infty$, i.e.
+  \[
+  f(\xi) = \limsup_{u \to \infty} \E_D  \left[u^{2\xi}
+    N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r^2(x_0; \xi)
+      \over r^2(x_{T_u}; \xi)}\right]
+  < \infty
+  \]
+  Using the fact $|V_{T_u} > u|$ and then changing measure, we obtain
   \begin{eqnarray*}
-    && \E \left[ |V_n|^\alpha r_\alpha(\tilde V_n) | F_{n-1} \right]
-    \\
-    &=& \E\left[\int_{S^{d-1}} \inn{V_n, y}^\alpha dl^*_\alpha(y)|
-      F_{n-1} \right]
-    \\
-    &=& \E\left[\int_{S^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
-        y})^\alpha dl^*_\alpha(y) | F_{n-1} \right]
+    f(\xi) &\leq& \limsup_{u \to \infty} \E \left[|V_{T_u}|^{2\xi}
+      N_u^2 \1{T_u < \tau} e^{-\xi S_{T_u}} {r_\xi(x_0)
+        \over r_\xi(x_{T_u})}\right] \\
+    &=& \limsup_{u \to \infty} \E \left[
+      N_u^2 \frac{
+        \left|
+          \sum_{n=0}^{T_u}
+          A_{T_u} \cdots A_{n+1} B_n
+        \right|^{\xi}
+      }{
+        |A_{T_u} \cdots A_1 V_0|^{\xi}
+      }
+      \frac{
+        r_\xi(X_0)
+      }{
+        r_\xi(X_{T_u})
+      } \1{T_u < \tau}
+    \right] \\
+    &=& \limsup_{u \to \infty} \E \left|
+      \sum_{n=1}^{T_u} N_u^{2/\xi} \frac{
+          \sum_{n=0}^{T_u}
+          A_{T_u} \cdots A_{n+1} B_n
+      }{
+        |A_{T_u} \cdots A_1 V_0|
+      }
+      \frac{
+        r_\xi^{1/\xi}(X_0)
+      }{
+        r_\xi^{1/\xi} (X_{T_u})
+      } \1{T_u < \tau}
+    \right|^{\xi} \\
+    &=& \limsup_{u \to \infty} \E |f_u(\xi)|^\xi
   \end{eqnarray*}
-  \begin{enumerate}[(i)]
-  \item if $\alpha < 1$, by subadditivity we have
+    By Minkowski's inequality,
     \begin{eqnarray*}
-      &&\E\left[\int_{S^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
-          y})^\alpha dl^*_\alpha(y) | F_{n-1} \right]\\
-      &\leq& \E\left[\int_{S^{d-1}} \inn{A_n V_{n-1}, y}^\alpha
-        dl^*_\alpha(y) | F_{n-1} \right]
-      + \E\left[\int_{S^{d-1}} \inn{B_n, y}^\alpha dl^*_\alpha(y) |
-        F_{n-1} \right] \\
-      &=& \E\left[|V_{n-1}|^\alpha |A_n \tilde V_{n-1}|^\alpha\int_{S^{d-1}}
-        \inn{{A_n V_{n-1} \over |A_n V_{n-1}|}, y}^\alpha
-        dl^*_\alpha(y) | F_{n-1} \right] \\
-      && + \E\left[\int_{S^{d-1}} \inn{B_n, y}^\alpha dl^*_\alpha(y) |
-        F_{n-1} \right] \\
-      &=& |V_{n-1}|^\alpha \left\{
-        (P_\alpha r_\alpha)(\tilde V_{n-1}) +
-        {1 \over |V_{n-1}|^\alpha} \E |B_n|^\alpha r_\alpha(\tilde
-        B_n) \right\} \\
-      &=& |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})\left\{
-        \lambda(\alpha) +
-        {1 \over |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})} \E
-        |B_n|^\alpha r_\alpha(\tilde B_n) \right\} \\
+      && [\E |f_u(\xi)|^\xi]^{1/\xi} \\
+      &\leq& \sum_{n=1}^{T_u} \left[\E \left(
+          N_u^2 \frac{
+            |A_{T_u} \cdots A_{n+1} \tilde B_n|^{\xi}
+          }{
+            |A_{T_u} \cdots A_{n+1} X_n|^{\xi}
+          } \frac{
+            |B_n|^{\xi}
+          }{
+            |A_n \cdots A_1 V_0|^{\xi}
+          } \frac{
+            r_\xi(X_0)
+          }{
+            r_\xi(X_{T_u})
+          }
+          \1{T_u < \tau}
+      \right)\right]^{1/\xi} \\
+    &\leq& \sum_{n=1}^{T_u} \left[ \E f_{u,n}(\xi) \right]^{1/\xi}
     \end{eqnarray*}
-    Clearly $\E\left[|B_n|^\alpha r_\alpha(\tilde B_n)\right] <
-    \infty$. Hence the infimum of the expression in the curly bracket
-    over all $n \geq 1$ is $\lambda(\alpha) < 1$. Therefore, when
-    $|V_{n-1}|$ is sufficiently large, we have
+    Applying H\"older's inequality leads to
+    \begin{eqnarray*}
+      \E f_{u,n}(\xi) &\leq& \left(\E N_u^{2r}\right)^{1/r}
+      \left(
+        \E \frac{
+          |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
+        }{
+          |A_{T_u} \cdots A_{n+1} X_n|^{s \xi}
+        } \right)^{1/s} \times \\
+      &&
+      \left[
+        \E \frac{
+          |B_n|^{t\xi} r^t_\xi(X_0)
+        }{
+          |A_n \cdots A_1 V_0|^{t\xi} r^t_\xi(X_{T_u})
+        } \right]^{1/t}
+      [\P(T_u < \tau)]^{1/q}
+    \end{eqnarray*}
+    where $1/r + 1/s + 1/t + 1/q= 1$. As $u \to \infty$, $T_u \to
+    \infty$. According to Kesten
+    \cite{Kesten1973},
     \[
-    \E \left[ |V_n|^\alpha r_\alpha(\tilde V_n) | F_{n-1} \right] \leq
-    \rho |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})
+    \frac{
+      |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
+    }{
+      |A_{T_u} \cdots A_{n+1} X_n|^{s \xi}
+    } \to 1
     \]
-  \end{enumerate}    
+    For any fixed $n$, it is clear
+    \[
+    \E \frac{
+      |B_n|^{t\xi}
+    }{
+      |A_n \cdots A_1 V_0|^{t\xi}
+    } < \infty
+    \]
+    Because $ r_\xi(\cdot)$ is bounded from above and below, it
+    follows
+    \[
+    \left[
+      \E \frac{
+        |B_n|^{t\xi} r^t_\xi(X_0)
+      }{
+        |A_n \cdots A_1 V_0|^{t\xi} r^t_\xi(X_{T_u})
+      } \right]^{1/t}    < \infty
+    \]
+    As for $\E N_u^{2r}$, we have
+    \begin{eqnarray*}
+      \E N_u^{2r} &\leq& \E \tau^{2r} \\
+      &\leq& \sum_{i=1}^\infty i^{2r} \P(\tau > i -1) \\
+      &\leq& 1 + \sum_{i=2}^\infty i^{2r} K \rho^{i-2} < \infty
+    \end{eqnarray*}
+    where in the last step, we have used \eqref{eq:ret_time}.
+    So we may write
+    \[
+    \E f_{u, n}(\xi) \leq c [\P(T_u < \tau)]^{1/q}
+    \]
+    This leads to
+    \begin{eqnarray*}
+      \sum_{n=1}^{T_u} [\E f_{u,n}(\xi)]^{1/\xi}  &\leq&
+      \sum_{n=1}^{T_u} c^{1/\xi} [\P(T_u < \tau)]^{1/q\xi} \\
+      &\leq& c^{1/\xi} \sum_{n=1}^{\infty} [\P(n < \tau)]^{1/q\xi} \\
+      &\leq& c^{1/\xi} K^{1/q\xi} \sum_{n=1}^{\infty}
+      \rho^{(n-1)/q\xi} < \infty
+    \end{eqnarray*}
 \end{proof}
+
 
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
