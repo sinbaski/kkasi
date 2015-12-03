@@ -156,9 +156,9 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
   \begin{equation}
     \label{eq:drift}
     \E \left[\left.
-        |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \I{\bar C}(V_{n-1}) \right|
+        |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \I{C^\complement}(V_{n-1}) \right|
       \mathcal F_{n-1} \right] \leq |V_{n-1}|^\alpha r_{\alpha}(|\tilde
-    V_{n-1}|) \I{\bar C}(V_{n-1})
+    V_{n-1}|) \I{C^\complement}(V_{n-1})
   \end{equation}
   where $r_{\alpha}(\cdot)$ is the unique right eigen function of the
   operator
@@ -223,11 +223,11 @@ Now, to prove \eqref{eq:drift}, consider
     chosen such that
     \begin{eqnarray*}
       \rho &<& 1 \\
-      \E \left[ |V_n|^\alpha r_{\alpha}(\tilde V_n)  \I{\bar C}(V_{n-1})
+      \E \left[ |V_n|^\alpha r_{\alpha}(\tilde V_n)  \I{C^\complement}(V_{n-1})
         | \mathcal F_{n-1} \right] &\leq&
-      \rho |V_{n-1}|^\alpha r_{\alpha}(\tilde V_{n-1}) \I{\bar C}(V_{n-1})
+      \rho |V_{n-1}|^\alpha r_{\alpha}(\tilde V_{n-1}) \I{C^\complement}(V_{n-1})
     \end{eqnarray*}
-    where $\bar C$ denotes the complement of the set $C$:
+    where $C^\complement$ denotes the complement of the set $C$:
     \[
     C = \left\{
       v: |v| \leq M, M = \left[
@@ -251,18 +251,16 @@ Now, to prove \eqref{eq:drift}, consider
   Iterating \eqref{eq:drift} yields
   \[
   \E \left[
-         |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \prod_{i=1}^{n-1}\I{\bar
-          C}(V_i)\right]
-      \leq \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{\bar C}(V_1)
+         |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \prod_{i=1}^{n-1}\I{C^\complement}(V_i)\right]
+      \leq \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1)
   \]
   Then it follows
   \[
   \E \left[
-         |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \prod_{i=1}^{n}\I{\bar
-          C}(V_i)\right]
-      \leq \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{\bar C}(V_1)
+         |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \prod_{i=1}^{n}\I{C^\complement}(V_i)\right]
+      \leq \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1)
   \]
-  But $\prod_{i=1}^{n}\I{\bar C}(V_i)$ implies $\tau > n$, and in this
+  But $\prod_{i=1}^{n}\I{C^\complement}(V_i)$ implies $\tau > n$, and in this
   case $|V_n| > M$, where
   \[
   M = \left[
@@ -275,8 +273,7 @@ Now, to prove \eqref{eq:drift}, consider
   \begin{eqnarray}
     \E \left[
       M^\alpha \inf_{|\tilde V_n|} r_{\alpha}(|\tilde V_n|) \1{\tau > n}\right]
-    &\leq& \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{\bar
-      C}(V_1) \nonumber \\
+    &\leq& \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1) \nonumber \\
     \P(\tau > n) &\leq& K \rho^{n-1} \label{eq:ret_time}
   \end{eqnarray}
   for some constant $K$.
@@ -448,8 +445,7 @@ Now, to prove \eqref{eq:drift}, consider
       } \1{T_u < \tau}
     \right] \\
     &=& \limsup_{u \to \infty} \E \left|
-      \sum_{n=1}^{T_u} N_u^{2/\xi} \frac{
-          \sum_{n=0}^{T_u}
+      \sum_{n=1}^{\infty} N_u^{2/\xi} \frac{
           A_{T_u} \cdots A_{n+1} B_n
       }{
         |A_{T_u} \cdots A_1 V_0|
@@ -458,18 +454,18 @@ Now, to prove \eqref{eq:drift}, consider
         r_\xi^{1/\xi}(X_0)
       }{
         r_\xi^{1/\xi} (X_{T_u})
-      } \1{T_u < \tau}
+      } \1{n \leq T_u < \tau}
     \right|^{\xi} \\
     &=& \limsup_{u \to \infty} \E |f_u(\xi)|^\xi
   \end{eqnarray*}
     By Minkowski's inequality,
     \begin{eqnarray*}
-      && [\E |f_u(\xi)|^\xi]^{1/\xi} \\
-      &\leq& \sum_{n=1}^{T_u} \left[\E \left(
+      && [\E |f_u(\xi)|]^{1/\xi} \\
+      &\leq& \sum_{n=1}^{\infty} \left[\E \left(
           N_u^2 \frac{
             |A_{T_u} \cdots A_{n+1} \tilde B_n|^{\xi}
           }{
-            |A_{T_u} \cdots A_{n+1} X_n|^{\xi}
+            |A_{T_u} \cdots A_{1} \tilde V_0|^{\xi}
           } \frac{
             |B_n|^{\xi}
           }{
@@ -479,9 +475,9 @@ Now, to prove \eqref{eq:drift}, consider
           }{
             r_\xi(X_{T_u})
           }
-          \1{T_u < \tau}
+          \1{n \leq T_u < \tau}
       \right)\right]^{1/\xi} \\
-    &\leq& \sum_{n=1}^{T_u} \left[ \E f_{u,n}(\xi) \right]^{1/\xi}
+    &\leq& \sum_{n=1}^{\infty} \left[ \E f_{u,n}(\xi) \right]^{1/\xi}
     \end{eqnarray*}
     Applying H\"older's inequality leads to
     \begin{eqnarray*}
@@ -502,15 +498,28 @@ Now, to prove \eqref{eq:drift}, consider
       [\P(T_u < \tau)]^{1/q}
     \end{eqnarray*}
     where $1/r + 1/s + 1/t + 1/q= 1$. As $u \to \infty$, $T_u \to
-    \infty$. According to Kesten
-    \cite{Kesten1973},
+    \infty$. According to Kesten \cite{Kesten1973},
     \[
-    \frac{
-      |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
-    }{
-      |A_{T_u} \cdots A_{n+1} X_n|^{s \xi}
-    } \to 1
+    \lim_{T_u \to \infty} {1 \over T_u} \left[
+      \log|A_{T_u} \cdots A_{n+1}\tilde B_n| -
+      \log|A_{T_u} \cdots A_{n+1}\tilde X_n|
+    \right] = 0
     \]
+    Hence
+    \[
+    \log{
+      |A_{T_u} \cdots A_{n+1}\tilde B_n|
+      \over
+      |A_{T_u} \cdots A_{n+1}\tilde X_n|
+    } = o(T_u)
+    \]
+    % \[
+    % \frac{
+    %   |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
+    % }{
+    %   |A_{T_u} \cdots A_{n+1} X_n|^{s \xi}
+    % } \to 1
+    % \]
     For any fixed $n$, it is clear
     \[
     \E \frac{
