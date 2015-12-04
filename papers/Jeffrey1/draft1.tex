@@ -424,7 +424,10 @@ Now, to prove \eqref{eq:drift}, consider
       \over r^2(x_{T_u}; \xi)}\right]
   < \infty
   \]
-  Using the fact $|V_{T_u} > u|$ and then changing measure, we obtain
+  \begin{enumerate}[(i)]
+  \item We first consider the case $\E \|A\|^{-(\xi + \epsilon)}$ for
+    some $\epsilon > 0$. Using the fact $|V_{T_u} > u|$ and then
+    changing measure, we obtain
   \begin{eqnarray*}
     f(\xi) &\leq& \limsup_{u \to \infty} \E \left[|V_{T_u}|^{2\xi}
       N_u^2 \1{T_u < \tau} e^{-\xi S_{T_u}} {r_\xi(x_0)
@@ -469,7 +472,7 @@ Now, to prove \eqref{eq:drift}, consider
           } \frac{
             |B_n|^{\xi}
           }{
-            |A_n \cdots A_1 V_0|^{\xi}
+            |V_0|^{\xi}
           } \frac{
             r_\xi(X_0)
           }{
@@ -486,58 +489,52 @@ Now, to prove \eqref{eq:drift}, consider
         \E \frac{
           |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
         }{
-          |A_{T_u} \cdots A_{n+1} X_n|^{s \xi}
+          |A_{T_u} \cdots A_{1} \tilde V_0|^{s \xi}
         } \right)^{1/s} \times \\
       &&
       \left[
         \E \frac{
           |B_n|^{t\xi} r^t_\xi(X_0)
         }{
-          |A_n \cdots A_1 V_0|^{t\xi} r^t_\xi(X_{T_u})
+          |V_0|^{t\xi} r^t_\xi(X_{T_u})
         } \right]^{1/t}
-      [\P(T_u < \tau)]^{1/q}
+      [\P(n \leq T_u < \tau)]^{1/q}
     \end{eqnarray*}
-    where $1/r + 1/s + 1/t + 1/q= 1$. As $u \to \infty$, $T_u \to
-    \infty$. According to Kesten \cite{Kesten1973},
-    \[
-    \lim_{T_u \to \infty} {1 \over T_u} \left[
-      \log|A_{T_u} \cdots A_{n+1}\tilde B_n| -
-      \log|A_{T_u} \cdots A_{n+1}\tilde X_n|
-    \right] = 0
-    \]
-    Hence
-    \[
-    \log{
-      |A_{T_u} \cdots A_{n+1}\tilde B_n|
-      \over
-      |A_{T_u} \cdots A_{n+1}\tilde X_n|
-    } = o(T_u)
-    \]
-    % \[
-    % \frac{
-    %   |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
-    % }{
-    %   |A_{T_u} \cdots A_{n+1} X_n|^{s \xi}
-    % } \to 1
-    % \]
-    For any fixed $n$, it is clear
-    \[
-    \E \frac{
-      |B_n|^{t\xi}
-    }{
-      |A_n \cdots A_1 V_0|^{t\xi}
-    } < \infty
-    \]
-    Because $ r_\xi(\cdot)$ is bounded from above and below, it
-    follows
-    \[
-    \left[
-      \E \frac{
-        |B_n|^{t\xi} r^t_\xi(X_0)
+    where $1/r + 1/s + 1/t + 1/q= 1$. First note
+    \begin{eqnarray*}
+      && \E \frac{
+        |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
       }{
-        |A_n \cdots A_1 V_0|^{t\xi} r^t_\xi(X_{T_u})
-      } \right]^{1/t}    < \infty
-    \]
+        |A_{T_u} \cdots A_{1} \tilde V_0|^{s \xi}
+      } \\
+      &\leq& \E \left\{\E_{-s\xi} \left[\left.
+            \|A_{T_u} \cdots A_{n+1} \|^{s \xi} \frac{
+              r_{-s\xi}(X_0)
+            }{
+              r_{-s\xi}(X_{T_u})
+            } \lambda(-s\xi)^{T_u - n} \right| T_u\right] \right\}
+    \end{eqnarray*}
+    Here the existance of the eigenvalue $\lambda(-s\xi)$ is ensured
+    by the assumption $\E \|A\|^{-(\xi + \epsilon)} < \infty$. On this
+    condition, one can always choose $s > 1$ such that $s \xi < \xi +
+    \epsilon$ and hence $\E \|A\|^{-s\xi} < \infty$. Because
+    $r_{-s\xi}(\cdot)$ is bounded from above and below, we may write
+    \begin{eqnarray*}
+      && \E \left\{\E_{-s\xi} \left[\left.
+            \|A_{T_u} \cdots A_{n+1} \|^{s \xi} \frac{
+              r_{-s\xi}(X_0)
+            }{
+              r_{-s\xi}(X_{T_u})
+            } \lambda(-s\xi)^{T_u - n} \right| T_u\right] \right\} \\
+      &\leq& c \E \left\{ \lambda(-s\xi)^{T_u - n} \E_{-s\xi} \left[\left.
+            \|A_{T_u} \cdots A_{n+1} \|^{s \xi} \right| T_u\right]
+      \right\} \\
+      &\leq& c \E \left\{ \lambda(-s\xi)^{T_u - n} \E_{-s\xi} \|A\|^{s
+          \xi(T_u - n)}\right\} \\
+      &=& c
+    \end{eqnarray*}
+    where $c$ is some constant.
+
     As for $\E N_u^{2r}$, we have
     \begin{eqnarray*}
       \E N_u^{2r} &\leq& \E \tau^{2r} \\
@@ -557,6 +554,8 @@ Now, to prove \eqref{eq:drift}, consider
       &\leq& c^{1/\xi} K^{1/q\xi} \sum_{n=1}^{\infty}
       \rho^{(n-1)/q\xi} < \infty
     \end{eqnarray*}
+    \item 
+  \end{enumerate}
 \end{proof}
 
 
