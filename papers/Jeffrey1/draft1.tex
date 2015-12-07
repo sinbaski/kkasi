@@ -37,9 +37,9 @@ kernel $P$. Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
     \label{eq:neg_top_Lyapunov}
     \inf_{n \geq 1} \E \log \|A_n \cdots A_1\| < 0    
   \end{equation}
-\item $\exists \xi > 0$ such that $\lambda(\xi) = 1$, where
+\item $\exists \xi > 0$ such that $\lambda_{\xi} = 1$, where
   $$
-  \lambda(\xi) := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
+  \lambda_{\xi} := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
   $$
 \item $\E[\|A\|^\xi \log^+\|A\|] < \infty$
 \end{enumerate}
@@ -96,7 +96,7 @@ Then $\E_\gamma N_u$ may be evaluated as
   &=& \E_\gamma N_u \1{T_u < \tau} \\
   &=& \int_{\mathds S^{d-1}} \int_{\mathds R} \cdots \int_{\mathds
     S^{d-1}} \int_{\mathds R} N_u \1{T_u < \tau} \times \\
-  && \prod_{i=1}^{T_u} e^{-\xi(s_i - s_{i-1}) + \Lambda(\xi)}
+  && \prod_{i=1}^{T_u} e^{-\xi(s_i - s_{i-1}) + \lambda_{\xi}}
   {r(x_{i-1}; \xi) \over r(x_{i}; \xi)}P_\xi(x_{i-1}, dx_i \times ds_i) \times \\
   && \prod_{i=T_u+1}^{\tau-1} P(x_{i-1}, dx_i \times d s_i) \\
   &=& \E_{\mathcal D} \left[
@@ -107,13 +107,13 @@ Then $\E_\gamma N_u$ may be evaluated as
 where
 \[
 P_\xi(x_{i-1}, dx_i \times ds_i) = e^{\xi(s_i - s_{i-1}) -
-  \Lambda(\xi)} {r(x_i; \xi) \over r(x_{i-1}; \xi)} P(x_{i-1}, dx_i
+  \lambda_{\xi}} {r(x_i; \xi) \over r(x_{i-1}; \xi)} P(x_{i-1}, dx_i
 \times ds_i)
 \]
 is the $\xi$-shifted transition kernel of the {\it Markov Additive
   process} $(X_n, S_n)$. $\xi$ is chosen such that 
 \[
-\Lambda(\xi) = \lim_{n \to \infty} \log \left(
+\lambda_{\xi} = \lim_{n \to \infty} \log \left(
 \E \|A_n \cdots A_1\|^\xi
 \right)^{1/n} = 0
 \]
@@ -129,7 +129,7 @@ P_{\mathcal D} (x_i, dx_{i+1} \times ds) = \left\{
 \]
 Because the top Lyapunov exponent is negative, it follows from a lemma
 in Kesten \cite{Kesten1973} that there is a $s > 0$ such that
-$\Lambda(s) < 0$.
+$\lambda_{s} < 0$.
 
 Thus we have obtained a consistent estimator
 $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
@@ -145,7 +145,7 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
 \begin{lemma}
   Assume the following conditions
   \begin{enumerate}[(i)]
-  \item There exists $\xi > 0$ such that $\lambda(\xi) = 1$
+  \item There exists $\xi > 0$ such that $\lambda_{\xi} = 1$
   \item $\E\left[
       \|A\|^{\xi} \log\|A\|\1{\|A\| > 1}
       \right] < \infty$.
@@ -219,13 +219,13 @@ Now, to prove \eqref{eq:drift}, consider
     Clearly $\E\left[|B_n|^\alpha r_{\alpha}(\tilde B_n)\right] <
     \infty$. Hence the infimum of the expression in the curly bracket
     over all $n \geq 1$ is $\lambda_{\alpha}$, which is less than 1 for $0 < \alpha < \xi$.    
-    Therefore, when $|V_{n-1}|$ is sufficiently large, $\rho, \alpha$ an be
+    Therefore, when $|V_{n-1}|$ is sufficiently large, $\rho_\alpha, \alpha$ an be
     chosen such that
     \begin{eqnarray*}
-      \rho &<& 1 \\
+      \rho_\alpha &<& 1 \\
       \E \left[ |V_n|^\alpha r_{\alpha}(\tilde V_n)  \I{C^\complement}(V_{n-1})
         | \mathcal F_{n-1} \right] &\leq&
-      \rho |V_{n-1}|^\alpha r_{\alpha}(\tilde V_{n-1}) \I{C^\complement}(V_{n-1})
+      \rho_\alpha |V_{n-1}|^\alpha r_{\alpha}(\tilde V_{n-1}) \I{C^\complement}(V_{n-1})
     \end{eqnarray*}
     where $C^\complement$ denotes the complement of the set $C$:
     \[
@@ -243,8 +243,8 @@ Now, to prove \eqref{eq:drift}, consider
 %   and strictly positive function $r_\alpha \in \mathscr C_b(\mathbb
 %   S_+^{d-1})$ such that
 %   \begin{eqnarray*}
-%     P_\alpha r_\alpha(x) &=& \lambda(\alpha) r_\alpha(x) \\
-%     l_\alpha P_\alpha (S) &=& \lambda(\alpha) l_\alpha(S) \\
+%     P_\alpha r_\alpha(x) &=& \lambda_{\alpha} r_\alpha(x) \\
+%     l_\alpha P_\alpha (S) &=& \lambda_{\alpha} l_\alpha(S) \\
 %     \int_{S_+^{d-1}} r_\alpha(x) l_\alpha(dx) &=& 1
 %   \end{eqnarray*}
 \end{proof}
@@ -252,13 +252,13 @@ Now, to prove \eqref{eq:drift}, consider
   \[
   \E \left[
          |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \prod_{i=1}^{n-1}\I{C^\complement}(V_i)\right]
-      \leq \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1)
+      \leq \rho_\alpha^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1)
   \]
   Then it follows
   \[
   \E \left[
          |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \prod_{i=1}^{n}\I{C^\complement}(V_i)\right]
-      \leq \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1)
+      \leq \rho_\alpha^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1)
   \]
   But $\prod_{i=1}^{n}\I{C^\complement}(V_i)$ implies $\tau > n$, and in this
   case $|V_n| > M$, where
@@ -273,8 +273,8 @@ Now, to prove \eqref{eq:drift}, consider
   \begin{eqnarray}
     \E \left[
       M^\alpha \inf_{|\tilde V_n|} r_{\alpha}(|\tilde V_n|) \1{\tau > n}\right]
-    &\leq& \rho^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1) \nonumber \\
-    \P(\tau > n) &\leq& K \rho^{n-1} \label{eq:ret_time}
+    &\leq& \rho_\alpha^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1) \nonumber \\
+    \P(\tau > n) &\leq& K \rho_\alpha^{n-1} \label{eq:ret_time}
   \end{eqnarray}
   for some constant $K$.
   
@@ -425,9 +425,10 @@ Now, to prove \eqref{eq:drift}, consider
   < \infty
   \]
   \begin{enumerate}[(i)]
-  \item We first consider the case $\E \|A\|^{-(\xi + \epsilon)}$ for
-    some $\epsilon > 0$. Using the fact $|V_{T_u} > u|$ and then
-    changing measure, we obtain
+  \item We first consider the case $\log \E \|A\|^{-(\xi + \epsilon)}
+    < -\inf_{\alpha \in \mathbb R} \log \E \|A\|^\alpha$ for some
+    $\epsilon > 0$. Using the fact $|V_{T_u} > u|$ and then changing
+    measure, we obtain
   \begin{eqnarray*}
     f(\xi) &\leq& \limsup_{u \to \infty} \E \left[|V_{T_u}|^{2\xi}
       N_u^2 \1{T_u < \tau} e^{-\xi S_{T_u}} {r_\xi(x_0)
@@ -484,8 +485,7 @@ Now, to prove \eqref{eq:drift}, consider
     \end{eqnarray*}
     Applying H\"older's inequality leads to
     \begin{eqnarray*}
-      \E f_{u,n}(\xi) &\leq& \left(\E N_u^{2r}\right)^{1/r}
-      \left(
+      \E f_{u,n}(\xi) &\leq& (\E N_u^{2r})^{1/r} \left(
         \E \frac{
           |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
         }{
@@ -498,9 +498,9 @@ Now, to prove \eqref{eq:drift}, consider
         }{
           |V_0|^{t\xi} r^t_\xi(X_{T_u})
         } \right]^{1/t}
-      [\P(n \leq T_u < \tau)]^{1/q}
+      [\P(n \leq T_u < \tau)]^{1/s}
     \end{eqnarray*}
-    where $1/r + 1/s + 1/t + 1/q= 1$. First note
+    where $1/r + 2/s + 1/t = 1$. First note
     \begin{eqnarray*}
       && \E \frac{
         |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
@@ -512,9 +512,9 @@ Now, to prove \eqref{eq:drift}, consider
               r_{-s\xi}(X_0)
             }{
               r_{-s\xi}(X_{T_u})
-            } \lambda(-s\xi)^{T_u - n} \right| T_u\right] \right\}
+            } \lambda_{-s\xi}^{T_u} \right| T_u\right] \right\}
     \end{eqnarray*}
-    Here the existance of the eigenvalue $\lambda(-s\xi)$ is ensured
+    Here the existance of the eigenvalue $\lambda_{-s\xi}$ is ensured
     by the assumption $\E \|A\|^{-(\xi + \epsilon)} < \infty$. On this
     condition, one can always choose $s > 1$ such that $s \xi < \xi +
     \epsilon$ and hence $\E \|A\|^{-s\xi} < \infty$. Because
@@ -525,34 +525,40 @@ Now, to prove \eqref{eq:drift}, consider
               r_{-s\xi}(X_0)
             }{
               r_{-s\xi}(X_{T_u})
-            } \lambda(-s\xi)^{T_u - n} \right| T_u\right] \right\} \\
-      &\leq& c \E \left\{ \lambda(-s\xi)^{T_u - n} \E_{-s\xi} \left[\left.
+            } \lambda_{-s\xi}^{T_u} \right| T_u\right] \right\} \\
+      &\leq& c \E \left\{ \lambda_{-s\xi}^{T_u} \E_{-s\xi} \left[\left.
             \|A_{T_u} \cdots A_{n+1} \|^{s \xi} \right| T_u\right]
       \right\} \\
-      &\leq& c \E \left\{ \lambda(-s\xi)^{T_u - n} \E_{-s\xi} \|A\|^{s
-          \xi(T_u - n)}\right\} \\
-      &=& c
+      &\leq& c \E \left\{ \lambda_{-s\xi}^{T_u} (\E_{-s\xi} \|A\|^{s
+          \xi})^{T_u - n}\right\} \\
+      &=& c \lambda_{-s\xi}^n
     \end{eqnarray*}
-    where $c$ is some constant.
-
-    As for $\E N_u^{2r}$, we have
+    where $c$ is some constant. As for $\E N_u^{2r}$, we have
     \begin{eqnarray*}
       \E N_u^{2r} &\leq& \E \tau^{2r} \\
       &\leq& \sum_{i=1}^\infty i^{2r} \P(\tau > i -1) \\
-      &\leq& 1 + \sum_{i=2}^\infty i^{2r} K \rho^{i-2} < \infty
+      &\leq& 1 + \sum_{i=2}^\infty i^{2r} K \rho_\alpha^{i-2} < \infty
     \end{eqnarray*}
-    where in the last step, we have used \eqref{eq:ret_time}.
+    for some $0 < \alpha < \xi$. In the last step, we have used
+    \eqref{eq:ret_time}. As regard $\P(n \leq T_u < \tau)$, we have
+    \begin{eqnarray*}
+      && \P(n \leq T_u < \tau) \\
+      &\leq& \P(n < \tau) \\
+      &\leq& K \rho_\alpha^{n-1}
+    \end{eqnarray*}
     So we may write
     \[
-    \E f_{u, n}(\xi) \leq c [\P(T_u < \tau)]^{1/q}
+    \E f_{u, n}(\xi) \leq c \lambda_{-s\xi}^{n/s} \rho_\alpha^{(n-1)/s}
     \]
-    This leads to
+    Because $\rho_\alpha$ can be chosen arbitrarily close but greater
+    than $\lambda_\alpha < 1$, the assumption $\inf_{\alpha \in
+      \mathbb R} \log \lambda_\alpha < -\log \lambda_{-(\xi+\epsilon)}$ implies
+    $\alpha$ and $s$ can be chosen such that $\rho_\alpha <
+    1/\lambda_{-s\xi}$. Then it follows
     \begin{eqnarray*}
-      \sum_{n=1}^{T_u} [\E f_{u,n}(\xi)]^{1/\xi}  &\leq&
-      \sum_{n=1}^{T_u} c^{1/\xi} [\P(T_u < \tau)]^{1/q\xi} \\
-      &\leq& c^{1/\xi} \sum_{n=1}^{\infty} [\P(n < \tau)]^{1/q\xi} \\
-      &\leq& c^{1/\xi} K^{1/q\xi} \sum_{n=1}^{\infty}
-      \rho^{(n-1)/q\xi} < \infty
+      \sum_{n=1}^{\infty} [\E f_{u,n}(\xi)]^{1/\xi}  &\leq&
+      c \rho_{\alpha}^{-1/s\xi}\sum_{n=1}^{\infty}
+      \left[\rho_\alpha\lambda_{-s\xi}\right]^{n/s\xi} < \infty
     \end{eqnarray*}
     \item 
   \end{enumerate}
