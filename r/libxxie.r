@@ -1,4 +1,5 @@
 library(RMySQL);
+library(abind);
 source("innovations-algorithm.R");
 
 ###
@@ -160,4 +161,66 @@ where day between '%s' and '%s'",
     }
     dbDisconnect(database);
     R <- diff(log(prices));
+}
+
+estimateTailIndices <- function(ret) {
+    if (class(ret) == "matrix") {
+        tailIndices = matrix(NA, nrow=dim(ret)[2], ncol=2);
+        for (i in 1:dim(ret)[2]) {
+            X = ret[, i];
+            a <- quantile(X, probs=0.03);
+            tailIndices[i, 1] <- 1/mean(log(X[which(X < a)]/a));
+
+            b <- quantile(X, probs=0.97);
+            tailIndices[i, 2] <- 1/mean(log(X[which(X > b)]/b));
+        }
+    } else if (class(ret) == "numeric") {
+        tailIndices = rep(NA, 2);
+        a <- quantile(ret, probs=0.03);
+        tailIndices[1] <- 1/mean(log(ret[which(ret < a)]/a));
+
+        b <- quantile(ret, probs=0.97);
+        tailIndices[2] <- 1/mean(log(ret[which(ret > b)]/b));
+    }
+    return(tailIndices);
+}
+
+cor.conf.ntvl <- function (prob, N) {
+    z <- qnorm(prob, mean=0, sd=1/sqrt(N-3));
+    x <- exp(2*z);
+    return ((x - 1)/(x + 1));
+}
+
+computeCovCorr <- function(data, max.lag=60) {
+    lagged.cov <- array(dim=c(p,p,1));
+    lagged.cor <- array(dim=c(p,p,1));
+    r <- cor.conf.ntvl(c(0.01, 0.99), n);
+    h <- 1;
+    sigma <- apply(data, 2, "sd");
+    sigma.inv <- sigma %o% sigma;
+    while (h <= max.lag) {
+        A <- matrix(ncol=p, nrow=p);
+        for (i in 1:p) {
+            for (j in 1:p) {
+                A[i, j] <- cov(data[1:(n-h), i], data[(1+h):n, j]);
+            }
+        }
+        B <- A / sigma.inv;
+        if (min(B) > r[1] && max(B) < r[2]) {
+            break;
+        }
+        if (h==1) {
+            lagged.cov[,,1] <- A;
+            lagged.cor[,,1] <- B;
+        } else {
+            lagged.cov <- abind(lagged.cov, A, along=3);
+            lagged.cor <- abind(lagged.cor, B, along=3);
+        }
+        h <- h + 1;
+    }
+    return (list(lagged.cov=lagged.cov, lagged.cor=lagged.cor));
+}
+
+largeComp <- function(data, level) {
+    return(data * (abs(data) > level));
 }
