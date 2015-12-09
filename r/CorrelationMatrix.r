@@ -8,21 +8,33 @@ day1 = '2010-01-01';
 assetSet <- "SP500_components";
 
 R <- getInterpolatedReturns(day1, day2, assetSet);
+S <- R^2;
 
 n <- dim(R)[1];
 p <- dim(R)[2];
 
 ### The covariance matrix
-E <- eigen(t(R) %*% R);
+E <- eigen(cov(S));
+F <- eigen(cor(S));
+
+G <- eigen(cov(R));
+H <- eigen(cor(R));
+
+for (i in 1:6) {
+    pdf(sprintf("R2_cor_eigenvector%d.pdf", i))
+    plot(1:p, F$vectors[, i], main=sprintf("Components of %dth eigenvector", i),
+         xlab="i", ylab="ith component");
+    dev.off();
+}
 
 ### The correlation matrix
-R.adjusted <- R;
-for (i in 1:p) {
-    sigma <- sd(R.adjusted[,i]);
-    R.adjusted[,i] <- (R.adjusted[,i] - mean(R.adjusted[,i]))/sigma;
-}
-E.adjusted <- eigen(t(R.adjusted) %*% R.adjusted);
-E.adjusted$values <- abs(E.adjusted$values);
+## R.adjusted <- R;
+## for (i in 1:p) {
+##     sigma <- sd(R.adjusted[,i]);
+##     R.adjusted[,i] <- (R.adjusted[,i] - mean(R.adjusted[,i]))/sigma;
+## }
+## E.adjusted <- eigen(t(R.adjusted) %*% R.adjusted);
+## E.adjusted$values <- abs(E.adjusted$values);
 
 
 pdf("Eigenvalues_Cor_vs_Cov_Matrix.pdf")
