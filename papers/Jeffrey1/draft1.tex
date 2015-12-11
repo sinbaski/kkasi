@@ -37,9 +37,9 @@ kernel $P$. Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
     \label{eq:neg_top_Lyapunov}
     \inf_{n \geq 1} \E \log \|A_n \cdots A_1\| < 0    
   \end{equation}
-\item $\exists \xi > 0$ such that $\lambda_{\xi} = 1$, where
+\item $\exists \xi > 0$ such that $\lambda(\xi) = 1$, where
   $$
-  \lambda_{\xi} := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
+  \lambda(\xi) := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
   $$
 \item $\E[\|A\|^\xi \log^+\|A\|] < \infty$
 \end{enumerate}
@@ -96,7 +96,7 @@ Then $\E_\gamma N_u$ may be evaluated as
   &=& \E_\gamma N_u \1{T_u < \tau} \\
   &=& \int_{\mathds S^{d-1}} \int_{\mathds R} \cdots \int_{\mathds
     S^{d-1}} \int_{\mathds R} N_u \1{T_u < \tau} \times \\
-  && \prod_{i=1}^{T_u} e^{-\xi(s_i - s_{i-1}) + \lambda_{\xi}}
+  && \prod_{i=1}^{T_u} e^{-\xi(s_i - s_{i-1}) + \lambda(\xi)}
   {r(x_{i-1}; \xi) \over r(x_{i}; \xi)}P_\xi(x_{i-1}, dx_i \times ds_i) \times \\
   && \prod_{i=T_u+1}^{\tau-1} P(x_{i-1}, dx_i \times d s_i) \\
   &=& \E_{\mathcal D} \left[
@@ -107,13 +107,13 @@ Then $\E_\gamma N_u$ may be evaluated as
 where
 \[
 P_\xi(x_{i-1}, dx_i \times ds_i) = e^{\xi(s_i - s_{i-1}) -
-  \lambda_{\xi}} {r(x_i; \xi) \over r(x_{i-1}; \xi)} P(x_{i-1}, dx_i
+  \lambda(\xi)} {r(x_i; \xi) \over r(x_{i-1}; \xi)} P(x_{i-1}, dx_i
 \times ds_i)
 \]
 is the $\xi$-shifted transition kernel of the {\it Markov Additive
   process} $(X_n, S_n)$. $\xi$ is chosen such that 
 \[
-\lambda_{\xi} = \lim_{n \to \infty} \log \left(
+\lambda(\xi) = \lim_{n \to \infty} \log \left(
 \E \|A_n \cdots A_1\|^\xi
 \right)^{1/n} = 0
 \]
@@ -129,7 +129,7 @@ P_{\mathcal D} (x_i, dx_{i+1} \times ds) = \left\{
 \]
 Because the top Lyapunov exponent is negative, it follows from a lemma
 in Kesten \cite{Kesten1973} that there is a $s > 0$ such that
-$\lambda_{s} < 0$.
+$\lambda(s) < 0$.
 
 Thus we have obtained a consistent estimator
 $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
@@ -143,97 +143,108 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
 
 \section{Efficiency}\label{sec:efficiency}
 \begin{lemma}
-  Assume the following conditions
+  Let $\beta \in \mathbb R$ satisfy
   \begin{enumerate}[(i)]
-  \item There exists $\xi > 0$ such that $\lambda_{\xi} = 1$
-  \item $\E\left[
-      \|A\|^{\xi} \log\|A\|\1{\|A\| > 1}
-      \right] < \infty$.
-  \item $\E \|B\|^{\xi} < \infty$.
+  \item
+    \begin{equation}
+      \label{eq:drift_cond1}
+      \E \|A\|^\beta < \infty      
+    \end{equation}
+  \item 
+    \begin{equation}
+      \label{eq:drift_cond2}
+    \inf_{\alpha > 0} {\E \|A\|^{\alpha + \beta}
+      \over 
+      \E \|A\|^{\beta}
+    } < 1
+    \end{equation}
   \end{enumerate}
-  then for $0 < \alpha < \alpha_0$, for which $\E\|A\|^{\xi + \alpha} <
-  \infty$ is satisfied, the following holds true
+  then $\forall \alpha > 0$ such that $\frac{\E\|A\|^{\beta +
+      \alpha}}{\E\|A\|^\beta} < 1$ , we have
   \begin{equation}
     \label{eq:drift}
-    \E \left[\left.
-        |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \I{C^\complement}(V_{n-1}) \right|
-      \mathcal F_{n-1} \right] \leq |V_{n-1}|^\alpha r_{\alpha}(|\tilde
-    V_{n-1}|) \I{C^\complement}(V_{n-1})
+    \E_\beta \left[\left.
+        |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \I{C^\complement}(V_{n-1}) \right|
+      \mathcal F_{n-1} \right] \leq |V_{n-1}|^\alpha r_\beta(|\tilde
+    V_{n-1}|; \alpha) \I{C^\complement}(V_{n-1})
   \end{equation}
-  where $r_{\alpha}(\cdot)$ is the unique right eigen function of the
+  where $r_\beta(\cdot; \alpha)$ is the unique right eigen function of the
   operator
   \[
-  P_{\alpha} f(x) = \int |\hat a x|^\alpha f\left(
+  P_{\alpha, \beta} f(x) = \int |\hat a x|^\alpha f\left(
     {\hat a x \over |\hat a x|}
-  \right) d\mu_A(\hat a)
+  \right) d\mu_A^\beta(\hat a)
+  \]
+  where the $\beta$-shifted measure $\mu_A^\beta$ satisfies
+  \[
+  d\mu_A^\beta(\hat a) = {\|\hat a\|^\beta d\mu_A(\hat a) \over \E\|A\|^\beta}
   \]
 \end{lemma}
 
 \begin{proof}
-  Since it is assumed $\E\left[\|A\|^{\xi} \log\|A\|\1{\|A\| > 1}
-  \right] < \infty$,
+  Conditions \eqref{eq:drift_cond1} and \eqref{eq:drift_cond2} imply $\E_\beta
+  \|A\|^\alpha < \infty$. Then, using the results of Buraczewski and
+  Collamore et al \cite{BCDZ2014}, one may conclude that an eigen
+  function $r_\beta(\cdot; \alpha)$ as well as an eigen measure
+  $l_\beta(\cdot; \alpha)$ exists under the $\beta$-shifted
+  measure. Thus, by defining the adjoint operator under  the shifted
+  measure, the right eigen function $r_\beta(x; \alpha)$ can be represented as
   \[
-  \E \|A\|^\xi < \infty
-  \]
-  Then, using the results of Buraczewski and Collamore et al
-  \cite{BCDZ2014}, one may conclude that an eigen function as well as
-  an eigen measure exists and, by defining the adjoint operator under
-  the shifted measure, the right eigen function $r_{\alpha}(x)$ can be
-  represented as
-  \[
-  r_{\alpha}(x) = c \int_{S_+^{d-1}} \inn{x, y}^\alpha dl^*_{\alpha}(x)
+  r_\beta(x; \alpha) = c \int_{S_+^{d-1}} \inn{x, y}^\alpha
+  dl^*_{\beta}(x; \alpha)
   \]
 Now, to prove \eqref{eq:drift}, consider
   \begin{eqnarray*}
-    && \E \left[ |V_n|^\alpha r_{\alpha}(\tilde V_n) | \mathcal F_{n-1} \right]
+    && \E_\beta \left[ |V_n|^\alpha r_\beta(\tilde V_n; \alpha) | \mathcal F_{n-1} \right]
     \\
-    &=& \E\left[\int_{S_+^{d-1}} \inn{V_n, y}^\alpha dl^*_{\alpha}(y)|
+    &=& \E_\beta\left[\int_{S_+^{d-1}} \inn{V_n, y}^\alpha dl^*_{\beta}(y; \alpha)|
       \mathcal F_{n-1} \right]
     \\
-    &=& \E\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
-        y})^\alpha dl^*_{\alpha}(y) | \mathcal F_{n-1} \right]
+    &=& \E_\beta\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
+        y})^\alpha dl^*_{\beta}(y; \alpha) | \mathcal F_{n-1} \right]
   \end{eqnarray*}
   \begin{enumerate}[(i)]
   \item if $\alpha < 1$, by subadditivity we have
     \begin{eqnarray*}
-      &&\E\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
-          y})^\alpha dl^*_{\alpha}(y) | \mathcal F_{n-1} \right]\\
-      &\leq& \E\left[\int_{S_+^{d-1}} \inn{A_n V_{n-1}, y}^\alpha
-        dl^*_{\alpha}(y) | \mathcal F_{n-1} \right]
-      + \E\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_{\alpha}(y) |
+      &&\E_\beta\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
+          y})^\alpha dl^*_{\beta}(y; \alpha) | \mathcal F_{n-1} \right]\\
+      &\leq& \E_\beta\left[\int_{S_+^{d-1}} \inn{A_n V_{n-1}, y}^\alpha
+        dl^*_{\beta}(y; \alpha) | \mathcal F_{n-1} \right]
+      + \E_\beta\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_{\beta}(y; \alpha) |
         \mathcal F_{n-1} \right] \\
-      &=& \E\left[|V_{n-1}|^\alpha |A_n \tilde V_{n-1}|^\alpha\int_{S_+^{d-1}}
+      &=& \E_\beta\left[|V_{n-1}|^\alpha |A_n \tilde V_{n-1}|^\alpha\int_{S_+^{d-1}}
         \inn{{A_n V_{n-1} \over |A_n V_{n-1}|}, y}^\alpha
-        dl^*_{\alpha}(y) | \mathcal F_{n-1} \right] \\
-      && + \E\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_{\alpha}(y) |
+        dl^*_{\beta}(y; \alpha) | \mathcal F_{n-1} \right] \\
+      && + \E_\beta\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_{\beta}(y; \alpha) |
         \mathcal F_{n-1} \right] \\
       &=& |V_{n-1}|^\alpha \left\{
-        (P_{\alpha} r_{\alpha})(\tilde V_{n-1}) +
-        {1 \over |V_{n-1}|^\alpha} \E |B_n|^\alpha r_{\alpha}(\tilde
-        B_n) \right\} \\
-      &=& |V_{n-1}|^\alpha r_{\alpha}(\tilde V_{n-1})\left\{
-        \lambda_{\alpha} +
-        {1 \over |V_{n-1}|^\alpha r_{\alpha}(\tilde V_{n-1})} \E
-        |B_n|^\alpha r_{\alpha}(\tilde B_n) \right\} \\
+        (P_{\alpha, \beta} r_{\beta})(\tilde V_{n-1}; \alpha) +
+        {1 \over |V_{n-1}|^\alpha} \E_\beta |B_n|^\alpha r_\beta(\tilde
+        B_n; \alpha) \right\} \\
+      &=& |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha)\left\{
+        \lambda_\beta(\alpha) +
+        {1 \over |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha)} \E_\beta
+        |B_n|^\alpha r_\beta(\tilde B_n; \alpha) \right\} \\
     \end{eqnarray*}
-    Clearly $\E\left[|B_n|^\alpha r_{\alpha}(\tilde B_n)\right] <
-    \infty$. Hence the infimum of the expression in the curly bracket
-    over all $n \geq 1$ is $\lambda_{\alpha}$, which is less than 1 for $0 < \alpha < \xi$.    
-    Therefore, when $|V_{n-1}|$ is sufficiently large, $\rho_\alpha, \alpha$ an be
-    chosen such that
+    By assumption, $\E_\beta|B_n|^\alpha < \infty$; and
+    $r_\beta(\tilde B_n; \alpha) < \infty$, $r_\beta(\tilde V_{n-1};
+    \alpha) < \infty$ according to Buraczewski and Collamore \cite{BCDZ2014}.
+    Hence the infimum of the expression in the curly bracket over all $n \geq 1$ is
+    $\lambda_\beta(\alpha) < 1$. Therefore, when $|V_{n-1}|$ is
+    sufficiently large, $\rho_{\beta}(\alpha)$ an be chosen such that
     \begin{eqnarray*}
-      \rho_\alpha &<& 1 \\
-      \E \left[ |V_n|^\alpha r_{\alpha}(\tilde V_n)  \I{C^\complement}(V_{n-1})
+      \rho_{\beta}(\alpha) &<& 1 \\
+      \E_\beta \left[ |V_n|^\alpha r_\beta(\tilde V_n; \alpha)  \I{C^\complement}(V_{n-1})
         | \mathcal F_{n-1} \right] &\leq&
-      \rho_\alpha |V_{n-1}|^\alpha r_{\alpha}(\tilde V_{n-1}) \I{C^\complement}(V_{n-1})
+      \rho_\beta(\alpha) |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha) \I{C^\complement}(V_{n-1})
     \end{eqnarray*}
     where $C^\complement$ denotes the complement of the set $C$:
     \[
     C = \left\{
       v: |v| \leq M, M = \left[
-        \E (|B|^\alpha r_\alpha(\tilde B)) 
+        \E_\beta (|B|^\alpha r_\beta(\tilde B; \alpha)) 
         \over
-        (1 - \lambda_\alpha) r_\alpha(\tilde v)
+        [1 - \lambda(\alpha)] r_\beta(\tilde v; \alpha)
       \right]^{1/\alpha}
     \right\}
     \]
@@ -243,38 +254,38 @@ Now, to prove \eqref{eq:drift}, consider
 %   and strictly positive function $r_\alpha \in \mathscr C_b(\mathbb
 %   S_+^{d-1})$ such that
 %   \begin{eqnarray*}
-%     P_\alpha r_\alpha(x) &=& \lambda_{\alpha} r_\alpha(x) \\
-%     l_\alpha P_\alpha (S) &=& \lambda_{\alpha} l_\alpha(S) \\
-%     \int_{S_+^{d-1}} r_\alpha(x) l_\alpha(dx) &=& 1
+%     P_\alpha r(x; \alpha) &=& \lambda(\alpha) r(x; \alpha) \\
+%     l_\alpha P_\alpha (S) &=& \lambda(\alpha) l_\alpha(S) \\
+%     \int_{S_+^{d-1}} r(x; \alpha) l_\alpha(dx) &=& 1
 %   \end{eqnarray*}
 \end{proof}
   Iterating \eqref{eq:drift} yields
   \[
-  \E \left[
-         |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \prod_{i=1}^{n-1}\I{C^\complement}(V_i)\right]
-      \leq \rho_\alpha^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1)
+  \E_\beta \left[
+         |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n-1}\I{C^\complement}(V_i)\right]
+      \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{C^\complement}(V_1)
   \]
   Then it follows
   \[
-  \E \left[
-         |V_n|^\alpha r_{\alpha}(|\tilde V_n|) \prod_{i=1}^{n}\I{C^\complement}(V_i)\right]
-      \leq \rho_\alpha^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1)
+  \E_\beta \left[
+         |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n}\I{C^\complement}(V_i)\right]
+      \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{C^\complement}(V_1)
   \]
   But $\prod_{i=1}^{n}\I{C^\complement}(V_i)$ implies $\tau > n$, and in this
   case $|V_n| > M$, where
   \[
   M = \left[
-        \E (|B|^\alpha r_\alpha(\tilde B)) 
+        \E_\beta (|B|^\alpha r_\beta(\tilde B; \alpha)) 
         \over
-        (1 - \lambda_\alpha) r_\alpha(\tilde v)
+        (1 - \lambda(\alpha)) r_\beta(\tilde v; \alpha)
       \right]^{1/\alpha}
   \]
   Hence
   \begin{eqnarray}
-    \E \left[
-      M^\alpha \inf_{|\tilde V_n|} r_{\alpha}(|\tilde V_n|) \1{\tau > n}\right]
-    &\leq& \rho_\alpha^{n-1} |V_1|^\alpha r_{\alpha}(|\tilde V_1|) \I{C^\complement}(V_1) \nonumber \\
-    \P(\tau > n) &\leq& K \rho_\alpha^{n-1} \label{eq:ret_time}
+    \E_\beta \left[
+      M^\alpha \inf_{|\tilde V_n|} r_\beta(|\tilde V_n|; \alpha) \1{\tau > n}\right]
+    &\leq& \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{C^\complement}(V_1) \nonumber \\
+    \P_\beta(\tau > n) &\leq& K \rho_\beta(\alpha)^{n-1} \label{eq:ret_time}
   \end{eqnarray}
   for some constant $K$.
   
@@ -362,7 +373,7 @@ Now, to prove \eqref{eq:drift}, consider
 % where 
 % \begin{proof}
 %   \begin{eqnarray*}
-%     && \E \left[ |V_n|^\alpha r_\alpha(\tilde V_n) | \mathcal F_{n-1} \right]
+%     && \E \left[ |V_n|^\alpha r(\tilde V_n; \alpha) | \mathcal F_{n-1} \right]
 %     \\
 %     &=& \E\left[\int_{S_+^{d-1}} \inn{V_n, y}^\alpha dl^*_\alpha(y)|
 %       \mathcal F_{n-1} \right]
@@ -386,20 +397,20 @@ Now, to prove \eqref{eq:drift}, consider
 %         \mathcal F_{n-1} \right] \\
 %       &=& |V_{n-1}|^\alpha \left\{
 %         (P_\alpha r_\alpha)(\tilde V_{n-1}) +
-%         {1 \over |V_{n-1}|^\alpha} \E |B_n|^\alpha r_\alpha(\tilde
-%         B_n) \right\} \\
-%       &=& |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})\left\{
+%         {1 \over |V_{n-1}|^\alpha} \E |B_n|^\alpha r(\tilde
+%         B_n; \alpha) \right\} \\
+%       &=& |V_{n-1}|^\alpha r(\tilde V_{n-1}; \alpha)\left\{
 %         \lambda(\alpha) +
-%         {1 \over |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})} \E
-%         |B_n|^\alpha r_\alpha(\tilde B_n) \right\} \\
+%         {1 \over |V_{n-1}|^\alpha r(\tilde V_{n-1}; \alpha)} \E
+%         |B_n|^\alpha r(\tilde B_n; \alpha) \right\} \\
 %     \end{eqnarray*}
-%     Clearly $\E\left[|B_n|^\alpha r_\alpha(\tilde B_n)\right] <
+%     Clearly $\E\left[|B_n|^\alpha r(\tilde B_n; \alpha)\right] <
 %     \infty$. Hence the infimum of the expression in the curly bracket
 %     over all $n \geq 1$ is $\lambda(\alpha) < 1$. Therefore, when
 %     $|V_{n-1}|$ is sufficiently large, we have
 %     \[
-%     \E \left[ |V_n|^\alpha r_\alpha(\tilde V_n) | \mathcal F_{n-1} \right] \leq
-%     \rho |V_{n-1}|^\alpha r_\alpha(\tilde V_{n-1})
+%     \E \left[ |V_n|^\alpha r(\tilde V_n; \alpha) | \mathcal F_{n-1} \right] \leq
+%     \rho |V_{n-1}|^\alpha r(\tilde V_{n-1}; \alpha)
 %     \]
 %   \end{enumerate}    
 % \end{proof}
@@ -431,8 +442,8 @@ Now, to prove \eqref{eq:drift}, consider
     measure, we obtain
   \begin{eqnarray*}
     f(\xi) &\leq& \limsup_{u \to \infty} \E \left[|V_{T_u}|^{2\xi}
-      N_u^2 \1{T_u < \tau} e^{-\xi S_{T_u}} {r_\xi(x_0)
-        \over r_\xi(x_{T_u})}\right] \\
+      N_u^2 \1{T_u < \tau} e^{-\xi S_{T_u}} {r(x_0; \xi)
+        \over r(x_{T_u}; \xi)}\right] \\
     &=& \limsup_{u \to \infty} \E \left[
       N_u^2 \frac{
         \left|
@@ -443,9 +454,9 @@ Now, to prove \eqref{eq:drift}, consider
         |A_{T_u} \cdots A_1 V_0|^{\xi}
       }
       \frac{
-        r_\xi(X_0)
+        r(X_0; \xi)
       }{
-        r_\xi(X_{T_u})
+        r(X_{T_u}; \xi)
       } \1{T_u < \tau}
     \right] \\
     &=& \limsup_{u \to \infty} \E \left|
@@ -455,9 +466,9 @@ Now, to prove \eqref{eq:drift}, consider
         |A_{T_u} \cdots A_1 V_0|
       }
       \frac{
-        r_\xi^{1/\xi}(X_0)
+        r(X_0; \xi)^{1/\xi}
       }{
-        r_\xi^{1/\xi} (X_{T_u})
+        r(X_{T_u}; \xi)^{1/\xi}
       } \1{n \leq T_u < \tau}
     \right|^{\xi} \\
     &=& \limsup_{u \to \infty} \E |f_u(\xi)|^\xi
@@ -475,9 +486,9 @@ Now, to prove \eqref{eq:drift}, consider
           }{
             |V_0|^{\xi}
           } \frac{
-            r_\xi(X_0)
+            r(X_0; \xi)
           }{
-            r_\xi(X_{T_u})
+            r(X_{T_u}; \xi)
           }
           \1{n \leq T_u < \tau}
       \right)\right]^{1/\xi} \\
@@ -509,56 +520,56 @@ Now, to prove \eqref{eq:drift}, consider
       } \\
       &\leq& \E \left\{\E_{-s\xi} \left[\left.
             \|A_{T_u} \cdots A_{n+1} \|^{s \xi} \frac{
-              r_{-s\xi}(X_0)
+              r(X_0; -s\xi)
             }{
-              r_{-s\xi}(X_{T_u})
-            } \lambda_{-s\xi}^{T_u} \right| T_u\right] \right\}
+              r(X_{T_u}; -s\xi)
+            } \lambda(-s\xi)^{T_u} \right| T_u\right] \right\}
     \end{eqnarray*}
-    Here the existance of the eigenvalue $\lambda_{-s\xi}$ is ensured
+    Here the existance of the eigenvalue $\lambda(-s\xi)$ is ensured
     by the assumption $\E \|A\|^{-(\xi + \epsilon)} < \infty$. On this
     condition, one can always choose $s > 1$ such that $s \xi < \xi +
     \epsilon$ and hence $\E \|A\|^{-s\xi} < \infty$. Because
-    $r_{-s\xi}(\cdot)$ is bounded from above and below, we may write
+    $r(\cdot; -s\xi)$ is bounded from above and below, we may write
     \begin{eqnarray*}
       && \E \left\{\E_{-s\xi} \left[\left.
             \|A_{T_u} \cdots A_{n+1} \|^{s \xi} \frac{
-              r_{-s\xi}(X_0)
+              r(X_0; -s\xi)
             }{
-              r_{-s\xi}(X_{T_u})
-            } \lambda_{-s\xi}^{T_u} \right| T_u\right] \right\} \\
-      &\leq& c \E \left\{ \lambda_{-s\xi}^{T_u} \E_{-s\xi} \left[\left.
+              r(X_{T_u}; -s\xi)
+            } \lambda(-s\xi)^{T_u} \right| T_u\right] \right\} \\
+      &\leq& c \E \left\{ \lambda(-s\xi)^{T_u} \E_{-s\xi} \left[\left.
             \|A_{T_u} \cdots A_{n+1} \|^{s \xi} \right| T_u\right]
       \right\} \\
-      &\leq& c \E \left\{ \lambda_{-s\xi}^{T_u} (\E_{-s\xi} \|A\|^{s
+      &\leq& c \E \left\{ \lambda(-s\xi)^{T_u} (\E_{-s\xi} \|A\|^{s
           \xi})^{T_u - n}\right\} \\
-      &=& c \lambda_{-s\xi}^n
+      &=& c \lambda(-s\xi)^n
     \end{eqnarray*}
     where $c$ is some constant. As for $\E N_u^{2r}$, we have
     \begin{eqnarray*}
       \E N_u^{2r} &\leq& \E \tau^{2r} \\
       &\leq& \sum_{i=1}^\infty i^{2r} \P(\tau > i -1) \\
-      &\leq& 1 + \sum_{i=2}^\infty i^{2r} K \rho_\alpha^{i-2} < \infty
+      &\leq& 1 + \sum_{i=2}^\infty i^{2r} K \rho(\alpha)^{i-2} < \infty
     \end{eqnarray*}
     for some $0 < \alpha < \xi$. In the last step, we have used
     \eqref{eq:ret_time}. As regard $\P(n \leq T_u < \tau)$, we have
     \begin{eqnarray*}
       && \P(n \leq T_u < \tau) \\
       &\leq& \P(n < \tau) \\
-      &\leq& K \rho_\alpha^{n-1}
+      &\leq& K \rho(\alpha)^{n-1}
     \end{eqnarray*}
     So we may write
     \[
-    \E f_{u, n}(\xi) \leq c \lambda_{-s\xi}^{n/s} \rho_\alpha^{(n-1)/s}
+    \E f_{u, n}(\xi) \leq c \lambda(-s\xi)^{n/s} \rho(\alpha)^{(n-1)/s}
     \]
-    Because $\rho_\alpha$ can be chosen arbitrarily close but greater
-    than $\lambda_\alpha < 1$, the assumption $\inf_{\alpha \in
-      \mathbb R} \log \lambda_\alpha < -\log \lambda_{-(\xi+\epsilon)}$ implies
-    $\alpha$ and $s$ can be chosen such that $\rho_\alpha <
-    1/\lambda_{-s\xi}$. Then it follows
+    Because $\rho(\alpha)$ can be chosen arbitrarily close but greater
+    than $\lambda(\alpha) < 1$, the assumption $\inf_{\alpha \in
+      \mathbb R} \log \lambda(\alpha) < -\log \lambda_{-(\xi+\epsilon)}$ implies
+    $\alpha$ and $s$ can be chosen such that $\rho(\alpha) <
+    1/\lambda(-s\xi)$. Then it follows
     \begin{eqnarray*}
       \sum_{n=1}^{\infty} [\E f_{u,n}(\xi)]^{1/\xi}  &\leq&
       c \rho_{\alpha}^{-1/s\xi}\sum_{n=1}^{\infty}
-      \left[\rho_\alpha\lambda_{-s\xi}\right]^{n/s\xi} < \infty
+      \left[\rho(\alpha)\lambda(-s\xi)\right]^{n/s\xi} < \infty
     \end{eqnarray*}
     \item 
   \end{enumerate}
