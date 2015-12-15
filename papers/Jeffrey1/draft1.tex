@@ -514,29 +514,30 @@ Now, to prove \eqref{eq:drift}, consider
   \P_{-\xi(2s - 1)}(\tau > k-1)$, and by assumption $\E_{-\xi(2s - 1)}
   |B_n|^{2s\xi} < \infty$. We also note
   \[
+  \lim_{k \to \infty}
   \left[ \E_{-\xi(2s - 1)}\left(
     \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k
-  \right) \right]^{1/(k-n)} \to \lambda_{-\xi(2s - 1)}(2s\xi)
-  \text{ as }k \to \infty
+  \right) \right]^{1/(k-n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
   \]
   and
   \[
-  \lambda_{-\xi(2s - 1)}(2s\xi) = \inf_{k \geq n+1}
+  \inf_{k \geq n+1}
   \left(
     \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|^{2s\xi}
-  \right)^{1/(k - n)}
+  \right)^{1/(k - n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
   \]
-  Hence for any $\delta > 1$, $\exists N \geq 1$ such that $\forall k
+  Hence for any $a > 1$, $\exists N \geq 1$ such that $\forall k
   \geq n + N$, $(\E_{-\xi(2s - 1)}\|A_{n+N} \cdots
-  A_{n+1}\|^{2s\xi})^{1/N} < \delta \lambda_{-\xi(2s -
+  A_{n+1}\|^{2s\xi})^{1/N} < a \lambda_{-\xi(2s -
     1)}(2s\xi)$. Thus we have
   \begin{eqnarray*}
     && \E_{-\xi(2s - 1)} f_{2,n}(u,\xi) \\
     &\leq& c_1 + c_2 \sum_{k=n+N}^\infty \left[
-           \delta \lambda_{-\xi(2s + 1)}(2s\xi)
+           a \lambda_{-\xi(2s + 1)}(2s\xi)
            \right]^{k-n} \lambda[-\xi(2s - 1)]^{k}
-           \lambda_{-\xi(2s - 1)}(\alpha)^{k-2}
+           \P_{-\xi(2s - 1)}(\tau > k-1)
   \end{eqnarray*}
+  
   where $\lambda_{-\xi(2s - 1)}(\alpha) < 1$.
 
   
