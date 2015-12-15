@@ -435,211 +435,156 @@ Now, to prove \eqref{eq:drift}, consider
       \over r^2(x_{T_u}; \xi)}\right]
   < \infty
   \]
-  In the rest of the proof, we write $c$ for any constant whose value
-  is of no importance.
+  In the rest of the proof, we write $c, c_1, c_2$ for constants whose values
+  have no importance.
   \begin{enumerate}[(i)]
   \item We first consider the case $\log \E \|A\|^{-(\xi + \epsilon)}
     < -\inf_{\alpha \in \mathbb R} \log \E \|A\|^\alpha$ for some
     $\epsilon > 0$. Using the fact $|V_{T_u} > u|$  we obtain
-  \begin{eqnarray*}
-    f(\xi) &\leq& \limsup_{u \to \infty} \E_D \left[
-                  N_u^2  \left|
-                  \frac{
-                  \sum_{n=0}^{T_u} A_{T_u} \cdots A_{n+1} B_n 
-                  }{
-                  |A_{T_u} \cdots A_1 V_0|
-                  }
-                  \right|^{2 \xi}
-                  \frac{
-                  r(X_0; \xi)^2
-                  }{
-                  r(X_{T_u}; \xi)^2
-                  } \1{T_u < \tau}
-    \right] \\
-  \end{eqnarray*}
-  where $1/r + 1/s = 1$. Then H\"older's inequality gives
-  \begin{eqnarray*}
-    f(\xi) &\leq& \limsup_{u \to \infty} (\E_D N_u^{2r})^{1/r}
-                  \left(\E_D \left|
-                  \frac{
-                  \sum_{n=0}^{T_u} A_{T_u} \cdots A_{n+1} B_n 
-                  }{
-                  |A_{T_u} \cdots A_1 V_0|
-                  }
-                  \right|^{2 s \xi} \1{T_u < \tau}
-                  \right)^{1/s} \\
-           &\leq& c \limsup_{u \to \infty} f_1(u) f_2(u, \xi)
-  \end{eqnarray*}
-  For $f_2(u,\xi)$ Minkowski's inequality yields
-  \begin{eqnarray*}
-    f_2(u, \xi)^{1/2\xi} &\leq& \sum_{n=0}^\infty \left(\E_D \left[
-                                \frac{
-                                |A_{T_u} \cdots A_{n+1} B_n |^{2s\xi}
-                                }{
-                                |A_{T_u} \cdots A_1 V_0|^{2s\xi}
-                                } \1{n \leq T_u < \tau}
-                                \right]\right)^{1/2s\xi} \\
-                         &=& \sum_{n=0}^\infty \left(\E \left[
-                             \frac{
-                             |A_{T_u} \cdots A_{n+1} B_n |^{2s\xi}
-                             }{
-                             |A_{T_u} \cdots A_1 X_0|^{\xi(2s - 1)}
-                             }
-                             \frac{
-                             r_{\xi}(X_{T_u})
-                             }{
-                             r_{\xi}(X_{0})
-                             }
-                             {1 \over |V_0|^{2s\xi}}\1{n \leq T_u < \tau}
-                             \right]\right)^{1/2s\xi} \\
-                         &\leq& c \sum_{n=0}^\infty
-                                \left(\E_{-\xi(2s - 1)} \left[
-                                |A_{T_u} \cdots A_{n+1} B_n |^{2s\xi}
-                                \lambda(-\xi(2s - 1))^{T_u}
-                                \1{n \leq T_u < \tau}
-                                \right]\right)^{1/2s\xi} \\
-                         &=& c \sum_{n=0}^\infty [\E_{-\xi(2s - 1)}
-                             f_{2,n}(u,\xi)]^{1/2s\xi}
-  \end{eqnarray*}
-  As for $\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)$ we have
-  \begin{eqnarray*}
-    && \E_{-\xi(2s - 1)} f_{2,n}(u,\xi) \\
-    &\leq& \sum_{k=n}^\infty \E_{-\xi(2s - 1)}\left(
-           \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k \right)
-           \E_{-\xi(2s - 1)} |B_n|^{2s\xi} \times \\
-    && \lambda(-\xi(2s - 1))^{k} \1{\tau > k}
-       \P_{-\xi(2s - 1)}(T_u \geq k)
-  \end{eqnarray*}
-  Obviously $\1{\tau > T_u} \P_{-\xi(2s - 1)}(T_u \geq k) \leq
-  \P_{-\xi(2s - 1)}(\tau > k-1)$, and by assumption $\E_{-\xi(2s - 1)}
-  |B_n|^{2s\xi} < \infty$. We also note
-  \[
-  \lim_{k \to \infty}
-  \left[ \E_{-\xi(2s - 1)}\left(
-    \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k
-  \right) \right]^{1/(k-n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
-  \]
-  and
-  \[
-  \inf_{k \geq n+1}
-  \left(
-    \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|^{2s\xi}
-  \right)^{1/(k - n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
-  \]
-  Hence for any $a > 1$, $\exists N \geq 1$ such that $\forall k
-  \geq n + N$, $(\E_{-\xi(2s - 1)}\|A_{n+N} \cdots
-  A_{n+1}\|^{2s\xi})^{1/N} < a \lambda_{-\xi(2s -
-    1)}(2s\xi)$. Thus we have
-  \begin{eqnarray*}
-    && \E_{-\xi(2s - 1)} f_{2,n}(u,\xi) \\
-    &\leq& c_1 + c_2 \sum_{k=n+N}^\infty \left[
-           a \lambda_{-\xi(2s + 1)}(2s\xi)
-           \right]^{k-n} \lambda[-\xi(2s - 1)]^{k}
-           \P_{-\xi(2s - 1)}(\tau > k-1)
-  \end{eqnarray*}
-  
-  where $\lambda_{-\xi(2s - 1)}(\alpha) < 1$.
-
-  
-    By Minkowski's inequality,
     \begin{eqnarray*}
-      && [\E |f_u(\xi)|]^{1/\xi} \\
-      &\leq& \sum_{n=1}^{\infty} \left[\E \left(
-          N_u^2 \frac{
-            |A_{T_u} \cdots A_{n+1} \tilde B_n|^{\xi}
+      f(\xi) &\leq& \limsup_{u \to \infty} \E_D \left[
+        N_u^2  \left|
+          \frac{
+            \sum_{n=0}^{T_u} A_{T_u} \cdots A_{n+1} B_n 
           }{
-            |A_{T_u} \cdots A_{1} \tilde V_0|^{\xi}
-          } \frac{
-            |B_n|^{\xi}
-          }{
-            |V_0|^{\xi}
-          } \frac{
-            r(X_0; \xi)
-          }{
-            r(X_{T_u}; \xi)
+            |A_{T_u} \cdots A_1 V_0|
           }
-          \1{n \leq T_u < \tau}
-      \right)\right]^{1/\xi} \\
-    &\leq& \sum_{n=1}^{\infty} \left[ \E f_{u,n}(\xi) \right]^{1/\xi}
-    \end{eqnarray*}
-    Applying H\"older's inequality leads to
-    \begin{eqnarray*}
-      \E f_{u,n}(\xi) &\leq& (\E N_u^{2r})^{1/r} \left(
-        \E \frac{
-          |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
+        \right|^{2 \xi}
+        \frac{
+          r(X_0; \xi)^2
         }{
-          |A_{T_u} \cdots A_{1} \tilde V_0|^{s \xi}
-        } \right)^{1/s} \times \\
-      &&
-      \left[
-        \E \frac{
-          |B_n|^{t\xi} r^t_\xi(X_0)
+          r(X_{T_u}; \xi)^2
+        } \1{T_u < \tau}
+      \right] \\
+    \end{eqnarray*}
+    where $1/r + 1/s = 1$. Then H\"older's inequality gives
+    \begin{eqnarray*}
+      f(\xi) &\leq& \limsup_{u \to \infty} (\E_D N_u^{2r})^{1/r}
+      \left(\E_D \left|
+          \frac{
+            \sum_{n=0}^{T_u} A_{T_u} \cdots A_{n+1} B_n 
+          }{
+            |A_{T_u} \cdots A_1 V_0|
+          }
+        \right|^{2 s \xi} \1{T_u < \tau}
+      \right)^{1/s} \\
+      &\leq& c \limsup_{u \to \infty} f_1(u) f_2(u, \xi)
+    \end{eqnarray*}
+    \begin{itemize}
+    \item First of all, we prove $f_2(u,\xi) < \infty$. Minkowski's
+      inequality yields
+      \begin{eqnarray*}
+        f_2(u, \xi)^{1/2\xi} &\leq& \sum_{n=0}^\infty \left(\E_D \left[
+            \frac{
+              |A_{T_u} \cdots A_{n+1} B_n |^{2s\xi}
+            }{
+              |A_{T_u} \cdots A_1 V_0|^{2s\xi}
+            } \1{n \leq T_u < \tau}
+          \right]\right)^{1/2s\xi} \\
+        &=& \sum_{n=0}^\infty \left(\E \left[
+            \frac{
+              |A_{T_u} \cdots A_{n+1} B_n |^{2s\xi}
+            }{
+              |A_{T_u} \cdots A_1 X_0|^{\xi(2s - 1)}
+            }
+            \frac{
+              r_{\xi}(X_{T_u})
+            }{
+              r_{\xi}(X_{0})
+            }
+            {1 \over |V_0|^{2s\xi}}\1{n \leq T_u < \tau}
+          \right]\right)^{1/2s\xi} \\
+        &\leq& c \sum_{n=0}^\infty
+        \left(\E_{-\xi(2s - 1)} \left[
+            |A_{T_u} \cdots A_{n+1} B_n |^{2s\xi}
+            \lambda(-\xi(2s - 1))^{T_u}
+            \1{n \leq T_u < \tau}
+          \right]\right)^{1/2s\xi} \\
+        &=& c \sum_{n=0}^\infty [\E_{-\xi(2s - 1)}
+        f_{2,n}(u,\xi)]^{1/2s\xi}
+      \end{eqnarray*}
+      As for $\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)$ we have
+      \begin{eqnarray*}
+        && \E_{-\xi(2s - 1)} f_{2,n}(u,\xi) \\
+        &\leq& \sum_{k=n}^\infty \E_{-\xi(2s - 1)}\left(
+          \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k \right)
+        \E_{-\xi(2s - 1)} |B_n|^{2s\xi} \times \\
+        && \lambda(-\xi(2s - 1))^{k} \1{\tau > T_u}
+        \P_{-\xi(2s - 1)}(T_u \geq k)
+      \end{eqnarray*}
+      Obviously $\1{\tau > T_u} \P_{-\xi(2s - 1)}(T_u \geq k) \leq
+      \P_{-\xi(2s - 1)}(\tau > k-1)$, and by assumption $\E_{-\xi(2s - 1)}
+      |B_n|^{2s\xi} < \infty$. We also note
+      \[
+      \lim_{k \to \infty}
+      \left[ \E_{-\xi(2s - 1)}\left(
+          \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k
+        \right) \right]^{1/(k-n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
+      \]
+      and
+      \[
+      \inf_{k \geq n+1}
+      \left(
+        \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|^{2s\xi}
+      \right)^{1/(k - n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
+      \]
+      Hence $\forall a > 1$, $\exists N \geq 1$ such that $\forall k
+      \geq n + N$, $(\E_{-\xi(2s - 1)}\|A_{n+N} \cdots
+      A_{n+1}\|^{2s\xi})^{1/N} < a \lambda_{-\xi(2s -
+        1)}(2s\xi)$. Choose $s > \max\{1/2\xi, 1\}$ so that
+      $(\cdot)^{1/2s\xi}$ is concave and subadditive. Then
+      \begin{eqnarray*}
+        && c \sum_{n=0}^\infty [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
+        &\leq& c \sum_{n=0}^\infty \left\{
+          c_1 \sum_{k=n}^{n+N-1} \lambda(-\xi(2s - 1))^{k/2s\xi} [\P_{-\xi(2s -
+            1)}(\tau > k-1)]^{1/2s\xi} \right.\\
+        && + \left.\sum_{k=n+N}^\infty [a \lambda_{-\xi(2s - 1)}(2s\xi)]^{(k-n)/2s\xi}
+          \lambda(-\xi(2s - 1))^{k/2s\xi} [\P_{-\xi(2s - 1)}(\tau > k-1)]^{1/2s\xi}
+        \right\}
+      \end{eqnarray*}
+      Applying \eqref{eq:ret_time} with $\beta = -\xi(2s - 1)$ gives
+      \[
+      \P_{-\xi(2s - 1)}(\tau > k-1) \leq K \lambda_{-\xi(2s - 1)}(\alpha)^{k-2}
+      \]
+      where $\alpha > 0$ is chosen such that $\lambda_{-\xi(2s -
+        1)}(\alpha) < 1$.
+      % This is always possible because
+      % $\lambda_{-\xi(2s - 1)}(\alpha) = \lambda(-\xi(2s - 1) + \alpha) /
+      % \lambda(-\xi(2s - 1))$, and ${d \lambda(-\xi(2s - 1) +
+      % \alpha) \over d\alpha} < 0$.
+      Let $p = \lambda(\alpha - \xi(2s - 1))^{1/2s\xi} < 1$, and $q =
+      \lambda(-\xi(2s - 1))^{1/2s\xi} > 1$. We have
+      \begin{eqnarray*}
+        && c \sum_{n=0}^\infty \left[
+          \E_{-\xi(2s - 1)} f_{2,n}(u,\xi)
+        \right]^{1/2s\xi} \\
+        &\leq& c_1 \sum_{n=0}^\infty \sum_{k=n}^{n+N-1} p^{k-2} q^{2} +
+        c \sum_{n=0}^{\infty} \sum_{k=n+N}^\infty a^{k-n} p^{k-2}
+        q^{n-k+2} \\
+        &=& c_1 p^{-2} q^2 {1 - p^N \over (1-p)^2 }
+        + \sum_{n=0}^{\infty} a^{-n} p^{-2} q^{n+2} \sum_{k=n+N}^{\infty}
+        \left({ap \over q}\right)^k
+      \end{eqnarray*}
+      Choose $a > 1$ such that $ap < q$. Then
+      \begin{eqnarray*}
+        && \sum_{n=0}^{\infty} a^{-n} p^{-2} q^{n+2} \sum_{k=n+N}^{\infty}
+        \left({ap \over q}\right)^k \\
+        &=& \frac{
+          a^N p^{N-2} q^{2-N}
         }{
-          |V_0|^{t\xi} r^t_\xi(X_{T_u})
-        } \right]^{1/t}
-      [\P(n \leq T_u < \tau)]^{1/s}
-    \end{eqnarray*}
-    where $1/r + 2/s + 1/t = 1$. First note
-    \begin{eqnarray*}
-      && \E \frac{
-        |A_{T_u} \cdots A_{n+1} \tilde B_n|^{s \xi}
-      }{
-        |A_{T_u} \cdots A_{1} \tilde V_0|^{s \xi}
-      } \\
-      &\leq& \E \left\{\E_{-s\xi} \left[\left.
-            \|A_{T_u} \cdots A_{n+1} \|^{s \xi} \frac{
-              r(X_0; -s\xi)
-            }{
-              r(X_{T_u}; -s\xi)
-            } \lambda(-s\xi)^{T_u} \right| T_u\right] \right\}
-    \end{eqnarray*}
-    Here the existance of the eigenvalue $\lambda(-s\xi)$ is ensured
-    by the assumption $\E \|A\|^{-(\xi + \epsilon)} < \infty$. On this
-    condition, one can always choose $s > 1$ such that $s \xi < \xi +
-    \epsilon$ and hence $\E \|A\|^{-s\xi} < \infty$. Because
-    $r(\cdot; -s\xi)$ is bounded from above and below, we may write
-    \begin{eqnarray*}
-      && \E \left\{\E_{-s\xi} \left[\left.
-            \|A_{T_u} \cdots A_{n+1} \|^{s \xi} \frac{
-              r(X_0; -s\xi)
-            }{
-              r(X_{T_u}; -s\xi)
-            } \lambda(-s\xi)^{T_u} \right| T_u\right] \right\} \\
-      &\leq& c \E \left\{ \lambda(-s\xi)^{T_u} \E_{-s\xi} \left[\left.
-            \|A_{T_u} \cdots A_{n+1} \|^{s \xi} \right| T_u\right]
-      \right\} \\
-      &\leq& c \E \left\{ \lambda(-s\xi)^{T_u} (\E_{-s\xi} \|A\|^{s
-          \xi})^{T_u - n}\right\} \\
-      &=& c \lambda(-s\xi)^n
-    \end{eqnarray*}
-    where $c$ is some constant. As for $\E N_u^{2r}$, we have
-    \begin{eqnarray*}
-      \E N_u^{2r} &\leq& \E \tau^{2r} \\
-      &\leq& \sum_{i=1}^\infty i^{2r} \P(\tau > i -1) \\
-      &\leq& 1 + \sum_{i=2}^\infty i^{2r} K \rho(\alpha)^{i-2} < \infty
-    \end{eqnarray*}
-    for some $0 < \alpha < \xi$. In the last step, we have used
-    \eqref{eq:ret_time}. As regard $\P(n \leq T_u < \tau)$, we have
-    \begin{eqnarray*}
-      && \P(n \leq T_u < \tau) \\
-      &\leq& \P(n < \tau) \\
-      &\leq& K \rho(\alpha)^{n-1}
-    \end{eqnarray*}
-    So we may write
-    \[
-    \E f_{u, n}(\xi) \leq c \lambda(-s\xi)^{n/s} \rho(\alpha)^{(n-1)/s}
-    \]
-    Because $\rho(\alpha)$ can be chosen arbitrarily close but greater
-    than $\lambda(\alpha) < 1$, the assumption $\inf_{\alpha \in
-      \mathbb R} \log \lambda(\alpha) < -\log \lambda_{-(\xi+\epsilon)}$ implies
-    $\alpha$ and $s$ can be chosen such that $\rho(\alpha) <
-    1/\lambda(-s\xi)$. Then it follows
-    \begin{eqnarray*}
-      \sum_{n=1}^{\infty} [\E f_{u,n}(\xi)]^{1/\xi}  &\leq&
-      c \rho_{\alpha}^{-1/s\xi}\sum_{n=1}^{\infty}
-      \left[\rho(\alpha)\lambda(-s\xi)\right]^{n/s\xi} < \infty
-    \end{eqnarray*}
-    \item 
+          1 - ap/q
+        } {1 \over 1 - p}
+      \end{eqnarray*}
+      Thus
+      \[
+      \sum_{n=0}^\infty \left[
+        \E_{-\xi(2s - 1)} f_{2,n}(u,\xi)
+      \right]^{1/2s\xi} < \infty  
+      \]
+
+    \item Secondly, we show $f_1(u) < \infty$
+    \end{itemize}
+  \item 
   \end{enumerate}
 \end{proof}
 
