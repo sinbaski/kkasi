@@ -436,11 +436,10 @@ Now, to prove \eqref{eq:drift}, consider
   < \infty
   \]
   In the rest of the proof, we write $c, c_1, c_2$ for constants whose values
-  have no importance.
+  have no importance and depend on the context.
   \begin{enumerate}[(i)]
-  \item We first consider the case $\log \E \|A\|^{-(\xi + \epsilon)}
-    < -\inf_{\alpha \in \mathbb R} \log \E \|A\|^\alpha$ for some
-    $\epsilon > 0$. Using the fact $|V_{T_u} > u|$  we obtain
+  \item We first consider the case $\E \|A\|^{-a\xi} < \infty$ for some
+    $a > 0$. Using the fact $|V_{T_u}| > u$  we obtain
     \begin{eqnarray*}
       f(\xi) &\leq& \limsup_{u \to \infty} \E_D \left[
         N_u^2  \left|
@@ -459,7 +458,8 @@ Now, to prove \eqref{eq:drift}, consider
     \end{eqnarray*}
     where $1/r + 1/s = 1$. Then H\"older's inequality gives
     \begin{eqnarray*}
-      f(\xi) &\leq& \limsup_{u \to \infty} (\E_D N_u^{2r})^{1/r}
+      f(\xi) &\leq& \limsup_{u \to \infty}
+      \left(\E_D N_u^{2r} \1{T_u < \tau}\right)^{1/r}
       \left(\E_D \left|
           \frac{
             \sum_{n=0}^{T_u} A_{T_u} \cdots A_{n+1} B_n 
@@ -514,7 +514,8 @@ Now, to prove \eqref{eq:drift}, consider
       \end{eqnarray*}
       Obviously $\1{\tau > T_u} \P_{-\xi(2s - 1)}(T_u \geq k) \leq
       \P_{-\xi(2s - 1)}(\tau > k-1)$, and by assumption $\E_{-\xi(2s - 1)}
-      |B_n|^{2s\xi} < \infty$. We also note
+      |B_n|^{2s\xi} < \infty$. Then, as shown by Buraczewski, Damek
+      and Mikosch \cite{BuraczewskiDamekMikosch2015},
       \[
       \lim_{k \to \infty}
       \left[ \E_{-\xi(2s - 1)}\left(
@@ -582,8 +583,71 @@ Now, to prove \eqref{eq:drift}, consider
       \right]^{1/2s\xi} < \infty  
       \]
 
-    \item Secondly, we show $f_1(u) < \infty$
+    \item Secondly, we show $f_1(u) < \infty$.
+      \begin{eqnarray*}
+        && \E_D N_u^{2r} \1{T_u < \tau} \\
+        &=& \E \left[
+          N_u^{2r} |A_{T_u} \cdots A_1 X_0|^{\xi}
+          \frac{r(X_{T_u}; \xi)}{r(X_0; \xi)}
+          \1{T_u < \tau}
+        \right]
+      \end{eqnarray*}
+      H\"older's inequality gives
+      \begin{eqnarray*}
+        && \E_D N_u^{2r} \1{T_u < \tau} \\
+        &\leq& (\E N_u^{2rt})^{1/t}
+        (\E |A_{T_u} \cdots A_1 X_0|^{s\xi} \1{T_u < \tau})^{1/s}
+      \end{eqnarray*}
+      where $1/s + 1/t = 1$.
+      \begin{eqnarray*}
+        && \E N_u^{2rt} \leq \E \tau^{2rt} \leq 1 + \sum_{n=2}^\infty
+        n^{2rt} \P(\tau > n-1)
+      \end{eqnarray*}
+      Applying \eqref{eq:ret_time} with $\beta=0$ yields
+      \[
+      \P(\tau > n-1) \leq K \lambda(\alpha)^{n-2}
+      \]
+      where $\alpha > 0$ is chosen such that $\lambda(\alpha) < 1$. Thus
+      \begin{eqnarray*}
+        && \sum_{n=2}^\infty n^{2rt} \P(\tau > n-1) \leq K \sum_{n=2}^\infty n^{2rt}
+        \lambda(\alpha)^{n-2} < \infty
+      \end{eqnarray*}
+      
+      As for the term $\E(|A_{T_u} \cdots A_1 X_0|^{s\xi} \1{T_u <
+        \tau})$, we have
+      \begin{eqnarray*}
+        && \E(|A_{T_u} \cdots A_1 X_0|^{s\xi} \1{T_u < \tau}) \\
+        &\leq& \sum_{n=1}^{\infty} \E(\|A_n \cdots A_1 \|^{s\xi})
+        \1{T_u < \tau} \P(T_u = n)
+      \end{eqnarray*}
+      As has been argued earlier, $\forall a > 1$, $\exists N \geq 1$
+      such that $\forall n \geq N$, $\E\|A_n \cdots A_1\|^{s\xi} \leq
+      [a \lambda(s\xi)]^{n}$. Therefore
+      \begin{eqnarray*}
+        && \sum_{n=1}^{\infty} \E(\|A_n \cdots A_1 \|^{s\xi})
+        \1{T_u < \tau} \P(T_u = n) \\
+        &\leq& c + \sum_{n=N}^\infty [a \lambda(s\xi)]^{n}
+        \P(\tau > n-1)
+      \end{eqnarray*}
+      Now apply \eqref{eq:ret_time} with $\beta = 0$ and an $\alpha$
+      that satisfies $\lambda(\alpha) < 1/a\lambda(s\xi)$. Such a choice
+      of $\alpha$ is possible because $s > 1$ can be chosen
+      as close to 1 as is necessary to make $\lambda(s\xi) > 1$ as close
+      to 1 as is desired, while $\inf_{\alpha > 0} \lambda(\alpha) <
+      1$.
+
+      With $a, s, \alpha$ appropriately chosen,
+      \begin{eqnarray*}
+        && \sum_{n=1}^{\infty} \E(\|A_n \cdots A_1 \|^{s\xi})
+        \1{T_u < \tau} \P(\tau > n-1) \\
+        &\leq& c + K \lambda(\alpha)^{-2}\sum_{n=N}^\infty
+        [a\lambda(s\xi) \lambda(\alpha)]^{n} < \infty
+      \end{eqnarray*}
     \end{itemize}
+    Now that $f_1(u) < \infty$, $f_2(u, \xi) < \infty$,
+    \[
+    f(\xi) \leq c \limsup_{u \to \infty} f_1(u) f_2(u, \xi) < \infty.
+    \]
   \item 
   \end{enumerate}
 \end{proof}
