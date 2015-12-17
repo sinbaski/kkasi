@@ -41,7 +41,9 @@ kernel $P$. Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
   $$
   \lambda(\xi) := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
   $$
-\item $\E[\|A\|^\xi \log^+\|A\|] < \infty$
+\item $\E[\|A\|^{\xi\epsilon'}] < \infty$ for some $\epsilon' >
+  \max\{1, 1/\xi - 1\}$.
+
 \end{enumerate}
 
 \section{Consistency}\label{sec:consistency}
@@ -144,7 +146,7 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
 \section{Efficiency}\label{sec:efficiency}
 \begin{lemma}
   Let $\beta \in \mathbb R$ satisfy
-  \begin{enumerate}[(i)]
+  \begin{enumerate}
   \item
     \begin{equation}
       \label{eq:drift_cond1}
@@ -203,7 +205,7 @@ Now, to prove \eqref{eq:drift}, consider
     &=& \E_\beta\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
         y})^\alpha dl^*_{\beta}(y; \alpha) | \mathcal F_{n-1} \right]
   \end{eqnarray*}
-  \begin{enumerate}[(i)]
+  \begin{enumerate}
   \item if $\alpha < 1$, by subadditivity we have
     \begin{eqnarray*}
       &&\E_\beta\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
@@ -259,26 +261,27 @@ Now, to prove \eqref{eq:drift}, consider
 %     \int_{S_+^{d-1}} r(x; \alpha) l_\alpha(dx) &=& 1
 %   \end{eqnarray*}
 \end{proof}
+\begin{remark}
   Iterating \eqref{eq:drift} yields
   \[
   \E_\beta \left[
-         |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n-1}\I{C^\complement}(V_i)\right]
-      \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{C^\complement}(V_1)
+    |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n-1}\I{C^\complement}(V_i)\right]
+  \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{C^\complement}(V_1)
   \]
   Then it follows
   \[
   \E_\beta \left[
-         |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n}\I{C^\complement}(V_i)\right]
-      \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{C^\complement}(V_1)
+    |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n}\I{C^\complement}(V_i)\right]
+  \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{C^\complement}(V_1)
   \]
   But $\prod_{i=1}^{n}\I{C^\complement}(V_i)$ implies $\tau > n$, and in this
   case $|V_n| > M$, where
   \[
   M = \left[
-        \E_\beta (|B|^\alpha r_\beta(\tilde B; \alpha)) 
-        \over
-        (1 - \lambda(\alpha)) r_\beta(\tilde v; \alpha)
-      \right]^{1/\alpha}
+    \E_\beta (|B|^\alpha r_\beta(\tilde B; \alpha)) 
+    \over
+    (1 - \lambda(\alpha)) r_\beta(\tilde v; \alpha)
+  \right]^{1/\alpha}
   \]
   Hence
   \begin{eqnarray}
@@ -288,7 +291,9 @@ Now, to prove \eqref{eq:drift}, consider
     \P_\beta(\tau > n) &\leq& K \rho_\beta(\alpha)^{n-1} \label{eq:ret_time}
   \end{eqnarray}
   for some constant $K$.
-  
+\end{remark}
+
+
 %% \subsection{The Drift Condition}
 %%% What follows is the proof in the 1D case.
 % Consider
@@ -437,9 +442,9 @@ Now, to prove \eqref{eq:drift}, consider
   \]
   In the rest of the proof, we write $c, c_1, c_2$ for constants whose values
   have no importance and depend on the context.
-  \begin{enumerate}[(i)]
-  \item We first consider the case $\E \|A\|^{-a\xi} < \infty$ for some
-    $a > 0$. Using the fact $|V_{T_u}| > u$  we obtain
+  \begin{enumerate}
+  \item We first consider the case $\lambda(-\xi\epsilon) < \infty$ for some
+    $\epsilon > 1$. Using the fact $|V_{T_u}| > u$  we obtain
     \begin{eqnarray*}
       f(\xi) &\leq& \limsup_{u \to \infty} \E_D \left[
         N_u^2  \left|
@@ -470,7 +475,7 @@ Now, to prove \eqref{eq:drift}, consider
       \right)^{1/s} \\
       &\leq& c \limsup_{u \to \infty} f_1(u) f_2(u, \xi)
     \end{eqnarray*}
-    \begin{itemize}
+    \begin{enumerate}
     \item First of all, we prove $f_2(u,\xi) < \infty$. Minkowski's
       inequality yields
       \begin{eqnarray*}
@@ -503,15 +508,31 @@ Now, to prove \eqref{eq:drift}, consider
         &=& c \sum_{n=0}^\infty [\E_{-\xi(2s - 1)}
         f_{2,n}(u,\xi)]^{1/2s\xi}
       \end{eqnarray*}
-      As for $\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)$ we have
-      \begin{eqnarray*}
-        && \E_{-\xi(2s - 1)} f_{2,n}(u,\xi) \\
-        &\leq& \sum_{k=n}^\infty \E_{-\xi(2s - 1)}\left(
-          \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k \right)
-        \E_{-\xi(2s - 1)} |B_n|^{2s\xi} \times \\
-        && \lambda(-\xi(2s - 1))^{k} \1{\tau > T_u}
-        \P_{-\xi(2s - 1)}(T_u \geq k)
-      \end{eqnarray*}
+      \begin{enumerate}
+      \item if $s > 1/2\xi$, $(\cdot)^{1/2s\xi}$ is concave and
+        subadditive. We have
+        \begin{eqnarray*}
+          && \E_{-\xi(2s - 1)} f_{2,n}(u,\xi) \\
+          &\leq& \sum_{k=n}^\infty
+          \left[\E_{-\xi(2s - 1)}\left(
+            \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k
+          \right)\right]^{1/2s\xi}
+          \left[\E_{-\xi(2s - 1)} |B_n|^{2s\xi}\right]^{1/2s\xi} \times \\
+          && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
+          \left[ \P_{-\xi(2s - 1)}(T_u \geq k) \right]^{1/2s\xi}
+        \end{eqnarray*}
+      \item if $s \leq 1/2\xi$, $(\cdot)^{1/2s\xi}$ is a convex
+        functon. Jensen's inequality gives
+        \begin{eqnarray*}
+          && [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
+          &\leq& \E_{-\xi(2s - 1)} \left[ f_{2,n}(u,\xi)^{1/2s\xi} \right]\\
+          &=& \sum_{k=n}^\infty
+          \E_{-\xi(2s - 1)}(\|A_k \cdots A_{n+1}\| | T_u = k)
+          \E_{-\xi(2s - 1)}(|B_n|)^{1/2s\xi} \times \\
+          && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{T_u < \tau}
+          \left[ \P_{-\xi(2s - 1)}(T_u \geq k) \right]^{1/2s\xi}
+        \end{eqnarray*}
+      \end{enumerate}
       Obviously $\1{\tau > T_u} \P_{-\xi(2s - 1)}(T_u \geq k) \leq
       \P_{-\xi(2s - 1)}(\tau > k-1)$, and by assumption $\E_{-\xi(2s - 1)}
       |B_n|^{2s\xi} < \infty$. Then, as shown by Buraczewski, Damek
@@ -530,17 +551,38 @@ Now, to prove \eqref{eq:drift}, consider
       \right)^{1/(k - n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
       \]
       Hence $\forall a > 1$, $\exists N \geq 1$ such that $\forall k
-      \geq n + N$, $(\E_{-\xi(2s - 1)}\|A_{n+N} \cdots
-      A_{n+1}\|^{2s\xi})^{1/N} < a \lambda_{-\xi(2s -
-        1)}(2s\xi)$. Choose $s > \max\{1/2\xi, 1\}$ so that
-      $(\cdot)^{1/2s\xi}$ is concave and subadditive. Then
+      \geq n + N$,
+      \[
+      (\E_{-\xi(2s - 1)}\|A_{n+N} \cdots A_{n+1}\|^{2s\xi})^{1/N} <
+      a \lambda_{-\xi(2s - 1)}(2s\xi)
+      \]
+      Meanwhile, for $k \in \{n+1, \dots, n+N-1\}$, due to the
+      independence of $A_{n+1}, A_{n+2}, \dots, A_k$ we have
+      \begin{eqnarray*}
+        && \E_{-\xi(2s - 1)} \|A_k \dots A_{n+1}\|^{2s\xi} \\
+        &\leq& [\E_{-\xi(2s - 1)} \|A_1\|^{2s\xi}]^{k-n} \\
+        &=& \left[{1 \over \E \|A_1\|^{-\xi(2s - 1)}}\right]^{k-n} \\
+      \end{eqnarray*}
+      By Jensen's inequality,
+      \[
+      \E \|A_1\|^{-\xi(2s - 1)} \geq {1 \over \E\|A_1\|^{\xi(2s - 1)}}
+      \]
+      Choose $s \in (1, {\epsilon' + 1 \over 2})$. Then
+      $\E\|A_1\|^{\xi(2s - 1)} < \E\|A_1\|^{\xi\epsilon'} < \infty$.
+      Hence
+      \[
+      \E_{-\xi(2s - 1)} \|A_k \dots A_{n+1}\|^{2s\xi} \leq
+      \E \|A_1\|^{\xi \epsilon' (k-n)} < \infty      
+      \]
+
       \begin{eqnarray*}
         && c \sum_{n=0}^\infty [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
         &\leq& c \sum_{n=0}^\infty \left\{
           c_1 \sum_{k=n}^{n+N-1} \lambda(-\xi(2s - 1))^{k/2s\xi} [\P_{-\xi(2s -
             1)}(\tau > k-1)]^{1/2s\xi} \right.\\
-        && + \left.\sum_{k=n+N}^\infty [a \lambda_{-\xi(2s - 1)}(2s\xi)]^{(k-n)/2s\xi}
-          \lambda(-\xi(2s - 1))^{k/2s\xi} [\P_{-\xi(2s - 1)}(\tau > k-1)]^{1/2s\xi}
+        && + \sum_{k=n+N}^\infty [a \lambda_{-\xi(2s - 1)}(2s\xi)]^{(k-n)/2s\xi}
+        \lambda(-\xi(2s - 1))^{k/2s\xi} \times \\
+        && \left.[\P_{-\xi(2s - 1)}(\tau > k-1)]^{1/2s\xi}
         \right\}
       \end{eqnarray*}
       Applying \eqref{eq:ret_time} with $\beta = -\xi(2s - 1)$ gives
@@ -582,7 +624,6 @@ Now, to prove \eqref{eq:drift}, consider
         \E_{-\xi(2s - 1)} f_{2,n}(u,\xi)
       \right]^{1/2s\xi} < \infty  
       \]
-
     \item Secondly, we show $f_1(u) < \infty$.
       \begin{eqnarray*}
         && \E_D N_u^{2r} \1{T_u < \tau} \\
@@ -643,7 +684,7 @@ Now, to prove \eqref{eq:drift}, consider
         &\leq& c + K \lambda(\alpha)^{-2}\sum_{n=N}^\infty
         [a\lambda(s\xi) \lambda(\alpha)]^{n} < \infty
       \end{eqnarray*}
-    \end{itemize}
+    \end{enumerate}
     Now that $f_1(u) < \infty$, $f_2(u, \xi) < \infty$,
     \[
     f(\xi) \leq c \limsup_{u \to \infty} f_1(u) f_2(u, \xi) < \infty.
