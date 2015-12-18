@@ -41,8 +41,8 @@ kernel $P$. Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
   $$
   \lambda(\xi) := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
   $$
-\item $\E[\|A\|^{\xi\epsilon'}] < \infty$ for some $\epsilon' >
-  \max\{1, 1/\xi - 1\}$.
+\item $\exists \epsilon > 1$ such that $\E[\|A\|^{\xi\epsilon}] <
+  \infty$, $\E |B|^{\xi \epsilon} < \infty$
 
 \end{enumerate}
 
@@ -443,8 +443,8 @@ Now, to prove \eqref{eq:drift}, consider
   In the rest of the proof, we write $c, c_1, c_2$ for constants whose values
   have no importance and depend on the context.
   \begin{enumerate}
-  \item We first consider the case $\lambda(-\xi\epsilon) < \infty$ for some
-    $\epsilon > 1$. Using the fact $|V_{T_u}| > u$  we obtain
+  \item We first consider the case $\lambda(-\xi\epsilon) <
+    \infty$. Using the fact $|V_{T_u}| > u$  we obtain
     \begin{eqnarray*}
       f(\xi) &\leq& \limsup_{u \to \infty} \E_D \left[
         N_u^2  \left|
@@ -461,7 +461,13 @@ Now, to prove \eqref{eq:drift}, consider
         } \1{T_u < \tau}
       \right] \\
     \end{eqnarray*}
-    where $1/r + 1/s = 1$. Then H\"older's inequality gives
+    where $r, s$ are chosen such that $1/r + 1/s = 1$ and $s \in (1,
+    \frac{\epsilon + 1}{2})$. With such a choice $\E \|A\|^{\xi(2s -
+      1)} < \E \|A\|^{\xi \epsilon} < \infty$.
+
+
+    Then H\"older's
+    inequality gives
     \begin{eqnarray*}
       f(\xi) &\leq& \limsup_{u \to \infty}
       \left(\E_D N_u^{2r} \1{T_u < \tau}\right)^{1/r}
@@ -512,118 +518,139 @@ Now, to prove \eqref{eq:drift}, consider
       \item if $s > 1/2\xi$, $(\cdot)^{1/2s\xi}$ is concave and
         subadditive. We have
         \begin{eqnarray*}
-          && \E_{-\xi(2s - 1)} f_{2,n}(u,\xi) \\
+          && [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
+          &=& \left[
+              \sum_{k=n}^\infty
+              \E_{-\xi(2s - 1)}\left(
+              \|A_k \cdots A_{n+1}\|^{2s\xi}
+              \right)
+              \E_{-\xi(2s - 1)} |B_n|^{2s\xi} \times \right.\\
+          && \left. \lambda(-\xi(2s - 1))^k \1{\tau > T_u}
+             \P_{-\xi(2s - 1)}(T_u \geq k) \right]^{1/2s\xi}\\
           &\leq& \sum_{k=n}^\infty
-          \left[\E_{-\xi(2s - 1)}\left(
-            \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k
-          \right)\right]^{1/2s\xi}
-          \left[\E_{-\xi(2s - 1)} |B_n|^{2s\xi}\right]^{1/2s\xi} \times \\
+                 \left[\E_{-\xi(2s - 1)}
+                 \|A_k \cdots A_{n+1}\|^{2s\xi}
+                 \right]^{1/2s\xi}
+                 \left[\E_{-\xi(2s - 1)} |B_n|^{2s\xi}\right]^{1/2s\xi} \times \\
           && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
-          \left[ \P_{-\xi(2s - 1)}(T_u \geq k) \right]^{1/2s\xi}
+             \left[ \P_{-\xi(2s - 1)}(T_u \geq k) \right]^{1/2s\xi}
         \end{eqnarray*}
+        Obviously $\1{\tau > T_u} \P_{-\xi(2s - 1)}(T_u \geq k) \leq
+        \P_{-\xi(2s - 1)}(\tau > k-1)$. Moreover
+        \begin{eqnarray*}
+          && \E_{-\xi(2s - 1)} |B_n|^{2s\xi} = \frac{
+             \E |B_n|^{\xi}
+             } {
+             \E |B_n|^{-\xi(2s - 1)}
+             } \leq \E |B_n|^{\xi} \E |B_n|^{\xi(2s - 1)}
+             < \E |B_n|^{\xi} \E |B|^{\xi \epsilon} < \infty
+        \end{eqnarray*}
+        Furthermore, as shown by Buraczewski, Damek
+        and Mikosch \cite{BuraczewskiDamekMikosch2015},
+        \[
+        \lim_{k \to \infty}
+        \left[ \E_{-\xi(2s - 1)}\left(
+            \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k
+          \right) \right]^{1/(k-n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
+        \]
+        % and
+        % \[
+        % \inf_{k \geq n+1}
+        % \left(
+        %   \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|^{2s\xi}
+        % \right)^{1/(k - n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
+        % \]
+        Hence $\forall a > 1$, $\exists N \geq 1$ such that $\forall k
+        \geq n + N$,
+        \[
+        (\E_{-\xi(2s - 1)}\|A_{n+N} \cdots A_{n+1}\|^{2s\xi})^{1/N} <
+        a \lambda_{-\xi(2s - 1)}(2s\xi)
+        \]
+        Meanwhile, for $k \in \{n+1, \dots, n+N-1\}$, due to the
+        independence of $A_{n+1}, A_{n+2}, \dots, A_k$ we have
+        \begin{eqnarray*}
+          && \E_{-\xi(2s - 1)} \|A_k \dots A_{n+1}\|^{2s\xi} \\
+          &\leq& [\E_{-\xi(2s - 1)} \|A_1\|^{2s\xi}]^{k-n} \\
+          &=& \left[{1 \over \E \|A_1\|^{-\xi(2s - 1)}}\right]^{k-n} \\
+        \end{eqnarray*}
+        By Jensen's inequality,
+        \[
+        \E \|A_1\|^{-\xi(2s - 1)}
+        \geq {1 \over \E\|A_1\|^{\xi(2s - 1)}}
+        \geq {1 \over \E\|A_1\|^{\xi\epsilon'}}
+        \]
+        Hence
+        \[
+        \E_{-\xi(2s - 1)} \|A_k \dots A_{n+1}\|^{2s\xi} \leq
+        \E \|A_1\|^{\xi \epsilon' (k-n)} < \infty      
+        \]
+        Now we can write
+        \begin{eqnarray*}
+          && c \sum_{n=0}^\infty [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
+          &\leq& c \sum_{n=0}^\infty \left\{
+                 c_1 \sum_{k=n}^{n+N-1} \lambda(-\xi(2s - 1))^{k/2s\xi} [\P_{-\xi(2s -
+                 1)}(\tau > k-1)]^{1/2s\xi} \right.\\
+          && + \sum_{k=n+N}^\infty [a \lambda_{-\xi(2s - 1)}(2s\xi)]^{(k-n)/2s\xi}
+             \lambda(-\xi(2s - 1))^{k/2s\xi} \times \\
+          && \left.[\P_{-\xi(2s - 1)}(\tau > k-1)]^{1/2s\xi}
+             \right\}
+        \end{eqnarray*}
+        Applying \eqref{eq:ret_time} with $\beta = -\xi(2s - 1)$ gives
+        \[
+        \P_{-\xi(2s - 1)}(\tau > k-1) \leq K \lambda_{-\xi(2s - 1)}(\alpha)^{k-2}
+        \]
+        where $\alpha > 0$ is chosen such that $\lambda_{-\xi(2s -
+          1)}(\alpha) < 1$.
+        % This is always possible because
+        % $\lambda_{-\xi(2s - 1)}(\alpha) = \lambda(-\xi(2s - 1) + \alpha) /
+        % \lambda(-\xi(2s - 1))$, and ${d \lambda(-\xi(2s - 1) +
+        % \alpha) \over d\alpha} < 0$.
+        Let $p = \lambda(\alpha - \xi(2s - 1))^{1/2s\xi} < 1$, and $q =
+        \lambda(-\xi(2s - 1))^{1/2s\xi} > 1$. We have
+        \begin{eqnarray*}
+          && c \sum_{n=0}^\infty \left[
+             \E_{-\xi(2s - 1)} f_{2,n}(u,\xi)
+             \right]^{1/2s\xi} \\
+          &\leq& c_1 \sum_{n=0}^\infty \sum_{k=n}^{n+N-1} p^{k-2} q^{2} +
+                 c \sum_{n=0}^{\infty} \sum_{k=n+N}^\infty a^{k-n} p^{k-2}
+                 q^{n-k+2} \\
+          &=& c_1 p^{-2} q^2 {1 - p^N \over (1-p)^2 }
+              + \sum_{n=0}^{\infty} a^{-n} p^{-2} q^{n+2} \sum_{k=n+N}^{\infty}
+              \left({ap \over q}\right)^k
+        \end{eqnarray*}
+        Choose $a > 1$ such that $ap < q$. Then
+        \begin{eqnarray*}
+          && \sum_{n=0}^{\infty} a^{-n} p^{-2} q^{n+2} \sum_{k=n+N}^{\infty}
+             \left({ap \over q}\right)^k \\
+          &=& \frac{
+              a^N p^{N-2} q^{2-N}
+              }{
+              1 - ap/q
+              } {1 \over 1 - p}
+        \end{eqnarray*}
+        Thus
+        \[
+        \sum_{n=0}^\infty \left[
+          \E_{-\xi(2s - 1)} f_{2,n}(u,\xi)
+        \right]^{1/2s\xi} < \infty  
+        \]
+
       \item if $s \leq 1/2\xi$, $(\cdot)^{1/2s\xi}$ is a convex
-        functon. Jensen's inequality gives
+        functon. We note that, if $s$ is chosen from $({1 \over 2\xi} -
+        {\epsilon - 1 \over 2}, {1 \over 2\xi}]$, then $1 - \xi(2s - 1) < \xi
+        \epsilon$, and it follows $\E_{-\xi(2s - 1)} \|A\| < \infty$
+        and $\E_{-\xi(2s - 1)} |B| < \infty$. Jensen's inequality gives
         \begin{eqnarray*}
           && [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
           &\leq& \E_{-\xi(2s - 1)} \left[ f_{2,n}(u,\xi)^{1/2s\xi} \right]\\
-          &=& \sum_{k=n}^\infty
-          \E_{-\xi(2s - 1)}(\|A_k \cdots A_{n+1}\| | T_u = k)
-          \E_{-\xi(2s - 1)}(|B_n|)^{1/2s\xi} \times \\
+          &\leq& \sum_{k=n}^\infty
+          \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|
+          \E_{-\xi(2s - 1)}|B_n| \times \\
           && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{T_u < \tau}
-          \left[ \P_{-\xi(2s - 1)}(T_u \geq k) \right]^{1/2s\xi}
+          \P_{-\xi(2s - 1)}(T_u \geq k)
         \end{eqnarray*}
       \end{enumerate}
-      Obviously $\1{\tau > T_u} \P_{-\xi(2s - 1)}(T_u \geq k) \leq
-      \P_{-\xi(2s - 1)}(\tau > k-1)$, and by assumption $\E_{-\xi(2s - 1)}
-      |B_n|^{2s\xi} < \infty$. Then, as shown by Buraczewski, Damek
-      and Mikosch \cite{BuraczewskiDamekMikosch2015},
-      \[
-      \lim_{k \to \infty}
-      \left[ \E_{-\xi(2s - 1)}\left(
-          \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k
-        \right) \right]^{1/(k-n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
-      \]
-      and
-      \[
-      \inf_{k \geq n+1}
-      \left(
-        \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|^{2s\xi}
-      \right)^{1/(k - n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
-      \]
-      Hence $\forall a > 1$, $\exists N \geq 1$ such that $\forall k
-      \geq n + N$,
-      \[
-      (\E_{-\xi(2s - 1)}\|A_{n+N} \cdots A_{n+1}\|^{2s\xi})^{1/N} <
-      a \lambda_{-\xi(2s - 1)}(2s\xi)
-      \]
-      Meanwhile, for $k \in \{n+1, \dots, n+N-1\}$, due to the
-      independence of $A_{n+1}, A_{n+2}, \dots, A_k$ we have
-      \begin{eqnarray*}
-        && \E_{-\xi(2s - 1)} \|A_k \dots A_{n+1}\|^{2s\xi} \\
-        &\leq& [\E_{-\xi(2s - 1)} \|A_1\|^{2s\xi}]^{k-n} \\
-        &=& \left[{1 \over \E \|A_1\|^{-\xi(2s - 1)}}\right]^{k-n} \\
-      \end{eqnarray*}
-      By Jensen's inequality,
-      \[
-      \E \|A_1\|^{-\xi(2s - 1)} \geq {1 \over \E\|A_1\|^{\xi(2s - 1)}}
-      \]
-      Choose $s \in (1, {\epsilon' + 1 \over 2})$. Then
-      $\E\|A_1\|^{\xi(2s - 1)} < \E\|A_1\|^{\xi\epsilon'} < \infty$.
-      Hence
-      \[
-      \E_{-\xi(2s - 1)} \|A_k \dots A_{n+1}\|^{2s\xi} \leq
-      \E \|A_1\|^{\xi \epsilon' (k-n)} < \infty      
-      \]
 
-      \begin{eqnarray*}
-        && c \sum_{n=0}^\infty [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
-        &\leq& c \sum_{n=0}^\infty \left\{
-          c_1 \sum_{k=n}^{n+N-1} \lambda(-\xi(2s - 1))^{k/2s\xi} [\P_{-\xi(2s -
-            1)}(\tau > k-1)]^{1/2s\xi} \right.\\
-        && + \sum_{k=n+N}^\infty [a \lambda_{-\xi(2s - 1)}(2s\xi)]^{(k-n)/2s\xi}
-        \lambda(-\xi(2s - 1))^{k/2s\xi} \times \\
-        && \left.[\P_{-\xi(2s - 1)}(\tau > k-1)]^{1/2s\xi}
-        \right\}
-      \end{eqnarray*}
-      Applying \eqref{eq:ret_time} with $\beta = -\xi(2s - 1)$ gives
-      \[
-      \P_{-\xi(2s - 1)}(\tau > k-1) \leq K \lambda_{-\xi(2s - 1)}(\alpha)^{k-2}
-      \]
-      where $\alpha > 0$ is chosen such that $\lambda_{-\xi(2s -
-        1)}(\alpha) < 1$.
-      % This is always possible because
-      % $\lambda_{-\xi(2s - 1)}(\alpha) = \lambda(-\xi(2s - 1) + \alpha) /
-      % \lambda(-\xi(2s - 1))$, and ${d \lambda(-\xi(2s - 1) +
-      % \alpha) \over d\alpha} < 0$.
-      Let $p = \lambda(\alpha - \xi(2s - 1))^{1/2s\xi} < 1$, and $q =
-      \lambda(-\xi(2s - 1))^{1/2s\xi} > 1$. We have
-      \begin{eqnarray*}
-        && c \sum_{n=0}^\infty \left[
-          \E_{-\xi(2s - 1)} f_{2,n}(u,\xi)
-        \right]^{1/2s\xi} \\
-        &\leq& c_1 \sum_{n=0}^\infty \sum_{k=n}^{n+N-1} p^{k-2} q^{2} +
-        c \sum_{n=0}^{\infty} \sum_{k=n+N}^\infty a^{k-n} p^{k-2}
-        q^{n-k+2} \\
-        &=& c_1 p^{-2} q^2 {1 - p^N \over (1-p)^2 }
-        + \sum_{n=0}^{\infty} a^{-n} p^{-2} q^{n+2} \sum_{k=n+N}^{\infty}
-        \left({ap \over q}\right)^k
-      \end{eqnarray*}
-      Choose $a > 1$ such that $ap < q$. Then
-      \begin{eqnarray*}
-        && \sum_{n=0}^{\infty} a^{-n} p^{-2} q^{n+2} \sum_{k=n+N}^{\infty}
-        \left({ap \over q}\right)^k \\
-        &=& \frac{
-          a^N p^{N-2} q^{2-N}
-        }{
-          1 - ap/q
-        } {1 \over 1 - p}
-      \end{eqnarray*}
-      Thus
-      \[
-      \sum_{n=0}^\infty \left[
-        \E_{-\xi(2s - 1)} f_{2,n}(u,\xi)
-      \right]^{1/2s\xi} < \infty  
-      \]
     \item Secondly, we show $f_1(u) < \infty$.
       \begin{eqnarray*}
         && \E_D N_u^{2r} \1{T_u < \tau} \\
