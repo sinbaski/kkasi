@@ -293,133 +293,6 @@ Now, to prove \eqref{eq:drift}, consider
   for some constant $K$.
 \end{remark}
 
-
-%% \subsection{The Drift Condition}
-%%% What follows is the proof in the 1D case.
-% Consider
-% \begin{eqnarray*}
-%   && \int_E |y|^\alpha P_\beta(v, dy)  \\
-%   &=& \int_E |A_n v + B_n|^\alpha \P_\beta\left(V_n \in [y, y +dy) |
-%   V_{n-1} = v\right) \\
-% &=& \int_{R^3} |A_n v + B_n|^\alpha d\mu_\beta(\log A_n, B_n, D_n) \\
-% &=& \E_\beta |A_n v + B_n|^\alpha
-% \end{eqnarray*}
-% \begin{enumerate}[(i)]
-% \item if $\alpha < 1$, $|\cdot|^\alpha$ is a concave and hence
-%   subadditive function. We have
-%   \begin{eqnarray*}
-%     && \E_\beta |A_n v + B_n|^\alpha    \\
-%     &\leq& |v|^{\alpha}\E_\beta|A_n|^\alpha + \E_\beta|B_n|^\alpha \\
-%     &\leq& |v|^{\alpha}\left(
-%       \E_\beta|A_n|^\alpha + |v|^{-\alpha}\E_\beta|B_n|^\alpha
-%     \right)\\
-%   \end{eqnarray*}
-%   Clearly
-%   \begin{eqnarray*}
-%     \inf_{v} \left(
-%       \E_\beta|A_n|^\alpha + |v|^{-\alpha}\E_\beta|B_n|^\alpha
-%     \right) = \E_\beta|A_n|^\alpha
-%   \end{eqnarray*}
-%   Therefore, if there exists an $\alpha > 0$ such that
-%   $\E_\beta|A_n|^\alpha < 1$, $|v|$ can be chosen sufficiently large
-%   so that $\E_\beta|A_n|^\alpha + |v|^{-\alpha}\E_\beta|B_n|^\alpha <
-%   1$. By definition,
-%   \begin{eqnarray*}
-%     && \E_\beta |A_n|^\alpha \\
-%     &=& \int_{R^3} |A_n|^{\alpha + \beta} d\mu(\log A_n, B_n, D_n)
-%     \times \\
-%     && \left[
-%       \int_{R^3} |A_n|^{\beta} d\mu(\log A_n, B_n, D_n)
-%     \right]^{-1} \\
-%     &=& {\E |A_n|^{\alpha + \beta} \over \E |A_n|^{\beta}}
-%   \end{eqnarray*}
-%   Since $\E|A_n|^{\zeta}$ is convex and by
-%   assumption, $\E|A_n|^{\xi} =\E|A_n|^0= 1$, it immediately follows
-% \[
-% \exists s \in (0, \xi), \E |A_n|^s = \inf_{\zeta \in (0, \xi)} \E
-% |A_n|^\zeta < 1
-% \]
-% Thus, for any given $\alpha \in (0, \xi)$, one can always find
-% $\beta\in [0, \xi-\alpha]$ such that $\E_\beta |A_n|^\alpha = {\E
-%   |A_n|^{\alpha + \beta} \over \E |A_n|^{\beta}} < 1$. Once $\beta$
-% has been chosen accordingly, one can choose $v \notin (-M_\beta,
-% M_\beta)$ so that $\E_\beta|A_n|^\alpha +
-% |v|^{-\alpha}\E_\beta|B_n|^\alpha < 1$. Here
-% \[
-% M_\beta = \left({\E_\beta |B_n|^\alpha \over 1 - \E_\beta
-%     |A_n|^\alpha}\right)^{1/\alpha}
-% \]
-
-% \item if $\alpha \geq 1$, by Minkowskii inequality,
-%   \begin{eqnarray*}
-%     && \E_\beta |A_n v + B_n|^\alpha \\
-%     &\leq& |v|^\alpha\left[
-%       (\E_\beta|A_n|^\alpha)^{1/\alpha} + {(\E_\beta
-%         |A_n|^\alpha)^{1/\alpha} \over |v|}
-%     \right]^\alpha
-%   \end{eqnarray*}
-%   The same arguments as in the $\alpha < 1$ case apply. But in this
-%   case we have
-%   \[
-%   M_\beta = \left[{
-%     (\E_\beta |B_n|^\alpha)^{1/\alpha}
-%     \over
-%     1 - (\E_\beta|A_n|^\alpha)^{1/\alpha}
-%   }\right]^{1/\alpha}
-% \]
-
-
-% In this section we prove
-% \[
-% \E \left[ |V_n|^\alpha r_{\xi, \alpha}(\tilde V_n) | \mathcal F_{n-1} \right] \leq
-% \rho |V_{n-1}|^\alpha r_{\xi,\alpha}(\tilde V_{n-1})
-% \]
-% for some $\rho < 1$.
-% where 
-% \begin{proof}
-%   \begin{eqnarray*}
-%     && \E \left[ |V_n|^\alpha r(\tilde V_n; \alpha) | \mathcal F_{n-1} \right]
-%     \\
-%     &=& \E\left[\int_{S_+^{d-1}} \inn{V_n, y}^\alpha dl^*_\alpha(y)|
-%       \mathcal F_{n-1} \right]
-%     \\
-%     &=& \E\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
-%         y})^\alpha dl^*_\alpha(y) | \mathcal F_{n-1} \right]
-%   \end{eqnarray*}
-%   \begin{enumerate}[(i)]
-%   \item if $\alpha < 1$, by subadditivity we have
-%     \begin{eqnarray*}
-%       &&\E\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
-%           y})^\alpha dl^*_\alpha(y) | \mathcal F_{n-1} \right]\\
-%       &\leq& \E\left[\int_{S_+^{d-1}} \inn{A_n V_{n-1}, y}^\alpha
-%         dl^*_\alpha(y) | \mathcal F_{n-1} \right]
-%       + \E\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_\alpha(y) |
-%         \mathcal F_{n-1} \right] \\
-%       &=& \E\left[|V_{n-1}|^\alpha |A_n \tilde V_{n-1}|^\alpha\int_{S_+^{d-1}}
-%         \inn{{A_n V_{n-1} \over |A_n V_{n-1}|}, y}^\alpha
-%         dl^*_\alpha(y) | \mathcal F_{n-1} \right] \\
-%       && + \E\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_\alpha(y) |
-%         \mathcal F_{n-1} \right] \\
-%       &=& |V_{n-1}|^\alpha \left\{
-%         (P_\alpha r_\alpha)(\tilde V_{n-1}) +
-%         {1 \over |V_{n-1}|^\alpha} \E |B_n|^\alpha r(\tilde
-%         B_n; \alpha) \right\} \\
-%       &=& |V_{n-1}|^\alpha r(\tilde V_{n-1}; \alpha)\left\{
-%         \lambda(\alpha) +
-%         {1 \over |V_{n-1}|^\alpha r(\tilde V_{n-1}; \alpha)} \E
-%         |B_n|^\alpha r(\tilde B_n; \alpha) \right\} \\
-%     \end{eqnarray*}
-%     Clearly $\E\left[|B_n|^\alpha r(\tilde B_n; \alpha)\right] <
-%     \infty$. Hence the infimum of the expression in the curly bracket
-%     over all $n \geq 1$ is $\lambda(\alpha) < 1$. Therefore, when
-%     $|V_{n-1}|$ is sufficiently large, we have
-%     \[
-%     \E \left[ |V_n|^\alpha r(\tilde V_n; \alpha) | \mathcal F_{n-1} \right] \leq
-%     \rho |V_{n-1}|^\alpha r(\tilde V_{n-1}; \alpha)
-%     \]
-%   \end{enumerate}    
-% \end{proof}
-
 \begin{theorem}
   The estimator $\mathcal E_u$ has bounded relative error, i.e.
   \begin{equation*}
@@ -515,8 +388,8 @@ Now, to prove \eqref{eq:drift}, consider
         f_{2,n}(u,\xi)]^{1/2s\xi}
       \end{eqnarray*}
       \begin{enumerate}
-      \item if $s > 1/2\xi$, $(\cdot)^{1/2s\xi}$ is concave and
-        subadditive. We have
+      \item if $\xi \geq 1/2$, $(\cdot)^{1/2s\xi}$ is concave
+        and subadditive. In this case we have
         \begin{eqnarray*}
           && [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
           &=& \left[
@@ -635,11 +508,10 @@ Now, to prove \eqref{eq:drift}, consider
         \right]^{1/2s\xi} < \infty  
         \]
 
-      \item if $s \leq 1/2\xi$, $(\cdot)^{1/2s\xi}$ is a convex
-        functon. We note that, if $s$ is chosen from $({1 \over 2\xi} -
-        {\epsilon - 1 \over 2}, {1 \over 2\xi}]$, then $1 - \xi(2s - 1) < \xi
-        \epsilon$, and it follows $\E_{-\xi(2s - 1)} \|A\| < \infty$
-        and $\E_{-\xi(2s - 1)} |B| < \infty$. Jensen's inequality gives
+      \item if $\xi < 1/2$, $s$ can be chosen from $(1, 1/2\xi)$ so
+        that $(\cdot)^{1/2s\xi}$ is a convex functon. Moreover
+        $\E_{-\xi(2s - 1)} \|A\| < \infty$ and $\E_{-\xi(2s - 1)} |B|
+        < \infty$. Jensen's inequality gives
         \begin{eqnarray*}
           && [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
           &\leq& \E_{-\xi(2s - 1)} \left[ f_{2,n}(u,\xi)^{1/2s\xi} \right]\\
