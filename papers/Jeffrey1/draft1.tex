@@ -41,9 +41,20 @@ kernel $P$. Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
   $$
   \lambda(\xi) := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
   $$
-\item $\exists \epsilon > 1$ such that $\E[\|A\|^{\xi\epsilon}] <
-  \infty$, $\E |B|^{\xi \epsilon} < \infty$
-
+\item $\exists \epsilon > 1$ such that $\epsilon \xi > 1/2$ and
+  $\E[\|A\|^{\xi\epsilon}] < \infty$, $\E |B|^{\xi \epsilon} <
+  \infty$, $\lambda(\epsilon \xi) < \infty$. Moreover, in case $\xi <
+  1/(\epsilon + 1)$,
+  \begin{enumerate}
+  \item $\lambda(\epsilon \xi) < \lambda(-\xi)$
+  \item and the deepness of the function $\log \lambda(\cdot)$ is
+    assumed to satisfy
+    \begin{equation}
+      \label{eq:deepness}
+      \inf_{\beta \in R} \log \lambda(\beta) < - {1 \over 2\xi} \log
+      \lambda(-\epsilon \xi)
+    \end{equation}
+  \end{enumerate}
 \end{enumerate}
 
 \section{Consistency}\label{sec:consistency}
@@ -388,8 +399,9 @@ Now, to prove \eqref{eq:drift}, consider
         f_{2,n}(u,\xi)]^{1/2s\xi}
       \end{eqnarray*}
       \begin{enumerate}
-      \item if $\xi \geq 1/2$, $(\cdot)^{1/2s\xi}$ is concave
-        and subadditive. In this case we have
+      \item If $\xi > 1/(1 + \epsilon)$, choose $s \in [1/2\xi,
+        (\epsilon + 1)/2)$. With such a choice $(\cdot)^{1/2s\xi}$ is
+        concave and subadditive. In this case we have
         \begin{eqnarray*}
           && [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
           &=& \left[
@@ -411,12 +423,13 @@ Now, to prove \eqref{eq:drift}, consider
         Obviously $\1{\tau > T_u} \P_{-\xi(2s - 1)}(T_u \geq k) \leq
         \P_{-\xi(2s - 1)}(\tau > k-1)$. Moreover
         \begin{eqnarray*}
-          && \E_{-\xi(2s - 1)} |B_n|^{2s\xi} = \frac{
-             \E |B_n|^{\xi}
-             } {
-             \E |B_n|^{-\xi(2s - 1)}
-             } \leq \E |B_n|^{\xi} \E |B_n|^{\xi(2s - 1)}
-             < \E |B_n|^{\xi} \E |B|^{\xi \epsilon} < \infty
+          \E_{-\xi(2s - 1)} |B_n|^{2s\xi} &=& \frac{
+            \E |B_n|^{\xi}
+          } {
+            \E |B_n|^{-\xi(2s - 1)}
+          } \\
+          &\leq& \E |B_n|^{\xi} \E |B_n|^{\xi(2s - 1)} \\
+          &<& \E |B_n|^{\xi} \E |B|^{\xi \epsilon} < \infty
         \end{eqnarray*}
         Furthermore, as shown by Buraczewski, Damek
         and Mikosch \cite{BuraczewskiDamekMikosch2015},
@@ -426,17 +439,10 @@ Now, to prove \eqref{eq:drift}, consider
             \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k
           \right) \right]^{1/(k-n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
         \]
-        % and
-        % \[
-        % \inf_{k \geq n+1}
-        % \left(
-        %   \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|^{2s\xi}
-        % \right)^{1/(k - n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
-        % \]
         Hence $\forall a > 1$, $\exists N \geq 1$ such that $\forall k
         \geq n + N$,
         \[
-        (\E_{-\xi(2s - 1)}\|A_{n+N} \cdots A_{n+1}\|^{2s\xi})^{1/N} <
+        (\E_{-\xi(2s - 1)}\|A_{k} \cdots A_{n+1}\|^{2s\xi})^{1/(k-n)} <
         a \lambda_{-\xi(2s - 1)}(2s\xi)
         \]
         Meanwhile, for $k \in \{n+1, \dots, n+N-1\}$, due to the
@@ -450,14 +456,16 @@ Now, to prove \eqref{eq:drift}, consider
         \[
         \E \|A_1\|^{-\xi(2s - 1)}
         \geq {1 \over \E\|A_1\|^{\xi(2s - 1)}}
-        \geq {1 \over \E\|A_1\|^{\xi\epsilon'}}
+        \geq {1 \over \E\|A_1\|^{\xi\epsilon}}
         \]
         Hence
         \[
         \E_{-\xi(2s - 1)} \|A_k \dots A_{n+1}\|^{2s\xi} \leq
-        \E \|A_1\|^{\xi \epsilon' (k-n)} < \infty      
+        \left[
+          \E \|A_1\|^{\xi \epsilon}
+        \right]^{k-n} < \infty      
         \]
-        Now we can write
+        for $k=n, n+1, \dots, n+N-1$. Now we can write
         \begin{eqnarray*}
           && c \sum_{n=0}^\infty [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
           &\leq& c \sum_{n=0}^\infty \left\{
@@ -508,21 +516,108 @@ Now, to prove \eqref{eq:drift}, consider
         \right]^{1/2s\xi} < \infty  
         \]
 
-      \item if $\xi < 1/2$, $s$ can be chosen from $(1, 1/2\xi)$ so
-        that $(\cdot)^{1/2s\xi}$ is a convex functon. Moreover
-        $\E_{-\xi(2s - 1)} \|A\| < \infty$ and $\E_{-\xi(2s - 1)} |B|
-        < \infty$. Jensen's inequality gives
+      \item If $\xi < 1/(1 + \epsilon)$, choose $s \in (\frac{1}{2\xi}
+        - \frac{\epsilon - 1}{2}, \frac{\epsilon + 1}{2})$. Note the
+        assumption $\epsilon\xi > 1/2$ imples $\frac{1}{2\xi} -
+        \frac{\epsilon - 1}{2} < \frac{\epsilon + 1}{2}$. With such a
+        choice, $(\cdot)^{1/2s\xi}$ is a convex functon. By Jensen's inequality 
+        \begin{eqnarray*}
+          && \E_{-\xi(2s - 1)} \|A\| \\
+          &=& \frac{\E \|A\|^{1-\xi(2s - 1)}}{\E \|A\|^{-\xi(2s - 1)}}
+          \\
+          &\leq& \E \|A\|^{\epsilon \xi} \E \|A\|^{\xi(2s - 1)} \\
+          &\leq& (\E \|A\|^{\epsilon \xi})^2 < \infty
+        \end{eqnarray*}
+        The same argument yields $\E_{-\xi(2s - 1)} \|A\| < \infty$.
+        So, again using Jensen's inequality, we have
         \begin{eqnarray*}
           && [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
           &\leq& \E_{-\xi(2s - 1)} \left[ f_{2,n}(u,\xi)^{1/2s\xi} \right]\\
           &\leq& \sum_{k=n}^\infty
           \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|
           \E_{-\xi(2s - 1)}|B_n| \times \\
-          && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{T_u < \tau}
+          && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
+          \P_{-\xi(2s - 1)}(T_u \geq k) \\
+          &=& (\sum_{k=n}^{n+N-1} + \sum_{k=n+N}^\infty)
+          \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|
+          \E_{-\xi(2s - 1)}|B_n| \times \\
+          && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
           \P_{-\xi(2s - 1)}(T_u \geq k)
         \end{eqnarray*}
+        where $N$ is such that $\forall k \geq n+N$,
+        $\left[\E_{-\xi(2s - 1)} \|A_k \cdots A_{n+1}\|\right]^{k-n}
+        \leq a \lambda_{-\xi(2s - 1)}(1)$ for any $a > 1$. The
+        existence of such $N$ and $a$ is ensured by
+      \begin{eqnarray*}
+      \lim_{l \to \infty} \left(
+        \E_{-\xi(2s - 1)}\|A_l \cdots A_1\|
+        \right)^{1/l} &=& \lambda_{-\xi(2s - 1)}(1) \\
+      &=& \frac{\lambda(1 - \xi(2s - 1))}{\lambda(-\xi(2s - 1))} < \infty
+      \end{eqnarray*}
+      It follows
+      \begin{eqnarray*}
+        && \sum_{k=n}^{n+N-1} \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|
+        \E_{-\xi(2s - 1)}|B_n| \times \\
+        && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
+        \P_{-\xi(2s - 1)}(T_u \geq k) \\
+        &\leq& c \sum_{k=n}^{n+N-1} \P_{-\xi(2s - 1)}(\tau \geq k-1)
+        \\
+        &=& c \left[ \lambda_{-\xi(2s - 1)}(\alpha - \xi(2s - 1)) \right]^n
+      \end{eqnarray*}
+      where $\alpha > 0$ is chosen such that
+      \[
+      \lambda_{-\xi(2s - 1)}(\alpha - \xi(2s - 1)) = \frac{
+        \lambda(\alpha - \xi(2s - 1))
+      }{
+        \lambda(-\xi(2s - 1))
+      } < 1
+      \]
+      Such a choice is possible due to \eqref{eq:ret_time}. Meanwhile
+      \begin{eqnarray*}
+        && \sum_{k=n+N}^{\infty} \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|
+        \E_{-\xi(2s - 1)}|B_n| \times \\
+        && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
+        \P_{-\xi(2s - 1)}(T_u \geq k) \\
+        &\leq& c \sum_{k=n+N}^{\infty} \left[
+          a \lambda_{-\xi(2s - 1)}(1) \right]^{k-n} \lambda(-\xi(2s -
+        1))^{k/2s\xi} \times \\
+        && \P_{-\xi(2s - 1)}(\tau > k-1) \\
+        &\leq& c \sum_{k=n+N}^\infty \left[
+          \frac{
+            a\lambda(1-\xi(2s - 1))
+          }{
+            \lambda(-\xi(2s - 1))
+          }
+        \right]^{k-n} \times \\
+        && \lambda(-\xi(2s - 1))^{k/2s\xi}
+        \lambda(\alpha - \xi(2s - 1))^k \times \\
+        && \lambda(-\xi(2s - 1))^k
+      \end{eqnarray*}
+      Observe $0 < 1 - \xi(2s - 1) < \epsilon \xi$, which imples
+      $\lambda(1 - \xi(2s - 1)) < \lambda(\epsilon \xi)$. By
+      assumption $\lambda(\epsilon \xi) < \lambda(-\xi) <
+      \lambda(-\xi(2s - 1))$, so
+      \[
+      \lambda(1 - \xi(2s - 1)) < \lambda(-\xi(2s - 1))
+      \]
+      Choose $a > 1$ so close to 1 that even
+      \[
+      a \lambda(1 - \xi(2s - 1)) < \lambda(-\xi(2s - 1))
+      \]
+      Furthermore,
+      \begin{eqnarray*}
+        {1 \over 2s\xi} \log \lambda(-\xi(2s - 1)) &<& {1 \over 2\xi}
+        \log \lambda(-\epsilon \xi) < - \inf_{\beta \in R} \log
+        \lambda(\beta)
+      \end{eqnarray*}
+      where the 2nd inequality follows from the deepness condition
+      \eqref{eq:deepness}. Hence $\alpha > 0$ can be chosen such that
+      \begin{eqnarray*}
+        \log \lambda(\alpha - \xi(2s - 1)) &<& -{1 \over 2s\xi} \log
+        \lambda(-\xi(2s - 1)) \\
+        \lambda(\alpha - \xi(2s - 1)) &<& \lambda(-\xi(2s - 1))^{-1/2s\xi}
+      \end{eqnarray*}
       \end{enumerate}
-
     \item Secondly, we show $f_1(u) < \infty$.
       \begin{eqnarray*}
         && \E_D N_u^{2r} \1{T_u < \tau} \\
