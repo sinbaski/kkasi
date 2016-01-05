@@ -177,9 +177,9 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
   \begin{equation}
     \label{eq:drift}
     \E_\beta \left[\left.
-        |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \I{C^\complement}(V_{n-1}) \right|
+        |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \I{{\mathcal C}^\complement}(V_{n-1}) \right|
       \mathcal F_{n-1} \right] \leq |V_{n-1}|^\alpha r_\beta(|\tilde
-    V_{n-1}|; \alpha) \I{C^\complement}(V_{n-1})
+    V_{n-1}|; \alpha) \I{{\mathcal C}^\complement}(V_{n-1})
   \end{equation}
   where $r_\beta(\cdot; \alpha)$ is the unique right eigen function of the
   operator
@@ -247,45 +247,38 @@ Now, to prove \eqref{eq:drift}, consider
     sufficiently large, $\rho_{\beta}(\alpha)$ an be chosen such that
     \begin{eqnarray*}
       \rho_{\beta}(\alpha) &<& 1 \\
-      \E_\beta \left[ |V_n|^\alpha r_\beta(\tilde V_n; \alpha)  \I{C^\complement}(V_{n-1})
+      \E_\beta \left[ |V_n|^\alpha r_\beta(\tilde V_n; \alpha)  \I{{\mathcal C}^\complement}(V_{n-1})
         | \mathcal F_{n-1} \right] &\leq&
-      \rho_\beta(\alpha) |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha) \I{C^\complement}(V_{n-1})
+      \rho_\beta(\alpha) |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha) \I{{\mathcal C}^\complement}(V_{n-1})
     \end{eqnarray*}
-    where $C^\complement$ denotes the complement of the set $C$:
-    \[
-    C = \left\{
-      v: |v| \leq M, M = \left[
-        \E_\beta (|B|^\alpha r_\beta(\tilde B; \alpha)) 
-        \over
-        [1 - \lambda(\alpha)] r_\beta(\tilde v; \alpha)
-      \right]^{1/\alpha}
-    \right\}
-    \]
+    where ${\mathcal C}^\complement$ denotes the complement of the set
+    $\mathcal C$:
+    \begin{equation}
+      \label{eq:C_set}
+      \mathcal C := \left\{
+        v: |v| \leq M, M = \left[
+          \E_\beta (|B|^\alpha r_\beta(\tilde B; \alpha)) 
+          \over
+          [1 - \lambda(\alpha)] r_\beta(\tilde v; \alpha)
+        \right]^{1/\alpha}
+      \right\}
+    \end{equation}
   \end{enumerate}    
-% that there exist a unique
-%   probability measure $l_\alpha$ on $\mathbb S_+^{d-1}$ and a unique
-%   and strictly positive function $r_\alpha \in \mathscr C_b(\mathbb
-%   S_+^{d-1})$ such that
-%   \begin{eqnarray*}
-%     P_\alpha r(x; \alpha) &=& \lambda(\alpha) r(x; \alpha) \\
-%     l_\alpha P_\alpha (S) &=& \lambda(\alpha) l_\alpha(S) \\
-%     \int_{S_+^{d-1}} r(x; \alpha) l_\alpha(dx) &=& 1
-%   \end{eqnarray*}
 \end{proof}
 \begin{remark}
   Iterating \eqref{eq:drift} yields
   \[
   \E_\beta \left[
-    |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n-1}\I{C^\complement}(V_i)\right]
-  \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{C^\complement}(V_1)
+    |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n-1}\I{{\mathcal C}^\complement}(V_i)\right]
+  \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{{\mathcal C}^\complement}(V_1)
   \]
   Then it follows
   \[
   \E_\beta \left[
-    |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n}\I{C^\complement}(V_i)\right]
-  \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{C^\complement}(V_1)
+    |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n}\I{{\mathcal C}^\complement}(V_i)\right]
+  \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{{\mathcal C}^\complement}(V_1)
   \]
-  But $\prod_{i=1}^{n}\I{C^\complement}(V_i)$ implies $\tau > n$, and in this
+  But $\prod_{i=1}^{n}\I{{\mathcal C}^\complement}(V_i)$ implies $\tau > n$, and in this
   case $|V_n| > M$, where
   \[
   M = \left[
@@ -298,11 +291,26 @@ Now, to prove \eqref{eq:drift}, consider
   \begin{eqnarray}
     \E_\beta \left[
       M^\alpha \inf_{|\tilde V_n|} r_\beta(|\tilde V_n|; \alpha) \1{\tau > n}\right]
-    &\leq& \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{C^\complement}(V_1) \nonumber \\
+    &\leq& \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|;
+    \alpha) \I{{\mathcal C}^\complement}(V_1) \nonumber \\
     \P_\beta(\tau > n) &\leq& K \rho_\beta(\alpha)^{n-1} \label{eq:ret_time}
   \end{eqnarray}
   for some constant $K$.
 \end{remark}
+
+\begin{lemma}
+  $|A_n \dots A_1 \tilde V_0|\1{n < \tau} > \epsilon$ for some $\epsilon > 0$,
+  where $\tilde V_0 = {V_0 \over |V_0|}$.
+\end{lemma}
+\begin{proof}
+  Observe
+  \begin{eqnarray*}
+    M &<& |V_n|\1{n < \tau} < \sum_{i=0}^n |A_n \cdots A_{i+1} B_i|
+    \1{n < \tau} \text{ a.s.}
+  \end{eqnarray*}
+  Suppose there is a realization of $A_n, \dots, A_{j+1}$, call it
+  $a_n, \dots, a_{}$
+\end{proof}
 
 \begin{theorem}
   The estimator $\mathcal E_u$ has bounded relative error, i.e.
@@ -313,44 +321,44 @@ Now, to prove \eqref{eq:drift}, consider
 \begin{proof}
   The claim is equivalent to
   \[
-  \limsup_{u \to \infty} {\E_D \mathcal E_u^2 \over [\P(|V| > u)]^2} < \infty
+  \limsup_{u \to \infty} {\E_{\mathcal D} \mathcal E_u^2 \over [\P(|V| > u)]^2} < \infty
   \]
   By Kesten's theorem \cite{Kesten1973}, $\P(|V| > u) \sim C
   u^{-\xi}$. Hence, to prove the claim, one needs to check
-  $u^{2\xi}\E_D \mathcal E_u^2 < \infty$, i.e.
+  $u^{2\xi}\E_{\mathcal D} \mathcal E_u^2 < \infty$, i.e.
   \[
-  f(\xi) = \limsup_{u \to \infty} \E_D  \left[u^{2\xi}
+  \limsup_{u \to \infty} \E_{\mathcal D}  \left[u^{2\xi}
     N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r^2(x_0; \xi)
-      \over r^2(x_{T_u}; \xi)}\right]
-  < \infty
-  \]
+      \over r^2(x_{T_u}; \xi)}\right] < \infty
+ \]
+ Using the fact $|V_{T_u}| > u$, and that $r(\cdot; \xi)$ is bounded
+ from above and below, it suffices to show
+ \begin{eqnarray*}
+   f(\xi) &=& \limsup_{u \to \infty} \E_{\mathcal D} \left[
+     \left|
+       \sum_{n=0}^{T_u}
+       \frac{
+         N_u^{1/\xi} A_{T_u} \cdots A_{n+1} B_n 
+       }{
+         |A_{T_u} \cdots A_1 V_0|
+       }
+       \1{T_u < \tau}
+     \right|^{2 \xi}
+   \right] < \infty\\
+ \end{eqnarray*}
   In the rest of the proof, we write $c, c_1, c_2$ for constants whose values
   have no importance and depend on the context.
   \begin{enumerate}
   \item We first consider the case $\lambda(-\xi\epsilon) <
-    \infty$. Using the fact $|V_{T_u}| > u$, and that $r(\cdot; \xi)$
-    is bounded from above and below, we obtain
-    \begin{eqnarray*}
-      f(\xi) &\leq& c \limsup_{u \to \infty} \E_D \left[
-        \left|
-          \sum_{n=0}^{T_u}
-          \frac{
-            N_u^{1/\xi} A_{T_u} \cdots A_{n+1} B_n 
-          }{
-            |A_{T_u} \cdots A_1 V_0|
-          }
-          \1{T_u < \tau}
-        \right|^{2 \xi}
-      \right] \\
-    \end{eqnarray*}
+    \infty$.
     \begin{enumerate}
     \item If $\xi \geq 1/2$, Minkowski's inequality gives
       \begin{eqnarray}
-        f(\xi) &\leq& c \limsup_{u \to \infty}
+        f(\xi) &\leq& \limsup_{u \to \infty}
         \left\{
           \sum_{n=0}^{\infty}
           \left[
-            \E_D \left|
+            \E_{\mathcal D} \left|
               N_u^{1/\xi}
               \frac{
                 A_{T_u} \cdots A_{n+1} B_n 
@@ -361,7 +369,7 @@ Now, to prove \eqref{eq:drift}, consider
             \right|^{2 \xi}
           \right]^{1/2\xi}
         \right\}^{2\xi} \nonumber \\
-        &\leq& c \limsup_{u \to \infty}
+        &\leq& \limsup_{u \to \infty}
         \left\{
           \sum_{n=0}^{\infty}
           \left[
@@ -483,350 +491,11 @@ Now, to prove \eqref{eq:drift}, consider
         &=& {c \over 1 - \lambda_{-\xi}(\alpha)}
       \end{eqnarray*}
       From this it is clear $f(\xi) < \infty$.
-
-      % where $r, s$ are chosen such that $1/r + 1/s = 1$ and $s \in (1,
-      % \frac{\epsilon + 1}{2})$. With such a choice $\E \|A\|^{\xi(2s -
-      % 1)} < \E \|A\|^{\xi \epsilon} < \infty$.
-
-
-      % Then H\"older's
-      % inequality gives
-      % \begin{eqnarray*}
-      %   f(\xi) &\leq& \limsup_{u \to \infty}
-      %   \left(\E_D N_u^{2r} \1{T_u < \tau}\right)^{1/r}
-      %   \left(\E_D \left|
-      %       \frac{
-      %       \sum_{n=0}^{T_u} A_{T_u} \cdots A_{n+1} B_n 
-      %     }{
-      %       |A_{T_u} \cdots A_1 V_0|
-      %     }
-      %     \right|^{2 s \xi} \1{T_u < \tau}
-      %   \right)^{1/s} \\
-      %   &\leq& c \limsup_{u \to \infty} f_1(u) f_2(u, \xi)
-      % \end{eqnarray*}
-      % \begin{enumerate}
-      % \item First of all, we prove $f_2(u,\xi) < \infty$. Minkowski's
-      %   inequality yields
-      %   \begin{eqnarray*}
-      %     f_2(u, \xi)^{1/2\xi} &\leq& \sum_{n=0}^\infty \left(\E_D \left[
-      %         \frac{
-      %         |A_{T_u} \cdots A_{n+1} B_n |^{2s\xi}
-      %       }{
-      %         |A_{T_u} \cdots A_1 V_0|^{2s\xi}
-      %       } \1{n \leq T_u < \tau}
-      %       \right]\right)^{1/2s\xi} \\
-      %     &=& \sum_{n=0}^\infty \left(\E \left[
-      %         \frac{
-      %         |A_{T_u} \cdots A_{n+1} B_n |^{2s\xi}
-      %       }{
-      %         |A_{T_u} \cdots A_1 X_0|^{\xi(2s - 1)}
-      %       }
-      %         \frac{
-      %         r_{\xi}(X_{T_u})
-      %       }{
-      %         r_{\xi}(X_{0})
-      %       }
-      %         {1 \over |V_0|^{2s\xi}}\1{n \leq T_u < \tau}
-      %       \right]\right)^{1/2s\xi} \\
-      %     &\leq& c \sum_{n=0}^\infty
-      %     \left(\E_{-\xi(2s - 1)} \left[
-      %         |A_{T_u} \cdots A_{n+1} B_n |^{2s\xi}
-      %         \lambda(-\xi(2s - 1))^{T_u}
-      %         \1{n \leq T_u < \tau}
-      %       \right]\right)^{1/2s\xi} \\
-      %     &=& c \sum_{n=0}^\infty [\E_{-\xi(2s - 1)}
-      %     f_{2,n}(u,\xi)]^{1/2s\xi}
-      %   \end{eqnarray*}
-      %   \begin{enumerate}
-      %   \item If $\xi > 1/(1 + \epsilon)$, choose $s \in [1/2\xi,
-      %     (\epsilon + 1)/2)$. With such a choice $(\cdot)^{1/2s\xi}$ is
-      %     concave and subadditive. In this case we have
-      %     \begin{eqnarray*}
-      %       && [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
-      %       &=& \left[
-      %         \sum_{k=n}^\infty
-      %         \E_{-\xi(2s - 1)}\left(
-      %           \|A_k \cdots A_{n+1}\|^{2s\xi}
-      %         \right)
-      %         \E_{-\xi(2s - 1)} |B_n|^{2s\xi} \times \right.\\
-      %       && \left. \lambda(-\xi(2s - 1))^k \1{\tau > T_u}
-      %         \P_{-\xi(2s - 1)}(T_u \geq k) \right]^{1/2s\xi}\\
-      %       &\leq& \sum_{k=n}^\infty
-      %       \left[\E_{-\xi(2s - 1)}
-      %         \|A_k \cdots A_{n+1}\|^{2s\xi}
-      %       \right]^{1/2s\xi}
-      %       \left[\E_{-\xi(2s - 1)} |B_n|^{2s\xi}\right]^{1/2s\xi} \times \\
-      %       && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
-      %       \left[ \P_{-\xi(2s - 1)}(T_u \geq k) \right]^{1/2s\xi}
-      %     \end{eqnarray*}
-      %     Obviously $\1{\tau > T_u} \P_{-\xi(2s - 1)}(T_u \geq k) \leq
-      %     \P_{-\xi(2s - 1)}(\tau > k-1)$. Moreover
-      %     \begin{eqnarray*}
-      %       \E_{-\xi(2s - 1)} |B_n|^{2s\xi} &=& \frac{
-      %       \E |B_n|^{\xi}
-      %     } {
-      %       \E |B_n|^{-\xi(2s - 1)}
-      %     } \\
-      %       &\leq& \E |B_n|^{\xi} \E |B_n|^{\xi(2s - 1)} \\
-      %       &<& \E |B_n|^{\xi} \E |B|^{\xi \epsilon} < \infty
-      %     \end{eqnarray*}
-      %     Furthermore, as shown by Buraczewski, Damek
-      %     and Mikosch \cite{BuraczewskiDamekMikosch2015},
-      %     \[
-      %     \lim_{k \to \infty}
-      %     \left[ \E_{-\xi(2s - 1)}\left(
-      %         \|A_k \cdots A_{n+1}\|^{2s\xi}|T_u = k
-      %       \right) \right]^{1/(k-n)} = \lambda_{-\xi(2s - 1)}(2s\xi)
-      %     \]
-      %     Hence $\forall a > 1$, $\exists N \geq 1$ such that $\forall k
-      %     \geq n + N$,
-      %     \[
-      %     (\E_{-\xi(2s - 1)}\|A_{k} \cdots A_{n+1}\|^{2s\xi})^{1/(k-n)} <
-      %     a \lambda_{-\xi(2s - 1)}(2s\xi)
-      %     \]
-      %     Meanwhile, for $k \in \{n+1, \dots, n+N-1\}$, due to the
-      %     independence of $A_{n+1}, A_{n+2}, \dots, A_k$ we have
-      %     \begin{eqnarray*}
-      %       && \E_{-\xi(2s - 1)} \|A_k \dots A_{n+1}\|^{2s\xi} \\
-      %       &\leq& [\E_{-\xi(2s - 1)} \|A_1\|^{2s\xi}]^{k-n} \\
-      %       &=& \left[{1 \over \E \|A_1\|^{-\xi(2s - 1)}}\right]^{k-n} \\
-      %     \end{eqnarray*}
-      %     By Jensen's inequality,
-      %     \[
-      %     \E \|A_1\|^{-\xi(2s - 1)}
-      %     \geq {1 \over \E\|A_1\|^{\xi(2s - 1)}}
-      %     \geq {1 \over \E\|A_1\|^{\xi\epsilon}}
-      %     \]
-      %     Hence
-      %     \[
-      %     \E_{-\xi(2s - 1)} \|A_k \dots A_{n+1}\|^{2s\xi} \leq
-      %     \left[
-      %       \E \|A_1\|^{\xi \epsilon}
-      %     \right]^{k-n} < \infty      
-      %     \]
-      %     for $k=n, n+1, \dots, n+N-1$. Now we can write
-      %     \begin{eqnarray*}
-      %       && c \sum_{n=0}^\infty [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
-      %       &\leq& c \sum_{n=0}^\infty \left\{
-      %         c_1 \sum_{k=n}^{n+N-1} \lambda(-\xi(2s - 1))^{k/2s\xi} [\P_{-\xi(2s -
-      %         1)}(\tau > k-1)]^{1/2s\xi} \right.\\
-      %       && + \sum_{k=n+N}^\infty [a \lambda_{-\xi(2s - 1)}(2s\xi)]^{(k-n)/2s\xi}
-      %       \lambda(-\xi(2s - 1))^{k/2s\xi} \times \\
-      %       && \left.[\P_{-\xi(2s - 1)}(\tau > k-1)]^{1/2s\xi}
-      %       \right\}
-      %     \end{eqnarray*}
-      %     Applying \eqref{eq:ret_time} with $\beta = -\xi(2s - 1)$ gives
-      %     \[
-      %     \P_{-\xi(2s - 1)}(\tau > k-1) \leq K \lambda_{-\xi(2s - 1)}(\alpha)^{k-2}
-      %     \]
-      %     where $\alpha > 0$ is chosen such that $\lambda_{-\xi(2s -
-      %     1)}(\alpha) < 1$.
-      %     %     This is always possible because
-      %     %     $\lambda_{-\xi(2s - 1)}(\alpha) = \lambda(-\xi(2s - 1) + \alpha) /
-      %     %     \lambda(-\xi(2s - 1))$, and ${d \lambda(-\xi(2s - 1) +
-      %     %     \alpha) \over d\alpha} < 0$.
-      %     Let $p = \lambda(\alpha - \xi(2s - 1))^{1/2s\xi} < 1$, and $q =
-      %     \lambda(-\xi(2s - 1))^{1/2s\xi} > 1$. We have
-      %     \begin{eqnarray*}
-      %       && c \sum_{n=0}^\infty \left[
-      %         \E_{-\xi(2s - 1)} f_{2,n}(u,\xi)
-      %       \right]^{1/2s\xi} \\
-      %       &\leq& c_1 \sum_{n=0}^\infty \sum_{k=n}^{n+N-1} p^{k-2} q^{2} +
-      %       c \sum_{n=0}^{\infty} \sum_{k=n+N}^\infty a^{k-n} p^{k-2}
-      %       q^{n-k+2} \\
-      %       &=& c_1 p^{-2} q^2 {1 - p^N \over (1-p)^2 }
-      %       + \sum_{n=0}^{\infty} a^{-n} p^{-2} q^{n+2} \sum_{k=n+N}^{\infty}
-      %       \left({ap \over q}\right)^k
-      %     \end{eqnarray*}
-      %     Choose $a > 1$ such that $ap < q$. Then
-      %     \begin{eqnarray*}
-      %       && \sum_{n=0}^{\infty} a^{-n} p^{-2} q^{n+2} \sum_{k=n+N}^{\infty}
-      %       \left({ap \over q}\right)^k \\
-      %       &=& \frac{
-      %       a^N p^{N-2} q^{2-N}
-      %     }{
-      %       1 - ap/q
-      %     } {1 \over 1 - p}
-      %     \end{eqnarray*}
-      %     Thus
-      %     \[
-      %     \sum_{n=0}^\infty \left[
-      %       \E_{-\xi(2s - 1)} f_{2,n}(u,\xi)
-      %     \right]^{1/2s\xi} < \infty  
-      %     \]
-
-      %   \item If $\xi < 1/(1 + \epsilon)$, choose $s \in (\frac{1}{2\xi}
-      %     - \frac{\epsilon - 1}{2}, \frac{\epsilon + 1}{2})$. Note the
-      %     assumption $\epsilon\xi > 1/2$ imples $\frac{1}{2\xi} -
-      %     \frac{\epsilon - 1}{2} < \frac{\epsilon + 1}{2}$. With such a
-      %     choice, $(\cdot)^{1/2s\xi}$ is a convex functon. By Jensen's inequality 
-      %     \begin{eqnarray*}
-      %       && \E_{-\xi(2s - 1)} \|A\| \\
-      %       &=& \frac{\E \|A\|^{1-\xi(2s - 1)}}{\E \|A\|^{-\xi(2s - 1)}}
-      %       \\
-      %       &\leq& \E \|A\|^{\epsilon \xi} \E \|A\|^{\xi(2s - 1)} \\
-      %       &\leq& (\E \|A\|^{\epsilon \xi})^2 < \infty
-      %     \end{eqnarray*}
-      %     The same argument yields $\E_{-\xi(2s - 1)} \|A\| < \infty$.
-      %     So, again using Jensen's inequality, we have
-      %     \begin{eqnarray*}
-      %       && [\E_{-\xi(2s - 1)} f_{2,n}(u,\xi)]^{1/2s\xi} \\
-      %       &\leq& \E_{-\xi(2s - 1)} \left[ f_{2,n}(u,\xi)^{1/2s\xi} \right]\\
-      %       &\leq& \sum_{k=n}^\infty
-      %       \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|
-      %       \E_{-\xi(2s - 1)}|B_n| \times \\
-      %       && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
-      %       \P_{-\xi(2s - 1)}(T_u \geq k) \\
-      %       &=& (\sum_{k=n}^{n+N-1} + \sum_{k=n+N}^\infty)
-      %       \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|
-      %       \E_{-\xi(2s - 1)}|B_n| \times \\
-      %       && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
-      %       \P_{-\xi(2s - 1)}(T_u \geq k)
-      %     \end{eqnarray*}
-      %     where $N$ is such that $\forall k \geq n+N$,
-      %     $\left[\E_{-\xi(2s - 1)} \|A_k \cdots A_{n+1}\|\right]^{k-n}
-      %     \leq a \lambda_{-\xi(2s - 1)}(1)$ for any $a > 1$. The
-      %     existence of such $N$ and $a$ is ensured by
-      %     \begin{eqnarray*}
-      %       \lim_{l \to \infty} \left(
-      %         \E_{-\xi(2s - 1)}\|A_l \cdots A_1\|
-      %       \right)^{1/l} &=& \lambda_{-\xi(2s - 1)}(1) \\
-      %       &=& \frac{\lambda(1 - \xi(2s - 1))}{\lambda(-\xi(2s - 1))} < \infty
-      %     \end{eqnarray*}
-      %     It follows
-      %     \begin{eqnarray*}
-      %       && \sum_{k=n}^{n+N-1} \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|
-      %       \E_{-\xi(2s - 1)}|B_n| \times \\
-      %       && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
-      %       \P_{-\xi(2s - 1)}(T_u \geq k) \\
-      %       &\leq& c \sum_{k=n}^{n+N-1} \P_{-\xi(2s - 1)}(\tau \geq k-1)
-      %       \\
-      %       &=& c \left[ \lambda_{-\xi(2s - 1)}(\alpha - \xi(2s - 1)) \right]^n
-      %     \end{eqnarray*}
-      %     where $\alpha > 0$ is chosen such that
-      %     \[
-      %     \lambda_{-\xi(2s - 1)}(\alpha - \xi(2s - 1)) = \frac{
-      %     \lambda(\alpha - \xi(2s - 1))
-      %   }{
-      %     \lambda(-\xi(2s - 1))
-      %   } < 1
-      %     \]
-      %     Such a choice is possible due to \eqref{eq:ret_time}. Meanwhile
-      %     \begin{eqnarray*}
-      %       && \sum_{k=n+N}^{\infty} \E_{-\xi(2s - 1)}\|A_k \cdots A_{n+1}\|
-      %       \E_{-\xi(2s - 1)}|B_n| \times \\
-      %       && \lambda(-\xi(2s - 1))^{k/2s\xi} \1{\tau > T_u}
-      %       \P_{-\xi(2s - 1)}(T_u \geq k) \\
-      %       &\leq& c \sum_{k=n+N}^{\infty} \left[
-      %         a \lambda_{-\xi(2s - 1)}(1) \right]^{k-n} \lambda(-\xi(2s -
-      %       1))^{k/2s\xi} \times \\
-      %       && \P_{-\xi(2s - 1)}(\tau > k-1) \\
-      %       &\leq& c \sum_{k=n+N}^\infty \left[
-      %         \frac{
-      %         a\lambda(1-\xi(2s - 1))
-      %       }{
-      %         \lambda(-\xi(2s - 1))
-      %       }
-      %       \right]^{k-n} \times \\
-      %       && \lambda(-\xi(2s - 1))^{k/2s\xi}
-      %       \lambda(\alpha - \xi(2s - 1))^k \times \\
-      %       && \lambda(-\xi(2s - 1))^k
-      %     \end{eqnarray*}
-      %     Observe $0 < 1 - \xi(2s - 1) < \epsilon \xi$, which imples
-      %     $\lambda(1 - \xi(2s - 1)) < \lambda(\epsilon \xi)$. By
-      %     assumption $\lambda(\epsilon \xi) < \lambda(-\xi) <
-      %     \lambda(-\xi(2s - 1))$, so
-      %     \[
-      %     \lambda(1 - \xi(2s - 1)) < \lambda(-\xi(2s - 1))
-      %     \]
-      %     Choose $a > 1$ so close to 1 that even
-      %     \[
-      %     a \lambda(1 - \xi(2s - 1)) < \lambda(-\xi(2s - 1))
-      %     \]
-      %     Furthermore,
-      %     \begin{eqnarray*}
-      %       {1 \over 2s\xi} \log \lambda(-\xi(2s - 1)) &<& {1 \over 2\xi}
-      %       \log \lambda(-\epsilon \xi) < - \inf_{\beta \in R} \log
-      %       \lambda(\beta)
-      %     \end{eqnarray*}
-      %     where the 2nd inequality follows from the deepness condition
-      %     \eqref{eq:deepness}. Hence $\alpha > 0$ can be chosen such that
-      %     \begin{eqnarray*}
-      %       \log \lambda(\alpha - \xi(2s - 1)) &<& -{1 \over 2s\xi} \log
-      %       \lambda(-\xi(2s - 1)) \\
-      %       \lambda(\alpha - \xi(2s - 1)) &<& \lambda(-\xi(2s - 1))^{-1/2s\xi}
-      %     \end{eqnarray*}
-      %   \end{enumerate}
-      % \item Secondly, we show $f_1(u) < \infty$.
-      %   \begin{eqnarray*}
-      %     && \E_D N_u^{2r} \1{T_u < \tau} \\
-      %     &=& \E \left[
-      %       N_u^{2r} |A_{T_u} \cdots A_1 X_0|^{\xi}
-      %       \frac{r(X_{T_u}; \xi)}{r(X_0; \xi)}
-      %       \1{T_u < \tau}
-      %     \right]
-      %   \end{eqnarray*}
-      %   H\"older's inequality gives
-      %   \begin{eqnarray*}
-      %     && \E_D N_u^{2r} \1{T_u < \tau} \\
-      %     &\leq& (\E N_u^{2rt})^{1/t}
-      %     (\E |A_{T_u} \cdots A_1 X_0|^{s\xi} \1{T_u < \tau})^{1/s}
-      %   \end{eqnarray*}
-      %   where $1/s + 1/t = 1$.
-      %   \begin{eqnarray*}
-      %     && \E N_u^{2rt} \leq \E \tau^{2rt} \leq 1 + \sum_{n=2}^\infty
-      %     n^{2rt} \P(\tau > n-1)
-      %   \end{eqnarray*}
-      %   Applying \eqref{eq:ret_time} with $\beta=0$ yields
-      %   \[
-      %   \P(\tau > n-1) \leq K \lambda(\alpha)^{n-2}
-      %   \]
-      %   where $\alpha > 0$ is chosen such that $\lambda(\alpha) < 1$. Thus
-      %   \begin{eqnarray*}
-      %     && \sum_{n=2}^\infty n^{2rt} \P(\tau > n-1) \leq K \sum_{n=2}^\infty n^{2rt}
-      %     \lambda(\alpha)^{n-2} < \infty
-      %   \end{eqnarray*}
-      
-      %   As for the term $\E(|A_{T_u} \cdots A_1 X_0|^{s\xi} \1{T_u <
-      %   \tau})$, we have
-      %   \begin{eqnarray*}
-      %     && \E(|A_{T_u} \cdots A_1 X_0|^{s\xi} \1{T_u < \tau}) \\
-      %     &\leq& \sum_{n=1}^{\infty} \E(\|A_n \cdots A_1 \|^{s\xi})
-      %     \1{T_u < \tau} \P(T_u = n)
-      %   \end{eqnarray*}
-      %   As has been argued earlier, $\forall a > 1$, $\exists N \geq 1$
-      %   such that $\forall n \geq N$, $\E\|A_n \cdots A_1\|^{s\xi} \leq
-      %   [a \lambda(s\xi)]^{n}$. Therefore
-      %   \begin{eqnarray*}
-      %     && \sum_{n=1}^{\infty} \E(\|A_n \cdots A_1 \|^{s\xi})
-      %     \1{T_u < \tau} \P(T_u = n) \\
-      %     &\leq& c + \sum_{n=N}^\infty [a \lambda(s\xi)]^{n}
-      %     \P(\tau > n-1)
-      %   \end{eqnarray*}
-      %   Now apply \eqref{eq:ret_time} with $\beta = 0$ and an $\alpha$
-      %   that satisfies $\lambda(\alpha) < 1/a\lambda(s\xi)$. Such a choice
-      %   of $\alpha$ is possible because $s > 1$ can be chosen
-      %   as close to 1 as is necessary to make $\lambda(s\xi) > 1$ as close
-      %   to 1 as is desired, while $\inf_{\alpha > 0} \lambda(\alpha) <
-      %   1$.
-
-      %   With $a, s, \alpha$ appropriately chosen,
-      %   \begin{eqnarray*}
-      %     && \sum_{n=1}^{\infty} \E(\|A_n \cdots A_1 \|^{s\xi})
-      %     \1{T_u < \tau} \P(\tau > n-1) \\
-      %     &\leq& c + K \lambda(\alpha)^{-2}\sum_{n=N}^\infty
-      %     [a\lambda(s\xi) \lambda(\alpha)]^{n} < \infty
-      %   \end{eqnarray*}
-      % \end{enumerate}
-      % Now that $f_1(u) < \infty$, $f_2(u, \xi) < \infty$,
-      % \[
-      % f(\xi) \leq c \limsup_{u \to \infty} f_1(u) f_2(u, \xi) < \infty.
-      % \]
       \item If $\xi < 1/2$, the function $(\cdot)^{2\xi}$ is
         subadditive. Hence
         \begin{eqnarray*}
           f(\xi) &\leq& c \limsup_{u \to \infty}
-          \sum_{n=0}^\infty \E_D N_u^2
+          \sum_{n=0}^\infty \E_{\mathcal D} N_u^2
           {|A_{T_u} \cdots A_{n+1}B_n|^{2\xi}
             \over
             |A_{T_u} \cdots A_1 V_0|^{2\xi}
@@ -841,7 +510,16 @@ Now, to prove \eqref{eq:drift}, consider
         The same arguments that lead to \eqref{eq:xi_above_half_final}
         show $f(\xi) < \infty$.
     \end{enumerate}
-  \item 
+  \item Now we consider the case $\lambda(-\xi) = \infty$.
+    First observe
+    \[
+    M < |V_n|\1{n < \tau}
+    \]
+    where $M$ characterizes the set C defined in
+    \eqref{eq:C_set}. Then it follows
+    \begin{eqnarray*}
+      M < \1{n < \tau} \sum_{i=0}^n \|A_n \cdots A_{i+1}\||B_i| \\
+    \end{eqnarray*}
   \end{enumerate}
 \end{proof}
 
