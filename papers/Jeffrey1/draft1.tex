@@ -298,20 +298,6 @@ Now, to prove \eqref{eq:drift}, consider
   for some constant $K$.
 \end{remark}
 
-\begin{lemma}
-  $|A_n \dots A_1 \tilde V_0|\1{n < \tau} > \epsilon$ for some $\epsilon > 0$,
-  where $\tilde V_0 = {V_0 \over |V_0|}$.
-\end{lemma}
-\begin{proof}
-  Observe
-  \begin{eqnarray*}
-    M &<& |V_n|\1{n < \tau} < \sum_{i=0}^n |A_n \cdots A_{i+1} B_i|
-    \1{n < \tau} \text{ a.s.}
-  \end{eqnarray*}
-  Suppose there is a realization of $A_n, \dots, A_{j+1}$, call it
-  $a_n, \dots, a_{}$
-\end{proof}
-
 \begin{theorem}
   The estimator $\mathcal E_u$ has bounded relative error, i.e.
   \begin{equation*}
@@ -510,16 +496,70 @@ Now, to prove \eqref{eq:drift}, consider
         The same arguments that lead to \eqref{eq:xi_above_half_final}
         show $f(\xi) < \infty$.
     \end{enumerate}
-  \item Now we consider the case $\lambda(-\xi) = \infty$.
+  \item Now we consider the case $\lambda(-\xi) = \infty$ with an
+    addition assumption:
+    \[
+    \inf_{0 < \alpha < \xi}\lambda(\alpha) < {1 \over \E\|A\|^\xi}
+    \]
     First observe
     \[
     M < |V_n|\1{n < \tau}
     \]
-    where $M$ characterizes the set C defined in
+    where $M$ characterizes the set $\mathcal C$ defined in
     \eqref{eq:C_set}. Then it follows
+    \begin{eqnarray}
+      M < \sum_{i=0}^n \|A_n \cdots A_{i+1}\||B_i| \1{n < \tau} 
+      \text{ a.s.}\label{eq:outside_C_cond}
+    \end{eqnarray}
+    This implies
+    \begin{eqnarray}
+      \min_{0 \leq i \leq n} \inf_{A_n, \dots, A_{i+1}, B_i} |A_n
+      \cdots A_{i+1} B_i|\1{n < \tau} > {M \over n+1} \label{eq:min_inf_cond}
+    \end{eqnarray}
+    since otherwise it may happen with non-zero probability that each
+    $|A_n \cdots A_{i+1} B_i|$ takes a value so close to its infimum
+    that their sum falls below $M$, violating
+    \eqref{eq:outside_C_cond}. \eqref{eq:min_inf_cond} leads to
+    \begin{equation}
+      \inf_{A_n, \dots, A_1}|A_n, \cdots, A_1 \tilde{V_0}| \1{n < \tau}
+      > {M \over |V_0| (n+1)} := M_n \label{eq:lower_bound}
+    \end{equation}
+    Now we may evaluate $\E {1 \over |A_{T_u}, \cdots A_1
+      V_0|^{\xi}}\1{n \leq T_u < \tau}$ as
+    follows:
     \begin{eqnarray*}
-      M < \1{n < \tau} \sum_{i=0}^n \|A_n \cdots A_{i+1}\||B_i| \\
+      && \E {1 \over |A_{T_u}, \cdots A_1 V_0|^\xi} \1{n \leq T_u < \tau}\\
+      &=& {1 \over |V_0|^{\xi}} \sum_{k=n}^\infty \E {1 \over |A_k,
+        \cdots A_1 \tilde V_0|^{\xi}} \1{k < \tau} \P(T_u = k)
     \end{eqnarray*}
+    Using \eqref{eq:lower_bound} we obtain
+    \begin{eqnarray*}
+      && \E {1 \over |A_k, \cdots A_1 \tilde V_0|^{\xi}} \1{k < \tau} \\
+      &\leq& \int_{M_k}^\infty {1 \over x} \P\left(
+        |A_k, \cdots A_1 \tilde V_0|^{\xi}\1{k < \tau} \in [x, x+ dx)
+      \right) \\
+      &\leq& M_k^{-2} \E \|A_k \cdots A_1\|^\xi \1{k < \tau}
+    \end{eqnarray*}
+    where in the last step we have used Markov's inequality. As argued
+    in the previous case, $\forall a > 1$, $\exists N \geq 1$ such
+    that $\forall k \geq N$, $\E \|A_k \cdots A_1\|^\xi < a^k
+    \lambda(\xi)^k = a^k$. For $k < N$, $\E \|A_k \cdots A_1\|^\xi
+    \1{k < \tau} \leq (\E\|A\|^\xi)^k$. Thus we have
+    \begin{eqnarray*}
+      && \sum_{k=n}^\infty \E {1 \over |A_k, \cdots A_1 \tilde
+        V_0|^{\xi}} \1{k < \tau} \P(T_u = k) \\
+      &\leq& c \sum_{k=n}^{N-1} {
+        [\E \|A\|^\xi \lambda(\alpha)]^k
+        \over M_k^2
+      } + c \sum_{k=N}^\infty {
+        a^k \lambda(\alpha)^k
+        \over M_k^2
+      }
+    \end{eqnarray*}
+    where we have used $\P(T_u = k)\1{T_u < \tau} \leq \P(\tau > k-1)
+    \leq c \lambda(\alpha)^k$ for some constant $c$ and $0 < \alpha <
+    \xi$. $\alpha$ and $a, N$ are chosen such that $\lambda(\alpha) < \min\{(\E
+    \|A\|^\xi)^{-1}, a^{-1}\}$.
   \end{enumerate}
 \end{proof}
 
