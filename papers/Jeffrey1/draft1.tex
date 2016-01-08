@@ -298,6 +298,46 @@ Now, to prove \eqref{eq:drift}, consider
   for some constant $K$.
 \end{remark}
 
+\begin{lemma}\label{eq:prob_bound}
+  $\exists N \geq 1, 0 < \epsilon < 1, \delta > 0, c > 0$ such that $\forall k \geq
+  N$, the following holds: $\forall x < \epsilon$
+  \[
+  \P\left[
+    \|A_k \cdots A_1\|^\xi \in [x, x + dx)
+  \right] \leq c x^\delta dx
+  \]
+\end{lemma}
+
+\begin{proof}
+  For convenience, write $X_k$ for
+  $\|A_k \cdots A_1\|^\xi$.
+  Suppose the claim is untrue, i.e. $\forall N \geq 1, 0 < \epsilon < 1,
+  \delta > 0, c > 0$, $\exists k > N$ such that $\exists x < \epsilon$
+  \begin{equation}
+    \label{eq:opposite_claim}
+    \P\left[
+      X_k \in [x, x + dx)
+    \right] > c x^\delta dx
+  \end{equation}
+  Suppose $[a_i, b_i) \subseteq [0, \epsilon)$, $i = 1, 2, \dots$ are
+  intervals on which \eqref{eq:opposite_claim} holds. Then
+  \begin{eqnarray*}
+    \E X_k \1{X_k < \epsilon} &\geq&
+    c \sum_{i} \int_{a_i}^{b_i} x \P(X_k \in [x, x+dx)) \\
+    &>& {c \over \delta + 2} \sum_i
+    (b_i^{\delta + 2} - a_i^{\delta + 2})
+  \end{eqnarray*}
+  Clearly $c$ can be chosen to satisfy
+  \begin{eqnarray*}
+    \E X_k > \E X_k \1{X_k < \epsilon} > {c \over \delta + 2} \sum_i
+    (b_i^{\delta + 2} - a_i^{\delta + 2}) > 1
+  \end{eqnarray*}
+  But the results of Buraczewski, Damek and Mikosch imply that $\E
+  \|A_k \cdots A_1\|^\xi$ can be as close to 1 as is desired if $k$ is
+  sufficiently large \cite{BuraczewskiDamekMikosch2015}. Thus a
+  contradiction arises and the claim must be true.
+\end{proof}
+
 \begin{theorem}
   The estimator $\mathcal E_u$ has bounded relative error, i.e.
   \begin{equation*}
@@ -307,7 +347,8 @@ Now, to prove \eqref{eq:drift}, consider
 \begin{proof}
   The claim is equivalent to
   \[
-  \limsup_{u \to \infty} {\E_{\mathcal D} \mathcal E_u^2 \over [\P(|V| > u)]^2} < \infty
+  \limsup_{u \to \infty} {\E_{\mathcal D} \mathcal E_u^2 \over [\P(|V|
+    > u)]^2} < \infty
   \]
   By Kesten's theorem \cite{Kesten1973}, $\P(|V| > u) \sim C
   u^{-\xi}$. Hence, to prove the claim, one needs to check
@@ -496,70 +537,57 @@ Now, to prove \eqref{eq:drift}, consider
         The same arguments that lead to \eqref{eq:xi_above_half_final}
         show $f(\xi) < \infty$.
     \end{enumerate}
-  \item Now we consider the case $\lambda(-\xi) = \infty$ with an
-    addition assumption:
-    \[
-    \inf_{0 < \alpha < \xi}\lambda(\alpha) < {1 \over \E\|A\|^\xi}
-    \]
+  \item Now we consider the case $\lambda(-\xi) = \infty$ with some
+    addition assumptions:
+    \begin{enumerate}
+    \item All the singular values of $A$ are non-zero;
+    \item  Denote the smallest singular value of $A$ as $\eta$. The
+      following is assumed true:
+      \begin{equation}
+        \label{eq:deepness}
+        \inf_{0 < \alpha < \xi}\lambda(\alpha) < \eta^2
+      \end{equation}
+    \end{enumerate}
     First observe
-    \[
-    M < |V_n|\1{n < \tau}
-    \]
-    where $M$ characterizes the set $\mathcal C$ defined in
-    \eqref{eq:C_set}. Then it follows
-    \begin{eqnarray}
-      M < \sum_{i=0}^n \|A_n \cdots A_{i+1}\||B_i| \1{n < \tau} 
-      \text{ a.s.}\label{eq:outside_C_cond}
-    \end{eqnarray}
-    This implies
-    \begin{eqnarray}
-      \min_{0 \leq i \leq n} \inf_{A_n, \dots, A_{i+1}, B_i} |A_n
-      \cdots A_{i+1} B_i|\1{n < \tau} > {M \over n+1} \label{eq:min_inf_cond}
-    \end{eqnarray}
-    since otherwise it may happen with non-zero probability that each
-    $|A_n \cdots A_{i+1} B_i|$ takes a value so close to its infimum
-    that their sum falls below $M$, violating
-    \eqref{eq:outside_C_cond}. \eqref{eq:min_inf_cond} leads to
     \begin{equation}
-      \inf_{A_n, \dots, A_1}|A_n, \cdots, A_1 \tilde{V_0}| \1{n < \tau}
-      > {M \over |V_0| (n+1)} := M_n \label{eq:lower_bound}
+      \label{eq:lower_bound}
+      |A_k \cdots A_1 \tilde V_0| > \eta^k
     \end{equation}
-    Now we may evaluate $\E {1 \over |A_{T_u}, \cdots A_1
-      V_0|^{\xi}}\1{n \leq T_u < \tau}$ as
-    follows:
+    Then $\E {1 \over |A_{T_u}, \cdots A_1 V_0|^{\xi}}\1{n \leq T_u <
+      \tau}$ may be evaluated as follows:
     \begin{eqnarray*}
       && \E {1 \over |A_{T_u}, \cdots A_1 V_0|^\xi} \1{n \leq T_u < \tau}\\
       &=& {1 \over |V_0|^{\xi}} \sum_{k=n}^\infty \E {1 \over |A_k,
-        \cdots A_1 \tilde V_0|^{\xi}} \1{k < \tau} \P(T_u = k)
+        \cdots A_1 \tilde V_0|^{\xi}} \P(T_u = k)
     \end{eqnarray*}
     Using \eqref{eq:lower_bound} we obtain
     \begin{eqnarray*}
-      && \E {1 \over |A_k, \cdots A_1 \tilde V_0|^{\xi}} \1{k < \tau} \\
-      &\leq& \int_{M_k}^\infty {1 \over x} \P\left(
-        |A_k, \cdots A_1 \tilde V_0|^{\xi}\1{k < \tau} \in [x, x+ dx)
+      && \E {1 \over |A_k, \cdots A_1 \tilde V_0|^{\xi}}  \\
+      &\leq& \int_{\eta^k}^\infty {1 \over x} \P\left(
+        |A_k, \cdots A_1 \tilde V_0|^{\xi} \in [x, x+ dx)
       \right) \\
-      &\leq& M_k^{-2} \E \|A_k \cdots A_1\|^\xi \1{k < \tau}
+      &\leq& \eta^{-2k} \E \|A_k \cdots A_1\|^\xi 
     \end{eqnarray*}
     where in the last step we have used Markov's inequality. As argued
     in the previous case, $\forall a > 1$, $\exists N \geq 1$ such
     that $\forall k \geq N$, $\E \|A_k \cdots A_1\|^\xi < a^k
     \lambda(\xi)^k = a^k$. For $k < N$, $\E \|A_k \cdots A_1\|^\xi
-    \1{k < \tau} \leq (\E\|A\|^\xi)^k$. Thus we have
+     \leq (\E\|A\|^\xi)^k$. Thus we have
     \begin{eqnarray*}
       && \sum_{k=n}^\infty \E {1 \over |A_k, \cdots A_1 \tilde
-        V_0|^{\xi}} \1{k < \tau} \P(T_u = k) \\
+        V_0|^{\xi}}  \P(T_u = k) \\
       &\leq& c \sum_{k=n}^{N-1} {
         [\E \|A\|^\xi \lambda(\alpha)]^k
-        \over M_k^2
+        \over \eta^{2k}
       } + c \sum_{k=N}^\infty {
         a^k \lambda(\alpha)^k
-        \over M_k^2
-      }
+        \over \eta^{2k}
+      } < \infty
     \end{eqnarray*}
     where we have used $\P(T_u = k)\1{T_u < \tau} \leq \P(\tau > k-1)
     \leq c \lambda(\alpha)^k$ for some constant $c$ and $0 < \alpha <
-    \xi$. $\alpha$ and $a, N$ are chosen such that $\lambda(\alpha) < \min\{(\E
-    \|A\|^\xi)^{-1}, a^{-1}\}$.
+    \xi$. $\alpha$ and $a, N$ are chosen such that $\lambda(\alpha) <
+    \eta^2$.
   \end{enumerate}
 \end{proof}
 
