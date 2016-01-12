@@ -32,6 +32,7 @@ S_n &=& \log \|A_n \cdots A_1 x_0\| \\
 The pair $(X_n, S_n)$ is a Markov additive process with transition
 kernel $P$. Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
 \begin{enumerate}
+\item $\P(\|A\| = 0) = 0$
 \item The top Lyapunov exponent is negative, i.e.
   \begin{equation}
     \label{eq:neg_top_Lyapunov}
@@ -41,20 +42,6 @@ kernel $P$. Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
   $$
   \lambda(\xi) := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
   $$
-\item $\exists \epsilon > 1$ such that $\epsilon \xi > 1/2$ and
-  $\E[\|A\|^{\xi\epsilon}] < \infty$, $\E |B|^{\xi \epsilon} <
-  \infty$, $\lambda(\epsilon \xi) < \infty$. Moreover, in case $\xi <
-  1/(\epsilon + 1)$,
-  \begin{enumerate}
-  \item $\lambda(\epsilon \xi) < \lambda(-\xi)$
-  \item and the deepness of the function $\log \lambda(\cdot)$ is
-    assumed to satisfy
-    \begin{equation}
-      \label{eq:deepness}
-      \inf_{\beta \in R} \log \lambda(\beta) < - {1 \over 2\xi} \log
-      \lambda(-\epsilon \xi)
-    \end{equation}
-  \end{enumerate}
 \end{enumerate}
 
 \section{Consistency}\label{sec:consistency}
@@ -298,38 +285,39 @@ Now, to prove \eqref{eq:drift}, consider
   for some constant $K$.
 \end{remark}
 
-\begin{lemma}\label{eq:prob_bound}
-  $\exists N \geq 1, 0 < \epsilon < 1, \delta > 0, c > 0$ such that $\forall k \geq
-  N$, the following holds: $\forall x < \epsilon$
-  \[
-  \P\left[
-    \|A_k \cdots A_1\|^\xi \in [x, x + dx)
-  \right] \leq c x^\delta dx
-  \]
+\begin{lemma}\label{lemma:prob_bound}
+  $\exists N \geq 1, 0 < \epsilon < 1, \delta > 0, c > 0$ such that
+  $\forall k \geq N$, if $\|A_k \cdots A_1\|^\xi$ has a continuous
+  density function on $(a, b) \subseteq (0, \epsilon)$, then $\forall
+  x \in (a, b)$
+    \[
+    \P\left[
+      \|A_k \cdots A_1\|^\xi \in [x, x + dx)
+    \right] \leq c x^\delta dx
+    \]
 \end{lemma}
-
 \begin{proof}
-  For convenience, write $X_k$ for
-  $\|A_k \cdots A_1\|^\xi$.
-  Suppose the claim is untrue, i.e. $\forall N \geq 1, 0 < \epsilon < 1,
-  \delta > 0, c > 0$, $\exists k > N$ such that $\exists x < \epsilon$
+  For convenience, write $\Pi_k$ for $\|A_k \cdots A_1\|^\xi$. Suppose
+  the claim is false, i.e. $\forall N \geq 1, 0 < \epsilon < 1, (a, b)
+  \subseteq (0, \epsilon), \delta > 0, c > 0$, $\exists k > N$ such
+  that $\exists x \in  (a, b)$
   \begin{equation}
     \label{eq:opposite_claim}
     \P\left[
-      X_k \in [x, x + dx)
+      \Pi_k \in [x, x + dx)
     \right] > c x^\delta dx
   \end{equation}
-  Suppose $[a_i, b_i) \subseteq [0, \epsilon)$, $i = 1, 2, \dots$ are
+  Suppose $(a_i, b_i) \subseteq (a, b)$, $i = 1, 2, \dots$ are
   intervals on which \eqref{eq:opposite_claim} holds. Then
   \begin{eqnarray*}
-    \E X_k \1{X_k < \epsilon} &\geq&
-    c \sum_{i} \int_{a_i}^{b_i} x \P(X_k \in [x, x+dx)) \\
+    \E \Pi_k \1{a < \Pi_k < b} &\geq&
+    \sum_{i} \int_{a_i}^{b_i} x \P(\Pi_k \in [x, x+dx)) \\
     &>& {c \over \delta + 2} \sum_i
     (b_i^{\delta + 2} - a_i^{\delta + 2})
   \end{eqnarray*}
   Clearly $c$ can be chosen to satisfy
   \begin{eqnarray*}
-    \E X_k > \E X_k \1{X_k < \epsilon} > {c \over \delta + 2} \sum_i
+    \E \Pi_k > \E \Pi_k \1{a < \Pi_k < b} > {c \over \delta + 2} \sum_i
     (b_i^{\delta + 2} - a_i^{\delta + 2}) > 1
   \end{eqnarray*}
   But the results of Buraczewski, Damek and Mikosch imply that $\E
@@ -373,8 +361,9 @@ Now, to prove \eqref{eq:drift}, consider
      \right|^{2 \xi}
    \right] < \infty\\
  \end{eqnarray*}
-  In the rest of the proof, we write $c, c_1, c_2$ for constants whose values
-  have no importance and depend on the context.
+  In the rest of the proof, we write $c, c_1, c_2, \dots$ for
+  constants whose values have no importance and depend on the
+  context.
   \begin{enumerate}
   \item We first consider the case $\lambda(-\xi\epsilon) <
     \infty$.
@@ -537,57 +526,94 @@ Now, to prove \eqref{eq:drift}, consider
         The same arguments that lead to \eqref{eq:xi_above_half_final}
         show $f(\xi) < \infty$.
     \end{enumerate}
-  \item Now we consider the case $\lambda(-\xi) = \infty$ with some
-    addition assumptions:
-    \begin{enumerate}
-    \item All the singular values of $A$ are non-zero;
-    \item  Denote the smallest singular value of $A$ as $\eta$. The
-      following is assumed true:
-      \begin{equation}
-        \label{eq:deepness}
-        \inf_{0 < \alpha < \xi}\lambda(\alpha) < \eta^2
-      \end{equation}
-    \end{enumerate}
-    First observe
-    \begin{equation}
-      \label{eq:lower_bound}
-      |A_k \cdots A_1 \tilde V_0| > \eta^k
-    \end{equation}
-    Then $\E {1 \over |A_{T_u}, \cdots A_1 V_0|^{\xi}}\1{n \leq T_u <
-      \tau}$ may be evaluated as follows:
+  \item Now we consider the case $\lambda(-\xi) = \infty$. In this
+    case we assume in addition $\E {1 \over \sigma^{\uparrow}_1(A)^\xi}
+    < \infty$ where $\sigma^{\uparrow}_1(A)$ denotes the smallest
+    singular value of $A$. Suppose $\Pi_k = \|A_k \cdots A_1\|^\xi$
+    has atoms $d_{k,1} < d_{k,2} < \dots$, which form a set $\mathscr S_k$,
+    and everywhere else on its support it has a density function.
+
+    By lemma \ref{lemma:prob_bound}, $\exists \epsilon > 0, \delta > 0, b
+    > 0$ such that, when $k$ is sufficiently large, the density of $\Pi_k$
+    is bounded by $b x^\delta $. Moreover, as argued in the previous
+    case, $\forall a > 1$, $\exists N \geq 1$ such that $\forall k
+    \geq N$, $\E \Pi_k < a^k \lambda(\xi)^k = a^k$.
+    Thus
     \begin{eqnarray*}
       && \E {1 \over |A_{T_u}, \cdots A_1 V_0|^\xi} \1{n \leq T_u < \tau}\\
       &=& {1 \over |V_0|^{\xi}} \sum_{k=n}^\infty \E {1 \over |A_k,
-        \cdots A_1 \tilde V_0|^{\xi}} \P(T_u = k)
+        \cdots A_1 \tilde V_0|^{\xi}} \P(T_u = k) \1{T_u < \tau} \\
+      &\leq& {1 \over |V_0|^\xi} \sum_{k=n}^{N-1}
+      \E {1 \over |A_k \cdots A_1 \tilde V_0|^\xi}  \P(T_u = k) \1{T_u
+        < \tau}\\
+      &+& {c \over |V_0|^\xi} \sum_{k=N}^{\infty}
+      \E {1 \over \|A_k \cdots A_1\|^\xi}  \P(T_u = k) \1{T_u
+        < \tau}
+      \end{eqnarray*}
+      where $N$ is chosen sufficiently large. In the last step we have
+      used the result of Kesten
+      \cite{Kesten1973}:
+      \[
+      \lim_{k \to \infty} {1 \over k} \log |A_k \cdots A_1 \tilde V_0|
+      = \lim_{k \to \infty} {1 \over k} \log \|A_k \cdots A_1\| =
+      \gamma < 0
+      \]
+      where $\gamma$ is the top Lyapunov exponent. Thus, when $k$ is
+      sufficiently large, $|A_k \cdots A_1 \tilde V_0|^\xi = q(k)^k \|A_k
+      \cdots A_1\|^\xi$ for some $q(k) < 1$ and $q(k) \to 1$ as $k \to
+      \infty$. Continuing the above calculation we have
+      \begin{eqnarray*}
+        && \sum_{k=N}^{\infty}
+        \E {1 \over \|A_k \cdots A_1\|^\xi}  \P(T_u = k) \1{T_u
+          < \tau} \\
+      &\leq& \sum_{k=N}^\infty \left[
+        \int_{0}^\epsilon b x^{\delta - 1} dx + {1 \over
+          \epsilon}\P(\Pi_k > \epsilon)
+      \right]
+      \1{\Pi_k \notin \mathscr S_k} \P(T_u = k) \1{T_u < \tau} \\
+      &+& \sum_{k=N}^\infty \sum_{i} \pi_i^{-1} \P(\Pi_k = \pi_i) \P(T_u =
+      k) \1{T_u < \tau} \\
+      &\leq& \sum_{k=N}^\infty \left[
+        ({b \over \delta}\epsilon^\delta + \epsilon^{-2} \E \Pi_k)
+        \1{\Pi_k \notin \mathscr S_k} + {1 \over \pi_1} \P(\Pi_k \in
+        \mathscr S_k) \1{\Pi_k \notin \mathscr S_k}\right] \times \\
+      && \P(T_u = k) \1{T_u < \tau}
     \end{eqnarray*}
-    Using \eqref{eq:lower_bound} we obtain
+It follows
     \begin{eqnarray*}
-      && \E {1 \over |A_k, \cdots A_1 \tilde V_0|^{\xi}}  \\
-      &\leq& \int_{\eta^k}^\infty {1 \over x} \P\left(
-        |A_k, \cdots A_1 \tilde V_0|^{\xi} \in [x, x+ dx)
-      \right) \\
-      &\leq& \eta^{-2k} \E \|A_k \cdots A_1\|^\xi 
+      S_1 &\leq& \sum_{k=n}^{N-1} \E {
+        1 \over
+        \sigma^{\uparrow}_1(A_k)^\xi \cdots \sigma^{\uparrow}_1(A_1)^\xi
+      } \P(T_u = k) \1{T_u < \tau} \\
+      &\leq& \sum_{k=n}^{N-1} \left[
+        \E {1 \over
+          \sigma^{\uparrow}_1(A_1)^\xi          
+        }
+      \right]^k \P(T_u = k) \1{T_u < \tau} < \infty
     \end{eqnarray*}
-    where in the last step we have used Markov's inequality. As argued
-    in the previous case, $\forall a > 1$, $\exists N \geq 1$ such
-    that $\forall k \geq N$, $\E \|A_k \cdots A_1\|^\xi < a^k
-    \lambda(\xi)^k = a^k$. For $k < N$, $\E \|A_k \cdots A_1\|^\xi
-     \leq (\E\|A\|^\xi)^k$. Thus we have
     \begin{eqnarray*}
-      && \sum_{k=n}^\infty \E {1 \over |A_k, \cdots A_1 \tilde
-        V_0|^{\xi}}  \P(T_u = k) \\
-      &\leq& c \sum_{k=n}^{N-1} {
-        [\E \|A\|^\xi \lambda(\alpha)]^k
-        \over \eta^{2k}
-      } + c \sum_{k=N}^\infty {
-        a^k \lambda(\alpha)^k
-        \over \eta^{2k}
-      } < \infty
+      S_2 &\leq& {1 \over |V_0|^\xi} \sum_{k=N}^\infty
+      (c\epsilon^\delta + \epsilon^{-2} \E \Pi_k) \P(T_u = k) \1{T_u < \tau} \\
+      &\leq& {1 \over |V_0|^\xi} \sum_{k=N}^\infty
+      (c\epsilon^\delta + \epsilon^{-2} a^k) \P(T_u = k) \1{T_u < \tau} \\
     \end{eqnarray*}
-    where we have used $\P(T_u = k)\1{T_u < \tau} \leq \P(\tau > k-1)
-    \leq c \lambda(\alpha)^k$ for some constant $c$ and $0 < \alpha <
-    \xi$. $\alpha$ and $a, N$ are chosen such that $\lambda(\alpha) <
-    \eta^2$.
+    where the last step follows from Markov's inequality. Now we note
+    $\P(T_u = k)\1{T_u < \tau} \leq \P(\tau > k-1) \leq c
+    \lambda(\alpha)^k$ for some constant $c$ and $0 < \alpha <
+    \xi$. We choose $\alpha$ and $a, N$ appropriately so that
+    $\lambda(\alpha) <  a^{-1} < 1$, and as a result $S_2 < \infty$.
+    As for $S_3$, we have
+    \begin{eqnarray*}
+      S_3 &=& \sum_{k=N}^\infty \P(T_u = k)\1{T_u < \tau}
+      \sum_{j} {1 \over d_{k,j}} \P(|A_k \cdots A_1 \tilde V_0|^\xi =
+      d_{k,j}) \\
+      &\leq& \sum_{k=N}^\infty \P(T_u = k)\1{T_u < \tau} d_{k,1}^{-1}
+      \P (|A_k \cdots A_1 \tilde V_0|^\xi \in \mathscr S_k)
+    \end{eqnarray*}
+    Since $\min_{k \geq 1} d_{k,1} < \infty$, we have
+    \begin{eqnarray*}
+      && S_3 \leq c \sum_{k=N}^\infty \lambda(\alpha)^k < \infty
+    \end{eqnarray*}
   \end{enumerate}
 \end{proof}
 
