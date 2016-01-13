@@ -286,45 +286,75 @@ Now, to prove \eqref{eq:drift}, consider
 \end{remark}
 
 \begin{lemma}\label{lemma:prob_bound}
-  $\exists N \geq 1, 0 < \epsilon < 1, \delta > 0, c > 0$ such that
-  $\forall k \geq N$, if $\|A_k \cdots A_1\|^\xi$ has a continuous
-  density function on $(a, b) \subseteq (0, \epsilon)$, then $\forall
-  x \in (a, b)$
-    \[
+  Assume $\lambda(\zeta) < \infty$. For any given $0 < \epsilon < 1$,
+  $\exists N \geq 1, c > 0$ such that $\forall k \geq N$, if $\|A_k \cdots
+  A_1\|^\zeta$ has a continuous density function on $(a, b) \subseteq
+  (0, \epsilon)$, then $\forall x \in (a, b)$
+  \begin{equation}
+    \label{eq:prob_bound}
     \P\left[
-      \|A_k \cdots A_1\|^\xi \in [x, x + dx)
-    \right] \leq c x^\delta dx
-    \]
+      \|A_k \cdots A_1\|^\zeta \in [x, x + dx)
+    \right] \leq c^k x^{k-1} dx
+  \end{equation}
 \end{lemma}
 \begin{proof}
-  For convenience, write $\Pi_k$ for $\|A_k \cdots A_1\|^\xi$. Suppose
-  the claim is false, i.e. $\forall N \geq 1, 0 < \epsilon < 1, (a, b)
-  \subseteq (0, \epsilon), \delta > 0, c > 0$, $\exists k > N$ such
-  that $\exists x \in  (a, b)$
-  \begin{equation}
-    \label{eq:opposite_claim}
+  For convenience, write $\Pi_k$ for $\|A_k \cdots A_1\|^\zeta$. Suppose
+  the inequality \eqref{eq:prob_bound} does not hold, i.e. given
+  $\epsilon < 1$, $\forall N \geq 1, (a, b) \subseteq (0, \epsilon), c
+  > 0$, $\exists k > N$ such that $\exists x \in  (a, b)$
+  \begin{equation*}
     \P\left[
       \Pi_k \in [x, x + dx)
-    \right] > c x^\delta dx
-  \end{equation}
+    \right] > c^k x^{k-1} dx
+  \end{equation*}
   Suppose $(a_i, b_i) \subseteq (a, b)$, $i = 1, 2, \dots$ are
-  intervals on which \eqref{eq:opposite_claim} holds. Then
+  intervals on which \eqref{eq:prob_bound} is not true. For
+  convenience, let $a_i < a_{i+1}$ and $b_i < b_{i+1}$. Then
   \begin{eqnarray*}
     \E \Pi_k \1{a < \Pi_k < b} &\geq&
     \sum_{i} \int_{a_i}^{b_i} x \P(\Pi_k \in [x, x+dx)) \\
-    &>& {c \over \delta + 2} \sum_i
-    (b_i^{\delta + 2} - a_i^{\delta + 2})
+    &>& {c^k \over k + 1} \sum_i
+    (b_i^{k+1} - a_i^{k+1})
   \end{eqnarray*}
-  Clearly $c$ can be chosen to satisfy
+  By the mean value theorem, $\exists t_i \in (a_i, b_i)$ such that
+  $(b_i - a_i)(k+1) t_i^k = b_i^{k+1} - a_i^{k+1}$. So we have
   \begin{eqnarray*}
-    \E \Pi_k > \E \Pi_k \1{a < \Pi_k < b} > {c \over \delta + 2} \sum_i
-    (b_i^{\delta + 2} - a_i^{\delta + 2}) > 1
+    \E \Pi_k \1{a < \Pi_k < b} &>& \sum_i (b_i - a_i) (c t_i)^k \\
+    &\geq& (c a_1)^k (b - a) \\
+    (\E \Pi_k \1{a < \Pi_k < b})^{1/k} &>& c a_1 (b - a)^{1/k}
   \end{eqnarray*}
-  But the results of Buraczewski, Damek and Mikosch imply that $\E
-  \|A_k \cdots A_1\|^\xi$ can be as close to 1 as is desired if $k$ is
+  Since $(b - a)^{1/k} \to 1$ from below as $k \to \infty$ (Note $b -
+  a < \epsilon < 1$), $\forall \delta < 1$, k can be chosen
+  sufficiently large such that $(b-a)^{1/k} > \delta$. Therefore, for
+  an arbitrary $d > 0$ if $c$ is chosen to be larger than
+  ${d\lambda(\zeta) \over a_1 \delta}$ and $k$ chosen sufficiently
+  large, we have
+  \[
+  (\E \Pi_k \1{a < \Pi_k < b})^{1/k} > d \lambda(\zeta)
+  \]
+  But the results of Buraczewski, Damek and Mikosch imply that $(\E
+  \Pi_k)^{1/k} \leq d \lambda(\zeta)$ for arbitrary $d > 1$ when $k$ is
   sufficiently large \cite{BuraczewskiDamekMikosch2015}. Thus a
   contradiction arises and the claim must be true.
 \end{proof}
+
+\begin{remark}\label{remark:inf_c}
+  Let $g_k(x)$ denote the density function of $\Pi_k$. Consider the
+  scenario where $g_k(x)$ exists on $(0, \epsilon)$, $\epsilon < 1$
+  and $\epsilon$ is so small that $g_k(x)$ is continuous, strictly
+  increasing and less than 1. Then the smallest $c$ satisfying
+  \eqref{eq:prob_bound} of lemma \ref{lemma:prob_bound} is the one
+  given by
+  \[
+  c^k \epsilon^{k-1} = g_k(\epsilon)
+  \]
+  Obviously
+  \[
+  c = \left[
+    {g_k(\epsilon) \over \epsilon^{k-1}}
+  \right]^{1/k} < 1/\epsilon
+  \]
+\end{remark}
 
 \begin{theorem}
   The estimator $\mathcal E_u$ has bounded relative error, i.e.
@@ -340,7 +370,8 @@ Now, to prove \eqref{eq:drift}, consider
   \]
   By Kesten's theorem \cite{Kesten1973}, $\P(|V| > u) \sim C
   u^{-\xi}$. Hence, to prove the claim, one needs to check
-  $u^{2\xi}\E_{\mathcal D} \mathcal E_u^2 < \infty$, i.e.
+  $\limsup_{u \to \infty} u^{2\xi}\E_{\mathcal D} \mathcal E_u^2 <
+  \infty$, i.e.
   \[
   \limsup_{u \to \infty} \E_{\mathcal D}  \left[u^{2\xi}
     N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r^2(x_0; \xi)
@@ -348,7 +379,7 @@ Now, to prove \eqref{eq:drift}, consider
  \]
  Using the fact $|V_{T_u}| > u$, and that $r(\cdot; \xi)$ is bounded
  from above and below, it suffices to show
- \begin{eqnarray*}
+ \begin{eqnarray}
    f(\xi) &=& \limsup_{u \to \infty} \E_{\mathcal D} \left[
      \left|
        \sum_{n=0}^{T_u}
@@ -359,8 +390,8 @@ Now, to prove \eqref{eq:drift}, consider
        }
        \1{T_u < \tau}
      \right|^{2 \xi}
-   \right] < \infty\\
- \end{eqnarray*}
+   \right] < \infty \label{eq:efficiency_target}
+ \end{eqnarray}
   In the rest of the proof, we write $c, c_1, c_2, \dots$ for
   constants whose values have no importance and depend on the
   context.
@@ -385,7 +416,7 @@ Now, to prove \eqref{eq:drift}, consider
             \right|^{2 \xi}
           \right]^{1/2\xi}
         \right\}^{2\xi} \nonumber \\
-        &\leq& \limsup_{u \to \infty}
+        &\leq& c \limsup_{u \to \infty}
         \left\{
           \sum_{n=0}^{\infty}
           \left[
@@ -401,7 +432,7 @@ Now, to prove \eqref{eq:drift}, consider
           |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
           \1{n \leq T_u < \tau} \right]^{1/2\xi} \nonumber \\
         &\leq& (\E_{-\xi} N_u^{2r})^{1/2r\xi}
-        (\E_{-\xi}|B_n|^{2s\xi})^{1/2s\xi}  \nonumber \\
+        (\E_{-\xi}|B_n|^{2s\xi})^{1/2s\xi}  \times \nonumber \\
         && (\E_{-\xi} \|A_{T_u} \cdots A_{n+1}\|^{2s\xi}
         \1{n \leq T_u < \tau})^{1/2s\xi}
         \label{eq:xi_above_half}
@@ -469,9 +500,8 @@ Now, to prove \eqref{eq:drift}, consider
       for some $\alpha \in (0, 2\xi]$. Now we turn to $(\E_{-\xi}
       N_u^{2r})^{1/2r\xi}$:
       \begin{eqnarray}
-        && \E_{-\xi} N_u^{2r} \nonumber \\
-        &\leq& \E_{-\xi} \tau^{2r} \nonumber \\
-        &\leq& \sum_{k=1}^{\infty} k^{2r} \P_{-\xi}(\tau > k-1)
+        \E_{-\xi} N_u^{2r} \leq \E_{-\xi} \tau^{2r} &\leq&
+        \sum_{k=1}^{\infty} k^{2r} \P_{-\xi}(\tau > k-1)
         \nonumber \\
         &\leq& c_1 + c_2 \sum_{k=2}^{\infty} k^{2r}
         \lambda_{-\xi}(\alpha)^{k-2} < \infty \label{eq:Nu}
@@ -483,16 +513,15 @@ Now, to prove \eqref{eq:drift}, consider
           \E |B_n|^{\xi(2s - 1)}
           \over
           \E |B_n|^{-\xi}
-        } \nonumber \\
-        &\leq& \E |B|^{\epsilon \xi} \E |B|^{\xi} < \infty \label{eq:Bn}
+        } \leq \E |B|^{\epsilon \xi} \E |B|^{\xi} < \infty \label{eq:Bn}
       \end{eqnarray}
       Combining \eqref{eq:norm_term}, \eqref{eq:Nu}, \eqref{eq:Bn} and
       \eqref{eq:xi_above_half} we get
       \begin{eqnarray}
-        && \left[ \E_{-\xi} N_u^2 
+        \left[ \E_{-\xi} N_u^2 
           |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
-          \1{n \leq T_u < \tau} \right]^{1/2\xi} \nonumber \\
-        &\leq& c \lambda_{-\xi}(\alpha)^n \label{eq:xi_above_half_final}
+          \1{n \leq T_u < \tau} \right]^{1/2\xi} \leq c
+        \lambda_{-\xi}(\alpha)^n \label{eq:xi_above_half_final}
       \end{eqnarray}
       Inserting RHS of the above into \eqref{eq:xi_above_half_prel}
       gives
@@ -503,8 +532,8 @@ Now, to prove \eqref{eq:drift}, consider
           |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
           \1{n \leq T_u < \tau}
         \right]^{1/2\xi} \\
-        &\leq& c \sum_{n=0}^{\infty} \lambda_{-\xi}(\alpha)^n \\
-        &=& {c \over 1 - \lambda_{-\xi}(\alpha)}
+        &\leq& c \sum_{n=0}^{\infty} \lambda_{-\xi}(\alpha)^n
+        = {c \over 1 - \lambda_{-\xi}(\alpha)}
       \end{eqnarray*}
       From this it is clear $f(\xi) < \infty$.
       \item If $\xi < 1/2$, the function $(\cdot)^{2\xi}$ is
@@ -529,16 +558,15 @@ Now, to prove \eqref{eq:drift}, consider
   \item Now we consider the case $\lambda(-\xi) = \infty$. In this
     case we assume in addition $\E {1 \over \sigma^{\uparrow}_1(A)^\xi}
     < \infty$ where $\sigma^{\uparrow}_1(A)$ denotes the smallest
-    singular value of $A$. Suppose $\Pi_k = \|A_k \cdots A_1\|^\xi$
+    singular value of $A$.
+    
+    First of all, we show
+    \[
+    \E {1 \over |A_{T_u} \cdots A_1 V_0|^\xi}\1{n \leq T_u < \tau} < \infty
+    \]
+    Suppose $\Pi_k = \|A_k \cdots A_1\|^\xi$
     has atoms $d_{k,1} < d_{k,2} < \dots$, which form a set $\mathscr S_k$,
-    and everywhere else on its support it has a density function.
-
-    By lemma \ref{lemma:prob_bound}, $\exists \epsilon > 0, \delta > 0, b
-    > 0$ such that, when $k$ is sufficiently large, the density of $\Pi_k$
-    is bounded by $b x^\delta $. Moreover, as argued in the previous
-    case, $\forall a > 1$, $\exists N \geq 1$ such that $\forall k
-    \geq N$, $\E \Pi_k < a^k \lambda(\xi)^k = a^k$.
-    Thus
+    and everywhere else on its support it has a density function. We have
     \begin{eqnarray*}
       && \E {1 \over |A_{T_u}, \cdots A_1 V_0|^\xi} \1{n \leq T_u < \tau}\\
       &=& {1 \over |V_0|^{\xi}} \sum_{k=n}^\infty \E {1 \over |A_k,
@@ -566,22 +594,71 @@ Now, to prove \eqref{eq:drift}, consider
         && \sum_{k=N}^{\infty}
         \E {1 \over \|A_k \cdots A_1\|^\xi}  \P(T_u = k) \1{T_u
           < \tau} \\
-      &\leq& \sum_{k=N}^\infty \left[
-        \int_{0}^\epsilon b x^{\delta - 1} dx + {1 \over
-          \epsilon}\P(\Pi_k > \epsilon)
-      \right]
-      \1{\Pi_k \notin \mathscr S_k} \P(T_u = k) \1{T_u < \tau} \\
-      &+& \sum_{k=N}^\infty \sum_{i} \pi_i^{-1} \P(\Pi_k = \pi_i) \P(T_u =
-      k) \1{T_u < \tau} \\
-      &\leq& \sum_{k=N}^\infty \left[
-        ({b \over \delta}\epsilon^\delta + \epsilon^{-2} \E \Pi_k)
-        \1{\Pi_k \notin \mathscr S_k} + {1 \over \pi_1} \P(\Pi_k \in
-        \mathscr S_k) \1{\Pi_k \notin \mathscr S_k}\right] \times \\
-      && \P(T_u = k) \1{T_u < \tau}
-    \end{eqnarray*}
-It follows
+        &=& \sum_{k=N}^{\infty}
+        \left(
+          \E {1 \over \Pi_k}\1{\Pi_k \notin \mathscr S_k}
+          + \E {1 \over \Pi_k}\1{\Pi_k \in \mathscr S_k}
+        \right) \P(T_u = k) \1{T_u < \tau} \\
+        &=& S_1 + S_2
+      \end{eqnarray*}
+      \begin{enumerate}
+      \item If $\inf \mathscr S_k^\complement > 0$, choose $\epsilon = \inf \mathscr
+        S_k^\complement$. In this case
+        \begin{eqnarray*}
+          S_1 &\leq& \sum_{k=N}^\infty \int_\epsilon^\infty
+          {1 \over x}
+          \P(T_u = k) \1{T_u < \tau} \\
+          &\leq& \epsilon^{-2} \sum_{k=N}^\infty \E \Pi_k
+          \P(T_u = k) \1{T_u < \tau}
+        \end{eqnarray*}
+        As argued in the previous case, for $k$ sufficiently large,
+        $\E \Pi_k \leq a^k \lambda(\xi)^k = a^k$ for an arbitrary $a >
+        1$. Meanwhile, $\P(T_u = k)\1{T_u < \tau} \leq \P(\tau >
+        k-1) \leq c \lambda(\alpha)^k$ for some constant $c$ and $0 <
+        \alpha < \xi$. We choose $\alpha$ and $a, N$ appropriately so
+        that $\lambda(\alpha) <  a^{-1} < 1$. Then $S_1 < \infty$.
+
+      \item If $\inf \mathscr S_k^\complement = 0$, choose $\epsilon$
+        as small as is considered in remark \ref{remark:inf_c}. In
+        this case
+        \begin{eqnarray*}
+          S_1 &=& \sum_{k=N}^{\infty} \E {1 \over \Pi_k}\1{\Pi_k \notin
+            \mathscr S_k} \P(T_u = k) \1{T_u < \tau} \\
+          &\leq& \sum_{k=N}^{\infty} \left(
+            \int_{0}^\epsilon \delta^k x^{k-2} dx
+            + \epsilon^{-2} \E\Pi_k
+          \right) \P(T_u = k) \1{T_u < \tau} \\
+          &=& c + \sum_{k=N}^\infty
+          {\delta^{k} \over k-1} \epsilon^{k-1} \P(T_u = k) \1{T_u < \tau}
+        \end{eqnarray*}
+        As shown in remark \ref{remark:inf_c}, $\delta \epsilon < 1$
+        when $\epsilon$ is chosen sufficiently small and $\delta$ chosen
+        as the minimum allowed in this case. So we have
+        \begin{eqnarray*}
+          S_1 &\leq& c + c_1 \sum_{k=N}^\infty [\delta \epsilon
+          \lambda(\alpha)]^k
+        \end{eqnarray*}
+        Since $\delta \epsilon \lambda(\alpha) < 1$, $S_1 < \infty$.
+      \end{enumerate}
+      As regard $S_2$, we have
+      \begin{eqnarray*}
+        S_2 &=& \sum_{k=N}^{\infty}
+        \E {1 \over \Pi_k}\1{\Pi_k \in \mathscr S_k}
+        \P(T_u = k) \1{T_u < \tau} \\
+        &=& \sum_{k=N}^\infty \P(T_u = k)\1{T_u < \tau}
+        \sum_{j} {1 \over d_{k,j}} \P(\Pi_k = d_{k,j}) \\
+        &\leq& \sum_{k=N}^\infty \P(T_u = k)\1{T_u < \tau} d_{k,1}^{-1}
+        \P (\Pi_k \in \mathscr S_k)
+      \end{eqnarray*}
+      Since $\min_{k \geq 1} d_{k,1} > 0$, we have
+      \begin{eqnarray*}
+        && S_2 \leq c \sum_{k=N}^\infty \lambda(\alpha)^k < \infty
+      \end{eqnarray*}
+      Finally
     \begin{eqnarray*}
-      S_1 &\leq& \sum_{k=n}^{N-1} \E {
+      && \sum_{k=n}^{N-1}
+      \E {1 \over \Pi_k} \P(T_u = k) \1{T_u < \tau}\\ 
+      &\leq& \sum_{k=n}^{N-1} \E {
         1 \over
         \sigma^{\uparrow}_1(A_k)^\xi \cdots \sigma^{\uparrow}_1(A_1)^\xi
       } \P(T_u = k) \1{T_u < \tau} \\
@@ -591,29 +668,46 @@ It follows
         }
       \right]^k \P(T_u = k) \1{T_u < \tau} < \infty
     \end{eqnarray*}
-    \begin{eqnarray*}
-      S_2 &\leq& {1 \over |V_0|^\xi} \sum_{k=N}^\infty
-      (c\epsilon^\delta + \epsilon^{-2} \E \Pi_k) \P(T_u = k) \1{T_u < \tau} \\
-      &\leq& {1 \over |V_0|^\xi} \sum_{k=N}^\infty
-      (c\epsilon^\delta + \epsilon^{-2} a^k) \P(T_u = k) \1{T_u < \tau} \\
-    \end{eqnarray*}
-    where the last step follows from Markov's inequality. Now we note
-    $\P(T_u = k)\1{T_u < \tau} \leq \P(\tau > k-1) \leq c
-    \lambda(\alpha)^k$ for some constant $c$ and $0 < \alpha <
-    \xi$. We choose $\alpha$ and $a, N$ appropriately so that
-    $\lambda(\alpha) <  a^{-1} < 1$, and as a result $S_2 < \infty$.
-    As for $S_3$, we have
-    \begin{eqnarray*}
-      S_3 &=& \sum_{k=N}^\infty \P(T_u = k)\1{T_u < \tau}
-      \sum_{j} {1 \over d_{k,j}} \P(|A_k \cdots A_1 \tilde V_0|^\xi =
-      d_{k,j}) \\
-      &\leq& \sum_{k=N}^\infty \P(T_u = k)\1{T_u < \tau} d_{k,1}^{-1}
-      \P (|A_k \cdots A_1 \tilde V_0|^\xi \in \mathscr S_k)
-    \end{eqnarray*}
-    Since $\min_{k \geq 1} d_{k,1} < \infty$, we have
-    \begin{eqnarray*}
-      && S_3 \leq c \sum_{k=N}^\infty \lambda(\alpha)^k < \infty
-    \end{eqnarray*}
+    Thus we have established
+    \[
+    \E {1 \over |A_{T_u} \cdots A_1 V_0|^\xi}\1{n \leq T_u < \tau} < \infty
+    \]
+    \begin{enumerate}
+    \item if $\xi > 1/2$, using Minkowski's inequality on RHS of
+      \eqref{eq:efficiency_target} leads to
+      \begin{eqnarray*}
+        f(\xi) &\leq& \limsup_{u \to \infty}
+        \left\{
+          \sum_{n=0}^{\infty}
+          \left[
+            \E_{\mathcal D} \left|
+              N_u^{1/\xi}
+              \frac{
+                A_{T_u} \cdots A_{n+1} B_n 
+              }{
+                |A_{T_u} \cdots A_1 V_0|
+              }
+              \1{n \leq T_u < \tau}
+            \right|^{2 \xi}
+          \right]^{1/2\xi}
+        \right\}^{2\xi} \\
+        &\leq& c \limsup_{u \to \infty}
+        \left\{
+          \sum_{n=0}^{\infty}
+          \left[
+            \E \left(
+              N_u^2
+              \frac{
+                |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
+              }{
+                |A_{T_u} \cdots A_1 V_0|^\xi
+              }
+              \1{n \leq T_u < \tau}
+            \right)
+          \right]^{1/2\xi}
+        \right\}^{2\xi}
+      \end{eqnarray*}
+    \end{enumerate}
   \end{enumerate}
 \end{proof}
 
