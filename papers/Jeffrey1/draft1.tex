@@ -307,9 +307,7 @@ Now, to prove \eqref{eq:drift}, consider
   \subseteq (0, x_0)$, then $\forall x \in (a, b)$
   \begin{equation}
     \label{eq:prob_bound}
-    \P\left[
-      \|A_k \cdots A_1\|^\zeta \in [x, x + dx)
-    \right] \leq c^k x^{k-1} dx
+    g_k(x) \leq c^k x^{k-1}
   \end{equation}
 \end{lemma}
 \begin{proof}
@@ -318,31 +316,26 @@ Now, to prove \eqref{eq:drift}, consider
   $x_0 < 1$, $\forall N \geq 1, (a, b) \subseteq (0, x_0), c
   > 0$, $\exists k > N$ such that $\exists x \in  (a, b)$
   \begin{equation*}
-    \P\left[
-      \Pi_k \in [x, x + dx)
-    \right] > c^k x^{k-1} dx
+    g_k(x) > c^k x^{k-1}
   \end{equation*}
-  Suppose $(a_i, b_i) \subseteq (a, b)$, $i = 1, 2, \dots$ are
-  intervals on which \eqref{eq:prob_bound} is not true. For
-  convenience, let $a_i < a_{i+1}$ and $b_i < b_{i+1}$. Then
+  Suppose $(a_1, b_1) \subseteq (a, b)$, $i = 1, 2, \dots$ is
+  an interval on which \eqref{eq:prob_bound} is not true. Then
   \begin{eqnarray*}
     \E \Pi_k \1{a < \Pi_k < b} &\geq&
-    \sum_{i} \int_{a_i}^{b_i} x \P(\Pi_k \in [x, x+dx)) \\
-    &>& {c^k \over k + 1} \sum_i
-    (b_i^{k+1} - a_i^{k+1})
+    \int_{a_1}^{b_1} x \P(\Pi_k \in [x, x+dx)) \\
+    &>& {c^k \over k + 1} (b_1^{k+1} - a_1^{k+1})
   \end{eqnarray*}
-  By the mean value theorem, $\exists t_i \in (a_i, b_i)$ such that
-  $(b_i - a_i)(k+1) t_i^k = b_i^{k+1} - a_i^{k+1}$. So we have
+  By the mean value theorem, $\exists t \in (a_1, b_1)$ such that
+  $(b_1 - a_1)(k+1) t^k = b_1^{k+1} - a_1^{k+1}$. So we have
   \begin{eqnarray*}
-    \E \Pi_k \1{a < \Pi_k < b} &>& \sum_i (b_i - a_i) (c t_i)^k \\
-    &\geq& (c t_1)^k (b - a) \\
-    (\E \Pi_k \1{a < \Pi_k < b})^{1/k} &>& c t_1 (b - a)^{1/k}
+    \E \Pi_k \1{a < \Pi_k < b} &>& (c t)^k(b_1 - a_1) \\
+    (\E \Pi_k \1{a < \Pi_k < b})^{1/k} &>& c t (b_1 - a_1)^{1/k}
   \end{eqnarray*}
-  If $x_0 < 1$, $(b - a)^{1/k} \to 1$ from below as $k \to
+  If $x_0 < 1$, $(b_1 - a_1)^{1/k} \to 1$ from below as $k \to
   \infty$, then $\forall \delta < 1$, k can be chosen sufficiently
-  large such that $(b-a)^{1/k} > \delta$. Therefore, for an arbitrary
+  large such that $(b_1 - a_1)^{1/k} > \delta$. Therefore, for an arbitrary
   $d > 1$, if $c$ is chosen to be larger than ${d\lambda(\zeta) \over
-    t_1 \delta}$ and $k$ chosen sufficiently large, we have
+    t \delta}$ and $k$ chosen sufficiently large, we have
   \[
   (\E \Pi_k \1{a < \Pi_k < b})^{1/k} > d \lambda(\zeta)
   \]
@@ -350,7 +343,7 @@ Now, to prove \eqref{eq:drift}, consider
   that $(\E \Pi_k)^{1/k} \leq d \lambda(\zeta)$ for arbitrary $d > 1$
   when $k$ is sufficiently large \cite{BuraczewskiDamekMikosch2015}.
   If instead $b - a \geq 1$, it is obvious that $c$ can be chosen to
-  be larger than $d\lambda(\zeta)/t_1$ so that $(\E \Pi_k \1{a < \Pi_k
+  be larger than $d\lambda(\zeta)/t$ so that $(\E \Pi_k \1{a < \Pi_k
     < b})^{1/k} > d\lambda(\zeta)$.  So a contradiction arises in
   either case and hence the assertion must be true.
 \end{proof}
@@ -440,6 +433,8 @@ Now, to prove \eqref{eq:drift}, consider
           \left[
             \E_{-\xi} N_u^2 
             |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
+            \lambda(-\xi)^{T_u} \right. \right.\times \nonumber \\
+            &&   \left. \left.
             \1{n \leq T_u < \tau}
           \right]^{1/2\xi}
         \right\}^{2\xi} \label{eq:xi_above_half_prel}
@@ -448,8 +443,10 @@ Now, to prove \eqref{eq:drift}, consider
       \begin{eqnarray}
         && \left[ \E_{-\xi} N_u^2 
           |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
+          \lambda(-\xi)^{T_u}
           \1{n \leq T_u < \tau} \right]^{1/2\xi} \nonumber \\
         &\leq& (\E_{-\xi} N_u^{2r})^{1/2r\xi}
+        (\E_{-\xi} \lambda(-\xi)^{tT_u}\1{n \leq T_u < \tau})^{1/2t\xi}
         (\E_{-\xi}|B_n|^{2s\xi})^{1/2s\xi}  \times \nonumber \\
         && (\E_{-\xi} \|A_{T_u} \cdots A_{n+1}\|^{2s\xi}
         \1{n \leq T_u < \tau})^{1/2s\xi}
@@ -581,113 +578,125 @@ Now, to prove \eqref{eq:drift}, consider
       singular value of $A$ and $f_{\sigma_1^{\uparrow}}(x)$ denotes its
       density function.
     \end{enumerate}
-    First of all, we show
+    First of all, we show that under the above assumption, the density
+    function of $\Pi_k = \|A_k \cdots A_1\|^\zeta$, call it $g_k(x)$,
+    satisfies
     \[
-    \E {1 \over |A_{T_u} \cdots A_1 V_0|^\xi}\1{n \leq T_u < \tau} < \infty
+    g_k(0) = 0
     \]
-    Suppose $\Pi_k = \|A_k \cdots A_1\|^\xi$
-    has atoms $d_{k,1} < d_{k,2} < \dots$, which form a set $\mathscr S_k$,
-    and everywhere else on its support it has a density function. We have
+    where $\zeta$ satisfies $\lambda(\zeta) < \infty$. First note
+    \[
+    \Pi_k \geq \prod_{i=1}^k \sigma_1^{\uparrow}(A_i)^\zeta
+    \]
+    Therefore
     \begin{eqnarray*}
-      && \E {1 \over |A_{T_u}, \cdots A_1 V_0|^\xi} \1{n \leq T_u < \tau}\\
-      &=& {1 \over |V_0|^{\xi}} \sum_{k=n}^\infty \E {1 \over |A_k,
-        \cdots A_1 \tilde V_0|^{\xi}} \P(T_u = k) \1{T_u < \tau} \\
-      &\leq& {1 \over |V_0|^\xi} \sum_{k=n}^{N-1}
-      \E {1 \over |A_k \cdots A_1 \tilde V_0|^\xi}  \P(T_u = k) \1{T_u
-        < \tau} \\
-      &+& {1 \over |V_0|^\xi} \sum_{k=N}^{\infty}
-      \E {1 \over |A_k \cdots A_1  \tilde V_0|^\xi}  \P(T_u = k)
-      \1{T_u < \tau}
+      \P(\Pi_k \leq x) &\leq& k \P[\sigma_1^{\uparrow}(A_1)
+      \leq x^{1/k \zeta}] \leq c k \int_0^{x^{1/k\zeta}} e^{-1/y} dy
+    \end{eqnarray*}
+    Since
+    \[
+    \lim_{x \to 0} {k \int_0^{x^{1/k\zeta}} e^{-1/y} dy \over x} = 0
+    \]
+    we have
+    \[
+    g_k(0) = \lim_{x \to 0} {\P(\Pi_k \leq x) \over x} = 0
+    \]
+    Then by lemma \ref{lemma:prob_bound}, $g_k(x) \leq c^k x^{k-1}$
+    for any $x < 1$ and $k$ sufficiently large. Next we prove
+    \[
+    \E {1 \over |A_{T_u} \cdots A_1 V_0|^\zeta}\1{n \leq T_u < \tau} < \infty
+    \]
+    for any $\zeta > \xi$ that satisfies $\lambda(p\zeta) < \infty$ for some
+    $p > 1$. Observe
+    \begin{eqnarray*}
+      && \E {1 \over |A_{T_u}, \cdots A_1 V_0|^\zeta} \1{n \leq T_u < \tau}\\
+      &=& {1 \over |V_0|^{\zeta}} \left(
+        \sum_{k=n}^{N-1} + \sum_{k=N}^\infty
+      \right) \E {1 \over |A_k, \cdots A_1 \tilde V_0|^{\zeta}}
+      \1{T_u = k, k < \tau} \\
+      &=& {1 \over |V_0|^{\zeta}}(S_1 + S_2)
       \end{eqnarray*}
-      where $N$ is chosen sufficiently large. As Kesten showed in the
-      proof of theorem 2 of \cite{Kesten1973}, when $k$ is
-      sufficiently large, there exists a constant $C$ such that $|A_k
-      \cdots A_1 \tilde V_0| \geq C \|A_k \cdots A_1\|$. Thus we have
-      \begin{eqnarray*}
-        &&\sum_{k=N}^{\infty}
-        \E {1 \over |A_k \cdots A_1  \tilde V_0|^\xi}  \P(T_u = k)
-        \1{T_u < \tau} \\
-        &\leq& c \sum_{k=N}^{\infty}
-        \E {1 \over \|A_k \cdots A_1\|^\xi}  \P(T_u = k) \1{T_u
-          < \tau} \\
-        &=& c \sum_{k=N}^{\infty}
-        \left(
-          \E {1 \over \Pi_k}\1{\Pi_k \notin \mathscr S_k}
-          + \E {1 \over \Pi_k}\1{\Pi_k \in \mathscr S_k}
-        \right) \P(T_u = k) \1{T_u < \tau} \\
-        &=& c (S_1 + S_2)
-      \end{eqnarray*}
-      \begin{enumerate}
-      \item If $\inf \mathscr S_k^\complement > 0$, choose $\epsilon = \inf \mathscr
-        S_k^\complement$. In this case
-        \begin{eqnarray*}
-          S_1 &\leq& \sum_{k=N}^\infty \int_\epsilon^\infty
-          {1 \over x}
-          \P(T_u = k) \1{T_u < \tau} \\
-          &\leq& \epsilon^{-2} \sum_{k=N}^\infty \E \Pi_k
-          \P(T_u = k) \1{T_u < \tau}
-        \end{eqnarray*}
-        As argued in the previous case, for $k$ sufficiently large,
-        $\E \Pi_k \leq a^k \lambda(\xi)^k = a^k$ for an arbitrary $a >
-        1$. Meanwhile, $\P(T_u = k)\1{T_u < \tau} \leq \P(\tau >
-        k-1) \leq c \lambda(\alpha)^k$ for some constant $c$ and $0 <
-        \alpha < \xi$. We choose $\alpha$ and $a, N$ appropriately so
-        that $\lambda(\alpha) <  a^{-1} < 1$. Then $S_1 < \infty$.
-
-      \item If $\inf \mathscr S_k^\complement = 0$, choose $\epsilon$
-        as small as is considered in remark \ref{remark:inf_c}. In
-        this case
-        \begin{eqnarray*}
-          S_1 &=& \sum_{k=N}^{\infty} \E {1 \over \Pi_k}\1{\Pi_k \notin
-            \mathscr S_k} \P(T_u = k) \1{T_u < \tau} \\
-          &\leq& \sum_{k=N}^{\infty} \left(
-            \int_{0}^\epsilon \delta^k x^{k-2} dx
-            + \epsilon^{-2} \E\Pi_k
-          \right) \P(T_u = k) \1{T_u < \tau} \\
-          &=& c + \sum_{k=N}^\infty
-          {\delta^{k} \over k-1} \epsilon^{k-1} \P(T_u = k) \1{T_u < \tau}
-        \end{eqnarray*}
-        As shown in remark \ref{remark:inf_c}, $\delta \epsilon < 1$
-        when $\epsilon$ is chosen sufficiently small and $\delta$ chosen
-        as the minimum allowed in this case. So we have
-        \begin{eqnarray*}
-          S_1 &\leq& c + c_1 \sum_{k=N}^\infty [\delta \epsilon
-          \lambda(\alpha)]^k
-        \end{eqnarray*}
-        Since $\delta \epsilon \lambda(\alpha) < 1$, $S_1 < \infty$.
-      \end{enumerate}
-      As regard $S_2$, we have
+      where $N$ is chosen sufficiently large as explained in the following. As
+      Kesten showed in the proof of theorem 2 of \cite{Kesten1973},
+      when $k$ is sufficiently large, there exists a constant $C$ such
+      that $|A_k \cdots A_1 \tilde V_0| \geq C \|A_k \cdots A_1\|$. Thus we have
       \begin{eqnarray*}
         S_2 &=& \sum_{k=N}^{\infty}
-        \E {1 \over \Pi_k}\1{\Pi_k \in \mathscr S_k}
-        \P(T_u = k) \1{T_u < \tau} \\
-        &=& \sum_{k=N}^\infty \P(T_u = k)\1{T_u < \tau}
-        \sum_{j} {1 \over d_{k,j}} \P(\Pi_k = d_{k,j}) \\
-        &\leq& \sum_{k=N}^\infty \P(T_u = k)\1{T_u < \tau} d_{k,1}^{-1}
-        \P (\Pi_k \in \mathscr S_k)
+        \E {1 \over |A_k \cdots A_1  \tilde V_0|^\zeta}
+        \1{T_u = k, k < \tau} \\
+        &\leq& c \sum_{k=N}^{\infty}
+        \E {1 \over \|A_k \cdots A_1\|^\zeta} \1{T_u = k, k < \tau} \\
+        &\leq& c \sum_{k=N}^{\infty}
+        \left(
+          \E {1 \over \|A_k \cdots A_1\|^{p \zeta}}
+          \right)^{1/p}
+          \P(T_u = k, k < \tau)^{1/q} \\
       \end{eqnarray*}
-      Since $\min_{k \geq 1} d_{k,1} > 0$, we have
+      where $p > 1, q > 1$ are chosen such that $1/p + 1/q = 1$ and
+      $\lambda(p\zeta) < \infty$. By lemma \ref{lemma:prob_bound}
+      \[
+      \E {1 \over \|A_k \cdots A_1\|^{p \zeta}} \leq 
+      \int_0^\epsilon {1 \over x} \delta^k x^{k-1} dx
+      +
+      {1 \over \epsilon} \P(\|A_k \cdots A_1\|^{p \zeta} > \epsilon)
+      \]
+      for all $k \geq N$, where $\epsilon$ is chosen as small as is considered in remark
+      \ref{remark:inf_c}. Then
+        \begin{eqnarray*}
+          \E {1 \over \|A_k \cdots A_1\|^{p \zeta}} &\leq& {\delta^k
+            \over k-1} \epsilon^{k-1} + \epsilon^{-2} \E \|A_k \cdots
+          A_1\|^{p \zeta} \\
+          &\leq& \epsilon^{-1} (\epsilon \delta)^k + [a \lambda(p\zeta)]^k
+        \end{eqnarray*}
+        for any $a \to 1$ from above as $k \to \infty$. Here we have used
+        \[
+        \left(
+          \E \|A_k \cdots A_1\|^{p \zeta}
+        \right)^{1/k} \to \lambda(p\zeta)
+        \]
+        Then by subadditivity
+        \[
+        \left(
+          \E {
+            1 \over 
+            \|A_k \cdots A_1\|^{p \zeta}
+          }
+        \right)^{1/p} \leq c_1 (\epsilon \delta)^{k/p} + [a \lambda(p\zeta)]^{k/p}
+        \]
+        As shown in remark \ref{remark:inf_c}, $\delta \epsilon < 1$
+        when $\epsilon$ is chosen sufficiently small and $\delta$ chosen
+        as the minimum allowed in this case. On the other hand
+        \begin{eqnarray*}
+          \P(T_u = k, \tau > k) &\leq& \P(\tau > k) \leq [b \lambda(\alpha)]^k
+        \end{eqnarray*}
+        for an $0 < \alpha < \epsilon$ and any $b > 1$ when $k$ is
+        sufficiently large. We choose $a, b, \alpha, p, q$ such that
+        \[
+        \lambda(\alpha) < [a \lambda(p\zeta)]^{-q/p} b^{-1}
+        \]
+        Thus we may conclude $S_2 < \infty$.
+
+      As regard $S_2$, we have
       \begin{eqnarray*}
-        && S_2 \leq c \sum_{k=N}^\infty \lambda(\alpha)^k < \infty
+        && \sum_{k=n}^{N-1}
+        \E {1 \over \Pi_k} \1{T_u = k, k < \tau}\\ 
+        &\leq& \sum_{k=n}^{N-1} \left(
+          \E {
+            1 \over
+            \sigma^{\uparrow}_1(A_k)^{p \zeta} \cdots
+            \sigma^{\uparrow}_1(A_1)^{p \zeta}}
+        \right)^{1/p} \P(k < \tau)^{1/q} \\
+        &\leq& \sum_{k=n}^{N-1} \left[
+          \E {1 \over
+            \sigma^{\uparrow}_1(A_1)^{p\zeta}
+          }
+        \right]^{k/p} \P(k < \tau)^{1/q} < \infty
       \end{eqnarray*}
-      Finally
-    \begin{eqnarray*}
-      && \sum_{k=n}^{N-1}
-      \E {1 \over \Pi_k} \P(T_u = k) \1{T_u < \tau}\\ 
-      &\leq& \sum_{k=n}^{N-1} \E {
-        1 \over
-        \sigma^{\uparrow}_1(A_k)^\xi \cdots \sigma^{\uparrow}_1(A_1)^\xi
-      } \P(T_u = k) \1{T_u < \tau} \\
-      &\leq& \sum_{k=n}^{N-1} \left[
-        \E {1 \over
-          \sigma^{\uparrow}_1(A_1)^\xi          
-        }
-      \right]^k \P(T_u = k) \1{T_u < \tau} < \infty
-    \end{eqnarray*}
-    Thus we have established
-    \[
-    \E {1 \over |A_{T_u} \cdots A_1 V_0|^\xi}\1{n \leq T_u < \tau} < \infty
-    \]
+      Thus we have established
+      \[
+      \E {1 \over |A_{T_u} \cdots A_1 V_0|^\zeta}\1{n \leq T_u < \tau} < \infty
+      \]
+      for a $\zeta > \xi$ satisfying $\lambda(\zeta) < \infty$.
     \begin{enumerate}
     \item if $\xi > 1/2$, using Minkowski's inequality on RHS of
       \eqref{eq:efficiency_target} leads to

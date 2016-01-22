@@ -1,0 +1,182 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule
+                      % in tables
+
+\input{../../physics_common}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Importance Sampling Estimator of 1D MC Exceedance Probability} % The
+                                % short title appears at the bottom of
+                                % every slide, the full title is only
+                                % on the title page
+
+\author{Xie Xiaolei} % Your name
+\institute[UCPH] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+Copenhagen University  \\ % Your institution for the title page
+\medskip
+\textit{hnq365@math.ku.dk} % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+% \begin{frame}
+% \frametitle{Overview}
+% \tableofcontents
+% \end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% \section{Simple dependence models}
+%------------------------------------------------
+\section{Setup of the Problem}
+\begin{frame}
+  Consider the recurrence equation 
+  \[
+  V_n = A_n (V_{n-1} \vee D_n) + B_n
+  \]
+  where $A, B, D$ satisfy the following conditions:
+  \begin{enumerate}
+  \item $A$ is positive, absolutely continuous and has a non-trivial continuous density in
+    a neighborhood of $\mathbb R$.
+  \item Define $\Lambda(\alpha) := \log \E A^\alpha$, $\Lambda(\xi) < \infty$ for some $\xi \in (0,
+    \infty)$ and $\Lambda(\cdot)$ is differentiable at $\xi$.
+  \item $\E |B|^\xi < \infty$, $\E (A|D|)^\xi < \infty$
+  \item $\P(A > 1, B > 0) > 0$ or $P(A > 1, B \geq 0, D > 0) > 0$.
+  \end{enumerate}
+  Collamore and Vidyashankar showed \cite{Collamore20133378} that
+  under these conditions $V_n$ is $\phi$-irreducible and geometrically
+  ergodic.
+\end{frame}
+
+\begin{frame}
+  W. Doeblin, J.L.Doob and S.Orey showed $\phi$-irreducibility implies
+  the existence of a small set $\mathcal C$, i.e. $\exists J \subset
+  E$ such that $|\mathcal C| > 0, |J| > 0$ and $\forall x \in \mathcal
+  C, \forall y \in J$,
+  \[
+  p(x, y) > \beta > 0
+  \]
+  where $p(\cdot, \cdot)$ is the transition kernel of the MC. Then it
+  follows
+  \begin{eqnarray*}
+    P(x, A) := \P(X_n \in A | X_{n-1}=x) &\geq& \beta |J|
+    \I{\mathcal C}(x) {|A \cap J| \over |J|} \\
+    &:=& c \I{\mathcal C}(x) \nu(A)
+  \end{eqnarray*}
+  where $|\cdot|$ denotes the Lebesgue measure. This is called a
+  minorization condition.
+\end{frame}
+
+\begin{frame}
+  The minorization condition imples the MC has a regeneration
+  structure: There exist random times $1 \leq T_1 < T_2 < \cdots$ such
+  that
+  \begin{enumerate}
+  \item The blocks $(V_{T_i}, \dots, V_{T_{i+1} - 1}, T_{i+1} -
+    T_{i})$ are independent;
+  \item $T_{i+1} - T_{i}$ are iid r.v.
+  \item $\P(V_{T_i} \in A | V_{T_{i}-1}) = \nu(A)$
+  \end{enumerate}
+  
+\end{frame}
+
+\begin{frame}
+  We want to derive an efficient estimator of the probability
+  \[
+  \lim_{u \to \infty} \P(V > u)
+  \]
+\end{frame}
+
+
+\section{Deriving the Estimator}
+\bibliographystyle{unsrt}
+\bibliography{../../thesis/econophysics}
+\end{document} 
