@@ -86,7 +86,7 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title{Importance Sampling Estimator of 1D MC Exceedance Probability} % The
+\title{An Efficient Estimator of 1D MC Exceedance Probability} % The
                                 % short title appears at the bottom of
                                 % every slide, the full title is only
                                 % on the title page
@@ -137,41 +137,74 @@ Copenhagen University  \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  W. Doeblin, J.L.Doob and S.Orey showed $\phi$-irreducibility implies
-  the existence of a small set $\mathcal C$, i.e. $\exists J \subset
-  E$ such that $|\mathcal C| > 0, |J| > 0$ and $\forall x \in \mathcal
-  C, \forall y \in J$,
+  Aperiodicity and $\phi$-irreducibility imples the MC satisfies a
+  minorization condition: There exist a small set $C$ and a measure
+  $\nu$ on $(E, \mathcal B(X))$ such that $\nu(C) = 1$
   \[
-  p(x, y) > \beta > 0
+  P(x, A) > \delta \I{\mathcal C}(x) \nu(A)
   \]
-  where $p(\cdot, \cdot)$ is the transition kernel of the MC. Then it
-  follows
-  \begin{eqnarray*}
-    P(x, A) := \P(X_n \in A | X_{n-1}=x) &\geq& \beta |J|
-    \I{\mathcal C}(x) {|A \cap J| \over |J|} \\
-    &:=& c \I{\mathcal C}(x) \nu(A)
-  \end{eqnarray*}
-  where $|\cdot|$ denotes the Lebesgue measure. This is called a
-  minorization condition.
-\end{frame}
-
-\begin{frame}
-  The minorization condition imples the MC has a regeneration
-  structure: There exist random times $1 \leq T_1 < T_2 < \cdots$ such
-  that
+  The minorization condition in turn implies the MC has a regeneration
+  structure \cite{Nummelin1978}: There exist random times $1 \leq T_1
+  < T_2 < \cdots$ such that
   \begin{enumerate}
-  \item The blocks $(V_{T_i}, \dots, V_{T_{i+1} - 1}, T_{i+1} -
-    T_{i})$ are independent;
-  \item $T_{i+1} - T_{i}$ are iid r.v.
-  \item $\P(V_{T_i} \in A | V_{T_{i}-1}) = \nu(A)$
+  \item $T_0, T_{i+1} - T_{i}$, $i = 1, 2, \cdots$ are finite with
+    probability 1 and are independent, identically distributed random
+    variables.
+  \item The blocks $(V_{T_i}, \dots, V_{T_{i+1} - 1})$ are independent;
+  \item $\P(V_{T_i} \in A | V_{T_{i}-1}, \dots, V_0 = \nu(A)$
   \end{enumerate}
-  
 \end{frame}
 
 \begin{frame}
-  We want to derive an efficient estimator of the probability
+  Collamore and Vidyashankar \cite{Collamore20133378} showed that the
+  chain $V_n$ is geometrically recurrent, implying it admits an invariant
+  measure $\pi$:
   \[
-  \lim_{u \to \infty} \P(V > u)
+  \pi(A) = \int_A \pi(x) P(x, dy)
+  \]
+  In other words, $V_n$ converges to a random variable $V$ distributed
+  according to $\pi$. We want to have an efficient estimator of the
+  probability $\P(V > u)$ as $u \to \infty$. It is understood
+  \[
+   \lim_{u \to \infty} u^\xi \P(V > u) = C
+  \]
+  for some constant $C > 0$.
+\end{frame}
+
+\begin{frame}
+  Collamore and Vidyashankar showed, when $V_0$ is in the set
+  $\mathcal C$ and is distributed according to $\gamma$ defined as
+  \[
+  \gamma(E) = \pi(E)/\pi(\mathcal C)\text{ for all } E \in \mathcal B(\mathcal C)
+  \]
+  $E_u = N_u |A_{T_u} \cdots A_{1} V_0|^{-\xi}\1{T_u < \tau}$ is an efficient
+  estimator w.r.t the dual measure $\mathcal D$. Here by ``efficient'' we mean
+  \[
+  \lim_{u \to \infty} {
+    \var_{\mathcal D}(\mathcal E_u)
+    \over
+    (\E_{\mathcal D} \mathcal E_u)^2
+  } < \infty
+  \]
+  as defined by Asmusen. 
+  \begin{eqnarray*}
+    \tau &\overset{d}{=}& T_{i+1} - T_i \\
+    T_u &:=& \min\{n \geq 1: V_n > u\} \\
+    N_u &:=& \sum_{n=1}^{\tau} \1{V_n > u}
+  \end{eqnarray*}
+\end{frame}
+
+\begin{frame}
+  $\E_D$ and $\var$ denote expectation and variance taken w.r.t to the
+  dual measure $\mathcal D$, respectively: If $n < T_u$, i.e. the MC
+  has not exceeded the level $u$, $A_{n+1}$ is sampled from the
+  $\xi$-shifted distribution $\mu_\xi$; otherwise it is sampled from
+  $\mu$.
+  \[
+  \mu_\xi (S) = {\E A^\xi \I{S}(A)
+    \over
+    \E A^\xi
+    }
   \]
 \end{frame}
 
@@ -180,3 +213,4 @@ Copenhagen University  \\ % Your institution for the title page
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
+
