@@ -132,20 +132,14 @@ Copenhagen University  \\ % Your institution for the title page
   \item $\P(A > 1, B > 0) > 0$ or $P(A > 1, B \geq 0, D > 0) > 0$.
   \end{enumerate}
   Collamore and Vidyashankar showed \cite{Collamore20133378} that
-  under these conditions $V_n$ is $\phi$-irreducible and geometrically
-  ergodic.
+  under these conditions $V_n$ is an aperiodic, $\phi$-irreducible and
+  geometrically ergodic Markov chain.
 \end{frame}
 
 \begin{frame}
-  Aperiodicity and $\phi$-irreducibility imples the MC satisfies a
-  minorization condition: There exist a small set $C$ and a measure
-  $\nu$ on $(E, \mathcal B(E))$ such that $\nu(C) = 1$
-  \[
-  P(x, A) > \delta \I{\mathcal C}(x) \nu(A)
-  \]
-  The minorization condition in turn implies the MC has a regeneration
-  structure \cite{Nummelin1978}: There exist random times $1 \leq T_1
-  < T_2 < \cdots$ such that
+  The recurrent property of a geometriclly ergodic MC means imples the
+  process the MC has a regeneration structure \cite{Nummelin1978}:
+  There exist random times $1 \leq T_1 < T_2 < \cdots$ such that
   \begin{enumerate}
   \item $T_0, T_{i+1} - T_{i}$, $i = 1, 2, \cdots$ are finite with
     probability 1 and are independent, identically distributed random
@@ -156,14 +150,13 @@ Copenhagen University  \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  Collamore and Vidyashankar \cite{Collamore20133378} showed that the
-  chain $V_n$ is geometrically recurrent, implying it admits an invariant
-  measure $\pi$:
+  In addition, a recurrent MC is also positive, i.e. it admits an invariant
+  measure $\pi$ \cite{Meyn:2009:MCS:1550713}:
   \[
   \pi(A) = \int_A \pi(x) P(x, dy)
   \]
-  In other words, $V_n$ converges to a random variable $V$ distributed
-  according to $\pi$. We want to have an efficient estimator of the
+  By geometric ergodicity, $V_n$ converges to a random variable $V$
+  distributed according to $\pi$. We want to have an efficient estimator of the
   probability $\P(V > u)$ as $u \to \infty$. It is understood
   \[
    \lim_{u \to \infty} u^\xi \P(V > u) = C
