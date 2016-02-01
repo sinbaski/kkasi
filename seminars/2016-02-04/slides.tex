@@ -71,9 +71,11 @@
 %\usecolortheme{wolverine}
 
 %\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
-%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer
+%line in all slides with a simple slide count uncomment this line
 
-%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation
+%symbols from the bottom of all slides uncomment this line
 }
 
 \usepackage{graphicx} % Allows including images
@@ -116,6 +118,36 @@ Copenhagen University  \\ % Your institution for the title page
 %----------------------------------------------------------------------------------------
 % \section{Simple dependence models}
 %------------------------------------------------
+\section{Introduction}
+\begin{frame}
+  We are interested in the {\it Stochastic Fixed Point Equations}:
+  \[
+  V \overset{d}{=} f(V)
+  \]
+  \begin{enumerate}
+  \item Forward sequence
+    \[
+    V_n = f_{Y_n} \circ f_{Y_{n-1}} \circ \cdots \circ f_{Y_1} (V_0)
+    \]
+    \item Backward sequence
+      \[
+      Z_n  = f_{Y_1} \circ f_{Y_{2}} \circ \cdots \circ f_{Y_n} (Z_0)
+      \]
+    \end{enumerate}
+    where $Y_i$ are the random variables drving the $i$-th iteration.
+    {\it GARCH(p, q)} models are typical examples of forward
+    sequences. In the case of GARCH(1,1),
+    \[
+    \sigma_n^2 = (\beta_1 + \alpha_1 \eta_{n-1}^2)\sigma_{n-1}^2 + \alpha_0
+    \]
+    with $f_{Y_{n-1}}(w) = (\beta_1 + \alpha_1 \eta_{n-1}^2) w + \alpha_0$ 
+\end{frame}
+
+\begin{frame}
+
+  
+\end{frame}
+
 \section{Setup of the Problem}
 \begin{frame}
   Consider the recurrence equation 
@@ -131,7 +163,7 @@ Copenhagen University  \\ % Your institution for the title page
   \item $\E |B|^\xi < \infty$, $\E (A|D|)^\xi < \infty$
   \item $\P(A > 1, B > 0) > 0$ or $P(A > 1, B \geq 0, D > 0) > 0$.
   \end{enumerate}
-  Collamore and Vidyashankar showed \cite{Collamore20133378} that
+  Collamore and Vidyashankar \cite{Collamore20133378} showed that
   under these conditions $V_n$ is an aperiodic, $\phi$-irreducible and
   geometrically ergodic Markov chain.
 \end{frame}
@@ -166,7 +198,7 @@ Copenhagen University  \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  Collamore and Vidyashankar showed \cite{collamore2014}, when
+  Collamore and Vidyashankar \cite{collamore2014} showed, when
   $V_0$ is in the set $\mathcal C$ and is distributed according to
   $\gamma$ defined as
   \[
@@ -188,9 +220,9 @@ Copenhagen University  \\ % Your institution for the title page
   \]
   as defined by Asmusen \cite{opac-b1123521}.
   \begin{eqnarray*}
-    \tau &\overset{d}{=}& T_{i+1} - T_i \\
+    K &:=& \inf\{n \geq 1: V_n \in \mathcal C\} \\
     T_u &:=& \min\{n \geq 1: V_n > u\} \\
-    N_u &:=& \sum_{n=1}^{\tau} \1{V_n > u}
+    N_u &:=& \sum_{n=0}^{K-1} \1{V_n > u}
   \end{eqnarray*}
 \end{frame}
 
@@ -208,6 +240,15 @@ Copenhagen University  \\ % Your institution for the title page
     } = {\E A^\xi \I{S}(A)
     \over
     \E A^\xi
+    }
+  \end{eqnarray*}
+  Denote
+  \begin{eqnarray*}
+    \lambda(\alpha) &=& \E A^{\alpha} \\
+    \lambda_\beta(\alpha) &=& \E_\beta A^{\alpha} = {
+      \E A^{\alpha + \beta}
+      \over
+      \E A^{\beta}
     }
   \end{eqnarray*}
 \end{frame}
@@ -243,9 +284,9 @@ Copenhagen University  \\ % Your institution for the title page
     \E \tau
   }  < \infty
   \]
-  where $I(n)$ is the last regeneration time before time $n$ and
-  $J(n)$ the first regeneration time after $n$. Then by a
-  Borel-Cantelli argument
+  where $\tau$ is a typical regeneration time, $I(n)$ is the last
+  regeneration time before time $n$ and $J(n)$ the first regeneration
+  time after $n$. Then by a Borel-Cantelli argument
   \[
   {1 \over n}\sum_{i=K_{R_n}}^n \1{V_i > u} \to 0
   \]
@@ -273,21 +314,216 @@ Copenhagen University  \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  Using
+  First consider the case $\lambda(-\alpha) < \infty$ for some $\alpha
+  > \xi$. Using
   \begin{eqnarray*}
     V_{T_u} &>& u \\
-    V_{T_u} &=& \sum_{n=1}^{T_u} {B_n
+    {V_{T_u}
       \over
-      A_{T_u} \cdots A_{n+1}
+      A_{T_u} \cdots A_0
+    } &\leq& \sum_{n=0}^{T_u} {
+      \tilde B_n
+      \over
+      A_n \cdots A_0
     }
   \end{eqnarray*}
-  and changing to the original measure $\mu$, we get
+  where $A_{0} := 1$, $A_i$ for $i =1, 2, \dots$ are iid and $\tilde B_n :=
+  A_n |D_n| + |B_n|$. We get
   \[
   \E_{\mathcal D}(\mathcal E_u^2 u^{2\xi}) \leq
-  \E 
+  \E_{\mathcal D} \left[
+    N_u^2
+    \left(
+    \sum_{n=0}^{\infty} {
+      \tilde B_n
+      \over
+      |A_n \cdots A_0|
+    }
+    \1{n \leq T_u < K}
+    \right)^{2\xi}
+    \right]
   \]
 \end{frame}
 
+\begin{frame}
+  If $\xi \geq 1/2$, applying Minkowski's inequality, changing to
+  the original measure and then using H\"older's inequality gives
+  \begin{eqnarray*}
+    (u^{2\xi} \E_{\mathcal D} \mathcal{E}^{2\xi}_u)^{1/2\xi} &\leq&
+    \sum_{n=0}^\infty
+    (\E N_u^{2r} \1{n-1 < T_u \wedge K})^{1/2r\xi} \times \\
+    && [\E (A_n^{-1} \tilde B_n^2)^{s\xi}]^{1/2s\xi} \times \\
+    && \E[
+    (A_{n-1} \cdots A_0)^{-s\xi}
+    \1{n-1 < T_u \wedge K}
+    ]^{1/2s\xi}
+  \end{eqnarray*}
+  For the last term on RHS, change to the $-s\xi$ shifted measure to
+  obtain
+  \[
+  \E[
+    (A_{n-1} \cdots A_0)^{-s\xi}
+    \1{n-1 < T_u \wedge K}
+    ]^{1/2s\xi} = \lambda(-s\xi)^{n-1} \P_{-s\xi}(n-1 < T_u \wedge K)
+  \]
+\end{frame}
+
+\begin{frame}
+  Using the drift condition in the $-s\xi$-shifted measure leads to
+  \begin{eqnarray*}
+    \P_{-s\xi}(n-1 < T_u \wedge K) &\leq& C
+    \lambda_{-s\xi}(\alpha)^{n-1} \\
+    &=& C \left[
+      {
+      \lambda(-s\xi + \alpha)
+      \over
+      \lambda(-s\xi)
+    }
+    \right]^{n-1}. \\
+    \lambda(-s\xi)^{n-1} \P_{-s\xi}(n-1 < T_u \wedge K) &\leq& C
+    \lambda(-s\xi + \alpha)^{n-1}
+  \end{eqnarray*}
+  for some $0 < \alpha < \xi$. By assumption $\lambda(-s\xi) < \infty$
+  and hence $\alpha$ can be chosen such that $\lambda(-s\xi + \alpha)
+  < 1$.
+\end{frame}
+
+\begin{frame}
+  As for $\E N_u^{2r}$, first notice
+  \[
+  N_u = \sum_{i=0}^{K-1} \1{V_i > u} \leq K
+  \]
+  Hence
+  \begin{eqnarray*}
+    \E N_u^{2r}\1{n-1 \leq T_u < K} &\leq& \sum_{i=n}^\infty i^{2r}
+    \P(K > i-1) \\
+    &\leq& c \sum_{i=n}^\infty i^{2r} \lambda(\alpha)^i < \infty
+  \end{eqnarray*}
+  for some constant $c$ and $\alpha$ chosen such that $\lambda(\alpha)
+  < 1$.
+\end{frame}
+
+\begin{frame}
+  The case $\xi < 1/2$ is proven analogously by exploiting
+  subadditivity of the function $(\cdot)^{2\xi}$ in place of
+  Minkowski's inequality. The somewhat more complicated case
+  $\lambda(-\xi) = \infty$ is proven with an extra assumption
+  \[
+  \E (A^{-1} \tilde B)^\alpha < \infty
+  \]
+  for all $\alpha > 0$. First Notice when $n \leq T_u < K$
+  \begin{eqnarray*}
+    |V_n| &\leq& A_n |V_{n-1}| \left(
+      1 + {
+        \tilde B_n
+        \over
+        A_n |V_{n-1}|
+      }
+    \right)
+  \end{eqnarray*}
+  and $M \leq V_n < u$. Hence
+  \[
+  A_n^{-s\xi} \leq \left(
+    {
+      u \over M
+    }
+    \right)^{s\xi} 
+    \left(
+    1 + {
+      \tilde B_n
+      \over
+      A_n M
+    }
+  \right)^{s\xi}
+  \]
+\end{frame}
+
+\begin{frame}
+  Since by assumption $\E (A_n^{-1} \tilde B_n)^{s\xi} < \infty$, we
+  have
+  \[
+  \E (A_{n} \cdots A_0)^{-s\xi} < \infty
+  \]
+  for fixed $n \leq T_u$. Then it suffices to show
+  \[
+  \sum_{n=0}^\infty {
+    1 \over
+    (A_n \cdots A_0)^{s\xi}
+  } < \infty
+  \]
+  The proof of finiteness of the other terms are identical to that in
+  the other case.
+\end{frame}
+
+\begin{frame}
+  Define a sequence $L_k \to 0$ as $k \to \infty$ and
+  \[
+  \E {
+    1 \over
+    (A_k \cdots A_0)^\zeta
+  }  \1{F_k^\complement} < {1 \over k^2}
+  \]
+  where $F_k$ denotes the event $A_1, A_2, \dots, A_{k-1} \geq L_k$.
+\end{frame}
+
+\begin{frame}
+  Let
+  \begin{eqnarray*}
+    \bar A_{n,k} &=& A_{n} \1{A_n > L_k} + L_k \1{A_n \leq L_k} \\
+    \lambda_k(\alpha) &=& \E \bar A_{1,k}^\alpha
+  \end{eqnarray*}
+  Observe that $\bar A_{n,k} \to A_n$ and $\lambda_k(\alpha) \to
+  \lambda(\alpha)$ as $k \to \infty$. By Minkowski's inequality
+  followed by H\"older's inequality, we obtain
+  \begin{eqnarray*}
+    \E_{-s\xi} \left( |V_{1,k}|^\beta | V_{0,k} = w\right) &\leq& {
+    t [\E \bar A_{1,k}^{p(\beta - \zeta)}]^{1/p}
+    \over
+    \lambda_k(-\zeta)
+  } w^\beta \times \\
+  && \left\{
+    t^{-q} \E \left[
+      1 + {
+        \tilde B_1
+        \over
+        w \bar A_{1,k}
+      }
+    \right]^{q\beta}
+  \right\}^{1/q}
+  \end{eqnarray*}
+  for some $t > 1$. Notice that $p$ may be chosen so small and $\beta$
+  chosen appropriately so that
+  \[
+  \E \bar A_{1,k}^{p(\beta - \zeta)} < \rho < 1 \text{ for all } k > k_0
+  \]
+\end{frame}
+
+\begin{frame}
+  This is because $\lambda_{1,k}(p(\beta - \zeta)) \to \lambda(p(\beta
+  - \zeta))$ and
+  \[
+  \inf_{\alpha > 1} \lambda(\alpha) < 1
+  \]
+  Choose $M$ sufficiently large so that $\forall w > M$,
+  \[
+    t^{-q} \E \left[
+      1 + {
+        \tilde B_1
+        \over
+        w \bar A_{1,k}
+      }
+    \right]^{q\beta} < 1
+  \]
+  So we have obtained an inequality similar to the drift condition in
+  the $\lambda(-\xi) < \infty$ case. Iterate on this inequality yields
+  \[
+  \sum_{k=0}^\infty \E {
+    1 \over
+    (A_k \cdots A_0)^\zeta \1{F_k}
+  } < \infty
+  \]
+
+\end{frame}
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
