@@ -82,13 +82,14 @@
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule
                       % in tables
 
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \input{../../physics_common}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title{An Efficient Estimator of 1D MC Exceedance Probability} % The
+\title{An Efficient Estimator of 1D MC Exceedance Probability for Perpurtuities} % The
                                 % short title appears at the bottom of
                                 % every slide, the full title is only
                                 % on the title page
@@ -122,7 +123,7 @@ Copenhagen University  \\ % Your institution for the title page
 \begin{frame}
   We are interested in the {\it Stochastic Fixed Point Equations}:
   \[
-  V \overset{d}{=} f(V)
+  V \overset{d}{=} f_Y(V)
   \]
   \begin{enumerate}
   \item Forward sequence
@@ -134,101 +135,111 @@ Copenhagen University  \\ % Your institution for the title page
       Z_n  = f_{Y_1} \circ f_{Y_{2}} \circ \cdots \circ f_{Y_n} (Z_0)
       \]
     \end{enumerate}
-    where $Y_i$ are the random variables drving the $i$-th iteration.
-    {\it GARCH(p, q)} models are typical examples of forward
-    sequences. In the case of GARCH(1,1),
-    \[
-    \sigma_n^2 = (\beta_1 + \alpha_1 \eta_{n-1}^2)\sigma_{n-1}^2 + \alpha_0
-    \]
-    with $f_{Y_{n-1}}(w) = (\beta_1 + \alpha_1 \eta_{n-1}^2) w + \alpha_0$ 
+    where $Y_i$ are iid copies of $Y$. The {\it GARCH(1, 1)} model is
+    a typical forward sequence.
+    \begin{eqnarray*}
+      V_n &=& \sigma_n^2 \\
+      Y_n &=& \eta_{n-1} \\
+      F_Y(v) &=& (\beta_1 + \alpha_1 Y_n^2) v + \alpha_0
+    \end{eqnarray*}
 \end{frame}
 
 \begin{frame}
+Assume:
+\begin{enumerate}
+\item $A$ is positive, absolutely continuous and has a non-trivial continuous density in
+  a neighborhood of $\mathbb R$.
+\item Define $\Lambda(\alpha) := \log \E A^\alpha$, $\Lambda(\xi) = 0$ for some $\xi \in (0,
+  \infty)$ and $\Lambda(\cdot)$ is differentiable at $\xi$.
+\item $\P(A > 1, B > 0) > 0$ or $P(A > 1, B \geq 0, D > 0) > 0$.
+\item $\E |B|^\xi < \infty$, $\E (A|D|)^\xi < \infty$
+\end{enumerate}
+Under these conditions Goldie proved that a solution to the
+SFPE satisfies
+\[
+\P(V > u) = C(u) u^{-\xi}
+\]
+for some constant $\xi$. As $u \to \infty$, $C(u)$ tends to a constant
+$C$.
+% In multidimensions, Kesten's theorem states, for the stochastic
+% recurrence equation $V \overset{d}{=} A V + B$,
+% \[
+% \lim_{u \to \infty} u^\alpha \P(\inn{\tilde {x},V} > u) =
+% g_{\alpha}(\tilde x)
+% \]
+% where $A \in \mathbb R^{d \times d}$, $V \in \mathbb R^d$ and $\tilde x \in
+% \mathbb S^{d-1}$.
+\end{frame}
 
+\begin{frame}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.8]{pic2.pdf}
+  \end{figure}
+  The function $\Lambda(\alpha)$ is convex, passes through the origin
+  and crosses the $\alpha$-axis at $\xi > 0$.
+\end{frame}
+
+\begin{frame}
+  \begin{exampleblock}{Our Goal}
+    Explicit numerical estimation of the probability $\P(V > u)$ for a
+    forward sequence $V_n$.
+  \end{exampleblock}
+  \begin{exampleblock}{Why}
+    Straight forward Mont-Carlo simulation is inefficient because
+    $\P(V > u) \to 0$ as $u \to \infty$. A measure of the efficiency
+    of estimator $\mathcal E_u$ is the relative error:
+    \[
+    \text{Relative Error} = {
+      \var(\mathcal E_u)
+      \over
+      (\E \mathcal E_u)^2
+    }
+    \]
+  \end{exampleblock}
+  \begin{exampleblock}{The Idea}
+    Change to the $\xi$ shifted measure of $\log A$, under which $V_n$ has
+    been shown to be transient.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
   
 \end{frame}
 
-\section{Setup of the Problem}
 \begin{frame}
-  Consider the recurrence equation 
-  \[
-  V_n = A_n (V_{n-1} \vee D_n) + B_n
-  \]
-  where $A, B, D$ satisfy the following conditions:
-  \begin{enumerate}
-  \item $A$ is positive, absolutely continuous and has a non-trivial continuous density in
-    a neighborhood of $\mathbb R$.
-  \item Define $\Lambda(\alpha) := \log \E A^\alpha$, $\Lambda(\xi) < \infty$ for some $\xi \in (0,
-    \infty)$ and $\Lambda(\cdot)$ is differentiable at $\xi$.
-  \item $\E |B|^\xi < \infty$, $\E (A|D|)^\xi < \infty$
-  \item $\P(A > 1, B > 0) > 0$ or $P(A > 1, B \geq 0, D > 0) > 0$.
-  \end{enumerate}
-  Collamore and Vidyashankar \cite{Collamore20133378} showed that
-  under these conditions $V_n$ is an aperiodic, $\phi$-irreducible and
-  geometrically ergodic Markov chain.
+  \frametitle{Alg. in 1D}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.14]{IMG_1091.jpg}
+  \end{figure}
 \end{frame}
 
 \begin{frame}
-  The recurrent property of a geometriclly ergodic MC means imples the
-  process the MC has a regeneration structure \cite{Nummelin1978}:
-  There exist random times $1 \leq T_1 < T_2 < \cdots$ such that
-  \begin{enumerate}
-  \item $T_0, T_{i+1} - T_{i}$, $i = 1, 2, \cdots$ are finite with
-    probability 1 and are independent, identically distributed random
-    variables.
-  \item The blocks $(V_{T_i}, \dots, V_{T_{i+1} - 1})$ are independent;
-  \item $\P(V_{T_i} \in A | V_{T_{i}-1}, \dots, V_0 = \nu(A)$
-  \end{enumerate}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.5]{pic1.pdf}
+  \end{figure}
+  for $A \subseteq \mathcal C$, $\gamma(A) = \pi(A)/\pi(\mathcal
+  C)$. $V \sim \pi$.
 \end{frame}
 
 \begin{frame}
-  A recurrent MC is also positive, i.e. it admits an invariant
-  measure $\pi$ \cite{Meyn:2009:MCS:1550713}:
-  \[
-  \pi(A) = \int_E \pi(dx) P(x, A)
-  \]
-  for all $A \in \mathcal B(E)$.
-  By geometric ergodicity, $V_n$ converges to a random variable $V$
-  distributed according to $\pi$. We want to have an efficient estimator of the
-  probability $\P(V > u)$ as $u \to \infty$. It is understood
-  \[
-   \lim_{u \to \infty} u^\xi \P(V > u) = C
-  \]
-  for some constant $C > 0$.
+  \frametitle{An Efficient Estimator}
+  \begin{block}{Theorem}
+    \[
+    \mathcal E_u = \pi(\mathcal C) \E_{\mathcal D} {N_u
+      \over
+      (A_{T_u} \cdots A_1)^\xi
+    }\1{T_u < K}
+    \]
+    is an efficient estimator of $\P(V > u)$
+  \end{block}
 \end{frame}
 
 \begin{frame}
-  Collamore and Vidyashankar \cite{collamore2014} showed, when
-  $V_0$ is in the set $\mathcal C$ and is distributed according to
-  $\gamma$ defined as
-  \[
-  \gamma(E) = \pi(E)/\pi(\mathcal C)\text{ for all } E \in \mathcal B(\mathcal C)
-  \]
-  $\mathcal E_u = \pi(\mathcal C) N_u |A_{T_u} \cdots A_{1}
-  V_0|^{-\xi}\1{T_u < \tau}$ is an unbiased and efficient estimator
-  w.r.t the dual measure $\mathcal D$:
-  \[
-  \E_{\mathcal D} E_u = \P(V > u)
-  \]
-  and by ``efficient'' we mean
-  \[
-  \lim_{u \to \infty} {
-    \var_{\mathcal D}(\mathcal E_u)
-    \over
-    (\E_{\mathcal D} \mathcal E_u)^2
-  } < \infty
-  \]
-  as defined by Asmusen \cite{opac-b1123521}.
-  \begin{eqnarray*}
-    K &:=& \inf\{n \geq 1: V_n \in \mathcal C\} \\
-    T_u &:=& \min\{n \geq 1: V_n > u\} \\
-    N_u &:=& \sum_{n=0}^{K-1} \1{V_n > u}
-  \end{eqnarray*}
-\end{frame}
-
-\begin{frame}
-  $\E_D$ and $\var$ denote expectation and variance taken w.r.t to the
-  dual measure $\mathcal D$, respectively: If $n < T_u$, i.e. the MC
+  $\mathcal D$ denotes the dual measure:
+  If $n < T_u$, i.e. the MC
   has not exceeded the level $u$, $A_{n+1}$ is sampled from the
   $\xi$-shifted distribution $\mu_\xi$; otherwise it is sampled from
   $\mu$. For a set $S \subseteq \text{supp}(A)$
@@ -238,8 +249,8 @@ Copenhagen University  \\ % Your institution for the title page
       \over
       \int_{\text{supp}(A)} a^\xi \mu(da)
     } = {\E A^\xi \I{S}(A)
-    \over
-    \E A^\xi
+      \over
+      \E A^\xi
     }
   \end{eqnarray*}
   Denote
@@ -250,47 +261,23 @@ Copenhagen University  \\ % Your institution for the title page
       \over
       \E A^{\beta}
     }
-  \end{eqnarray*}
+  \end{eqnarray*}  
 \end{frame}
 
-\section{Sketch of the Proof of Consistency}
-\begin{frame}
-  Assert:
-  \[
-  \lim_{k \to \infty} \lim_{n \to \infty} \hat{\pi}_k \hat{\mathcal
-    E}_{u,n} = \P(V > u)
-  \]
-  What follows is a sketch of the proof by Collamore, Guoqing and
-  Vidyashankar \cite{collamore2014}. By the law of large numbers for
-  Markov chains
-  \[
-  \P(V > u) = \lim_{n \to \infty} {1 \over n} \left\{
-  \sum_{i=0}^{K_{R_n} - 1} \1{V_i > u}
-  +
-  \sum_{i=K_{R_n}}^{n} \1{V_i > u}
-  \right\}
-  \]
-  where $K_0 = 0$ and $K_n$ is the time of the $n$-th visit to
-  $\mathcal C$. $R_n = \sum_{i=1}^n \1{V_i \in C}$ is the number of
-  visits to $\mathcal C$ before time $n$.
-\end{frame}
+%% \section{Setup of the Problem}
 
-\begin{frame}
-  By the Markov renewal theorem and the geometric ergodicity of $V_n$,
-  \[
-  \lim_{n \to \infty} e^{\epsilon(J(n) - I(n))} = {
-    \E \tau e^{\epsilon \tau}
-    \over
-    \E \tau
-  }  < \infty
-  \]
-  where $\tau$ is a typical regeneration time, $I(n)$ is the last
-  regeneration time before time $n$ and $J(n)$ the first regeneration
-  time after $n$. Then by a Borel-Cantelli argument
-  \[
-  {1 \over n}\sum_{i=K_{R_n}}^n \1{V_i > u} \to 0
-  \]
-\end{frame}
+% \begin{frame}
+%   The recurrent property of a geometriclly ergodic MC means imples the
+%   process the MC has a regeneration structure \cite{Nummelin1978}:
+%   There exist random times $1 \leq T_1 < T_2 < \cdots$ such that
+%   \begin{enumerate}
+%   \item $T_0, T_{i+1} - T_{i}$, $i = 1, 2, \cdots$ are finite with
+%     probability 1 and are independent, identically distributed random
+%     variables.
+%   \item The blocks $(V_{T_i}, \dots, V_{T_{i+1} - 1})$ are independent;
+%   \item $\P(V_{T_i} \in A | V_{T_{i}-1}, \dots, V_0 = \nu(A)$
+%   \end{enumerate}
+% \end{frame}
 
 \section{Sketch of the Proof of Efficiency}
 \begin{frame}
@@ -369,7 +356,7 @@ Copenhagen University  \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  Using the drift condition in the $-s\xi$-shifted measure leads to
+  Using the {\it drift condition} in the $-s\xi$-shifted measure leads to
   \begin{eqnarray*}
     \P_{-s\xi}(n-1 < T_u \wedge K) &\leq& C
     \lambda_{-s\xi}(\alpha)^{n-1} \\
@@ -524,6 +511,136 @@ Copenhagen University  \\ % Your institution for the title page
   \]
 
 \end{frame}
+
+\begin{frame}
+  \frametitle{The Drift Condition}
+  \begin{block}{Lemma}
+    A drift condition: Given $\lambda_\beta(\alpha) = \E_\beta
+    A^\alpha < \infty$,
+    \[
+    \E_\beta (|V_n|^\alpha \I{\mathcal C^\complement}(V_{n-1}) |
+    V_{n-1}) < \rho |V_{n-1}|\I{\mathcal C^\complement}(V_{n-1})
+    \]
+    for some $\rho > \lambda_\beta(\alpha)$ and some constant $M > 0$,
+    $\mathcal C = (-M, M)$.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proof of the lemma}
+  We'll use the lemma for $\lambda_\beta(\alpha) < 1$. for
+  simplicity, assume $\alpha < 1$. By subadditivity
+  \[
+  |V_n|^\alpha \leq A_n^\alpha |V_{n-1}|^\alpha + |\tilde B_n|^\alpha
+  \]
+  Hence
+  \begin{eqnarray*}
+    && \E_\beta (|V_n|^\alpha \I{\mathcal C^\complement}(V_{n-1})
+    | V_{n-1}) \\
+    &\leq& \E_\beta A_n^\alpha |V_{n-1}|^\alpha +
+    \E_\beta |\tilde B_n|^\alpha \\
+    &=& |V_{n-1}|^\alpha \left[
+      \lambda_\beta(\alpha) + {
+        \E_\beta |\tilde B_n|^\alpha
+        \over
+        |V_{n-1}|^\alpha
+      }
+    \right]
+  \end{eqnarray*}
+  Clearly, for any $\epsilon > 0$, we may choose $M$ sufficiently
+  large such that $V_{n-1} \in \mathcal C^\complement$ imples
+  $|V_n|^\alpha < |V_{n-1}|^\alpha (\lambda_\beta (\alpha) + \epsilon)$.
+\end{frame}
+
+\section{Sketch of the Proof of Consistency}
+\begin{frame}
+  A recurrent MC is also positive, i.e. it admits an invariant
+  measure $\pi$ \cite{Meyn:2009:MCS:1550713}:
+  \[
+  \pi(A) = \int_E \pi(dx) P(x, A)
+  \]
+  for all $A \in \mathcal B(E)$.
+  By geometric ergodicity, $V_n$ converges to a random variable $V$
+  distributed according to $\pi$. We want to have an efficient estimator of the
+  probability $\P(V > u)$ as $u \to \infty$. It is understood
+  \[
+   \lim_{u \to \infty} u^\xi \P(V > u) = C
+  \]
+  for some constant $C > 0$.
+\end{frame}
+
+\begin{frame}
+  Collamore and Vidyashankar \cite{collamore2014} showed, when
+  $V_0$ is in the set $\mathcal C$ and is distributed according to
+  $\gamma$ defined as
+  \[
+  \gamma(E) = \pi(E)/\pi(\mathcal C)\text{ for all } E \in \mathcal B(\mathcal C)
+  \]
+  $\mathcal E_u = \pi(\mathcal C) N_u |A_{T_u} \cdots A_{1}
+  V_0|^{-\xi}\1{T_u < \tau}$ is an unbiased and efficient estimator
+  w.r.t the dual measure $\mathcal D$:
+  \[
+  \E_{\mathcal D} E_u = \P(V > u)
+  \]
+  and by ``efficient'' we mean
+  \[
+  \lim_{u \to \infty} {
+    \var_{\mathcal D}(\mathcal E_u)
+    \over
+    (\E_{\mathcal D} \mathcal E_u)^2
+  } < \infty
+  \]
+  as defined by Asmusen \cite{opac-b1123521}.
+  \begin{eqnarray*}
+    K &:=& \inf\{n \geq 1: V_n \in \mathcal C\} \\
+    T_u &:=& \min\{n \geq 1: V_n > u\} \\
+    N_u &:=& \sum_{n=0}^{K-1} \1{V_n > u}
+  \end{eqnarray*}
+\end{frame}
+
+% \begin{frame}
+%   $\E_D$ and $\var$ denote expectation and variance taken w.r.t to the
+%   dual measure $\mathcal D$, respectively: 
+% \end{frame}
+
+\begin{frame}
+  Assert:
+  \[
+  \lim_{k \to \infty} \lim_{n \to \infty} \hat{\pi}_k \hat{\mathcal
+    E}_{u,n} = \P(V > u)
+  \]
+  What follows is a sketch of the proof by Collamore, Guoqing and
+  Vidyashankar \cite{collamore2014}. By the law of large numbers for
+  Markov chains
+  \[
+  \P(V > u) = \lim_{n \to \infty} {1 \over n} \left\{
+  \sum_{i=0}^{K_{R_n} - 1} \1{V_i > u}
+  +
+  \sum_{i=K_{R_n}}^{n} \1{V_i > u}
+  \right\}
+  \]
+  where $K_0 = 0$ and $K_n$ is the time of the $n$-th visit to
+  $\mathcal C$. $R_n = \sum_{i=1}^n \1{V_i \in C}$ is the number of
+  visits to $\mathcal C$ before time $n$.
+\end{frame}
+
+\begin{frame}
+  By the Markov renewal theorem and the geometric ergodicity of $V_n$,
+  \[
+  \lim_{n \to \infty} e^{\epsilon(J(n) - I(n))} = {
+    \E \tau e^{\epsilon \tau}
+    \over
+    \E \tau
+  }  < \infty
+  \]
+  where $\tau$ is a typical regeneration time, $I(n)$ is the last
+  regeneration time before time $n$ and $J(n)$ the first regeneration
+  time after $n$. Then by a Borel-Cantelli argument
+  \[
+  {1 \over n}\sum_{i=K_{R_n}}^n \1{V_i > u} \to 0
+  \]
+\end{frame}
+
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
