@@ -135,13 +135,21 @@ Copenhagen University  \\ % Your institution for the title page
       Z_n  = f_{Y_1} \circ f_{Y_{2}} \circ \cdots \circ f_{Y_n} (Z_0)
       \]
     \end{enumerate}
-    where $Y_i$ are iid copies of $Y$. The {\it GARCH(1, 1)} model is
-    a typical forward sequence.
+    where $Y_i$ are iid copies of $Y$ and are termed environment
+    variables. The {\it GARCH(1, 1)} model is a typical forward sequence.
     \begin{eqnarray*}
       V_n &=& \sigma_n^2 \\
       Y_n &=& \eta_{n-1} \\
       F_Y(v) &=& (\beta_1 + \alpha_1 Y_n^2) v + \alpha_0
     \end{eqnarray*}
+\end{frame}
+
+\begin{frame}
+  Letac's Model E:
+  \[
+  V_n = A_n (V_{n-1} \vee D_n) + B_n
+  \]
+  where $(\log A_n, B_n, D_n)$ are iid.
 \end{frame}
 
 \begin{frame}
@@ -204,27 +212,6 @@ $C$.
 \end{frame}
 
 \begin{frame}
-  
-\end{frame}
-
-\begin{frame}
-  \frametitle{Alg. in 1D}
-  \begin{figure}[htb!]
-    \centering
-    \includegraphics[scale=0.14]{IMG_1091.jpg}
-  \end{figure}
-\end{frame}
-
-\begin{frame}
-  \begin{figure}[htb!]
-    \centering
-    \includegraphics[scale=0.5]{pic1.pdf}
-  \end{figure}
-  for $A \subseteq \mathcal C$, $\gamma(A) = \pi(A)/\pi(\mathcal
-  C)$. $V \sim \pi$.
-\end{frame}
-
-\begin{frame}
   \frametitle{An Efficient Estimator}
   \begin{block}{Theorem}
     \[
@@ -264,6 +251,41 @@ $C$.
   \end{eqnarray*}  
 \end{frame}
 
+\begin{frame}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.5]{pic1.pdf}
+  \end{figure}
+  for $A \subseteq \mathcal C$, $\gamma(A) = \pi(A)/\pi(\mathcal
+  C)$. $V \sim \pi$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Alg. in 1D}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.14]{IMG_1091.jpg}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  Intuitively
+  \[
+  \P(V > u) = {
+    \E N_u
+    \over
+    \E K
+  }
+  \]
+  where $K$ is a typical return time to the set $\mathcal C$ and
+  \[
+  N_u = \sum_{i=1}^{K - 1} \1{V > u}
+  \]
+  It is straight forward to show $\E K = 1/\pi(\mathcal C)$. We need to
+  have an efficient estimator for $\E N_u$.
+\end{frame}
+
+
 %% \section{Setup of the Problem}
 
 % \begin{frame}
@@ -298,6 +320,70 @@ $C$.
   \lim_{u \to \infty}
     \E_{\mathcal D}(\mathcal E_u^2 u^{2\xi}) < \infty
   \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Drift towards set $\mathcal C$}
+  We need to prove a lemma first:
+  \begin{exampleblock}{Drift Condition}
+    A drift condition: Given $\lambda_\beta(\alpha) = \E_\beta
+    A^\alpha < \infty$,
+    \[
+    \E_\beta (|V_n|^\alpha \I{\mathcal C^\complement}(V_{n-1}) |
+    V_{n-1}) < \rho |V_{n-1}|^\alpha\I{\mathcal C^\complement}(V_{n-1})
+    \]
+    for some $\rho > \lambda_\beta(\alpha)$ and some constant $M > 0$,
+    $\mathcal C = (-M, M)$.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proof of the drift condition}
+  We'll use the lemma for $\lambda_\beta(\alpha) < 1$. for
+  simplicity, assume $\alpha < 1$. By subadditivity
+  \[
+  |V_n|^\alpha \leq A_n^\alpha |V_{n-1}|^\alpha + |\tilde B_n|^\alpha
+  \]
+  Hence
+  \begin{eqnarray*}
+    && \E_\beta (|V_n|^\alpha \I{\mathcal C^\complement}(V_{n-1})
+    | V_{n-1}) \\
+    &\leq& \E_\beta A_n^\alpha |V_{n-1}|^\alpha +
+    \E_\beta |\tilde B_n|^\alpha \\
+    &=& |V_{n-1}|^\alpha \left[
+      \lambda_\beta(\alpha) + {
+        \E_\beta |\tilde B_n|^\alpha
+        \over
+        |V_{n-1}|^\alpha
+      }
+    \right]
+  \end{eqnarray*}
+  Clearly, for any $\epsilon > 0$, we may choose $M$ sufficiently
+  large such that $V_{n-1} \in \mathcal C^\complement$ imples
+  $|V_n|^\alpha < |V_{n-1}|^\alpha (\lambda_\beta (\alpha) + \epsilon)$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{An upper bound on $\P(K > n)$}
+  Iterating the drift condition gives
+  \begin{eqnarray*}
+    \E_\beta |V_n|^\alpha
+    \1{V_{n-1}, \dots, V_1 \in \mathcal C^\complement}
+    &\leq& |V_1|^\alpha [a \lambda_\beta(\alpha)]^{n-1}
+    \1{V_{n-1}, \dots, V_1 \in \mathcal C^\complement}
+  \end{eqnarray*}
+  for some $a > 1$. Even smaller than the LHS is $\E_\beta |V_n|^\alpha
+  \1{V_n, \dots, V_1 \in \mathcal C^\complement}$. $V_n \in \mathcal
+  C^\complement$ means $K > n$ and $|V_n| > M$. Thus
+  \[
+  \P_\beta(K > n) \leq {
+    |V_1|^\alpha
+    \over
+    M^\alpha
+  } [a \lambda_\beta(\alpha)]^{n-1}
+  \]
+  for any $a > 1$ and $M$ sufficiently large. Note $|V_1|^\alpha <
+  \infty$ a.s. under assumption $\E A^\alpha < \infty$.
 \end{frame}
 
 \begin{frame}
@@ -398,7 +484,7 @@ $C$.
   \[
   \E (A^{-1} \tilde B)^\alpha < \infty
   \]
-  for all $\alpha > 0$. First Notice when $n \leq T_u < K$
+  for all $\alpha > 0$. First notice when $n \leq T_u < K$
   \begin{eqnarray*}
     |V_n| &\leq& A_n |V_{n-1}| \left(
       1 + {
@@ -434,8 +520,7 @@ $C$.
   for fixed $n \leq T_u$. Then it suffices to show
   \[
   \sum_{n=0}^\infty {
-    1 \over
-    (A_n \cdots A_0)^{s\xi}
+    \E (A_n \cdots A_0)^{-s\xi} \1{n \leq T_u < K}
   } < \infty
   \]
   The proof of finiteness of the other terms are identical to that in
@@ -443,22 +528,49 @@ $C$.
 \end{frame}
 
 \begin{frame}
-  Define a sequence $L_k \to 0$ as $k \to \infty$ and
+  Let $\zeta = s \xi$. Define a sequence $L_k \to 0$ as $k \to \infty$
+  and
   \[
   \E {
     1 \over
     (A_k \cdots A_0)^\zeta
-  }  \1{F_k^\complement} < {1 \over k^2}
+  }  \1{F_k} < {1 \over k^2}
   \]
-  where $F_k$ denotes the event $A_1, A_2, \dots, A_{k-1} \geq L_k$.
+  where $F_k$ denotes the event $A_1, A_2, \dots, A_{k} \geq
+  L_k$. Clearly
+  \[
+  \sum_{k=0}^\infty  \E {
+    1 \over
+    (A_k \cdots A_0)^\zeta
+  }  \1{F_k} <  \sum_{k=1}^\infty {1 \over k^2} < \infty
+  \]
+  It remains to show
+  \[
+  \sum_{k=0}^\infty  \E {
+    1 \over
+    (A_k \cdots A_0)^\zeta
+  }  \1{F_k^\complement} \1{k \leq T_u < K} < \infty
+  \]
 \end{frame}
 
 \begin{frame}
   Let
   \begin{eqnarray*}
-    \bar A_{n,k} &=& A_{n} \1{A_n > L_k} + L_k \1{A_n \leq L_k} \\
+    \bar A_{n,k} &=& A_{n} \1{A_n \geq L_k} + L_k \1{A_n < L_k} \\
     \lambda_k(\alpha) &=& \E \bar A_{1,k}^\alpha
   \end{eqnarray*}
+  By changing to the $-\zeta$ shifted measure, we obtain
+  \[
+  \E {
+    1\over
+    (A_k \cdots A_0)^\zeta
+  } \1{F_k^\complement} \1{k \leq T_u < K}
+  \leq \E_{-\zeta}(\1{F_k^\complement} \1{k \leq T_u < K})
+  \lambda_k(-\zeta)^{k-1} 
+  \]
+\end{frame}
+
+\begin{frame}
   Observe that $\bar A_{n,k} \to A_n$ and $\lambda_k(\alpha) \to
   \lambda(\alpha)$ as $k \to \infty$. By Minkowski's inequality
   followed by H\"older's inequality, we obtain
@@ -478,16 +590,16 @@ $C$.
     \right]^{q\beta}
   \right\}^{1/q}
   \end{eqnarray*}
-  for some $t > 1$. Notice that $p$ may be chosen so small and $\beta$
-  chosen appropriately so that
+  for some $t > 1$. Notice that $p > 1$ may be chosen so close to 1
+  and $\beta$ chosen appropriately so that
   \[
   \E \bar A_{1,k}^{p(\beta - \zeta)} < \rho < 1 \text{ for all } k > k_0
   \]
 \end{frame}
 
 \begin{frame}
-  This is because $\lambda_{1,k}(p(\beta - \zeta)) \to \lambda(p(\beta
-  - \zeta))$ and
+  Such a choice is possible because $\lambda_{1,k}(p(\beta - \zeta))
+  \to \lambda(p(\beta - \zeta))$ and
   \[
   \inf_{\alpha > 1} \lambda(\alpha) < 1
   \]
@@ -502,113 +614,87 @@ $C$.
     \right]^{q\beta} < 1
   \]
   So we have obtained an inequality similar to the drift condition in
-  the $\lambda(-\xi) < \infty$ case. Iterate on this inequality yields
+  the $\lambda(-\xi) < \infty$ case.  Iterating this inequality gives
+  \[
+  \E_{-\zeta}(\1{F_k^\complement} \1{k \leq T_u < K}) \leq b \left[
+  {
+    a \lambda (p(\beta - \zeta))
+    \over
+    \lambda(-\zeta)
+  }
+\right]^{k-1}
+  \]
+  for some $b < \infty$ a.s. and any $a > 1$. Hence
   \[
   \sum_{k=0}^\infty \E {
     1 \over
-    (A_k \cdots A_0)^\zeta \1{F_k}
-  } < \infty
+    (A_k \cdots A_0)^\zeta
+  }  \1{F_k}  \1{n \leq T_u < K}
+  <
+  b \sum_{k=0}^\infty \left[
+  {
+    a \lambda (p(\beta - \zeta))
+  }
+\right]^{k-1} < \infty
   \]
 
-\end{frame}
-
-\begin{frame}
-  \frametitle{The Drift Condition}
-  \begin{block}{Lemma}
-    A drift condition: Given $\lambda_\beta(\alpha) = \E_\beta
-    A^\alpha < \infty$,
-    \[
-    \E_\beta (|V_n|^\alpha \I{\mathcal C^\complement}(V_{n-1}) |
-    V_{n-1}) < \rho |V_{n-1}|\I{\mathcal C^\complement}(V_{n-1})
-    \]
-    for some $\rho > \lambda_\beta(\alpha)$ and some constant $M > 0$,
-    $\mathcal C = (-M, M)$.
-  \end{block}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Proof of the lemma}
-  We'll use the lemma for $\lambda_\beta(\alpha) < 1$. for
-  simplicity, assume $\alpha < 1$. By subadditivity
-  \[
-  |V_n|^\alpha \leq A_n^\alpha |V_{n-1}|^\alpha + |\tilde B_n|^\alpha
-  \]
-  Hence
-  \begin{eqnarray*}
-    && \E_\beta (|V_n|^\alpha \I{\mathcal C^\complement}(V_{n-1})
-    | V_{n-1}) \\
-    &\leq& \E_\beta A_n^\alpha |V_{n-1}|^\alpha +
-    \E_\beta |\tilde B_n|^\alpha \\
-    &=& |V_{n-1}|^\alpha \left[
-      \lambda_\beta(\alpha) + {
-        \E_\beta |\tilde B_n|^\alpha
-        \over
-        |V_{n-1}|^\alpha
-      }
-    \right]
-  \end{eqnarray*}
-  Clearly, for any $\epsilon > 0$, we may choose $M$ sufficiently
-  large such that $V_{n-1} \in \mathcal C^\complement$ imples
-  $|V_n|^\alpha < |V_{n-1}|^\alpha (\lambda_\beta (\alpha) + \epsilon)$.
 \end{frame}
 
 \section{Sketch of the Proof of Consistency}
-\begin{frame}
-  A recurrent MC is also positive, i.e. it admits an invariant
-  measure $\pi$ \cite{Meyn:2009:MCS:1550713}:
-  \[
-  \pi(A) = \int_E \pi(dx) P(x, A)
-  \]
-  for all $A \in \mathcal B(E)$.
-  By geometric ergodicity, $V_n$ converges to a random variable $V$
-  distributed according to $\pi$. We want to have an efficient estimator of the
-  probability $\P(V > u)$ as $u \to \infty$. It is understood
-  \[
-   \lim_{u \to \infty} u^\xi \P(V > u) = C
-  \]
-  for some constant $C > 0$.
-\end{frame}
-
-\begin{frame}
-  Collamore and Vidyashankar \cite{collamore2014} showed, when
-  $V_0$ is in the set $\mathcal C$ and is distributed according to
-  $\gamma$ defined as
-  \[
-  \gamma(E) = \pi(E)/\pi(\mathcal C)\text{ for all } E \in \mathcal B(\mathcal C)
-  \]
-  $\mathcal E_u = \pi(\mathcal C) N_u |A_{T_u} \cdots A_{1}
-  V_0|^{-\xi}\1{T_u < \tau}$ is an unbiased and efficient estimator
-  w.r.t the dual measure $\mathcal D$:
-  \[
-  \E_{\mathcal D} E_u = \P(V > u)
-  \]
-  and by ``efficient'' we mean
-  \[
-  \lim_{u \to \infty} {
-    \var_{\mathcal D}(\mathcal E_u)
-    \over
-    (\E_{\mathcal D} \mathcal E_u)^2
-  } < \infty
-  \]
-  as defined by Asmusen \cite{opac-b1123521}.
-  \begin{eqnarray*}
-    K &:=& \inf\{n \geq 1: V_n \in \mathcal C\} \\
-    T_u &:=& \min\{n \geq 1: V_n > u\} \\
-    N_u &:=& \sum_{n=0}^{K-1} \1{V_n > u}
-  \end{eqnarray*}
-\end{frame}
+% \begin{frame}
+%   \frametitle{Does the algorithm give correct estimates?}
+%   A recurrent MC is also positive, i.e. it admits an invariant
+%   measure $\pi$ \cite{Meyn:2009:MCS:1550713}:
+%   \[
+%   \pi(A) = \int_E \pi(dx) P(x, A)
+%   \]
+%   for all $A \in \mathcal B(E)$.
+%   By geometric ergodicity, $V_n$ converges to a random variable $V$
+%   distributed according to $\pi$. We want to have an efficient estimator of the
+%   probability $\P(V > u)$ as $u \to \infty$. It is understood
+%   \[
+%    \lim_{u \to \infty} u^\xi \P(V > u) = C
+%   \]
+%   for some constant $C > 0$.
+% \end{frame}
 
 % \begin{frame}
-%   $\E_D$ and $\var$ denote expectation and variance taken w.r.t to the
-%   dual measure $\mathcal D$, respectively: 
+%   Collamore and Vidyashankar \cite{collamore2014} showed, when
+%   $V_0$ is in the set $\mathcal C$ and is distributed according to
+%   $\gamma$ defined as
+%   \[
+%   \gamma(E) = \pi(E)/\pi(\mathcal C)\text{ for all } E \in \mathcal B(\mathcal C)
+%   \]
+%   $\mathcal E_u = \pi(\mathcal C) N_u |A_{T_u} \cdots A_{1}
+%   V_0|^{-\xi}\1{T_u < \tau}$ is an unbiased and efficient estimator
+%   w.r.t the dual measure $\mathcal D$:
+%   \[
+%   \E_{\mathcal D} E_u = \P(V > u)
+%   \]
+%   and by ``efficient'' we mean
+%   \[
+%   \lim_{u \to \infty} {
+%     \var_{\mathcal D}(\mathcal E_u)
+%     \over
+%     (\E_{\mathcal D} \mathcal E_u)^2
+%   } < \infty
+%   \]
+%   as defined by Asmusen \cite{opac-b1123521}.
+%   \begin{eqnarray*}
+%     K &:=& \inf\{n \geq 1: V_n \in \mathcal C\} \\
+%     T_u &:=& \min\{n \geq 1: V_n > u\} \\
+%     N_u &:=& \sum_{n=0}^{K-1} \1{V_n > u}
+%   \end{eqnarray*}
 % \end{frame}
 
 \begin{frame}
-  Assert:
+  \frametitle{Does the algorithm give correct estimates?}
+  \begin{exampleblock}{theorem}
   \[
   \lim_{k \to \infty} \lim_{n \to \infty} \hat{\pi}_k \hat{\mathcal
     E}_{u,n} = \P(V > u)
   \]
+  \end{exampleblock}
   What follows is a sketch of the proof by Collamore, Guoqing and
   Vidyashankar \cite{collamore2014}. By the law of large numbers for
   Markov chains
