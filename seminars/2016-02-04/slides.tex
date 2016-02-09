@@ -99,7 +99,7 @@
 {
 Copenhagen University  \\ % Your institution for the title page
 \medskip
-\textit{hnq365@math.ku.dk} % Your email address
+\textit{xie@math.ku.dk} % Your email address
 }
 \date{\today} % Date, can be changed to a custom date
 
@@ -136,12 +136,7 @@ Copenhagen University  \\ % Your institution for the title page
       \]
     \end{enumerate}
     where $Y_i$ are iid copies of $Y$ and are termed ``environment
-    variables''. The {\it GARCH(1, 1)} model is a typical forward sequence.
-    \begin{eqnarray*}
-      V_n &=& \sigma_n^2 \\
-      Y_n &=& \eta_{n-1} \\
-      F_Y(v) &=& (\beta_1 + \alpha_1 Y_n^2) v + \alpha_0
-    \end{eqnarray*}
+    variables''.
 \end{frame}
 
 \begin{frame}
@@ -154,10 +149,15 @@ Copenhagen University  \\ % Your institution for the title page
     \end{eqnarray*}
     In this case
     \[
-    \sigma_n^2 = f_{Y_n} (\sigma_{n-1}) = (\beta_1 + \alpha_1
-    z_{n-1}^2) \sigma_{n-1}^2 + \alpha_0
+    \sigma_n^2 = f_{Y_n} (\sigma_{n-1}^2) =
+    (\beta_1 + \alpha_1 z_{n-1}^2) \sigma_{n-1}^2
+    + \alpha_0
     \]
   \end{exampleblock}
+    \begin{eqnarray*}
+      V &=& \lim_{n \to \infty} \sigma_n^2   \\
+      V &\overset{d}{=}& (\beta_1 + \alpha_1 \eta^2) V + \alpha_0
+    \end{eqnarray*}
 \end{frame}
 
 \begin{frame}
@@ -173,6 +173,10 @@ Copenhagen University  \\ % Your institution for the title page
       {L_n \over R_1 R_2 \cdots R_{n-1}}
     \end{eqnarray*}
   \end{exampleblock}
+  \begin{eqnarray*}
+    W &=& \lim_{n \to \infty} W_n \\
+    W &\overset{d}{=}& L + {1 \over R} \max\{W, 0\}
+  \end{eqnarray*}
 \end{frame}
 
 \begin{frame}
@@ -295,7 +299,7 @@ for some constant $C$.
 \end{frame}
 
 \begin{frame}
-  \frametitle{the Dual Measure}
+  \frametitle{Dual Measure}
   \begin{figure}[htb!]
     \centering
     \includegraphics[scale=0.6]{pic1.pdf}
@@ -308,13 +312,23 @@ for some constant $C$.
   \frametitle{An Efficient Estimator}
   \begin{block}{Theorem}
     \[
-    \mathcal E_u = \pi(\mathcal C) \E_{\mathcal D} {N_u
+    \mathcal E_u = \pi(\mathcal C) {N_u
       \over
       (A_{T_u} \cdots A_1)^\xi
     }\1{T_u < K}
     \]
-    is an efficient estimator of $\P(V > u)$
+    is an efficient estimator of $\P(V > u)$.
   \end{block}
+  This means
+  \begin{eqnarray*}
+    \E_{\mathcal D} \mathcal E_u &=& \P(V > u) \\
+    \sup_{u > 0} {
+      \var_{\mathcal D} \mathcal E_u
+      \over
+      (\E_{\mathcal D} \mathcal E_u)^2
+    } &\leq& K
+  \end{eqnarray*}
+  for some constant K.
 \end{frame}
 
 \begin{frame}
@@ -408,13 +422,15 @@ for some constant $C$.
   \frametitle{An upper bound on $\P(K > n)$}
   Iterating the drift condition gives
   \begin{eqnarray*}
-    \E_\beta |V_n|^\alpha
-    \1{V_{n-1}, \dots, V_1 \in \mathcal C^\complement}
+    \E_\beta \left[
+      |V_n|^\alpha
+      \1{V_{n-1}, \dots, V_1 \in \mathcal C^\complement}
+    \right]
     &\leq& |V_1|^\alpha [a \lambda_\beta(\alpha)]^{n-1}
     \1{V_{n-1}, \dots, V_1 \in \mathcal C^\complement}
   \end{eqnarray*}
-  for some $a > 1$. Even smaller than the LHS is $\E_\beta |V_n|^\alpha
-  \1{V_n, \dots, V_1 \in \mathcal C^\complement}$. $V_n \in \mathcal
+  for some $a > 1$. Even smaller than the LHS is $\E_\beta (|V_n|^\alpha
+  \1{V_n, \dots, V_1 \in \mathcal C^\complement})$. $V_n \in \mathcal
   C^\complement$ means $K > n$ and $|V_n| > M$. Thus
   \[
   \P_\beta(K > n) \leq {
@@ -432,14 +448,16 @@ for some constant $C$.
   > \xi$. Using
   \begin{eqnarray*}
     V_{T_u} &>& u \\
-    {V_{T_u}
-      \over
-      A_{T_u} \cdots A_0
-    } &\leq& \sum_{n=0}^{T_u} {
-      \tilde B_n
-      \over
-      A_n \cdots A_0
-    }
+    % {V_{T_u}
+    %   \over
+    %   A_{T_u} \cdots A_0
+    % } &\leq& \sum_{n=0}^{T_u} {
+    %   \tilde B_n
+    %   \over
+    %   A_n \cdots A_0
+    % }
+    |V_n| &\leq& A_n|V_{n-1}| + (|A_n D_n| + |B_n|) \\
+    &=& A_n |V_{n-1}| + \tilde B_n
   \end{eqnarray*}
   where $A_{0} := 1$, $A_i$ for $i =1, 2, \dots$ are iid and $\tilde B_n :=
   A_n |D_n| + |B_n|$. We get
@@ -465,12 +483,12 @@ for some constant $C$.
   \begin{eqnarray*}
     (u^{2\xi} \E_{\mathcal D} \mathcal{E}^{2\xi}_u)^{1/2\xi} &\leq&
     \sum_{n=0}^\infty
-    (\E N_u^{2r} \1{n-1 < T_u \wedge K})^{1/2r\xi} \times \\
+    \left[\E (N_u^{2r} \1{n-1 < T_u \wedge K})\right]^{1/2r\xi} \times \\
     && [\E (A_n^{-1} \tilde B_n^2)^{s\xi}]^{1/2s\xi} \times \\
-    && \E[
+    && \left\{\E[
     (A_{n-1} \cdots A_0)^{-s\xi}
     \1{n-1 < T_u \wedge K}
-    ]^{1/2s\xi}
+    ]\right\}^{1/2s\xi}
   \end{eqnarray*}
   For the last term on RHS, change to the $-s\xi$ shifted measure to
   obtain
@@ -509,7 +527,7 @@ for some constant $C$.
   \]
   Hence
   \begin{eqnarray*}
-    \E N_u^{2r}\1{n-1 \leq T_u < K} &\leq& \sum_{i=n}^\infty i^{2r}
+    \E \left(N_u^{2r}\1{n-1 \leq T_u < K}\right) &\leq& \sum_{i=n}^\infty i^{2r}
     \P(K > i-1) \\
     &\leq& c \sum_{i=n}^\infty i^{2r} \lambda(\alpha)^i < \infty
   \end{eqnarray*}
@@ -560,37 +578,42 @@ for some constant $C$.
   \]
   for fixed $n \leq T_u$. Then it suffices to show
   \[
-  \sum_{n=0}^\infty {
-    \E (A_n \cdots A_0)^{-s\xi} \1{n \leq T_u < K}
-  } < \infty
+  \sum_{n=0}^\infty
+    \E \left[
+      (A_n \cdots A_0)^{-s\xi} \1{n \leq T_u < K}
+    \right] < \infty
   \]
-  The proof of finiteness of the other terms are identical to that in
-  the other case.
+  % The proof of finiteness of the other terms are identical to that in
+  % the other case.
 \end{frame}
 
 \begin{frame}
   Let $\zeta = s \xi$. Define a sequence $L_k \to 0$ as $k \to \infty$
   and
   \[
-  \E {
-    1 \over
-    (A_k \cdots A_0)^\zeta
-  }  \1{F_k} < {1 \over k^2}
+  \E \left[
+    {
+      1 \over
+      (A_k \cdots A_0)^\zeta
+    }  \1{F_k}\right] < {1 \over k^2}
   \]
   where $F_k$ denotes the event $A_1, A_2, \dots, A_{k} \geq
   L_k$. Clearly
   \[
-  \sum_{k=0}^\infty  \E {
-    1 \over
-    (A_k \cdots A_0)^\zeta
-  }  \1{F_k} <  \sum_{k=1}^\infty {1 \over k^2} < \infty
+  \sum_{k=0}^\infty  \E \left[
+    {
+      1 \over
+      (A_k \cdots A_0)^\zeta
+    }  \1{F_k} \right]
+  <  \sum_{k=1}^\infty {1 \over k^2} < \infty
   \]
   It remains to show
   \[
-  \sum_{k=0}^\infty  \E {
-    1 \over
-    (A_k \cdots A_0)^\zeta
-  }  \1{F_k^\complement} \1{k \leq T_u < K} < \infty
+  \sum_{k=0}^\infty  \E \left[
+    {
+      1 \over
+      (A_k \cdots A_0)^\zeta
+    }  \1{F_k^\complement} \1{k \leq T_u < K} \right] < \infty
   \]
 \end{frame}
 
@@ -602,11 +625,12 @@ for some constant $C$.
   \end{eqnarray*}
   By changing to the $-\zeta$ shifted measure, we obtain
   \[
-  \E {
+  \E \left[
+  {
     1\over
     (A_k \cdots A_0)^\zeta
-  } \1{F_k^\complement} \1{k \leq T_u < K}
-  \leq \E_{-\zeta}(\1{F_k^\complement} \1{k \leq T_u < K})
+  } \1{F_k^\complement} \1{k \leq T_u < K} \right]
+  \leq \E_{-\zeta}\left(\1{F_k^\complement} \1{k \leq T_u < K}\right)
   \lambda_k(-\zeta)^{k-1} 
   \]
 \end{frame}
@@ -667,18 +691,19 @@ for some constant $C$.
   \]
   for some $b < \infty$ a.s. and any $a > 1$. Hence
   \[
-  \sum_{k=0}^\infty \E {
-    1 \over
-    (A_k \cdots A_0)^\zeta
-  }  \1{F_k}  \1{n \leq T_u < K}
+  \sum_{k=0}^\infty \E \left[
+    {
+      1 \over
+      (A_k \cdots A_0)^\zeta
+    }  \1{F_k}  \1{n \leq T_u < K}
+  \right]
   <
   b \sum_{k=0}^\infty \left[
-  {
-    a \lambda (p(\beta - \zeta))
-  }
-\right]^{k-1} < \infty
+    {
+      a \lambda (p(\beta - \zeta))
+    }
+  \right]^{k-1} < \infty
   \]
-
 \end{frame}
 
 \section{Sketch of the Proof of Consistency}
@@ -752,6 +777,27 @@ for some constant $C$.
 \end{frame}
 
 \begin{frame}
+  The 2nd term tends to 0 as $n \to \infty$. By LLN of Markov chains,
+  \begin{eqnarray*}
+    && \lim_{n \to \infty} {1 \over n}
+    \sum_{i=0}^{K_{R_n}-1} \1{V_i > u}  \\
+    &=& \lim_{n \to \infty} {R_n \over n}{1 \over R_n}
+    \sum_{j=0}^{R_n-1} \sum_{l=K_j}^{K_{j+1}-1} \1{V_l > u} \\
+    &=& \pi(\mathcal C) \E_\gamma N_u
+  \end{eqnarray*}
+  By changing to the dual measure we get
+  \[
+  \E_\gamma N_u = \E_{\mathcal D} \left[
+    N_u e^{-\xi S_{T_u}} \1{T_u < \tau} | V_0 \sim \gamma
+  \right]
+  \]
+  where $\gamma(A) = \pi(A) / \pi(\mathcal C)$,
+  $\forall A \subseteq \mathcal C$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Why ${1 \over n} \sum_{i=K_{R_n}}^n \1{V_i > u} \to 0
+    \text{ a.s. }$}
   By the Markov renewal theorem and the geometric ergodicity of $V_n$,
   \[
   \lim_{n \to \infty} e^{\epsilon(J(n) - I(n))} = {

@@ -378,6 +378,7 @@ Now, to prove \eqref{eq:drift}, consider
   \begin{equation*}
     \limsup_{u \to \infty} {\var(\mathcal E_u) \over [\P(|V| > u)]^2} < \infty
   \end{equation*}
+  assuming $\E (|B|^2 \|A\|^{-1})^\zeta < \infty$ for some $\zeta > \xi$.
 \end{theorem}
 \begin{proof}
   The assertion is equivalent to
@@ -477,7 +478,7 @@ Now, to prove \eqref{eq:drift}, consider
         % \left[a\lambda_{-\xi}(2s\xi)\right]^{k-n}
         % \1{T_u < \tau} \P_{-\xi}(T_u = k) \\
       \end{eqnarray*}
-      for $p,q > 1$ and $1/p + 1/q < 1$. In the last step we have used
+      for $p,q > 1$ and $1/p + 1/q = 1$. In the last step we have used
       H\"older's inequality. As shown by Buraczewski, Damek
       and Mikosch \cite{BuraczewskiDamekMikosch2015}, for fixed $n$
       \[
@@ -504,7 +505,7 @@ Now, to prove \eqref{eq:drift}, consider
       \end{eqnarray*}
       Choose $s \in (1, {1 + \epsilon/2})$ such that $\E
       \|A_1\|^{(2sp - 1)\xi} < \infty$; Furthermore, choose $s$ and $a$
-      as close to 1 as is necessary to make $a \lambda(\xi(2s - 1)) <
+      as close to 1 as is necessary to make $a \lambda(\xi(2sp - 1)) <
       \lambda(-\xi)$ and hence $a \lambda_{-\xi}(2sp\xi) < 1$. Such
       choices of $s$ and $a$ are possible since $\lambda(-\xi) >
       \lambda(\xi)=1$. This way,
@@ -519,43 +520,53 @@ Now, to prove \eqref{eq:drift}, consider
         \right) \left(\E_{-\xi}
           \|A_k \cdots A_{n+1}\|^{2sp\xi}
         \right)^{1/p}
-        \P_{-\xi}(\tau > k)^{1/q}
+        \P_{-\xi}(\tau > k)^{1/q} \\
+        &\leq& \sum_{k=n}^{n+N-1} \left[ {
+            \E \|A_1\|^{(2sp-1)\xi}
+            \over
+            \E \|A_1\|^{-\xi}
+        }\right]^{k-n \over p} \P_{-\xi}(\tau > k)
+      + \sum_{k=n+N}^\infty 
+      [a \lambda_{-\xi}(2sp\xi)]^{k-n \over p}
+      \P_{-\xi}(\tau > k)
       \end{eqnarray*}
-
-
-      %%% TO DO %%%
       Applying \eqref{eq:ret_time} with $\beta = -\xi$ gives
-      \begin{eqnarray}
-        && \E_{-\xi} \|A_{T_u} \cdots A_{n+1}\|^{2s\xi}
-        \1{n \leq T_u < \tau} \nonumber \\
-        &\leq& c_1 \sum_{k=n}^{n+N-1} {\lambda_{-\xi}(\alpha)}^k +
-        c_2 a^{-n} \lambda_{-\xi}(2s\xi)^{-n}
-        \sum_{k=n+N}^\infty \left[
-          a \lambda_{-\xi}(2s\xi)
-          \lambda_{-\xi}(\alpha)
-        \right]^k \nonumber \\
-        &\leq& c \lambda_{-\xi}(\alpha)^n \label{eq:norm_term}
-      \end{eqnarray}
-      for some $\alpha \in (0, 2\xi]$. Now we turn to $(\E_{-\xi}
-      N_u^{2r})^{1/2r\xi}$:
-      \begin{eqnarray}
-        \E_{-\xi} N_u^{2r} \leq \E_{-\xi} \tau^{2r} &\leq&
-        \sum_{k=1}^{\infty} k^{2r} \P_{-\xi}(\tau > k-1)
-        \nonumber \\
-        &\leq& c_1 + c_2 \sum_{k=2}^{\infty} k^{2r}
-        \lambda_{-\xi}(\alpha)^{k-2} < \infty \label{eq:Nu}
-      \end{eqnarray}
-      By assumption $\E \|B\|^{(1 + \epsilon) \xi} < \infty$. Hence
-      $\E|B|^{-\xi} > 1/\E|B|^\xi > 0$. It follows
-      \begin{eqnarray}
-        \E_{-\xi}|B_n|^{2s\xi} &=& {
-          \E |B_n|^{\xi(2s - 1)}
-          \over
-          \E |B_n|^{-\xi}
-        } \leq \E |B|^{(1 + \epsilon) \xi} \E |B|^{\xi} < \infty \label{eq:Bn}
-      \end{eqnarray}
-      Combining \eqref{eq:norm_term}, \eqref{eq:Nu}, \eqref{eq:Bn} and
-      \eqref{eq:xi_above_half} we get
+      $\P_{-\xi}(\tau > k) \leq b \lambda_{-\xi}(\alpha)$ for some $b
+      > 1$ and $\lambda_{-\xi}(\alpha) = \lambda(-\xi +
+      \alpha)/\lambda(-\xi) < 1$. Thus we have
+      \begin{eqnarray*}
+        && \sum_{k=n}^\infty
+        \left(\E_{-\xi}
+          \|A_k \cdots A_{n+1}\|^{2sp\xi}
+        \right)^{1/p}
+        \P_{-\xi}(\tau > k)^{1/q} \\
+        &\leq& c_1 \sum_{k=n}^{n+N-1}
+        [b \lambda_{-\xi}(\alpha)]^{(k-1)/q}
+        + \sum_{k=n+N}^\infty
+        [b \lambda_{-\xi}(\alpha)]^{(k-1)/q} \\
+        &\leq& c [b \lambda_{-\xi}(\alpha)]^{n/q}
+      \end{eqnarray*}
+      Regarding the term $\E_{-\xi}|B_n|^{2l\xi}$ we have
+      \begin{eqnarray*}
+        && \E_{-\xi}|B_n|^{2l\xi} \\
+        &=& \E|B_n|^{2l\xi} \\
+        &=& \E \left(
+          {|B_n|^2 \over \|A_n\|}
+          \|A_n\|
+        \right)^{l\xi} \\
+        &\leq& \left[
+          \E \left(
+            {|B_n|^2 \over \|A_n\|}
+          \right)^{lp\xi}
+        \right]^{1/p}
+        \left(
+          \E \|A_n\|^{lq\xi}
+        \right)^{1/q}
+      \end{eqnarray*}
+      for some $1/p + 1/q = 1$. By assumption, both factors in the
+      expression above are finite when $s, p$ are chosen sufficiently
+      close to 1. Combining \eqref{eq:norm_term}, \eqref{eq:Nu},
+      \eqref{eq:Bn} and \eqref{eq:xi_above_half} we get
       \begin{eqnarray}
         \left[ \E_{-\xi} N_u^2 
           |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
