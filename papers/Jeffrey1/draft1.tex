@@ -299,9 +299,10 @@ Now, to prove \eqref{eq:drift}, consider
       M^\alpha \inf_{|\tilde V_n|} r_\beta(|\tilde V_n|; \alpha) \1{\tau > n}\right]
     &\leq& \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|;
     \alpha) \I{{\mathcal C}^\complement}(V_1) \nonumber \\
-    \P_\beta(\tau > n) &\leq& K \rho_\beta(\alpha)^{n-1} \label{eq:ret_time}
+    \P_\beta(\tau > n) &\leq& K \rho_\beta(\alpha)^{n-1} \\
+    &=& K [b \lambda_{\beta}(\alpha)]^{n-1} \label{eq:ret_time}
   \end{eqnarray}
-  for some constant $K$.
+  for some constant $K$ and some $b > 1$.
 \end{remark}
 
 \begin{lemma}\label{lemma:prob_bound}
@@ -378,7 +379,20 @@ Now, to prove \eqref{eq:drift}, consider
   \begin{equation*}
     \limsup_{u \to \infty} {\var(\mathcal E_u) \over [\P(|V| > u)]^2} < \infty
   \end{equation*}
-  assuming $\E (|B|^2 \|A\|^{-1})^\zeta < \infty$ for some $\zeta > \xi$.
+  Under the following conditions:
+  \begin{enumerate}
+  \item $\lambda(-\xi) < \infty$, and $\exists h > 1$,
+    $\exists \theta > 1$, $\E\|A\|^{h\xi} < \infty$,
+    $\E\left({|B|^2 \over \|A\|}\right)^{\theta\xi} < \infty$,
+    $h^{-1} + \theta^{-1} < 1$ and
+    \begin{equation}
+      \label{eq:deepness}
+      \inf_{\alpha \in (0, \xi)} \left(\log \E\|A\|^{\alpha}\right)
+      < -{2 \over h-1} \max\{\log \lambda(-\xi), \log\E\|A\|^{h \xi}\}
+      < 0
+    \end{equation}
+  \item $\lambda(-\xi) = \infty$
+  \end{enumerate}
 \end{theorem}
 \begin{proof}
   The assertion is equivalent to
@@ -452,34 +466,45 @@ Now, to prove \eqref{eq:drift}, consider
           |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
           \lambda(-\xi)^{T_u}
           \1{n \leq T_u < \tau} \right]^{1/2\xi} \nonumber \\
-        &\leq& (\E_{-\xi} N_u^{2r})^{1/2r\xi}
-        (\E_{-\xi} \lambda(-\xi)^{tT_u}\1{n \leq T_u < \tau})^{1/2t\xi}
-        (\E_{-\xi}|B_n|^{2s\xi})^{1/2s\xi}  \times \nonumber \\
-        && (\E_{-\xi} \|A_{T_u} \cdots A_{n+1}\|^{2s\xi}
-        \1{n \leq T_u < \tau})^{1/2s\xi}
+        &\leq& 
+        \left[\E_{-\xi}\left( \|A_{T_u} \cdots A_{n+1}\|^{2s\xi}
+            |B_n|^{2s\xi}
+            \lambda(-\xi)^{s T_u}
+            \1{n \leq T_u < \tau}\right)\right]^{1/2s\xi}
+        \times\nonumber \\
+        && \left(\E_{-\xi} N_u^{2r}\right)^{1/2r\xi} \nonumber \\
+        &\leq& 
+        \left[\E_{-\xi}\left( \|A_{T_u} \cdots A_{n+1}\|^{2s\xi}
+            \lambda(-\xi)^{s T_u}
+            \1{n \leq T_u < \tau}\right)\right]^{1/2s\xi}
+        \times\nonumber \\
+        && \left(\E_{-\xi}|B_n|^{2s\xi}\right)^{1/2s\xi}
+        \left(\E_{-\xi} N_u^{2r}\right)^{1/2r\xi}
         \label{eq:xi_above_half}
       \end{eqnarray}
+      where $1/s + 1/r = 1$. For the first factor we have
 
-      For the last factor we have
       \begin{eqnarray*}
         && \E_{-\xi}\left(\|A_{T_u} \cdots A_{n+1}\|^{2s\xi}
-        \1{n \leq T_u < \tau}\right) \\
+          \lambda(-\xi)^{s T_u}
+          \1{n \leq T_u < \tau}\right) \\
         &=& \sum_{k=n}^\infty \E_{-\xi} \left(
           \|A_k \cdots A_{n+1}\|^{2s\xi}
-        \1{T_u = k} \1{k < \tau}\right)  \\
+          \lambda(-\xi)^{s k}
+          \1{T_u = k} \1{k < \tau}\right)  \\
       &\leq& \sum_{k=n}^\infty
        \left(\E_{-\xi}
          \|A_k \cdots A_{n+1}\|^{2sp\xi}
        \right)^{1/p}
       \P_{-\xi}(\tau > k)^{1/q}
-        % &\leq& c_1 \sum_{k=n}^{n+N-1} \1{k < \tau}
-        % P_{-\xi}(T_u = k) \\
-        % && + \sum_{k=n+N}^\infty
-        % \left[a\lambda_{-\xi}(2s\xi)\right]^{k-n}
-        % \1{T_u < \tau} \P_{-\xi}(T_u = k) \\
+      \lambda(-\xi)^{sk}
       \end{eqnarray*}
-      for $p,q > 1$ and $1/p + 1/q = 1$. In the last step we have used
-      H\"older's inequality. As shown by Buraczewski, Damek
+      In the last step we have used H\"older's inequality with
+      \begin{eqnarray*}
+        p &=& {h + 1 \over 2s} \\
+        q &=& (1 - 1/p)^{-1}
+      \end{eqnarray*}
+      As shown by Buraczewski, Damek
       and Mikosch \cite{BuraczewskiDamekMikosch2015}, for fixed $n$
       \[
       \lim_{k \to \infty}
@@ -497,12 +522,89 @@ Now, to prove \eqref{eq:drift}, consider
       independence of $A_{n+1}, A_{n+2}, \dots, A_k$ we have
       \begin{eqnarray*}
         && \E_{-\xi} \|A_k \dots A_{n+1}\|^{2sp\xi} \\
-        &\leq& \left[\E_{-\xi} \|A_1\|^{2sp\xi}\right]^{k-n} \\
-        &=& \left[{\E \|A_1\|^{(2sp - 1)\xi}
-            \over
-            \E \|A_1\|^{-\xi}}
-        \right]^{k-n}
+        &\leq& \left[\E_{-\xi} \|A_1\|^{2sp\xi}\right]^{k-n}
       \end{eqnarray*}
+      Therefore we get
+      \begin{eqnarray*}
+      && \sum_{k=n}^\infty
+       \left(\E_{-\xi}
+         \|A_k \cdots A_{n+1}\|^{2sp\xi}
+       \right)^{1/p}
+      \P_{-\xi}(\tau > k)^{1/q}
+      \lambda(-\xi)^{sk} \\
+      &\leq& \sum_{k=n}^{n+N-1} \left(
+        \E_{-\xi} \|A\|^{2sp\xi}
+      \right)^{k-n \over p} \P_{-\xi}(\tau > k)^{1/q}
+      \lambda(-\xi)^{sk} \\
+      && + \sum_{k=n+N}^\infty \left[
+        a \lambda_{-\xi}(2sp\xi)
+      \right]^{k-n \over p} \P_{-\xi}(\tau > k)^{1/q}
+      \lambda(-\xi)^{sk} \\
+      &=& S_1 + S_2
+      \end{eqnarray*}
+      Here we note
+      \begin{eqnarray*}
+        \E_{-\xi} \|A\|^{2sp\xi} = {
+          \E \|A\|^{(2sp-1)\xi}
+          \over
+          \E \|A\|^{-\xi}
+        } \leq {
+          \E \|A\|^{(2sp-1)\xi}
+          \over
+          \lambda(-\xi)
+        } := \omega
+      \end{eqnarray*}
+      By applying \eqref{eq:ret_time} with $\beta = -\xi$, we get
+      \[
+      \P_{-\xi}(\tau > k) \leq K [a \lambda_{-\xi}(\alpha)]^{k-1}
+      \]
+      Thus
+      \begin{eqnarray*}
+        S_1 &\leq& c_1 \omega^{-n/p}
+        \sum_{k=n}^{n+N-1} \omega^{k/p}
+        [a \lambda_{-\xi}(\alpha)]^{k/q}
+        \lambda(-\xi)^{sk} \\
+        &=& c_1 \left[
+          a^{1/q} \lambda(-\xi)^s \lambda_{-\xi}(\alpha)^{1/q}
+        \right]^{n}
+      \end{eqnarray*}
+      We note
+      \begin{eqnarray*}
+        && \lambda(-\xi)^s \lambda_{-\xi}(\alpha)^{1/q}\\
+        &\leq& \lambda(-\xi)^s \left[
+          {
+            \E \|A\|^{\alpha - \xi}
+            \over
+            \lambda(-\xi)
+          }
+        \right]^{1/q} \\
+        &=& \lambda(-\xi)^{s - 1 + {2s \over h+1}} \left(
+          \E \|A\|^{\alpha - \xi}
+        \right)^{1 - {2s \over h+1}}
+      \end{eqnarray*}
+      By assumption \eqref{eq:deepness}
+      \[
+      \lambda(-\xi)^s \lambda_{-\xi}(\alpha)^{1/q} < \infty      
+      \]
+      when $s$ is sufficiently close to 1. Choose $a$ sufficiently
+      close to 1 such that
+      \[
+      a^{1/q} \lambda(-\xi)^s \lambda_{-\xi}(\alpha)^{1/q} < \infty
+      \]
+      As for $S_2$
+      \begin{eqnarray*}
+        S_2 &\leq& c_2 \sum_{k=n+N}^\infty
+        (a \omega)^{k-n \over p}
+        [a \lambda_{-\xi}(\alpha)]^{k/q}
+        \lambda(-\xi)^{sk} \\
+        &=& c_2 (a \omega)^{-n/p}
+        \sum_{k=n+N}^\infty \left[
+          (a \omega)
+        \right]^k
+      \end{eqnarray*}
+
+      
+
       Choose $s \in (1, {1 + \epsilon/2})$ such that $\E
       \|A_1\|^{(2sp - 1)\xi} < \infty$; Furthermore, choose $s$ and $a$
       as close to 1 as is necessary to make $a \lambda(\xi(2sp - 1)) <
