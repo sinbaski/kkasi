@@ -23,15 +23,15 @@
 % which change the colors and layouts of slides. Below this is a list
 % of all the themes, uncomment each in turn to see what they look like.
 
-%\usetheme{default}
+% \usetheme{default}
 %\usetheme{AnnArbor}
 %\usetheme{Antibes}
 %\usetheme{Bergen}
-%\usetheme{Berkeley}
+\usetheme{Berkeley}
 %\usetheme{Berlin}
 %\usetheme{Boadilla}
 %\usetheme{CambridgeUS}
-\usetheme{Copenhagen}
+%\usetheme{Copenhagen}
 %\usetheme{Darmstadt}
 %\usetheme{Dresden}
 %\usetheme{Frankfurt}
@@ -58,7 +58,7 @@
 %\usecolortheme{albatross}
 %\usecolortheme{beaver}
 %\usecolortheme{beetle}
-\usecolortheme{crane}
+%\usecolortheme{crane}
 %\usecolortheme{dolphin}
 %\usecolortheme{dove}
 %\usecolortheme{fly}
@@ -66,7 +66,7 @@
 %\usecolortheme{orchid}
 %\usecolortheme{rose}
 %\usecolortheme{seagull}
-%\usecolortheme{seahorse}
+\usecolortheme{seahorse}
 %\usecolortheme{whale}
 %\usecolortheme{wolverine}
 
@@ -89,10 +89,11 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title{An Efficient Estimator of 1D MC Exceedance Probability for Perpurtuities} % The
-                                % short title appears at the bottom of
-                                % every slide, the full title is only
-                                % on the title page
+\title{An Efficient Estimator of 1D MC Exceedance Probability for
+  Perpurtuities}
+% The short title appears at the bottom of
+% every slide, the full title is only
+% on the title page
 
 \author{Xie Xiaolei} % Your name
 \institute[UCPH] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
@@ -174,7 +175,7 @@ Copenhagen University  \\ % Your institution for the title page
     \end{eqnarray*}
   \end{exampleblock}
   \begin{eqnarray*}
-    W &=& \lim_{n \to \infty} W_n \\
+    W &=& \sup_{n \geq 1} W_n \\
     W &\overset{d}{=}& L + {1 \over R} \max\{W, 0\}
   \end{eqnarray*}
 \end{frame}
@@ -273,29 +274,45 @@ for some constant $C$.
 
 \begin{frame}
   Let $\mathcal D$ denotes the dual measure:
-  If $n < T_u$, i.e. the MC
-  has not exceeded the level $u$, $A_{n+1}$ is sampled from the
+  Before the MC exceeds the level $u$, $\log A_{n}$ is sampled from the
   $\xi$-shifted distribution $\mu_\xi$; otherwise it is sampled from
-  $\mu$. For a set $S \subseteq \text{supp}(A)$
-  \begin{eqnarray*}
-    \mu_\xi (S) &=& {
-      \int_{S} a^\xi \mu(da)
-      \over
-      \int_{\text{supp}(A)} a^\xi \mu(da)
-    } = {\E A^\xi \I{S}(A)
-      \over
-      \E A^\xi
-    }
-  \end{eqnarray*}
-  Denote
-  \begin{eqnarray*}
-    \lambda(\alpha) &=& \E A^{\alpha} \\
-    \lambda_\beta(\alpha) &=& \E_\beta A^{\alpha} = {
-      \E A^{\alpha + \beta}
-      \over
-      \E A^{\beta}
-    }
-  \end{eqnarray*}  
+  $\mu$.
+  \[
+  \mu_\xi(dx) = e^{x \xi}\mu(dx)
+  \]
+  For a general change of measure
+  \[
+  \mu_\alpha(dx) = {
+    e^{\alpha x}\mu(dx)
+    \over
+    \lambda(\alpha)
+  }
+  \]
+  where
+  \[
+  \lambda(\alpha) = \int e^{x \alpha} \mu(dx)
+  \]
+  But $\lambda(\xi) = \E A^\xi = 1$.
+  %% For a set $S \subseteq \text{supp}(A)$
+  %% \begin{eqnarray*}
+  %%   \mu_\xi (S) &=& {
+  %%     \int_{S} a^\xi \mu(da)
+  %%     \over
+  %%     \int_{\text{supp}(A)} a^\xi \mu(da)
+  %%   } = {\E A^\xi \I{S}(A)
+  %%     \over
+  %%     \E A^\xi
+  %%   }
+  %% \end{eqnarray*}
+  %% Denote
+  %% \begin{eqnarray*}
+  %%   \lambda(\alpha) &=& \E A^{\alpha} \\
+  %%   \lambda_\beta(\alpha) &=& \E_\beta A^{\alpha} = {
+  %%     \E A^{\alpha + \beta}
+  %%     \over
+  %%     \E A^{\beta}
+  %%   }
+  %% \end{eqnarray*}  
 \end{frame}
 
 \begin{frame}
@@ -321,9 +338,9 @@ for some constant $C$.
   \end{block}
   This means
   \begin{eqnarray*}
-    \E_{\mathcal D} \mathcal E_u &=& \P(V > u) \\
+    \E_{\mathcal D}(\mathcal E_u) &=& \P(V > u) \\
     \sup_{u > 0} {
-      \var_{\mathcal D} \mathcal E_u
+      \var_{\mathcal D}(\mathcal E_u)
       \over
       (\E_{\mathcal D} \mathcal E_u)^2
     } &\leq& K
@@ -444,10 +461,10 @@ for some constant $C$.
 \end{frame}
 
 \begin{frame}
-  First consider the case $\lambda(-\alpha) < \infty$ for some $\alpha
-  > \xi$. Using
+  \frametitle{$\lim_{u \to \infty} u^{2\xi} \E_{\mathcal D}[N_u^2 e^{-2\xi
+        S_{T_u}} \1{T_u < \tau}] < \infty$}
+  In case $\lambda(-\alpha) < \infty$ for some $\alpha > \xi$, use
   \begin{eqnarray*}
-    V_{T_u} &>& u \\
     % {V_{T_u}
     %   \over
     %   A_{T_u} \cdots A_0
@@ -459,8 +476,13 @@ for some constant $C$.
     |V_n| &\leq& A_n|V_{n-1}| + (|A_n D_n| + |B_n|) \\
     &=& A_n |V_{n-1}| + \tilde B_n
   \end{eqnarray*}
-  where $A_{0} := 1$, $A_i$ for $i =1, 2, \dots$ are iid and $\tilde B_n :=
-  A_n |D_n| + |B_n|$. We get
+  and obtain
+  \[
+  |V_{T_u}| \leq \sum_{n=0}^{\infty} A_{T_u} \cdots A_{n+1} \tilde B_n
+  \]
+  Also note $V_{T_u}$ is the first value larger than $u$ for the
+  Markov chain, hence $V_{T_u}$ is only mildly larger than $u$. This
+  gives us
   \[
   \E_{\mathcal D}(\mathcal E_u^2 u^{2\xi}) \leq
   \E_{\mathcal D} \left[
@@ -469,12 +491,14 @@ for some constant $C$.
     \sum_{n=0}^{\infty} {
       \tilde B_n
       \over
-      |A_n \cdots A_0|
+      A_n \cdots A_0
     }
     \1{n \leq T_u < K}
     \right)^{2\xi}
     \right]
   \]
+  The $A_{T_u} \cdots A_{n+1}$ term from the summand cancels its
+  counterpart from $e^{-\xi S_{T_u}}$.
 \end{frame}
 
 \begin{frame}
@@ -640,7 +664,7 @@ for some constant $C$.
   \lambda(\alpha)$ as $k \to \infty$. By Minkowski's inequality
   followed by H\"older's inequality, we obtain
   \begin{eqnarray*}
-    \E_{-s\xi} \left( |V_{1,k}|^\beta | V_{0,k} = w\right) &\leq& {
+    \E_{-\zeta} \left( |V_{1,k}|^\beta | V_{0,k} = w\right) &\leq& {
     t [\E \bar A_{1,k}^{p(\beta - \zeta)}]^{1/p}
     \over
     \lambda_k(-\zeta)
