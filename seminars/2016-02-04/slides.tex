@@ -157,7 +157,7 @@ Copenhagen University  \\ % Your institution for the title page
   \end{exampleblock}
     \begin{eqnarray*}
       V &=& \lim_{n \to \infty} \sigma_n^2   \\
-      V &\overset{d}{=}& (\beta_1 + \alpha_1 \eta^2) V + \alpha_0
+      V &\overset{d}{=}& (\beta_1 + \alpha_1 z^2) V + \alpha_0
     \end{eqnarray*}
 \end{frame}
 
@@ -266,7 +266,7 @@ for some constant $C$.
   \]
   where $K$ is a typical return time to the set $\mathcal C$ and
   \[
-  N_u = \sum_{i=1}^{K - 1} \1{V > u}
+  N_u = \sum_{i=0}^{K - 1} \1{V_i > u}
   \]
   It is straight forward to show $\E K = 1/\pi(\mathcal C)$. We need to
   have an efficient estimator for $\E N_u$.
@@ -516,12 +516,13 @@ for some constant $C$.
   \end{eqnarray*}
   For the last term on RHS, change to the $-s\xi$ shifted measure to
   obtain
-  \[
-  \E[
-    (A_{n-1} \cdots A_0)^{-s\xi}
-    \1{n-1 < T_u \wedge K}
-    ]^{1/2s\xi} = \lambda(-s\xi)^{n-1} \P_{-s\xi}(n-1 < T_u \wedge K)
-  \]
+  \begin{eqnarray*}
+  && \E[
+  (A_{n-1} \cdots A_0)^{-s\xi}
+  \1{n-1 < T_u \wedge K}
+  ]^{1/2s\xi}\\
+  &=& \lambda(-s\xi)^{n-1} \P_{-s\xi}(n-1 < T_u \wedge K)
+  \end{eqnarray*}
 \end{frame}
 
 \begin{frame}
@@ -612,32 +613,38 @@ for some constant $C$.
 \end{frame}
 
 \begin{frame}
-  Let $\zeta = s \xi$. Define a sequence $L_k \to 0$ as $k \to \infty$
-  and
+  Let $\zeta = s \xi$. Define a sequence $L_n = n^{2/\zeta(n+1)}$,
+  then
+  \begin{eqnarray*}
+    && \E \left[
+      {
+        1 \over
+        (A_n \cdots A_0)^\zeta
+      }  \1{F_n}\right] \\
+    &\leq& \E {
+      1
+      \over
+      L_n^{(n+1)\zeta}
+    } \\
+    &=& n^{-2}
+  \end{eqnarray*}
+  where $F_n$ denotes the event $A_1, A_2, \dots, A_{n} \geq
+  L_n$. Then it is clear
   \[
-  \E \left[
+  \sum_{n=0}^\infty  \E \left[
     {
       1 \over
-      (A_k \cdots A_0)^\zeta
-    }  \1{F_k}\right] < {1 \over k^2}
-  \]
-  where $F_k$ denotes the event $A_1, A_2, \dots, A_{k} \geq
-  L_k$. Clearly
-  \[
-  \sum_{k=0}^\infty  \E \left[
-    {
-      1 \over
-      (A_k \cdots A_0)^\zeta
-    }  \1{F_k} \right]
-  <  \sum_{k=1}^\infty {1 \over k^2} < \infty
+      (A_n \cdots A_0)^\zeta
+    }  \1{F_n} \right]
+  <  \sum_{n=1}^\infty {1 \over n^2} < \infty
   \]
   It remains to show
   \[
-  \sum_{k=0}^\infty  \E \left[
+  \sum_{n=0}^\infty  \E \left[
     {
       1 \over
-      (A_k \cdots A_0)^\zeta
-    }  \1{F_k^\complement} \1{k \leq T_u < K} \right] < \infty
+      (A_n \cdots A_0)^\zeta
+    }  \1{F_n^\complement} \1{n \leq T_u < K} \right] < \infty
   \]
 \end{frame}
 
@@ -647,16 +654,26 @@ for some constant $C$.
     \bar A_{n,k} &=& A_{n} \1{A_n \geq L_k} + L_k \1{A_n < L_k} \\
     \lambda_k(\alpha) &=& \E \bar A_{1,k}^\alpha
   \end{eqnarray*}
+  Note
+  \begin{eqnarray*}
+    \lambda_k(-\zeta) &=& \E \left(\bar A_{n,k}^{-\zeta}\right) \\
+    &\leq& L_k^{-\zeta} = k^{-2/(k+1)} < \infty
+  \end{eqnarray*}
+  for all $k \geq 1$.
+  \end{frame}
+
+  \begin{frame}
   By changing to the $-\zeta$ shifted measure, we obtain
-  \[
-  \E \left[
+  \begin{eqnarray*}
+  && \E \left[
   {
     1\over
-    (A_k \cdots A_0)^\zeta
-  } \1{F_k^\complement} \1{k \leq T_u < K} \right]
-  \leq \E_{-\zeta}\left(\1{F_k^\complement} \1{k \leq T_u < K}\right)
-  \lambda_k(-\zeta)^{k-1} 
-  \]
+    (\bar A_{n,k} \cdots \bar A_{0,k})^\zeta
+  } \1{F_k^\complement} \1{n \leq T_u < K} \right] \\
+  &\leq&
+  \E_{-\zeta}\left(\1{F_k^\complement} \1{n \leq T_u < K}\right)
+  \lambda_k(-\zeta)^{n-1} 
+  \end{eqnarray*}
 \end{frame}
 
 \begin{frame}
@@ -687,8 +704,12 @@ for some constant $C$.
 \end{frame}
 
 \begin{frame}
-  Such a choice is possible because $\lambda_{1,k}(p(\beta - \zeta))
-  \to \lambda(p(\beta - \zeta))$ and
+  Such a choice is possible because
+  \[
+  \lambda_{1,k}(p(\beta - \zeta))
+  \to \lambda(p(\beta - \zeta))
+  \]
+  and
   \[
   \inf_{\alpha > 1} \lambda(\alpha) < 1
   \]
@@ -703,31 +724,34 @@ for some constant $C$.
     \right]^{q\beta} < 1
   \]
   So we have obtained an inequality similar to the drift condition in
-  the $\lambda(-\xi) < \infty$ case.  Iterating this inequality gives
+  the $\lambda(-\xi) < \infty$ case.
+\end{frame}
+
+\begin{frame}
+  Iterating this inequality gives
   \[
-  \E_{-\zeta}(\1{F_k^\complement} \1{k \leq T_u < K}) \leq b \left[
-  {
-    a \lambda (p(\beta - \zeta))
-    \over
-    \lambda(-\zeta)
-  }
-\right]^{k-1}
+  \E_{-\zeta}(\1{F_k^\complement} \1{n \leq T_u < K}) \leq b \left[
+    {
+      a \lambda_k(p(\beta - \zeta))
+      \over
+      \lambda_k(-\zeta)
+    }
+  \right]^{n-1}
   \]
   for some $b < \infty$ a.s. and any $a > 1$. Hence
-  \[
-  \sum_{k=0}^\infty \E \left[
-    {
-      1 \over
-      (A_k \cdots A_0)^\zeta
-    }  \1{F_k}  \1{n \leq T_u < K}
-  \right]
-  <
-  b \sum_{k=0}^\infty \left[
-    {
-      a \lambda (p(\beta - \zeta))
-    }
-  \right]^{k-1} < \infty
-  \]
+  \begin{eqnarray*}
+    && \E \left[
+      {
+        1\over
+        (\bar A_{n,k} \cdots \bar A_{0,k})^\zeta
+      } \1{F_k^\complement} \1{n \leq T_u < K} \right] \\
+    &<& 
+    b \sum_{k=0}^\infty \left[
+      {
+        a \lambda_k(p(\beta - \zeta))
+      }
+    \right]^{k-1} < \infty
+  \end{eqnarray*}
 \end{frame}
 
 \section{Sketch of the Proof of Consistency}
