@@ -271,11 +271,13 @@ Now, to prove \eqref{eq:drift}, consider
     \end{equation}
   \end{enumerate}    
 \end{proof}
+
 \begin{remark}
   Iterating \eqref{eq:drift} yields
   \[
   \E_\beta \left[
-    |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n-1}\I{{\mathcal C}^\complement}(V_i)\right]
+    |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha)
+    \prod_{i=1}^{n-1}\I{{\mathcal C}^\complement}(V_i)\right]
   \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I{{\mathcal C}^\complement}(V_1)
   \]
   Then it follows
@@ -317,6 +319,7 @@ Now, to prove \eqref{eq:drift}, consider
     g_k(x) \leq c^k x^{k-1}
   \end{equation}
 \end{lemma}
+
 \begin{proof}
   For convenience, write $\Pi_k$ for $\|A_k \cdots A_1\|^\zeta$. Suppose
   the inequality \eqref{eq:prob_bound} does not hold, i.e. given
@@ -479,7 +482,7 @@ Now, to prove \eqref{eq:drift}, consider
             \1{n \leq T_u < \tau}\right)\right]^{1/2s\xi}
         \times\nonumber \\
         && \left(\E_{-\xi}|B_n|^{2s\xi}\right)^{1/2s\xi}
-        \left(\E_{-\xi} N_u^{2r}\right)^{1/2r\xi}
+        \left[\E_{-\xi}(N_u^{2r}\1{n \leq T_u < \tau})\right]^{1/2r\xi}
         \label{eq:xi_above_half}
       \end{eqnarray}
       where $1/s + 1/r = 1$. For the first factor we have
@@ -584,13 +587,14 @@ Now, to prove \eqref{eq:drift}, consider
       \end{eqnarray*}
       By assumption \eqref{eq:deepness}
       \[
-      \lambda(-\xi)^s \lambda_{-\xi}(\alpha)^{1/q} < \infty      
+      \lambda(-\xi)^s \lambda_{-\xi}(\alpha)^{1/q} < 1
       \]
       when $s$ is sufficiently close to 1. Choose $a$ sufficiently
       close to 1 such that
-      \[
-      a^{1/q} \lambda(-\xi)^s \lambda_{-\xi}(\alpha)^{1/q} < \infty
-      \]
+      \begin{equation}
+        \label{eq:S_1}
+        a^{1/q} \lambda(-\xi)^s \lambda_{-\xi}(\alpha)^{1/q} < 1
+      \end{equation}
       As for $S_2$
       \begin{eqnarray*}
         S_2 &\leq& c_2 \sum_{k=n+N}^\infty
@@ -599,95 +603,106 @@ Now, to prove \eqref{eq:drift}, consider
         \lambda(-\xi)^{sk} \\
         &=& c_2 (a \omega)^{-n/p}
         \sum_{k=n+N}^\infty \left[
-          (a \omega)
+          (a \omega)^{1/p}
+          (a \lambda_{-\xi}(\alpha))^{1/q}
+          \lambda(-\xi)^s
         \right]^k
       \end{eqnarray*}
-
-      
-
-      Choose $s \in (1, {1 + \epsilon/2})$ such that $\E
-      \|A_1\|^{(2sp - 1)\xi} < \infty$; Furthermore, choose $s$ and $a$
-      as close to 1 as is necessary to make $a \lambda(\xi(2sp - 1)) <
-      \lambda(-\xi)$ and hence $a \lambda_{-\xi}(2sp\xi) < 1$. Such
-      choices of $s$ and $a$ are possible since $\lambda(-\xi) >
-      \lambda(\xi)=1$. This way,
+      When $a$ and $s$ are chosen sufficiently close to 1,
+      \[
+          (a \omega)^{1/p}
+          (a \lambda_{-\xi}(\alpha))^{1/q}
+          \lambda(-\xi)^s < 1
+      \]
+      by assumption \eqref{eq:deepness}. Thus we have
+      \begin{equation}
+        \label{eq:S_2}
+        S_2 \leq c_2 \left[
+          a^{1 - 1/p} \lambda(-\xi)^{s + 1/p - 1}
+          (\E\|A_1\|^{\alpha - \xi})^{1 - 1/p}
+          \right]^n
+      \end{equation}
+      Again, by assumption \eqref{eq:deepness}, the expression in the
+      bracket is below 1 when $a$ and $s$ are chosen sufficiently
+      close to 1. As for the term $\E_{-\xi}|B_n|^{2s\xi}$ we have
       \begin{eqnarray*}
-        && \sum_{k=n}^\infty
-        \left(\E_{-\xi}
-          \|A_k \cdots A_{n+1}\|^{2sp\xi}
-        \right)^{1/p}
-        \P_{-\xi}(\tau > k)^{1/q} \\
-        &=& \left(
-          \sum_{k=n}^{n+N-1} + \sum_{k=n+N}^{\infty}
-        \right) \left(\E_{-\xi}
-          \|A_k \cdots A_{n+1}\|^{2sp\xi}
-        \right)^{1/p}
-        \P_{-\xi}(\tau > k)^{1/q} \\
-        &\leq& \sum_{k=n}^{n+N-1} \left[ {
-            \E \|A_1\|^{(2sp-1)\xi}
-            \over
-            \E \|A_1\|^{-\xi}
-        }\right]^{k-n \over p} \P_{-\xi}(\tau > k)
-      + \sum_{k=n+N}^\infty 
-      [a \lambda_{-\xi}(2sp\xi)]^{k-n \over p}
-      \P_{-\xi}(\tau > k)
-      \end{eqnarray*}
-      Applying \eqref{eq:ret_time} with $\beta = -\xi$ gives
-      $\P_{-\xi}(\tau > k) \leq b \lambda_{-\xi}(\alpha)$ for some $b
-      > 1$ and $\lambda_{-\xi}(\alpha) = \lambda(-\xi +
-      \alpha)/\lambda(-\xi) < 1$. Thus we have
-      \begin{eqnarray*}
-        && \sum_{k=n}^\infty
-        \left(\E_{-\xi}
-          \|A_k \cdots A_{n+1}\|^{2sp\xi}
-        \right)^{1/p}
-        \P_{-\xi}(\tau > k)^{1/q} \\
-        &\leq& c_1 \sum_{k=n}^{n+N-1}
-        [b \lambda_{-\xi}(\alpha)]^{(k-1)/q}
-        + \sum_{k=n+N}^\infty
-        [b \lambda_{-\xi}(\alpha)]^{(k-1)/q} \\
-        &\leq& c [b \lambda_{-\xi}(\alpha)]^{n/q}
-      \end{eqnarray*}
-      Regarding the term $\E_{-\xi}|B_n|^{2l\xi}$ we have
-      \begin{eqnarray*}
-        && \E_{-\xi}|B_n|^{2l\xi} \\
-        &=& \E|B_n|^{2l\xi} \\
-        &=& \E \left(
-          {|B_n|^2 \over \|A_n\|}
-          \|A_n\|
-        \right)^{l\xi} \\
+        \E_{-\xi}|B_n|^{2s\xi} &=& \E|B_n|^{2s\xi} \\
         &\leq& \left[
           \E \left(
-            {|B_n|^2 \over \|A_n\|}
-          \right)^{lp\xi}
-        \right]^{1/p}
-        \left(
-          \E \|A_n\|^{lq\xi}
+             {
+               |B_n|^2
+               \over
+               \|A_1\|
+             }
+          \right)^{sp\xi}
+          \right]^{1/p} \left(
+        \E \|A_1\|^{sq\xi}
         \right)^{1/q}
       \end{eqnarray*}
-      for some $1/p + 1/q = 1$. By assumption, both factors in the
-      expression above are finite when $s, p$ are chosen sufficiently
-      close to 1. Combining \eqref{eq:norm_term}, \eqref{eq:Nu},
-      \eqref{eq:Bn} and \eqref{eq:xi_above_half} we get
-      \begin{eqnarray}
-        \left[ \E_{-\xi} N_u^2 
-          |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
-          \1{n \leq T_u < \tau} \right]^{1/2\xi} \leq c
-        \lambda_{-\xi}(\alpha)^n \label{eq:xi_above_half_final}
-      \end{eqnarray}
-      Inserting RHS of the above into \eqref{eq:xi_above_half_prel}
-      gives
+      where we choose $s < {\theta h \over \theta + h}$ (Note ${\theta
+        h \over \theta + h} > 1$ by assumption $1/h + 1/\theta < 1$),
+      $p \in ({h \over h - s}, \theta/s)$ and $q= (1 - 1/p)^{-1}$.
+      With such choices,
       \begin{eqnarray*}
-        && \sum_{n=0}^{\infty}
-        \left[
-          \E_{-\xi} N_u^2 
-          |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
-          \1{n \leq T_u < \tau}
-        \right]^{1/2\xi} \\
-        &\leq& c \sum_{n=0}^{\infty} \lambda_{-\xi}(\alpha)^n
-        = {c \over 1 - \lambda_{-\xi}(\alpha)}
+          \E \left(
+             {
+               |B_n|^2
+               \over
+               \|A_1\|
+             }
+             \right)^{sp\xi}
+             &\leq&
+         \E \left(
+            {
+              |B_n|^2
+              \over
+              \|A_1\|
+            }
+            \right)^{\theta\xi} < \infty \\
+        \E \|A_1\|^{sq\xi} &\leq& \E \|A_1\|^{h\xi} < \infty
       \end{eqnarray*}
-      From this it is clear $f(\xi) < \infty$.
+      Thus
+      \begin{equation}
+        \label{eq:B_n}
+        \E_{-\xi}|B_n|^{2s\xi} < \infty
+      \end{equation}
+      Finally, as for the term
+      $\E_{-\xi}(N_u^{2r}\1{n \leq T_u < \tau})$
+      we have
+      \begin{eqnarray*}
+        && \E_{-\xi}(N_u^{2r}\1{n \leq T_u < \tau}) \\
+        &\leq& \E_{-\xi} \tau^{2r} \1{n < \tau} \\
+        &=& \sum_{k=n+1}^\infty k^{2r}
+        \P_{-\xi}(\tau > k-1) \\
+      \end{eqnarray*}
+      Using \eqref{eq:ret_time} with $\beta = -\xi$ we get
+      \begin{eqnarray*}
+        \P_{-\xi}(\tau > k-1) &\leq&
+        c (a \lambda_{-\xi}(\alpha))^{k-2} \\
+        &\leq& c \left[
+          {
+            \E\|A_1\|^{\alpha - \xi}
+            \over
+            \E\|A_1\|^{-\xi}
+          }
+          \right]^{k-2}
+      \end{eqnarray*}
+      Note $\E\|A_1\|^{\alpha - \xi}/\E\|A_1\|^{-\xi} < 1$.
+      It follows
+      \begin{equation}
+        \label{eq:N_u}
+        \E_{-\xi}(N_u^{2r}\1{n \leq T_u < \tau}) \leq
+        c \left[
+          {
+            \E\|A_1\|^{\alpha - \xi}
+            \over
+            \E\|A_1\|^{-\xi}
+          }
+          \right]^{n}
+      \end{equation}
+      From \eqref{eq:S_1}, \eqref{eq:S_2}, \eqref{eq:B_n} and
+      \eqref{eq:N_u}, it is clear $f(\xi) < \infty$.
+      
       \item If $\xi < 1/2$, the function $(\cdot)^{2\xi}$ is
         subadditive. Hence
         \begin{eqnarray*}
