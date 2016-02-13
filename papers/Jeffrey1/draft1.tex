@@ -382,7 +382,7 @@ Now, to prove \eqref{eq:drift}, consider
   \begin{equation*}
     \limsup_{u \to \infty} {\var(\mathcal E_u) \over [\P(|V| > u)]^2} < \infty
   \end{equation*}
-  Under the following conditions:
+  under one of the following conditions:
   \begin{enumerate}
   \item $\lambda(-\xi) < \infty$, and $\exists h > 1$,
     $\exists \theta > 1$, $\E\|A\|^{h\xi} < \infty$,
@@ -394,6 +394,7 @@ Now, to prove \eqref{eq:drift}, consider
       < -{2 \over h-1} \max\{\log \lambda(-\xi), \log\E\|A\|^{h \xi}\}
       < 0
     \end{equation}
+    \label{assumptions:1}
   \item $\lambda(-\xi) = \infty$
   \end{enumerate}
 \end{theorem}
@@ -431,8 +432,7 @@ Now, to prove \eqref{eq:drift}, consider
   constants whose values have no importance and depend on the
   context.
   \begin{enumerate}
-  \item We first consider the case $\lambda(-\xi(1 + \epsilon)) <
-    \infty$.
+  \item We first consider the case with condition \ref{assumptions:1}
     \begin{enumerate}
     \item If $\xi \geq 1/2$, Minkowski's inequality gives
       \begin{eqnarray}
