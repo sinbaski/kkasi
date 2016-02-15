@@ -384,10 +384,9 @@ Now, to prove \eqref{eq:drift}, consider
   \end{equation*}
   under one of the following conditions:
   \begin{enumerate}
-  \item $\lambda(-\xi) < \infty$, and $\exists h > 1$,
-    $\exists \theta > 1$, $\E\|A\|^{h\xi} < \infty$,
-    $\E\left({|B|^2 \over \|A\|}\right)^{\theta\xi} < \infty$,
-    $h^{-1} + \theta^{-1} < 1$ and
+  \item $\lambda(-\xi) \leq \E \|A\|^{-\xi} < \infty$, $\exists h > 1$,
+    $\E\|A\|^{h\xi} < \infty$,
+    $\forall \theta > 0, \E |B|^{\theta} < \infty$ and
     \begin{equation}
       \label{eq:deepness}
       \inf_{\alpha \in (0, \xi)} \left(\log \E\|A\|^{\alpha}\right)
@@ -470,22 +469,20 @@ Now, to prove \eqref{eq:drift}, consider
           \lambda(-\xi)^{T_u}
           \1{n \leq T_u < \tau} \right]^{1/2\xi} \nonumber \\
         &\leq& 
-        \left[\E_{-\xi}\left( \|A_{T_u} \cdots A_{n+1}\|^{2s\xi}
-            |B_n|^{2s\xi}
-            \lambda(-\xi)^{s T_u}
-            \1{n \leq T_u < \tau}\right)\right]^{1/2s\xi}
-        \times\nonumber \\
-        && \left(\E_{-\xi} N_u^{2r}\right)^{1/2r\xi} \nonumber \\
+        \left[ \E_{-\xi} N_u^2 
+          \|A_{T_u} \cdots A_{n+1}\|^{2\xi} |B_n|^{2\xi}
+          \lambda(-\xi)^{T_u}
+          \1{n \leq T_u < \tau} \right]^{1/2\xi} \nonumber \\
         &\leq& 
         \left[\E_{-\xi}\left( \|A_{T_u} \cdots A_{n+1}\|^{2s\xi}
             \lambda(-\xi)^{s T_u}
             \1{n \leq T_u < \tau}\right)\right]^{1/2s\xi}
         \times\nonumber \\
-        && \left(\E_{-\xi}|B_n|^{2s\xi}\right)^{1/2s\xi}
+        && \left(\E_{-\xi}|B_n|^{2r\xi}\right)^{1/2r\xi}
         \left[\E_{-\xi}(N_u^{2r}\1{n \leq T_u < \tau})\right]^{1/2r\xi}
         \label{eq:xi_above_half}
       \end{eqnarray}
-      where $1/s + 1/r = 1$. For the first factor we have
+      where $1/s + 2/r = 1$. For the first factor we have
 
       \begin{eqnarray*}
         && \E_{-\xi}\left(\|A_{T_u} \cdots A_{n+1}\|^{2s\xi}
@@ -625,50 +622,11 @@ Now, to prove \eqref{eq:drift}, consider
       Again, by assumption \eqref{eq:deepness}, the expression in the
       bracket is below 1 when $a$ and $s$ are chosen sufficiently
       close to 1. As for the term $\E_{-\xi}|B_n|^{2s\xi}$ we have
-      \begin{eqnarray*}
-        \E_{-\xi}|B_n|^{2s\xi} &=& \E|B_n|^{2s\xi} \\
-        &\leq& \left[
-          \E \left(
-             {
-               |B_n|^2
-               \over
-               \|A_1\|
-             }
-          \right)^{sp\xi}
-          \right]^{1/p} \left(
-        \E \|A_1\|^{sq\xi}
-        \right)^{1/q}
-      \end{eqnarray*}
-      where we choose $s < {\theta h \over \theta + h}$ (Note ${\theta
-        h \over \theta + h} > 1$ by assumption $1/h + 1/\theta < 1$),
-      $p \in ({h \over h - s}, \theta/s)$ and $q= (1 - 1/p)^{-1}$.
-      With such choices,
-      \begin{eqnarray*}
-          \E \left(
-             {
-               |B_n|^2
-               \over
-               \|A_1\|
-             }
-             \right)^{sp\xi}
-             &\leq&
-         \E \left(
-            {
-              |B_n|^2
-              \over
-              \|A_1\|
-            }
-            \right)^{\theta\xi} < \infty \\
-        \E \|A_1\|^{sq\xi} &\leq& \E \|A_1\|^{h\xi} < \infty
-      \end{eqnarray*}
-      Thus
-      \begin{equation}
+      \begin{eqnarray}
+        \E_{-\xi}|B_n|^{2s\xi} &=& \E|B_n|^{2s\xi} < \infty
         \label{eq:B_n}
-        \E_{-\xi}|B_n|^{2s\xi} < \infty
-      \end{equation}
-      Finally, as for the term
-      $\E_{-\xi}(N_u^{2r}\1{n \leq T_u < \tau})$
-      we have
+      \end{eqnarray}
+      by assumption. Finally,
       \begin{eqnarray*}
         && \E_{-\xi}(N_u^{2r}\1{n \leq T_u < \tau}) \\
         &\leq& \E_{-\xi} \tau^{2r} \1{n < \tau} \\
@@ -719,8 +677,8 @@ Now, to prove \eqref{eq:drift}, consider
             |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
             \1{n \leq T_u < \tau}
         \end{eqnarray*}
-        The same arguments that lead to \eqref{eq:xi_above_half_final}
-        show $f(\xi) < \infty$.
+        The same arguments as in the case $\xi  \geq 1/2$ show
+        $f(\xi) < \infty$.
     \end{enumerate}
   \item Now we consider the case $\lambda(-\xi) = \infty$. In this
     case we assume in addition
