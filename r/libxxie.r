@@ -224,3 +224,16 @@ computeCovCorr <- function(data, max.lag=60) {
 largeComp <- function(data, level) {
     return(data * (abs(data) > level));
 }
+
+hillEstimate <- function(X, probs) {
+    p <- length(probs);
+    tailIndices <- rep(NA, p);
+    b <- quantile(X, probs[p]);
+    tailIndices[p] <- 1/mean(log(X[which(X > b)]/b));
+
+    if (p == 2) {
+        a <- quantile(X, probs[1]);
+        tailIndices[1] <- 1/mean(log(X[which(X < a)]/a));
+    }
+    return (tailIndices);
+}
