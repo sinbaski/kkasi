@@ -49,7 +49,7 @@ for (i in 1:p) {
     results <- dbSendQuery(
         database,
         sprintf(
-            "select rate from %s where day >= '2013-01-01' order by day;",
+            "select rate from %s order by day;",
             currencies[i])
         );
     prices <- fetch(results, n=-1)[[1]];
@@ -64,62 +64,16 @@ for (i in 1:p) {
 }
 dbDisconnect(database);
 
-for (i in 1:p) {
-    for (j in i:p) {
-        X <- ret[,i] * ret[,j];
-        tailIndices[(j-1)*j/2 + i] <- hillEstimate(X, probs=0.97);
-##        tailIndices[j,i] <- tailIndices[i,j];
-    }
+test <- rep(NA, 21);
+m <- 1;
+for (n in seq(from=200, to=1200, by=50)) {
+    C <- cov(ret[1:n,]);
+    E <- eigen(C, only.values=TRUE);
+    test[m] <- (E$values[1] - E$values[p])/sum(E$values);
+    m <- m + 1;
 }
-
-## filled.contour(x=1:p, y=1:p, z=tailIndices, axes = TRUE);
-names <- c(
-    ## Oceania
-    "NZD",
-    "AUD",
-    
-    ## Asia
-    "CNY",
-    "HKD",
-    "JPY",
-    "KRW",
-#    "SAR", # Saudi-Arabia
-    "SGD", # Singapore
-    "THB", # Thailand
-#    "TRY", # Turkey
-    
-    ## Europe
-    "CHF",
-#    "CZK", # Czech
-    "DKK",
-    "EUR",
-    "GBP",
-#    "HUF", # Hungary
-    "NOK",
-#    "PLN", # Poland
-
-    ## Africa
-#    "MAD", # Maroco
-    
-    ## Americas
-    "CAD",
-    "USD",
-    "MXN" # Mexico
-    );
-M <- max(tailIndices);
-m <- min(tailIndices);
-colors <- gray((tailIndices-m)/(M-m));
-pdf("/tmp/FX_HillEstimates.pdf")
-plot(1, 1, type="n", xlim=c(1,p+2), ylim=c(1,p));
-for (i in 1:p) {
-    for (j in i:p) {
-        points(x=i, y=j, pch=19, cex=(M/tailIndices[j*(j-1)/2 + i])^2,
-               col=colors[(j-1)*j/2+i]);
-    }
-}
-axis(side=1, at=1:p, labels=names);
-axis(side=2, at=1:p, labels=names);
-## image.plot(legend.only=TRUE, zlim=c(m, M), col=sort(colors))
-image.plot(x=seq(1,p+2), y=1:p, legend.only=TRUE, zlim=c(m, M), col=sort(colors));
+pdf("/tmp/SV.pdf");
+plot(seq(from=200, to=1200, by=50), test, type="p",
+     main=expression(frac(lambda[(1)] - lambda[(p)], plain(trace))),
+     xlab="n", ylab="");
 dev.off();
-

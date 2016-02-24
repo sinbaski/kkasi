@@ -237,3 +237,4 @@ hillEstimate <- function(X, probs) {
     }
     return (tailIndices);
 }
+
