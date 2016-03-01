@@ -712,10 +712,10 @@ Now, to prove \eqref{eq:drift}, consider
     Note
     \[
     \|A_n \dots A_{i+1} A_i \cdots A_1\| \geq
-    c_i^{-1} \|A_n \cdots A_{i+1}\|
+    C^{-1} \|A_n \cdots A_{i+1}\|
     \|A_i \cdots A_{1}\|
     \]
-    for some $c_i > 1$. We have
+    for some $C > 1$. We have
     \[
     \|A_n \cdots A_1\|^{-1} \1{n \leq T_u < \tau}
     \leq
@@ -724,7 +724,7 @@ Now, to prove \eqref{eq:drift}, consider
         |B_i|
         \over
         \|A_i \cdots A_1\|
-      } c_i
+      } C
     \right] \1{n \leq T_u < \tau}
     \]
     Let
@@ -734,11 +734,11 @@ Now, to prove \eqref{eq:drift}, consider
     We obtain
     \begin{eqnarray*}
       \left(
-        1 - {c_n \over M} |B_n|
+        1 - {C \over M} |B_n|
       \right)^\zeta J_n^\zeta
       &\leq&
       \left(
-        {|B_0| \over M} + \sum_{i=1}^{n-1} {c_i |B_i| \over M} J_i
+        {|B_0| \over M} + \sum_{i=1}^{n-1} {C |B_i| \over M} J_i
       \right)^\zeta
     \end{eqnarray*}
     By Minkowski's inequality, the above yields
@@ -747,13 +747,13 @@ Now, to prove \eqref{eq:drift}, consider
       {
         1 \over
         \E \left(
-          1 - {c_n \over M} |B_n|
+          1 - {C \over M} |B_n|
         \right)^\zeta
       }
       \left[
         {|B_0| \over M}
         +
-        \sum_{i=1}^{n-1} {c_i \over M}
+        \sum_{i=1}^{n-1} {C \over M}
         (\E |B_i|^\zeta)^{1/\zeta}
         (\E J_i^\zeta)^{1/\zeta}
       \right]^\zeta \label{eq:neg_pow_ub}
@@ -771,11 +771,11 @@ Now, to prove \eqref{eq:drift}, consider
         1 + {|B_1| \over |V_0| \|A_1\|}
       \right)^\zeta \1{n\leq T_u < \tau}\right] < \infty
     \end{eqnarray*}
-    Thus iterating \eqref{eq:neg_pow_ub} gives
-    \[
-    \E J_n^\zeta \leq cn^\zeta
-    \]
-    for some constant $c$.
+    % Thus iterating \eqref{eq:neg_pow_ub} gives
+    % \[
+    % \E J_n^\zeta \leq cn^\zeta
+    % \]
+    % for some constant $c$.
 
     Now using Minkowski's inequality on RHS of
     \eqref{eq:efficiency_target} leads to
