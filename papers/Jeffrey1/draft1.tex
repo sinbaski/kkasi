@@ -706,8 +706,8 @@ Now, to prove \eqref{eq:drift}, consider
           \|A_n \cdots A_{i+1}\|
           \over
           \|A_n \cdots A_{1}\|
-        } |B_i|
-      \right] \1{n \leq T_u < \tau}
+        } |B_i| \1{n \leq T_u < \tau}
+      \right]
     \end{eqnarray*}
     Note
     \[
@@ -721,11 +721,11 @@ Now, to prove \eqref{eq:drift}, consider
     \leq
     {1 \over M} \left[
       |B_0| + \sum_{i=1}^n {
-        |B_i|
+        C |B_i|
         \over
         \|A_i \cdots A_1\|
-      } C
-    \right] \1{n \leq T_u < \tau}
+      }  \1{n \leq T_u < \tau}
+    \right]
     \]
     Let
     \[
@@ -743,40 +743,76 @@ Now, to prove \eqref{eq:drift}, consider
     \end{eqnarray*}
     By Minkowski's inequality, the above yields
     \begin{eqnarray}
-      \E J_n^\zeta &\leq&
-      {
-        1 \over
+      (\E J_n^\zeta)^{1/\zeta} &\leq&
+      \left[
         \E \left(
           1 - {C \over M} |B_n|
         \right)^\zeta
-      }
+      \right]^{-\zeta} \times \nonumber \\
+      &&
       \left[
         {|B_0| \over M}
         +
         \sum_{i=1}^{n-1} {C \over M}
         (\E |B_i|^\zeta)^{1/\zeta}
         (\E J_i^\zeta)^{1/\zeta}
-      \right]^\zeta \label{eq:neg_pow_ub}
+      \right] \label{eq:neg_pow_ub} \\
+      &=& c_1 + c_2 \sum_{i=1}^{n-1} (\E J_i^\zeta)^{1/\zeta}
+      \nonumber
     \end{eqnarray}
     Since
     \begin{eqnarray*}
       V_1 &=& A_1 V_0 + B_1 \\
       |V_1| &\leq& \|A_1\| |V_0| + |B_1| \\
       \end{eqnarray*}
-      For all $n \geq 1$, by assumption $\E (|B|/\|A\|)^\zeta < \infty$,
-      \begin{eqnarray*}
-      \E (\|A_1\|^{-\zeta}\1{n\leq T_u < \tau})
+      and by assumption $\E (|B|/\|A\|)^\zeta < \infty$, we have
+      \begin{eqnarray}
+        (\E J_1^\zeta)^{1/\zeta} &=&
+        \left[
+        \E (\|A_1\|^{-\zeta}\1{n\leq T_u < \tau})
+      \right]^{1/\zeta} \nonumber \\
       &\leq&
-      {|V_0|^\zeta \over M^\zeta} \E \left[\left(
+      {|V_0|\over M} \E \left[\left(
         1 + {|B_1| \over |V_0| \|A_1\|}
-      \right)^\zeta \1{n\leq T_u < \tau}\right] < \infty
-    \end{eqnarray*}
-    % Thus iterating \eqref{eq:neg_pow_ub} gives
-    % \[
-    % \E J_n^\zeta \leq cn^\zeta
-    % \]
-    % for some constant $c$.
-
+      \right)^\zeta
+      \1{n\leq T_u < \tau}\right]^{1/\zeta}< \infty
+    \label{eq:J_1}
+    \end{eqnarray}
+    Let
+    \[
+    y_1 = 
+    {|V_0|\over M} \E \left[\left(
+        1 + {|B_1| \over |V_0| \|A_1\|}
+      \right)^\zeta \1{n\leq T_u < \tau}\right]^{1/\zeta}
+    \]
+    and
+    \begin{equation}
+      \label{eq:y_n}
+      y_n = c_1 + c_2 \sum_{i=1}^{n-1} y_i      
+    \end{equation}
+    Then \eqref{eq:neg_pow_ub}, \eqref{eq:y_n} and \eqref{eq:J_1}
+    yield
+    \[
+    (\E J_n^\zeta)^{1/\zeta} \leq y_n
+    \]
+    Meanwhile \eqref{eq:y_n} gives, $\forall n \geq 1$,
+    \begin{equation*}
+      y_n = y_1 (1 + c_2)^{n-1} 
+    \end{equation*}
+    In summary,
+    \begin{equation*}
+      \E (\|A_n \cdots A_1\|^{-\zeta} \1{n \leq T_u < \tau}) \leq
+      y_1^\zeta (1 + c_2)^{(n-1)\zeta}
+    \end{equation*}
+    where
+    \[
+    c_2 =  \left[
+        \E \left(
+          1 - {C \over M} |B_n|
+        \right)^\zeta
+      \right]^{-\zeta}
+      {C (\E |B_1|^\zeta)^{1/\zeta} \over M}
+    \]
     Now using Minkowski's inequality on RHS of
     \eqref{eq:efficiency_target} leads to
       \begin{eqnarray*}
