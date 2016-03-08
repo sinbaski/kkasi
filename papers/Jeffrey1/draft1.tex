@@ -689,10 +689,10 @@ Now, to prove \eqref{eq:drift}, consider
     \]
     it follows
     \begin{eqnarray*}
-      |V_n|\1{n \leq T_u < \tau} &\leq&
+      |V_n|\1{\tau > n} &\leq&
       \sum_{i=0}^{n} \|A_n \cdots A_{i+1}\| |B_i| \\
-      \|A_n \cdots A_1\|^{-1} \1{n \leq T_u < \tau}
-      &\leq& |V_n|^{-1} \1{n \leq T_u < \tau}
+      \|A_n \cdots A_1\|^{-1} \1{\tau > n}
+      &\leq& |V_n|^{-1} \1{\tau > n}
       \left[
         |B_0| + \sum_{i=1}^n {
           \|A_n \cdots A_{i+1}\|
@@ -706,7 +706,7 @@ Now, to prove \eqref{eq:drift}, consider
           \|A_n \cdots A_{i+1}\|
           \over
           \|A_n \cdots A_{1}\|
-        } |B_i| \1{n \leq T_u < \tau}
+        } |B_i| \1{\tau > n}
       \right]
     \end{eqnarray*}
     Note
@@ -717,49 +717,48 @@ Now, to prove \eqref{eq:drift}, consider
     \]
     for some $C > 1$. We have
     \[
-    \|A_n \cdots A_1\|^{-1} \1{n \leq T_u < \tau}
+    \|A_n \cdots A_1\|^{-1} \1{\tau > n}
     \leq
     {1 \over M} \left[
       |B_0| + \sum_{i=1}^n {
         C |B_i|
         \over
         \|A_i \cdots A_1\|
-      }  \1{n \leq T_u < \tau}
+      }  \1{\tau > n}
     \right]
     \]
     Let
     \[
-    J_k = \|A_k \cdots A_1\|^{-1} \1{n \leq T_u < \tau}
+    J_k = \|A_k \cdots A_1\|^{-1} \1{\tau > n}
     \]
     We obtain
     \begin{eqnarray*}
       \left(
-        1 - {C \over M} |B_n|
-      \right)^\zeta J_n^\zeta
-      &\leq&
-      \left(
-        {|B_0| \over M} + \sum_{i=1}^{n-1} {C |B_i| \over M} J_i
-      \right)^\zeta
+        \E J_n^\zeta
+      \right)^{1/\zeta} &\leq& \left[
+        \E \left(
+          {|B_0| \over M}
+          + {C \over M} \sum_{i=1}^n |B_i| J_i
+        \right)^\zeta
+        \right]^{1/\zeta}
     \end{eqnarray*}
-    By Minkowski's inequality, the above yields
+    Using Minkowski's inequality and the independence of $B_i$ and
+    $A_i, \dots, A_1$ , the above yields
     \begin{eqnarray}
       (\E J_n^\zeta)^{1/\zeta} &\leq&
-      \left[
-        \E \left(
-          1 - {C \over M} |B_n|
-        \right)^\zeta
-      \right]^{-\zeta} \times \nonumber \\
-      &&
-      \left[
-        {|B_0| \over M}
-        +
-        \sum_{i=1}^{n-1} {C \over M}
-        (\E |B_i|^\zeta)^{1/\zeta}
-        (\E J_i^\zeta)^{1/\zeta}
-      \right] \label{eq:neg_pow_ub} \\
-      &=& c_1 + c_2 \sum_{i=1}^{n-1} (\E J_i^\zeta)^{1/\zeta}
+      {|B_0| \over M} + {C \over M}
+      \sum_{i=1}^n
+      (\E |B_i|^\zeta)^{1/\zeta}
+      (\E J_i^\zeta)^{1/\zeta}
+      \label{eq:neg_pow_ub} \\
+      &=& h_1 + h_2 \sum_{i=1}^{n-1} (\E J_i^\zeta)^{1/\zeta}
       \nonumber
     \end{eqnarray}
+    where
+    \begin{eqnarray*}
+      h_1 &=& {|B_0| \over M} \\
+      h_2 &=& {C \over M} (\E |B_1|^\zeta)^{1/\zeta}
+    \end{eqnarray*}
     Since
     \begin{eqnarray*}
       V_1 &=& A_1 V_0 + B_1 \\
@@ -769,13 +768,13 @@ Now, to prove \eqref{eq:drift}, consider
       \begin{eqnarray}
         (\E J_1^\zeta)^{1/\zeta} &=&
         \left[
-        \E (\|A_1\|^{-\zeta}\1{n\leq T_u < \tau})
+        \E (\|A_1\|^{-\zeta}\1{\tau > n})
       \right]^{1/\zeta} \nonumber \\
       &\leq&
       {|V_0|\over M} \E \left[\left(
         1 + {|B_1| \over |V_0| \|A_1\|}
       \right)^\zeta
-      \1{n\leq T_u < \tau}\right]^{1/\zeta}< \infty
+      \1{\tau > n}\right]^{1/\zeta}< \infty
     \label{eq:J_1}
     \end{eqnarray}
     Let
@@ -783,36 +782,24 @@ Now, to prove \eqref{eq:drift}, consider
     y_1 = 
     {|V_0|\over M} \E \left[\left(
         1 + {|B_1| \over |V_0| \|A_1\|}
-      \right)^\zeta \1{n\leq T_u < \tau}\right]^{1/\zeta}
+      \right)^\zeta \1{\tau > n}\right]^{1/\zeta}
     \]
     and
     \begin{equation}
       \label{eq:y_n}
-      y_n = c_1 + c_2 \sum_{i=1}^{n-1} y_i      
+      y_n = h_1 + h_2 \sum_{i=1}^{n-1} y_i      
     \end{equation}
     Then \eqref{eq:neg_pow_ub}, \eqref{eq:y_n} and \eqref{eq:J_1}
     yield
-    \[
-    (\E J_n^\zeta)^{1/\zeta} \leq y_n
-    \]
+    \begin{equation}
+      \label{eq:J_n_2}
+      (\E J_n^\zeta)^{1/\zeta} \leq y_n      
+    \end{equation}
     Meanwhile \eqref{eq:y_n} gives, $\forall n \geq 1$,
-    \begin{equation*}
-      y_n = y_1 (1 + c_2)^{n-1} 
-    \end{equation*}
-    In summary,
-    \begin{equation*}
-      \E (\|A_n \cdots A_1\|^{-\zeta} \1{n \leq T_u < \tau}) \leq
-      y_1^\zeta (1 + c_2)^{(n-1)\zeta}
-    \end{equation*}
-    where
-    \[
-    c_2 =  \left[
-        \E \left(
-          1 - {C \over M} |B_n|
-        \right)^\zeta
-      \right]^{-\zeta}
-      {C (\E |B_1|^\zeta)^{1/\zeta} \over M}
-    \]
+    \begin{equation}
+      \label{eq:y_n_2}
+      y_n = {y_1 \over (1 - h_2)^{n-1}}
+    \end{equation}
     Now using Minkowski's inequality on RHS of
     \eqref{eq:efficiency_target} leads to
       \begin{eqnarray*}
@@ -847,7 +834,98 @@ Now, to prove \eqref{eq:drift}, consider
           \right]^{1/2\xi}
         \right\}^{2\xi}
       \end{eqnarray*}
-  \end{enumerate}
+      By H\"older's inequality we have
+      \begin{eqnarray*}
+        &&
+        \E \left(
+          N_u^2
+          \frac{
+            |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
+          }{
+            |A_{T_u} \cdots A_1 V_0|^\xi
+          }
+          \1{n \leq T_u < \tau}
+        \right) \\
+        &\leq&
+        (\E N_u^{2r}\1{n \leq T_u < \tau})^{1/r}
+        \left(
+          \E {
+            |A_{T_u} \cdots A_{n+1} B_n|^{2s \xi}
+            \over
+            |A_{T_u} \cdots A_1 V_0|^{s \xi}
+          } \1{n \leq T_u < \tau}
+        \right)^{1/s}
+        (\E \1{n \leq T_u < \tau})^{1/r} \\
+        &\leq&
+        c
+        (\E N_u^{2r}\1{n \leq T_u < \tau})^{1/r}
+        \left(
+          \E {
+            \|A_{T_u} \cdots A_{n+1} \|^{2s\xi} |B_n|^{2s \xi}
+            \over
+            \|A_{T_u} \cdots A_{n+1} \|^{s\xi} \|A_n\|^{s\xi}
+            \|A_{n-1} \cdots A_1\|^{s\xi} |V_0|^{s \xi}
+          } \1{n \leq T_u < \tau}
+        \right)^{1/s} \times \\
+        &&
+        (\E \1{n \leq T_u < \tau})^{1/r} \\
+        &\leq&
+        c
+        (\E N_u^{2r}\1{n \leq T_u < \tau})^{1/r}
+        \left(
+          \E {
+            \|A_{T_u} \cdots A_{n+1} \|^{s\xi}
+            \over
+            \|A_{n-1} \cdots A_1\|^{s\xi}
+         }
+         \1{n \leq T_u < \tau}
+          \right)^{1/s}         
+          \left(
+          \E {
+            |B_n|^{2s\xi}
+            \over
+            |A_n|^{2\xi}
+          }
+        \right)^{1/s} \times \\
+        &&
+        (\E \1{n \leq T_u < \tau})^{1/r}
+      \end{eqnarray*}
+      where $r$ and $s$ satisify $1/s + 2/r = 1$.
+      The last line follows from the second last using the fact that
+      each $A_n$ and $B_n$ is independent.
+      
+      Observe
+      \begin{eqnarray*}
+        &&
+          \E
+        \left(
+          {
+            \|A_{T_u} \cdots A_{n+1} \|^{s\xi}
+            \over
+            \|A_{n-1} \cdots A_1\|^{s\xi}
+         }
+         \1{n \leq T_u < \tau}
+          \right) \\
+          &=&
+          \sum_{k=n}^{\infty}
+          \E \left(
+            {
+              \|A_k \cdots A_{n+1}\|^{s\xi}
+              \over
+              \|A_{n-1} \cdots A_1\|^{s\xi}
+            } \1{T_u = k} \1{\tau > k \geq n}
+          \right) \\
+          &\leq& \sum_{k=n}^\infty
+          \E \|A_k \cdots A_{n+1}\|^{s \xi}
+          \E (\|A_{n-1} \cdots A_1\|^{-s\xi} \1{\tau > n})
+      \end{eqnarray*}
+      From \eqref{eq:J_n_2} and \eqref{eq:y_n_2} we get
+      \begin{equation*}
+        \E (\|A_{n-1} \cdots A_1\|^{-s\xi} \1{\tau > n})
+        \leq
+        [y_1 (1 - c_2)^{-(n-2)}]^\zeta
+      \end{equation*}
+    \end{enumerate}
 \end{proof}
 
 
