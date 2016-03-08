@@ -258,16 +258,14 @@ Now, to prove \eqref{eq:drift}, consider
       \rho_\beta(\alpha) |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha) \I{{\mathcal C}^\complement}(V_{n-1})
     \end{eqnarray*}
     where ${\mathcal C}^\complement$ denotes the complement of the set
-    $\mathcal C$:
+    $\mathcal C = [-M, M]$ where
     \begin{equation}
       \label{eq:C_set}
-      \mathcal C := \left\{
-        v: |v| \leq M, M = \left[
+      M  \geq \left[
           \E_\beta (|B|^\alpha r_\beta(\tilde B; \alpha)) 
           \over
-          [1 - \lambda(\alpha)] r_\beta(\tilde v; \alpha)
+          [1 - \lambda_\beta(\alpha)] r_\beta(\tilde v; \alpha)
         \right]^{1/\alpha}
-      \right\}
     \end{equation}
   \end{enumerate}    
 \end{proof}
@@ -307,76 +305,6 @@ Now, to prove \eqref{eq:drift}, consider
   for some constant $K$ and some $b > 1$.
 \end{remark}
 
-\begin{lemma}\label{lemma:prob_bound}
-  Assume $\lambda(\zeta) < \infty$. Let $g_k(x)$ denote the density
-  function of the continuous component of $\|A_k \cdots A_1\|^\zeta$.
-  Assume $g_k(\cdot)$ exists on $[0, x_1]$, $x_1 < 1$ and $g_k(0) = 0$.
-  Then $\forall x_0 \in [0, x_1]$, $\exists N \geq 1, \exists c > 0$
-  such that $\forall k \geq N$, if $g_k(x)$ exists on $(a, b)
-  \subseteq (0, x_0)$, then $\forall x \in (a, b)$
-  \begin{equation}
-    \label{eq:prob_bound}
-    g_k(x) \leq c^k x^{k-1}
-  \end{equation}
-\end{lemma}
-
-\begin{proof}
-  For convenience, write $\Pi_k$ for $\|A_k \cdots A_1\|^\zeta$. Suppose
-  the inequality \eqref{eq:prob_bound} does not hold, i.e. given
-  $x_0 < 1$, $\forall N \geq 1, (a, b) \subseteq (0, x_0), c
-  > 0$, $\exists k > N$ such that $\exists x \in  (a, b)$
-  \begin{equation*}
-    g_k(x) > c^k x^{k-1}
-  \end{equation*}
-  Suppose $(a_1, b_1) \subseteq (a, b)$, $i = 1, 2, \dots$ is
-  an interval on which \eqref{eq:prob_bound} is not true. Then
-  \begin{eqnarray*}
-    \E \Pi_k \1{a < \Pi_k < b} &\geq&
-    \int_{a_1}^{b_1} x \P(\Pi_k \in [x, x+dx)) \\
-    &>& {c^k \over k + 1} (b_1^{k+1} - a_1^{k+1})
-  \end{eqnarray*}
-  By the mean value theorem, $\exists t \in (a_1, b_1)$ such that
-  $(b_1 - a_1)(k+1) t^k = b_1^{k+1} - a_1^{k+1}$. So we have
-  \begin{eqnarray*}
-    \E \Pi_k \1{a < \Pi_k < b} &>& (c t)^k(b_1 - a_1) \\
-    (\E \Pi_k \1{a < \Pi_k < b})^{1/k} &>& c t (b_1 - a_1)^{1/k}
-  \end{eqnarray*}
-  If $x_0 < 1$, $(b_1 - a_1)^{1/k} \to 1$ from below as $k \to
-  \infty$, then $\forall \delta < 1$, k can be chosen sufficiently
-  large such that $(b_1 - a_1)^{1/k} > \delta$. Therefore, for an arbitrary
-  $d > 1$, if $c$ is chosen to be larger than ${d\lambda(\zeta) \over
-    t \delta}$ and $k$ chosen sufficiently large, we have
-  \[
-  (\E \Pi_k \1{a < \Pi_k < b})^{1/k} > d \lambda(\zeta)
-  \]
-  But the results of Buraczewski, Damek and Mikosch imply
-  that $(\E \Pi_k)^{1/k} \leq d \lambda(\zeta)$ for arbitrary $d > 1$
-  when $k$ is sufficiently large \cite{BuraczewskiDamekMikosch2015}.
-  If instead $b - a \geq 1$, it is obvious that $c$ can be chosen to
-  be larger than $d\lambda(\zeta)/t$ so that $(\E \Pi_k \1{a < \Pi_k
-    < b})^{1/k} > d\lambda(\zeta)$.  So a contradiction arises in
-  either case and hence the assertion must be true.
-\end{proof}
-
-
-\begin{remark}\label{remark:inf_c}
-  Let $g_k(x)$ denote the density function of $\Pi_k$. Consider the
-  scenario where $g_k(x)$ exists on $(0, \epsilon)$, $\epsilon < 1$
-  and $\epsilon$ is so small that $g_k(x)$ is continuous, strictly
-  increasing and less than 1. Then the smallest $c$ satisfying
-  \eqref{eq:prob_bound} of lemma \ref{lemma:prob_bound} is the one
-  given by
-  \[
-  c^k \epsilon^{k-1} = g_k(\epsilon)
-  \]
-  Obviously
-  \[
-  c = \left[
-    {g_k(\epsilon) \over \epsilon^{k-1}}
-  \right]^{1/k} < 1/\epsilon
-  \]
-\end{remark}
-
 \begin{theorem}
   The estimator $\mathcal E_u$ has bounded relative error, i.e.
   \begin{equation*}
@@ -411,7 +339,9 @@ Now, to prove \eqref{eq:drift}, consider
     \Phi(\alpha) := \log \E \|A\|^{\alpha}
     \]
     \label{assumptions:1}
-  \item $\lambda(-\xi) = \infty$
+  \item $\lambda(-\xi) = \infty$, $\exists h > 1$,
+    $\E\|A\|^{h\xi} < \infty$
+    \label{assumptions:2}    
   \end{enumerate}
 \end{theorem}
 \begin{proof}
@@ -678,11 +608,8 @@ Now, to prove \eqref{eq:drift}, consider
     From \eqref{eq:S_1}, \eqref{eq:S_1_kern}, \eqref{eq:S_2},
     \eqref{eq:B_n} and \eqref{eq:N_u}, it is clear $f(\xi) < \infty$.
 
-  \item Now we consider the case $\lambda(-\xi) = \infty$. In this
-    case we assume in addition $\det A_i \neq 0$ for all $i$,
-    $\E (|B|^2/\|A\|)^{\xi(1 + \delta)} < \infty$ for some $\delta >
-    0$ and $\E \|A\|^{-\xi(1 + \delta)} < \infty$ for some $\delta > 0$.
-    
+  \item Now we consider the case $\lambda(-\xi) = \infty$ under
+    assumptions \eqref{assumptions:2}.
     Since
     \[
     V_n = \sum_{i=0}^n A_n \cdots A_{i+1} B_i
@@ -743,7 +670,7 @@ Now, to prove \eqref{eq:drift}, consider
         \right]^{1/\zeta}
     \end{eqnarray*}
     Using Minkowski's inequality and the independence of $B_i$ and
-    $A_i, \dots, A_1$ , the above yields
+    $A_i, \dots, A_1$ the above yields
     \begin{eqnarray}
       (\E J_n^\zeta)^{1/\zeta} &\leq&
       {|B_0| \over M} + {C \over M}
@@ -907,23 +834,63 @@ Now, to prove \eqref{eq:drift}, consider
          \1{n \leq T_u < \tau}
           \right) \\
           &=&
-          \sum_{k=n}^{\infty}
           \E \left(
-            {
-              \|A_k \cdots A_{n+1}\|^{s\xi}
-              \over
-              \|A_{n-1} \cdots A_1\|^{s\xi}
-            } \1{T_u = k} \1{\tau > k \geq n}
-          \right) \\
-          &\leq& \sum_{k=n}^\infty
-          \E \|A_k \cdots A_{n+1}\|^{s \xi}
-          \E (\|A_{n-1} \cdots A_1\|^{-s\xi} \1{\tau > n})
+            \|A_{T_u} \cdots A_{n+1}\|^\zeta 
+            \1{\|A_{n-1} \cdots A_1\| \geq 1}
+            \1{n \leq T_u < \tau}
+          \right) +\\
+          &&
+          \sum_{k=0}^\infty
+          (k+1)
+          \E \left(
+            \|A_{n-1} \cdots A_1\|^{-\zeta}
+            \1{\|A_{n-1} \cdots A_1\| < 1} \times \right.\\
+          &&
+            \left.
+            \1{\|A_{T_u} \cdots A_{n+1}\| \in (k, k+1]}
+            \1{n \leq T_u < \tau}
+          \right)
       \end{eqnarray*}
-      From \eqref{eq:J_n_2} and \eqref{eq:y_n_2} we get
+      It follows
+      \begin{eqnarray*}
+        && \E \left(
+          \|A_{T_u} \cdots A_{n+1}\|^\zeta 
+          \1{\|A_{n-1} \cdots A_1\| \geq 1}
+          \1{n \leq T_u < \tau}
+        \right) \\
+        &\leq&
+        \sum_{k=n+1}^\infty
+        \E \left(
+          \|A_k \cdots A_{n+1}\|^\zeta \1{T_u < k} \1{\tau > k}
+        \right) \\
+        &\leq&
+        \sum_{k=n+1}^{n+N} (\E \|A_1\|^\zeta)^{k-n} +
+        \sum_{k=n+N+1}^\infty (\E \|A_k \cdots A_{n+1}\|^{p\zeta})^{1/p}
+        [\P(\tau > k)]^{1 - 1/p}
+      \end{eqnarray*}
+      where we choose $p > 1$ and $N$ as large as is specified in the
+      rest of the arguments. We have used H\"older's inequality to
+      obtain the 2nd sum in the last line.
+
+      Applying \eqref{eq:ret_time} with $\beta = 0$ gives
       \begin{equation*}
-        \E (\|A_{n-1} \cdots A_1\|^{-s\xi} \1{\tau > n})
-        \leq
-        [y_1 (1 - c_2)^{-(n-2)}]^\zeta
+        \P(\tau > k) \leq c [a \lambda(\alpha)]^{k-1}
+      \end{equation*}
+      where $a$ is sufficiently close to 1 and $N$ sufficiently large
+      such that $\forall k > n + N$, the above inequality holds.
+      Moreover,
+      \begin{equation*}
+        \lim_{k \to \infty} (\E \|A_{k} \cdots
+        A_{n+1}\|^{p\zeta})^{k-n} = \lambda(p\zeta)
+      \end{equation*}
+      So, when $N$ is sufficiently large and $a$ sufficiently close to 1
+      \begin{equation*}
+        (\E \|A_k \cdots A_{n+1}\|^{p\zeta})^{1/p} \leq [a \lambda(p\zeta)]^{(k-n)/p}
+      \end{equation*}
+      Furthermore, we choose $a, p$ sufficiently close to 1 and
+      $0 < \alpha < \xi$ appropriately such that
+      \begin{equation*}
+        a \lambda(p\zeta)^{1/p} \lambda(\alpha)^{1-1/p} < 1
       \end{equation*}
     \end{enumerate}
 \end{proof}
