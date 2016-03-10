@@ -339,8 +339,16 @@ Now, to prove \eqref{eq:drift}, consider
     \Phi(\alpha) := \log \E \|A\|^{\alpha}
     \]
     \label{assumptions:1}
-  \item $\lambda(-\xi) = \infty$, $\exists h > 1$,
-    $\E\|A\|^{h\xi} < \infty$
+  \item $\xi > 2$, $\lambda(-\xi) = \infty$, $\exists h > 1$,
+    $\lambda(h\xi) \leq \E\|A\|^{h\xi} < \infty$. Moreover
+    \begin{equation}
+      \label{eq:deepness2}
+      -\inf_{\alpha \in \mathbb R} \Lambda(\alpha) > {
+        \Lambda(h\xi)
+        \over
+        h - 1
+      }
+    \end{equation}
     \label{assumptions:2}    
   \end{enumerate}
 \end{theorem}
@@ -833,7 +841,7 @@ Now, to prove \eqref{eq:drift}, consider
          }
          \1{n \leq T_u < \tau}
           \right) \\
-          &=&
+          &\leq&
           \E \left(
             \|A_{T_u} \cdots A_{n+1}\|^\zeta 
             \1{\|A_{n-1} \cdots A_1\| \geq 1}
@@ -851,7 +859,8 @@ Now, to prove \eqref{eq:drift}, consider
             \1{n \leq T_u < \tau}
           \right)
       \end{eqnarray*}
-      It follows
+      Here and in the following we used the convention
+      $\|A_i A_{i-1}\cdots A_j\| = 1$ if $i < j$. We have
       \begin{eqnarray*}
         && \E \left(
           \|A_{T_u} \cdots A_{n+1}\|^\zeta 
@@ -859,39 +868,74 @@ Now, to prove \eqref{eq:drift}, consider
           \1{n \leq T_u < \tau}
         \right) \\
         &\leq&
-        \sum_{k=n+1}^\infty
+        \sum_{k=n}^\infty
         \E \left(
-          \|A_k \cdots A_{n+1}\|^\zeta \1{T_u < k} \1{\tau > k}
+          \|A_k \cdots A_{n+1}\|^\zeta \1{T_u = k} \1{\tau > k}
+        \right)  \\
+        &\leq& 
+        \sum_{k=n}^\infty
+        \E \left(
+          \|A_k \cdots A_{n+1}\|^\zeta \1{\tau > k}
         \right) \\
         &\leq&
-        \sum_{k=n+1}^{n+N} (\E \|A_1\|^\zeta)^{k-n} +
-        \sum_{k=n+N+1}^\infty (\E \|A_k \cdots A_{n+1}\|^{p\zeta})^{1/p}
-        [\P(\tau > k)]^{1 - 1/p}
+        \sum_{k=n}^\infty
+        \E \left(
+        \|A_k\|^\zeta \|A_{k-1} \cdots A_{n+1}\|^\zeta \1{\tau > k}
+        \right) \\
+        &\leq&
+        \sum_{k=n}^\infty
+        \E (\|A_{k-1} \cdots A_{n+1}\|^\zeta)
+        \E (\|A_k\|^\zeta \1{\tau > k})
       \end{eqnarray*}
-      where we choose $p > 1$ and $N$ as large as is specified in the
-      rest of the arguments. We have used H\"older's inequality to
-      obtain the 2nd sum in the last line.
-
-      Applying \eqref{eq:ret_time} with $\beta = 0$ gives
+      where the last line follows from the fact that
+      $A_{k}, \dots, A_{n+1}$ are independent of each other. Since
+      $\E \|A_k\|^\zeta = \E \|A_1\|^\zeta < \infty$, $\|A_k\| <
+      \infty$ almost surely. Hence
       \begin{equation*}
-        \P(\tau > k) \leq c [a \lambda(\alpha)]^{k-1}
+        \E (\|A_k\|^\zeta \1{\tau > k}) < c_1 \P(\tau > k) \text{ a.s.}
       \end{equation*}
-      where $a$ is sufficiently close to 1 and $N$ sufficiently large
-      such that $\forall k > n + N$, the above inequality holds.
+      for some constant $c_1$. Applying \eqref{eq:ret_time} with
+      $\beta = 0$ gives
+      \begin{equation*}
+        \P(\tau > k) \leq c_2 [a \lambda(\alpha)]^{k-1}
+      \end{equation*}
+      for some $\alpha \in (0, \xi))$ such that $\lambda(\alpha) < 1$,
+      for all $a \in (1, 1/\lambda(\alpha))$ and some $c_2 > 0$.
       Moreover,
       \begin{equation*}
-        \lim_{k \to \infty} (\E \|A_{k} \cdots
-        A_{n+1}\|^{p\zeta})^{k-n} = \lambda(p\zeta)
+        \lim_{k \to \infty}
+        (\E \|A_{k} \cdots A_{n+1}\|^{\zeta})^{1/(k-n)}
+        = \lambda(\zeta)
       \end{equation*}
-      So, when $N$ is sufficiently large and $a$ sufficiently close to 1
+      So for all $a > 1$, when $N$ is sufficiently large and
+      $k > n +N$, we have
       \begin{equation*}
-        (\E \|A_k \cdots A_{n+1}\|^{p\zeta})^{1/p} \leq [a \lambda(p\zeta)]^{(k-n)/p}
+        \E \|A_k \cdots A_{n+1}\|^{\zeta} \leq [a \lambda(\zeta)]^{k-n}
       \end{equation*}
-      Furthermore, we choose $a, p$ sufficiently close to 1 and
-      $0 < \alpha < \xi$ appropriately such that
-      \begin{equation*}
-        a \lambda(p\zeta)^{1/p} \lambda(\alpha)^{1-1/p} < 1
-      \end{equation*}
+      Thus we obtain
+      \begin{eqnarray*}
+        &&
+        \sum_{k=n}^\infty
+        \E (\|A_{k-1} \cdots A_{n+1}\|^\zeta)
+        \E (\|A_k\|^\zeta \1{\tau > k}) \\
+        &\leq&
+        c \sum_{k=n}^\infty [a \lambda(\alpha)]^{k-1}
+        \E \|A_{k-1} \cdots A_{n+1}\|^\zeta \\
+        &\leq&
+        c \sum_{k=n}^{n+N}
+        [a \lambda(\alpha)]^{k-1}
+        [
+        (\E \|A_1\|^\zeta)^{k-1-n} \1{k-1 \geq n+1} + 1
+        ] + \\
+        &&
+        c \sum_{k=n+N+1}^{\infty}
+        [a \lambda(\alpha)]^{k-1}
+        [a \lambda(\zeta)]^{k-1-n} \\
+        &=& c [a \lambda(\alpha)]^n
+      \end{eqnarray*}
+      The last series converges because $\alpha$ can be chosen
+      appropriately and $a > 1$ chosen so close to 1 that
+      $a^2 \lambda(\zeta) \lambda(\alpha) < 1$.
     \end{enumerate}
 \end{proof}
 
