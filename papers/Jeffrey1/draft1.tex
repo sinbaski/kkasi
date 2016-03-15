@@ -23,17 +23,20 @@
 We consider the model
 \begin{eqnarray*}
 V_n &=& A_n V_{n-1} + B_n\\
-V_0 &=& x_0 \in \mathbb S^{d-1}\\
 \end{eqnarray*}
 Use the following notations
 \begin{eqnarray*}
-X_n &=& \frac{V_n}{\|V_n\|} \\
-S_n &=& \log \|A_n \cdots A_1 x_0\| \\
-\xi_n &=& S_n - S_{n-1} = \log\frac{\|A_n \cdots A_1 x_0\|}{\|A_{n-1}
-  \cdots A_1 x_0\|} \\
-&=& \log\left\| A_n \frac{A_{n-1} \cdots A_1 x_0}{\|A_{n-1} \cdots A_1
-    x_0\|} \right\|\\
-&=& \log \|A_n X_{n-1}\|
+X_n &=& {
+        A_n A_{n-1} \cdots A_1 \tilde V_0
+        \over
+        |A_n A_{n-1} \cdots A_1 \tilde V_0|
+        } \\
+S_n &=& \log |A_n \cdots A_1 \tilde V_0| \\
+\xi_n &=& S_n - S_{n-1} = \log\frac{|A_n \cdots A_1 \tilde V_0|}{|A_{n-1}
+  \cdots A_1 \tilde V_0|} \\
+&=& \log\left| A_n \frac{A_{n-1} \cdots A_1 \tilde V_0}
+    {|A_{n-1} \cdots A_1 \tilde V_0|} \right|\\
+&=& \log |A_n X_{n-1}|
 \end{eqnarray*}
 The pair $(X_n, S_n)$ is a Markov additive process with transition
 kernel $P$. Assume conditions (M) and (A) of Kesten \cite{Kesten1973}:
@@ -119,7 +122,7 @@ Then $\E_\gamma N_u$ may be evaluated as
   {r(x_{i-1}; \xi) \over r(x_{i}; \xi)}P_\xi(x_{i-1}, dx_i \times ds_i) \times \\
   && \prod_{i=T_u+1}^{\tau-1} P(x_{i-1}, dx_i \times d s_i) \\
   &=& \E_{\mathcal D} \left[
-    N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(x_0; \xi)
+    N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(\tilde V_0; \xi)
       \over r(x_{T_u}; \xi)}
   \right]
 \end{eqnarray*}
@@ -155,7 +158,7 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
 \begin{eqnarray*}
 \P(|V| > u) &=& \pi(\mathcal C) \E_{\mathcal D} \mathcal E_u \\
 &=& \pi(\mathcal C) \E_{\mathcal D} \left[
-  N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(x_0; \xi)
+  N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(\tilde V_0; \xi)
     \over r(x_{T_u}; \xi)}
 \right]
 \end{eqnarray*}
@@ -306,21 +309,145 @@ Now, to prove \eqref{eq:drift}, consider
 \end{remark}
 
 \begin{lemma}
+  \label{lemma:A_norm_a.s}
   Assume $\beta > 0$ and $\E \|A\|^{\beta} < \infty$. Then
-  $\forall 0 < \alpha < \beta$,
+  for all $0 < \alpha < \beta$,
   $\|A\|^{\alpha} < \infty$ almost surely.
 \end{lemma}
 \begin{proof}
   We need to show
   \begin{eqnarray*}
     \P\left(
-      \bigcup_{N=1}^\infty \bigcap_{k=N}^\infty {\|A\|^\alpha \leq k}
+      \bigcup_{N=1}^\infty \bigcap_{k=N}^\infty
+    \left\{
+    \|A\|^\alpha \leq k
+    \right\}
     \right) &=& 1
   \end{eqnarray*}
   By Borel-Cantelli lemma, it suffices to show
   \begin{equation*}
-    \sum_{k=1}^\infty \P(\|A\|^\alpha)
+    \sum_{k=1}^\infty \P(\|A\|^\alpha > k) < \infty
   \end{equation*}
+  By Markov's inequality
+  \begin{eqnarray*}
+    && \sum_{k=1}^\infty \P(\|A\|^\alpha > k)
+       \leq
+       \sum_{k=1}^\infty
+       {
+       \E \|A\|^{p\alpha}
+       \over
+       k^p
+       }
+  \end{eqnarray*}
+  for some $1 < p < \beta/\alpha$. Since
+  $\E \|A\|^{p\alpha} < \E \|A\|^{\beta} < \infty$,
+  it follows
+  \begin{equation*}
+    \sum_{k=1}^\infty
+    {
+      \E \|A\|^{p\alpha}
+      \over
+      k^p
+    }
+    \leq
+    \sum_{k=1}^\infty
+    {
+      C
+      \over
+      k^p
+    } < \infty
+  \end{equation*}
+  for some constant $C$.
+\end{proof}
+
+\begin{lemma}
+  Assume $\lambda(\beta) < \infty$, then for all $n \geq 1$,
+  \begin{equation*}
+    \|A_{T_u} \cdots A_{n+1}\|^\alpha \1{n \leq T_u < \tau}
+    < \infty \text{ a.s.}
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  Throughout this proof, we use $c, c_1, c_2, \dots$ to denote
+  constants whose values have no significance. Each of them may stand
+  for one or more values depending on the context.
+
+  By Borel-Cantelli lemma, it suffices to show
+  \begin{equation*}
+    \sum_{k=1}^\infty
+    \P \left(
+      \|A_{T_u} \cdots A_{n+1}\|^\alpha
+      \1{n \leq T_u < \tau} > k
+    \right) < \infty
+  \end{equation*}
+  LHS of the above inequality can be re-written
+  \begin{eqnarray*}
+    &&
+       \sum_{k=1}^\infty
+       \P \left(
+       \|A_{T_u} \cdots A_{n+1}\|^\alpha
+       \1{n \leq T_u < \tau} > k
+       \right) \\
+    &=& \sum_{k=1}^\infty \sum_{l=n}^\infty
+        \P \left(
+        \|A_l \cdots A_{n+1}\|^\alpha
+        \1{T_u = l}
+        \1{\tau > l}
+        \right) \\
+    &\leq& \sum_{k=1}^\infty
+           \left(
+           \sum_{l=n}^{n+N} + \sum_{l=n+N+1}^{\infty}
+           \right)
+        {1 \over k^p}
+        \E \left(
+        \|A_l \cdots A_{n+1}\|^{p\alpha}
+        \1{T_u = l}
+        \1{\tau > l}
+        \right)
+  \end{eqnarray*}
+  where to reach the last inequality we have used Markov's inequality
+  and chosen $N$
+  sufficiently large as is specified in the rest of the proof. Since
+  \begin{equation*}
+    \lim_{l \to \infty} {1 \over l} \log \E \|A_l \cdots A_1\|^\alpha
+    = \lambda(\alpha)
+  \end{equation*}
+  and $\lambda(\alpha) < \lambda(\beta) < \infty$, we have, when $l$
+  is sufficiently large and for all $a > 1$,
+  \begin{equation*}
+    \E \|A_l \cdots A_1\|^\alpha \leq [a \lambda(\alpha)]^l
+  \end{equation*}
+  Thus choosing $N$ sufficiently large and applying H\"older's
+  inequality gives
+  \begin{eqnarray*}
+    && \E \left(
+    \|A_l \cdots A_{n+1}\|^{p\alpha}
+    \1{T_u = l}
+    \1{\tau > l}
+    \right) \\
+    &\leq& [a \lambda(tp\alpha)]^{(l-n)/t}
+           \P(\tau > l)^{1-1/t}
+  \end{eqnarray*}
+  Applying \eqref{eq:ret_time} yields
+  $\P(\tau > l) \leq c_1 [a \lambda(\theta)]^{l-1}$
+  for some $0 < \theta < \xi$, all $a > 1$ and some $c_2 > 0$.
+  Thus we obtain
+  \begin{eqnarray*}
+    && \sum_{k=1}^\infty
+       \sum_{l=n+N+1}^{\infty}
+       {1 \over k^p}
+        \E \left(
+        \|A_l \cdots A_{n+1}\|^{p\alpha}
+        \1{T_u = l}
+        \1{\tau > l}
+        \right) \\
+    &\leq& c_2 
+           [a \lambda(tp\alpha)]^{(N+1)/t}
+           [a \lambda(\theta)]^{(n+N)(1 - 1/t)}
+           \sum_{k=1}^\infty
+           {1 \over k^p}
+           < \infty 
+  \end{eqnarray*}
 \end{proof}
 
 \begin{theorem}
@@ -382,7 +509,7 @@ Now, to prove \eqref{eq:drift}, consider
   \infty$, i.e.
   \[
   \limsup_{u \to \infty} \E_{\mathcal D}  \left[u^{2\xi}
-    N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r^2(x_0; \xi)
+    N_u^2 \1{T_u < \tau} e^{-2\xi S_{T_u}} {r^2(\tilde V_0; \xi)
       \over r^2(x_{T_u}; \xi)}\right] < \infty
  \]
  Using the fact $|V_{T_u}| > u$, and that $r(\cdot; \xi)$ is bounded
