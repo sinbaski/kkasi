@@ -82,21 +82,20 @@ and day between '%s' and '%s';", day1, day2));
 
         results <- dbSendQuery(
             database,
-            sprintf("select count(*) from %s where
-day between '%s' and '%s';", tables[i], day1, day2)
+            sprintf("select min(day) from %s;",
+                    tables[i])
             );
-        n.traded.days <- fetch(results)[1,1];
+        d1 <- fetch(results)[1, 1];
         dbClearResult(results);
 
         results <- dbSendQuery(
             database,
-            sprintf("select min(day) from %s;",
-                    tables[i])
+            sprintf("select max(day) from %s;", tables[i])
             );
-        d <- fetch(results)[1, 1];
+        d2 <- fetch(results)[1,1];
         dbClearResult(results);
 
-        if (n.traded.days < 1000 || d > day1) {
+        if (d1 > day1 || d2 < day2) {
             to.include[i] <- FALSE;
             next;
         }

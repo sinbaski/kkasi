@@ -361,7 +361,49 @@ Now, to prove \eqref{eq:drift}, consider
 \end{proof}
 
 \begin{lemma}
-  Assume $\lambda(\beta) < \infty$, then for all $n \geq 1$,
+  \label{lemma:Pi_n_to_alpha_a.s.}
+  Assume $\lambda(\beta) < \infty$, then for all $n \geq 1$, and for
+  all $0 < \alpha < \beta$,
+  \begin{equation*}
+    \|A_{n} \cdots A_{1}\|^\alpha < \infty \text{ a.s.}
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  By Borel-Cantelli lemma, it suffices to show
+  \begin{eqnarray*}
+    \sum_{k=1}^\infty \P(\|A_{n} \cdots A_{1}\|^\alpha > k) &<& \infty
+    \\
+    \sum_{k=1}^\infty \P(\|A_{n} \cdots A_{1}\|^{p\alpha} > k^p) &<& \infty    
+  \end{eqnarray*}
+  for some $1 < p < \beta/\alpha$. Since
+  \begin{equation*}
+    \lim_{l \to \infty} {1 \over l} \log \E \|A_l \cdots A_1\|^\alpha
+    = \lambda(\alpha)
+  \end{equation*}
+  and $\lambda(\alpha) < \lambda(\beta) < \infty$, we have, when $l$
+  is sufficiently large and for all $a > 1$,
+  \begin{equation*}
+    \E \|A_l \cdots A_1\|^\alpha \leq [a \lambda(\alpha)]^l
+  \end{equation*}
+  Thus by choosing $N$ sufficiently large we have
+  \begin{eqnarray*}
+    && \sum_{k=1}^\infty \P(\|A_{n} \cdots A_{1}\|^{p\alpha} > k^p) \\
+    &\leq& \sum_{k=1}^{\infty} {
+           \E \|A_{n} \cdots A_{1}\|^{p\alpha}
+           \over
+           k^p
+           } \\
+    &\leq& (\E \|A_1\|^{p\alpha})^{n}\1{n \leq N}
+           \sum_{k=1}^\infty {1 \over k^p} +
+           [a \lambda(p\alpha)]^{n}\1{n > N}
+           \sum_{k=1}^\infty {1 \over k^p}
+           < \infty
+  \end{eqnarray*}
+\end{proof}
+
+\begin{lemma}
+  Assume $\lambda(\beta) < \infty$, then for all $n \geq 1$, and for
+  all $0 < \alpha < \beta$,
   \begin{equation*}
     \|A_{T_u} \cdots A_{n+1}\|^\alpha \1{n \leq T_u < \tau}
     < \infty \text{ a.s.}
@@ -392,61 +434,46 @@ Now, to prove \eqref{eq:drift}, consider
         \P \left(
         \|A_l \cdots A_{n+1}\|^\alpha
         \1{T_u = l}
-        \1{\tau > l}
+        \1{\tau > l} > k
         \right) \\
-    &\leq& \sum_{k=1}^\infty
-           \left(
-           \sum_{l=n}^{n+N} + \sum_{l=n+N+1}^{\infty}
-           \right)
-        {1 \over k^p}
-        \E \left(
-        \|A_l \cdots A_{n+1}\|^{p\alpha}
-        \1{T_u = l}
-        \1{\tau > l}
-        \right)
+    &\leq& \sum_{k=1}^\infty \sum_{l=n}^\infty
+           {
+           \E (\|A_l \cdots A_{n+1}\|^{p \alpha}
+           \1{T_u = l} \1{\tau > l})
+           \over
+           k^p
+           }
   \end{eqnarray*}
-  where to reach the last inequality we have used Markov's inequality
-  and chosen $N$
-  sufficiently large as is specified in the rest of the proof. Since
-  \begin{equation*}
-    \lim_{l \to \infty} {1 \over l} \log \E \|A_l \cdots A_1\|^\alpha
-    = \lambda(\alpha)
-  \end{equation*}
-  and $\lambda(\alpha) < \lambda(\beta) < \infty$, we have, when $l$
-  is sufficiently large and for all $a > 1$,
-  \begin{equation*}
-    \E \|A_l \cdots A_1\|^\alpha \leq [a \lambda(\alpha)]^l
-  \end{equation*}
-  Thus choosing $N$ sufficiently large and applying H\"older's
-  inequality gives
+  for some $1 < p < \beta/\alpha$.
+  As shown in lemma \ref{lemma:Pi_n_to_alpha_a.s.},
+  $\|A_l \cdots A_{n+1}\|^{p \alpha} < \infty$ a.s. Hence
+  \[
+  \E (\|A_l \cdots A_{n+1}\|^{p \alpha}
+  \1{T_u = l} \1{\tau > l}) \leq c \P(\tau > l)
+  \]
+  Applying \eqref{eq:ret_time} gives
+  \[
+  \P(\tau > l) \leq c_1 [a \lambda(\theta)]^{l-1}
+  \]
+  for some $0 < \theta < \xi$ and $a > 1$ such that $a \lambda(\theta) <
+  1$. Thus it follows
   \begin{eqnarray*}
-    && \E \left(
-    \|A_l \cdots A_{n+1}\|^{p\alpha}
-    \1{T_u = l}
-    \1{\tau > l}
-    \right) \\
-    &\leq& [a \lambda(tp\alpha)]^{(l-n)/t}
-           \P(\tau > l)^{1-1/t}
-  \end{eqnarray*}
-  Applying \eqref{eq:ret_time} yields
-  $\P(\tau > l) \leq c_1 [a \lambda(\theta)]^{l-1}$
-  for some $0 < \theta < \xi$, all $a > 1$ and some $c_2 > 0$.
-  Thus we obtain
-  \begin{eqnarray*}
-    && \sum_{k=1}^\infty
-       \sum_{l=n+N+1}^{\infty}
-       {1 \over k^p}
-        \E \left(
-        \|A_l \cdots A_{n+1}\|^{p\alpha}
-        \1{T_u = l}
-        \1{\tau > l}
-        \right) \\
-    &\leq& c_2 
-           [a \lambda(tp\alpha)]^{(N+1)/t}
-           [a \lambda(\theta)]^{(n+N)(1 - 1/t)}
-           \sum_{k=1}^\infty
-           {1 \over k^p}
-           < \infty 
+    && \sum_{k=1}^\infty \sum_{l=n}^\infty
+           {
+           \E (\|A_l \cdots A_{n+1}\|^{p \alpha}
+           \1{T_u = l} \1{\tau > l})
+           \over
+           k^p
+           } \\
+    &\leq& \sum_{k=1}^\infty {c \over k^p}
+           \sum_{l=n}^\infty [a \lambda(\theta)]^{l-1} \\
+    &=& c {
+        [a \lambda(\theta)]^{n-1}
+        \over
+        1 - a \lambda(\theta)
+        }
+        \sum_{k=1}^\infty {1 \over k^p}
+        < \infty
   \end{eqnarray*}
 \end{proof}
 
