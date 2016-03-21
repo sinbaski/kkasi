@@ -994,68 +994,76 @@ Now, to prove \eqref{eq:drift}, consider
       The last line follows from the second last using the fact that
       each $A_n$ and $B_n$ is independent.
 
-      Now observe that, following \eqref{eq:lower_bound}, we have
-      \begin{equation*}
+      Observe
+      \begin{eqnarray*}
+        &&
+        \E
         \left(
-          1 - {C |B_n| \over M}
-        \right) \|A_n \cdots A_1\|^{-1} \1{\tau > n}
-        \leq
-        {1 \over M} \left[
-          |B_0| + \sum_{i=1}^{n-1} {
-            C |B_i|
+          {
+            \|A_{T_u} \cdots A_{n+1} \|^{s\xi}
             \over
-            \|A_i \cdots A_1\|
-          } \1{\tau > n}
+            \|A_{n-1} \cdots A_1\|^{s\xi}
+          }
+          \1{n \leq T_u < \tau}
+        \right) \\
+        &=&
+        \sum_{l=n}^\infty
+        \E
+        \left(
+          {
+            \|A_{l} \cdots A_{n+1} \|^{s\xi}
+            \over
+            \|A_{n-1} \cdots A_1\|^{s\xi}
+          }
+        \1{\tau > l} \1{T_u = l}
+      \right)
+      \end{eqnarray*}
+      Becasue $\|A_l \cdots A_{n+1}\|$ and
+      $\|A_{n-1} \cdots A_1\|$ are independent of each other,
+      we have
+      \begin{eqnarray*}
+        &&
+        \sum_{l=n}^\infty
+        \E
+        \left(
+          {
+            \|A_{l} \cdots A_{n+1} \|^{s\xi}
+            \over
+            \|A_{n-1} \cdots A_1\|^{s\xi}
+          }
+          \1{\tau > l} \1{T_u = l}
+        \right) \\
+        &\leq&
+        \sum_{l=n}^\infty
+        \E (\|A_l \cdots A_{n+1}\|^{s \xi}) \1{\tau > l}
+        \E (\|A_{n-1} \cdots A_{1}\|^{- s\xi}) \1{\tau > l} \\
+        &\leq&
+        c \sum_{l=n}^\infty
+        \E (|A_l \cdots A_{n+1} X_{n}|^{s \xi}\1{\tau > l})
+        \E (\|A_{n-1} \cdots A_{1}\|^{- s\xi} \1{\tau > l})
+      \end{eqnarray*}
+      Using \eqref{eq:J_n_2} and \eqref{eq:y_n_2}, RHS of the above
+      inequality is bounded by
+      \begin{eqnarray*}
+        c \sum_{l=n}^\infty
+        \left[{y_1 \over (1 - h_2)^{n-2}}\right]^{s\xi}
+        \E (|A_l \cdots A_{n+1} X_{n}|^{s \xi}\1{\tau > l})
+      \end{eqnarray*}
+      By changing to the $s\xi$-shifted measure we get
+      \begin{eqnarray*}
+        &&
+        c \sum_{l=n}^\infty
+        \left[{y_1 \over (1 - h_2)^{n-2}}\right]^{s\xi}
+        \E (|A_l \cdots A_{n+1} X_{n}|^{s \xi}\1{\tau > l}) \\
+        &\leq&
+        c \sum_{l=n}^\infty
+        \left[{y_1 \over (1 - h_2)^{n-2}}\right]^{s\xi}        
+        \E_{s\xi} \left[
+          {r(X_n) \over r(X_l)}
+          \1{\tau > l}
         \right]
-      \end{equation*}
-      Since by assumption $|B|$ is bounded, we may choose $M > C \sup
-      |B|$ so that $1 - {C |B_n| \over M} > 0$. This way we get
-      \begin{equation*}
-        \|A_n \cdots A_1\|\1{\tau > n}
-        \geq
-        M
-        \left(
-          1 - {C |B_n| \over M}
-        \right)
-        \left[
-          |B_0| + \sum_{i=1}^{n-1} {
-            C |B_i|
-            \over
-            \|A_i \cdots A_1\|
-          } \1{\tau > n}
-        \right]^{-1}
-      \end{equation*}
-      
-      % Observe
-      % \begin{eqnarray*}
-      %   &&
-      %     \E
-      %   \left(
-      %     {
-      %       \|A_{T_u} \cdots A_{n+1} \|^{s\xi}
-      %       \over
-      %       \|A_{n-1} \cdots A_1\|^{s\xi}
-      %    }
-      %    \1{n \leq T_u < \tau}
-      %     \right) \\
-      %     &\leq&
-      %     \E \left(
-      %       \|A_{T_u} \cdots A_{n+1}\|^\zeta 
-      %       \1{\|A_{n-1} \cdots A_1\| \geq 1}
-      %       \1{n \leq T_u < \tau}
-      %     \right) +\\
-      %     &&
-      %     \sum_{k=0}^\infty
-      %     (k+1)
-      %     \E \left(
-      %       \|A_{n-1} \cdots A_1\|^{-\zeta}
-      %       \1{\|A_{n-1} \cdots A_1\| < 1} \times \right.\\
-      %     &&
-      %       \left.
-      %       \1{\|A_{T_u} \cdots A_{n+1}\| \in (k, k+1]}
-      %       \1{n \leq T_u < \tau}
-      %     \right)
-      % \end{eqnarray*}
+        \lambda(s\xi)^{l-n}
+      \end{eqnarray*}
       % Here and in the following we used the convention
       % $\|A_i A_{i-1}\cdots A_j\| = 1$ if $i < j$. We have
       % \begin{eqnarray*}
