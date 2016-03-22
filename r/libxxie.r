@@ -6,9 +6,9 @@ source("innovations-algorithm.R");
 # A matrix of return values derived from price data on common days
 # of all stocks in the given tables.
 ### 
-getAssetReturns <- function(day1, day2, tables) {
+getAssetReturns <- function(day1, day2, tables, host) {
     database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
-        dbname='avanza', host=Sys.getenv("PB"));
+        dbname='avanza', host=host);
     days <- vector('character');
     for (i in 1:length(tables)) {
         results <- dbSendQuery(
@@ -37,7 +37,7 @@ day between '%s' and '%s' order by day;", tables[i], day1, day2));
         R[,i] <- diff(log(prices));
     }
     dbDisconnect(database);
-    return (data.frame(days[-1], R));
+    return (R);
 }
 
 ### Given a vector of observations, infer the innovations

@@ -572,6 +572,21 @@ Now, to prove \eqref{eq:drift}, consider
       \left\{
         \sum_{n=0}^{\infty}
         \left[
+          \E \left(
+            N_u^2
+            \frac{
+              |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
+            }{
+              |A_{T_u} \cdots A_1 V_0|^\xi
+            }
+            \1{n \leq T_u < \tau}
+          \right)
+        \right]^{1/2\xi}
+      \right\}^{2\xi} \nonumber \\
+      &\leq& c \limsup_{u \to \infty}
+      \left\{
+        \sum_{n=0}^{\infty}
+        \left[
           \E_{-\xi} N_u^2 
           |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
           \lambda(-\xi)^{T_u} \right. \right.\times \nonumber \\
@@ -782,365 +797,338 @@ Now, to prove \eqref{eq:drift}, consider
 
   \item Now we consider the case $\lambda(-\xi) = \infty$ under
     the second assumption.
-    Since
-    \[
-    V_n = \sum_{i=0}^n A_n \cdots A_{i+1} B_i
-    \]
-    it follows
-    \begin{eqnarray*}
-      |V_n|\1{\tau > n} &\leq&
-      \sum_{i=0}^{n} \|A_n \cdots A_{i+1}\| |B_i| \\
-      \|A_n \cdots A_1\|^{-1} \1{\tau > n}
-      &\leq& |V_n|^{-1} \1{\tau > n}
-      \left[
-        |B_0| + \sum_{i=1}^n {
-          \|A_n \cdots A_{i+1}\|
-          \over
-          \|A_n \cdots A_{1}\|
-        } |B_i|
-      \right] \\
-      &\leq& {1 \over M}
-      \left[
-        |B_0| + \sum_{i=1}^n {
-          \|A_n \cdots A_{i+1}\|
-          \over
-          \|A_n \cdots A_{1}\|
-        } |B_i| \1{\tau > n}
-      \right]
-    \end{eqnarray*}
-    Note
-    \[
-    \|A_n \dots A_{i+1} A_i \cdots A_1\| \geq
-    C^{-1} \|A_n \cdots A_{i+1}\|
-    \|A_i \cdots A_{1}\|
-    \]
-    for some $C > 1$. We have
-    \begin{equation}
-      \label{eq:lower_bound}
-      \|A_n \cdots A_1\|^{-1} \1{\tau > n}
-      \leq
-      {1 \over M} \left[
-        |B_0| + \sum_{i=1}^n {
-          C |B_i|
-          \over
-          \|A_i \cdots A_1\|
-        }  \1{\tau > n}
-      \right]
-    \end{equation}
-    Let
-    \[
-    J_k = \|A_k \cdots A_1\|^{-1} \1{\tau > n}
-    \]
-    We obtain
-    \begin{eqnarray*}
-      \left(
-        \E J_n^\zeta
-      \right)^{1/\zeta} &\leq& \left[
-        \E \left(
-          {|B_0| \over M}
-          + {C \over M} \sum_{i=1}^n |B_i| J_i
-        \right)^\zeta
-        \right]^{1/\zeta}
-    \end{eqnarray*}
-    Using Minkowski's inequality and the independence of $B_i$ and
-    $A_i, \dots, A_1$ the above yields
-    \begin{eqnarray}
-      (\E J_n^\zeta)^{1/\zeta} &\leq&
-      {|B_0| \over M} + {C \over M}
-      \sum_{i=1}^n
-      (\E |B_i|^\zeta)^{1/\zeta}
-      (\E J_i^\zeta)^{1/\zeta}
-      \label{eq:neg_pow_ub} \\
-      &=& h_1 + h_2 \sum_{i=1}^{n-1} (\E J_i^\zeta)^{1/\zeta}
-      \nonumber
-    \end{eqnarray}
-    where
-    \begin{eqnarray*}
-      h_1 &=& {|B_0| \over M} \\
-      h_2 &=& {C \over M} (\E |B_1|^\zeta)^{1/\zeta}
-    \end{eqnarray*}
-    Since
-    \begin{eqnarray*}
-      V_1 &=& A_1 V_0 + B_1 \\
-      |V_1| &\leq& \|A_1\| |V_0| + |B_1| \\
-      \end{eqnarray*}
-      and by assumption $\E (|B|/\|A\|)^\zeta < \infty$, we have
-      \begin{eqnarray}
-        (\E J_1^\zeta)^{1/\zeta} &=&
-        \left[
-        \E (\|A_1\|^{-\zeta}\1{\tau > n})
-      \right]^{1/\zeta} \nonumber \\
-      &\leq&
-      {|V_0|\over M} \E \left[\left(
-        1 + {|B_1| \over |V_0| \|A_1\|}
-      \right)^\zeta
-      \1{\tau > n}\right]^{1/\zeta}< \infty
-    \label{eq:J_1}
-    \end{eqnarray}
-    Let
-    \[
-    y_1 = 
-    {|V_0|\over M} \E \left[\left(
-        1 + {|B_1| \over |V_0| \|A_1\|}
-      \right)^\zeta \1{\tau > n}\right]^{1/\zeta}
-    \]
-    and
-    \begin{equation}
-      \label{eq:y_n}
-      y_n = h_1 + h_2 \sum_{i=1}^{n-1} y_i      
-    \end{equation}
-    Then \eqref{eq:neg_pow_ub}, \eqref{eq:y_n} and \eqref{eq:J_1}
-    yield
-    \begin{equation}
-      \label{eq:J_n_2}
-      (\E J_n^\zeta)^{1/\zeta} \leq y_n      
-    \end{equation}
-    Meanwhile \eqref{eq:y_n} gives, $\forall n \geq 1$,
-    \begin{equation}
-      \label{eq:y_n_2}
-      y_n = {y_1 \over (1 - h_2)^{n-1}}
-    \end{equation}
-    Now using Minkowski's inequality on RHS of
-    \eqref{eq:efficiency_target} leads to
-      \begin{eqnarray*}
-        f(\xi) &\leq& \limsup_{u \to \infty}
-        \left\{
-          \sum_{n=0}^{\infty}
-          \left[
-            \E_{\mathcal D} \left|
-              N_u^{1/\xi}
-              \frac{
-                A_{T_u} \cdots A_{n+1} B_n 
-              }{
-                |A_{T_u} \cdots A_1 V_0|
-              }
-              \1{n \leq T_u < \tau}
-            \right|^{2 \xi}
-          \right]^{1/2\xi}
-        \right\}^{2\xi} \\
-        &\leq& c \limsup_{u \to \infty}
-        \left\{
-          \sum_{n=0}^{\infty}
-          \left[
-            \E \left(
-              N_u^2
-              \frac{
-                |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
-              }{
-                |A_{T_u} \cdots A_1 V_0|^\xi
-              }
-              \1{n \leq T_u < \tau}
-            \right)
-          \right]^{1/2\xi}
-        \right\}^{2\xi}
-      \end{eqnarray*}
-      By H\"older's inequality we have
-      \begin{eqnarray*}
-        &&
-        \E \left(
-          N_u^2
-          \frac{
-            |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
-          }{
-            |A_{T_u} \cdots A_1 V_0|^\xi
-          }
-          \1{n \leq T_u < \tau}
-        \right) \\
-        &\leq&
-        (\E N_u^{2r}\1{n \leq T_u < \tau})^{1/r}
-        \left(
-          \E {
-            |A_{T_u} \cdots A_{n+1} B_n|^{2s \xi}
-            \over
-            |A_{T_u} \cdots A_1 V_0|^{s \xi}
-          } \1{n \leq T_u < \tau}
-        \right)^{1/s}
-        (\E \1{n \leq T_u < \tau})^{1/r} \\
-        &\leq&
-        c
-        (\E N_u^{2r}\1{n \leq T_u < \tau})^{1/r}
-        \left(
-          \E {
-            \|A_{T_u} \cdots A_{n+1} \|^{2s\xi} |B_n|^{2s \xi}
-            \over
-            \|A_{T_u} \cdots A_{n+1} \|^{s\xi} \|A_n\|^{s\xi}
-            \|A_{n-1} \cdots A_1\|^{s\xi} |V_0|^{s \xi}
-          } \1{n \leq T_u < \tau}
-        \right)^{1/s} \times \\
-        &&
-        (\E \1{n \leq T_u < \tau})^{1/r} \\
-        &\leq&
-        c
-        (\E N_u^{2r}\1{n \leq T_u < \tau})^{1/r}
-        \left(
-          \E {
-            \|A_{T_u} \cdots A_{n+1} \|^{s\xi}
-            \over
-            \|A_{n-1} \cdots A_1\|^{s\xi}
-         }
-         \1{n \leq T_u < \tau}
-          \right)^{1/s}         
-          \left(
-          \E {
-            |B_n|^{2s\xi}
-            \over
-            |A_n|^{2\xi}
-          }
-        \right)^{1/s} \times \\
-        &&
-        (\E \1{n \leq T_u < \tau})^{1/r}
-      \end{eqnarray*}
-      where $r$ and $s$ satisify $1/s + 2/r = 1$.
-      The last line follows from the second last using the fact that
-      each $A_n$ and $B_n$ is independent.
-
-      Observe
-      \begin{eqnarray*}
-        &&
-        \E
-        \left(
-          {
-            \|A_{T_u} \cdots A_{n+1} \|^{s\xi}
-            \over
-            \|A_{n-1} \cdots A_1\|^{s\xi}
-          }
-          \1{n \leq T_u < \tau}
-        \right) \\
-        &=&
-        \sum_{l=n}^\infty
-        \E
-        \left(
-          {
-            \|A_{l} \cdots A_{n+1} \|^{s\xi}
-            \over
-            \|A_{n-1} \cdots A_1\|^{s\xi}
-          }
-        \1{\tau > l} \1{T_u = l}
-      \right)
-      \end{eqnarray*}
-      Becasue $\|A_l \cdots A_{n+1}\|$ and
-      $\|A_{n-1} \cdots A_1\|$ are independent of each other,
-      we have
-      \begin{eqnarray*}
-        &&
-        \sum_{l=n}^\infty
-        \E
-        \left(
-          {
-            \|A_{l} \cdots A_{n+1} \|^{s\xi}
-            \over
-            \|A_{n-1} \cdots A_1\|^{s\xi}
-          }
-          \1{\tau > l} \1{T_u = l}
-        \right) \\
-        &\leq&
-        \sum_{l=n}^\infty
-        \E (\|A_l \cdots A_{n+1}\|^{s \xi}) \1{\tau > l}
-        \E (\|A_{n-1} \cdots A_{1}\|^{- s\xi}) \1{\tau > l} \\
-        &\leq&
-        c \sum_{l=n}^\infty
-        \E (|A_l \cdots A_{n+1} X_{n}|^{s \xi}\1{\tau > l})
-        \E (\|A_{n-1} \cdots A_{1}\|^{- s\xi} \1{\tau > l})
-      \end{eqnarray*}
-      Using \eqref{eq:J_n_2} and \eqref{eq:y_n_2}, RHS of the above
-      inequality is bounded by
-      \begin{eqnarray*}
-        c \sum_{l=n}^\infty
-        \left[{y_1 \over (1 - h_2)^{n-2}}\right]^{s\xi}
-        \E (|A_l \cdots A_{n+1} X_{n}|^{s \xi}\1{\tau > l})
-      \end{eqnarray*}
-      By changing to the $s\xi$-shifted measure we get
-      \begin{eqnarray*}
-        &&
-        c \sum_{l=n}^\infty
-        \left[{y_1 \over (1 - h_2)^{n-2}}\right]^{s\xi}
-        \E (|A_l \cdots A_{n+1} X_{n}|^{s \xi}\1{\tau > l}) \\
-        &\leq&
-        c \sum_{l=n}^\infty
-        \left[{y_1 \over (1 - h_2)^{n-2}}\right]^{s\xi}        
-        \E_{s\xi} \left[
-          {r(X_n) \over r(X_l)}
-          \1{\tau > l}
-        \right]
-        \lambda(s\xi)^{l-n}
-      \end{eqnarray*}
-      % Here and in the following we used the convention
-      % $\|A_i A_{i-1}\cdots A_j\| = 1$ if $i < j$. We have
+    % Since
+    % \[
+    % V_n = \sum_{i=0}^n A_n \cdots A_{i+1} B_i
+    % \]
+    % it follows
+    % \begin{eqnarray*}
+    %   |V_n|\1{\tau > n} &\leq&
+    %   \sum_{i=0}^{n} \|A_n \cdots A_{i+1}\| |B_i| \\
+    %   \|A_n \cdots A_1\|^{-1} \1{\tau > n}
+    %   &\leq& |V_n|^{-1} \1{\tau > n}
+    %   \left[
+    %     |B_0| + \sum_{i=1}^n {
+    %       \|A_n \cdots A_{i+1}\|
+    %       \over
+    %       \|A_n \cdots A_{1}\|
+    %     } |B_i|
+    %   \right] \\
+    %   &\leq& {1 \over M}
+    %   \left[
+    %     |B_0| + \sum_{i=1}^n {
+    %       \|A_n \cdots A_{i+1}\|
+    %       \over
+    %       \|A_n \cdots A_{1}\|
+    %     } |B_i| \1{\tau > n}
+    %   \right]
+    % \end{eqnarray*}
+    % Note
+    % \[
+    % \|A_n \dots A_{i+1} A_i \cdots A_1\| \geq
+    % C^{-1} \|A_n \cdots A_{i+1}\|
+    % \|A_i \cdots A_{1}\|
+    % \]
+    % for some $C > 1$. We have
+    % \begin{equation}
+    %   \label{eq:lower_bound}
+    %   \|A_n \cdots A_1\|^{-1} \1{\tau > n}
+    %   \leq
+    %   {1 \over M} \left[
+    %     |B_0| + \sum_{i=1}^n {
+    %       C |B_i|
+    %       \over
+    %       \|A_i \cdots A_1\|
+    %     }  \1{\tau > n}
+    %   \right]
+    % \end{equation}
+    % Let
+    % \[
+    % J_k = \|A_k \cdots A_1\|^{-1} \1{\tau > n}
+    % \]
+    % We obtain
+    % \begin{eqnarray*}
+    %   \left(
+    %     \E J_n^\zeta
+    %   \right)^{1/\zeta} &\leq& \left[
+    %     \E \left(
+    %       {|B_0| \over M}
+    %       + {C \over M} \sum_{i=1}^n |B_i| J_i
+    %     \right)^\zeta
+    %     \right]^{1/\zeta}
+    % \end{eqnarray*}
+    % Using Minkowski's inequality and the independence of $B_i$ and
+    % $A_i, \dots, A_1$ the above yields
+    % \begin{eqnarray}
+    %   (\E J_n^\zeta)^{1/\zeta} &\leq&
+    %   {|B_0| \over M} + {C \over M}
+    %   \sum_{i=1}^n
+    %   (\E |B_i|^\zeta)^{1/\zeta}
+    %   (\E J_i^\zeta)^{1/\zeta}
+    %   \label{eq:neg_pow_ub} \\
+    %   &=& h_1 + h_2 \sum_{i=1}^{n-1} (\E J_i^\zeta)^{1/\zeta}
+    %   \nonumber
+    % \end{eqnarray}
+    % where
+    % \begin{eqnarray*}
+    %   h_1 &=& {|B_0| \over M} \\
+    %   h_2 &=& {C \over M} (\E |B_1|^\zeta)^{1/\zeta}
+    % \end{eqnarray*}
+    % Since
+    % \begin{eqnarray*}
+    %   V_1 &=& A_1 V_0 + B_1 \\
+    %   |V_1| &\leq& \|A_1\| |V_0| + |B_1| \\
+    %   \end{eqnarray*}
+    %   and by assumption $\E (|B|/\|A\|)^\zeta < \infty$, we have
+    %   \begin{eqnarray}
+    %     (\E J_1^\zeta)^{1/\zeta} &=&
+    %     \left[
+    %     \E (\|A_1\|^{-\zeta}\1{\tau > n})
+    %   \right]^{1/\zeta} \nonumber \\
+    %   &\leq&
+    %   {|V_0|\over M} \E \left[\left(
+    %     1 + {|B_1| \over |V_0| \|A_1\|}
+    %   \right)^\zeta
+    %   \1{\tau > n}\right]^{1/\zeta}< \infty
+    % \label{eq:J_1}
+    % \end{eqnarray}
+    % Let
+    % \[
+    % y_1 = 
+    % {|V_0|\over M} \E \left[\left(
+    %     1 + {|B_1| \over |V_0| \|A_1\|}
+    %   \right)^\zeta \1{\tau > n}\right]^{1/\zeta}
+    % \]
+    % and
+    % \begin{equation}
+    %   \label{eq:y_n}
+    %   y_n = h_1 + h_2 \sum_{i=1}^{n-1} y_i      
+    % \end{equation}
+    % Then \eqref{eq:neg_pow_ub}, \eqref{eq:y_n} and \eqref{eq:J_1}
+    % yield
+    % \begin{equation}
+    %   \label{eq:J_n_2}
+    %   (\E J_n^\zeta)^{1/\zeta} \leq y_n      
+    % \end{equation}
+    % Meanwhile \eqref{eq:y_n} gives, $\forall n \geq 1$,
+    % \begin{equation}
+    %   \label{eq:y_n_2}
+    %   y_n = {y_1 \over (1 - h_2)^{n-1}}
+    % \end{equation}
+    % Using Minkowski's inequality on RHS of
+    % \eqref{eq:efficiency_target} leads to
+    %   \begin{eqnarray*}
+    %     f(\xi) &\leq& \limsup_{u \to \infty}
+    %     \left\{
+    %       \sum_{n=0}^{\infty}
+    %       \left[
+    %         \E_{\mathcal D} \left|
+    %           N_u^{1/\xi}
+    %           \frac{
+    %             A_{T_u} \cdots A_{n+1} B_n 
+    %           }{
+    %             |A_{T_u} \cdots A_1 V_0|
+    %           }
+    %           \1{n \leq T_u < \tau}
+    %         \right|^{2 \xi}
+    %       \right]^{1/2\xi}
+    %     \right\}^{2\xi} \\
+    %     &\leq& c \limsup_{u \to \infty}
+    %     \left\{
+    %       \sum_{n=0}^{\infty}
+    %       \left[
+    %         \E \left(
+    %           N_u^2
+    %           \frac{
+    %             |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
+    %           }{
+    %             |A_{T_u} \cdots A_1 V_0|^\xi
+    %           }
+    %           \1{n \leq T_u < \tau}
+    %         \right)
+    %       \right]^{1/2\xi}
+    %     \right\}^{2\xi}
+    %   \end{eqnarray*}
+      % By H\"older's inequality we have
       % \begin{eqnarray*}
-      %   && \E \left(
-      %     \|A_{T_u} \cdots A_{n+1}\|^\zeta 
-      %     \1{\|A_{n-1} \cdots A_1\| \geq 1}
+      %   &&
+      %   \E \left(
+      %     N_u^2
+      %     \frac{
+      %       |A_{T_u} \cdots A_{n+1} B_n|^{2\xi}
+      %     }{
+      %       |A_{T_u} \cdots A_1 V_0|^\xi
+      %     }
       %     \1{n \leq T_u < \tau}
       %   \right) \\
       %   &\leq&
-      %   \sum_{k=n}^\infty
-      %   \E \left(
-      %     \|A_k \cdots A_{n+1}\|^\zeta \1{T_u = k} \1{\tau > k}
-      %   \right)  \\
-      %   &\leq& 
-      %   \sum_{k=n}^\infty
-      %   \E \left(
-      %     \|A_k \cdots A_{n+1}\|^\zeta \1{\tau > k}
-      %   \right) \\
-      %   &\leq&
-      %   \sum_{k=n}^\infty
-      %   \E \left(
-      %   \|A_k\|^\zeta \|A_{k-1} \cdots A_{n+1}\|^\zeta \1{\tau > k}
-      %   \right) \\
-      %   &\leq&
-      %   \sum_{k=n}^\infty
-      %   \E (\|A_{k-1} \cdots A_{n+1}\|^\zeta)
-      %   \E (\|A_k\|^\zeta \1{\tau > k})
+      %   (\E N_u^{2r}\1{n \leq T_u < \tau})^{1/r}
+      %   \left(
+      %     \E {
+      %       |A_{T_u} \cdots A_{n+1} B_n|^{2s \xi}
+      %       \over
+      %       |A_{T_u} \cdots A_1 V_0|^{s \xi}
+      %     } \1{n \leq T_u < \tau}
+      %   \right)^{1/s} \times \\
+      %   &&
+      %   (\E \1{n \leq T_u < \tau})^{1/r} \\
+        % &\leq&
+        % c
+        % (\E N_u^{2r}\1{n \leq T_u < \tau})^{1/r}
+        % \left(
+        %   \E {
+        %     \|A_{T_u} \cdots A_{n+1} \|^{2s\xi} |B_n|^{2s \xi}
+        %     \over
+        %     \|A_{T_u} \cdots A_{n+1} \|^{s\xi} \|A_n\|^{s\xi}
+        %     \|A_{n-1} \cdots A_1\|^{s\xi} |V_0|^{s \xi}
+        %   } \1{n \leq T_u < \tau}
+        % \right)^{1/s} \times \\
+        % &&
+        % (\E \1{n \leq T_u < \tau})^{1/r} \\
+        % &\leq&
+        % c
+        % (\E N_u^{2r}\1{n \leq T_u < \tau})^{1/r}
+        % \left(
+        %   \E {
+        %     \|A_{T_u} \cdots A_{n+1} \|^{s\xi}
+        %     \over
+        %     \|A_{n-1} \cdots A_1\|^{s\xi}
+        %  }
+        %  \1{n \leq T_u < \tau}
+        %   \right)^{1/s}         
+        %   \left(
+        %   \E {
+        %     |B_n|^{2s\xi}
+        %     \over
+        %     |A_n|^{2\xi}
+        %   }
+        % \right)^{1/s} \times \\
+        % &&
+        % (\E \1{n \leq T_u < \tau})^{1/r}
       % \end{eqnarray*}
-      % where the last line follows from the fact that
-      % $A_{k}, \dots, A_{n+1}$ are independent of each other. Since
-      % $\E \|A_k\|^\zeta = \E \|A_1\|^\zeta < \infty$, $\|A_k\| <
-      % \infty$ almost surely. Hence
-      % \begin{equation*}
-      %   \E (\|A_k\|^\zeta \1{\tau > k}) < c_1 \P(\tau > k) \text{ a.s.}
-      % \end{equation*}
-      % for some constant $c_1$. Applying \eqref{eq:ret_time} with
-      % $\beta = 0$ gives
-      % \begin{equation*}
-      %   \P(\tau > k) \leq c_2 [a \lambda(\alpha)]^{k-1}
-      % \end{equation*}
-      % for some $\alpha \in (0, \xi))$ such that $\lambda(\alpha) < 1$,
-      % for all $a \in (1, 1/\lambda(\alpha))$ and some $c_2 > 0$.
-      % Moreover,
-      % \begin{equation*}
-      %   \lim_{k \to \infty}
-      %   (\E \|A_{k} \cdots A_{n+1}\|^{\zeta})^{1/(k-n)}
-      %   = \lambda(\zeta)
-      % \end{equation*}
-      % So for all $a > 1$, when $N$ is sufficiently large and
-      % $k > n +N$, we have
-      % \begin{equation*}
-      %   \E \|A_k \cdots A_{n+1}\|^{\zeta} \leq [a \lambda(\zeta)]^{k-n}
-      % \end{equation*}
-      % Thus we obtain
+      % where $r$ and $s$ satisify $1/s + 2/r = 1$.
+      % The last line follows from the second last using the fact that
+      % each $A_n$ and $B_n$ is independent.
+
+      % Observe
       % \begin{eqnarray*}
       %   &&
-      %   \sum_{k=n}^\infty
-      %   \E (\|A_{k-1} \cdots A_{n+1}\|^\zeta)
-      %   \E (\|A_k\|^\zeta \1{\tau > k}) \\
-      %   &\leq&
-      %   c \sum_{k=n}^\infty [a \lambda(\alpha)]^{k-1}
-      %   \E \|A_{k-1} \cdots A_{n+1}\|^\zeta \\
-      %   &\leq&
-      %   c \sum_{k=n}^{n+N}
-      %   [a \lambda(\alpha)]^{k-1}
-      %   [
-      %   (\E \|A_1\|^\zeta)^{k-1-n} \1{k-1 \geq n+1} + 1
-      %   ] + \\
-      %   &&
-      %   c \sum_{k=n+N+1}^{\infty}
-      %   [a \lambda(\alpha)]^{k-1}
-      %   [a \lambda(\zeta)]^{k-1-n} \\
-      %   &=& c [a \lambda(\alpha)]^n
+      %   \E
+      %   \left(
+      %     {
+      %       \|A_{T_u} \cdots A_{n+1} \|^{s\xi}
+      %       \over
+      %       \|A_{n-1} \cdots A_1\|^{s\xi}
+      %     }
+      %     \1{n \leq T_u < \tau}
+      %   \right) \\
+      %   &=&
+      %   \sum_{l=n}^\infty
+      %   \E
+      %   \left(
+      %     {
+      %       \|A_{l} \cdots A_{n+1} \|^{s\xi}
+      %       \over
+      %       \|A_{n-1} \cdots A_1\|^{s\xi}
+      %     }
+      %   \1{\tau > l} \1{T_u = l}
+      % \right)
       % \end{eqnarray*}
-      % The last series converges because $\alpha$ can be chosen
-      % appropriately and $a > 1$ chosen so close to 1 that
-      % $a^2 \lambda(\zeta) \lambda(\alpha) < 1$.
+      % Becasue $\|A_l \cdots A_{n+1}\|$ and
+      % $\|A_{n-1} \cdots A_1\|$ are independent of each other,
+      % we have
+      % \begin{eqnarray*}
+      %   &&
+      %   \sum_{l=n}^\infty
+      %   \E
+      %   \left(
+      %     {
+      %       \|A_{l} \cdots A_{n+1} \|^{s\xi}
+      %       \over
+      %       \|A_{n-1} \cdots A_1\|^{s\xi}
+      %     }
+      %     \1{\tau > l} \1{T_u = l}
+      %   \right) \\
+      %   &\leq&
+      %   \sum_{l=n}^\infty
+      %   \E (\|A_l \cdots A_{n+1}\|^{s \xi}) \1{\tau > l}
+      %   \E (\|A_{n-1} \cdots A_{1}\|^{- s\xi}) \1{\tau > l} \\
+      %   &\leq&
+      %   c \sum_{l=n}^\infty
+      %   \E (|A_l \cdots A_{n+1} X_{n}|^{s \xi}\1{\tau > l})
+      %   \E (\|A_{n-1} \cdots A_{1}\|^{- s\xi} \1{\tau > l})
+      % \end{eqnarray*}
+      % Using \eqref{eq:J_n_2} and \eqref{eq:y_n_2}, RHS of the above
+      % inequality is bounded by
+      % \begin{eqnarray*}
+      %   c \sum_{l=n}^\infty
+      %   \left[{y_1 \over (1 - h_2)^{n-2}}\right]^{s\xi}
+      %   \E (|A_l \cdots A_{n+1} X_{n}|^{s \xi}\1{\tau > l})
+      % \end{eqnarray*}
+      % By changing to the $s\xi$-shifted measure we get
+      % \begin{eqnarray*}
+      %   &&
+      %   c \sum_{l=n}^\infty
+      %   \left[{y_1 \over (1 - h_2)^{n-2}}\right]^{s\xi}
+      %   \E (|A_l \cdots A_{n+1} X_{n}|^{s \xi}\1{\tau > l}) \\
+      %   &\leq&
+      %   c \sum_{l=n}^\infty
+      %   \left[{y_1 \over (1 - h_2)^{n-2}}\right]^{s\xi}        
+      %   \E_{s\xi} \left[
+      %     {r(X_n) \over r(X_l)}
+      %     \1{\tau > l}
+      %   \right]
+      %   \lambda(s\xi)^{l-n}
+      % \end{eqnarray*}
+      For each matrix $A_n$, construct a matrix $\bar A_{n,k}$, whose
+      $(i,j)$-th entry is
+      \begin{equation*}
+        (\bar A_{n,k})_{i,j} = (A_n)_{i,j}\1{(A_n)_{ij} > L_k} +
+        (L_k + U_{i,j})\1{(A_n)_{i,j} \leq L_k}
+      \end{equation*}
+      where $L_k \downarrow 0$ as $k \to \infty$; $U_{i,j}$ are
+      iid. and uniformly distributed on $(0,1)$.
+      Observe
+      \begin{eqnarray*}
+        \|\bar A_{1,k}\|
+        &=&
+        \max_{|x| = 1} |\bar A_{1,k} x| \\
+        &=&
+        \max_{|x| = 1}
+        \left|
+          \sum_{i=1}^d \left(\sum_{j=1}^d L_k x_j \right)
+        \right|^{1/2} \\
+        &\geq& L_k d^{1/2}
+      \end{eqnarray*}
+      Hence
+      \begin{eqnarray*}
+        {1 \over n} \log \E \|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
+        &\leq&
+        -\alpha \log(c d^{1/2} L_k) < \infty
+      \end{eqnarray*}
+      where $c < 1$ is some constant.
+      Define
+      \begin{equation*}
+        \Lambda_{k}(-\alpha) = \sup_{n \geq 1} {1 \over n} \log
+        \E\|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
+      \end{equation*}
+      Since
+      \begin{equation*}
+        \|\bar A_{n,k} \cdots A_{1,k}\|^{-\alpha}
+        \geq
+        \|\bar A_{n,k} \cdots A_{i,k}\|^{-\alpha}
+        \|\bar A_{n,i-1} \cdots A_{1,k}\|^{-\alpha}
+      \end{equation*}
+      By Fekete's lemma
+      \begin{equation*}
+        {1 \over n} \log \E \|\bar A_{n} \cdots \bar A_{1}\|^{-\alpha}
+        \to
+        \Lambda_{k}(-\alpha)
+      \end{equation*}
+      Now the same arguments as in the $\lambda(-\xi) < \infty$
+      case following \eqref{eq:xi_above_half} can be applied, with
+      each and every $A_n$ replaced by $A_{n,k}$. Since $\bar A_{n,k}
+      \to A_n$ as $k \to \infty$, we conclude $f(\xi) < \infty$.
     \end{enumerate}
 \end{proof}
 
