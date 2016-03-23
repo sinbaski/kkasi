@@ -482,39 +482,6 @@ Now, to prove \eqref{eq:drift}, consider
   \begin{equation*}
     \limsup_{u \to \infty} {\var(\mathcal E_u) \over [\P(|V| > u)]^2} < \infty
   \end{equation*}
-  under one of the following conditions:
-  \begin{enumerate}
-  \item $\E \|A\|^{-\xi} \leq \lambda(-\xi) < \infty$, $\exists h > 1$,
-    $\E\|A\|^{h\xi} < \infty$,
-    $\forall \theta > 0, \E |B|^{\theta} < \infty$ and
-    \begin{equation}
-      \label{eq:deepness}
-      -\inf_{\alpha \in \mathbb R} \Phi(\alpha)
-      >
-      {
-        h+1
-        \over
-        h-1
-      } \Lambda(-\xi)
-      +
-      \max\left\{
-      {
-        2 \Phi(h\xi) - (h+1) \Phi(-\xi)
-        \over
-        h-1
-      },
-      -\Phi(-\xi)
-      \right\}
-    \end{equation}
-    where
-    \[
-    \Phi(\alpha) := \log \E \|A\|^{\alpha}
-    \]
-    \label{assumptions:1}
-  \item $\lambda(-\xi) = \infty$, $\exists h > 1$,
-    $\lambda(h\xi) \leq \E\|A\|^{h\xi} < \infty$. Moreover, $\sup |B|
-    < \infty$.
-  \end{enumerate}
 \end{theorem}
 \begin{proof}
   The assertion is equivalent to
@@ -565,6 +532,7 @@ Now, to prove \eqref{eq:drift}, consider
           \right|^{2 \xi}
         \right]^{1/2\xi}
       \right\}^{2\xi} \nonumber \\
+      f(\xi)^{1/2\xi}
       &\leq& \limsup_{u \to \infty}
       \sum_{n=0}^\infty
       \left(
@@ -599,7 +567,7 @@ Now, to prove \eqref{eq:drift}, consider
         |A_n \cdots A_1 X_0|^{-\xi}
         N_u^2
         \1{n \leq T_u < \tau}        
-      \right)^{1/2\xi}
+      \right)^{1/2\xi} \label{eq:split_point}
     \end{eqnarray}
     
   \begin{enumerate}
@@ -632,8 +600,8 @@ Now, to prove \eqref{eq:drift}, consider
       l^2 \P_{-\xi}(\tau > l-1)
       \lambda(-\xi)^n
     \end{eqnarray}
-    Applying \eqref{eq:ret_time} with $\beta = -\xi$ gives
-    $\P_{-\xi}(\tau > l-1) \leq [\delta \lambda_{-\xi}(\alpha)]^{l-2}$
+    Applying \eqref{eq:ret_time} with $\beta = -\xi$ gives, for some
+    $a > 0$, $\P_{-\xi}(\tau > l-1) \leq a [\delta \lambda_{-\xi}(\alpha)]^{l-2}$
     for all $\delta > 1$ and $\delta \lambda_{-\xi}(\alpha) < 1$
     provided that $M$ is chosen sufficiently large. Thus RHS of the
     above inequality is bounded by
@@ -653,125 +621,136 @@ Now, to prove \eqref{eq:drift}, consider
     \end{equation*}
     Under assumption \eqref{eq:cond1} the above inequality is
     obviously true.
-  \item If $\lambda(-\xi) = \infty$, we assume $\lambda(h\xi) < \infty$.
-    % Since
-    % \[
-    % V_n = \sum_{i=0}^n A_n \cdots A_{i+1} B_i
-    % \]
-    % it follows
-    % \begin{eqnarray*}
-    %   |V_n|\1{\tau > n} &\leq&
-    %   \sum_{i=0}^{n} \|A_n \cdots A_{i+1}\| |B_i| \\
-    %   \|A_n \cdots A_1\|^{-1} \1{\tau > n}
-    %   &\leq& |V_n|^{-1} \1{\tau > n}
-    %   \left[
-    %     |B_0| + \sum_{i=1}^n {
-    %       \|A_n \cdots A_{i+1}\|
-    %       \over
-    %       \|A_n \cdots A_{1}\|
-    %     } |B_i|
-    %   \right] \\
-    %   &\leq& {1 \over M}
-    %   \left[
-    %     |B_0| + \sum_{i=1}^n {
-    %       \|A_n \cdots A_{i+1}\|
-    %       \over
-    %       \|A_n \cdots A_{1}\|
-    %     } |B_i| \1{\tau > n}
-    %   \right]
-    % \end{eqnarray*}
-    % Note
-    % \[
-    % \|A_n \dots A_{i+1} A_i \cdots A_1\| \geq
-    % C^{-1} \|A_n \cdots A_{i+1}\|
-    % \|A_i \cdots A_{1}\|
-    % \]
-    % for some $C > 1$. We have
-    % \begin{equation}
-    %   \label{eq:lower_bound}
-    %   \|A_n \cdots A_1\|^{-1} \1{\tau > n}
-    %   \leq
-    %   {1 \over M} \left[
-    %     |B_0| + \sum_{i=1}^n {
-    %       C |B_i|
-    %       \over
-    %       \|A_i \cdots A_1\|
-    %     }  \1{\tau > n}
-    %   \right]
-    % \end{equation}
-    % Let
-    % \[
-    % J_k = \|A_k \cdots A_1\|^{-1} \1{\tau > n}
-    % \]
-    % We obtain
-    % \begin{eqnarray*}
-    %   \left(
-    %     \E J_n^\zeta
-    %   \right)^{1/\zeta} &\leq& \left[
-    %     \E \left(
-    %       {|B_0| \over M}
-    %       + {C \over M} \sum_{i=1}^n |B_i| J_i
-    %     \right)^\zeta
-    %     \right]^{1/\zeta}
-    % \end{eqnarray*}
-    % Using Minkowski's inequality and the independence of $B_i$ and
-    % $A_i, \dots, A_1$ the above yields
-    % \begin{eqnarray}
-    %   (\E J_n^\zeta)^{1/\zeta} &\leq&
-    %   {|B_0| \over M} + {C \over M}
-    %   \sum_{i=1}^n
-    %   (\E |B_i|^\zeta)^{1/\zeta}
-    %   (\E J_i^\zeta)^{1/\zeta}
-    %   \label{eq:neg_pow_ub} \\
-    %   &=& h_1 + h_2 \sum_{i=1}^{n-1} (\E J_i^\zeta)^{1/\zeta}
-    %   \nonumber
-    % \end{eqnarray}
-    % where
-    % \begin{eqnarray*}
-    %   h_1 &=& {|B_0| \over M} \\
-    %   h_2 &=& {C \over M} (\E |B_1|^\zeta)^{1/\zeta}
-    % \end{eqnarray*}
-    % Since
-    % \begin{eqnarray*}
-    %   V_1 &=& A_1 V_0 + B_1 \\
-    %   |V_1| &\leq& \|A_1\| |V_0| + |B_1| \\
-    %   \end{eqnarray*}
-    %   and by assumption $\E (|B|/\|A\|)^\zeta < \infty$, we have
-    %   \begin{eqnarray}
-    %     (\E J_1^\zeta)^{1/\zeta} &=&
-    %     \left[
-    %     \E (\|A_1\|^{-\zeta}\1{\tau > n})
-    %   \right]^{1/\zeta} \nonumber \\
-    %   &\leq&
-    %   {|V_0|\over M} \E \left[\left(
-    %     1 + {|B_1| \over |V_0| \|A_1\|}
-    %   \right)^\zeta
-    %   \1{\tau > n}\right]^{1/\zeta}< \infty
-    % \label{eq:J_1}
-    % \end{eqnarray}
-    % Let
-    % \[
-    % y_1 = 
-    % {|V_0|\over M} \E \left[\left(
-    %     1 + {|B_1| \over |V_0| \|A_1\|}
-    %   \right)^\zeta \1{\tau > n}\right]^{1/\zeta}
-    % \]
-    % and
-    % \begin{equation}
-    %   \label{eq:y_n}
-    %   y_n = h_1 + h_2 \sum_{i=1}^{n-1} y_i      
-    % \end{equation}
-    % Then \eqref{eq:neg_pow_ub}, \eqref{eq:y_n} and \eqref{eq:J_1}
-    % yield
-    % \begin{equation}
-    %   \label{eq:J_n_2}
-    %   (\E J_n^\zeta)^{1/\zeta} \leq y_n      
-    % \end{equation}
-    % Meanwhile \eqref{eq:y_n} gives, $\forall n \geq 1$,
-    % \begin{equation}
-    %   \label{eq:y_n_2}
-    %   y_n = {y_1 \over (1 - h_2)^{n-1}}
-    % \end{equation}
+  \item If $\lambda(-\xi) = \infty$, we assume $\lambda(h\xi) <
+    \infty$ and
+    \begin{equation}
+      \label{eq:cond2}
+      h > 1 + {
+        \log(1 - h_2)
+        \over
+        \log[\lambda(\alpha)]
+      }
+    \end{equation}
+    where $h_2$ is as defined below. Assume also
+    $\E(|B|/\|A\|)^{h\xi} <  \infty$. Since
+    \[
+    V_n = \sum_{i=0}^n A_n \cdots A_{i+1} B_i
+    \]
+    it follows
+    \begin{eqnarray*}
+      |V_n|\1{\tau > n} &\leq&
+      \sum_{i=0}^{n} \|A_n \cdots A_{i+1}\| |B_i| \\
+      \|A_n \cdots A_1\|^{-1} \1{\tau > n}
+      &\leq& |V_n|^{-1} \1{\tau > n}
+      \left[
+        |B_0| + \sum_{i=1}^n {
+          \|A_n \cdots A_{i+1}\|
+          \over
+          \|A_n \cdots A_{1}\|
+        } |B_i|
+      \right] \\
+      &\leq& {1 \over M}
+      \left[
+        |B_0| + \sum_{i=1}^n {
+          \|A_n \cdots A_{i+1}\|
+          \over
+          \|A_n \cdots A_{1}\|
+        } |B_i| \1{\tau > n}
+      \right]
+    \end{eqnarray*}
+    Note
+    \[
+    \|A_n \dots A_{i+1} A_i \cdots A_1\| \geq
+    C^{-1} \|A_n \cdots A_{i+1}\|
+    \|A_i \cdots A_{1}\|
+    \]
+    for some $C > 1$. We have
+    \begin{equation}
+      \label{eq:lower_bound}
+      \|A_n \cdots A_1\|^{-1} \1{\tau > n}
+      \leq
+      {1 \over M} \left[
+        |B_0| + \sum_{i=1}^n {
+          C |B_i|
+          \over
+          \|A_i \cdots A_1\|
+        }  \1{\tau > n}
+      \right]
+    \end{equation}
+    Let
+    \[
+    J_k = \|A_k \cdots A_1\|^{-1} \1{\tau > n}
+    \]
+    We obtain
+    \begin{eqnarray*}
+      \left(
+        \E J_n^\zeta
+      \right)^{1/\zeta} &\leq& \left[
+        \E \left(
+          {|B_0| \over M}
+          + {C \over M} \sum_{i=1}^n |B_i| J_i
+        \right)^\zeta
+        \right]^{1/\zeta}
+    \end{eqnarray*}
+    Using Minkowski's inequality and the independence of $B_i$ and
+    $A_i, \dots, A_1$ the above yields
+    \begin{eqnarray}
+      (\E J_n^\zeta)^{1/\zeta} &\leq&
+      {|B_0| \over M} + {C \over M}
+      \sum_{i=1}^n
+      (\E |B_i|^\zeta)^{1/\zeta}
+      (\E J_i^\zeta)^{1/\zeta}
+      \label{eq:neg_pow_ub} \\
+      &=& h_1 + h_2 \sum_{i=1}^{n-1} (\E J_i^\zeta)^{1/\zeta}
+      \nonumber
+    \end{eqnarray}
+    where
+    \begin{eqnarray*}
+      h_1 &=& {|B_0| \over M} \\
+      h_2 &=& {C \over M} (\E |B_1|^\zeta)^{1/\zeta}
+    \end{eqnarray*}
+    Since
+    \begin{eqnarray*}
+      V_1 &=& A_1 V_0 + B_1 \\
+      |V_1| &\leq& \|A_1\| |V_0| + |B_1| \\
+      \end{eqnarray*}
+      and by assumption $\E (|B|/\|A\|)^\zeta < \infty$, we have
+      \begin{eqnarray}
+        (\E J_1^\zeta)^{1/\zeta} &=&
+        \left[
+        \E (\|A_1\|^{-\zeta}\1{\tau > n})
+      \right]^{1/\zeta} \nonumber \\
+      &\leq&
+      {|V_0|\over M} \E \left[\left(
+        1 + {|B_1| \over |V_0| \|A_1\|}
+      \right)^\zeta
+      \1{\tau > n}\right]^{1/\zeta}< \infty
+    \label{eq:J_1}
+    \end{eqnarray}
+    Let
+    \[
+    y_1 = 
+    {|V_0|\over M} \E \left[\left(
+        1 + {|B_1| \over |V_0| \|A_1\|}
+      \right)^\zeta \1{\tau > n}\right]^{1/\zeta}
+    \]
+    and
+    \begin{equation}
+      \label{eq:y_n}
+      y_n = h_1 + h_2 \sum_{i=1}^{n-1} y_i      
+    \end{equation}
+    Then \eqref{eq:neg_pow_ub}, \eqref{eq:y_n} and \eqref{eq:J_1}
+    yield
+    \begin{equation}
+      \label{eq:J_n_2}
+      (\E J_n^\zeta)^{1/\zeta} \leq y_n      
+    \end{equation}
+    Meanwhile \eqref{eq:y_n} gives, $\forall n \geq 1$,
+    \begin{equation}
+      \label{eq:y_n_2}
+      y_n = {y_1 \over (1 - h_2)^{n-1}}
+    \end{equation}
+
     % Using Minkowski's inequality on RHS of
     % \eqref{eq:efficiency_target} leads to
     %   \begin{eqnarray*}
@@ -937,55 +916,37 @@ Now, to prove \eqref{eq:drift}, consider
       %   \right]
       %   \lambda(s\xi)^{l-n}
       % \end{eqnarray*}
-      For each matrix $A_n$, construct a matrix $\bar A_{n,k}$, whose
-      $(i,j)$-th entry is
-      \begin{equation*}
-        (\bar A_{n,k})_{i,j} = (A_n)_{i,j}\1{(A_n)_{ij} > L_k} +
-        (L_k + U_{i,j})\1{(A_n)_{i,j} \leq L_k}
-      \end{equation*}
-      where $L_k \downarrow 0$ as $k \to \infty$; $U_{i,j}$ are
-      iid. and uniformly distributed on $(0,1)$.
-      Observe
-      \begin{eqnarray*}
-        \|\bar A_{1,k}\|
-        &=&
-        \max_{|x| = 1} |\bar A_{1,k} x| \\
-        &=&
-        \max_{|x| = 1}
-        \left|
-          \sum_{i=1}^d \left(\sum_{j=1}^d L_k x_j \right)
-        \right|^{1/2} \\
-        &\geq& L_k d^{1/2}
-      \end{eqnarray*}
-      Hence
-      \begin{eqnarray*}
-        {1 \over n} \log \E \|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
-        &\leq&
-        -\alpha \log(c d^{1/2} L_k) < \infty
-      \end{eqnarray*}
-      where $c < 1$ is some constant.
-      Define
-      \begin{equation*}
-        \Lambda_{k}(-\alpha) = \sup_{n \geq 1} {1 \over n} \log
-        \E\|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
-      \end{equation*}
-      Since
-      \begin{equation*}
-        \|\bar A_{n,k} \cdots A_{1,k}\|^{-\alpha}
-        \geq
-        \|\bar A_{n,k} \cdots A_{i,k}\|^{-\alpha}
-        \|\bar A_{n,i-1} \cdots A_{1,k}\|^{-\alpha}
-      \end{equation*}
-      By Fekete's lemma
-      \begin{equation*}
-        {1 \over n} \log \E \|\bar A_{n} \cdots \bar A_{1}\|^{-\alpha}
-        \to
-        \Lambda_{k}(-\alpha)
-      \end{equation*}
-      Now the same arguments as in the $\lambda(-\xi) < \infty$
-      case following \eqref{eq:xi_above_half} can be applied, with
-      each and every $A_n$ replaced by $A_{n,k}$. Since $\bar A_{n,k}
-      \to A_n$ as $k \to \infty$, we conclude $f(\xi) < \infty$.
+    Now from \eqref{eq:split_point} it follows by H\"older's inequality
+    \begin{eqnarray*}
+      f(\xi)^{1/2\xi}
+      &\leq&
+      c \sum_{n=0}^\infty
+      (\E N_u^{2r})^{1/r}
+      (\E |A_n \cdots A_1 X_0|^{-\xi}\1{n \leq T_u < \tau})^{1/s} \\
+      &\leq&
+      c \sum_{n=0}^\infty
+      (\E\tau^{2r})^{1/r}
+      (\E |A_n \cdots A_1 X_0|^{-\xi}\1{n \leq T_u < \tau})^{1/s}
+    \end{eqnarray*}
+    where $1/r + 1/s = 1$. Obviously
+    \begin{eqnarray*}
+      && \E \tau^{2r} \\
+      &\leq&
+      \sum_{l=2}^\infty l^{2r} \P(\tau > l-1)
+    \end{eqnarray*}
+    Applying \eqref{eq:ret_time} with $\beta = 0$ gives $\P(\tau >
+    l-1) \leq a [\delta \lambda(\alpha)]^{l-2}$ for some $a > 0$ and
+    some $\delta > 1$ such that $\delta \lambda(\alpha) < 1$. So we
+    have
+    \begin{eqnarray*}
+      \sum_{l=2}^\infty l^{2r} \P(\tau > l-1) < \infty
+    \end{eqnarray*}
+    Thus it remains to show
+    \begin{eqnarray*}
+      \sum_{n=0}^\infty
+      (\E |A_n \cdots A_1 X_0|^{-\xi}\1{n \leq T_u < \tau})^{1/s}
+      < \infty
+    \end{eqnarray*}
     \end{enumerate}
 \end{proof}
 
