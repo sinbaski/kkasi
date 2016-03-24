@@ -952,27 +952,27 @@ Now, to prove \eqref{eq:drift}, consider
       \E (\|A_n \cdots A_1\|^{-s\xi}\1{n \leq T_u < \tau})
       < y_n(s\xi)^{s\xi} < \infty
     \end{equation*}
-    We may choose $L_k$ so small that
+    We may choose $L_n > 0$ and $L_n \downarrow 0$ sufficiently fast that
     \begin{equation*}
       \E (
       \|A_n \cdots A_1\|^{-s\xi}
-      \I_{F_{n,k}}
+      \I_{F_n^\complement}
       \1{\tau > n} 
-      ) < {1 / n^2}
+      ) < {1 / n^{s+\epsilon}}
     \end{equation*}
-    where
+    where $\epsilon > 0$ and
     \begin{equation*}
-      F_{n,k} = \bigcap_{i=1}^n \{\|A_i\| < L_k\}
+      F_n = \bigcap_{i=1}^n \{\|A_i\| \geq L_n\}
     \end{equation*}
     Thus
     \begin{equation*}
       \sum_{n=0}^\infty
-      (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < \tau} \I_{F_{n,k}})^{1/s}
+      (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < \tau}
+      \I_{F_n^\complement})^{1/s}
       \leq
-      \sum_{n=0}^\infty {1 \over n^{2/s}} < \infty
+      1 + 
+      \sum_{n=1}^\infty {1 \over n^{(s + \epsilon)/s}} < \infty
     \end{equation*}
-    provided $s < 2$, which is always viable since $r$ can be any
-    large finite number.
     For each matrix $A_n$, construct a matrix $\bar A_{n,k}$, whose
     $(i,j)$-th entry is
     \begin{equation*}
