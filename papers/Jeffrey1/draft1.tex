@@ -604,7 +604,7 @@ Now, to prove \eqref{eq:drift}, consider
     Applying \eqref{eq:ret_time} with $\beta = -\xi$ gives, for some
     $a > 0$, $\P_{-\xi}(\tau > l-1) \leq a [\delta \lambda_{-\xi}(\alpha)]^{l-2}$
     for all $\delta > 1$ and $\delta \lambda_{-\xi}(\alpha) < 1$
-    provided that $M$ is chosen sufficiently large. Thus RHS of the
+    provided that $M$ is chosen sufficiently large. Thus the RHS of the
     above inequality is bounded by
     \begin{eqnarray*}
       c \sum_{n=0}^\infty
@@ -927,13 +927,12 @@ Now, to prove \eqref{eq:drift}, consider
     \end{eqnarray*}
     Applying \eqref{eq:ret_time} with $\beta = 0$ gives $\P(\tau >
     l-1) \leq a [\delta \lambda(\alpha)]^{l-2}$ for some $a > 0$ and
-    some $\delta > 1$ such that $\delta \lambda(\alpha) < 1$. So we
+    all $\delta > 1$ such that $\delta \lambda(\alpha) < 1$. So we
     have
     \begin{eqnarray*}
       \sum_{l=2}^\infty l^{2r} \P(\tau > l-1) < \infty
     \end{eqnarray*}
     for any finite $r$. Thus it remains to show
-
     \begin{equation}
       \label{eq:sum_neg_pow}
       \sum_{n=0}^\infty
@@ -966,6 +965,13 @@ Now, to prove \eqref{eq:drift}, consider
       1 + 
       \sum_{n=1}^\infty {1 \over n^{(s + \epsilon)/s}} < \infty
     \end{equation*}
+    To prove \eqref{eq:sum_neg_pow}, we still have to show
+    \begin{equation}
+      \label{eq:sum_on_F_n}
+      \sum_{n=0}^\infty
+      (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < \tau}
+      \I_{F_n})^{1/s} < \infty
+    \end{equation}
     For each matrix $A_n$, construct a matrix $\bar A_{n, k}$, whose
     $(i,j)$-th entry is
     \begin{equation*}
@@ -973,9 +979,11 @@ Now, to prove \eqref{eq:drift}, consider
       L_n (1 + U_{i,j})\1{(A_n)_{i,j} \leq L_k}
     \end{equation*}
     where $L_k \downarrow 0$ as $k \to \infty$; $U_{i,j}$ are
-    iid. and uniformly distributed on $(0,1)$. We choose $k \geq n$
-    such that for all $1 \leq i \leq n$, $\bar A_{i,k}\I_{F_n} =
-    A_{i}\I_{F_n}$. Observe
+    iid. and uniformly distributed on $(0,1)$.
+    % Note
+    % $\bar A_{i,k}\I_{F_n} = A_{i}\I_{F_n}$ for all $1 \leq i \leq n$
+    % when $k \geq n$.
+    Observe
     \begin{eqnarray*}
       \|\bar A_{n,k}\|
       &=&
@@ -1004,8 +1012,8 @@ Now, to prove \eqref{eq:drift}, consider
           -{n - 1 \over n} \alpha \log C
           -\alpha \log (L_k d^{1/2})
     \end{eqnarray*}
-    where $C < 1$ is some constant.
-    Define
+    where $C < 1$ is some constant. Cearly the RHS tends to a constant
+    as $n \to \infty$. Define
     \begin{equation*}
       \bar \Lambda_{k}(-\alpha) = \sup_{n \geq 1} {1 \over n} \log
       \E\|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
@@ -1019,10 +1027,66 @@ Now, to prove \eqref{eq:drift}, consider
     \end{equation*}
     By Fekete's lemma
     \begin{equation*}
-      {1 \over n} \log \E \|\bar A_{n} \cdots \bar A_{1}\|^{-\alpha}
+      {1 \over n} \log \E \|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
       \to
       \bar \Lambda_{k}(-\alpha)
     \end{equation*}
+    Now consider
+    \begin{eqnarray*}
+      \bar g_k(\xi) = \sum_{n=0}^\infty
+      (\E |\bar A_{n,k} \cdots \bar A_{1,k} X_0|^{-s\xi}
+      \1{n \leq \bar T_u < \bar \tau}
+      \I_{F_n}
+      )^{1/s}
+    \end{eqnarray*}
+    where $\bar T_u$ and $\bar \tau$ are defined analogously. Changing
+    to the $-s\xi$-shifted measure, we obtain
+    \begin{eqnarray*}
+      \bar g_k(\xi) &=& \sum_{n=0}^\infty \bar \lambda_{k}(-s\xi)^{n/s}
+      (\E_{-s\xi} \1{n \leq \bar T_u < \bar \tau} \I_{F_n})^{1/s} \\
+      &\leq&
+      \sum_{n=0}^\infty \bar \lambda_{k}(-s\xi)^{n/s}
+      [\P_{-s\xi}(n \leq \bar T_u < \bar \tau)]^{1/s}
+    \end{eqnarray*}
+    Applying \eqref{eq:ret_time} with $\beta = -s\xi$ gives
+    \begin{eqnarray*}
+      \P_{-s\xi}(\bar \tau > n) \leq a [\delta \bar \lambda_{k, -s\xi}(\alpha)]^{n-1}
+    \end{eqnarray*}
+    for some $a > 0$ and all $\delta > 1$ such that
+    $\delta \lambda_k(\alpha - s\xi) < 1$. So we have
+    \begin{eqnarray*}
+      \bar g_k(\xi) &\leq& 1 + a \bar \lambda_k(-s\xi)\sum_{n=1}^\infty
+      [\delta \bar \lambda_{k, -s\xi}(\alpha) \bar \lambda_k(-s\xi)]^{n-1} 
+    \end{eqnarray*}
+    Note
+    \begin{eqnarray*}
+      \bar \lambda_{k, -s\xi}(\alpha)
+      \leq
+      \E_{-s\xi} \bar A_{1,k}^\alpha 
+      = {
+        \E \bar A_{1,k}^{\alpha - s\xi}
+        \over
+        \E \bar A_{1,k}^{-s\xi}
+      }
+      = {
+        \bar \lambda_k(\alpha - s\xi)
+        \over
+        \bar \lambda_k(-s\xi)
+      }
+    \end{eqnarray*}
+    It follows
+    \begin{eqnarray*}
+      \bar g_k(\xi) &\leq& 1 + \sum_{n=1}^\infty
+      [\delta \bar \lambda_k(\alpha - s\xi)]^{(n-1)/s}
+      < \infty
+    \end{eqnarray*}
+    As $k \to \infty$, $\bar g_k(\xi)$ tends to the LHS of
+    \eqref{eq:sum_on_F_n} and
+    \[
+    \delta \bar \lambda_k(\alpha - s\xi) \to \delta \lambda(\alpha - s\xi)
+    < 1
+    \]
+    Thus we conclude \eqref{eq:sum_on_F_n} holds.
     \end{enumerate}
 \end{proof}
 
