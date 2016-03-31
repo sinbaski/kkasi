@@ -5,49 +5,61 @@ source("libxxie.r");
 database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
     dbname='avanza', host="localhost");
 
-sector="Materials";
+sector="Energy";
 
 tables <- c(
-    "AA_US",
-    "APD_US",
-    "ARG_US",
-    "AVY_US",
-    "BLL_US",
-    "CF_US",
-    "DD_US",
-    "DOW_US",
-    "ECL_US",
-    "EMN_US",
-    "FCX_US",
-    "FMC_US",
-    "IFF_US",
-    "IP_US",
-    "LYB_US",
-    "MLM_US",
-    "MON_US",
-    "MOS_US",
-    "NEM_US",
-    "NUE_US",
-    "OI_US",
-    "PPG_US",
-    "PX_US",
-    "SEE_US",
-    "SHW_US",
-    "SIAL_US",
-    "VMC_US"
+	"APA_US",
+	"APC_US",
+	"BHI_US",
+	"CAM_US",
+	"CHK_US",
+	"CNX_US",
+	"COG_US",
+	"COP_US",
+	"CVX_US",
+	"DO_US",
+	"DVN_US",
+	"EOG_US",
+	"EQT_US",
+	"ESV_US",
+	"FTI_US",
+	"HAL_US",
+	"HES_US",
+	"HP_US",
+	"KMI_US",
+	"MPC_US",
+	"MRO_US",
+	"MUR_US",
+	"NBL_US",
+	"NFX_US",
+	"NOV_US",
+	"OKE_US",
+	"OXY_US",
+	"PXD_US",
+	"RIG_US",
+	"RRC_US",
+	"SE_US",
+	"SLB_US",
+	"SWN_US",
+	"TSO_US",
+	"VLO_US",
+	"WMB_US",
+	"XEC_US",
+	"XOM_US"
 );
 ret <- getAssetReturns("2010-04-28", "2015-08-06", tables, "localhost");
 p <- dim(ret)[2];
-ratios <- rep(NA, 7);
-for (k in 2:length(ratios))
+ratios <- rep(NA, 5);
+for (k in 1:length(ratios))
 {
     C <- cov(ret[1:(k*200),]);    
     E <- eigen(C, only.values=TRUE);
     ratios[k] <- (E$values[1] - E$values[p])/sum(diag(C));
 }
-pdf(sprintf("/tmp/%s.pdf", sector));
-plot((1:7)*200, ratios, type="b", xlab="p", ylab="",
-     main=expression(frac(lambda[1]-lambda[p], "trace")));
+pdf(sprintf("~/Documents/%s.pdf", sector));
+plot((1:5)*200, ratios, type="b", xlab="n", 
+     ylab=expression((lambda[1]-lambda[p])/"trace"),
+     main=sector);
 dev.off();
 dbDisconnect(database);
 
