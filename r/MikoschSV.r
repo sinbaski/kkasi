@@ -2,7 +2,7 @@ rm(list=ls());
 library(abind);
 library(RMySQL);
 library(fields);
-source("libxxie.r");
+source("~/work/r/libxxie.r");
 
 currencies <- c(
     ## Oceania

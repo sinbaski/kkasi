@@ -1,5 +1,5 @@
 rm(list=ls());
-source("libxxie.r");
+source("~/work/r/libxxie.r");
 ## source("liblxb353.r");
 
 day2 = '2015-02-28';

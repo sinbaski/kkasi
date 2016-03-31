@@ -82,6 +82,17 @@ and day between '%s' and '%s';", day1, day2));
 
         results <- dbSendQuery(
             database,
+            sprintf("select count(*) from %s;",
+                    tables[i])
+            );
+        num.records <- fetch(results)[1,1];
+        if (num.records == 0) {
+            to.include[i] <- FALSE;
+            next;
+        }
+        
+        results <- dbSendQuery(
+            database,
             sprintf("select min(day) from %s;",
                     tables[i])
             );
