@@ -177,22 +177,15 @@ where day between '%s' and '%s'",
 
 estimateTailIndices <- function(ret) {
     if (class(ret) == "matrix") {
-        tailIndices = matrix(NA, nrow=dim(ret)[2], ncol=2);
+        tailIndices <- rep(NA, dim(ret)[2]);
         for (i in 1:dim(ret)[2]) {
             X = ret[, i];
-            a <- quantile(X, probs=0.03);
-            tailIndices[i, 1] <- 1/mean(log(X[which(X < a)]/a));
-
             b <- quantile(X, probs=0.97);
-            tailIndices[i, 2] <- 1/mean(log(X[which(X > b)]/b));
+            tailIndices[i] <- 1/mean(log(X[which(X > b)]/b));
         }
     } else if (class(ret) == "numeric") {
-        tailIndices = rep(NA, 2);
-        a <- quantile(ret, probs=0.03);
-        tailIndices[1] <- 1/mean(log(ret[which(ret < a)]/a));
-
         b <- quantile(ret, probs=0.97);
-        tailIndices[2] <- 1/mean(log(ret[which(ret > b)]/b));
+        tailIndices <- 1/mean(log(ret[which(ret > b)]/b));
     }
     return(tailIndices);
 }
@@ -237,16 +230,12 @@ largeComp <- function(data, level) {
     return(data * (abs(data) > level));
 }
 
-hillEstimate <- function(X, probs) {
-    p <- length(probs);
-    tailIndices <- rep(NA, p);
-    b <- quantile(X, probs[p]);
-    tailIndices[p] <- 1/mean(log(X[which(X > b)]/b));
-
-    if (p == 2) {
-        a <- quantile(X, probs[1]);
-        tailIndices[1] <- 1/mean(log(X[which(X < a)]/a));
+hillEstimate <- function(X, prob=0.97) {
+    q <- quantile(X, prob);
+    if (prob > 0.5) {
+        return(1/mean(log(X[which(X > q)]/q)));
+    } else {
+        return(1/mean(log(X[which(X < q)]/q)));
     }
-    return (tailIndices);
 }
 
