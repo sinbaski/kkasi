@@ -239,3 +239,24 @@ hillEstimate <- function(X, prob=0.97) {
     }
 }
 
+pikandsEstimate <- function(X, prob=0.97) {
+    q <- quantile(X, prob);
+    Y <- sort(X, decreasing=TRUE);
+    for (k in (1:length(X))) {
+        if (Y[k] > q) {
+            k <- k + 1;
+        } else {
+            break;
+        }
+    }
+    return(log(2)/log((Y[k] - Y[2*k])/(Y[2*k] - Y[4*k])));
+}
+
+dekkersEinmahldeHaan <- function(X, prob=0.97) {
+    q <- quantile(X, prob);
+    Y <- log(X[which(X > q)]);
+    H1 <- mean(Y - log(q));
+    H2 <- mean((Y - log(q))^2);
+    result <- 1 + H1 + 1/2/(H1^2/H2 - 1);
+    return(1/result);
+}

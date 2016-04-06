@@ -1,5 +1,5 @@
 rm(list=ls());
-library(fields);
+## library(fields);
 source("libxxie.r");
 
 #Simulate samples described by a heavy-tailed SV model.
@@ -10,7 +10,7 @@ p <- 20;
 ## Z <- runif(1.0e+5);
 ## Y <- (Z^(-1/3));
 ## X <- matrix(rt(n=n*p, df=5), nrow=n, ncol=p);
-X <- runif(n*p)^(-1/3) - 1;
+X <- runif(n*p)^(-1/3);
 X <- X * sign(runif(n*p, min=-0.5, 0.5));
 X <- matrix(X, n, p);
 estimateTailIndices(X);
@@ -18,13 +18,13 @@ estimateTailIndices(X);
 Y <- matrix(NA, n, p);
 eta <- matrix(rnorm(n=(p+1)*n), nrow=n, ncol=p+1);
 for (i in 2:(p+1)) {
-    Y[, i-1] <- X[, i-1] * abs(eta[, i-1] + eta[,i]);
+    Y[, i-1] <- X[, i-1] * exp(eta[, i-1] + eta[,i]);
 }
 
 tail.indices <- matrix(NA, p, p);
 for (i in (1:p)) {
     for (j in (i:p)) {
-        tail.indices[i,j] <- hillEstimate(Y[,i] * Y[,j], prob=0.97);
+        tail.indices[i,j] <- pikandsEstimate(Y[,i] * Y[,j], prob=0.97);
         tail.indices[j,i] <- tail.indices[i,j]
     }
 }
