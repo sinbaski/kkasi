@@ -13,7 +13,7 @@ p <- 20;
 X <- runif(n*p)^(-1/3);
 X <- X * sign(runif(n*p, min=-0.5, 0.5));
 X <- matrix(X, n, p);
-estimateTailIndices(X);
+## estimateTailIndices(X);
 
 Y <- matrix(NA, n, p);
 eta <- matrix(rnorm(n=(p+1)*n), nrow=n, ncol=p+1);

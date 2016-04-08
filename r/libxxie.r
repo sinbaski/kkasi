@@ -1,5 +1,6 @@
 library(RMySQL);
 library(abind);
+## library(rmgarch);
 
 ###
 # A matrix of return values derived from price data on common days
