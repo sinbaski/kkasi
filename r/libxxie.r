@@ -24,7 +24,7 @@ day between '%s' and '%s' order by day;", tables[i], day1, day2));
         }
     }
     n.days = length(days);
-    R = matrix(nrow=floor(n.days/lag), ncol=length(tables));
+    R = matrix(nrow=ceiling(n.days/lag)-1, ncol=length(tables));
     str = sprintf("'%s'", days[1]);
     for (i in 2 : n.days) {
         str = sprintf("%s, '%s'", str, days[i]);
