@@ -1,5 +1,6 @@
 library(RMySQL);
 library(abind);
+## library(rmgarch);
 
 ###
 # A matrix of return values derived from price data on common days
@@ -177,22 +178,15 @@ where day between '%s' and '%s'",
 
 estimateTailIndices <- function(ret) {
     if (class(ret) == "matrix") {
-        tailIndices = matrix(NA, nrow=dim(ret)[2], ncol=2);
+        tailIndices <- rep(NA, dim(ret)[2]);
         for (i in 1:dim(ret)[2]) {
             X = ret[, i];
-            a <- quantile(X, probs=0.03);
-            tailIndices[i, 1] <- 1/mean(log(X[which(X < a)]/a));
-
             b <- quantile(X, probs=0.97);
-            tailIndices[i, 2] <- 1/mean(log(X[which(X > b)]/b));
+            tailIndices[i] <- 1/mean(log(X[which(X > b)]/b));
         }
     } else if (class(ret) == "numeric") {
-        tailIndices = rep(NA, 2);
-        a <- quantile(ret, probs=0.03);
-        tailIndices[1] <- 1/mean(log(ret[which(ret < a)]/a));
-
         b <- quantile(ret, probs=0.97);
-        tailIndices[2] <- 1/mean(log(ret[which(ret > b)]/b));
+        tailIndices <- 1/mean(log(ret[which(ret > b)]/b));
     }
     return(tailIndices);
 }
@@ -237,16 +231,33 @@ largeComp <- function(data, level) {
     return(data * (abs(data) > level));
 }
 
-hillEstimate <- function(X, probs) {
-    p <- length(probs);
-    tailIndices <- rep(NA, p);
-    b <- quantile(X, probs[p]);
-    tailIndices[p] <- 1/mean(log(X[which(X > b)]/b));
-
-    if (p == 2) {
-        a <- quantile(X, probs[1]);
-        tailIndices[1] <- 1/mean(log(X[which(X < a)]/a));
+hillEstimate <- function(X, prob=0.97) {
+    q <- quantile(X, prob);
+    if (prob > 0.5) {
+        return(1/mean(log(X[which(X > q)]/q)));
+    } else {
+        return(1/mean(log(X[which(X < q)]/q)));
     }
-    return (tailIndices);
 }
 
+pikandsEstimate <- function(X, prob=0.97) {
+    q <- quantile(X, prob);
+    Y <- sort(X, decreasing=TRUE);
+    for (k in (1:length(X))) {
+        if (Y[k] > q) {
+            k <- k + 1;
+        } else {
+            break;
+        }
+    }
+    return(log(2)/log((Y[k] - Y[2*k])/(Y[2*k] - Y[4*k])));
+}
+
+dekkersEinmahldeHaan <- function(X, prob=0.97) {
+    q <- quantile(X, prob);
+    Y <- log(X[which(X > q)]);
+    H1 <- mean(Y - log(q));
+    H2 <- mean((Y - log(q))^2);
+    result <- 1 + H1 + 1/2/(H1^2/H2 - 1);
+    return(1/result);
+}
