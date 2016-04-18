@@ -41,7 +41,8 @@ double norm_pow_prod_mat(const vector<mat>& matrices, double alpha)
     return pow(norm(x, 2), alpha);
 }
 
-double mean_norm_pow_prod_mat(const vector< vector<mat> >& matrices, double alpha)
+double mean_norm_pow_prod_mat(const vector< vector<mat> >& matrices,
+			      double alpha)
 {
     size_t p = matrices.size();
     double x;
@@ -71,6 +72,8 @@ int main(int argc, char* argv[])
 	    matrices[i][j] = gen_rand_matrices(a, b, M);
 	}
     }
-    cout<< "Estimated Lambda(" << alpha << ") = " << log(mean_norm_pow_prod_mat(matrices, alpha))/n << endl;
+    cout<< "Estimated Lambda(" << alpha << ") = "
+	<< log(mean_norm_pow_prod_mat(matrices, alpha))/n
+	<< endl;
     return 0;
 }
