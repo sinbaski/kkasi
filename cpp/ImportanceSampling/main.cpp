@@ -19,15 +19,14 @@ void print_matrix(const mat& M)
     }
 }
 
-mat& gen_rand_matrices(double a, double b, mat& M)
+mat& gen_rand_matrices(vector<double> &alpha, vector<double> &beta, mat& A)
 {
     static normal_distribution<double> ndist;
     static default_random_engine gen(time(NULL));
 
-    M.row(0) = rowvec({b, 0, a, 0});
-    M.row(1) = rowvec({0, b, 0, a});
-    M.row(2) = M.row(0) * ndist(gen);
-    M.row(3) = M.row(1) * ndist(gen);
+    z = pow(ndist(gen), 2);
+    A.row(0) = rowvec({alpha[0] * z + beta[0], beta[1]});
+    A.row(1) = rowvec({z, 0});
     return M;
 }
 
@@ -38,14 +37,15 @@ double norm_pow_prod_mat(const vector<mat>& matrices, double alpha)
     for (size_t i=0; i < matrices.size(); i++) {
 	x *= matrices[i];
     }
-    return pow(norm(x, 2), alpha);
+    double y = norm(x, 2);
+    return pow(y, alpha);
 }
 
 double mean_norm_pow_prod_mat(const vector< vector<mat> >& matrices,
 			      double alpha)
 {
     size_t p = matrices.size();
-    double x;
+    double x = 0;
     size_t i;
     for (x = 0, i = 0; i < p; i++) {
 	x += norm_pow_prod_mat(matrices[i], alpha)/p;
@@ -66,14 +66,15 @@ int main(int argc, char* argv[])
     for (unsigned i = 0; i < p; i++) {
 	matrices[i].resize(n);
 	for (unsigned j = 0; j < n; j++) {
-	    mat M(4, 4);
-	    double a = 0.5;
-	    double b = 0.4;
-	    matrices[i][j] = gen_rand_matrices(a, b, M);
+	    mat M(2, 2);
+	    vector<double> alpha({0.7});
+	    vector<double> beta({0.2, 0.05});
+	    matrices[i][j] = gen_rand_matrices(alpha, beta, M);
 	}
     }
-    cout<< "Estimated Lambda(" << alpha << ") = "
-	<< log(mean_norm_pow_prod_mat(matrices, alpha))/n
+    double x = mean_norm_pow_prod_mat(matrices, alpha);
+    cout<< "Estimated lambda(" << alpha << ") = "
+	<< pow(x, 1/double(n))
 	<< endl;
     return 0;
 }
