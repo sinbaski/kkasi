@@ -167,8 +167,7 @@ where day between '%s' and '%s'",
                 j <- j + 1;
             }
         }
-        J <- which(!I);
-        for (j in J) {
+        for (j in which(!I)) {
             prices[j, i] <- prices[j-1, i];
         }
     }
@@ -176,16 +175,16 @@ where day between '%s' and '%s'",
     R <- diff(log(prices));
 }
 
-estimateTailIndices <- function(ret) {
+estimateTailIndices <- function(ret, prob=0.97) {
     if (class(ret) == "matrix") {
         tailIndices <- rep(NA, dim(ret)[2]);
         for (i in 1:dim(ret)[2]) {
             X = ret[, i];
-            b <- quantile(X, probs=0.97);
+            b <- quantile(X, probs=prob);
             tailIndices[i] <- 1/mean(log(X[which(X > b)]/b));
         }
     } else if (class(ret) == "numeric") {
-        b <- quantile(ret, probs=0.97);
+        b <- quantile(ret, probs=prob);
         tailIndices <- 1/mean(log(ret[which(ret > b)]/b));
     }
     return(tailIndices);

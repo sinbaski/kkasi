@@ -2,67 +2,47 @@ rm(list=ls());
 library(abind);
 library(RMySQL);
 library(fields);
-source("~/work/r/libxxie.r");
+source("libxxie.r");
 
 currencies <- c(
-    ## Oceania
-    "NZD_SEK_Rates",
     "AUD_SEK_Rates",
-    
-    ## Asia
-    "CNY_SEK_Rates",
-    "HKD_SEK_Rates",
-    "JPY_SEK_Rates",
-    "KRW_SEK_Rates",
-#    "SAR_SEK_Rates", # Saudi-Arabia
-    "SGD_SEK_Rates", # Singapore
-    "THB_SEK_Rates", # Thailand
-#    "TRY_SEK_Rates", # Turkey
-    
-    ## Europe
+    "CAD_SEK_Rates",
     "CHF_SEK_Rates",
-#    "CZK_SEK_Rates", # Czech
+
+    "CNY_SEK_Rates",
+    "CZK_SEK_Rates",
     "DKK_SEK_Rates",
+
     "EUR_SEK_Rates",
     "GBP_SEK_Rates",
-#    "HUF_SEK_Rates", # Hungary
-    "NOK_SEK_Rates",
-#    "PLN_SEK_Rates", # Poland
+    "HKD_SEK_Rates",
 
-    ## Africa
-#    "MAD_SEK_Rates", # Maroco
-    
-    ## Americas
-    "CAD_SEK_Rates",
-    "USD_SEK_Rates",
-    "MXN_SEK_Rates" # Mexico
+    "HUF_SEK_Rates",
+    "JPY_SEK_Rates",
+    "KRW_SEK_Rates",
+
+    "MAD_SEK_Rates",
+    "MXN_SEK_Rates",
+    "NOK_SEK_Rates",
+
+    "NZD_SEK_Rates",
+    ## "PLN_SEK_Rates",
+    ## "SAR_SEK_Rates",
+
+    "SGD_SEK_Rates",
+    ## "THB_SEK_Rates",
+    ## "TRY_SEK_Rates",
+
+    "USD_SEK_Rates"
     );
 
-
+ret <- getAssetReturns("2010-01-04", "2016-04-01",
+                       currencies, 1,
+                       "rate", "localhost");
+n <- dim(ret)[1];
 p <- length(currencies);
 tailIndices <- rep(0, choose(p,2));
 ret <- list();
-
-database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
-    dbname='avanza', host="localhost");
-for (i in 1:p) {
-    results <- dbSendQuery(
-        database,
-        sprintf(
-            "select rate from %s where day >= '2013-01-01' order by day;",
-            currencies[i])
-        );
-    prices <- fetch(results, n=-1)[[1]];
-    R <- diff(log(prices), lag=1);
-    ## R <- R - mean(R);
-    if (length(ret) == 0) {
-        ret <- R;
-    } else {
-        ret <- cbind(ret, R);
-    }
-    dbClearResult(results);
-}
-dbDisconnect(database);
 
 for (i in 1:p) {
     for (j in i:p) {

@@ -92,17 +92,33 @@ double Lambda_func(double xi, unsigned int n, unsigned int p,
 
 int main(int argc, char* argv[])
 {
-    unsigned n = stoi(argv[1]);
-    unsigned p = stoi(argv[2]);
-    double xi = stod(argv[3]);
-    vector<double> alpha({0.6, 0.1, 0.1});
-    vector<double> beta({0.1, 0.05});
+    /**
+     * Simulate GARCH(1,1) processes.
+     */
+    double coef[] = {
+	1.0e-7, 0.11, 0.88
+    };
+    size_t iterations = 1000000;
+    C = 
 
-    for (int i=0; i < stoi(argv[4]); i++) {
-    	double x = Lambda_func(xi, n, p, alpha, beta);
-    	cout<< x << endl;
-    }
+    /**
+     * Evaluate the Lambda(.) function by simulation
+     */
+    // unsigned n = stoi(argv[1]);
+    // unsigned p = stoi(argv[2]);
+    // double xi = stod(argv[3]);
+    // vector<double> alpha({0.6, 0.1, 0.1});
+    // vector<double> beta({0.1, 0.05});
 
+    // for (int i=0; i < stoi(argv[4]); i++) {
+    // 	double x = Lambda_func(xi, n, p, alpha, beta);
+    // 	cout<< x << endl;
+    // }
+
+
+    /**
+     * Test random number generation.
+     */
     // for (int i = 0; i < stoi(argv[1]); i++) {
     // 	cout << test() << endl;
     // }
