@@ -26,10 +26,13 @@ void print_matrix(const mat& M)
    beta: a vector of size 1+ that contain the coefficients of past variances.
    This notation is consistent with Mikosch and Davis'es paper. on GARCH(p,q)
  */
-mat& gen_rand_matrices(
-    vector<double> &alpha, vector<double> &beta, mat& A,
-    chi_squared_distribution<double> &dist, random_device &gen)
+mat& gen_rand_matrices(const vector<double> &alpha,
+		       const vector<double> &beta,
+		       mat& A)
 {
+    static chi_squared_distribution<double> dist;
+    static random_device gen;
+    
     double z = dist(gen);
     A.row(0) = rowvec({alpha[0] * z + beta[0], beta[1], alpha[1], alpha[2]});
     A.row(1) = rowvec({1, 0, 0, 0});
@@ -63,34 +66,45 @@ double mean_norm_pow_prod_mat(const vector< vector<mat> >& matrices,
     return x;
 }
 
+// double test(void)
+// {
+//     static normal_distribution<double> dist;
+//     // static default_random_engine gen;
+//     static random_device gen;
+//     return dist(gen);
+// }
+
+double Lambda_func(double xi, unsigned int n, unsigned int p,
+		   const vector<double> &alpha, const vector<double> &beta)
+{
+    vector< vector<mat> > matrices;
+    mat M(A_DIM, A_DIM);
+    matrices.resize(p);
+    for (unsigned i = 0; i < p; i++) {
+    	matrices[i].resize(n);
+    	for (unsigned j = 0; j < n; j++) {
+    	    matrices[i][j] = gen_rand_matrices(alpha, beta, M);
+    	}
+    }
+    double x = mean_norm_pow_prod_mat(matrices, xi);
+    return log(x)/double(n);
+}
+
 int main(int argc, char* argv[])
 {
     unsigned n = stoi(argv[1]);
     unsigned p = stoi(argv[2]);
     double xi = stod(argv[3]);
-    vector< vector<mat> > matrices;
-    mat M(A_DIM, A_DIM);
     vector<double> alpha({0.6, 0.1, 0.1});
     vector<double> beta({0.1, 0.05});
-    chi_squared_distribution<double> dist;
-    random_device gen;
 
-    matrices.resize(p);
-    for (unsigned i = 0; i < p; i++) {
-    	matrices[i].resize(n);
-    	for (unsigned j = 0; j < n; j++) {
-    	    matrices[i][j] = gen_rand_matrices(alpha, beta, M, dist, gen);
-    	}
+    for (int i=0; i < stoi(argv[4]); i++) {
+    	double x = Lambda_func(xi, n, p, alpha, beta);
+    	cout<< x << endl;
     }
-    double x = mean_norm_pow_prod_mat(matrices, xi);
-    cout<< "Estimated Lambda(" << xi << ") = "
-    	<< log(x)/double(n)
-    	<< endl;
 
-    // normal_distribution<double> dist;
-    // random_device gen;
     // for (int i = 0; i < stoi(argv[1]); i++) {
-    // 	cout << dist(gen) << endl;
+    // 	cout << test() << endl;
     // }
     
     return 0;

@@ -11,7 +11,7 @@ objs := $(addprefix $(objdir)/, $(objs))
 ifeq ($(debug),1)
 	CFLAGS := -std=c++11 -c -Werror -g3
 else
-	CFLAGS := -std=c++11 -c -Wall -Werror -O2
+	CFLAGS := -std=c++11 -c -Wall -Werror -O3
 endif
 
 LDFLAGS := -lm -larmadillo -lgsl -lgslcblas
