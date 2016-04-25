@@ -6,8 +6,6 @@ srcs := $(wildcard $(srcdir)/*.cpp)
 objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
 objs := $(addprefix $(objdir)/, $(objs))
 
-## debug := 0
-
 ifeq ($(debug),1)
 	CFLAGS := -std=c++11 -c -Werror -g3
 else
@@ -22,7 +20,8 @@ $(objs): $(objdir)/%.o: $(srcdir)/%.cpp
 
 .PHONY: main
 main: $(objs)
-	$(CC) $(filter %.o, $^) $(LDFLAGS) -o $@
+##	$(CC) $(filter %.o, $^) $(LDFLAGS) -o $@
+	$(CC) $(LDFLAGS) -o $@ $^
 
 .PHONY: all
 all: main

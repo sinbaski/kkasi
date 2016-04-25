@@ -3,7 +3,9 @@
 #include <algorithm>
 #include <armadillo>
 #include <vector>
-#include <random>
+#include <gsl/gsl_errno.h>
+#include <gsl/gsl_math.h>
+#include <gsl/gsl_roots.h>
 #include "garch1D.hpp"
 
 using namespace std;
@@ -91,6 +93,12 @@ double Lambda_func(double xi, unsigned int n, unsigned int p,
     return log(x)/double(n);
 }
 
+double LHS_func(double xi, void *par)
+{
+    Garch1D<double> *garch11 = (Garch1D<double> *)par;
+    return garch11->moment_func(xi) - 1;
+}
+
 int main(int argc, char* argv[])
 {
     /**
@@ -100,10 +108,49 @@ int main(int argc, char* argv[])
 	0.11, 0.88
     };
     Garch1D<double> garch11(coef[0], coef[1]);
-    cout << "E A^" << stod(argc[1]) << "="
-	 << garch11.mean_A_to_xi()
-	 << endl;
+    // double moment = stod(argv[1]);
+    // cout << "E A^(" <<  moment << ") = "
+    // 	 << garch11.moment_func(moment)
+    // 	 << endl;
 
+    /**
+     * Find the tail index
+     */
+    gsl_root_fsolver *solver;
+    gsl_function F;
+    int iter = 0;
+    int status = 0;
+    int max_iter = 100;
+    double xi, lb, ub;
+    F.function = &LHS_func;
+    F.params = &garch11;
+    
+    solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
+    gsl_root_fsolver_set(solver, &F, 1.8, 1.9);
+
+    printf ("using %s method\n", 
+	    gsl_root_fsolver_name (solver));
+
+    do {
+	iter++;
+	status = gsl_root_fsolver_iterate (solver);
+	xi = gsl_root_fsolver_root (solver);
+	lb = gsl_root_fsolver_x_lower(solver);
+	ub = gsl_root_fsolver_x_upper(solver);
+	status = gsl_root_test_interval(lb, ub, 0.0001, 0);
+	if (status == GSL_SUCCESS)
+	    cout << "Converged: xi = " << xi << endl;
+    } while (status == GSL_CONTINUE && iter < max_iter);
+    gsl_root_fsolver_free(solver);
+
+    if (status != GSL_SUCCESS) {
+	cout << "The Brent algorithm did not converge after " << max_iter
+	     << " iterations." << endl;
+	return status;
+    }
+    garch11.set_shift_par(xi);
+
+    
     /**
      * Evaluate the Lambda(.) function by simulation
      */
