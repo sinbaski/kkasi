@@ -4,17 +4,23 @@ library("lamW");
 source("libxxie.r");
 
 #Simulate samples described by a heavy-tailed SV model.
-n <- 1567;
+n <- 1.0e+5;
 p <- 18;
-max.lag <- 17;
+max.lag <- p-1;
 X <- matrix(rnorm(n=n*p), nrow=n, ncol=p);
 Y <- matrix(NA, n, p);
 
-pow <- 2;
-expo <- 3;
-eta <- runif(n=(p+max.lag)*n, 0, 1);
-eta <- lambertW0(eta^(-1/pow) * (expo/ pow)) * (pow / expo);
-eta <- matrix(eta, nrow=n, ncol=p+max.lag);
+## Exponential log-volatility
+eta <- matrix(rexp(n=(p+max.lag)*n, rate=3), nrow=n, ncol=p+max.lag);
+
+
+## Lighter-than Pareto tail
+## pow <- 2;
+## expo <- 3;
+## eta <- runif(n=(p+max.lag)*n, 0, 1);
+## eta <- lambertW0(eta^(-1/pow) * (expo/ pow)) * (pow / expo);
+## eta <- matrix(eta, nrow=n, ncol=p+max.lag);
+
 
 for (i in max.lag:(p+max.lag-1)) {
     Y[, i-max.lag+1] <- X[, i-max.lag+1] *
@@ -60,21 +66,23 @@ for (i in max.lag:(p+max.lag-1)) {
 ## p <- dim(Y)[2];
 E <- eigen(cov(Y));
 
-pdf("~/Documents/LightTailedCase2_eigenvalues.pdf")
+pdf("~/Documents/LightTailedCase1.pdf")
+par(mfrow=c(2,1));
+## pdf("~/Documents/LightTailedCase1_eigenvalues.pdf")
 plot(1:p, E$values/sum(E$values), xlab="i", ylab=expression(lambda[(i)]/"trace"));
-dev.off();
+## dev.off();
 
-## pdf("~/Documents/LightTailedCase2_ratios.pdf");
+## pdf("~/Documents/LightTailedCase1_ratios.pdf");
 ## plot(1:(p-1), E$values[2:p]/E$values[1:(p-1)],
 ##      type="b", ylim=c(0, 1),
 ##      xlab="i", ylab=expression(lambda[(i+1)]/lambda[(i)]));
 ## dev.off();
 
-c <- sum(E$vectors[, 1] >= 0);
-if (c < p/2) {
+k <- which.max(abs(E$vectors[, 1]));
+if (E$vectors[k, 1] < 0) {
     E$vectors[, 1] <- - E$vectors[, 1];
 }
-pdf("~/Documents/LightTailedCase2_eigenvector1.pdf")
+## pdf("~/Documents/LightTailedCase1_eigenvector1.pdf")
 plot(1:p, E$vectors[, 1], xlab="i", ylab=expression(V["i,1"]));
 dev.off();
 
