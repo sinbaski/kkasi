@@ -4,6 +4,7 @@
 #include <armadillo>
 #include <vector>
 #include <random>
+#include "garch1D.hpp"
 
 using namespace std;
 using namespace arma;
@@ -96,10 +97,12 @@ int main(int argc, char* argv[])
      * Simulate GARCH(1,1) processes.
      */
     double coef[] = {
-	1.0e-7, 0.11, 0.88
+	0.11, 0.88
     };
-    size_t iterations = 1000000;
-    C = 
+    Garch1D<double> garch11(coef[0], coef[1]);
+    cout << "E A^" << stod(argc[1]) << "="
+	 << garch11.mean_A_to_xi()
+	 << endl;
 
     /**
      * Evaluate the Lambda(.) function by simulation
