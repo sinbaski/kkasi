@@ -194,14 +194,17 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
   where $r_\beta(\cdot; \alpha)$ is the unique right eigen function of the
   operator
   \[
-  P_{\alpha, \beta} f(x) = \int |\hat a x|^\alpha f\left(
-    {\hat a x \over |\hat a x|}
-  \right) d\mu_A^\beta(\hat a)
+  P_{\beta, \alpha} f(x) = \int |\mathbf a x|^\alpha f\left(
+    {\mathbf a x \over |\mathbf a x|}
+  \right) d\mu_A^\beta(\mathbf a)
   \]
   where the $\beta$-shifted measure $\mu_A^\beta$ satisfies
   \[
-  d\mu_A^\beta(\hat a) = {\|\hat a\|^\beta d\mu_A(\hat a) \over \E\|A\|^\beta}
+  d\mu_A^\beta(\mathbf a) = {\|\mathbf a\|^\beta d\mu_A(\mathbf a) \over \E\|A\|^\beta}
   \]
+  The set $\mathcal C = [-M_\beta(\alpha),
+  M_\beta(\alpha)]$. $M_\beta(\alpha)$ is chosen with respect to the
+  values of $\alpha$ and $\beta$.
 \end{lemma}
 
 \begin{proof}
@@ -214,20 +217,21 @@ $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
   measure, the right eigen function $r_\beta(x; \alpha)$ can be represented as
   \[
   r_\beta(x; \alpha) = c \int_{S_+^{d-1}} \inn{x, y}^\alpha
-  dl^*_{\beta}(x; \alpha)
+  dl^*_{\beta}(y; \alpha)
   \]
 Now, to prove \eqref{eq:drift}, consider
-  \begin{eqnarray*}
+  \begin{eqnarray}
     && \E_\beta \left[ |V_n|^\alpha r_\beta(\tilde V_n; \alpha) | \mathcal F_{n-1} \right]
-    \\
+    \nonumber \\
     &=& \E_\beta\left[\int_{S_+^{d-1}} \inn{V_n, y}^\alpha dl^*_{\beta}(y; \alpha)|
       \mathcal F_{n-1} \right]
-    \\
+    \nonumber \\
     &=& \E_\beta\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
         y})^\alpha dl^*_{\beta}(y; \alpha) | \mathcal F_{n-1} \right]
-  \end{eqnarray*}
+    \label{eq:drift_proof_1}
+  \end{eqnarray}
   \begin{enumerate}
-  \item if $\alpha < 1$, by subadditivity we have
+  \item if $\alpha \leq 1$, by subadditivity we have
     \begin{eqnarray*}
       &&\E_\beta\left[\int_{S_+^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B_n,
           y})^\alpha dl^*_{\beta}(y; \alpha) | \mathcal F_{n-1} \right]\\
@@ -236,41 +240,110 @@ Now, to prove \eqref{eq:drift}, consider
       + \E_\beta\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_{\beta}(y; \alpha) |
         \mathcal F_{n-1} \right] \\
       &=& \E_\beta\left[|V_{n-1}|^\alpha |A_n \tilde V_{n-1}|^\alpha\int_{S_+^{d-1}}
-        \inn{{A_n V_{n-1} \over |A_n V_{n-1}|}, y}^\alpha
-        dl^*_{\beta}(y; \alpha) | \mathcal F_{n-1} \right] \\
-      && + \E_\beta\left[\int_{S_+^{d-1}} \inn{B_n, y}^\alpha dl^*_{\beta}(y; \alpha) |
-        \mathcal F_{n-1} \right] \\
-      &=& |V_{n-1}|^\alpha \left\{
-        (P_{\alpha, \beta} r_{\beta})(\tilde V_{n-1}; \alpha) +
-        {1 \over |V_{n-1}|^\alpha} \E_\beta |B_n|^\alpha r_\beta(\tilde
-        B_n; \alpha) \right\} \\
-      &=& |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha)\left\{
-        \lambda_\beta(\alpha) +
-        {1 \over |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha)} \E_\beta
-        |B_n|^\alpha r_\beta(\tilde B_n; \alpha) \right\} \\
+        \inn{ {A_n \tilde V_{n-1} \over |A_n \tilde V_{n-1}|}, y}^\alpha
+        dl^*_{\beta}(y; \alpha) | \mathcal F_{n-1} \right]  + \E r_\beta(B_n; \alpha)\\
+      &=& |V_{n-1}|^\alpha  \int |\mathbf a \tilde V_{n-1}|^\alpha
+      r_\beta\left({\mathbf a \tilde V_{n-1} \over |\mathbf a \tilde V_{n-1}|}; \alpha\right)
+      d\mu_A^\beta (\mathbf a) + \E r_\beta(B_n; \alpha) \\
+      &=& |V_{n-1}|^\alpha (P_{\beta, \alpha} r_{\beta})(\tilde V_{n-1}; \alpha) +
+      \E_\beta r_\beta(B_n; \alpha) \\
+      &=& |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha) \lambda_\beta(\alpha)
+      \left\{
+        1 + 
+        {\E_\beta r_\beta(B_n; \alpha) \over |V_{n-1}|^\alpha \lambda_\beta(\alpha) r_\beta(\tilde V_{n-1}; \alpha)}
+         \right\} \\
     \end{eqnarray*}
-    By assumption, $\E_\beta|B_n|^\alpha < \infty$; and
-    $r_\beta(\tilde B_n; \alpha) < \infty$, $r_\beta(\tilde V_{n-1};
-    \alpha) < \infty$ according to Buraczewski and Collamore \cite{BCDZ2014}.
-    Hence the infimum of the expression in the curly bracket over all $n \geq 1$ is
-    $\lambda_\beta(\alpha) < 1$. Therefore, when $|V_{n-1}|$ is
-    sufficiently large, $\rho_{\beta}(\alpha)$ an be chosen such that
+    When $V_{n-1} \in \mathcal C^\complement$, $|V_{n-1}| > M_\beta(\alpha)$.
+    Moreover, $\E_\beta|B_n|^\alpha < \infty$ by assumption while
+    $r_\beta(\tilde B_n; \alpha) < \infty$, $r_\beta(\tilde V_{n-1}; \alpha) < \infty$
+    according to Buraczewski and Collamore \cite{BCDZ2014}. Thus
     \begin{eqnarray*}
-      \rho_{\beta}(\alpha) &<& 1 \\
-      \E_\beta \left[ |V_n|^\alpha r_\beta(\tilde V_n; \alpha)  \I_{{\mathcal C}^\complement}(V_{n-1})
-        | \mathcal F_{n-1} \right] &\leq&
-      \rho_\beta(\alpha) |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha) \I_{{\mathcal C}^\complement}(V_{n-1})
+      && \E_\beta \left[ \left.
+          |V_n|^\alpha r_\beta(\tilde V_n; \alpha) \I_{\mathcal C^\complement}(V_{n-1})
+        \right| \mathcal F_{n-1}
+      \right] \\
+      &\leq&
+      |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha) \lambda_\beta(\alpha)
+      \left[
+        1 + 
+        {\E_\beta r_\beta(B_n; \alpha) \over M^\alpha \lambda_\beta(\alpha) r_\beta(\tilde V_{n-1}; \alpha)}
+      \right]
+      \I_{\mathcal C^\complement}(V_{n-1})
     \end{eqnarray*}
-    where ${\mathcal C}^\complement$ denotes the complement of the set
-    $\mathcal C = [-M_\beta(\alpha), M_\beta(\alpha)]$ where
+    Also note
+    \begin{equation*}
+      \lambda_\beta(\alpha) \leq \E_\beta \|A_1\|^\alpha = {
+        \E \|A_1\|^{\alpha + \beta}
+        \over
+        \E \|A_1\|^{\beta}
+      }
+    \end{equation*}
+    Hence by assumption \eqref{eq:drift_cond2}, $\lambda_\beta(\alpha)
+    < 1$. Therefore, $M_\beta(\alpha)$ can be chosen sufficiently large so that
+    \begin{eqnarray}
+      \lambda_\beta(\alpha) \left[
+        1 +  
+        {\E_\beta r_\beta(B_n; \alpha) \over M_\beta(\alpha)^\alpha
+          \lambda_\beta(\alpha) r_\beta(\tilde V_{n-1}; \alpha)}
+        \right] &<& 1 \label{eq:cond_on_M}
+    \end{eqnarray}
+    From \eqref{eq:cond_on_M} it follows
     \begin{equation}
       \label{eq:C_set}
-      M_\beta(\alpha) \geq \left[
-          \E_\beta (|B|^\alpha r_\beta(\tilde B; \alpha)) 
+      M_\beta(\alpha) > \left\{
+        \bar r_{\beta, \alpha}\E_\beta |B|^\alpha
           \over
-          [1 - \lambda_\beta(\alpha)] r_\beta(\tilde v; \alpha)
-        \right]^{1/\alpha}
+          [1 - \lambda_\beta(\alpha)] \underline r_{\beta, \alpha}
+        \right\}^{1/\alpha}
     \end{equation}
+    where
+    \begin{eqnarray*}
+      \bar r_{\beta, \alpha} &=& \sup_{x \in \mathbb S^{d-1}}
+      r_\beta(x; \alpha) \\
+      \underline r_{\beta, \alpha} &=& \inf_{x \in \mathbb S^{d-1}}
+      r_\beta(x; \alpha)
+    \end{eqnarray*}
+    Here we note $\E_\beta |B|^\alpha = \E |B|^\alpha$
+    since the distribution of $B$ is left the same when
+    changing to the shifted measure.
+
+    \item If $\alpha > 1$, applying Minkowski's inequality to the RHS
+      of \eqref{eq:drift_proof_1} and using similar arguments as in
+      the $\alpha \leq 1$ case gives
+      \begin{eqnarray*}
+        && \E_\beta \left[ \left.
+          |V_n|^\alpha r_\beta(\tilde V_{n}; \alpha)
+          \I_{\mathcal C^\complement}(V_{n-1})
+          \right| \mathcal F_{n-1}
+        \right] \\
+        &\leq&
+        |V_{n-1}|^\alpha r_\beta(\tilde V_{n-1}; \alpha)
+        \lambda_\beta(\alpha) \left\{
+          1 + \left[
+            {
+              \E r_\beta(B; \alpha)
+              \over
+              M_\beta(\alpha)^\alpha
+              r_\beta(\tilde V_{n-1}; \alpha)
+              \lambda_\beta(\alpha)
+            }
+          \right]^{1/\alpha}
+          \right\}^\alpha
+          \I_{\mathcal C^\complement}(V_{n-1})
+      \end{eqnarray*}
+      and correspondingly
+      \begin{equation*}
+        M_\beta(\alpha) > \left[
+          {
+            \bar r_{\beta,\alpha} \E |B|^\alpha
+            \over
+            \underline r_{\beta, \alpha}
+          }
+        \right]^{1/\alpha} {
+          1 \over
+          1 - \lambda_\beta(\alpha)^{1/\alpha}
+        }
+      \end{equation*}
   \end{enumerate}    
 \end{proof}
 
