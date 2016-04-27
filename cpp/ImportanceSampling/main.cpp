@@ -6,6 +6,7 @@
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_roots.h>
+#include <gsl/gsl_min.h>
 #include "garch1D.hpp"
 
 using namespace std;
@@ -99,15 +100,40 @@ double LHS_func(double xi, void *par)
     return garch11->moment_func(xi) - 1;
 }
 
+struct minimizer_func_par
+{
+    double beta;
+    Garch1D<double> *garch11;
+};
+
+double M_minimizer_func(double alpha, void *par)
+{
+    static double normalizer = 0;
+    static bool flag = true;
+
+    struct minimizer_func_par *p = (struct minimizer_func_par *)par;
+    if (flag && abs(p->beta) > 1.0e-3)
+	normalizer = p->garch11->moment_func(p->beta, 0, 0);
+    else if (flag)
+	normalizer = 1;
+    flag = false;
+    double lambda = p->garch11->moment_func(alpha, p->beta, normalizer);
+    // if (alpha < 1)
+    // 	return garch11->a0 / pow(1 - lambda, 1/alpha);
+    // else
+    // 	return garch11->a0 / (1 - pow(lambda, 1/alpha));
+    return lambda;
+}
+
 int main(int argc, char* argv[])
 {
     /**
      * Simulate GARCH(1,1) processes.
      */
     double coef[] = {
-	0.11, 0.88
+	1.0e-7, 0.11, 0.88
     };
-    Garch1D<double> garch11(coef[0], coef[1]);
+    Garch1D<double> garch11(coef[0], coef[1], coef[2]);
     // double moment = stod(argv[1]);
     // cout << "E A^(" <<  moment << ") = "
     // 	 << garch11.moment_func(moment)
@@ -150,6 +176,48 @@ int main(int argc, char* argv[])
     }
     garch11.set_shift_par(xi);
 
+    printf("lambda(-%.4f) = %.4f\n", xi, garch11.moment_func(-xi, 0, 0));
+
+    /**
+     * Find the set C = [-M, M]
+     * Choose the smallest M_beta(alpha) given beta.
+     * beta is either 0 or -xi. Choose the larger M in these two cases.
+     */
+    gsl_min_fminimizer *minimizer = gsl_min_fminimizer_alloc(gsl_min_fminimizer_brent);
+    struct minimizer_func_par par;
+    par.beta = -garch11.get_shift_par();
+    par.garch11 = &garch11;
+
+    F = {
+	M_minimizer_func,
+	&par
+    };
+    double arginf;
+
+    gsl_min_fminimizer_set(
+	minimizer, &F, 3, 2, 3.5
+	);
+    iter = 0;
+    do {
+	iter++;
+	status = gsl_min_fminimizer_iterate(minimizer);
+	arginf = gsl_min_fminimizer_x_minimum(minimizer);
+	lb = gsl_min_fminimizer_x_lower (minimizer);
+	ub = gsl_min_fminimizer_x_upper (minimizer);
+
+	status = gsl_min_test_interval (lb, ub, 0.0001, 0.0);
+
+      if (status == GSL_SUCCESS)
+	  printf ("Minimizer Converged: alpha = %.4f, "
+		  "lambda = %.4f\n", arginf,
+		  gsl_min_fminimizer_f_minimum(minimizer));
+    } while (status == GSL_CONTINUE && iter < max_iter);
+    if (iter == max_iter && status == GSL_CONTINUE) {
+	printf ("Minimizer didn't converge.\n");
+    }
+    
+
+    gsl_min_fminimizer_free(minimizer);
     
     /**
      * Evaluate the Lambda(.) function by simulation

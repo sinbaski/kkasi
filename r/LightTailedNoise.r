@@ -1,4 +1,5 @@
 rm(list=ls());
+graphics.off();
 library("lamW");
 
 source("libxxie.r");
@@ -10,16 +11,16 @@ max.lag <- p-1;
 X <- matrix(rnorm(n=n*p), nrow=n, ncol=p);
 Y <- matrix(NA, n, p);
 
-## Exponential log-volatility
-eta <- matrix(rexp(n=(p+max.lag)*n, rate=3), nrow=n, ncol=p+max.lag);
+## ## Exponential log-volatility
+## eta <- matrix(rexp(n=(p+max.lag)*n, rate=3), nrow=n, ncol=p+max.lag);
 
 
-## Lighter-than Pareto tail
-## pow <- 2;
-## expo <- 3;
-## eta <- runif(n=(p+max.lag)*n, 0, 1);
-## eta <- lambertW0(eta^(-1/pow) * (expo/ pow)) * (pow / expo);
-## eta <- matrix(eta, nrow=n, ncol=p+max.lag);
+## ## Lighter-than Pareto tail
+pow <- 2;
+expo <- 3;
+eta <- runif(n=(p+max.lag)*n, 0, 1);
+eta <- lambertW0(eta^(-1/pow) * (expo/ pow)) * (pow / expo);
+eta <- matrix(eta, nrow=n, ncol=p+max.lag);
 
 
 for (i in max.lag:(p+max.lag-1)) {
@@ -27,7 +28,7 @@ for (i in max.lag:(p+max.lag-1)) {
         exp(apply(eta[, (i-max.lag):i], 1, sum));
 }
 
-## Use FX data instead.
+## Use LightTailedCase2 data instead.
 ## currencies <- c(
 ##     "AUD_SEK_Rates",
 ##     "CAD_SEK_Rates",
@@ -66,13 +67,12 @@ for (i in max.lag:(p+max.lag-1)) {
 ## p <- dim(Y)[2];
 E <- eigen(cov(Y));
 
-pdf("~/Documents/LightTailedCase1.pdf")
-par(mfrow=c(2,1));
-## pdf("~/Documents/LightTailedCase1_eigenvalues.pdf")
+pdf("~/Documents/LightTailedCase2_eigenvalues.pdf")
 plot(1:p, E$values/sum(E$values), xlab="i", ylab=expression(lambda[(i)]/"trace"));
-## dev.off();
+## x11();
+dev.off();
 
-## pdf("~/Documents/LightTailedCase1_ratios.pdf");
+## pdf("~/Documents/LightTailedCase2_ratios.pdf");
 ## plot(1:(p-1), E$values[2:p]/E$values[1:(p-1)],
 ##      type="b", ylim=c(0, 1),
 ##      xlab="i", ylab=expression(lambda[(i+1)]/lambda[(i)]));
@@ -82,7 +82,7 @@ k <- which.max(abs(E$vectors[, 1]));
 if (E$vectors[k, 1] < 0) {
     E$vectors[, 1] <- - E$vectors[, 1];
 }
-## pdf("~/Documents/LightTailedCase1_eigenvector1.pdf")
+pdf("~/Documents/LightTailedCase2_eigenvector1.pdf")
 plot(1:p, E$vectors[, 1], xlab="i", ylab=expression(V["i,1"]));
 dev.off();
 

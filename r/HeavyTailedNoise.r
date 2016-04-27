@@ -1,9 +1,10 @@
 rm(list=ls());
 ## library(fields);
+graphics.off();
 source("libxxie.r");
 
 #Simulate samples described by a heavy-tailed SV model.
-n <- 1.0e+5;
+n <- 1567;
 p <- 18;
 max.lag <- p-1;
 X <- matrix(rt(n=n*p, df=3), nrow=n, ncol=p);
@@ -50,11 +51,9 @@ for (i in max.lag:(p+max.lag-1)) {
 ## p <- dim(Y)[2];
 E <- eigen(cov(Y));
 
-pdf("~/Documents/HeavyTailed.pdf")
-par(mfrow=c(2, 1));
-## pdf("~/Documents/HeavyTailed_eigenvalues.pdf")
+pdf("~/Documents/HeavyTailed_eigenvalues.pdf")
 plot(1:p, E$values/sum(E$values), xlab="i", ylab=expression(lambda[(i)]/"trace"));
-## dev.off();
+dev.off();
 
 ## pdf("~/Documents/HeavyTailed_ratios.pdf");
 ## plot(1:(p-1), E$values[2:p]/E$values[1:(p-1)],
@@ -67,7 +66,7 @@ k <- which.max(abs(E$vectors[, 1]));
 if (E$vectors[k, 1] < 0) {
     E$vectors[, 1] <- - E$vectors[, 1];
 }
-## pdf("~/Documents/HeavyTailed_eigenvector1.pdf")
+pdf("~/Documents/HeavyTailed_eigenvector1.pdf")
 plot(1:p, E$vectors[, 1], xlab="i", ylab=expression(V["i,1"]));
 dev.off();
 
