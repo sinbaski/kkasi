@@ -42,63 +42,58 @@ ret <- getAssetReturns("2010-01-04", "2016-04-01",
 n <- dim(ret)[1];
 p <- length(currencies);
 tailIndices <- rep(0, choose(p,2));
-ret <- list();
 
 for (i in 1:p) {
     for (j in i:p) {
         X <- ret[,i] * ret[,j];
-        tailIndices[(j-1)*j/2 + i] <- hillEstimate(X, probs=0.97);
+        tailIndices[(j-1)*j/2 + i] <- hillEstimate(X, prob=0.97);
 ##        tailIndices[j,i] <- tailIndices[i,j];
     }
 }
 
 ## filled.contour(x=1:p, y=1:p, z=tailIndices, axes = TRUE);
 names <- c(
-    ## Oceania
-    "NZD",
     "AUD",
-    
-    ## Asia
-    "CNY",
-    "HKD",
-    "JPY",
-    "KRW",
-#    "SAR", # Saudi-Arabia
-    "SGD", # Singapore
-    "THB", # Thailand
-#    "TRY", # Turkey
-    
-    ## Europe
+    "CAD",
     "CHF",
-#    "CZK", # Czech
+
+    "CNY",
+    "CZK",
     "DKK",
+
     "EUR",
     "GBP",
-#    "HUF", # Hungary
-    "NOK",
-#    "PLN", # Poland
+    "HKD",
 
-    ## Africa
-#    "MAD", # Maroco
-    
-    ## Americas
-    "CAD",
-    "USD",
-    "MXN" # Mexico
+    "HUF",
+    "JPY",
+    "KRW",
+
+    "MAD",
+    "MXN",
+    "NOK",
+
+    "NZD",
+    "SGD",
+    "USD"
     );
+
 M <- max(tailIndices);
 m <- min(tailIndices);
 colors <- gray((tailIndices-m)/(M-m));
 pdf("/tmp/FX_HillEstimates.pdf")
-plot(1, 1, type="n", xlim=c(1,p+2), ylim=c(1,p));
+plot(1:p, 1:p, type="n", xlim=c(1,p+2), ylim=c(1,p),
+     xaxt='n', yaxt='n', xlab="", ylab="");
 for (i in 1:p) {
     for (j in i:p) {
-        points(x=i, y=j, pch=19, cex=(M/tailIndices[j*(j-1)/2 + i])^2,
-               col=colors[(j-1)*j/2+i]);
+        ## points(x=i, y=j, pch=19, cex=(M/tailIndices[j*(j-1)/2 + i])^2,
+        ##        col=colors[(j-1)*j/2+i]);
+        points(x=i, y=j, pch=19, cex=3.5, col=colors[(j-1)*j/2+i]);
     }
 }
-axis(side=1, at=1:p, labels=names);
-axis(side=2, at=1:p, labels=names);
+## grid();
+axis(side=1, at=1:p, labels=names, las=2);
+axis(side=2, at=1:p, labels=names, las=2);
 ## image.plot(legend.only=TRUE, zlim=c(m, M), col=sort(colors))
 image.plot(x=seq(1,p+2), y=1:p, legend.only=TRUE, zlim=c(m, M), col=sort(colors));
 dev.off();
