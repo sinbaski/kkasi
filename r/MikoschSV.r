@@ -21,13 +21,13 @@ currencies <- c(
     "JPY_SEK_Rates",
     "KRW_SEK_Rates",
 
-    "MAD_SEK_Rates",
+    ## "MAD_SEK_Rates",
     "MXN_SEK_Rates",
     "NOK_SEK_Rates",
 
     "NZD_SEK_Rates",
     ## "PLN_SEK_Rates",
-    ## "SAR_SEK_Rates",
+    "SAR_SEK_Rates",
 
     "SGD_SEK_Rates",
     ## "THB_SEK_Rates",
@@ -69,18 +69,19 @@ names <- c(
     "JPY",
     "KRW",
 
-    "MAD",
+    ## "MAD",
     "MXN",
     "NOK",
 
     "NZD",
+    "SAR",
     "SGD",
     "USD"
     );
 
 M <- max(tailIndices);
 m <- min(tailIndices);
-colors <- gray((tailIndices-m)/(M-m));
+colors <- gray((tailIndices-m)/(M-m)*0.9);
 pdf("/tmp/FX_HillEstimates.pdf")
 plot(1:p, 1:p, type="n", xlim=c(1,p+2), ylim=c(1,p),
      xaxt='n', yaxt='n', xlab="", ylab="");
