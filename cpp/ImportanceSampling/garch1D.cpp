@@ -52,7 +52,7 @@ void Garch1D<T>::set_shift_par(T shift_par)
 
 template <typename T>
 Garch1D<T>::Garch1D(T a0, T a, T b)
-    :dist(0.5, 2*a), a0(a0), a(a), b(b)
+    :a0(a0), a(a), b(b), dist(0.5, 2*a)
 {
     /*
       Set up the distribution of A
@@ -74,7 +74,7 @@ Garch1D<T>::Garch1D(T a0, T a, T b)
     size_t N = 2000;
     for (i = stationary.begin(); i < stationary.end(); i++) {
 	double Vn = a0;
-	for (int step = 0; step < N; step++) {
+	for (unsigned int step = 0; step < N; step++) {
 	    Vn = Vn * (dist(gen) + b) + a0;
 	}
 	i->quantile = Vn;

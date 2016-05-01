@@ -21,7 +21,7 @@ $(objs): $(objdir)/%.o: $(srcdir)/%.cpp
 .PHONY: main
 main: $(objs)
 ##	$(CC) $(filter %.o, $^) $(LDFLAGS) -o $@
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: all
 all: main

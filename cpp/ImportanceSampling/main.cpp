@@ -137,14 +137,14 @@ double lambda_minimizer_func(double alpha, void *par)
     return lambda;
 }
 
-int find_tail_index(double *index, const Garch1D<double>* garch11)
+int find_tail_index(double *index, Garch1D<double> const * garch11)
 {
     gsl_root_fsolver *solver;
     gsl_function F;
     int iter = 0;
     int status = 0;
     int max_iter = 100;
-    double xi, lb, ub;
+    double lb, ub;
     struct LHS_func_par param = {garch11};
     F.function = &LHS_func;
     F.params = &param;
@@ -332,7 +332,12 @@ int main(int argc, char* argv[])
 	    }
 	}
     }
-
+    xi = 0;
+    cout << "P(V > " << u << ") = " << accumulate(
+	sim_stat.begin(),
+	sim_stat.end(),
+	xi
+	) / sim_stat.size() << endl;
     /**
      * Evaluate the Lambda(.) function by simulation
      */
