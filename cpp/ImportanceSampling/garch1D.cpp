@@ -100,9 +100,10 @@ Garch1D<T>::Garch1D(T a0, T a, T b)
     /*
       Set up the distribution of A
      */
-    for (int i = 0; i < pool.n_cols; i++) {
-	pool[i, 0] = dist(gen) + b;
-    }
+    for_each(pool.begin_col(0), pool.end_col(0),
+	     [this, b](T &x) {
+		 x = this->dist(this->gen) + b;
+	     });
     sort(pool.begin_col(0), pool.end_col(0));
     
     /*
