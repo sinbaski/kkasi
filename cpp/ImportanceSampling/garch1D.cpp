@@ -210,7 +210,7 @@ T Garch1D<T>::density_func(T x) const
 {
     T y;
     y = 1 / sqrt(x - b) * exp(-(x-b)/(2*a));
-    if (measure_index == 2)
+    if (measure_index == SHIFTED_M)
 	y *= pow(x, xi);
     y = y / sqrt(2*M_PI*a);
     return y;
