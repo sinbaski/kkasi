@@ -5,7 +5,6 @@
 #include <vector>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_math.h>
-#include <gsl/gsl_roots.h>
 #include <gsl/gsl_min.h>
 #include "garch1D.hpp"
 
@@ -94,15 +93,6 @@ double Lambda_func(double xi, unsigned int n, unsigned int p,
     return log(x)/double(n);
 }
 
-struct LHS_func_par {
-    const Garch1D<double> *garch11;
-};
-
-double LHS_func(double xi, void *par)
-{
-    const Garch1D<double> *garch11 = ((LHS_func_par *)par)->garch11;
-    return garch11->moment_func(xi) - 1;
-}
 
 struct lambda_minimizer_data
 {
@@ -135,43 +125,6 @@ double lambda_minimizer_func(double alpha, void *par)
     // else
     // 	return garch11->a0 / (1 - pow(lambda, 1/alpha));
     return lambda;
-}
-
-int find_tail_index(double *index, Garch1D<double> const * garch11)
-{
-    gsl_root_fsolver *solver;
-    gsl_function F;
-    int iter = 0;
-    int status = 0;
-    int max_iter = 100;
-    double lb, ub;
-    struct LHS_func_par param = {garch11};
-    F.function = &LHS_func;
-    F.params = &param;
-    
-    solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
-    gsl_root_fsolver_set(solver, &F, 1.8, 1.9);
-
-    printf ("using %s method\n", 
-	    gsl_root_fsolver_name (solver));
-
-    do {
-	iter++;
-	status = gsl_root_fsolver_iterate (solver);
-	*index = gsl_root_fsolver_root (solver);
-	lb = gsl_root_fsolver_x_lower(solver);
-	ub = gsl_root_fsolver_x_upper(solver);
-	status = gsl_root_test_interval(lb, ub, 0.0001, 0);
-	if (status == GSL_SUCCESS)
-	    cout << "Tail index found: xi = " << *index << endl;
-    } while (status == GSL_CONTINUE && iter < max_iter);
-    gsl_root_fsolver_free(solver);
-
-    if (status != GSL_SUCCESS) {
-	cout << "The Brent algorithm did not converge after " << max_iter
-	     << " iterations." << endl;
-    }
-    return status;
 }
 
 int find_inf_lambda (
@@ -246,13 +199,7 @@ int main(int argc, char* argv[])
     // 	 << garch11.moment_func(moment)
     // 	 << endl;
 
-    /**
-     * Find the tail index
-     */
-    double xi;
-    find_tail_index(&xi, &garch11);
-    garch11.set_shift_par(xi);
-    printf("lambda(-%.4f) = %.4f\n", xi, garch11.moment_func(-xi, 0, 0));
+    printf("lambda(-%.4f) = %.4f\n", garch11.xi, garch11.moment_func(-garch11.xi, 0, 0));
 
     /**
      * Find M. The set C = [-M, M]
@@ -264,10 +211,10 @@ int main(int argc, char* argv[])
 	// beta = 0
 	{0, {0, 0}, 0, 0}
     };
-    mdata[0].beta = -garch11.get_shift_par();
+    mdata[0].beta = -garch11.xi;
     mdata[1].beta = 0;
-    mdata[1].alpha_bounds[1] = garch11.get_shift_par();
-    mdata[1].alpha = garch11.get_shift_par()/2;
+    mdata[1].alpha_bounds[1] = garch11.xi;
+    mdata[1].alpha = garch11.xi/2;
     find_inf_lambda(mdata, 2, &garch11);
     for (int i = 0; i < 2; i++) {
 	double x;
@@ -294,8 +241,9 @@ int main(int argc, char* argv[])
 	double V = garch11.init_quantile(unif(alice));
 	Nu = 0;
 	As.clear();
+	garch11.measure_index = Garch1D<double>::SHIFTED_M;
 	int status = 0;
-	while (status < 2) {
+	while (status <= 2) {
 	    switch(status) {
 		double A;
 	    case 0: //before exceeding u
@@ -313,7 +261,7 @@ int main(int argc, char* argv[])
 		    Nu++;
 		    status = 1;
 		    // Sample from the original measure from now on
-		    garch11.set_shift_par(0);
+		    garch11.measure_index = Garch1D<double>::ORIG_M;
 		}
 		break;
 	    case 1: // u exceeded, still outside C
@@ -327,17 +275,16 @@ int main(int argc, char* argv[])
 		break;
 	    case 2: // u exceeded, has returned to C
 		double p = 1;
-		p = accumulate(As.begin(), As.end(), p, multiplies<double>());
-		*i = pow(p, -garch11.get_shift_par()) * (double)Nu;
+		p = accumulate(As.begin(), As.end(), 1, multiplies<double>());
+		*i = pow(p, -garch11.xi) * (double)Nu;
+		status++;
 	    }
 	}
     }
-    xi = 0;
     cout << "P(V > " << u << ") = " << accumulate(
 	sim_stat.begin(),
 	sim_stat.end(),
-	xi
-	) / sim_stat.size() << endl;
+	0) / sim_stat.size() << endl;
     /**
      * Evaluate the Lambda(.) function by simulation
      */
