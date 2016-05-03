@@ -10,8 +10,6 @@
 using namespace std;
 using namespace arma;
 
-#define SAMPLE_SIZE 1000000
-
 template <typename T>
 class Garch1D
 {
@@ -36,7 +34,7 @@ public:
     T xi;
     int measure_index;
 
-    Garch1D(T a, T b, T a0);
+    Garch1D(T a, T b, T a0, unsigned long sample_size);
 
     /**
      * The original or the shifted distribution of A
@@ -58,24 +56,14 @@ public:
     T init_quantile(T u) const;
     T init_prob(T x) const;
 
-protected:
-    Mat<T> pool;
-    vector<pool_data> stationary;
-    gamma_distribution<T> dist;
-    random_device gen;
 
     int find_tail_index(void);
+
+protected:
+    random_device gen;
+    gamma_distribution<T> dist;
+    Mat<T> pool;
+    vector<pool_data> stationary;
 };
 
-template <typename T>
-struct LHS_func_par {
-    const Garch1D<T> *garch11;
-};
-    
-template <typename T>
-inline T LHS_func(T alpha, void *par) {
-const Garch1D<T> *garch11 = ((LHS_func_par<T> *)par)->garch11;
-return garch11->moment_func(alpha) - 1;
-}
-  
 #endif

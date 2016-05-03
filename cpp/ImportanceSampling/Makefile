@@ -7,12 +7,12 @@ objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
 objs := $(addprefix $(objdir)/, $(objs))
 
 ifeq ($(debug),1)
-	CFLAGS := -std=c++11 -c -Werror -g3
+	CFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -Werror -g3 -fopenmp
 else
-	CFLAGS := -std=c++11 -c -Wall -Werror -O3
+	CFLAGS := -std=c++11 -c -Wall -Werror -O3 -fopenmp
 endif
 
-LDFLAGS := -lm -larmadillo -lgsl -lgslcblas
+LDFLAGS := -lm -larmadillo -lgsl -lgslcblas -fopenmp
 
 $(objs): $(objdir)/%.o: $(srcdir)/%.cpp
 	@if [ ! -e $(objdir) ]; then mkdir $(objdir); fi

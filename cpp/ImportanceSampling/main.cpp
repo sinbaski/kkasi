@@ -193,7 +193,7 @@ int main(int argc, char* argv[])
     double coef[] = {
 	1.0e-7, 0.11, 0.88
     };
-    Garch1D<double> garch11(coef[0], coef[1], coef[2]);
+    Garch1D<double> garch11(coef[0], coef[1], coef[2], stol(argv[1]));
     // double moment = stod(argv[1]);
     // cout << "E A^(" <<  moment << ") = "
     // 	 << garch11.moment_func(moment)
@@ -230,8 +230,8 @@ int main(int argc, char* argv[])
     /**
      * Simulate the process
      */
-    double u = 1.0e+1;
-    vector<double> sim_stat(1000000);
+    double u = stod(argv[3]);
+    vector<double> sim_stat(stoi(argv[2]));
     vector<double>::iterator i;
     uniform_real_distribution<double> unif;
     random_device alice;
@@ -274,17 +274,29 @@ int main(int argc, char* argv[])
 		}
 		break;
 	    case 2: // u exceeded, has returned to C
-		double p = 1;
-		p = accumulate(As.begin(), As.end(), 1, multiplies<double>());
-		*i = pow(p, -garch11.xi) * (double)Nu;
+		*i = accumulate(As.begin(), As.end(), (double)Nu,
+			       [&garch11](double s, double a) {
+				   return s * pow(a, -garch11.xi);
+			       }
+		    );
 		status++;
 	    }
 	}
+	// printf("%ld: P = %4e\n", (i - sim_stat.begin())+1, *i);
     }
-    cout << "P(V > " << u << ") = " << accumulate(
-	sim_stat.begin(),
-	sim_stat.end(),
-	0) / sim_stat.size() << endl;
+
+    double estimator[] = {0, 0};
+    estimator[0] = accumulate(sim_stat.begin(), sim_stat.end(), estimator[0]);
+    estimator[0] /= (double)sim_stat.size();
+
+    estimator[1] = accumulate(sim_stat.begin(), sim_stat.end(), estimator[1],
+			      [=](double s, double x) {
+				  return s + pow(x - estimator[0], 2)/(double)sim_stat.size();
+			      });
+    estimator[1] = sqrt(estimator[1]);
+    printf("P(V > %.2f) = %e( %e ), std/mean = %.2f\n", u,
+	   estimator[0], estimator[1], estimator[1]/estimator[0]);
+
     /**
      * Evaluate the Lambda(.) function by simulation
      */

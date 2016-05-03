@@ -8,9 +8,9 @@
 using namespace std;
 
 template <typename T>
-T Garch1D<T>::moment_func(T moment, T measure_shift, T M) const
+T Garch1D<T>::moment_func(T moment, T measure_shift, T normalizer) const
 {
-    T n = (T)pool.size();
+    T n = (T)pool.n_rows;
     T e = 1.0e-3;
     T m1, m2;
     bool flag = false;
@@ -19,15 +19,14 @@ T Garch1D<T>::moment_func(T moment, T measure_shift, T M) const
     } else if (abs(measure_shift) <= e) {
 	m1 = 0;
 	m2 = 1;
-    } else if (M > e) {
+    } else if (normalizer > e) {
 	m1 = 0;
-	m2 = M;
+	m2 = normalizer;
     } else {
 	m1 = m2 = 0;
 	flag = true;
     }
 
-    typename Mat<T>::const_iterator i;
     for_each(pool.begin_col(0), pool.end_col(0),
 	     [&](T x) {
 		 m1 += pow(x, moment + measure_shift)/n;
@@ -36,22 +35,17 @@ T Garch1D<T>::moment_func(T moment, T measure_shift, T M) const
     return m1/m2;
 }
 
-// template <typename T>
-// void Garch1D<T>::set_shift_par(T shift_par)
-// {
-//     bool flag = abs(shift_par) > 1.0e-3;
-//     this->shift_par = shift_par;
-//     normalizer = flag ? moment_func(shift_par) : 1;
+template <typename T>
+struct LHS_func_par {
+    const Garch1D<T> *garch11;
+};
 
-//     typename vector<pool_data>::iterator i;
-//     T s = 0;
-//     T n = (T)pool.size();
-//     i = pool.begin();
-//     do {
-//     	s += flag ? pow(i->quantile, shift_par)/n/normalizer : 1/n;
-// 	(i++)->prob = s;
-//     } while (i < pool.end());
-// }
+template<typename T>
+T LHS_func(T xi, void *par)
+{
+    const Garch1D<T> *garch11 = ((LHS_func_par<T> *)par)->garch11;
+    return garch11->moment_func(xi) - 1;
+}
 
 template<typename T>
 int Garch1D<T>::find_tail_index(void)
@@ -63,7 +57,7 @@ int Garch1D<T>::find_tail_index(void)
     int max_iter = 100;
     double lb, ub;
     struct LHS_func_par<T> param = {this};
-    F.function = &LHS_func;
+    F.function = LHS_func<T>;
     F.params = &param;
     
     solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
@@ -92,25 +86,29 @@ int Garch1D<T>::find_tail_index(void)
 }
 
 template <typename T>
-Garch1D<T>::Garch1D(T a0, T a, T b)
+Garch1D<T>::Garch1D(T a0, T a, T b, unsigned long sample_size)
     :a0(a0), a(a), b(b), xi(nan("")),
      measure_index(Garch1D<T>::ORIG_M),
-     dist(0.5, 2*a), pool(SAMPLE_SIZE, 3)
+     dist(0.5, 2*a)
 {
     /*
       Set up the distribution of A
      */
+    pool.set_size(sample_size, 3);
     for_each(pool.begin_col(0), pool.end_col(0),
 	     [this, b](T &x) {
 		 x = this->dist(this->gen) + b;
 	     });
     sort(pool.begin_col(0), pool.end_col(0));
+
+    find_tail_index();
     
     /*
       Set up the stationary distribution 
      */
-    stationary.resize(10000);
     size_t N = 2000;
+    stationary.resize(10000);
+#pragma omp parallel for
     for (typename vector<pool_data>::iterator i = stationary.begin();
 	 i < stationary.end(); i++) {
 	double Vn = a0;
@@ -121,31 +119,27 @@ Garch1D<T>::Garch1D(T a0, T a, T b)
 	i->prob = nan("");
     }
     sort(stationary.begin(), stationary.end());
+
     T k = (T)stationary.size();
-    int n = 1;
-    for_each(stationary.begin(), stationary.end(),
-	     [&n, k](pool_data &d) {
-		 d.prob = (T)n/k;
-		 n++;
-	     }
-	);
-    /*
-      The value of xi is set when the tail index is found.
-    */
-    find_tail_index();
+
+#pragma omp parallel for
+    for (int i = 0; i < stationary.size(); i++) {
+	stationary[i].prob = (T)(i+1)/k;
+    }
 
     /*
       Set up the probs in both the original and the shifted measure
     */
-    T s0 = 0, s1 = 0;
-    T x0 = 1/(double)n;
     int i = 0;
-    do {
+    T s0, s1, x0;
+    s0 = s1 = 0;
+    x0 = 1/(double)pool.n_rows;
+    for (i = 0, s0 = 0, s1 = 0, x0 = 1/(double)pool.n_rows; i < pool.n_rows; i++) {
     	s0 += x0;
-	s1 += pow(pool[i, 0], xi) * x0;
-	pool[i, 1] = s0;
-	pool[i, 2] = s1;
-    } while (++i < pool.n_cols);
+	s1 += pow(pool(i, 0), xi) * x0;
+	pool(i, ORIG_M) = s0;
+	pool(i, SHIFTED_M) = s1;
+    }
     
 }
 
@@ -192,14 +186,19 @@ T Garch1D<T>::stationary_prob(T x) const
 template <typename T>
 T Garch1D<T>::init_quantile(T u) const
 {
-    T u1 = stationary_prob(M);
+    static T u1 = nan("");
+    if (!isnormal(u1))
+	u1 = stationary_prob(M);
     return stationary_quantile(u * u1);
 }
 
 template <typename T>
 T Garch1D<T>::init_prob(T x) const
 {
-    return stationary_prob(x)/stationary_prob(M);
+    static T uM = nan("");
+    if (!isnormal(uM))
+	uM = stationary_prob(M);
+    return stationary_prob(x)/uM;
 }
 
 /*
@@ -220,16 +219,14 @@ template<typename T>
 T Garch1D<T>::dist_func(T x) const
 {
     T q0, u0;
-    int l;
     typename Mat<T>::const_col_iterator i =
 	upper_bound(pool.begin_col(0), pool.end_col(0), x);
     if (i == pool.begin_col(0)) {
-	q0 = pool[0, 0];
-	u0 = pool[0, measure_index];
+	q0 = pool(0, 0);
+	u0 = pool(0, measure_index);
     } else {
-	l = 1;
-	q0 = *(i-l);
-	u0 = pool[i-pool.begin_col(0)-l, measure_index];
+	q0 = *(i-1);
+	u0 = pool(i-pool.begin_col(0)-1, measure_index);
     }
     return u0 + density_func(q0) * (x - q0);
 }
@@ -242,11 +239,11 @@ T Garch1D<T>::quantile_func(T u) const
 	upper_bound(pool.begin_col(measure_index),
 		    pool.end_col(measure_index), u);
     if (i == pool.begin_col(measure_index)) {
-	q0 = pool[0, 0];
-	u0 = pool[0, measure_index];
+	q0 = pool(0, 0);
+	u0 = pool(0, measure_index);
     } else {
 	u0 = *(i - 1);
-	q0 = pool[i-pool.begin_col(measure_index)-1, 0];
+	q0 = pool(i-pool.begin_col(measure_index)-1, 0);
     }
 
     return q0 + (u - u0)/density_func(q0);
