@@ -72,7 +72,7 @@ int Garch1D<T>::find_tail_index(void)
 	xi = gsl_root_fsolver_root (solver);
 	lb = gsl_root_fsolver_x_lower(solver);
 	ub = gsl_root_fsolver_x_upper(solver);
-	status = gsl_root_test_interval(lb, ub, 0.0001, 0);
+	status = gsl_root_test_interval(lb, ub, 1.0e-6, 0);
 	if (status == GSL_SUCCESS)
 	    cout << "Tail index found: xi = " << xi << endl;
     } while (status == GSL_CONTINUE && iter < max_iter);
@@ -87,9 +87,7 @@ int Garch1D<T>::find_tail_index(void)
 
 template <typename T>
 Garch1D<T>::Garch1D(T a0, T a, T b, unsigned long sample_size)
-    :a0(a0), a(a), b(b), xi(nan("")),
-     measure_index(Garch1D<T>::ORIG_M),
-     dist(0.5, 2*a)
+    :a0(a0), a(a), b(b), xi(nan("")), dist(0.5, 2*a)
 {
     /*
       Set up the distribution of A
@@ -119,18 +117,19 @@ Garch1D<T>::Garch1D(T a0, T a, T b, unsigned long sample_size)
 	i->prob = nan("");
     }
     sort(stationary.begin(), stationary.end());
+    printf("Left end point of stationary dist = %.4e\n", stationary[0].quantile);
 
     T k = (T)stationary.size();
 
 #pragma omp parallel for
-    for (int i = 0; i < stationary.size(); i++) {
+    for (unsigned int i = 0; i < stationary.size(); i++) {
 	stationary[i].prob = (T)(i+1)/k;
     }
 
     /*
       Set up the probs in both the original and the shifted measure
     */
-    int i = 0;
+    unsigned int i = 0;
     T s0, s1, x0;
     s0 = s1 = 0;
     x0 = 1/(double)pool.n_rows;
@@ -205,7 +204,7 @@ T Garch1D<T>::init_prob(T x) const
   Density function of the shifted distribution
  */
 template<typename T>
-T Garch1D<T>::density_func(T x) const 
+T Garch1D<T>::density_func(T x, int measure_index) const 
 {
     T y;
     y = 1 / sqrt(x - b) * exp(-(x-b)/(2*a));
@@ -216,7 +215,7 @@ T Garch1D<T>::density_func(T x) const
 }
 	
 template<typename T>
-T Garch1D<T>::dist_func(T x) const
+T Garch1D<T>::dist_func(T x, int measure_index) const
 {
     T q0, u0;
     typename Mat<T>::const_col_iterator i =
@@ -228,11 +227,11 @@ T Garch1D<T>::dist_func(T x) const
 	q0 = *(i-1);
 	u0 = pool(i-pool.begin_col(0)-1, measure_index);
     }
-    return u0 + density_func(q0) * (x - q0);
+    return u0 + density_func(q0, measure_index) * (x - q0);
 }
     
 template<typename T>
-T Garch1D<T>::quantile_func(T u) const
+T Garch1D<T>::quantile_func(T u, int measure_index) const
 {
     T q0, u0;
     typename Mat<T>::const_col_iterator i =
@@ -246,7 +245,7 @@ T Garch1D<T>::quantile_func(T u) const
 	q0 = pool(i-pool.begin_col(measure_index)-1, 0);
     }
 
-    return q0 + (u - u0)/density_func(q0);
+    return q0 + (u - u0)/density_func(q0, measure_index);
 }
 
 template class Garch1D<double>;

@@ -32,7 +32,6 @@ public:
 
     T M;
     T xi;
-    int measure_index;
 
     Garch1D(T a, T b, T a0, unsigned long sample_size);
 
@@ -40,9 +39,9 @@ public:
      * The original or the shifted distribution of A
      */
     T moment_func(T moment, T measure_shift = 0, T M = 0) const;
-    T density_func(T x) const;
-    T dist_func(T x) const;
-    T quantile_func(T u) const;
+    T density_func(T x, int measure_index) const;
+    T dist_func(T x, int measure_index) const;
+    T quantile_func(T u, int measure_index) const;
 
     /**
      * Stationary distribution of V

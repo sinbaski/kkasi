@@ -232,23 +232,22 @@ int main(int argc, char* argv[])
      */
     double u = stod(argv[3]);
     vector<double> sim_stat(stoi(argv[2]));
-    vector<double>::iterator i;
-    uniform_real_distribution<double> unif;
-    random_device alice;
-    vector<double> As;
-    long Nu;
-    for (i = sim_stat.begin(); i < sim_stat.end(); i++) {
+#pragma omp parallel for
+    for (vector<double>::iterator i = sim_stat.begin(); i < sim_stat.end(); i++) {
+	uniform_real_distribution<double> unif;
+	random_device alice;
 	double V = garch11.init_quantile(unif(alice));
-	Nu = 0;
-	As.clear();
-	garch11.measure_index = Garch1D<double>::SHIFTED_M;
+	long Nu = 0;
+	vector<double> As;
+	// As.clear();
+	int measure_index = Garch1D<double>::SHIFTED_M;
 	int status = 0;
 	while (status <= 2) {
 	    switch(status) {
 		double A;
 	    case 0: //before exceeding u
 		do {
-		    A = garch11.quantile_func(unif(alice));
+		    A = garch11.quantile_func(unif(alice), measure_index);
 		    As.push_back(A);
 		    V = A * V + garch11.a0;
 		} while (V < u && V > M);
@@ -261,11 +260,11 @@ int main(int argc, char* argv[])
 		    Nu++;
 		    status = 1;
 		    // Sample from the original measure from now on
-		    garch11.measure_index = Garch1D<double>::ORIG_M;
+		    measure_index = Garch1D<double>::ORIG_M;
 		}
 		break;
 	    case 1: // u exceeded, still outside C
-		A = garch11.quantile_func(unif(alice));
+		A = garch11.quantile_func(unif(alice), measure_index);
 		V = A * V + garch11.a0;
 		if (V <= M) {
 		    status = 2;
@@ -282,19 +281,19 @@ int main(int argc, char* argv[])
 		status++;
 	    }
 	}
-	// printf("%ld: P = %4e\n", (i - sim_stat.begin())+1, *i);
     }
 
     double estimator[] = {0, 0};
     estimator[0] = accumulate(sim_stat.begin(), sim_stat.end(), estimator[0]);
-    estimator[0] /= (double)sim_stat.size();
-
+    estimator[0] *= garch11.stationary_prob(garch11.M)/(double)sim_stat.size();
+    
     estimator[1] = accumulate(sim_stat.begin(), sim_stat.end(), estimator[1],
 			      [=](double s, double x) {
 				  return s + pow(x - estimator[0], 2)/(double)sim_stat.size();
 			      });
     estimator[1] = sqrt(estimator[1]);
-    printf("P(V > %.2f) = %e( %e ), std/mean = %.2f\n", u,
+    printf("M = %.4e, measure(C) = %.4f\n", M, garch11.stationary_prob(M));
+    printf("P(V > %.2f) = %.4e( %.4e ), std/mean = %.2f\n", u,
 	   estimator[0], estimator[1], estimator[1]/estimator[0]);
 
     /**
