@@ -232,6 +232,7 @@ int main(int argc, char* argv[])
      */
     double u = stod(argv[3]);
     vector<double> sim_stat(stoi(argv[2]));
+    unsigned int n_abandoned = 0;
 #pragma omp parallel for
     for (vector<double>::iterator i = sim_stat.begin(); i < sim_stat.end(); i++) {
 	uniform_real_distribution<double> unif;
@@ -254,6 +255,8 @@ int main(int argc, char* argv[])
 		if (V <= M) { // Restart the process
 		    As.clear();
 		    Nu = 0;
+		    #pragma omp atomic
+		    n_abandoned++;
 		    V = garch11.init_quantile(unif(alice));
 		    continue;
 		} else {
@@ -283,18 +286,23 @@ int main(int argc, char* argv[])
 	}
     }
 
-    double estimator[] = {0, 0};
-    estimator[0] = accumulate(sim_stat.begin(), sim_stat.end(), estimator[0]);
-    estimator[0] *= garch11.stationary_prob(garch11.M)/(double)sim_stat.size();
+    double estimator = 0;
+    estimator = accumulate(sim_stat.begin(), sim_stat.end(), estimator);
+    estimator *= garch11.stationary_prob(garch11.M)/
+	(double)(sim_stat.size() + n_abandoned);
     
-    estimator[1] = accumulate(sim_stat.begin(), sim_stat.end(), estimator[1],
-			      [=](double s, double x) {
-				  return s + pow(x - estimator[0], 2)/(double)sim_stat.size();
-			      });
-    estimator[1] = sqrt(estimator[1]);
+    /*
+       Compute the confidence bounds
+     */
+    // mat X(1 + sim_stat.size(), 2);
+    // estimator[1] = accumulate(sim_stat.begin(), sim_stat.end(), estimator[1],
+    // 			      [=](double s, double x) {
+    // 				  return s + pow(x - estimator[0], 2);
+    // 			      }) + pow(estimator[0], 2) * n_abandoned;
+    // estimator[1] /= n_abandoned + sim_stat.size();
+    // estimator[1] = sqrt(estimator[1]);
     printf("M = %.4e, measure(C) = %.4f\n", M, garch11.stationary_prob(M));
-    printf("P(V > %.2f) = %.4e( %.4e ), std/mean = %.2f\n", u,
-	   estimator[0], estimator[1], estimator[1]/estimator[0]);
+    printf("P(V > %.2f) = %.4e\n", u, estimator);
 
     /**
      * Evaluate the Lambda(.) function by simulation

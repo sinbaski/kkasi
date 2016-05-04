@@ -38,7 +38,7 @@ public:
     /**
      * The original or the shifted distribution of A
      */
-    T moment_func(T moment, T measure_shift = 0, T M = 0) const;
+    T moment_func(T moment, T measure_shift = 0, T normalizer = 0) const;
     T density_func(T x, int measure_index) const;
     T dist_func(T x, int measure_index) const;
     T quantile_func(T u, int measure_index) const;
