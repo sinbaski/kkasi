@@ -22,6 +22,7 @@ mat& gen_rand_matrices(const vector<double> &alpha,
     static random_device gen;
     
     double z = dist(gen);
+    A(0, 0) 
     A.row(0) = rowvec({alpha[0] * z + beta[0], beta[1], alpha[1], alpha[2]});
     A.row(1) = rowvec({1, 0, 0, 0});
     A.row(2) = rowvec({z, 0, 0, 0});
