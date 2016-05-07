@@ -58,21 +58,21 @@ double mean_norm_pow_prod_mat(const vector< vector<mat> >& matrices,
 //     return dist(gen);
 // }
 
-double Lambda_func(double xi, unsigned int n, unsigned int p,
-		   const vector<double> &alpha, const vector<double> &beta)
-{
-    vector< vector<mat> > matrices;
-    mat M(A_DIM, A_DIM);
-    matrices.resize(p);
-    for (unsigned i = 0; i < p; i++) {
-    	matrices[i].resize(n);
-    	for (unsigned j = 0; j < n; j++) {
-    	    matrices[i][j] = gen_rand_matrices(alpha, beta, M);
-    	}
-    }
-    double x = mean_norm_pow_prod_mat(matrices, xi);
-    return log(x)/double(n);
-}
+// double Lambda_func(double xi, unsigned int n, unsigned int p,
+// 		   const vector<double> &alpha, const vector<double> &beta)
+// {
+//     vector< vector<mat> > matrices;
+//     mat M(A_DIM, A_DIM);
+//     matrices.resize(p);
+//     for (unsigned i = 0; i < p; i++) {
+//     	matrices[i].resize(n);
+//     	for (unsigned j = 0; j < n; j++) {
+//     	    matrices[i][j] = gen_rand_matrices(alpha, beta, M);
+//     	}
+//     }
+//     double x = mean_norm_pow_prod_mat(matrices, xi);
+//     return log(x)/double(n);
+// }
 
 
 struct lambda_minimizer_data

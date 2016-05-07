@@ -2,7 +2,8 @@ CC := g++
 srcdir := .
 objdir := obj
 
-srcs := $(wildcard $(srcdir)/*.cpp)
+## srcs := $(wildcard $(srcdir)/*.cpp)
+srcs := ./jeff.cpp ./SmallNumber.cpp
 objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
 objs := $(addprefix $(objdir)/, $(objs))
 
