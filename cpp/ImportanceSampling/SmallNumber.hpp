@@ -8,26 +8,10 @@ class SmallNumber
 {
 private:
     friend void add_to (vector<double>::const_iterator i1,
-			vector<double>::iterator o1,
-			vector<double>::iterator o2,
-			vector<double>& V);
-
-    friend void add_to (vector<double>::const_iterator i1,
-			vector<double>::const_iterator i1,
-			vector<double>::iterator o1,
-			vector<double>::iterator o2,
-			vector<double>& V);
-
-    friend void multiply_to (vector<double>::const_iterator i1,
-			     vector<double>::iterator o1,
-			     vector<double>::iterator o2,
-			     vector<double>& V);
-
-    friend void multiply_to (vector<double>::const_iterator i1,
-			     vector<double>::const_iterator i1,
-			     vector<double>::iterator o1,
-			     vector<double>::iterator o2,
-			     vector<double>& V);
+			SmallNumber& V);
+    
+    friend void multiply_to (vector<double>::const_iterator i,
+			     SmallNumber& V);
 
 public:
     vector<double> logs;
