@@ -6,12 +6,12 @@ using namespace arma;
 
 class SmallNumber
 {
-private:
-    friend void add_to (vector<double>::const_iterator i1,
-			SmallNumber& V);
+// private:
+//     friend void add_to (vector<double>::const_iterator i1,
+// 			SmallNumber& V);
     
-    friend void multiply_to (vector<double>::const_iterator i,
-			     SmallNumber& V);
+//     friend void multiply_to (vector<double>::const_iterator i,
+// 			     const SmallNumber& V);
 
 public:
     vector<double> logs;
@@ -47,9 +47,14 @@ public:
 
     XMatrix(void);
     XMatrix(const XMatrix& M);
-    XMatrix(int m, int n);
+    XMatrix(unsigned int m, unsigned int n);
+    XMatrix(double** data, unsigned int m, unsigned int n);
     SmallNumber& operator() (unsigned i, unsigned j);
     const SmallNumber& operator() (unsigned i, unsigned j) const;
     const XMatrix& operator *= (const XMatrix& Y);
     friend XMatrix operator * (const XMatrix& X, const XMatrix& Y);
+    const XMatrix& operator += (const XMatrix& Y);
+    friend XMatrix operator + (const XMatrix& X, const XMatrix& Y);
+    const XMatrix& operator = (const XMatrix& Y);
+    const XMatrix& operator ^ (unsigned n);
 };

@@ -5,6 +5,11 @@
 using namespace std;
 using namespace arma;
 
+inline int bottom (double x)
+{
+    return x >= 0 ? (int)x : (int)floor(x);
+}
+
 SmallNumber::SmallNumber(void)
     :logs()
 {
@@ -19,32 +24,33 @@ SmallNumber::SmallNumber(double x)
 }
 
 SmallNumber::SmallNumber(const vector<double>& logs)
-    : logs(logs) {
+    : logs(logs)
+{
 }
 
 SmallNumber::SmallNumber(const SmallNumber& x)
-    : logs(x.logs) {
+    : logs(x.logs)
+{
 }
 
 void carry(vector<double>::iterator o1,
-	   vector<double>::iterator o2,
 	   SmallNumber &V)
 {
-    int f = (int)(*o1);
+    int f = bottom(*o1);
     double r = log10(pow(10, *o1 - f) + 1);
     if (r < 1) {
 	*o1 = f + r;
     } else {
 	*o1 = f + r - 1;
 	vector<double>::iterator i = 
-	    upper_bound(o1 + 1, o2, f + 1,
-			[](double x, int y) {
-			    return (int)x < y;
+	    upper_bound(o1 + 1, V.logs.end(), f + 1,
+			[](int y, double x) {
+			    return y < bottom(x);
 			});
-	if ((int)*(i - 1) < f + 1) {
+	if (bottom(*(i - 1)) < f + 1) {
 	    V.logs.insert(i - 1, f + 1);
 	} else {
-	    carry(i - 1, o2, V);
+	    carry(i - 1, V);
 	}
     }
 }
@@ -52,34 +58,30 @@ void carry(vector<double>::iterator o1,
 void add_to (vector<double>::const_iterator i1,
 	     SmallNumber& V)
 {
-    int f = (int)(*i1);
+    int f = bottom(*i1);
     vector<double>::iterator k =
 	upper_bound(V.logs.begin(), V.logs.end(), f,
-		    [](double x, int y){
-			return (int)x < y;
+		    [](int y, double x){
+			return y < bottom(x);
 		    });
-    if (k == V.logs.end()) {
-	V.logs.push_back(*i1);
-	return;
-    }
     if (k == V.logs.begin()) {
 	V.logs.insert(k, *i1);
 	return;
     }
     k--;
-    if ((int)*k < f) {
+    if (bottom(*k) < f) {
 	V.logs.insert(k + 1, *i1);
+	return;
+    }
+    double r = log10(pow(10, *k - f) + pow(10, *i1 - f));
+    if (r >= 1) {
+	*k = f + r - 1;
+	if (k + 1 == V.logs.end() || bottom(*(k + 1)) - f > 1)
+	    V.logs.insert(k + 1, f + 1);
+	else
+	    carry(k + 1, V);
     } else {
-	double r = log10(pow(10, *k - f) + pow(10, *i1 - f));
-	if (r >= 1) {
-	    *k = f + r - 1;
-	    if ((int)*(k + 1) - f == 1)
-		carry(k + 1, V.logs.end(), V);
-	    else
-		V.logs.insert(k + 1, f + 1);
-	} else {
-	    *k = f + r;
-	}
+	*k = f + r;
     }
 }
 
@@ -88,8 +90,8 @@ void adjust_numbers(SmallNumber &V)
     if (V.logs.size() < 2) return;
     for (vector<double>::iterator i = V.logs.begin();
 	 i < V.logs.end() - 1; ) {
-	int f = (int)(*i);
-	if ((int)*(i + 1) > f) {
+	int f = bottom(*i);
+	if (bottom(*(i + 1)) > f) {
 	    i++;
 	    continue;
 	}
@@ -106,14 +108,16 @@ void adjust_numbers(SmallNumber &V)
     }
 }
 
-void multiply_to (vector<double>::const_iterator i,
-		  SmallNumber& V)
+SmallNumber multiply_to (vector<double>::const_iterator i,
+			 const SmallNumber& X)
 {
+    SmallNumber V(X);
     for (vector<double>::iterator j = V.logs.begin();
 	   j < V.logs.end(); j++) {
-	*j++ += *i;
+	*j += *i;
     }
     adjust_numbers(V);
+    return V;
 }
 
 const SmallNumber& SmallNumber::operator= (double y)
@@ -141,7 +145,7 @@ const SmallNumber& SmallNumber::operator *= (double y)
     }
     
     SmallNumber Y(y);
-    multiply_to(Y.logs.begin(), *this);
+    operator= (multiply_to(Y.logs.begin(), *this));
     return *this;
 }
 
@@ -154,6 +158,17 @@ SmallNumber operator* (const SmallNumber& x, double y)
     return z;
 }
     
+SmallNumber operator * (const SmallNumber& x, const SmallNumber& y)
+{
+    if (x.logs.empty() || y.logs.empty()) return SmallNumber();
+    SmallNumber z;
+    for (vector<double>::const_iterator i = y.logs.begin();
+	 i < y.logs.end(); i++) {
+	z += multiply_to(i, x);
+    }
+    return z;
+}
+
 const SmallNumber& SmallNumber::operator *= (const SmallNumber& y)
 {
     if (logs.empty() || y.logs.empty()) {
@@ -161,23 +176,8 @@ const SmallNumber& SmallNumber::operator *= (const SmallNumber& y)
 	return *this;
     }
 
-    for (vector<double>::const_iterator i = y.logs.begin();
-	 i < y.logs.end(); i++) {
-	multiply_to(i, *this);
-    }
+    operator= (*this * y);
     return *this;
-}
-
-SmallNumber operator* (const SmallNumber& x, const SmallNumber& y)
-{
-    if (x.logs.empty() || y.logs.empty())
-	return SmallNumber();
-    SmallNumber z(x);
-    for (vector<double>::const_iterator i = y.logs.begin();
-	 i < y.logs.end(); i++) {
-	multiply_to(i, z);
-    }
-    return z;
 }
 
 const SmallNumber& SmallNumber::operator += (const SmallNumber& y)
@@ -217,7 +217,7 @@ XMatrix::XMatrix(void)
 {
 }
 
-XMatrix::XMatrix(int m, int n)
+XMatrix::XMatrix(unsigned m, unsigned n)
     :entry(m)
 {
     for_each(entry.begin(), entry.end(),
@@ -226,14 +226,29 @@ XMatrix::XMatrix(int m, int n)
 	     });
 }
 
+XMatrix::XMatrix(double** data, unsigned m, unsigned n)
+    :entry(m)
+{
+    for (unsigned i = 0; i < m; i++) {
+	entry[i].assign(data[i], data[i] + n);
+    }
+}
+
+
 XMatrix::XMatrix(const XMatrix& M)
 {
-    entry.resize(M.entry.size());
-    copy(M.entry.begin(), M.entry.end(), entry.begin());
+    // entry.resize(M.entry.size());
+    // copy(M.entry.begin(), M.entry.end(), entry.begin());
+    operator= (M);
 }
 
 SmallNumber& XMatrix::operator() (unsigned i, unsigned j)
 {
+    assert(entry.size() > i);
+    for_each(entry.begin(), entry.end(),
+	     [j](vector<SmallNumber> &row) {
+		 assert(row.size() > j);
+	     });
     return entry[i][j];
 }
 
@@ -242,14 +257,28 @@ const SmallNumber& XMatrix::operator() (unsigned i, unsigned j) const
     return entry[i][j];
 }
 
+const XMatrix& XMatrix::operator = (const XMatrix& Y)
+{
+    entry.resize(Y.entry.size());
+    copy(Y.entry.begin(), Y.entry.end(), entry.begin());
+    return *this;
+}
+
 XMatrix operator * (const XMatrix& X, const XMatrix& Y)
 {
+    unsigned n = Y.entry.size();
+    assert(X.entry[0].size() == n);
+
     XMatrix Z(X.entry.size(), Y.entry[0].size());
+
+// #pragma omp parallel for
     for (unsigned i = 0; i < Z.entry.size(); i++) {
 	for (unsigned j = 0; j < Z.entry[0].size(); j++) {
-	    Z(i, j) = 0;
-	    for (unsigned k = 0; k < Z.entry[0].size(); k++) {
-		Z(i ,j) += X(i, k) * Y(k, i);
+	    Z.entry[i][j] = 0;
+	    for (unsigned k = 0; k < n; k++) {
+		Z.entry[i][j] += X(i, k) * Y(k, j);
+		double u = *Z.entry[i][j].logs.rbegin();
+		;
 	    }
 	}
     }
@@ -258,15 +287,44 @@ XMatrix operator * (const XMatrix& X, const XMatrix& Y)
 
 const XMatrix& XMatrix::operator *= (const XMatrix& Y)
 {
-    XMatrix X(*this);
+    unsigned n = Y.entry.size();
+    assert(entry[0].size() == n);
+    operator= (*this * Y);
+    return *this;
+}
+
+const XMatrix& XMatrix::operator += (const XMatrix& Y)
+{
+    assert(entry.size() == Y.entry.size());
+    assert(entry[0].size() == Y.entry[0].size());
+
+// #pragma omp parallel for
     for (unsigned i = 0; i < entry.size(); i++) {
 	for (unsigned j = 0; j < entry[0].size(); j++) {
-	    entry[i][j] = 0;
-	    for (unsigned k = 0; k < entry[0].size(); k++) {
-		SmallNumber z = X(i, k) * Y(k, i);;
-		entry[i][j] += z;
-	    }
+	    entry[i][j] += Y.entry[i][j];
 	}
+    }
+    return *this;
+}
+
+XMatrix operator + (const XMatrix& X, const XMatrix& Y)
+{
+    XMatrix Z(X);
+    Z += Y;
+    return Z;
+}
+
+const XMatrix& XMatrix::operator ^ (unsigned n)
+{
+    if (entry.empty() || n == 1) return *this;
+    if (n == 0) {
+	for (unsigned i = 0; i < entry.size(); i++) {
+	    entry[i][i] = 1;
+	}
+    }
+    XMatrix X(*this);
+    for (unsigned i = 1; i < n; i++) {
+	operator *= (X);
     }
     return *this;
 }
