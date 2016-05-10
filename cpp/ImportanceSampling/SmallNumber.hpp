@@ -37,6 +37,9 @@ public:
     
     friend SmallNumber operator + (const SmallNumber& x, const SmallNumber& y);
     const SmallNumber& operator += (const SmallNumber& y);
+
+    double comptify(int power);
+    int leading_power(void);
 };
 
 class XMatrix
@@ -60,4 +63,5 @@ public:
     const XMatrix& operator = (const XMatrix& Y);
     const XMatrix& operator ^ (unsigned n);
     XMatrix operator ~ (void);
+    mat comptify(int *power);
 };

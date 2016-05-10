@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <climits>
 #include <vector>
 #include "SmallNumber.hpp"
 
@@ -123,15 +124,18 @@ SmallNumber multiply_to (vector<double>::const_iterator i,
 const SmallNumber& SmallNumber::erase_small(void)
 {
     int f = bottom(*logs.rbegin()) - 20;
-    vector<double>::const_iterator k =
-	upper_bound(logs.begin(), logs.end(), f);
+    vector<double>::iterator k =
+	upper_bound(logs.begin(), logs.end(), f,
+		    [](int b, double x) {
+			return b < bottom(x);
+		    });
     if (k == logs.begin()) return *this;
     k--;
     if (bottom(*k) == f) {
 	if (k != logs.begin())
-	    logs.erase(logs.begin(), k - 1);
+	    logs.erase(logs.begin(), k);
     } else {
-	logs.erase(logs.begin(), k);
+	logs.erase(logs.begin(), k + 1);
     }
     return *this;
 }
@@ -179,8 +183,10 @@ SmallNumber operator * (const SmallNumber& x, const SmallNumber& y)
 {
     if (x.logs.empty() || y.logs.empty()) return SmallNumber();
     SmallNumber z;
+//#pragma omp parallel for
     for (vector<double>::const_iterator i = y.logs.begin();
 	 i < y.logs.end(); i++) {
+//#pragma omp atomic
 	z += multiply_to(i, x);
     }
     z.erase_small();
@@ -229,6 +235,20 @@ SmallNumber operator + (const SmallNumber& x, double y)
     SmallNumber z(x);
     z += y;
     return z;
+}
+
+double SmallNumber::comptify(int power)
+{
+     return
+	accumulate(logs.begin(), logs.end(), 0,
+		   [power](double s, double y) {
+		       return s + pow(10, y - power);
+		   });
+}
+
+int SmallNumber::leading_power(void)
+{
+    return bottom(*logs.rbegin());
 }
     
 XMatrix::XMatrix(void)
@@ -290,7 +310,7 @@ XMatrix operator * (const XMatrix& X, const XMatrix& Y)
 
     XMatrix Z(X.entry.size(), Y.entry[0].size());
 
-// #pragma omp parallel for
+//#pragma omp parallel for
     for (unsigned i = 0; i < Z.entry.size(); i++) {
 	for (unsigned j = 0; j < Z.entry[0].size(); j++) {
 	    Z.entry[i][j] = 0;
@@ -317,7 +337,7 @@ const XMatrix& XMatrix::operator += (const XMatrix& Y)
     assert(entry.size() == Y.entry.size());
     assert(entry[0].size() == Y.entry[0].size());
 
-// #pragma omp parallel for
+//#pragma omp parallel for
     for (unsigned i = 0; i < entry.size(); i++) {
 	for (unsigned j = 0; j < entry[0].size(); j++) {
 	    entry[i][j] += Y.entry[i][j];
@@ -354,6 +374,30 @@ XMatrix XMatrix::operator ~ (void)
     for (unsigned i = 0; i < X.entry.size(); i++) {
 	for (unsigned j = i + 1; j < X.entry[0].size(); j++) {
 	    swap(X(i, j), X(j, i));
+	}
+    }
+    return X;
+}
+
+mat XMatrix::comptify(int *power)
+{
+    *power = INT_MAX;
+    for (unsigned i = 0; i < entry.size(); i++) {
+	for (unsigned j = 0; j < entry[0].size(); j++) {
+	    *power = min(*power, entry[i][j].leading_power());
+	}
+    }
+    mat X(entry.size(), entry[0].size());
+    double p = *power;
+    for (unsigned i = 0; i < entry.size(); i++) {
+	for (unsigned j = 0; j < entry[0].size(); j++) {
+	    double a = 0;
+	    for_each(entry[i][j].logs.begin(),
+		     entry[i][j].logs.end(),
+		     [p, &a](double d){
+			 a += pow(10, d - p);
+		     });
+	    X(i, j) = a;
 	}
     }
     return X;

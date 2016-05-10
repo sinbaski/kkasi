@@ -3,6 +3,7 @@
 #include <algorithm>
 // #include <armadillo>
 #include "SmallNumber.hpp"
+#include <iostream>
 
 using namespace std;
 using namespace arma;
@@ -32,11 +33,10 @@ XMatrix & gen_rand_matrix(const vector<double> &alpha,
 
 int main(int argc, char*argv[])
 {
-    vector<double> alpha({1.0e-7, 0.6, 0.1});
-    vector<double> beta({0.1, 0.05});
-//    double power = stod(argv[2]);
-    double norms[2];
-    double Lambda[2];
+    // vector<double> alpha({1.0e-7, 0.11, 1.0e-5});
+    // vector<double> beta({0.88});
+    // double xi = stod(argv[1]);
+    // double Lambda;
 
     /* adjust_numbers is good! */
     // vector<double> V = {
@@ -48,6 +48,8 @@ int main(int argc, char*argv[])
 
     //This test case is passed.
     // XMatrix A(2, 2), B(2, 2), M;
+    // mat X;
+    // int p;
     // A(0, 0) = 1.7533e+15;
     // A(0, 1) = 1.546e-29;
     // A(1, 0) = 2.0030e+14;
@@ -59,8 +61,39 @@ int main(int argc, char*argv[])
     // B(1, 1) = 4;
 
     // M = A * B;
+    // X = M.comptify(&p);
+    // X.print();
     // M *= A;
+    // X = M.comptify(&p);
+    // X.print();
     // M += B + A * A;
+    // X = M.comptify(&p);
+    // X.print();
+
+    XMatrix A(2, 3), B(3, 2);
+    mat V;
+    int p;
+    A(0, 0) = 1.2;
+    A(0, 1) = 0.9;
+    A(0, 2) = 0.01;
+    A(1, 0) = 1.5;
+    A(1, 1) = 2.2;
+    A(1, 2) = 0;
+
+    B(0, 0) = 3.9;
+    B(0, 1) = 0.3;
+    B(1, 0) = 10.19;
+    B(1, 1) = 1.22;
+    B(2, 0) = 1.2e-3;
+    B(2, 1) = 6.5;
+    
+    XMatrix C = A * B;
+    V = C.comptify(&p);
+    V.print();
+
+    XMatrix M = (C^10);
+    V = M.comptify(&p);
+    V.print();
 
     // double data1[][4] = {
     // 	{19.403665, 4.077789e-01, 797.39273, 0.03255509},
@@ -87,17 +120,31 @@ int main(int argc, char*argv[])
     // M *= (C^2) + ((A * B)^3);
     
 
-    vector<XMatrix> A(400);
-    XMatrix P;
 
-    for_each(A.begin(), A.end(),
-    	     [&](XMatrix &M) {
-    		 gen_rand_matrix(alpha, beta, 0, M);
-    	     });
-    P = A[0];
-    for (unsigned i = 1; i < A.size(); i++) {
-    	P *= A[i];
-    }
+
+    // vector<XMatrix> A(stoi(argv[2]));
+    // XMatrix P;
+
+    // for_each(A.begin(), A.end(),
+    // 	     [&](XMatrix &M) {
+    // 		 gen_rand_matrix(alpha, beta, 0, M);
+    // 	     });
+    // P = A[0];
+    // for (unsigned i = 1; i < A.size(); i++) {
+    // 	P *= A[i];
+    // }
+    // int power;
+    // mat X = P.comptify(&power);
+    // double m = norm(X);
+    // double n = (double)A.size();
+    // Lambda = (double)power * xi * log(10)/ n  + xi/n * log(m);
+
+    // cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" << alpha[1] << ", alpha[2]="
+    // 	 << alpha[2] << ", beta[1]=" << beta[0] << endl;
+    // cout << "xi = " << xi << ", n = " << A.size() << endl;
+    // printf("Obtained matrix 10^(%d) times:\n", power);
+    // X.print();
+    // printf("Estimated Lambda(%.2f) = %.4f\n\n", xi, Lambda);
     return 0;
 }
 
