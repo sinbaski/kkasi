@@ -24,6 +24,8 @@ public:
     const SmallNumber& operator= (double y);
     const SmallNumber& operator= (const SmallNumber &y);
 
+    const SmallNumber& erase_small(void);
+
     const SmallNumber& operator *= (double y);
     friend SmallNumber operator * (const SmallNumber& x, double y);
 
@@ -57,4 +59,5 @@ public:
     friend XMatrix operator + (const XMatrix& X, const XMatrix& Y);
     const XMatrix& operator = (const XMatrix& Y);
     const XMatrix& operator ^ (unsigned n);
+    XMatrix operator ~ (void);
 };

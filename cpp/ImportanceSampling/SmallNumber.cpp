@@ -120,7 +120,23 @@ SmallNumber multiply_to (vector<double>::const_iterator i,
     return V;
 }
 
-const SmallNumber& SmallNumber::operator= (double y)
+const SmallNumber& SmallNumber::erase_small(void)
+{
+    int f = bottom(*logs.rbegin()) - 20;
+    vector<double>::const_iterator k =
+	upper_bound(logs.begin(), logs.end(), f);
+    if (k == logs.begin()) return *this;
+    k--;
+    if (bottom(*k) == f) {
+	if (k != logs.begin())
+	    logs.erase(logs.begin(), k - 1);
+    } else {
+	logs.erase(logs.begin(), k);
+    }
+    return *this;
+}
+
+const SmallNumber& SmallNumber::operator = (double y)
 {
     assert(y >= 0);
     if (y == 0)
@@ -130,7 +146,7 @@ const SmallNumber& SmallNumber::operator= (double y)
     return *this;
 }
 
-const SmallNumber& SmallNumber::operator= (const SmallNumber &y) {
+const SmallNumber& SmallNumber::operator = (const SmallNumber &y) {
     logs.assign(y.logs.begin(), y.logs.end());
     return *this;
 }
@@ -146,10 +162,11 @@ const SmallNumber& SmallNumber::operator *= (double y)
     
     SmallNumber Y(y);
     operator= (multiply_to(Y.logs.begin(), *this));
+    erase_small();
     return *this;
 }
 
-SmallNumber operator* (const SmallNumber& x, double y)
+SmallNumber operator * (const SmallNumber& x, double y)
 {
     assert(y >= 0);
 
@@ -166,6 +183,7 @@ SmallNumber operator * (const SmallNumber& x, const SmallNumber& y)
 	 i < y.logs.end(); i++) {
 	z += multiply_to(i, x);
     }
+    z.erase_small();
     return z;
 }
 
@@ -186,6 +204,7 @@ const SmallNumber& SmallNumber::operator += (const SmallNumber& y)
 	 i < y.logs.end(); i++) {
 	add_to(i, *this);
     }
+    erase_small();
     return *this;
 }
     
@@ -327,4 +346,15 @@ const XMatrix& XMatrix::operator ^ (unsigned n)
 	operator *= (X);
     }
     return *this;
+}
+
+XMatrix XMatrix::operator ~ (void)
+{
+    XMatrix X(*this);
+    for (unsigned i = 0; i < X.entry.size(); i++) {
+	for (unsigned j = i + 1; j < X.entry[0].size(); j++) {
+	    swap(X(i, j), X(j, i));
+	}
+    }
+    return X;
 }
