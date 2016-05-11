@@ -3,7 +3,7 @@ srcdir := .
 objdir := obj
 
 ## srcs := $(wildcard $(srcdir)/*.cpp)
-srcs := ./jeff.cpp ./SmallNumber.cpp
+srcs := ./test.cpp ./ExtremeNumber.cpp
 objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
 objs := $(addprefix $(objdir)/, $(objs))
 

@@ -2,26 +2,29 @@
 #include <cmath>
 #include <algorithm>
 // #include <armadillo>
-#include "SmallNumber.hpp"
 #include <iostream>
+#include <random>
+#include "ExtremeNumber.hpp"
 
 using namespace std;
 using namespace arma;
 
-chi_squared_distribution<double> dist;
+normal_distribution<double> dist;
+// student_t_distribution<double> dist(3);
+// default_random_engine gen;
 random_device gen;
 
-extern void adjust_numbers(SmallNumber &V);
+extern void adjust_numbers(ExtremeNumber &V);
 
 XMatrix & gen_rand_matrix(const vector<double> &alpha,
 			  const vector<double> &beta,
 			  int measure_index, XMatrix &M)
 {
     unsigned n = 2;
-    double z = dist(gen);
+    double z = pow(dist(gen), 2);
     M.entry.resize(n);
     for_each(M.entry.begin(), M.entry.end(),
-	     [n](vector<SmallNumber> &x) {
+	     [n](vector<ExtremeNumber> &x) {
 		 x.resize(n);
 	     });
     M(0, 0) = alpha[1] * z + beta[0];
@@ -31,18 +34,50 @@ XMatrix & gen_rand_matrix(const vector<double> &alpha,
     return M;
 }
 
+double estimateLambda(const vector<double>& alpha, const vector<double>& beta,
+		      double xi,
+		      unsigned long n, unsigned long iterations,
+		      double *bounds)
+{
+    double results[iterations];
+#pragma omp parallel for
+    for (unsigned k = 0; k < iterations; k++) {
+	vector<XMatrix> A(n);
+	for_each(A.begin(), A.end(),
+		 [&](XMatrix &M) {
+		     gen_rand_matrix(alpha, beta, 0, M);
+		 });
+	XMatrix P = A[0];
+	for (unsigned i = 1; i < A.size(); i++) {
+	    P *= A[i];
+	}
+	int power;
+	mat X = P.comptify(&power);
+	double u = (double)A.size();
+	results[k] = (double)power * xi * log(10)/u  + xi/u * log(norm(X));
+    }
+    sort(results, results + iterations);
+    unsigned i = (unsigned)(iterations * 2.5e-2);
+    unsigned j = (unsigned)ceil(iterations * 97.5e-2);
+    bounds[0] = results[i];
+    bounds[1] = results[j];
+    return accumulate(results, results + iterations,
+		      0.0)/(double)iterations;
+}
+
 int main(int argc, char*argv[])
 {
-    // vector<double> alpha({1.0e-7, 0.11, 1.0e-5});
-    // vector<double> beta({0.88});
-    // double xi = stod(argv[1]);
-    // double Lambda;
+    vector<double> alpha({1.0e-7, stod(argv[3]), 0.01 - 1.0e-3});
+    vector<double> beta({stod(argv[4])});
+    double xi = stod(argv[1]);
+    double Lambda;
+    double bounds[2];
 
     /* adjust_numbers is good! */
     // vector<double> V = {
     // 	-14.509109561124117, -13.176534978491997, 0, 15.243856232806506, 15.720977487526168, 30.487712465613011	
     // };
-    // SmallNumber X(V);
+    // ExtremeNumber X(V);
     // adjust_numbers(X);
 
 
@@ -70,31 +105,33 @@ int main(int argc, char*argv[])
     // X = M.comptify(&p);
     // X.print();
 
-    XMatrix A(2, 3), B(3, 2);
-    mat V;
-    int p;
-    A(0, 0) = 1.2;
-    A(0, 1) = 0.9;
-    A(0, 2) = 0.01;
-    A(1, 0) = 1.5;
-    A(1, 1) = 2.2;
-    A(1, 2) = 0;
+    // Test case passed.
+    // XMatrix A(2, 3), B(3, 2);
+    // mat V;
+    // int p;
+    // A(0, 0) = 1.2;
+    // A(0, 1) = 0.9;
+    // A(0, 2) = 0.01;
+    // A(1, 0) = 1.5;
+    // A(1, 1) = 2.2;
+    // A(1, 2) = 0;
 
-    B(0, 0) = 3.9;
-    B(0, 1) = 0.3;
-    B(1, 0) = 10.19;
-    B(1, 1) = 1.22;
-    B(2, 0) = 1.2e-3;
-    B(2, 1) = 6.5;
+    // B(0, 0) = 3.9;
+    // B(0, 1) = 0.3;
+    // B(1, 0) = 10.19;
+    // B(1, 1) = 1.22;
+    // B(2, 0) = 1.2e-3;
+    // B(2, 1) = 6.5;
     
-    XMatrix C = A * B;
-    V = C.comptify(&p);
-    V.print();
+    // XMatrix C = A * B;
+    // V = C.comptify(&p);
+    // V.print();
 
-    XMatrix M = (C^10);
-    V = M.comptify(&p);
-    V.print();
+    // XMatrix M = (C^10);
+    // V = M.comptify(&p);
+    // V.print();
 
+    // test case Not run.
     // double data1[][4] = {
     // 	{19.403665, 4.077789e-01, 797.39273, 0.03255509},
     // 	{6.128070, 3.924188e-05,  27.35455, 1.36518070},
@@ -118,33 +155,17 @@ int main(int argc, char*argv[])
     // M = A * B + C;
     // M += C * A * B;
     // M *= (C^2) + ((A * B)^3);
-    
+    Lambda = estimateLambda(
+	alpha, beta, xi, stoul(argv[2]), stoul(argv[5]), bounds);
 
-
-
-    // vector<XMatrix> A(stoi(argv[2]));
-    // XMatrix P;
-
-    // for_each(A.begin(), A.end(),
-    // 	     [&](XMatrix &M) {
-    // 		 gen_rand_matrix(alpha, beta, 0, M);
-    // 	     });
-    // P = A[0];
-    // for (unsigned i = 1; i < A.size(); i++) {
-    // 	P *= A[i];
-    // }
-    // int power;
-    // mat X = P.comptify(&power);
-    // double m = norm(X);
-    // double n = (double)A.size();
-    // Lambda = (double)power * xi * log(10)/ n  + xi/n * log(m);
-
-    // cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" << alpha[1] << ", alpha[2]="
-    // 	 << alpha[2] << ", beta[1]=" << beta[0] << endl;
-    // cout << "xi = " << xi << ", n = " << A.size() << endl;
+    cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
+	alpha[1] << ", alpha[2]=" << alpha[2] <<
+	", beta[1]=" << beta[0] << endl;
+    cout << "xi = " << argv[1] << ", n = " << argv[2] << endl;
     // printf("Obtained matrix 10^(%d) times:\n", power);
     // X.print();
-    // printf("Estimated Lambda(%.2f) = %.4f\n\n", xi, Lambda);
+    printf("Estimated Lambda(%s) = %.4e (%.4e, %.4e)\n\n",
+	   argv[1], Lambda, bounds[0], bounds[1]);
     return 0;
 }
 
