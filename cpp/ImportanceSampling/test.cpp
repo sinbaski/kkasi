@@ -20,27 +20,43 @@ XMatrix & gen_rand_matrix(const vector<double> &alpha,
 			  const vector<double> &beta,
 			  int measure_index, XMatrix &M)
 {
-    unsigned n = 2;
+    unsigned p = beta.size(), q = alpha.size() - 1;
+    unsigned n = p + q - 1;
     double z = pow(dist(gen), 2);
+    ExtremeNumber e(0);
     M.entry.resize(n);
     for_each(M.entry.begin(), M.entry.end(),
-	     [n](vector<ExtremeNumber> &x) {
-		 x.resize(n);
+	     [&](vector<ExtremeNumber> &row) {
+		 row.resize(n, e);
 	     });
     M(0, 0) = alpha[1] * z + beta[0];
-    M(0, 1) = alpha[2];
-    M(1, 0) = z;
-    M(1, 1) = 0;
+    for (unsigned i = 1; i < p; i++) {
+	M(0, i) = beta[i];
+    }
+    for (unsigned i = p; i < n; i++) {
+	M(0, i) = alpha[i - p + 2];
+    }
+    for (unsigned i = 1; i < p; i++) {
+	M(i, i - 1) = 1;
+    }
+    if (n > 1) M(p, 0) = z;
+    for (unsigned i = p + 1; i < n; i++) {
+	M(i, i - 1) = 1;
+    }
     return M;
 }
 
-double estimateLambda(const vector<double>& alpha, const vector<double>& beta,
+double estimateLambda(const vector<double>& alpha,
+		      const vector<double>& beta,
 		      double xi,
-		      unsigned long n, unsigned long iterations,
-		      double *bounds)
+		      unsigned long n,
+		      unsigned long iterations,
+		      vector< pair<double, long> > &bounds)
 {
-    double results[iterations];
+    vector<ExtremeNumber> results(iterations);
+#if !defined DEBUG
 #pragma omp parallel for
+#endif
     for (unsigned k = 0; k < iterations; k++) {
 	vector<XMatrix> A(n);
 	for_each(A.begin(), A.end(),
@@ -51,29 +67,45 @@ double estimateLambda(const vector<double>& alpha, const vector<double>& beta,
 	for (unsigned i = 1; i < A.size(); i++) {
 	    P *= A[i];
 	}
-	int power;
+	long power;
+	double m;
 	mat X = P.comptify(&power);
-	double u = (double)A.size();
-	results[k] = (double)power * xi * log(10)/u  + xi/u * log(norm(X));
+	m = norm(X);
+
+	ExtremeNumber a(container_t<double>({(double)power * xi}));
+	ExtremeNumber b(pow(m, xi));
+	results[k] = a * b;
     }
-    sort(results, results + iterations);
+    sort(results.begin(), results.end());
     unsigned i = (unsigned)(iterations * 2.5e-2);
     unsigned j = (unsigned)ceil(iterations * 97.5e-2);
-    bounds[0] = results[i];
-    bounds[1] = results[j];
-    return accumulate(results, results + iterations,
-		      0.0)/(double)iterations;
+    double q = (double)iterations;
+
+    ExtremeNumber mean =
+	accumulate(results.cbegin(), results.cend(),
+		   ExtremeNumber(0.0))/q;
+    bounds.resize(3);
+    
+    bounds[0] = make_pair(
+	results[i].comptify(results[i].leading_power()),
+	results[i].leading_power()
+	);
+    bounds[1] = make_pair(
+	mean.comptify(mean.leading_power()),
+	mean.leading_power()
+	);
+    bounds[2] = make_pair(
+	results[j].comptify(results[j].leading_power()),
+	results[j].leading_power()
+	);
+
+    return log(mean)/q;
+    
 }
 
-int main(int argc, char*argv[])
+void test_cases(void)
 {
-    vector<double> alpha({1.0e-7, stod(argv[3]), 0.01 - 1.0e-3});
-    vector<double> beta({stod(argv[4])});
-    double xi = stod(argv[1]);
-    double Lambda;
-    double bounds[2];
-
-    /* adjust_numbers is good! */
+   /* adjust_numbers is good! */
     // vector<double> V = {
     // 	-14.509109561124117, -13.176534978491997, 0, 15.243856232806506, 15.720977487526168, 30.487712465613011	
     // };
@@ -155,17 +187,32 @@ int main(int argc, char*argv[])
     // M = A * B + C;
     // M += C * A * B;
     // M *= (C^2) + ((A * B)^3);
+}
+
+int main(int argc, char*argv[])
+{
+//    vector<double> alpha({1.0e-7, stod(argv[3]), 1.0e-8});
+    vector<double> alpha({1.0e-7, stod(argv[3])});
+    vector<double> beta({stod(argv[4])});
+    double xi = stod(argv[1]);
+    double Lambda;
+    vector< pair<double, long> > bounds;
+    
+ 
     Lambda = estimateLambda(
-	alpha, beta, xi, stoul(argv[2]), stoul(argv[5]), bounds);
+    	alpha, beta, xi, stoul(argv[2]), stoul(argv[5]), bounds);
 
     cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
-	alpha[1] << ", alpha[2]=" << alpha[2] <<
-	", beta[1]=" << beta[0] << endl;
+    	alpha[1] << ", alpha[2]=" << alpha[2] <<
+    	", beta[1]=" << beta[0] << endl;
     cout << "xi = " << argv[1] << ", n = " << argv[2] << endl;
-    // printf("Obtained matrix 10^(%d) times:\n", power);
-    // X.print();
-    printf("Estimated Lambda(%s) = %.4e (%.4e, %.4e)\n\n",
-	   argv[1], Lambda, bounds[0], bounds[1]);
+    cout << argv[5] << " iterations" << endl;
+    printf("Lambda(%s) = %.4e\n", argv[1], Lambda);
+    printf("lambda(xi)^n = %.4fE%ld (%.4fE%ld, %.4fE%ld)\n\n",
+	   bounds[1].first, bounds[1].second,
+	   bounds[0].first, bounds[0].second,
+	   bounds[2].first, bounds[2].second
+	);
     return 0;
 }
 

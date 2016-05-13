@@ -8,7 +8,7 @@ objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
 objs := $(addprefix $(objdir)/, $(objs))
 
 ifeq ($(debug),1)
-	CFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -Werror -g3 -fopenmp
+	CFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -Werror -g3 -fopenmp -D DEBUG
 else
 	CFLAGS := -std=c++11 -c -Wall -Werror -O3 -fopenmp
 endif

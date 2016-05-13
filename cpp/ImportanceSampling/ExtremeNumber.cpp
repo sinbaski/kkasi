@@ -2,6 +2,7 @@
 #include <climits>
 #include <stdio.h>
 #include "ExtremeNumber.hpp"
+#include <iterator>
 
 using namespace std;
 using namespace arma;
@@ -24,7 +25,7 @@ ExtremeNumber::ExtremeNumber(double x)
 	logs.push_back(log10(x));
 }
 
-ExtremeNumber::ExtremeNumber(const list<double>& logs)
+ExtremeNumber::ExtremeNumber(const container_t<double>& logs)
     : logs(logs)
 {
 }
@@ -34,7 +35,7 @@ ExtremeNumber::ExtremeNumber(const ExtremeNumber& x)
 {
 }
 
-void adjust_numbers(list<double>::iterator p, bool checkall, ExtremeNumber &V)
+void adjust_numbers(container_t<double>::iterator p, bool checkall, ExtremeNumber &V)
 {
     if (V.logs.size() < 2) return;
     auto i = p;
@@ -56,11 +57,11 @@ void adjust_numbers(list<double>::iterator p, bool checkall, ExtremeNumber &V)
     }
 }
 
-void add_to (list<double>::const_iterator i1,
+void add_to (container_t<double>::const_iterator i1,
 	     ExtremeNumber& V)
 {
     long f = bottom(*i1);
-    list<double>::iterator k =
+    container_t<double>::iterator k =
 	upper_bound(V.logs.begin(), V.logs.end(), f,
 		    [](int y, double x){
 			return y < bottom(x);
@@ -80,11 +81,11 @@ void add_to (list<double>::const_iterator i1,
 }
 
 
-ExtremeNumber multiply_to (list<double>::const_iterator i,
+ExtremeNumber multiply_to (container_t<double>::const_iterator i,
 			 const ExtremeNumber& X)
 {
     ExtremeNumber V(X);
-    for (list<double>::iterator j = V.logs.begin();
+    for (container_t<double>::iterator j = V.logs.begin();
 	 distance(j, V.logs.end()); j++) {
 	*j += *i;
     }
@@ -95,7 +96,7 @@ ExtremeNumber multiply_to (list<double>::const_iterator i,
 const ExtremeNumber& ExtremeNumber::erase_small(void)
 {
     long f = bottom(*logs.rbegin()) - 20;
-    list<double>::iterator k =
+    container_t<double>::iterator k =
 	upper_bound(logs.begin(), logs.end(), f,
 		    [](int b, double x) {
 			return b < bottom(x);
@@ -141,6 +142,11 @@ const ExtremeNumber& ExtremeNumber::operator *= (double y)
     return *this;
 }
 
+const ExtremeNumber& ExtremeNumber::operator /= (double y)
+{
+    return operator *= (1/y);
+}
+
 ExtremeNumber operator * (const ExtremeNumber& x, double y)
 {
     assert(y >= 0);
@@ -149,12 +155,17 @@ ExtremeNumber operator * (const ExtremeNumber& x, double y)
     z *= y;
     return z;
 }
+
+ExtremeNumber operator / (const ExtremeNumber& x, double y)
+{
+    return x * (1/y);
+}
     
 ExtremeNumber operator * (const ExtremeNumber& x, const ExtremeNumber& y)
 {
     if (x.logs.empty() || y.logs.empty()) return ExtremeNumber();
     ExtremeNumber z;
-    for (list<double>::const_iterator i = y.logs.begin();
+    for (container_t<double>::const_iterator i = y.logs.begin();
 	 distance(i, y.logs.end()); i++) {
 	z += multiply_to(i, x);
     }
@@ -175,7 +186,7 @@ const ExtremeNumber& ExtremeNumber::operator *= (const ExtremeNumber& y)
 
 const ExtremeNumber& ExtremeNumber::operator += (const ExtremeNumber& y)
 {
-    for (list<double>::const_iterator i = y.logs.begin();
+    for (container_t<double>::const_iterator i = y.logs.begin();
 	 distance(i, y.logs.end()); i++) {
 	add_to(i, *this);
     }
@@ -206,7 +217,23 @@ ExtremeNumber operator + (const ExtremeNumber& x, double y)
     return z;
 }
 
-double ExtremeNumber::comptify(int power)
+bool ExtremeNumber::operator < (const ExtremeNumber& x) const
+{
+    auto i = logs.crbegin(), j = x.logs.crbegin();
+    while (distance(i, logs.crend()) && distance(j, x.logs.crend())) {
+	if (*i < *j) return true;
+	if (*i > *j) return false;
+	i++, j++;
+    }
+    return distance(j, x.logs.crend());
+}
+
+long ExtremeNumber::leading_power(void) const
+{
+    return bottom(*logs.crbegin());
+}
+    
+double ExtremeNumber::comptify(long power) const
 {
      return
 	accumulate(logs.begin(), logs.end(), 0.0,
@@ -215,11 +242,40 @@ double ExtremeNumber::comptify(int power)
 		   });
 }
 
-int ExtremeNumber::leading_power(void)
+double ExtremeNumber::comptify(void) const
 {
-    return bottom(*logs.rbegin());
+    return comptify(0);
 }
-    
+
+double log10(const ExtremeNumber& x)
+{
+    long p = x.leading_power();
+    double y = x.comptify(p);
+    return p + log10(y);
+}
+
+double log(const ExtremeNumber& x)
+{
+    return log(10) * log10(x);
+}
+
+ExtremeNumber ExtremeNumber::operator ^ (unsigned long n) const
+{
+    ExtremeNumber X(*this);
+    for (unsigned i = 0; i < n; i++) {
+	X *= *this;
+    }
+    return X;
+}
+
+double ExtremeNumber::nth_root (unsigned long n) const
+{
+    long p = leading_power();
+    long q = (double)n;
+    double x = comptify(p);
+    return pow(x, 1/q) * pow(10, p/q);
+}
+
 XMatrix::XMatrix(void)
     :entry()
 {
@@ -250,7 +306,7 @@ XMatrix::XMatrix(const XMatrix& M)
     operator= (M);
 }
 
-ExtremeNumber& XMatrix::operator() (unsigned i, unsigned j)
+ExtremeNumber& XMatrix::operator () (unsigned i, unsigned j)
 {
     assert(entry.size() > i);
     for_each(entry.begin(), entry.end(),
@@ -279,7 +335,9 @@ XMatrix operator * (const XMatrix& X, const XMatrix& Y)
 
     XMatrix Z(X.entry.size(), Y.entry[0].size());
 
+#if !defined DEBUG
 #pragma omp parallel for
+#endif
     for (unsigned i = 0; i < Z.entry.size(); i++) {
 	for (unsigned j = 0; j < Z.entry[0].size(); j++) {
 	    Z.entry[i][j] = 0;
@@ -304,7 +362,9 @@ const XMatrix& XMatrix::operator += (const XMatrix& Y)
     assert(entry.size() == Y.entry.size());
     assert(entry[0].size() == Y.entry[0].size());
 
+#if !defined DEBUG
 #pragma omp parallel for
+#endif
     for (unsigned i = 0; i < entry.size(); i++) {
 	for (unsigned j = 0; j < entry[0].size(); j++) {
 	    entry[i][j] += Y.entry[i][j];
@@ -351,7 +411,7 @@ XMatrix XMatrix::operator ~ (void)
     return X;
 }
 
-mat XMatrix::comptify(int *power)
+mat XMatrix::comptify(long *power)
 {
     *power = INT_MAX;
     for (unsigned i = 0; i < entry.size(); i++) {
