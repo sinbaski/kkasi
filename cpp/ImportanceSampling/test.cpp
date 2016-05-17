@@ -1,10 +1,12 @@
+#include <stdio.h>
 #include <time.h>
 #include <cmath>
 #include <algorithm>
-// #include <armadillo>
+#include <armadillo>
 #include <iostream>
 #include <random>
-#include "ExtremeNumber.hpp"
+#include "ExtremeNumber2.hpp"
+#include "XMatrix.hpp"
 
 using namespace std;
 using namespace arma;
@@ -72,35 +74,36 @@ double estimateLambda(const vector<double>& alpha,
 	mat X = P.comptify(&power);
 	m = norm(X);
 
-	ExtremeNumber a(container_t<double>({(double)power * xi}));
-	ExtremeNumber b(pow(m, xi));
-	results[k] = a * b;
+	results[k] = ExtremeNumber(m);
+	results[k] ^= xi;
+	results[k].mylog += power * xi;
     }
-    sort(results.begin(), results.end());
-    unsigned i = (unsigned)(iterations * 2.5e-2);
-    unsigned j = (unsigned)ceil(iterations * 97.5e-2);
+
+    // sort(results.begin(), results.end());
+    // unsigned i = (unsigned)(iterations * 2.5e-2);
+    // unsigned j = (unsigned)ceil(iterations * 97.5e-2);
     double q = (double)iterations;
-
     ExtremeNumber mean =
-	accumulate(results.cbegin(), results.cend(),
-		   ExtremeNumber(0.0))/q;
-    bounds.resize(3);
+    	accumulate(results.cbegin(), results.cend(),
+    		   ExtremeNumber(0.0))/q;
+    // bounds.resize(3);
     
-    bounds[0] = make_pair(
-	results[i].comptify(results[i].leading_power()),
-	results[i].leading_power()
-	);
-    bounds[1] = make_pair(
-	mean.comptify(mean.leading_power()),
-	mean.leading_power()
-	);
-    bounds[2] = make_pair(
-	results[j].comptify(results[j].leading_power()),
-	results[j].leading_power()
-	);
-
+    // bounds[0] = make_pair(
+    // 	results[i](),
+    // 	results[i].power()
+    // 	);
+    // bounds[1] = make_pair(
+    // 	mean(),
+    // 	mean.power()
+    // 	);
+    // bounds[2] = make_pair(
+    // 	results[j](),
+    // 	results[j].power()
+    // 	);
+    for (unsigned i = 0; i < results.size(); i++) {
+	printf("% e\n", results[i].mylog);
+    }
     return log(mean)/q;
-    
 }
 
 void test_cases(void)
@@ -191,8 +194,8 @@ void test_cases(void)
 
 int main(int argc, char*argv[])
 {
-//    vector<double> alpha({1.0e-7, stod(argv[3]), 1.0e-8});
-    vector<double> alpha({1.0e-7, stod(argv[3])});
+    vector<double> alpha({1.0e-7, stod(argv[3]), 1.0e-8});
+    // vector<double> alpha({1.0e-7, stod(argv[3])});
     vector<double> beta({stod(argv[4])});
     double xi = stod(argv[1]);
     double Lambda;
@@ -202,18 +205,18 @@ int main(int argc, char*argv[])
     Lambda = estimateLambda(
     	alpha, beta, xi, stoul(argv[2]), stoul(argv[5]), bounds);
 
-    cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
-    	alpha[1] << ", alpha[2]=" << alpha[2] <<
-    	", beta[1]=" << beta[0] << endl;
-    cout << "xi = " << argv[1] << ", n = " << argv[2] << endl;
-    cout << argv[5] << " iterations" << endl;
-    printf("Lambda(%s) = %.4e\n", argv[1], Lambda);
-    printf("lambda(xi)^n = %.4fE%ld (%.4fE%ld, %.4fE%ld)\n\n",
-	   bounds[1].first, bounds[1].second,
-	   bounds[0].first, bounds[0].second,
-	   bounds[2].first, bounds[2].second
-	);
-    return 0;
+    // cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
+    // 	alpha[1] << ", alpha[2]=" << alpha[2] <<
+    // 	", beta[1]=" << beta[0] << endl;
+    // cout << "xi = " << argv[1] << ", n = " << argv[2] << endl;
+    // cout << argv[5] << " iterations" << endl;
+    // printf("Lambda(%s) = %.4e\n", argv[1], Lambda);
+    // printf("lambda(xi)^n = %.4fE%ld (%.4fE%ld, %.4fE%ld)\n\n",
+    // 	   bounds[1].first, bounds[1].second,
+    // 	   bounds[0].first, bounds[0].second,
+    // 	   bounds[2].first, bounds[2].second
+    // 	);
+    return Lambda > 0;
 }
 
 /**
