@@ -5,7 +5,16 @@ rm(list=ls())
 ##     cat(sprintf("% 2.2f    % 6.4f    %6.4f\n", alpha, mean(X), sd(X)));
 ## }
 
-X <- read.table("inf_norms_n300_pow2.txt")$V1;
+data <- read.table("garch21.dat", skip=3, comment.char=c('#'));
+pdf("/tmp/GARCH21.pdf")
+plot(data$V1, data$V2, type="l", xlab=expression(alpha),
+     ylab=expression(Lambda(alpha)),
+     main=expression(
+         sigma[t+1]^2 == 10^{-7} + 0.11*R[t]^2
+         +10^{-8}*R[t-1]^2 + 0.88*sigma[t]^2
+     ));
+grid();
+dev.off();
 ## X <- read.table("Lambda_2.0.txt")$V1;
 ## Y <- read.table("Lambda_1.5.txt")$V1;
 ## h <- shapiro.test(X);
