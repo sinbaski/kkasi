@@ -96,7 +96,7 @@ const ExtremeNumber& ExtremeNumber::operator += (const ExtremeNumber& y)
 	return *this;
     }
     if (sign == y.sign) {
-	double f = min(floor(mylog), floor(y.mylog));
+	double f = max(floor(mylog), floor(y.mylog));
 	mylog = log10(pow(10, mylog - f) + pow(10, y.mylog - f)) + f;
 	return *this;
     }
