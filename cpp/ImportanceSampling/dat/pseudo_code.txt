@@ -1,0 +1,26 @@
+function estimateLambda (xi)
+{
+	Let R be an array of size k;
+	for l in 1 to k; do
+		Generate n random matrices A[1], A[2], ... A[n];
+
+		Let matrix P = A[1] * A[2] * ... * A[n];
+
+		Write each element of P, i.e. P[i, j] = 10^(p[i, j]) * m[i, j];
+
+		Let f = min{p[i, j], i = 1,...,d, j = 1, ..., d};
+
+		Write P as 10^f * Q, where Q[i, j] = m[i, j] * 10^(p[i, j] - f)
+
+		R[l] = log10(norm(Q)) * xi + f * xi;
+	done
+
+	Let g = max{R[i], i = 1, ..., k};
+
+	Let avg = (1/k) * sum(10^(R[i] - g), i = 1, 2, ..., k);
+	
+	return (log(avg) + log(10) * g)/n;
+}
+
+
+
