@@ -1163,7 +1163,130 @@ Now, to prove \eqref{eq:drift}, consider
     \end{enumerate}
 \end{proof}
 
+\section{Examples}
+\subsection{GARCH(2, 1)}
+Here we consider the GARCH(2, 1) model described by
+\begin{eqnarray*}
+  \begin{pmatrix}
+    \sigma_{t+1}^2 \\
+    R_t^2 \\
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    \alpha_1 z_t^2 + \beta_1 & \alpha_2 \\
+    z_t^2 & 0 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    \sigma_t^2 \\
+    R_{t-1}^2 \\
+  \end{pmatrix}
+\end{eqnarray*}
 
+We show that the Markov chain $(\sigma_{t+1}^2, R_t^2)$ satisfies a
+minorization condition for a set $C = [a, b] \times [c, d]$ where
+$a,b,c,d > 0$, and $\forall (x_0, y_0) \in C$
+\begin{eqnarray}
+  && P[(x_0, y_0), I_1 \times I_2] \nonumber \\
+  &=& \P \left[
+      (\sigma_{t+1}^2, R_t^2) \in I_1 \times I_2 |
+      (\sigma_{t}^2, R_{t-1}^2) = (x_0, y_0)
+      \right] \nonumber \\
+  &\geq& \delta' \I_{C}(x_0, y_0) \nu(I_1 \times I_2) \label{eq:Minor}
+\end{eqnarray}
+where $\delta'$ is a constant and $\nu(\cdot)$ is a measure satsifying
+$\nu(C) = 1$.
+\begin{proof}
+  First observe
+  \begin{eqnarray*}
+    && P[(x_0, y_0), I_1 \times I_2] \\
+    &=& \int_{I_1} \int_{I_2}
+        \delta \left[
+        \alpha_1 x + \beta_1 x_0 + \alpha_2 y_0 - y
+        \right]
+        f_{x_0 Z^2}(x) dx dy
+  \end{eqnarray*}
+  where $\delta(\cdot)$ is the Dirac-$\delta$ function.
+  Simplifying the above equation gives
+  \begin{eqnarray*}
+    && P[(x_0, y_0), I_1 \times I_2] \\
+    &=& \int_{I_1/x_0} \I_{I_2}(\alpha_1 x_0 z^2 + \beta_1 x_0 +
+        \alpha_2 y_0) f_Z^2 (z^2) dz^2
+  \end{eqnarray*}
+  Define mapping
+  \begin{equation*}
+    g(s, x, y): s \rightarrow {s \over \alpha_1 x}
+    - \left(
+      {\alpha_2 \over \alpha_1} {y \over x} + {\beta_1 \over \alpha_1}
+    \right)
+  \end{equation*}
+  for $s \in (\alpha_2 y + \beta_1 x, \infty)$ and $x, y
+  \in \mathbb R_+$. Then we may write
+  \begin{eqnarray*}
+    && P[(x_0, y_0), I_1 \times I_2] \\
+    &=& \int_{I_1 / x_0 \cap g(I_2, x_0, y_0)} f_{Z^2}(z^2) dz^2
+  \end{eqnarray*}
+  Define a subset $h(I_2)$ of $I_2$:
+  \[
+  h(I_2) = I_2 \cap (\alpha_2 d, \infty)
+  \]
+  Note if $h(I_2) \neq \emptyset$ then $\forall s \in h(I_2)$ and $\forall
+  y \in [c, d]$
+  \begin{equation}
+    \label{eq:der_g}
+    \pd{g(s, x, y)}{x} < 0    
+  \end{equation}
+  So we have
+  \begin{eqnarray*}
+    && P[(x_0, y_0), I_1 \times I_2] \\
+    &\geq& \int_{I_1/x_0 \cap g(h(I_2), x_0, y_0)} f_{Z^2}(z^2) dz^2
+  \end{eqnarray*}
+  Since $Z^2 \sim \chi^2(1)$, $f_{Z^2}(z^2)$ is monotonically
+  decreasing. Meanwhile, $\# g(h(I_2), x_0, y_0)$, the Lebesgue measure
+  of $g(h(I_2), x_0, y_0)$ is the smallest when $x_0$ is the
+  largest possible, i.e. $b$. Furthermore, \eqref{eq:der_g} shows
+  \[
+  \arg \max_{x \in [a, b]} g(s, x, y) = a
+  \]
+  Hence
+  \begin{eqnarray*}
+    && \int_{I_1/x_0 \cap g(h(I_2), x_0, y_0)} f_{Z^2}(z^2) dz^2 \\
+    &\geq& \int_{J(I_1, I_2)} f_{Z^2}(z^2) dz^2           
+  \end{eqnarray*}
+  where $J(I_1, I_2) := \emptyset$ if $I_1 = \emptyset$ or $h(I_2) =
+  \emptyset$; otherwise
+  \begin{eqnarray*}
+  && J(I_1, I_2) \\
+  &:=& [\max I_1/a - \# I_1/b, \max I_1/a]
+      \cap \\
+  && [g(\max h(I_2), a, c) - \# h(I_2) /\alpha_1 b, g(\max h(I_2), a, c)]
+  \end{eqnarray*}
+  Clearly
+  \begin{eqnarray*}
+    && \int_{J(I_1, I_2)} f_{Z^2}(z^2) dz^2               \\
+    &\geq& \int_{J(I_1, I_2) \cap J([a, b], [c, d])} f_{Z^2}(z^2)
+           dz^2 \\
+    &\geq& f_{Z^2}(\max J([a, b], [c, d])) \# J([a, b], [c, d])
+           {
+           \# \left(
+           J(I_1, I_2) \cap J([a, b], [c, d])
+           \right)
+           \over
+           \# J([a, b], [c, d])
+           }
+  \end{eqnarray*}
+  Thus \eqref{eq:Minor} is satisfied with
+  \begin{eqnarray*}
+    \delta' &=& f_{Z^2}(\max J([a, b], [c, d])) \# J([a, b], [c, d])
+    \\
+    \nu(I_1 \times I_2) &=& {
+           \# \left(
+           J(I_1, I_2) \cap J([a, b], [c, d])
+           \right)
+           \over
+           \# J([a, b], [c, d])
+           }
+  \end{eqnarray*}
+\end{proof}
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document}
