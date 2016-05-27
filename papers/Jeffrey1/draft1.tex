@@ -1241,7 +1241,7 @@ $\nu(C) = 1$.
     &\geq& \int_{I_1/x_0 \cap g(h(I_2), x_0, y_0)} f_{Z^2}(z^2) dz^2
   \end{eqnarray*}
   Since $Z^2 \sim \chi^2(1)$, $f_{Z^2}(z^2)$ is monotonically
-  decreasing. Meanwhile, $\# g(h(I_2), x_0, y_0)$, the Lebesgue measure
+  decreasing. Meanwhile, $\L g(h(I_2), x_0, y_0)$, the Lebesgue measure
   of $g(h(I_2), x_0, y_0)$ is the smallest when $x_0$ is the
   largest possible, i.e. $b$. Furthermore, \eqref{eq:der_g} shows
   \[
@@ -1256,37 +1256,103 @@ $\nu(C) = 1$.
   \emptyset$; otherwise
   \begin{eqnarray*}
   && J(I_1, I_2) \\
-  &:=& [\max I_1/a - \# I_1/b, \max I_1/a]
+  &:=& [\max I_1/a - \L I_1/b, \max I_1/a]
       \cap \\
-  && [g(\max h(I_2), a, c) - \# h(I_2) /\alpha_1 b, g(\max h(I_2), a, c)]
+  && [g(\max h(I_2), a, c) - \L h(I_2) /\alpha_1 b, g(\max h(I_2), a, c)]
   \end{eqnarray*}
   Clearly
   \begin{eqnarray*}
     && \int_{J(I_1, I_2)} f_{Z^2}(z^2) dz^2               \\
     &\geq& \int_{J(I_1, I_2) \cap J([a, b], [c, d])} f_{Z^2}(z^2)
            dz^2 \\
-    &\geq& f_{Z^2}(\max J([a, b], [c, d])) \# J([a, b], [c, d])
+    &\geq& f_{Z^2}(\max J([a, b], [c, d])) \L J([a, b], [c, d])
            {
-           \# \left(
+           \L \left(
            J(I_1, I_2) \cap J([a, b], [c, d])
            \right)
            \over
-           \# J([a, b], [c, d])
+           \L J([a, b], [c, d])
            }
   \end{eqnarray*}
   Thus \eqref{eq:Minor} is satisfied with
-  \begin{eqnarray*}
-    \delta' &=& f_{Z^2}(\max J([a, b], [c, d])) \# J([a, b], [c, d])
-    \\
-    \nu(I_1 \times I_2) &=& {
-           \# \left(
-           J(I_1, I_2) \cap J([a, b], [c, d])
-           \right)
-           \over
-           \# J([a, b], [c, d])
-           }
-  \end{eqnarray*}
+  \begin{eqnarray}
+    \delta'
+    &=&
+    f_{Z^2}(\max J([a, b], [c, d])) \L J([a, b], [c, d]) \label{eq:regen_prob}\\
+    \nu(I_1 \times I_2)
+    &=& {
+      \L \left(
+        J(I_1, I_2) \cap J([a, b], [c, d])
+      \right)
+      \over
+      \L J([a, b], [c, d])
+    } \nonumber
+  \end{eqnarray}
 \end{proof}
+From \eqref{eq:regen_prob} it immediately follows that $\delta'$ is
+maximized by $J([a, b], [c ,d])$ satisfying
+\begin{eqnarray}
+  x_\M &=& {
+    1 + x_\m + \sqrt{x_\m^2 + 6 x_\m + 1}
+    \over
+    2
+  } \label{eq:maximizing_cond}
+\end{eqnarray}
+where 
+\begin{eqnarray*}
+  x_\M &=& \max J([a, b], [c ,d]) \\
+  x_\m &=& \min J([a, b], [c ,d])
+\end{eqnarray*}
+Since
+\[
+J([a. b], [c, d]) =
+\left[
+  {b \over a} + {a \over b} - 1, {b \over a}
+\right] \bigcap \left[
+  {d - \alpha_2 c \over \alpha_1 a} - {\beta_1 \over \alpha_1} -
+  {d \over \alpha_1 b} + {\alpha_2 d \wedge c \over \alpha_1 b},
+  {d - \alpha_2 c \over \alpha_1 a} - {\beta_1 \over \alpha_1}  
+\right]
+\]
+One way to choose $a, b, c, d$ so as to maximize $\delta'$ is to first
+choose $c = 0$ and then choose $a, b$ so that
+\eqref{eq:maximizing_cond} is satisfied by $b/a + a/b - 1$ and $b/a$
+as $x_\m$ and $x_\M$ respectively. Finally choose
+\[
+  \alpha_1 b + \beta_1 a
+  \leq
+  d
+  \leq
+  \alpha_1 {
+    a^2 - ab + b^2
+    \over
+    b - a
+  } +
+  \beta_1 {
+    ab \over b - a
+  }
+\]
+It is easily verified that the above interval for $d$ has length
+${a^2 \over b - a} (\alpha_1 + \beta_1) > 0$. With such choices
+\[
+J([a. b], [c, d]) =
+\left[
+  {b \over a} + {a \over b} - 1, {b \over a}
+\right]
+\]
+If $b/a$ is chosen to be the root of
+\[
+x^4 - 9x^2 + 6x - 6 = 0
+\]
+in the interval $(1, \infty)$, $b/a + a/b - 1$ and $b/a$ satisfy
+\eqref{eq:maximizing_cond}. Figure \ref{fig:A} shows the function
+$f(x) = x^4 - 9x^2 + 6x - 6$ in $(1, \infty)$.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4]{argmax_b_over_a.pdf}
+  \caption{Graph of $f(x) = x^4 - 9x^2 + 6x - 6$}
+  \label{fig:A}
+\end{figure}
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document}
