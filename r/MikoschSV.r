@@ -27,7 +27,7 @@ currencies <- c(
 
     "NZD_SEK_Rates",
     ## "PLN_SEK_Rates",
-    "SAR_SEK_Rates",
+    ## "SAR_SEK_Rates",
 
     "SGD_SEK_Rates",
     ## "THB_SEK_Rates",
@@ -74,7 +74,7 @@ names <- c(
     "NOK",
 
     "NZD",
-    "SAR",
+    ## "SAR",
     "SGD",
     "USD"
     );

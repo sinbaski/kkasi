@@ -68,7 +68,10 @@ getInterpolatedReturns <- function(day1, day2, assetSet) {
     suffix <- "";
     if (assetSet == "SP500_components") {
         suffix <- "_US";
+    } else if (assetSet == "DAX_components") {
+        suffix <- "_DE";
     }
+
 
     results <- dbSendQuery(
         database,
@@ -259,4 +262,8 @@ dekkersEinmahldeHaan <- function(X, prob=0.97) {
     H2 <- mean((Y - log(q))^2);
     result <- 1 + H1 + 1/2/(H1^2/H2 - 1);
     return(1/result);
+}
+
+garchTailIndex <- function(coef) {
+    
 }
