@@ -49,10 +49,9 @@ double prod_tail_fun(double xi, void *param)
     const double *B = pack->B;
     const double (*pool)[SAMPLE_SIZE] = pack->pool;
     double r = 0;
-#ifndef DEBUG
 #pragma omp parallel for    
-#endif
     for (int i = 0; i < SAMPLE_SIZE; i++) {
+	#pragma omp atomic
 	r += pow(
 	    (A[0] * pow(pool[0][i], 2) + A[1])*
 	    (B[0] * pow(pool[1][i], 2) + B[1]),
@@ -76,9 +75,7 @@ double tail_index(double coef[2])
     static bool flag = true;
 
     if (flag) {
-#ifndef DEBUG 
 #pragma omp parallel for
-#endif
 	for (int i = 0; i < SAMPLE_SIZE; i++) {
 	    pool[i] = dist(gen);
 	}
@@ -133,9 +130,7 @@ double prod_tail_index(double coef1[2], double coef2[2], double cov)
 {
     normal_distribution<double> dist;
     double pool[2][SAMPLE_SIZE];
-// #ifndef DEBUG
-// #pragma omp parallel for
-// #endif
+#pragma omp parallel for
     for (int i = 0; i < SAMPLE_SIZE; i++) {
 	pool[0][i] = dist(gen);
 	pool[1][i] = pool[0][i] * sqrt(cov) + sqrt(1 - cov) * dist(gen);
@@ -234,13 +229,26 @@ int main(int argc, char *argv[])
 	{0.455067503601205, 0.695850629017868, 0.95460279437536, 0.299217604005703, 0.552375431152225, 0.549222113475339, 0.725044220915399, 0.995980032523156, 0.0309863915237204, 0.766888496266103, 0.653727301011015, 0.678074331216711, 0.511868452195206, 0.242891575572914, 0.420920439011483, 0.87776751952863, 1}
     };
     array<array<double, d>, d> indices;
-//    pool.set_size(d, SAMPLE_SIZE);
     for (int i = 0; i < d; i++) {
-	indices[i][i] = tail_index(coef[i]);
-	for (int j = i + 1; j < d; j++) {
-	    indices[i][j] = prod_tail_index(coef[i], coef[j], varcov[i][j]);
-	}
+    	for (int j = 0; j <= i; j++) {
+	    if (j == i) {
+		indices[i][i] = tail_index(coef[i]);
+		printf("%-8.3f", indices[i][i]);
+	    } else {
+		indices[i][j] = prod_tail_index(coef[i], coef[j], varcov[i][j]);
+		printf("%-8.3f", indices[i][j]);
+	    }
+    	}
+	printf("\n");
     }
+    // double I[d];
+    // for (int i = 0; i < d; i++) {
+    // 	if (i == 7)
+    // 	    I[i] = tail_index(coef[7]);
+    // 	else
+    // 	    I[i] = prod_tail_index(coef[i], coef[7], varcov[i][7]);
+    // 	printf("% 5.3f\n", I[i]);
+    // }
 
     // for (a = 2; a > 0 && fun(a, coef) > 0; a -= 1);
     // if (a > 0) {
