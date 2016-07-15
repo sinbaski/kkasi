@@ -7,7 +7,7 @@ source("libxxie.r");
 currencies <- c(
     "AUD_SEK_Rates",
     "CAD_SEK_Rates",
-    "CHF_SEK_Rates",
+    ## "CHF_SEK_Rates",
 
     "CNY_SEK_Rates",
     "CZK_SEK_Rates",
@@ -21,7 +21,7 @@ currencies <- c(
     "JPY_SEK_Rates",
     "KRW_SEK_Rates",
 
-    ## "MAD_SEK_Rates",
+    "MAD_SEK_Rates",
     "MXN_SEK_Rates",
     "NOK_SEK_Rates",
 
@@ -41,13 +41,15 @@ ret <- getAssetReturns("2010-01-04", "2016-04-01",
                        "rate", "localhost");
 n <- dim(ret)[1];
 p <- length(currencies);
-tailIndices <- rep(0, choose(p,2));
+## tailIndices <- rep(0, choose(p,2));
+tailIndices <- matrix(NA, p, p);
 
 for (i in 1:p) {
-    for (j in i:p) {
+    for (j in 1:i) {
         X <- ret[,i] * ret[,j];
-        tailIndices[(j-1)*j/2 + i] <- hillEstimate(X, prob=0.97);
-##        tailIndices[j,i] <- tailIndices[i,j];
+        a <- hillEstimate(X, prob=0.97);
+        # tailIndices[(j-1)*j/2 + i] <- a;
+        tailIndices[i, j] <- a;
     }
 }
 

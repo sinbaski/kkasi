@@ -69,40 +69,55 @@ X <- getAssetReturns("2010-01-04", "2016-04-01", currencies, 1,
 n <- dim(X)[1];
 p <- dim(X)[2];
 
-## res <- matrix(NA, nrow=n-1, ncol=p);
+# res <- matrix(NA, nrow=n-1, ncol=p);
 res <- matrix(NA, nrow=n, ncol=p);
 coef <- matrix(NA, nrow=p, ncol=3);
-tail.index <- rep(NA, p);
 for (i in 1:p) {
     ## M <- garch(x=X[, i], order=c(1, 1), trace=FALSE);
-    M <- garchFit(~garch(1,1), data=X[, i], trace=FALSE);
     ## coef[i, ] <- M$coef;
-    coef[i, ] <- M@fit$params$params[c(2,3,5)];
-    print(c(names[i], coef[i, 2:3]));
     ## res[, i] <- tail(M$residuals, -1);
+
+    M <- garchFit(~garch(1,1), data=X[, i], trace=FALSE);
+    coef[i, ] <- M@fit$params$params[c(2,3,5)];
     res[, i] <- M@residuals;
+    
+    ## M <- estimGARCH(0, 0.01, 0, X[, i]);
+    ## coef[i, ] <- M$coef;
+    ## res[, i] <- M$residus;
+    ## print(c(names[i], coef[i, 2:3]));
 }
 
 ## C <- cov(res);
 C <- cor(res);
 ## diag(C) <- 1;
 write.table(x=cor(res), file="/tmp/cor.txt", row.names=FALSE, col.names=FALSE);
-Y <- matrix(NA, nrow=n, ncol=p);
-sig2 <- matrix(NA, nrow=n, ncol=p);
+Y <- matrix(NA, nrow=10*n, ncol=p);
+sig2 <- matrix(NA, nrow=dim(Y)[1], ncol=p);
 # set the initial values
 for (i in 1:p) {
     sig2[1, i] <- coef[i, 1]/(1 - coef[i, 3]);
 }
-for (i in 1:n) {
+for (i in 1:dim(Y)[1]) {
     eta <- mvrnorm(n=1, mu=rep(0, p), Sigma=C);
     Y[i, ] <- eta * sqrt(sig2[i,]);
-    if (i < n)
+    if (i < dim(Y)[1])
         sig2[i+1, ] <- coef[, 2] * Y[i, ]^2 + coef[, 3] * sig2[i, ] + coef[, 1];
 }
 
 ## pdf("/tmp/FX_real_n_simulated_eigenvalues.pdf", width=14, height=14);
-E <- eigen(cov(X - mean(X)));
-D <- eigen(cov(Y - mean(Y)));
+M <- apply(X, MARGIN=2, FUN=mean);
+Q <- apply(X, MARGIN=2, quantile, 1-1/n);
+data <- X - matrix(rep(M, n), nrow=n, ncol=p, byrow=TRUE);
+C <- (t(data) %*% data)/max(Q)^2;
+#E <- eigen(cov(X - mean(X)));
+E <- eigen(C);
+
+M <- apply(Y, MARGIN=2, FUN=mean);
+Q <- apply(Y, MARGIN=2, quantile, 1-1/dim(Y)[1]);
+data <- Y - matrix(rep(M, dim(Y)[1]), nrow=dim(Y)[1], ncol=p, byrow=TRUE);
+C <- (t(data) %*% data)/max(Q)^2;
+D <- eigen(C);
+
 plot(1:p, (E$values)/sum(E$values),
      main=expression(lambda[(i)]/trace),
      ylim=c(0, 0.8),
@@ -132,7 +147,7 @@ for (i in 1:p) {
          xaxt="n");
     axis(side=1, at=1:p, labels=names, las=2);
     
-    if (i != 2) {
+    if (!(i %in% c(2, 6, 8))) {
         V <- D$vectors[, i];
         k <- which.max(abs(V));
         V <- V * sign(V[k]);

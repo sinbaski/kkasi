@@ -45,6 +45,7 @@ estimGARCH<- function(omega,alpha,beta,eps,petit=sqrt(.Machine$double.eps),r0=10
   var<-VarAsymp(omega,alpha,beta,eps,sig2init,petit=sqrt(.Machine$double.eps),r0=10)
   list(coef=c(omega,alpha,beta),residus=var$residus,var=var$var)
 }
+
 omega.init<- 0
 alpha.init<-0.01
 beta.init<- 0
