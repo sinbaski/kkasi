@@ -242,6 +242,23 @@ hillEstimate <- function(X, prob=0.97) {
     }
 }
 
+hillPlot <- function(X, prob=0.95, view=c(0.5, 10))
+{
+    T <- sort(X);
+    l <- length(T);
+    m <- floor(l * (1 - prob));
+    V <- (l-m):(l-1);
+    W <- rep(NA, length(V));
+    for (i in V) {
+        W[i-l+m+1] <- 1/mean(log(T[i:l]/T[i]));
+    }
+    K <- rev(l-V);
+    alpha <- rev(W);
+    plot(K, alpha, type="l", ylim=view);
+    grid();
+    return (list(K=rev(l-V), alpha=rev(W)));
+}
+
 pikandsEstimate <- function(X, prob=0.97) {
     q <- quantile(X, prob);
     Y <- sort(X, decreasing=TRUE);

@@ -47,11 +47,15 @@ tailIndices <- matrix(NA, p, p);
 for (i in 1:p) {
     for (j in 1:i) {
         X <- ret[,i] * ret[,j];
-        a <- hillEstimate(X, prob=0.97);
+        a <- hillEstimate(X, prob=0.95);
         # tailIndices[(j-1)*j/2 + i] <- a;
         tailIndices[i, j] <- a;
     }
 }
+write.table(format(tailIndices, digits=2),
+            quote=FALSE, sep="  ",
+            row.names=FALSE, col.names=FALSE,
+            file="/tmp/Hill_FX.txt");
 
 ## filled.contour(x=1:p, y=1:p, z=tailIndices, axes = TRUE);
 names <- c(

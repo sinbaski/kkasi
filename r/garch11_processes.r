@@ -91,7 +91,7 @@ for (i in 1:p) {
 C <- cor(res);
 ## diag(C) <- 1;
 write.table(x=cor(res), file="/tmp/cor.txt", row.names=FALSE, col.names=FALSE);
-Y <- matrix(NA, nrow=10*n, ncol=p);
+Y <- matrix(NA, nrow=100*n, ncol=p);
 sig2 <- matrix(NA, nrow=dim(Y)[1], ncol=p);
 # set the initial values
 for (i in 1:p) {
@@ -103,6 +103,22 @@ for (i in 1:dim(Y)[1]) {
     if (i < dim(Y)[1])
         sig2[i+1, ] <- coef[, 2] * Y[i, ]^2 + coef[, 3] * sig2[i, ] + coef[, 1];
 }
+
+## Compute Hill Estimators
+tailIndices <- matrix(NA, p, p);
+for (i in 1:p) {
+    for (j in 1:i) {
+        T <- Y[,i] * Y[,j];
+        a <- hillEstimate(T, prob=0.95);
+        # tailIndices[(j-1)*j/2 + i] <- a;
+        tailIndices[i, j] <- a;
+    }
+}
+
+write.table(format(tailIndices, digits=2),
+            quote=FALSE, sep="  ",
+            row.names=FALSE, col.names=FALSE,
+            file="/tmp/Hill_Simulated.txt");
 
 ## pdf("/tmp/FX_real_n_simulated_eigenvalues.pdf", width=14, height=14);
 M <- apply(X, MARGIN=2, FUN=mean);
