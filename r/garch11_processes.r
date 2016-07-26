@@ -109,7 +109,7 @@ tailIndices <- matrix(NA, p, p);
 for (i in 1:p) {
     for (j in 1:i) {
         T <- Y[,i] * Y[,j];
-        a <- hillEstimate(T, prob=0.95);
+        a <- hillEstimate(T, prob=0.97);
         # tailIndices[(j-1)*j/2 + i] <- a;
         tailIndices[i, j] <- a;
     }
@@ -122,16 +122,16 @@ write.table(format(tailIndices, digits=2),
 
 ## pdf("/tmp/FX_real_n_simulated_eigenvalues.pdf", width=14, height=14);
 M <- apply(X, MARGIN=2, FUN=mean);
-Q <- apply(X, MARGIN=2, quantile, 1-1/n);
+QX <- apply(X, MARGIN=2, quantile, 1-1/n);
 data <- X - matrix(rep(M, n), nrow=n, ncol=p, byrow=TRUE);
-C <- (t(data) %*% data)/max(Q)^2;
+CX <- (t(data) %*% data)/n;
 #E <- eigen(cov(X - mean(X)));
-E <- eigen(C);
+E <- eigen(CX);
 
 M <- apply(Y, MARGIN=2, FUN=mean);
-Q <- apply(Y, MARGIN=2, quantile, 1-1/dim(Y)[1]);
+QY <- apply(Y, MARGIN=2, quantile, 1-1/dim(Y)[1]);
 data <- Y - matrix(rep(M, dim(Y)[1]), nrow=dim(Y)[1], ncol=p, byrow=TRUE);
-C <- (t(data) %*% data)/max(Q)^2;
+CY <- (t(data) %*% data)/dim(Y)[1];
 D <- eigen(C);
 
 plot(1:p, (E$values)/sum(E$values),
