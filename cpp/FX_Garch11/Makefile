@@ -1,6 +1,6 @@
 CC := g++
-CFLAGS := -c -g3 -Wall -std=c++11
-LDFLAGS := -lgsl -lgslcblas -lm
+CFLAGS := -c -g3 -Wall -std=c++11 -fopenmp
+LDFLAGS := -lgsl -lgslcblas -lm -fopenmp
 
 src := find_garch11_tail.cpp
 obj := $(patsubst %.cpp, %.o, $(src))

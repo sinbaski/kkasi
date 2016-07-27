@@ -324,6 +324,7 @@ int main(int argc, char *argv[])
 
     const int d = sizeof(coef)/sizeof(coef[0]);
     array<array<double, d>, d> indices;
+//#pragma omp parallel for
     for (int i = 0; i < d; i++) {
     	for (int j = 0; j <= i; j++) {
 	    if (j == i) {
