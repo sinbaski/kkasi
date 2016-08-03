@@ -12,41 +12,35 @@ garch21::F_Set::F_Set(garch21 *markov)
     this->markov = markov;
 }
 
-void garch21::F_Set::initialize(double b, double rho)
-{
-    this->b = b;
-    this->rho = rho;
-}
+// garch21::C_transition_kernel::C_transition_kernel(array<double, 4> params, garch21* markov)
+//     :params(params), Hdist(params), markov(markov)
+// {
+// }
 
-garch21::C_transition_kernel::C_transition_kernel(array<double, 4> params, garch21* markov)
-    :params(params), Hdist(params), markov(markov)
-{
-}
+// array<double, 2> garch21::C_transition_kernel::draw(double x0)
+// {
+//     assert(x0 > 0 && x0 < 1);    
+//     return array<double, 2>();
+// }
 
-array<double, 2> garch21::C_transition_kernel::draw(double x0)
-{
-    assert(x0 > 0 && x0 < 1);    
-    return array<double, 2>();
-}
+// bool garch21::C_transition_kernel::check_K(array<double, 2> arg, double x0)
+// {
+//     bool cond = arg[1] > pow(b1, 2);
+//     cond = cond && arg[0] > (a1 + pow(b1, 2)/arg[1]) / (1 + a1);
+//     cond = cond && arg[0] < 1;
+//     return cond;
+// }
 
-bool garch21::C_transition_kernel::check_K(array<double, 2> arg, double x0)
-{
-    bool cond = arg[1] > pow(b1, 2);
-    cond = cond && arg[0] > (a1 + pow(b1, 2)/arg[1]) / (1 + a1);
-    cond = cond && arg[0] < 1;
-    return cond;
-}
-
-double garch21::C_transition_kernel::density(array<double, 2> arg, double x0)
-{
-    assert(x0 > 0 && x0 < 1);
-    assert(check_K(arg, x0));
-    double den = markov->kernel_density(arg, x0);
-    return den;
-}
+// double garch21::C_transition_kernel::density(array<double, 2> arg, double x0)
+// {
+//     assert(x0 > 0 && x0 < 1);
+//     assert(check_K(arg, x0));
+//     double den = markov->kernel_density(arg, x0);
+//     return den;
+// }
 
 garch21::garch21(array<double, 4> &params)
-    :params(params), F(this), nu(this), ctk(params, this)
+    :F(this), nu(this)
 {
     a0 = params[0];
     a1 = params[1];
@@ -63,7 +57,7 @@ garch21::garch21(array<double, 4> &params)
     F.eta_interval[0] = pow(b1, 2)/rho;
     F.eta_interval[1] = b;
 
-    double p = C[0] = 0.5;
+//    double p = C[0] = 0.5;
     double q = C[1] = 1;
 
     /* Computes delta, the nu measure of F */
@@ -114,27 +108,28 @@ garch21::garch21(array<double, 4> &params)
 
 double garch21::kernel_density(array<double, 2> arg, double x0)
 {
-    assert(x0 > 0 && x0 < 1);
-    assert(check_K(arg, x0));
+    // assert(x0 > 0 && x0 < 1);
+    // assert(check_K(arg, x0));
 
-    double t1 = arg[1] * (1 - arg[0]);
-    double t2 = arg[1] - t1;
-    double t3 = a1 * b1 + a2;
-    double u = t2 - a1 * t1;
-    double v = t1 * t3;
-    v /= t2 * a1 - (t1 + x0 - 1) * pow(a1, 2) + x0 * a2 * b1;
+    // double t1 = arg[1] * (1 - arg[0]);
+    // double t2 = arg[1] - t1;
+    // double t3 = a1 * b1 + a2;
+    // double u = t2 - a1 * t1;
+    // double v = t1 * t3;
+    // v /= t2 * a1 - (t1 + x0 - 1) * pow(a1, 2) + x0 * a2 * b1;
 
-    double a = (a2 * b1 - pow(b1, 2)) / t3;
-    a += (u - a2 * b1) / t3 / x0;
-    a = gsl_ran_chisq_pdf(a, 1);
+    // double a = (a2 * b1 - pow(b1, 2)) / t3;
+    // a += (u - a2 * b1) / t3 / x0;
+    // a = gsl_ran_chisq_pdf(a, 1);
 
-    double b = gsl_ran_chisq_pdf(v, 1);
+    // double b = gsl_ran_chisq_pdf(v, 1);
 
-    double J = pow(arg[1], 2) / x0;
-    J /= arg[1] * a1 * ((a1 + 1) * arg[0] - a1) +
-	a2 * (a2 - x0 * (a2 - a2));
+    // double J = pow(arg[1], 2) / x0;
+    // J /= arg[1] * a1 * ((a1 + 1) * arg[0] - a1) +
+    // 	a2 * (a2 - x0 * (a2 - a2));
 
-    return a * b * J;
+    // return a * b * J;
+    return 0;
 }
 
 double garch21::compute_tail_index(void)
@@ -156,11 +151,11 @@ garch21::nu_dist::nu_dist(garch21 *markov)
 
     double t3 = pow(b1, 0.2e1);
     double t12 = (p * a2 * b1 - p * t3 - a2 * b1 + b) / p / (a1 * b1 + a2);
-    double chi1 = gsl_chisq_pdf(t12);
+    double chi1 = gsl_ran_chisq_pdf(t12, 1);
 
     double t10 = pow(a2, 0.2e1);
     double t17 = (a1 * b1 + a2) * (1 - rho) * b / (a1 + 0.1e1) / (b * rho * a1 + p * a2 * b1 - p * t10 + t10);
-    double chi2 = gsl_chisq_pdf(t17);
+    double chi2 = gsl_ran_chisq_pdf(t17, 1);
 
     double t2 = pow(a2, 0.2e1);
     double t6 = pow(b1, 0.2e1);
@@ -174,6 +169,33 @@ garch21::nu_dist::nu_dist(garch21 *markov)
     c2 = (1 - rho) / (a1 + 1) * (t5 * b - t8 * t7 / t10 / rho) / 0.3e1;
 }
 
+double garch21::nu_dist::proposal_density(array<double, 2> arg)
+{
+    return pow(arg[1], 3) / c2 / 3;
+}
+
+array<double, 2> garch21::nu_dist::proposal_draw(void)
+{
+    array<double, 2> ret;
+    uniform_real_distribution<double> unif(0.0, 1.0);
+    double y = unif(markov->dev);
+    
+    double b1 = markov->b1;
+    double a1 = markov->a1;
+    double rho = markov->F.rho;
+    
+    double t1 = pow(b1, 0.2e1);
+    double t2 = t1 * t1;
+    double t4 = rho * rho;
+    double t10 = pow((3 * c2 * y * t4 * markov->F.rho) + t2 * t1, 0.1e1 / 0.3e1);
+    ret[1] = 0.1e1 / rho * t10;
+
+    uniform_real_distribution<double> U((a1 + rho)/(1 + a1), 1.0);
+    ret[0] = U(markov->dev);
+
+    return ret;
+}
+
 /*
   double a1 = markov->a1;
   double a2 = markov->a2;
@@ -184,6 +206,7 @@ double garch21::nu_dist::density(array<double, 2> arg)
     double a1 = markov->a1;
     double a2 = markov->a2;
     double b1 = markov->b1;
+    double q = markov->C[1];
 
     double x = arg[0];
     double eta = arg[1];
@@ -196,7 +219,16 @@ double garch21::nu_dist::density(array<double, 2> arg)
     return c1 * t15 / delta;
 }
 
-double garch21::nu_dist::draw(void)
+array<double, 2> garch21::nu_dist::draw(void)
 {
-    
+    array<double, 2> proposed;
+    uniform_real_distribution<double> unif(0.0, 1.0);
+    double d1, d2, u;
+    do {
+	proposed = proposal_draw();
+	d2 = proposal_density(proposed);
+	d1 = density(proposed);
+	u = unif(markov->dev);
+    } while (u > d1 / d2 / c1 / c2);
+    return proposed;
 }
