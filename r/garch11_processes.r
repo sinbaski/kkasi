@@ -122,18 +122,33 @@ write.table(format(tailIndices, digits=2),
 
 ## pdf("/tmp/FX_real_n_simulated_eigenvalues.pdf", width=14, height=14);
 M <- apply(X, MARGIN=2, FUN=mean);
-QX <- apply(X, MARGIN=2, quantile, 1-1/n);
 data <- X - matrix(rep(M, n), nrow=n, ncol=p, byrow=TRUE);
-CX <- (t(data) %*% data)/n;
-#E <- eigen(cov(X - mean(X)));
+q <- max(apply(data^2, MARGIN=2, FUN=quantile, probs=0.99));
+CX <- matrix(NA, p, p);
+for (i in 1:p) {
+    for (j in 1:i) {
+        CX[i, j] <- sum(data[, i] * data[, j] > q)/n;
+        CX[j, i] <- CX[i, j];
+    }
+}
+## CX <- (t(data) %*% data)/n;
+## E <- eigen(cov(X - mean(X)));
 E <- eigen(CX);
 
 M <- apply(Y, MARGIN=2, FUN=mean);
-QY <- apply(Y, MARGIN=2, quantile, 1-1/dim(Y)[1]);
 data <- Y - matrix(rep(M, dim(Y)[1]), nrow=dim(Y)[1], ncol=p, byrow=TRUE);
-CY <- (t(data) %*% data)/dim(Y)[1];
-D <- eigen(C);
+## q <- max(apply(data^2, MARGIN=2, FUN=quantile, probs=0.99));
+## CY <- (t(data) %*% data)/dim(Y)[1];
+CY <- matrix(NA, p, p);
+for (i in 1:p) {
+    for (j in 1:i) {
+        CY[i, j] <- sum(data[, i] * data[, j] > q)/n;
+        CY[j, i] <- CY[i, j];
+    }
+}
+D <- eigen(CY);
 
+pdf("/tmp/ExceedancesMatrix_eigenvalues.pdf");
 plot(1:p, (E$values)/sum(E$values),
      main=expression(lambda[(i)]/trace),
      ylim=c(0, 0.8),
@@ -149,9 +164,10 @@ legend("topright",
        col=c("#000000", "#FF0000"),
        pch=c(0, 16), cex=2);
 grid();
-## dev.off();
+dev.off();
 
 ## pdf("/tmp/FX_real_n_simulated_eigenvectors.pdf", width=20, height=10);
+pdf("/tmp/ExceedancesMatrix_eigenvectors.pdf", width=20, height=10);
 par(mfrow=c(3,6));
 for (i in 1:p) {
     V <- E$vectors[, i];
@@ -178,4 +194,4 @@ for (i in 1:p) {
     ##        col="#00FF00", pch=17);
     grid();
 }
-## dev.off();
+dev.off();

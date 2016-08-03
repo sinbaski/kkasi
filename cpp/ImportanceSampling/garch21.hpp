@@ -13,29 +13,29 @@ protected:
     random_device dev;
 public:
     /* Draw a random vector from the proposal distribution */
-    class h_dist
-    {
-    private:
-	/* a0, a1, a2, b1 */
-	array<double, 4> params;
-	/* Trajectory of the chain after reaching stationarity */
-	queue< array<double, 2> > traj;
-	random_device dev;
-    public:
-	array<double, 2> MH_proposal_draw(void);
-	double MH_proposal_density(array<double, 2> arg);
-	/* Un-normalized density function */
-	double density(array<double, 2> arg);
-	array<double, 2> draw(void);
-	h_dist(array<double, 4> params);
-    };
+    // class h_dist
+    // {
+    // private:
+    // 	/* a0, a1, a2, b1 */
+    // 	array<double, 4> params;
+    // 	/* Trajectory of the chain after reaching stationarity */
+    // 	queue< array<double, 2> > traj;
+    // 	random_device dev;
+    // public:
+    // 	array<double, 2> MH_proposal_draw(void);
+    // 	double MH_proposal_density(array<double, 2> arg);
+    // 	/* Un-normalized density function */
+    // 	double density(array<double, 2> arg);
+    // 	array<double, 2> draw(void);
+    // 	h_dist(array<double, 4> params);
+    // };
 
     /* The transition kernel inside C when the chain does NOT re-generate */
     class C_transition_kernel
     {
     private:
 	/* a0, a1, a2, b1 */
-	array<double, 4> params;
+	double a0, a1, a2, b1;
 	h_dist Hdist;
 	garch21 *markov;
     public:
@@ -48,26 +48,31 @@ public:
     class F_Set
     {
     public:
+	garch21 *markov;
 	double b;
 	double rho;
-	garch21 *markov;
-	array<double, 2> Fx(void);
-	array<double, 2> Feta(void);
+	array<double, 2> x_interval;
+	array<double, 2> eta_interval;
 	F_Set(garch21 *markov);
-	void initialize(double b, double rho);
     };
 
     class nu_dist
     {
     public:
-	
+	/* The nu measure of the F set */
+	double delta;
+	double c1, c2;
+	garch21 *markov;
+	double draw(void);
+	double density(array<double, 2> arg);
+	nu_dist(garch21 *markov);
     };
     
     /* a0, a1, a2, b1 */
-    array<double, 4> params;
-    double delta;
+    double a0, a1, a2, b1;
     array<double, 2> C;
     F_Set F;
+    nu_dist nu;
     C_transition_kernel ctk;
     garch21(array<double, 4> &params);
     double kernel_density(array<double, 2> arg, double x0);
