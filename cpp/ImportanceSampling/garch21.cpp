@@ -62,17 +62,17 @@ garch21::garch21(array<double, 4> &params)
 	double t10 = pow(a2, 0.2e1);
 	double t17 = (a1 * b1 + a2) * (1 - rho) * b / (a1 + 0.1e1) / (b * rho * a1 + p * a2 * b1 - p * t10 + t10);
 	double chi2 = gsl_ran_chisq_pdf(t17, 1);
-
+	nu.c1 = chi1 * chi2;
+	    
 	double t2 = pow(a2, 0.2e1);
 	double t6 = pow(b1, 0.2e1);
-	t10 = 0.1e1 / q / (q * a2 * b1 - q * t2 + a1 * t6 + t2);
-	nu.c1 = chi1 * chi2 * t10;
+	nu.c2 = 0.1e1 / q / (q * a2 * b1 - q * t2 + a1 * t6 + t2);
 
 	double t5 = b * b;
 	double t7 = pow(b1, 0.2e1);
 	double t8 = t7 * t7;
 	t10 = rho * rho;
-	nu.c2 = (1 - rho) / (a1 + 1) * (t5 * b - t8 * t7 / t10 / rho) / 0.3e1;
+	nu.c3 = (1 - rho) / (a1 + 1) * (t5 * b - t8 * t7 / t10 / rho) / 0.3e1;
     }
 
     /* Computes delta, the nu measure of F */
@@ -203,7 +203,7 @@ double tail_index_fun(double alpha, void* param)
     static int counter = 0;
     garch21 *markov = (garch21 *)param;
     if (counter == 0) {
-#pragma omp parallel for
+//#pragma omp parallel for
 	for (size_t i = 0; i < stats.size(); i++) {
 	    stats[i] = markov->simulate_path()[1];
 	}
@@ -275,7 +275,7 @@ garch21::nu_dist::nu_dist(garch21 *markov)
 
 double garch21::nu_dist::proposal_density(array<double, 2> arg)
 {
-    return pow(arg[1], 3) / c2 / 3;
+    return pow(arg[1], 2) / c3;
 }
 
 array<double, 2> garch21::nu_dist::proposal_draw(void)
@@ -291,7 +291,7 @@ array<double, 2> garch21::nu_dist::proposal_draw(void)
     double t1 = pow(b1, 0.2e1);
     double t2 = t1 * t1;
     double t4 = rho * rho;
-    double t10 = pow((3 * c2 * y * t4 * markov->F.rho) + t2 * t1, 0.1e1 / 0.3e1);
+    double t10 = pow((3 * c3 * y * t4 * rho) + t2 * t1, 0.1e1 / 0.3e1);
     ret[1] = 0.1e1 / rho * t10;
 
     uniform_real_distribution<double> U((a1 + rho)/(1 + a1), 1.0);
@@ -339,7 +339,7 @@ array<double, 2> garch21::nu_dist::draw(void)
 	d2 = proposal_density(proposed);
 	d1 = density(proposed);
 	u = unif(markov->dev);
-    } while (u > d1 / d2 / c1 / c2);
+    } while (u > d1 / d2 / c1 / c2 / c3);
     return proposed;
 }
 
@@ -354,6 +354,7 @@ array<double, 2> garch21::forward(double x0, bool orig)
     V(0) = x0;
     V(1) = 1 - x0;
 
+    V.print();
     for (size_t i = 0; i < A.size(); i++) {
 	double z2 = chi2(dev);
 	A[i](0, 0) = a1 * z2 + b1;
@@ -361,7 +362,12 @@ array<double, 2> garch21::forward(double x0, bool orig)
 	A[i](1, 0) = z2;
 	A[i](1, 1) = 0;
     }
+    A[0].print();
+    A[1].print();
+    
     V = A[1] * A[0] * V;
+    V.print();
+    
     ret[1] = sum_norm(V);
     ret[0] = V(0) / ret[1];
 
