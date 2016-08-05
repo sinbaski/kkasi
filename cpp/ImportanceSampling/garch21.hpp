@@ -21,6 +21,7 @@ public:
 	array<double, 2> x_interval;
 	array<double, 2> eta_interval;
 	F_Set(garch21 *markov);
+	bool includes(const array<double, 2> &arg) const;
     };
 
     class nu_dist
@@ -31,7 +32,7 @@ public:
 	double c1, c2, c3;
 	garch21 *markov;
 	array<double, 2> draw(void) ;
-	double density(array<double, 2> arg);
+	double density(const array<double, 2> &arg) const;
 	array<double, 2> proposal_draw(void);
 	double proposal_density(array<double, 2> arg);
 	nu_dist(garch21 *markov);
@@ -42,9 +43,9 @@ public:
     F_Set F;
     nu_dist nu;
     garch21(array<double, 4> &params);
-    bool state_space_includes(array<double, 2> arg);
+    bool state_space_includes(const array<double, 2> &arg) const;
     inline bool C_includes(array<double, 2> arg) ;
-    double kernel_density(array<double, 2> arg, double x0);
+    double kernel_density(const array<double, 2> &arg, double x0) const;
     array<double, 2> forward(double x0, bool orig = true) ;
     array<double, 2> simulate_path(void) ;
     double compute_tail_index(void) ;

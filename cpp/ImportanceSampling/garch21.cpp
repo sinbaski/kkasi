@@ -28,6 +28,17 @@ garch21::F_Set::F_Set(garch21 *markov)
     this->markov = markov;
 }
 
+bool garch21::F_Set::includes(const array<double, 2> &arg) const
+{
+    double x = arg[0];
+    double eta = arg[1];
+
+    bool ret = x >= x_interval[0] && x <= x_interval[1];
+    ret = ret && eta >= eta_interval[0] && eta <= eta_interval[1];
+    
+    return ret;
+}
+
 garch21::garch21(array<double, 4> &params)
     :F(this), nu(this)
 {
@@ -123,7 +134,7 @@ garch21::garch21(array<double, 4> &params)
     }
 }
 
-double garch21::kernel_density(array<double, 2> arg, double x0)
+double garch21::kernel_density(const array<double, 2> &arg, double x0) const
 {
     assert(x0 > 0 && x0 < 1);
     assert(state_space_includes(arg));
@@ -153,7 +164,7 @@ double garch21::kernel_density(array<double, 2> arg, double x0)
     return chi1 * chi2 * t15;
 }
 
-bool garch21::state_space_includes(array<double, 2> arg)
+bool garch21::state_space_includes(const array<double, 2> &arg) const
 {
     double t2 = pow(b1, 0.2e1);
     double t8 = (arg[1] * a1 + t2) / (a1 + 0.1e1) / arg[1];
@@ -275,7 +286,7 @@ garch21::nu_dist::nu_dist(garch21 *markov)
 
 double garch21::nu_dist::proposal_density(array<double, 2> arg)
 {
-    return pow(arg[1], 2) / c3;
+    return arg[1] * arg[1] / c3;
 }
 
 array<double, 2> garch21::nu_dist::proposal_draw(void)
@@ -305,15 +316,12 @@ array<double, 2> garch21::nu_dist::proposal_draw(void)
   double a2 = markov->a2;
   double b1 = markov->b1;
  */
-double garch21::nu_dist::density(array<double, 2> arg)
+double garch21::nu_dist::density(const array<double, 2> &arg) const
 {
+    if (! markov->F.includes(arg)) return 0;
+
     double x = arg[0];
     double eta = arg[1];
-
-    if (x < markov->F.x_interval[0] || x > markov->F.x_interval[1])
-	return 0.0;
-    if (eta < markov->F.eta_interval[0] || eta > markov->F.eta_interval[1])
-	return 0.0;
 
     double a1 = markov->a1;
     double a2 = markov->a2;
@@ -339,7 +347,7 @@ array<double, 2> garch21::nu_dist::draw(void)
 	d2 = proposal_density(proposed);
 	d1 = density(proposed);
 	u = unif(markov->dev);
-    } while (u > d1 / d2 / c1 / c2 / c3);
+    } while (u > d1 / d2 / c1 / c2 / c3 * delta);
     return proposed;
 }
 
@@ -356,6 +364,7 @@ array<double, 2> garch21::forward(double x0, bool orig)
 
     V.print();
     for (size_t i = 0; i < A.size(); i++) {
+	A[i].set_size(2, 2);
 	double z2 = chi2(dev);
 	A[i](0, 0) = a1 * z2 + b1;
 	A[i](0, 1) = a2;
