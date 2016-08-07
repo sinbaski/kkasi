@@ -43,7 +43,6 @@ public:
     F_Set F;
     nu_dist nu;
     garch21(array<double, 4> &params);
-    bool state_space_includes(const array<double, 2> &arg) const;
     inline bool C_includes(array<double, 2> arg) ;
     double kernel_density(const array<double, 2> &arg, double x0) const;
     array<double, 2> forward(double x0, bool orig = true) ;

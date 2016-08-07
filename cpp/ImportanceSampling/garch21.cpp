@@ -74,70 +74,60 @@ garch21::garch21(array<double, 4> &params)
 	double t17 = (a1 * b1 + a2) * (1 - rho) * b / (a1 + 0.1e1) / (b * rho * a1 + p * a2 * b1 - p * t10 + t10);
 	double chi2 = gsl_ran_chisq_pdf(t17, 1);
 	nu.c1 = chi1 * chi2;
-	    
+    }
+    
+    {	    
+	double t1 = q * rho;
 	double t2 = pow(a2, 0.2e1);
-	double t6 = pow(b1, 0.2e1);
-	nu.c2 = 0.1e1 / q / (q * a2 * b1 - q * t2 + a1 * t6 + t2);
-
+	double t7 = pow(b1, 0.2e1);
+	nu.c2 = -0.1e1 / (-t1 * a2 * b1 + t1 * t2 - rho * t2 - a1 * t7) / q * rho;
+    }
+    
+    {
 	double t5 = b * b;
 	double t7 = pow(b1, 0.2e1);
 	double t8 = t7 * t7;
-	t10 = rho * rho;
+	double t10 = rho * rho;
 	nu.c3 = (1 - rho) / (a1 + 1) * (t5 * b - t8 * t7 / t10 / rho) / 0.3e1;
     }
 
     /* Computes delta, the nu measure of F */
     {
-	double t1 = b1 * b1;
-	double t2 = a2 * a2;
-	double t3 = t1 * t2;
-	double t4 = q * a1;
-	double t7 = t1 * b1 * a2;
-	double t9 = q * b1;
-	double t10 = t9 * a2;
-	double t11 = q * t2;
-	double t12 = t1 * a1;
-	double t14 = log(t10 - t11 + t12 + t2);
-	double t15 = q * t14;
-	double t16 = t2 * a2;
-	double t17 = t16 * b1;
-	double t20 = q * q;
-	double t21 = t20 * t14;
-	double t28 = log(b * rho * a1 + t10 - t11 + t2);
-	double t29 = q * t28;
-	double t32 = a1 * rho;
-	double t34 = b * t2;
-	double t36 = rho * rho;
-	double t41 = log(b * a1 + t10 - t11 + t2);
-	double t42 = t20 * t41;
-	double t43 = t2 * t2;
-	double t44 = t43 * t36;
-	double t54 = log(-(q * rho * t2 - t9 * rho * a2 - rho * t2 - t12) / rho);
-	double t55 = t20 * t54;
-	double t57 = t41 * t43;
-	double t58 = q * t36;
-	double t61 = t54 * t43;
-	double t64 = b * b;
-	double t66 = a1 * a1;
-	double t67 = t66 * t36;
-	double t69 = t20 * t28;
-	double t79 = -t34 * a1 * t36 + t28 * t64 * t67 - t41 * t64 * t67 + 0.2e1 * t15 * t17 - 0.2e1 * t21 * t17 - 0.2e1 * t29 * t17 + 0.2e1 * t69 * t17 + t21 * t3 + t21 * t43 + 0.2e1 * t29 * t43 + t3 * t32 + t3 * t4 - t69 * t3 + t34 * t32 + t57 * t36 - t7 * t4 + t42 * t44 - t55 * t44 - 0.2e1 * t57 * t58 + 0.2e1 * t61 * t58;
-	double t82 = t1 * t1;
-	double t91 = b * a2 * b1;
-	double t92 = t4 * t36;
-	double t94 = t4 * rho;
-	double t98 = t17 * t36;
-	double t101 = t3 * t36;
-	double t107 = t9 * t36;
-	double t117 = 0.2e1 * t41 * t16 * t107 - 0.2e1 * t54 * t16 * t107 - t14 * t82 * t66 + t54 * t82 * t66 - t3 * a1 + t42 * t101 - t55 * t101 + t14 * t43 - 0.2e1 * t15 * t43 - t28 * t43 - t3 * t94 + t34 * t92 - t34 * t94 - t61 * t36 - 0.2e1 * t42 * t98 - t69 * t43 + 0.2e1 * t55 * t98 + t7 * t94 - t91 * t92 + t91 * t94;
-	nu.delta = -(t79 + t117) / q / t66 / a1 / (a1 + 0.1e1) / t36 / 0.2e1;
+	double t5 = a1 * a1;
+	double t6 = 0.1e1 / t5;
+	double t7 = a2 * a2;
+	double t8 = t6 * t7;
+	double t10 = t6 * a2;
+	double t13 = 0.1e1 / q;
+	double t15 = t13 / a1;
+	double t16 = b * b;
+	double t19 = t13 * t6;
+	double t22 = t7 * t7;
+	double t24 = 0.1e1 / t5 / a1;
+	double t25 = t22 * t24;
+	double t26 = q * t7;
+	double t27 = q * a2;
+	double t31 = log(b * a1 + t27 * b1 - t26 + t7);
+	double t32 = t31 * q;
+	double t34 = t7 * a2;
+	double t35 = t34 * t24;
+	double t39 = t24 * t31;
+	double t40 = b1 * b1;
+	double t50 = 0.1e1 / rho;
+	double t56 = t40 * t40;
+	double t57 = rho * rho;
+	double t72 = log(-(-t27 * rho * b1 + t26 * rho - a1 * t40 - t7 * rho) * t50);
+	double t73 = t22 * t72;
+	double t76 = t34 * t72;
+	double t91 = t8 * b - t10 * b1 * b + t15 * t16 / 0.2e1 - t19 * t7 * b + t25 * t32 - 0.2e1 * t35 * t32 * b1 + t26 * t39 * t40 - 0.2e1 * t25 * t31 + 0.2e1 * t35 * t31 * b1 + t13 * t22 * t39 - t8 * t40 * t50 + t10 * t40 * b1 * t50 - t15 * t56 / t57 / 0.2e1 + t19 * t7 * t40 * t50 - t73 * q * t24 + 0.2e1 * t76 * q * b1 * t24 - t26 * t72 * t40 * t24 + 0.2e1 * t73 * t24 - 0.2e1 * t76 * b1 * t24 - t73 * t13 * t24;
+	double t92 = (0.1e1 - rho) / (a1 + 0.1e1) * t91;
+	nu.delta = nu.c1 * t92;
     }
 }
 
 double garch21::kernel_density(const array<double, 2> &arg, double x0) const
 {
     assert(x0 > 0 && x0 < 1);
-    assert(state_space_includes(arg));
 
     double x = arg[0];
     double eta = arg[1];
@@ -162,14 +152,6 @@ double garch21::kernel_density(const array<double, 2> &arg, double x0) const
     double t15 = t1 / x0 / (x * eta * a1 + a2 * b1 * x0 + t5 * x - t9 * x0 - t5 + t9);
 
     return chi1 * chi2 * t15;
-}
-
-bool garch21::state_space_includes(const array<double, 2> &arg) const
-{
-    double t2 = pow(b1, 0.2e1);
-    double t8 = (arg[1] * a1 + t2) / (a1 + 0.1e1) / arg[1];
-
-    return arg[1] > t2 && arg[0] > t8 && arg[0] < 1;
 }
 
 inline bool garch21::C_includes(array<double, 2> arg)
@@ -329,12 +311,10 @@ double garch21::nu_dist::density(const array<double, 2> &arg) const
     double q = markov->C[1];
 
     double t1 = eta * eta;
-    double t4 = eta * x;
-    double t5 = pow(a1, 0.2e1);
-    double t9 = pow(a2, 0.2e1);
-    double t15 = t1 / q / (q * a2 * b1 - eta * t5 - q * t9 + t4 * t5 + t4 * a1 + t9);
+    double t2 = pow(a2, 0.2e1);
+    double t11 = t1 / (q * a2 * b1 + eta * a1 - q * t2 + t2) / q;
 
-    return c1 * t15 / delta;
+    return c1 * t11 / delta;
 }
 
 array<double, 2> garch21::nu_dist::draw(void)
