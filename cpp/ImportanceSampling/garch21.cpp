@@ -3,6 +3,8 @@
 #include <iterator>
 #include <algorithm>
 #include <armadillo>
+#include <iostream>
+#include <fstream>
 #include <assert.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
@@ -57,7 +59,7 @@ garch21::garch21(array<double, 4> &params)
     F.eta_interval[0] = pow(b1, 2)/rho;
     F.eta_interval[1] = b;
 
-    C[0] = 0.5;
+    C[0] = 0.99;
     C[1] = 1;
 
     double p = C[0];
@@ -162,72 +164,99 @@ inline bool garch21::C_includes(array<double, 2> arg)
 
 array<double, 2> garch21::simulate_path(void)
 {
-    array<double, 2> X = nu.draw();
+    random_device dev;
+    array<double, 2> X = nu.draw(dev);
     // Place the MC initially on the unit sphere.
     X[1] = 1;
     bool reg = false;
     uniform_real_distribution<double> unif;
     size_t n = 0;
-    double es = X[1];
+    double s = 0;
     do {
 	if (C_includes(X)) {
 	    double u = unif(dev);
 	    reg = u < nu.delta;
 	    if (! reg) {
-		X = forward(X[0], false);
+		X = forward(dev, X[0], false);
 		n++;
-		es *= X[1];
+		s += log(X[1]);
 	    }
 	} else {
-	    X = forward(X[0]);
+	    X = forward(dev, X[0]);
 	    n++;
-	    es *= X[1];
+	    s += log(X[1]);
 	}
     } while(! reg);
     array<double, 2> ret;
     ret[0] = n;
-    ret[1] = es;
+    ret[1] = s;
     return ret;
 }
 
 double tail_index_fun(double alpha, void* param)
 {
-    static vector<double> stats(num_iter);
-    static int counter = 0;
-    garch21 *markov = (garch21 *)param;
-    if (counter == 0) {
-//#pragma omp parallel for
-	for (size_t i = 0; i < stats.size(); i++) {
-	    stats[i] = markov->simulate_path()[1];
-	}
-	counter++;
-    }
-    return accumulate(stats.begin(), stats.end(), 0.0,
-    			      [alpha](double average, double eta)
-    			      {
-    				  return average + pow(eta, alpha);
-    			      });
+    vector<double> *stats = (vector<double> *)param;
+    double expected = 0;
+    double greatest = *max_element(stats->begin(), stats->end());
+    double n = (double)stats->size();
+    expected = accumulate(stats->begin(), stats->end(), 0.0,
+			  [=](double average, double xi)
+			  {
+			      return average + exp(alpha * (xi - greatest));
+			  });
+    double ret = log(expected) + alpha * greatest - log(n);
+    return ret;
 }
 
-double garch21::compute_tail_index(void)
+double garch21::compute_tail_index(size_t beg_line, size_t end_line)
 {
     gsl_root_fsolver *solver;
     gsl_function F;
     int iter = 0;
     int status = 0;
     int max_iter = 100;
-    double lb, ub = 30, xi = -1;
+    double lb, ub = 100, xi = -1;
     
+    vector<double> stats;
+
+    char name[64];
+    sprintf(name, "%3.2f_%3.2f_%3.2f_stats.txt", a1, a2, b1);
+
+    ifstream infile;
+    double x;
+    size_t n = 0;
+    infile.open(name, ios::in);
+    while (infile >> x) {
+	if (n >= beg_line && n < end_line)
+	    stats.push_back(x);
+	n++;
+    }
+    infile.close();
+
+#pragma omp parallel for
+    for (size_t i = 0; i < num_iter; i++) {
+	stats.push_back(simulate_path()[1]);
+    }
+
+    ofstream outfile;
+    outfile.open(name, ios::out | ios::app);
+    for_each(stats.rbegin(), stats.rbegin() + num_iter,
+	     [&](double x)
+	     {
+		 outfile << x << endl;
+	     });
+    outfile.close();
+
     double a;
     double bounds[2];
-    for (a = 2; a > 0 && tail_index_fun(a, this) > 0; a -= 1);
+    for (a = 2; a > 0 && tail_index_fun(a, &stats) > 0; a -= 1);
     if (a > 0) {
     	bounds[0] = a;
     } else {
     	printf("%s %.2f.\n", "lower bound less than ", a);
     	return -1;
     }
-    for (a = 2; a < ub && tail_index_fun(a, this) < 0; a += 1);
+    for (a = 2; a < ub && tail_index_fun(a, &stats) < 0; a += 1);
     if (a < ub) {
     	bounds[1] = a;
     } else {
@@ -236,7 +265,7 @@ double garch21::compute_tail_index(void)
     }
 
     F.function = tail_index_fun;
-    F.params = this;
+    F.params = &stats;
 
     solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
     gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
@@ -248,14 +277,10 @@ double garch21::compute_tail_index(void)
 	lb = gsl_root_fsolver_x_lower(solver);
 	ub = gsl_root_fsolver_x_upper(solver);
 	status = gsl_root_test_interval(lb, ub, 1.0e-6, 0);
-	// if (status == GSL_SUCCESS)
-	//     cout << "Tail index found: xi = " << xi << endl;
     } while (status == GSL_CONTINUE && iter < max_iter);
     gsl_root_fsolver_free(solver);
 
     if (status != GSL_SUCCESS) {
-	// cout << "The Brent algorithm did not converge after " << max_iter
-	//      << " iterations." << endl;
 	xi = -1;
     }
     return xi;
@@ -271,11 +296,11 @@ double garch21::nu_dist::proposal_density(array<double, 2> arg)
     return arg[1] * arg[1] / c3;
 }
 
-array<double, 2> garch21::nu_dist::proposal_draw(void)
+array<double, 2> garch21::nu_dist::proposal_draw(URNG& dev)
 {
     array<double, 2> ret;
     uniform_real_distribution<double> unif(0.0, 1.0);
-    double y = unif(markov->dev);
+    double y = unif(dev);
     
     double b1 = markov->b1;
     double a1 = markov->a1;
@@ -288,7 +313,7 @@ array<double, 2> garch21::nu_dist::proposal_draw(void)
     ret[1] = 0.1e1 / rho * t10;
 
     uniform_real_distribution<double> U((a1 + rho)/(1 + a1), 1.0);
-    ret[0] = U(markov->dev);
+    ret[0] = U(dev);
 
     return ret;
 }
@@ -302,7 +327,6 @@ double garch21::nu_dist::density(const array<double, 2> &arg) const
 {
     if (! markov->F.includes(arg)) return 0;
 
-    double x = arg[0];
     double eta = arg[1];
 
     double a1 = markov->a1;
@@ -317,21 +341,22 @@ double garch21::nu_dist::density(const array<double, 2> &arg) const
     return c1 * t11 / delta;
 }
 
-array<double, 2> garch21::nu_dist::draw(void)
+array<double, 2> garch21::nu_dist::draw(URNG& dev)
 {
     array<double, 2> proposed;
     uniform_real_distribution<double> unif(0.0, 1.0);
     double d1, d2, u;
     do {
-	proposed = proposal_draw();
+	proposed = proposal_draw(dev);
 	d2 = proposal_density(proposed);
 	d1 = density(proposed);
-	u = unif(markov->dev);
+	u = unif(dev);
     } while (u > d1 / d2 / c1 / c2 / c3 * delta);
+    assert(markov->F.includes(proposed));
     return proposed;
 }
 
-array<double, 2> garch21::forward(double x0, bool orig)
+array<double, 2> garch21::forward(URNG& dev, double x0, bool orig)
 {
     // move forward according to the normal transition kernel if orig = 1
     array<mat, 2> A;
@@ -342,7 +367,7 @@ array<double, 2> garch21::forward(double x0, bool orig)
     V(0) = x0;
     V(1) = 1 - x0;
 
-    V.print();
+//    V.print();
     for (size_t i = 0; i < A.size(); i++) {
 	A[i].set_size(2, 2);
 	double z2 = chi2(dev);
@@ -351,11 +376,11 @@ array<double, 2> garch21::forward(double x0, bool orig)
 	A[i](1, 0) = z2;
 	A[i](1, 1) = 0;
     }
-    A[0].print();
-    A[1].print();
+    // A[0].print();
+    // A[1].print();
     
     V = A[1] * A[0] * V;
-    V.print();
+//    V.print();
     
     ret[1] = sum_norm(V);
     ret[0] = V(0) / ret[1];
@@ -367,7 +392,7 @@ array<double, 2> garch21::forward(double x0, bool orig)
 	uniform_real_distribution<double> unif;
 	accepted = unif(dev) < 1 - d2/d1;
 	if (! accepted)
-	    ret = forward(x0);
+	    ret = forward(dev, x0);
     }
     return ret;
     

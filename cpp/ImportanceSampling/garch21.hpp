@@ -4,13 +4,15 @@
 #include <queue>
 #include <random>
 
+#define URNG random_device
+
 using namespace std;
 
 class garch21
 {
 protected:
     double tail_index;
-    random_device dev;
+//    random_device dev;
 public:
     class F_Set
     {
@@ -31,9 +33,9 @@ public:
 	double delta;
 	double c1, c2, c3;
 	garch21 *markov;
-	array<double, 2> draw(void) ;
+	array<double, 2> draw(URNG& dev);
 	double density(const array<double, 2> &arg) const;
-	array<double, 2> proposal_draw(void);
+	array<double, 2> proposal_draw(URNG& dev);
 	double proposal_density(array<double, 2> arg);
 	nu_dist(garch21 *markov);
     };
@@ -45,9 +47,9 @@ public:
     garch21(array<double, 4> &params);
     inline bool C_includes(array<double, 2> arg) ;
     double kernel_density(const array<double, 2> &arg, double x0) const;
-    array<double, 2> forward(double x0, bool orig = true) ;
-    array<double, 2> simulate_path(void) ;
-    double compute_tail_index(void) ;
+    array<double, 2> forward(URNG& dev, double x0, bool orig = true);
+    array<double, 2> simulate_path(void);
+    double compute_tail_index(size_t beg_line, size_t end_line);
 };
 
 #endif
