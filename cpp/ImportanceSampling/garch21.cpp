@@ -196,16 +196,21 @@ array<double, 2> garch21::simulate_path(void)
 double tail_index_fun(double alpha, void* param)
 {
     vector<double> *stats = (vector<double> *)param;
-    double expected = 0;
-    double greatest = *max_element(stats->begin(), stats->end());
     double n = (double)stats->size();
-    expected = accumulate(stats->begin(), stats->end(), 0.0,
-			  [=](double average, double xi)
-			  {
-			      return average + exp(alpha * (xi - greatest));
+    unsigned long counter = 0;
+    sort(stats->begin(), stats->end());
+    double expected = accumulate(stats->begin(), stats->end(), 0.0,
+				 [alpha, &counter](double average, double xi)
+				 {
+				     if (average == 0.0)
+					 return xi;
+				     double m = max(average, xi);
+				     double y = log(exp(alpha * (average - m)) +
+						    exp(alpha * (xi - m))) + m * alpha;
+				     counter++;
+				     return y;
 			  });
-    double ret = log(expected) + alpha * greatest - log(n);
-    return ret;
+    return expected - log(n);
 }
 
 double garch21::compute_tail_index(size_t beg_line, size_t end_line)
