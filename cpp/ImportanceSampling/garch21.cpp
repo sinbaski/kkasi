@@ -77,13 +77,15 @@ garch21::garch21(array<double, 4> &params)
 	double chi2 = gsl_ran_chisq_pdf(t17, 1);
 	nu.c1 = chi1 * chi2;
     }
-    
+    assert(nu.c1 > 0);
+
     {	    
 	double t1 = q * rho;
 	double t2 = pow(a2, 0.2e1);
 	double t7 = pow(b1, 0.2e1);
 	nu.c2 = -0.1e1 / (-t1 * a2 * b1 + t1 * t2 - rho * t2 - a1 * t7) / q * rho;
     }
+    assert(nu.c2 > 0);
     
     {
 	double t5 = b * b;
@@ -92,6 +94,7 @@ garch21::garch21(array<double, 4> &params)
 	double t10 = rho * rho;
 	nu.c3 = (1 - rho) / (a1 + 1) * (t5 * b - t8 * t7 / t10 / rho) / 0.3e1;
     }
+    assert(nu.c3 > 0);
 
     /* Computes delta, the nu measure of F */
     {
@@ -125,11 +128,12 @@ garch21::garch21(array<double, 4> &params)
 	double t92 = (0.1e1 - rho) / (a1 + 0.1e1) * t91;
 	nu.delta = nu.c1 * t92;
     }
+    assert(nu.delta > 0);
 }
 
 double garch21::kernel_density(const array<double, 2> &arg, double x0) const
 {
-    assert(x0 > 0 && x0 < 1);
+    assert(x0 > 0 && x0 <= 1);
 
     double x = arg[0];
     double eta = arg[1];
@@ -200,17 +204,24 @@ double tail_index_fun(double alpha, void* param)
     unsigned long counter = 0;
     sort(stats->begin(), stats->end());
     double expected = accumulate(stats->begin(), stats->end(), 0.0,
-				 [alpha, &counter](double average, double xi)
+				 [alpha, &counter](double average, double s)
 				 {
-				     if (average == 0.0)
-					 return xi;
-				     double m = max(average, xi);
-				     double y = log(exp(alpha * (average - m)) +
-						    exp(alpha * (xi - m))) + m * alpha;
 				     counter++;
-				     return y;
-			  });
-    return expected - log(n);
+				     if (average == 0.0)
+					 return s;
+				     double greater, x = s * alpha, y;
+				     if (average < x) {
+					 greater = x;
+					 y = exp(average - greater);
+				     } else {
+					 greater = average;
+					 y = exp(x - greater);
+				     }
+				     double ret = log(1 + y) + greater;
+				     return ret;
+				 });
+    double ret = expected  - log(n);
+    return ret;
 }
 
 double garch21::compute_tail_index(size_t beg_line, size_t end_line)
@@ -225,7 +236,7 @@ double garch21::compute_tail_index(size_t beg_line, size_t end_line)
     vector<double> stats;
 
     char name[64];
-    sprintf(name, "%3.2f_%3.2f_%3.2f_stats.txt", a1, a2, b1);
+    sprintf(name, "%.4f_%.4f_%.4f_stats.txt", a1, a2, b1);
 
     ifstream infile;
     double x;
@@ -254,19 +265,14 @@ double garch21::compute_tail_index(size_t beg_line, size_t end_line)
 
     double a;
     double bounds[2];
-    for (a = 2; a > 0 && tail_index_fun(a, &stats) > 0; a -= 1);
-    if (a > 0) {
-    	bounds[0] = a;
+    if (tail_index_fun(a = 2, &stats) > 0) {
+	while (tail_index_fun(a = a - 1, &stats) > 0);
+	bounds[0] = a;
+	bounds[1] = a + 1;
     } else {
-    	printf("%s %.2f.\n", "lower bound less than ", a);
-    	return -1;
-    }
-    for (a = 2; a < ub && tail_index_fun(a, &stats) < 0; a += 1);
-    if (a < ub) {
-    	bounds[1] = a;
-    } else {
-    	printf("%s %.2f.\n", "Upper bound larger than ", (double)ub);
-    	return -1;
+	while (tail_index_fun(a = a + 1, &stats) < 0);
+	bounds[0] = a - 1;
+	bounds[1] = a;
     }
 
     F.function = tail_index_fun;
