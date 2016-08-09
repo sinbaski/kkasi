@@ -177,19 +177,13 @@ array<double, 2> garch21::simulate_path(void)
     size_t n = 0;
     double s = 0;
     do {
+	X = forward(dev, X[0]);
 	if (C_includes(X)) {
 	    double u = unif(dev);
 	    reg = u < nu.delta;
-	    if (! reg) {
-		X = forward(dev, X[0], false);
-		n++;
-		s += log(X[1]);
-	    }
-	} else {
-	    X = forward(dev, X[0]);
-	    n++;
-	    s += log(X[1]);
 	}
+	s += log(X[1]);
+	n++;
     } while(! reg);
     array<double, 2> ret;
     ret[0] = n;
