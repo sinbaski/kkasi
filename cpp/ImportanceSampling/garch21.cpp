@@ -33,11 +33,11 @@ garch21::F_Set::F_Set(garch21 *markov)
 bool garch21::F_Set::includes(const array<double, 2> &arg) const
 {
     double x = arg[0];
-    double eta = arg[1];
+    double eta = exp(arg[1]);
 
     bool ret = x >= x_interval[0] && x <= x_interval[1];
     ret = ret && eta >= eta_interval[0] && eta <= eta_interval[1];
-    
+
     return ret;
 }
 
@@ -79,54 +79,36 @@ garch21::garch21(array<double, 4> &params)
     }
     assert(nu.c1 > 0);
 
-    {	    
-	double t1 = q * rho;
-	double t2 = pow(a2, 0.2e1);
-	double t7 = pow(b1, 0.2e1);
-	nu.c2 = -0.1e1 / (-t1 * a2 * b1 + t1 * t2 - rho * t2 - a1 * t7) / q * rho;
+    {	
+	double t7 = q * rho;
+	double t8 = pow(a2, 0.2e1);
+	double t13 = pow(b1, 0.2e1);
+	double t19 = 0.1e1 / (a2 * b1 * t7 + t13 * a1 - t8 * t7 + t8 * rho) / (0.1e1 + a1) / q * rho * (0.1e1 - rho) / 0.2e1;
+	nu.c2 = t19;
     }
     assert(nu.c2 > 0);
-    
+
     {
-	double t5 = b * b;
-	double t7 = pow(b1, 0.2e1);
-	double t8 = t7 * t7;
-	double t10 = rho * rho;
-	nu.c3 = (1 - rho) / (a1 + 1) * (t5 * b - t8 * t7 / t10 / rho) / 0.3e1;
+	nu.c3 = b * b - pow(b1, 4)/rho/rho;
     }
     assert(nu.c3 > 0);
 
     /* Computes delta, the nu measure of F */
     {
-	double t5 = a1 * a1;
-	double t6 = 0.1e1 / t5;
-	double t7 = a2 * a2;
-	double t8 = t6 * t7;
-	double t10 = t6 * a2;
-	double t13 = 0.1e1 / q;
-	double t15 = t13 / a1;
-	double t16 = b * b;
-	double t19 = t13 * t6;
-	double t22 = t7 * t7;
-	double t24 = 0.1e1 / t5 / a1;
-	double t25 = t22 * t24;
-	double t26 = q * t7;
-	double t27 = q * a2;
-	double t31 = log(b * a1 + t27 * b1 - t26 + t7);
-	double t32 = t31 * q;
-	double t34 = t7 * a2;
-	double t35 = t34 * t24;
-	double t39 = t24 * t31;
-	double t40 = b1 * b1;
-	double t50 = 0.1e1 / rho;
-	double t56 = t40 * t40;
-	double t57 = rho * rho;
-	double t72 = log(-(-t27 * rho * b1 + t26 * rho - a1 * t40 - t7 * rho) * t50);
-	double t73 = t22 * t72;
-	double t76 = t34 * t72;
-	double t91 = t8 * b - t10 * b1 * b + t15 * t16 / 0.2e1 - t19 * t7 * b + t25 * t32 - 0.2e1 * t35 * t32 * b1 + t26 * t39 * t40 - 0.2e1 * t25 * t31 + 0.2e1 * t35 * t31 * b1 + t13 * t22 * t39 - t8 * t40 * t50 + t10 * t40 * b1 * t50 - t15 * t56 / t57 / 0.2e1 + t19 * t7 * t40 * t50 - t73 * q * t24 + 0.2e1 * t76 * q * b1 * t24 - t26 * t72 * t40 * t24 + 0.2e1 * t73 * t24 - 0.2e1 * t76 * b1 * t24 - t73 * t13 * t24;
-	double t92 = (0.1e1 - rho) / (a1 + 0.1e1) * t91;
-	nu.delta = nu.c1 * t92;
+	double t3 = pow(a2, 0.2e1);
+	double t7 = b * a1;
+	double t9 = log(q * a2 * b1 - t3 * q + t3 + t7);
+	double t10 = t9 * t3;
+	double t11 = q * rho;
+	double t15 = b1 * q * rho;
+	double t21 = pow(b1, 0.2e1);
+	double t22 = t21 * a1;
+	double t24 = 0.1e1 / rho;
+	double t26 = log(-t24 * (-a2 * b1 * t11 + t3 * t11 - t3 * rho - t22));
+	double t27 = t26 * t3;
+	double t40 = pow(a1, 0.2e1);
+	double t45 = -t24 / t40 / (0.1e1 + a1) / q * (t15 * t26 * a2 - t15 * t9 * a2 + t11 * t10 - rho * t10 - t11 * t27 + rho * t27 + rho * t7 - t22) * (-0.1e1 + rho) * nu.c1;
+	nu.delta = t45;
     }
     assert(nu.delta > 0);
 }
@@ -136,7 +118,7 @@ double garch21::kernel_density(const array<double, 2> &arg, double x0) const
     assert(x0 > 0 && x0 <= 1);
 
     double x = arg[0];
-    double eta = arg[1];
+    double eta = exp(arg[1]);
 
     double t1 = eta * a1;
     double t3 = a2 * b1;
@@ -171,19 +153,29 @@ array<double, 2> garch21::simulate_path(void)
     random_device dev;
     array<double, 2> X = nu.draw(dev);
     // Place the MC initially on the unit sphere.
-    X[1] = 1;
+    X[1] = 0;
     bool reg = false;
     uniform_real_distribution<double> unif;
     size_t n = 0;
     double s = 0;
     do {
-	X = forward(dev, X[0]);
 	if (C_includes(X)) {
 	    double u = unif(dev);
 	    reg = u < nu.delta;
+	    if (! reg) {
+		X = forward(dev, X[0], false);
+		n++;
+		s += X[1];
+	    } else {
+		X = nu.draw(dev);
+		n++;
+		s += X[1];		
+	    }
+	} else {
+	    X = forward(dev, X[0]);
+	    n++;
+	    s += X[1];
 	}
-	s += log(X[1]);
-	n++;
     } while(! reg);
     array<double, 2> ret;
     ret[0] = n;
@@ -226,7 +218,7 @@ double garch21::compute_tail_index(size_t beg_line, size_t end_line)
     int status = 0;
     int max_iter = 100;
     double lb, ub = 100, xi = -1;
-    
+
     vector<double> stats;
 
     char name[64];
@@ -296,31 +288,48 @@ garch21::nu_dist::nu_dist(garch21 *markov)
     this->markov = markov;
 }
 
-double garch21::nu_dist::proposal_density(array<double, 2> arg)
+double garch21::nu_dist::eta_draw(URNG& dev)
 {
-    return arg[1] * arg[1] / c3;
+    bool accepted = false;
+    uniform_real_distribution<double> unif;
+    double proposed;
+    do {
+	proposed = eta_proposal_draw(dev);
+	double d1 = eta_marginal_density(proposed);
+	double d2 = eta_proposal_density(proposed);
+	accepted = unif(dev) <= d1 / d2 * delta / c1 / c2 / c3;
+    } while (! accepted);
+    return proposed;
 }
 
-array<double, 2> garch21::nu_dist::proposal_draw(URNG& dev)
+double garch21::nu_dist::eta_marginal_density(double eta)
+{
+    double a1 = markov->a1;
+    double a2 = markov->a2;
+    double b1 = markov->b1;
+    double q = markov->C[1];
+    double rho = markov->F.rho;
+
+    double t4 = pow(a2, 0.2e1);
+    double t18 = (double) (1 - rho) / (0.1e1 + a1) / q / (q * a2 * b1 + eta * a1 - t4 * q + t4) / delta * c1 * eta;
+    return t18;
+}
+
+double garch21::nu_dist::eta_proposal_density(double eta)
+{
+    return 2 * eta / c3;
+}
+
+double garch21::nu_dist::eta_proposal_draw(URNG& dev)
 {
     array<double, 2> ret;
     uniform_real_distribution<double> unif(0.0, 1.0);
     double y = unif(dev);
-    
+
     double b1 = markov->b1;
-    double a1 = markov->a1;
     double rho = markov->F.rho;
-    
-    double t1 = pow(b1, 0.2e1);
-    double t2 = t1 * t1;
-    double t4 = rho * rho;
-    double t10 = pow((3 * c3 * y * t4 * rho) + t2 * t1, 0.1e1 / 0.3e1);
-    ret[1] = 0.1e1 / rho * t10;
 
-    uniform_real_distribution<double> U((a1 + rho)/(1 + a1), 1.0);
-    ret[0] = U(dev);
-
-    return ret;
+    return sqrt(c3 * y + pow(b1, 4) / pow(rho, 2));
 }
 
 /*
@@ -332,38 +341,37 @@ double garch21::nu_dist::density(const array<double, 2> &arg) const
 {
     if (! markov->F.includes(arg)) return 0;
 
-    double eta = arg[1];
+    double eta = exp(arg[1]);
 
     double a1 = markov->a1;
     double a2 = markov->a2;
     double b1 = markov->b1;
     double q = markov->C[1];
 
-    double t1 = eta * eta;
-    double t2 = pow(a2, 0.2e1);
-    double t11 = t1 / (q * a2 * b1 + eta * a1 - q * t2 + t2) / q;
-
-    return c1 * t11 / delta;
+    double t3 = eta * eta;
+    double t4 = pow(a2, 0.2e1);
+    double t14 = 0.1e1 / q / (q * a2 * b1 + eta * a1 - t4 * q + t4) * t3 / delta * c1;
+    return t14;
 }
 
 array<double, 2> garch21::nu_dist::draw(URNG& dev)
 {
-    array<double, 2> proposed;
+    array<double, 2> ret;
     uniform_real_distribution<double> unif(0.0, 1.0);
+    uniform_real_distribution<double> Ux(markov->F.x_interval[0],
+					 markov->F.x_interval[1]);
     double d1, d2, u;
-    do {
-	proposed = proposal_draw(dev);
-	d2 = proposal_density(proposed);
-	d1 = density(proposed);
-	u = unif(dev);
-    } while (u > d1 / d2 / c1 / c2 / c3 * delta);
-    assert(markov->F.includes(proposed));
-    return proposed;
+    ret[0] = Ux(dev);
+    ret[1] = log(eta_draw(dev));
+    assert(markov->F.includes(ret));
+    return ret;
 }
 
 array<double, 2> garch21::forward(URNG& dev, double x0, bool orig)
 {
     // move forward according to the normal transition kernel if orig = 1
+    assert(x0 > 0);
+    
     array<mat, 2> A;
     chi_squared_distribution<double> chi2;
     vec V(2);
@@ -372,7 +380,6 @@ array<double, 2> garch21::forward(URNG& dev, double x0, bool orig)
     V(0) = x0;
     V(1) = 1 - x0;
 
-//    V.print();
     for (size_t i = 0; i < A.size(); i++) {
 	A[i].set_size(2, 2);
 	double z2 = chi2(dev);
@@ -381,25 +388,21 @@ array<double, 2> garch21::forward(URNG& dev, double x0, bool orig)
 	A[i](1, 0) = z2;
 	A[i](1, 1) = 0;
     }
-    // A[0].print();
-    // A[1].print();
-    
     V = A[1] * A[0] * V;
-//    V.print();
-    
-    ret[1] = sum_norm(V);
+
+    ret[1] = log(sum_norm(V));
     ret[0] = V(0) / ret[1];
 
     bool accepted = orig;
+    uniform_real_distribution<double> unif;
     while (! accepted) {
 	double d1 = kernel_density(ret, x0);
 	double d2 = nu.delta * nu.density(ret);
-	uniform_real_distribution<double> unif;
+
 	accepted = unif(dev) < 1 - d2/d1;
 	if (! accepted)
 	    ret = forward(dev, x0);
     }
     return ret;
-    
 }
 

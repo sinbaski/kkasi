@@ -35,8 +35,11 @@ public:
 	garch21 *markov;
 	array<double, 2> draw(URNG& dev);
 	double density(const array<double, 2> &arg) const;
-	array<double, 2> proposal_draw(URNG& dev);
-	double proposal_density(array<double, 2> arg);
+
+	double eta_draw(URNG& dev);
+	double eta_marginal_density(double eta);
+	double eta_proposal_draw(URNG& dev);
+	double eta_proposal_density(double eta);
 	nu_dist(garch21 *markov);
     };
 

@@ -2,6 +2,7 @@
 #include <random>
 #include <string>
 #include <iostream>
+#include <stdio.h>
 #include "garch21.hpp"
 
 size_t num_iter;
@@ -25,4 +26,9 @@ int main(int argc, char **argv)
     garch21 model(params);
 
     cout << "Tail index = " << model.compute_tail_index(lines[0], lines[1]) << endl;
+    // random_device dev;
+    // for (size_t i = 0; i < 4000; i++) {
+    // 	array<double, 2> r = model.nu.draw(dev);
+    // 	printf("%e\t%e\n", r[0], exp(r[1]));
+    // }
 }
