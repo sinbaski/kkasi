@@ -390,8 +390,9 @@ array<double, 2> garch21::forward(URNG& dev, double x0, bool orig)
     }
     V = A[1] * A[0] * V;
 
-    ret[1] = log(sum_norm(V));
-    ret[0] = V(0) / ret[1];
+    double s = sum_norm(V);
+    ret[0] = V(0) / s;
+    ret[1] = log(s);
 
     bool accepted = orig;
     uniform_real_distribution<double> unif;

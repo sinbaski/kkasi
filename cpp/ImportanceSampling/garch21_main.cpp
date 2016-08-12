@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     cout << "Tail index = " << model.compute_tail_index(lines[0], lines[1]) << endl;
     // random_device dev;
     // for (size_t i = 0; i < 4000; i++) {
-    // 	array<double, 2> r = model.nu.draw(dev);
-    // 	printf("%e\t%e\n", r[0], exp(r[1]));
+    // 	array<double, 2> r = model.forward(dev, 0.995, false);
+    // 	printf("%e\t%e\n", r[0], r[1]);
     // }
 }

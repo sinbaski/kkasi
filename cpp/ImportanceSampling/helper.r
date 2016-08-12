@@ -3,7 +3,7 @@ rm(list = ls());
 a1 <- 0.11
 a2 <- 1.0e-8;
 b1 <- 0.88;
-c1 <- 0.011399856945298031;
+c1 <- 0.0113998569452980311;
 c2 <- 0.82048971669444515;
 c3 <- 0.66217902853870969;
 delta <- 0.0053583136227694748;
@@ -12,9 +12,10 @@ q <- 1;
 rho <- 0.80795847750865057;
 b <- 1.2573123595505618;
 
-data <- read.table("nu_samples.txt", header=FALSE);
+data <- read.table("transition_kernel_alternative.txt", header=FALSE);
 
 F <- list(x=c((a1 + rho)/(1 + a1), 1), eta=c(b1^2/rho, b));
+C <- c(p, q);
 
 nu.eta.pdf <- function(eta)
 {
@@ -53,15 +54,38 @@ nu.eta.propdf <- function(eta)
     return(2 * eta / c3);
 }
 
-nu.eta.proqtl <- function(y)
-{
-}
-
 nu.eta.procdf <- function(eta)
 {
     return ((eta^2 - b1^4/rho^2) / c3);
 }
 
+kernel.density <- function(x, xi, x0)
+{
+    eta <- exp(xi);
+    t1 <- eta * a1
+    t3 <- a2 * b1
+    t5 <- b1 ^ 2
+    t14 <- (x * eta + t1 * x + t3 * x0 - t5 * x0 - t1 - t3) / x0 / (a1 * b1 + a2)
+    chi1 <- dchisq(t14, 1);
+
+    t2 <- eta * (1 - x)
+    t7 <- a1 ^ 2
+    t9 <- a2 ^ 2
+    t16 <- t2 * (a1 * b1 + a2) / (eta * a1 * x + a2 * b1 * x0 - t2 * t7 - t9 * x0 + t9)
+    chi2 <- dchisq(t16, 1);
+
+    t1 <- eta ^ 2
+    t4 <- a1 ^ 2
+    t5 <- eta * t4
+    t9 <- a2 ^ 2
+    t15 <- t1 / x0 / (eta * a1 * x + a2 * b1 * x0 + t5 * x - t9 * x0 - t5 + t9)
+    
+    return(chi1 * chi2 * t15);
+}
+
+## jpeg("/tmp/scatterplot.jpg");
+plot(data$V1, data$V2, type="p", pch="*");
+## dev.off();
 
 ## dx <- (F$eta[2] - F$eta[1])/1000;
 ## integral <- 0;
