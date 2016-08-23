@@ -7,13 +7,13 @@ library(abind);
 # of all stocks in the given tables.
 ### 
 getAssetReturns <- function(day1, day2, tables, lag,
-                            col.name, host) {
+                            col.name, host)
+{
     R <- getAssetPrices(day1, day2, tables, lag, col.name, host);
     return(diff(log(R)));
 }
 
-getAssetPrices <- function(day1, day2, tables, lag,
-                           col.name, host)
+getAssetPrices <- function(day1, day2, tables, lag, col.name, host)
 {
     database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
         dbname='avanza', host=host);
@@ -44,11 +44,34 @@ day between '%s' and '%s' order by day;", tables[i], day1, day2));
         prices <- fetch(results, n=-1)[[1]];
         dbClearResult(results);
         I <- rev(seq(from=length(prices), to=1, by=-lag));
-        R[,i] <- prices[I]);
+        R[,i] <- prices[I];
     }
     dbDisconnect(database);
     return (R);
 }
+
+computeDeviations <- function(X, period)
+{
+    n <- length(X);
+    k <- ceiling(n/period);
+    dev <- rep(NA, n);
+    for(i in period:n) {
+        days <- 1 : period;
+        line <- lm(X[(i - period + 1) : i] ~ days);
+        dev[i] <- line$residuals[period];
+    }
+    
+    ## for (i in 1:k) {
+    ##     offset <- (i - 1) * period;
+    ##     l <- min(period, n - offset);
+    ##     days <- 1:l;
+    ##     line <- lm(X[(offset + 1) : (offset + l)] ~ days);
+    ##     dev[(offset + 1) : (offset + l)] <- line$residuals;
+    ## }
+    return(dev);
+}
+
+
 
 ### Given a vector of observations, infer the innovations
 inferInnovations <- function(X) {
