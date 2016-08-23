@@ -8,6 +8,13 @@ library(abind);
 ### 
 getAssetReturns <- function(day1, day2, tables, lag,
                             col.name, host) {
+    R <- getAssetPrices(day1, day2, tables, lag, col.name, host);
+    return(diff(log(R)));
+}
+
+getAssetPrices <- function(day1, day2, tables, lag,
+                           col.name, host)
+{
     database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
         dbname='avanza', host=host);
     days <- vector('character');
@@ -25,7 +32,7 @@ day between '%s' and '%s' order by day;", tables[i], day1, day2));
         }
     }
     n.days = length(days);
-    R = matrix(nrow=ceiling(n.days/lag) - 1, ncol=length(tables));
+    R = matrix(nrow=ceiling(n.days/lag), ncol=length(tables));
     str = sprintf("'%s'", days[1]);
     for (i in 2 : n.days) {
         str = sprintf("%s, '%s'", str, days[i]);
@@ -37,7 +44,7 @@ day between '%s' and '%s' order by day;", tables[i], day1, day2));
         prices <- fetch(results, n=-1)[[1]];
         dbClearResult(results);
         I <- rev(seq(from=length(prices), to=1, by=-lag));
-        R[,i] <- diff(log(prices)[I]);
+        R[,i] <- prices[I]);
     }
     dbDisconnect(database);
     return (R);
