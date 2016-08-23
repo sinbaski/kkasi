@@ -10,7 +10,7 @@
 double f (double x, void *params)
 {
     double (*par)[2] = (double (*)[2])params;
-    double t1 = sin(M_PI * x) + abs((*par)[0]);
+    double t1 = sin(M_PI * x) + fabs((*par)[0]);
     return pow(t1 * t1, (*par)[1]);
 }
 
@@ -36,7 +36,9 @@ double target_fun(double xi, void *par)
     double X[2];
     X[0] = rho;
     X[1] = xi;
-    return f_integral(&X) - 2/gsl_sf_gamma(2 * xi + 1);
+    double u = f_integral(&X);
+    double v = 2/gsl_sf_gamma(2 * xi + 1);
+    return  u - v;
 }
 
 double tail_index_fun(double rho)
