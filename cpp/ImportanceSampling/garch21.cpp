@@ -235,7 +235,7 @@ double garch21::compute_tail_index(size_t beg_line, size_t end_line)
     }
     infile.close();
 
-#pragma omp parallel for
+// #pragma omp parallel for
     for (size_t i = 0; i < num_iter; i++) {
 	stats.push_back(simulate_path()[1]);
     }
@@ -322,7 +322,6 @@ double garch21::nu_dist::eta_proposal_density(double eta)
 
 double garch21::nu_dist::eta_proposal_draw(URNG& dev)
 {
-    array<double, 2> ret;
     uniform_real_distribution<double> unif(0.0, 1.0);
     double y = unif(dev);
 
@@ -360,7 +359,6 @@ array<double, 2> garch21::nu_dist::draw(URNG& dev)
     uniform_real_distribution<double> unif(0.0, 1.0);
     uniform_real_distribution<double> Ux(markov->F.x_interval[0],
 					 markov->F.x_interval[1]);
-    double d1, d2, u;
     ret[0] = Ux(dev);
     ret[1] = log(eta_draw(dev));
     assert(markov->F.includes(ret));
