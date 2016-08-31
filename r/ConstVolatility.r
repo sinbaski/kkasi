@@ -67,12 +67,31 @@ X <- getAssetReturns("2010-01-04", "2016-04-01", currencies, 1,
 n <- dim(X)[1];
 p <- dim(X)[2];
 
-C <- cov(X);
+res <- matrix(NA, nrow=n-10, ncol=p);
+coef <- matrix(NA, nrow=p, ncol=3);
+for (i in 1:p) {
+    ## M <- garch(x=X[, i], order=c(1, 1), trace=FALSE);
+    ## coef[i, ] <- M$coef;
+    ## res[, i] <- M$residuals;
+    ## res[1, i] <- sign(rnorm(1));
+    ## vol[, i] <- X[, i] / res[, i];
 
-Y <- mvrnorm(n=500*n, mu=rep(0, p), Sigma=C);
+    ## M <- garchFit(~garch(1,1), data=X[, i], trace=FALSE);
+    ## coef[i, ] <- M@fit$params$params[c(2,3,5)];
+    ## res[, i] <- M@residuals;
 
-X2 <- X^2;
-Y2 <- Y^2;
+    M <- estimGARCH(0, 0.01, 0, X[, i]);
+    coef[i, ] <- M$coef;
+    res[, i] <- M$residus;
+    ## vol[, i] <- X[11:n, i] / res[, i];
+    ## print(c(names[i], coef[i, 2:3]));
+}
+C <- cov(res);
+
+Y <- mvrnorm(n=100*n, mu=rep(0, p), Sigma=C);
+
+X2 <- X;
+Y2 <- Y;
 
 QX <- matrix(NA, p, p);
 for (i in 1:p) {
@@ -105,7 +124,7 @@ plot(1:p, (D$values)/sum(D$values),
 points(1:p, (E$values)/sum(E$values), col="#000000", cex=2, pch=0);
 
 legend("topright",
-       legend=c(expression(cov(X^2)), expression(cov(Y^2))),
+       legend=c(expression(cov(X)), expression(cov(Y))),
        col=c("#000000", "#FF0000"),
        pch=c(0, 16), cex=2);
 grid();

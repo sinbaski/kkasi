@@ -75,27 +75,41 @@ coef <- matrix(NA, nrow=p, ncol=3);
 for (i in 1:p) {
     ## M <- garch(x=X[, i], order=c(1, 1), trace=FALSE);
     ## coef[i, ] <- M$coef;
-    ## res[, i] <- tail(M$residuals, -1);
+    ## res[, i] <- M$residuals;
+    ## res[1, i] <- sign(rnorm(1));
+    ## vol[, i] <- X[, i] / res[, i];
 
     M <- garchFit(~garch(1,1), data=X[, i], trace=FALSE);
     coef[i, ] <- M@fit$params$params[c(2,3,5)];
     res[, i] <- M@residuals;
-    
+
     ## M <- estimGARCH(0, 0.01, 0, X[, i]);
     ## coef[i, ] <- M$coef;
     ## res[, i] <- M$residus;
+    ## vol[, i] <- X[11:n, i] / res[, i];
     ## print(c(names[i], coef[i, 2:3]));
 }
 
+vol <- matrix(NA, nrow=n, ncol=p);
+for (i in 1:p) {
+    vol[1, i] <- coef[i, 1];
+    for (t in 2:(n-10)) {
+        vol[t, i] <- coef[i, 1] + coef[i, 1] * X[t-1, i]^2 + coef[i, 2] * vol[t-1, i];
+    }
+}
+vol <- sqrt(vol);
+
+V <- t(vol) %*% vol / n;
 ## C <- cov(res);
 C <- cor(res);
 ## diag(C) <- 1;
 ## write.table(x=cor(res), file="/tmp/cor.txt", row.names=FALSE, col.names=FALSE);
-W <- matrix(NA, nrow=500*n, ncol=p);
+W <- matrix(NA, nrow=100*n, ncol=p);
 sig2 <- matrix(NA, nrow=dim(W)[1], ncol=p);
 # set the initial values
 for (i in 1:p) {
-    sig2[1, i] <- coef[i, 1]/(1 - coef[i, 3]);
+    # sig2[1, i] <- coef[i, 1]/(1 - coef[i, 3]);
+    sig2[1, i] <- 0;
 }
 for (i in 1:dim(W)[1]) {
     eta <- mvrnorm(n=1, mu=rep(0, p), Sigma=C);
@@ -103,7 +117,8 @@ for (i in 1:dim(W)[1]) {
     if (i < dim(W)[1])
         sig2[i+1, ] <- coef[, 2] * W[i, ]^2 + coef[, 3] * sig2[i, ] + coef[, 1];
 }
-
+U <- sqrt(sig2);
+S <- t(U) %*% U / dim(sig2)[1];
 ## Compute Hill Estimators
 # tailIndices <- matrix(NA, p, p);
 ## tailIndices <- rep(NA, p);
@@ -128,8 +143,8 @@ for (i in 1:dim(W)[1]) {
 ## data <- X - matrix(rep(M, n), nrow=n, ncol=p, byrow=TRUE);
 # q <- max(apply(data^2, MARGIN=2, FUN=quantile, probs=0.99));
 
-X2 <- X^2;
-W2 <- W^2;
+X2 <- X;
+W2 <- W;
 
 QX <- matrix(NA, p, p);
 for (i in 1:p) {
@@ -157,7 +172,7 @@ CW <- cov(W2 - matrix(rep(apply(W2, MARGIN=2, FUN=mean), n), byrow=TRUE, dim(W2)
 # CW <- cov(W2);
 F <- eigen(CW);
 
-pdf("/tmp/SquaredReturns_eigenvalues.pdf");
+pdf("/tmp/Returns_eigenvalues.pdf");
 plot(1:p, (F$values)/sum(F$values),
      main="FX and CCC spectrum",
      ylim=c(0, 0.8),
@@ -170,14 +185,14 @@ points(1:p, (E$values)/sum(E$values), col="#000000", cex=2, pch=0);
 ## ## points(1:p, (F1$values)/sum(F1$values), col="#00FF00", cex=2, pch=17);
 
 legend("topright",
-       legend=c(expression(cov(X^2)), expression(cov(W^2))),
+       legend=c(expression(cov(X)), expression(cov(W))),
        col=c("#000000", "#FF0000"),
        pch=c(0, 16), cex=2);
 grid();
 dev.off();
 
 ## pdf("/tmp/FX_real_n_simulated_eigenvectors.pdf", width=20, height=10);
-pdf("/tmp/SquaredReturns_eigenvectors.pdf", width=20, height=10);
+pdf("/tmp/Returns_eigenvectors.pdf", width=20, height=10);
 par(mfrow=c(3,6));
 for (i in 1:p) {
     V <- E$vectors[, i];
