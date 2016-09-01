@@ -67,7 +67,7 @@ X <- getAssetReturns("2010-01-04", "2016-04-01", currencies, 1,
 n <- dim(X)[1];
 p <- dim(X)[2];
 
-res <- matrix(NA, nrow=n-10, ncol=p);
+res <- matrix(NA, nrow=n, ncol=p);
 coef <- matrix(NA, nrow=p, ncol=3);
 for (i in 1:p) {
     ## M <- garch(x=X[, i], order=c(1, 1), trace=FALSE);
@@ -76,17 +76,17 @@ for (i in 1:p) {
     ## res[1, i] <- sign(rnorm(1));
     ## vol[, i] <- X[, i] / res[, i];
 
-    ## M <- garchFit(~garch(1,1), data=X[, i], trace=FALSE);
-    ## coef[i, ] <- M@fit$params$params[c(2,3,5)];
-    ## res[, i] <- M@residuals;
+    M <- garchFit(~garch(1,1), data=X[, i], trace=FALSE);
+    coef[i, ] <- M@fit$params$params[c(2,3,5)];
+    res[, i] <- M@residuals;
 
-    M <- estimGARCH(0, 0.01, 0, X[, i]);
-    coef[i, ] <- M$coef;
-    res[, i] <- M$residus;
+    ## M <- estimGARCH(0, 0.01, 0, X[, i]);
+    ## coef[i, ] <- M$coef;
+    ## res[, i] <- M$residus;
     ## vol[, i] <- X[11:n, i] / res[, i];
     ## print(c(names[i], coef[i, 2:3]));
 }
-C <- cov(res);
+C <- cor(res);
 
 Y <- mvrnorm(n=100*n, mu=rep(0, p), Sigma=C);
 

@@ -89,27 +89,27 @@ for (i in 1:p) {
     ## vol[, i] <- X[11:n, i] / res[, i];
     ## print(c(names[i], coef[i, 2:3]));
 }
-
-vol <- matrix(NA, nrow=n, ncol=p);
-for (i in 1:p) {
-    vol[1, i] <- coef[i, 1];
-    for (t in 2:(n-10)) {
-        vol[t, i] <- coef[i, 1] + coef[i, 1] * X[t-1, i]^2 + coef[i, 2] * vol[t-1, i];
-    }
-}
-vol <- sqrt(vol);
-
-V <- t(vol) %*% vol / n;
-## C <- cov(res);
 C <- cor(res);
+## vol <- matrix(NA, nrow=n, ncol=p);
+## for (i in 1:p) {
+##     vol[1, i] <- coef[i, 1];
+##     for (t in 2:(n-10)) {
+##         vol[t, i] <- coef[i, 1] + coef[i, 1] * X[t-1, i]^2 + coef[i, 2] * vol[t-1, i];
+##     }
+## }
+## vol <- sqrt(vol);
+
+## V <- t(vol) %*% vol / n;
+## C <- cov(res);
+
 ## diag(C) <- 1;
 ## write.table(x=cor(res), file="/tmp/cor.txt", row.names=FALSE, col.names=FALSE);
 W <- matrix(NA, nrow=100*n, ncol=p);
 sig2 <- matrix(NA, nrow=dim(W)[1], ncol=p);
 # set the initial values
 for (i in 1:p) {
-    # sig2[1, i] <- coef[i, 1]/(1 - coef[i, 3]);
-    sig2[1, i] <- 0;
+    sig2[1, i] <- coef[i, 1]/(1 - coef[i, 3]);
+    ## sig2[1, i] <- 0;
 }
 for (i in 1:dim(W)[1]) {
     eta <- mvrnorm(n=1, mu=rep(0, p), Sigma=C);
@@ -117,8 +117,11 @@ for (i in 1:dim(W)[1]) {
     if (i < dim(W)[1])
         sig2[i+1, ] <- coef[, 2] * W[i, ]^2 + coef[, 3] * sig2[i, ] + coef[, 1];
 }
-U <- sqrt(sig2);
-S <- t(U) %*% U / dim(sig2)[1];
+
+
+
+## U <- sqrt(sig2);
+## S <- t(U) %*% U / dim(sig2)[1];
 ## Compute Hill Estimators
 # tailIndices <- matrix(NA, p, p);
 ## tailIndices <- rep(NA, p);
@@ -203,7 +206,7 @@ for (i in 1:p) {
     }
     s <- sign(V[which.max(abs(V))]);
 
-    plot(1:p, V * s, main=sprintf("FX & CCC V[%d]", i),
+    plot(1:p, V * s, main=sprintf("FX & GARCH(1,1) V[%d]", i),
          xlab="i", ylab=expression(V[i]),
          ylim=c(-1, 1), pch=0,
          xaxt="n");
