@@ -212,7 +212,7 @@ int main(int argc, char*argv[])
     // 	stoul(argv[3]), bounds);
     // printf("%e    %e\n", nu, Lambda);
 
-    for (double nu = stod(argv[1]); nu < 4; nu += 0.25) {
+    for (double nu = stod(argv[1]); nu < 2; nu += 0.025) {
     	Lambda = estimateLambda(
     	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]), bounds);
     	printf("%e    %e\n", nu, Lambda);

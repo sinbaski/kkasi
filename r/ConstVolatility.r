@@ -93,35 +93,37 @@ Y <- mvrnorm(n=100*n, mu=rep(0, p), Sigma=C);
 X2 <- X;
 Y2 <- Y;
 
-QX <- matrix(NA, p, p);
-for (i in 1:p) {
-    for (j in 1:i) {
-        r <- quantile(X2[, i] * X2[, j], 1 - 1/n);
-        QX[i, j] = r;
-        QX[j, i] = r;
-    }
-}
-CX <- cov(X2 - matrix(rep(apply(X2, MARGIN=2, FUN=mean), n), byrow=TRUE, n, p)) * dim(X2)[1] / max(QX);
+## QX <- matrix(NA, p, p);
+## for (i in 1:p) {
+##     for (j in 1:i) {
+##         r <- quantile(X2[, i] * X2[, j], 1 - 1/n);
+##         QX[i, j] = r;
+##         QX[j, i] = r;
+##     }
+## }
+## CX <- cov(X2 - matrix(rep(apply(X2, MARGIN=2, FUN=mean), n), byrow=TRUE, n, p)) * dim(X2)[1] / max(QX);
+CX <- cov(X);
 E <- eigen(CX);
 
-QY <- matrix(NA, p, p);
-for (i in 1:p) {
-    for (j in 1:i) {
-        r <- quantile(Y2[, i] * Y2[, j], 1 - 1/dim(Y2)[1]);
-        QY[i, j] = r;
-        QY[j, i] = r;
-    }
-}
-CY <- cov(Y2 - matrix(rep(apply(Y2, MARGIN=2, FUN=mean), n), byrow=TRUE, dim(Y2)[1], p)) * dim(Y2)[1] / max(QY);
+## QY <- matrix(NA, p, p);
+## for (i in 1:p) {
+##     for (j in 1:i) {
+##         r <- quantile(Y2[, i] * Y2[, j], 1 - 1/dim(Y2)[1]);
+##         QY[i, j] = r;
+##         QY[j, i] = r;
+##     }
+## }
+## CY <- cov(Y2 - matrix(rep(apply(Y2, MARGIN=2, FUN=mean), n), byrow=TRUE, dim(Y2)[1], p)) * dim(Y2)[1] / max(QY);
+CY <- cov(Y);
 D <- eigen(CY);
 
 pdf("/tmp/iid_normal_eigenvalues.pdf");
-plot(1:p, (D$values)/sum(D$values),
+plot(1:p, (D$values),
      main="FX and iid spectrum",
-     ylim=c(0, 0.8),
+     ## ylim=c(0, 0.8),
      xlab=expression(i), ylab="", cex=2,
      pch=16, col="#FF0000");
-points(1:p, (E$values)/sum(E$values), col="#000000", cex=2, pch=0);
+points(1:p, (E$values), col="#000000", cex=2, pch=0);
 
 legend("topright",
        legend=c(expression(cov(X)), expression(cov(Y))),
