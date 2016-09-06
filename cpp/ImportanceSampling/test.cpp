@@ -194,9 +194,9 @@ void test_cases(void)
 
 int main(int argc, char*argv[])
 {
-    vector<double> alpha({1.0e-7, 0.11, 0.09});
+    vector<double> alpha({1.0e-7, 0.11, 1.0e-8});
     // vector<double> alpha({1.0e-7, stod(argv[3])});
-    vector<double> beta({0.79});
+    vector<double> beta({0.88});
     double Lambda;
     vector< pair<double, long> > bounds;
     
@@ -212,7 +212,7 @@ int main(int argc, char*argv[])
     // 	stoul(argv[3]), bounds);
     // printf("%e    %e\n", nu, Lambda);
 
-    for (double nu = stod(argv[1]); nu < 4; nu += 0.25) {
+    for (double nu = stod(argv[1]); nu < 2; nu += 0.025) {
     	Lambda = estimateLambda(
     	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]), bounds);
     	printf("%e    %e\n", nu, Lambda);
