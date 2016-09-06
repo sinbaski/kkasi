@@ -6,7 +6,7 @@ omega <- 1.0e-7;
 a <- c(0.11, 1.0e-8);
 b <- 0.88;
 
-n <- 100000;
+n <- 500000;
 V <- matrix(NA, nrow=2, ncol=n);
 V[, 1] <- c(omega, 0);
 
@@ -23,7 +23,7 @@ for (i in 2:n) {
 }
 
 Ka <- hillPlot(V[2, 10000:n]);
-plot(Ka$K, Ka$alpha, ylim=c(1.5, 1.75), xlim=c(0, 3000), type="l");
+plot(Ka$K, Ka$alpha, ylim=c(1.5, 2.5), xlim=c(0, 4000), type="l");
+abline(h=seq(from=1000, to=4000, by=200), v=0:3, col="#FF0000");
 
-grid(nx=20);
 ## h <- hillEstimate(X[2, ]);
