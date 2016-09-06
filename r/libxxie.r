@@ -60,6 +60,7 @@ computeDeviations <- function(X, period)
         line <- lm(X[(i - period + 1) : i] ~ days);
         dev[i] <- line$residuals[period];
     }
+    dev <- dev[period:n];
     
     ## for (i in 1:k) {
     ##     offset <- (i - 1) * period;
