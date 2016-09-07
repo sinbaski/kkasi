@@ -235,7 +235,7 @@ double garch21::compute_tail_index(size_t beg_line, size_t end_line)
     }
     infile.close();
 
-// #pragma omp parallel for
+#pragma omp parallel for
     for (size_t i = 0; i < num_iter; i++) {
 	stats.push_back(simulate_path()[1]);
     }

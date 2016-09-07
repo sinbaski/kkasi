@@ -1,8 +1,8 @@
 rm(list=ls())
 a0 <- 1.0e-7;
-a1 <- 0.11;
-b1 <- 0.88;
-a2 <- 1.0e-8;
+a1 <- 0.6;
+b1 <- 0.005;
+a2 <- 0.001;
 
 norms <- rep(NA, 4000);
 
@@ -16,12 +16,14 @@ fun <- function(alpha) {
     return(mean(norms^alpha));
 }
 
-A <- seq(from=1, to=2, length.out=101);
-X <- rep(NA, length(A));
-for (i in 1:length(A)) {
-    X[i] <- fun(A[i]);
+X <- seq(from=0, to=1.5, length.out=101);
+Y <- rep(NA, length(X));
+for (i in 1:length(X)) {
+    Y[i] <- log(fun(X[i]));
 }
-pdf("A.pdf");
-plot(A, X, type="l", xlab=expression(alpha), ylab=expression(E(group("||", A, "||"))^alpha));
-dev.off();
+## pdf("A.pdf");
+plot(X, Y, type="l", xlab=expression(alpha), ylab=expression(E(group("||", A, "||")^alpha)));
+grid();
+
+## dev.off();
 

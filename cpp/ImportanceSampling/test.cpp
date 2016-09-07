@@ -91,8 +91,9 @@ double estimateLambda(const vector<double>& alpha,
 	    return y + (abs(x - mean)^2) / q;
 	});
     sd ^= 0.5;
-    // return log(mean)/q;
-    return mean() * pow(10, mean.power());
+    sd /= mean;
+    return log(mean)/q;
+//    return mean() * pow(10, mean.power());
 }
 
 void test_cases(void)
@@ -183,9 +184,9 @@ void test_cases(void)
 
 int main(int argc, char*argv[])
 {
-    vector<double> alpha({1.0e-7, 0.11, 1.0e-8});
+    vector<double> alpha({1.0e-7, 0.6, 0.001});
     // vector<double> alpha({1.0e-7, stod(argv[3])});
-    vector<double> beta({0.88});
+    vector<double> beta({0.005});
     double Lambda;
     ExtremeNumber sd;;
     
