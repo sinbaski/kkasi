@@ -53,7 +53,7 @@ double estimateLambda(const vector<double>& alpha,
 		      double xi,
 		      unsigned long n,
 		      unsigned long iterations,
-		      vector< pair<double, long> > &bounds)
+		      ExtremeNumber &sd)
 {
     vector<ExtremeNumber> results(iterations);
 #if !defined DEBUG
@@ -72,7 +72,7 @@ double estimateLambda(const vector<double>& alpha,
 	long power;
 	double m;
 	mat X = P.comptify(&power);
-	m = norm(X);
+	m = norm(X, "inf");
 
 	results[k] = ExtremeNumber(m);
 	results[k] ^= xi;
@@ -80,30 +80,19 @@ double estimateLambda(const vector<double>& alpha,
     }
 
     sort(results.begin(), results.end());
-    unsigned i = (unsigned)(iterations * 2.5e-2);
-    unsigned j = (unsigned)ceil(iterations * 97.5e-2);
     double q = (double)iterations;
     ExtremeNumber mean =
     	accumulate(results.cbegin(), results.cend(),
     		   ExtremeNumber(0.0))/q;
-    bounds.resize(3);
-    
-    bounds[0] = make_pair(
-    	results[i](),
-    	results[i].power()
-    	);
-    bounds[1] = make_pair(
-    	mean(),
-    	mean.power()
-    	);
-    bounds[2] = make_pair(
-    	results[j](),
-    	results[j].power()
-    	);
-    // for (unsigned i = 0; i < results.size(); i++) {
-    // 	printf("% e\n", results[i].mylog);
-    // }
-    return log(mean)/q;
+    sd = accumulate(
+	results.cbegin(), results.cend(), ExtremeNumber(0),
+	[q, &mean](const ExtremeNumber &y, const ExtremeNumber &x)
+	{
+	    return y + (abs(x - mean)^2) / q;
+	});
+    sd ^= 0.5;
+    // return log(mean)/q;
+    return mean() * pow(10, mean.power());
 }
 
 void test_cases(void)
@@ -198,7 +187,7 @@ int main(int argc, char*argv[])
     // vector<double> alpha({1.0e-7, stod(argv[3])});
     vector<double> beta({0.88});
     double Lambda;
-    vector< pair<double, long> > bounds;
+    ExtremeNumber sd;;
     
     cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
     	alpha[1] << ", alpha[2]=" << alpha[2] <<
@@ -212,10 +201,10 @@ int main(int argc, char*argv[])
     // 	stoul(argv[3]), bounds);
     // printf("%e    %e\n", nu, Lambda);
 
-    for (double nu = stod(argv[1]); nu < 2; nu += 0.025) {
+    for (double nu = stod(argv[1]); nu < 2; nu += 0.1) {
     	Lambda = estimateLambda(
-    	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]), bounds);
-    	printf("%e    %e\n", nu, Lambda);
+    	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]), sd);
+    	printf("%e    %e    %.2fe%+02ld\n", nu, Lambda, sd(), sd.power());
     }
     
 

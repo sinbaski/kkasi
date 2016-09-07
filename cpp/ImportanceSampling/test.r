@@ -1,27 +1,27 @@
 rm(list=ls())
+a0 <- 1.0e-7;
+a1 <- 0.11;
+b1 <- 0.88;
+a2 <- 1.0e-8;
 
-## for (alpha in c(1.5, 2.0, 2.5, 3.0, 3.5)) {
-##     X <- read.table(sprintf("Lambda_%2.1f.txt", alpha))$V1;
-##     cat(sprintf("% 2.2f    % 6.4f    %6.4f\n", alpha, mean(X), sd(X)));
-## }
+norms <- rep(NA, 4000);
 
-data <- read.table("dat/garch21-2.dat", skip=3, comment.char=c('#'));
-lo <- loess(data$V2 ~ data$V1);
-pdf("/tmp/GARCH21-2.pdf")
-plot(data$V1, data$V2, type="l", xlab=expression(alpha),
-     ylab=expression(Lambda(alpha)),
-     main=expression(
-         sigma[t+1]^2 == 10^{-7} + 0.11*R[t]^2
-         +0.09*R[t-1]^2 + 0.79*sigma[t]^2
-     ));
-lines(data$V1, predict(lo), col="#00FF00");
-grid();
+for (i in 1:4000) {
+    Y <- rnorm(1)^2;
+    A <- matrix(c(a1 * Y + b1, a2, Y, 0), byrow=TRUE, nrow=2, ncol=2);
+    norms[i] <- norm(A, "I");
+}
+
+fun <- function(alpha) {
+    return(mean(norms^alpha));
+}
+
+A <- seq(from=1, to=2, length.out=101);
+X <- rep(NA, length(A));
+for (i in 1:length(A)) {
+    X[i] <- fun(A[i]);
+}
+pdf("A.pdf");
+plot(A, X, type="l", xlab=expression(alpha), ylab=expression(E(group("||", A, "||"))^alpha));
 dev.off();
-## X <- read.table("Lambda_2.0.txt")$V1;
-## Y <- read.table("Lambda_1.5.txt")$V1;
-## h <- shapiro.test(X);
-## h$p.value
-## dens <- density(X);
-## plot(dens$x, dens$y);
-## qqnorm(X);
 
