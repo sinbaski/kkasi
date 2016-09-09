@@ -90,6 +90,12 @@ for (i in 1:p) {
     ## print(c(names[i], coef[i, 2:3]));
 }
 C <- cor(res);
+V <- apply(res, MARGIN=2, FUN=sd);
+res <- res / matrix(rep(V, n), byrow=TRUE, nrow=n, ncol=p);
+sigma <- X / res;
+M <- t(sigma) %*% sigma / n;
+
+U <- eigen(M * C);
 ## vol <- matrix(NA, nrow=n, ncol=p);
 ## for (i in 1:p) {
 ##     vol[1, i] <- coef[i, 1];

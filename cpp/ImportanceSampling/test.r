@@ -1,11 +1,12 @@
 rm(list=ls())
 a0 <- 1.0e-7;
-a1 <- 0.6;
-b1 <- 0.005;
-a2 <- 0.001;
+a1 <- 0.11;
+b1 <- 0.88;
+a2 <- 1.0e-8;
 
 norms <- rep(NA, 4000);
 
+title <- sprintf("a1 = %.3f, a2 = %.3f, b1 = %.3f", a1, a2, b1);
 for (i in 1:4000) {
     Y <- rnorm(1)^2;
     A <- matrix(c(a1 * Y + b1, a2, Y, 0), byrow=TRUE, nrow=2, ncol=2);
@@ -21,9 +22,12 @@ Y <- rep(NA, length(X));
 for (i in 1:length(X)) {
     Y[i] <- log(fun(X[i]));
 }
-## pdf("A.pdf");
-plot(X, Y, type="l", xlab=expression(alpha), ylab=expression(E(group("||", A, "||")^alpha)));
-grid();
 
-## dev.off();
+pdf("/tmp/A.pdf");
+plot(X, Y, type="l",
+     main=title,
+     xlab=expression(alpha),
+     ylab=expression(E(group("||", A, "||")^alpha)));
+grid();
+dev.off();
 
