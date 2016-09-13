@@ -88,21 +88,25 @@ inferInnovations <- function(X) {
     return(inno);
 }
 
-getInterpolatedReturns <- function(day1, day2, assetSet) {
+
+getInterpolatedReturns <- function(day1, day2, assetSet, tables, suffix) {
     database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
         dbname='avanza', host="localhost");
-    results = dbSendQuery(database, sprintf("select symbol from %s;",
-        assetSet));
-    tables <- fetch(results, n=-1)[[1]];
-    dbClearResult(results);
-    n.stocks <- length(tables);
-    suffix <- "";
-    if (assetSet == "SP500_components") {
-        suffix <- "_US";
-    } else if (assetSet == "DAX_components") {
-        suffix <- "_DE";
+    if (nchar(assetSet) > 0) {
+        results = dbSendQuery(
+            database,
+            sprintf("select symbol from %s;", assetSet)
+        );
+        tables <- fetch(results, n=-1)[[1]];
+        dbClearResult(results);
+        suffix <- "";
+        if (assetSet == "SP500_components") {
+            suffix <- "_US";
+        } else if (assetSet == "DAX_components") {
+            suffix <- "_DE";
+        }
     }
-
+    n.stocks <- length(tables);
 
     results <- dbSendQuery(
         database,
