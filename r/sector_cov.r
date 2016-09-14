@@ -89,6 +89,7 @@ F <- eigen(CW);
 
 pdf("../papers/FX/Materials_eigenvalues.pdf");
 plot(1:p, E$values, type="p", pch=17,
+     ylim=c(0, max(c(E$values, F$values))),
      xlab="i",
      ylab=expression(lambda[(i)]),
      main="Spectra of Real & Simulated Data", col="#000000"
