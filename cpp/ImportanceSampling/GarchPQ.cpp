@@ -51,6 +51,7 @@ double estimateLambda(const vector<double>& a,
     for_each(
 	E.begin(), E.end(),
 	[&](vec &e){
+	    e.set_size(2);
 	    for_each(e.begin(), e.end(),
 		     [&](double &x) {
 			 x = unif(gen);
@@ -60,15 +61,15 @@ double estimateLambda(const vector<double>& a,
 	vector<double> alpha(K);
 	vector<mat> A(K);
 	double s = 0;
-#pragma omp parallel for schedule(dynamic) shared(gen, chi2, s)
+//#pragma omp parallel for schedule(dynamic) shared(gen, chi2, s)
 	for (unsigned k = 1; k < K; k++) {
 	    double z2;
 
-#pragma omp critical
+//#pragma omp critical
 	    z2 = chi2(gen);
 	    gen_rand_matrix(a, b, z2, A[k]);
 	    alpha[k] = pow(norm(A[k] * E[k], "inf"), theta);
-#pragma omp atomic
+//#pragma omp atomic
 	    s += alpha[k];
 	}
         beta[j] = s;
@@ -76,12 +77,13 @@ double estimateLambda(const vector<double>& a,
 	vector<double> Q(K);
 	partial_sum(alpha.begin(), alpha.end(), Q.begin());
 
-#pragma omp parallel for shared(gen, unif)
+//#pragma omp parallel for shared(gen, unif)
 	for (unsigned k = 1; k < K; k++) {
 	    double U;
 
-#pragma omp critical
+//#pragma omp critical
 	    U = unif(gen);
+	    U = U * s;
 	    unsigned l = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
 	    vec V = A[k] * E[l];
 	    E[k] = V / norm(V, "inf");
@@ -108,8 +110,8 @@ int main(int argc, char*argv[])
     cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
     	alpha[1] << ", alpha[2]=" << alpha[2] <<
     	", beta[1]=" << beta[0] << endl;
-    cout << "n = " << argv[2] << endl;
-    cout << argv[3] << " iterations" << endl;
+    cout << "N = " << argv[1] << endl;
+    cout << "K = " << argv[2] << endl;
 
     // double nu = stod(argv[1]);
     // Lambda = estimateLambda(
@@ -117,11 +119,16 @@ int main(int argc, char*argv[])
     // 	stoul(argv[3]), bounds);
     // printf("%e    %e\n", nu, Lambda);
 
-    for (double nu = stod(argv[1]); nu < 2; nu += 0.1) {
-    	Lambda = estimateLambda(
-    	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]));
-    	printf("%e    %e\n", nu, Lambda);
-    }
+    double nu = 1.05;
+    Lambda = estimateLambda(
+	alpha, beta, nu, stoul(argv[1]), stoul(argv[2]));
+    printf("%e    %e\n", nu, Lambda);
+
+    // for (double nu = stod(argv[1]); nu < 2; nu += 0.1) {
+    // 	Lambda = estimateLambda(
+    // 	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]));
+    // 	printf("%e    %e\n", nu, Lambda);
+    // }
     
 
     // printf("Lambda(%s) = %.4e\n", argv[1], Lambda);
