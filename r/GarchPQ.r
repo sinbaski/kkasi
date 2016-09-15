@@ -1,29 +1,68 @@
 rm(list=ls());
 graphics.off();
-source("libxxie.r");
+## source("libxxie.r");
+library("doParallel");
 
-omega <- 1.0e-7;
-a <- c(0.11, 1.0e-8);
-b <- 0.88;
-
-n <- 500000;
-V <- matrix(NA, nrow=2, ncol=n);
-V[, 1] <- c(omega, 0);
-
-A <- matrix(NA, 2, 2);
-B <- c(omega, 0);
-
-for (i in 2:n) {
-    Z2 <- rnorm(1)^2;
-    A[1, 1] <- a[1] * Z2 + b;
-    A[1, 2] <- a[2];
-    A[2, 1] <- Z2;
-    A[2, 2] <- 0;
-    V[, i] <- A %*% V[, i-1] + B;
+norm <- function(X) {
+    return(max(X));
 }
 
-Ka <- hillPlot(V[2, 10000:n]);
-plot(Ka$K, Ka$alpha, ylim=c(1.5, 2.5), xlim=c(0, 4000), type="l");
-abline(h=seq(from=1000, to=4000, by=200), v=0:3, col="#FF0000");
+estimateLambda <- function(omega, a, b, theta)
+{
+    N <- 2000;
+    K <- 2000;
+    cl <- makeCluster(detectCores());
+    registerDoParallel(cl);
 
-## h <- hillEstimate(X[2, ]);
+    beta <- rep(NA, N);
+    E <- matrix(runif(2*K), nrow=2, ncol=K);
+
+    for (j in 1:N) {
+        alpha <- rep(NA, K);
+        Z2 <- rnorm(K)^2;
+        A <- foreach(k=1:K, .combine='cbind') %dopar% {
+            M <- matrix(NA, 2, 2);
+            M[1, 1] <- a[1] * Z2[k] + b;
+            M[1, 2] <- a[2];
+            M[2, 1] <- Z2[k];
+            M[2, 2] <- 0;
+            M;
+        }
+        alpha <- foreach(k=1:K, .combine='c') %dopar% {
+            norm(A[, (2*(k-1) + 1) : (2*k)] %*% E[, k])^theta
+        }
+        beta[j] <- sum(alpha);
+        ## Draw r.v. k*
+        Q <- cumsum(alpha/beta[j]);
+        U <- runif(K);
+        E <- foreach (k=1:K, .combine='cbind') %dopar% {    
+            l <- min(which(Q > U[k]));
+            V <- A[, (2*(k-1) + 1) : (2*k)] %*% E[, l];
+            V / norm(V);
+        }
+    }
+    stopCluster(cl);
+    return(mean(log(beta/K)));
+}
+
+omega <- 1.0e-7;
+
+## a <- c(0.11, 1.0e-8);
+## b <- 0.88;
+a <- c(0.6, 1.0e-3);
+b <- 5.0e-3;
+
+t1 <- Sys.time();
+theta <- seq(from=1.1, to=2.5, by=0.1);
+Lambda <- rep(NA, length(theta));
+##for (i in 1:length(theta)) {
+i <- 1;
+Lambda[i] <- estimateLambda(omega, a, b, theta[i]);
+##}
+t2 <- Sys.time();
+time.used <- difftime(t2, t1);
+
+write.table(format(Lambda, digits=2), file="Lambda.dat", row.names=FALSE, col.names=FALSE, quote=FALSE);
+print(time.used);
+
+

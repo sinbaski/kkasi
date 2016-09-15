@@ -1,0 +1,96 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{bookmark}
+\usepackage{graphicx}
+
+\newif\ifALL
+
+\ALLtrue
+
+\input{../../physics_common}
+\title{On FX Rates and a Multivariate GARCH model}
+\author{Xie Xiaolei}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{Notation}
+We study the covariance matrix of a $p$-dimensional sequence with each
+component modeled by a GARCH(1, 1) process:
+
+\begin{eqnarray*}
+  X_{i,t} &=& \sigma_{i,t} Z_{i,t} \\
+  (Z_{1, t}, Z_{2,t}, \dots, Z_{p,t}) &\sim& N(0, \Sigma) \\
+  \sigma_{i, t}^2 &=& \alpha_{i,0} + \alpha_{i,1} X_{i, t-1}^2 + \beta_{i,1} \sigma_{i, t-1}^2
+\end{eqnarray*}
+
+\section{Spectra of S\&P sectors}
+\subsection{Utilities}
+Fitting the daily returns' data of 25 companies that have been
+included in the S\&P 500 index since 2010-01-01 and categorized in the
+sector ``Utilities'', we obtained 23 GARCH(1, 1) models that satisfy
+the condition
+\begin{equation}
+  \label{eq:garch_cond1}
+  \alpha_1 + \beta_1 < 1  
+\end{equation}
+Then we simulate the GARCH(1, 1) processes with innovations having the
+same covariance structure as those of the real data. Figure
+\ref{fig:Utilities_eigenvalues} and \ref{fig:Utilities_eigenvectors1},
+\ref{fig:Utilities_eigenvectors2}
+compare the eigenvalues and eigenvectors, respectively, of the 
+covariance matrices of the real and the simulated data.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.6]{Utilities_eigenvalues.pdf}
+  \caption{Eigenvalues of Utilities: real \& simulated}
+  \label{fig:Utilities_eigenvalues}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5]{Utilities_eigenvectors1.pdf}
+  \caption{Eigenvectors of Utilities: real \& simulated}
+  \label{fig:Utilities_eigenvectors1}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5]{Utilities_eigenvectors2.pdf}
+  \caption{Eigenvectors of Utilities: real \& simulated continued}
+  \label{fig:Utilities_eigenvectors2}
+\end{figure}
+
+\subsection{Materials}
+A similar analysis on the ``Materials'' sector produces the following
+spectra. In this sector, 21 out of 25 return sequencies are
+successfully fitted to GARCH(1, 1) models that satisfy condition
+\eqref{eq:garch_cond1}.
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.6]{Materials_eigenvalues.pdf}
+  \caption{Eigenvalues of Materials: real \& simulated}
+  \label{fig:Materials_eigenvalues}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5]{Materials_eigenvectors1.pdf}
+  \caption{Eigenvectors of Materials: real \& simulated}
+  \label{fig:Materials_eigenvectors1}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5]{Materials_eigenvectors2.pdf}
+  \caption{Eigenvectors of Materials: real \& simulated continued}
+  \label{fig:Materials_eigenvectors2}
+\end{figure}
+
+\bibliographystyle{unsrt}
+\bibliography{../thesis/econophysics}
+\end{document}
