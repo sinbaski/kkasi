@@ -41,27 +41,31 @@ double estimateLambda(const vector<double>& a,
 		      const vector<double>& b,
 		      double theta,
 		      unsigned long N,
-		      unsigned long K)
+		      unsigned long K,
+		      double &sd)
 {
 
     uniform_real_distribution<double> unif;
     chi_squared_distribution<double> chi2;
-    vector<double> beta(K, 0);
+    // vector<double> beta(N, 0);
     vector<vec> E(K);
-    for_each(
-	E.begin(), E.end(),
-	[&](vec &e){
-	    for_each(e.begin(), e.end(),
-		     [&](double &x) {
-			 x = unif(gen);
-		     });
-	});
-    for (unsigned j = 1; j < N; j++) {
+    for (unsigned i = 0; i < K; i++) {
+	E[i].set_size(a.size() + b.size() - 2);
+	for_each(E[i].begin(), E[i].end(),
+		 [&](double &x)
+		 {
+		     x = unif(gen);
+		 });
+    }
+    double Lambda = 0;
+    sd = 0;
+    for (unsigned j = 0; j < N; j++) {
 	vector<double> alpha(K);
 	vector<mat> A(K);
-	double s = 0;
-#pragma omp parallel for schedule(dynamic) shared(gen, chi2, s)
-	for (unsigned k = 1; k < K; k++) {
+	double beta = 0;
+
+#pragma omp parallel for schedule(dynamic) shared(gen, chi2, beta)
+	for (unsigned k = 0; k < K; k++) {
 	    double z2;
 
 #pragma omp critical
@@ -69,67 +73,56 @@ double estimateLambda(const vector<double>& a,
 	    gen_rand_matrix(a, b, z2, A[k]);
 	    alpha[k] = pow(norm(A[k] * E[k], "inf"), theta);
 #pragma omp atomic
-	    s += alpha[k];
+	    beta += alpha[k];
 	}
-        beta[j] = s;
 
 	vector<double> Q(K);
 	partial_sum(alpha.begin(), alpha.end(), Q.begin());
+	vector<vec> E_prev(K);
+	copy(E.begin(), E.end(), E_prev.begin());
 
 #pragma omp parallel for shared(gen, unif)
-	for (unsigned k = 1; k < K; k++) {
+	for (unsigned k = 0; k < K; k++) {
 	    double U;
 
 #pragma omp critical
-	    U = unif(gen);
+	    U = unif(gen) * beta;
 	    unsigned l = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
-	    vec V = A[k] * E[l];
+	    vec V = A[k] * E_prev[l];
 	    E[k] = V / norm(V, "inf");
-	}	
-    }
+	}
 
-    double Lambda = accumulate(beta.begin(), beta.end(), 0.0,
-	       [K, N](double s, double x)
-	       {
-	           return s + log(x/K) / N;
-	       }
-    );
+	double lbt = log(beta/K);
+	Lambda += lbt / N;
+	sd += pow(lbt, 2) / N;
+    }
+    sd = sqrt(sd - pow(Lambda, 2));
     return Lambda;
 }
 
 
 int main(int argc, char*argv[])
 {
-    vector<double> alpha({1.0e-7, 0.6, 0.001});
-    // vector<double> alpha({1.0e-7, stod(argv[3])});
-    vector<double> beta({0.005});
+    // vector<double> alpha({1.0e-7, 0.6, 0.001});
+    // vector<double> beta({0.005});
+    vector<double> alpha({1.0e-7, 0.11, 1.0e-16});
+    vector<double> beta({0.88});
+
     double Lambda;
     
     cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
     	alpha[1] << ", alpha[2]=" << alpha[2] <<
     	", beta[1]=" << beta[0] << endl;
-    cout << "n = " << argv[2] << endl;
-    cout << argv[3] << " iterations" << endl;
+    cout << "N = " << argv[1] << endl;
+    cout << "K = " << argv[2] << endl;
 
-    // double nu = stod(argv[1]);
-    // Lambda = estimateLambda(
-    // 	alpha, beta, nu, stoul(argv[2]),
-    // 	stoul(argv[3]), bounds);
-    // printf("%e    %e\n", nu, Lambda);
-
-    for (double nu = stod(argv[1]); nu < 2; nu += 0.1) {
-    	Lambda = estimateLambda(
-    	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]));
-    	printf("%e    %e\n", nu, Lambda);
+    for (double nu = stod(argv[3]); nu < stod(argv[4]); nu += 0.1) {
+	double sd;
+	Lambda = estimateLambda(
+	    alpha, beta, nu, stoul(argv[1]), stoul(argv[2]), sd);
+	printf("%.4f    % .4f    %.4f    %.4f\n", nu, Lambda, sd, sd/abs(Lambda));
     }
     
-
-    // printf("Lambda(%s) = %.4e\n", argv[1], Lambda);
-    // printf("lambda(xi)^n = %.4fE%+ld (%.4fE+%ld, %.4fE+%ld)\n\n",
-    // 	   bounds[1].first, bounds[1].second,
-    // 	   bounds[0].first, bounds[0].second,
-    // 	   bounds[2].first, bounds[2].second
-    // 	);
     return 0;
 }
 
