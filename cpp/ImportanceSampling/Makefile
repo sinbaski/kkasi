@@ -4,32 +4,47 @@ objdir := obj
 
 ## srcs := $(wildcard $(srcdir)/*.cpp)
 ## srcs := ./test.cpp ./ExtremeNumber2.cpp ./XMatrix.cpp
-srcs := ./GarchPQ.cpp
+## srcs := ./GarchPQ.cpp
 ## srcs := garch21.cpp garch21_main.cpp
-objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
-objs := $(addprefix $(objdir)/, $(objs))
+# srcs := garch1D.cpp main.cpp
+# objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
+# objs := $(addprefix $(objdir)/, $(objs))
 
 ifeq ($(debug),1)
-	CFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -Werror -g3 -fopenmp -D DEBUG
+	CFLAGS := -std=c++11 -c -Wall -g3 -D DEBUG
+	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas
 else
-	CFLAGS := -std=c++11 -c -Wall -Werror -O3 -fopenmp
+	CFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -O3 -fopenmp
+	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas -fopenmp	
 endif
 
-LDFLAGS := -lm -larmadillo -lgsl -lgslcblas -fopenmp
+# $(objs): $(objdir)/%.o: $(srcdir)/%.cpp
+# 	@if [ ! -e $(objdir) ]; then mkdir $(objdir); fi
+# 	$(CC) $(CFLAGS) $^ -o $@
 
-$(objs): $(objdir)/%.o: $(srcdir)/%.cpp
-	@if [ ! -e $(objdir) ]; then mkdir $(objdir); fi
-	$(CC) $(CFLAGS) $^ -o $@
 
-.PHONY: main
-main: $(objs)
-##	$(CC) $(filter %.o, $^) $(LDFLAGS) -o $@
-	$(CC) $^ $(LDFLAGS) -o $@
+$(objdir)/%.o :%.cpp
+	$(CC) $(CFLAGS) $< -o $@
+
+.PHONY: garch1d
+garch1d: $(objdir)/main.o $(objdir)/garch1D.o
+	$(CC) $(LDFLAGS) $^ -o $@
+
+.PHONY: garchpq
+garchpq: $(objdir)/GarchPQ.o
+	$(CC) $(LDFLAGS) $^ -o $@
+
+# .PHONY: main
+# main: $(objs)
+# ##	$(CC) $(filter %.o, $^) $(LDFLAGS) -o $@
+# 	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: all
-all: main
+all: garch1d garchpq
 
 .PHONY: clean
 clean:
 	$(RM) $(objdir)/*.o
-	$(RM) main
+	$(RM) garch1d garchpq
+
+

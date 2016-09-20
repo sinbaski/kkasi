@@ -27,8 +27,9 @@ component modeled by a GARCH(1, 1) process:
   \sigma_{i, t}^2 &=& \alpha_{i,0} + \alpha_{i,1} X_{i, t-1}^2 + \beta_{i,1} \sigma_{i, t-1}^2
 \end{eqnarray*}
 
-\section{IGARCH(1,1) Processes}
+\section{IGARCH(1) Processes}
 We first consider the cases where $\alpha_{i, 1} + \beta_{i, 1} = 1$, i.e. IGARCH models.
+
 \subsection{IARCH(1)}
 In this case $\alpha_{i, 1} = 1$, $\beta_{i, 1} = 0$. Thus, from the equation
 \begin{equation*}
@@ -89,18 +90,18 @@ Using this result, we immediately obtain for ARCH(1) models
   \label{eq:arch_1st}
   \int_{-1}^1 (\sin(\pi z) + \rho)^{2\xi} dz =
   {2 \over \Gamma(2\xi + 1)}
-  {1 \over (\alpha_i \alpha_j)^\xi}
+  {1 \over (\alpha_{i, 1} \alpha_{j, 1})^\xi}
 \end{equation*}
 
-\section{General IARCH(1)}
-For general IARCH(1) models, the equation
+\section{General IGARCH(1)}
+For general IGARCH(1) models, the equation
 \begin{equation*}
   \E \left[
     (
-    \alpha_{11} Z_1^2 + 1 - \alpha_{11}
+    \alpha_{i,1} Z_1^2 + 1 - \alpha_{i,1}
     )^\xi
     (
-    \alpha_{11} Z_1^2 + 1 - \alpha_{11}
+    \alpha_{j,1} Z_2^2 + 1 - \alpha_{j,1}
     )^\xi\right] = 1
 \end{equation*}
 has to be solved numerically.

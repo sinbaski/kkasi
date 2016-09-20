@@ -175,9 +175,12 @@ int main(int argc, char* argv[])
 	1.0e-7, 0.11, 0.88
     };
     Garch1D<double> garch11(coef[0], coef[1], coef[2], stol(argv[1]));
+    printf("Lambda(%.4f) = %.4f\n", garch11.xi, log(garch11.moment_func(garch11.xi, 0, 0)));
+    for (double x = stod(argv[2]); x <= stod(argv[3]); x += 0.1) {
+	printf("%.4f    %.4f\n", x, log(garch11.moment_func(x)));
+    }
 
-    printf("lambda(-%.4f) = %.4f\n", garch11.xi, garch11.moment_func(-garch11.xi, 0, 0));
-
+#if 0
     /**
      * Find M. The set C = [-M, M]
      */
@@ -302,6 +305,6 @@ int main(int argc, char* argv[])
     // for (int i = 0; i < stoi(argv[1]); i++) {
     // 	cout << test() << endl;
     // }
-    
+#endif    
     return 0;
 }

@@ -5,6 +5,8 @@
 #include <armadillo>
 #include <iostream>
 #include <random>
+#include <gsl/gsl_roots.h>
+#include <gsl/gsl_errno.h>
 
 using namespace std;
 using namespace arma;
@@ -100,12 +102,66 @@ double estimateLambda(const vector<double>& a,
     return Lambda;
 }
 
+struct func_par
+{
+    const vector<double>& a;
+    const vector<double>& b;
+    unsigned long N;
+    unsigned long K;
+};
+
+double func(double theta, void *p)
+{
+    struct func_par* par = (struct func_par*) p;
+    double sd;
+    return estimateLambda(par->a, par->b, theta, par->N, par->K, sd);
+}
+
+double find_root(const vector<double>& a,
+		 const vector<double>& b,
+		 unsigned long N,
+		 unsigned long K,
+		 double bounds[2])
+{
+    gsl_root_fsolver *solver;
+    gsl_function F;
+    int iter = 0;
+    int status = 0;
+    int max_iter = 100;
+    double lb, ub;
+    double xi;
+    struct func_par par = {
+	a, b, N, K
+    };
+    F.function = func;
+    F.params = &par;
+    solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
+    gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
+    do {
+	iter++;
+	status = gsl_root_fsolver_iterate (solver);
+	xi = gsl_root_fsolver_root (solver);
+	lb = gsl_root_fsolver_x_lower(solver);
+	ub = gsl_root_fsolver_x_upper(solver);
+	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
+	if (status == GSL_SUCCESS)
+	    cout << "Tail index found: xi = " << xi << endl;
+    } while (status == GSL_CONTINUE && iter < max_iter);
+    gsl_root_fsolver_free(solver);
+    if (status != GSL_SUCCESS) {
+	cout << "The Brent algorithm did not converge after " << max_iter
+	     << " iterations." << endl;
+	xi = -1;
+    }
+    return xi;
+}
 
 int main(int argc, char*argv[])
 {
     // vector<double> alpha({1.0e-7, 0.6, 0.001});
     // vector<double> beta({0.005});
-    vector<double> alpha({1.0e-7, 0.11, 1.0e-16});
+    // vector<double> alpha({1.0e-7, 0.11, 1.0e-8});
+    vector<double> alpha({1.0e-7, 0.11});
     vector<double> beta({0.88});
 
     double Lambda;
@@ -116,13 +172,22 @@ int main(int argc, char*argv[])
     cout << "N = " << argv[1] << endl;
     cout << "K = " << argv[2] << endl;
 
-    for (double nu = stod(argv[3]); nu < stod(argv[4]); nu += 0.1) {
-	double sd;
-	Lambda = estimateLambda(
-	    alpha, beta, nu, stoul(argv[1]), stoul(argv[2]), sd);
-	printf("%.4f    % .4f    %.4f    %.4f\n", nu, Lambda, sd, sd/abs(Lambda));
-    }
+    unsigned long N = stoul(argv[1]), K = stoul(argv[2]);
     
+    double bounds[2];
+    bool flag = false;
+    for (double nu = stod(argv[3]); nu <= stod(argv[4]); nu += 0.1) {
+	double sd;
+	Lambda = estimateLambda(alpha, beta, nu, N, K, sd);
+	printf("%.4f    % .4f    %.4f    %.4f\n", nu, Lambda, sd, sd/abs(Lambda));
+	if (!flag && Lambda > 0) {
+	    bounds[1] = nu;
+	    bounds[0] = nu - 0.1;
+	    flag = true;
+	}
+    }
+    double xi = find_root(alpha, beta, N, K, bounds);
+    cout << "Lambda(" << xi << ") = 0" << endl;
     return 0;
 }
 
