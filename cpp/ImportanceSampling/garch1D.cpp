@@ -61,7 +61,11 @@ int Garch1D<T>::find_tail_index(void)
     F.params = &param;
     
     solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
-    gsl_root_fsolver_set(solver, &F, 1.8, 1.9);
+    double x = 1.8;
+    double inc = moment_func(x) < 1 ? 0.1 : -0.1;
+    while ((moment_func(x + inc) - 1) * inc < 0) x += inc;
+
+    gsl_root_fsolver_set(solver, &F, min(x, x + inc), max(x, x + inc));
 
     printf ("using %s method\n", 
 	    gsl_root_fsolver_name (solver));
@@ -72,7 +76,7 @@ int Garch1D<T>::find_tail_index(void)
 	xi = gsl_root_fsolver_root (solver);
 	lb = gsl_root_fsolver_x_lower(solver);
 	ub = gsl_root_fsolver_x_upper(solver);
-	status = gsl_root_test_interval(lb, ub, 1.0e-6, 0);
+	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
 	if (status == GSL_SUCCESS)
 	    cout << "Tail index found: xi = " << xi << endl;
     } while (status == GSL_CONTINUE && iter < max_iter);
@@ -117,7 +121,7 @@ Garch1D<T>::Garch1D(T a0, T a, T b, unsigned long sample_size)
 	i->prob = nan("");
     }
     sort(stationary.begin(), stationary.end());
-    printf("Left end point of stationary dist = %.4e\n", stationary[0].quantile);
+    // printf("Left end point of stationary dist = %.4e\n", stationary[0].quantile);
 
     T k = (T)stationary.size();
 

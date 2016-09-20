@@ -5,6 +5,8 @@
 #include <armadillo>
 #include <iostream>
 #include <random>
+#include <gsl/gsl_roots.h>
+#include <gsl/gsl_errno.h>
 
 using namespace std;
 using namespace arma;
@@ -41,70 +43,127 @@ double estimateLambda(const vector<double>& a,
 		      const vector<double>& b,
 		      double theta,
 		      unsigned long N,
-		      unsigned long K)
+		      unsigned long K,
+		      double &sd)
 {
 
     uniform_real_distribution<double> unif;
     chi_squared_distribution<double> chi2;
-    vector<double> beta(K, 0);
+    // vector<double> beta(N, 0);
     vector<vec> E(K);
-    for_each(
-	E.begin(), E.end(),
-	[&](vec &e){
-	    e.set_size(2);
-	    for_each(e.begin(), e.end(),
-		     [&](double &x) {
-			 x = unif(gen);
-		     });
-	});
-    for (unsigned j = 1; j < N; j++) {
+    for (unsigned i = 0; i < K; i++) {
+	E[i].set_size(a.size() + b.size() - 2);
+	for_each(E[i].begin(), E[i].end(),
+		 [&](double &x)
+		 {
+		     x = unif(gen);
+		 });
+    }
+    double Lambda = 0;
+    sd = 0;
+    for (unsigned j = 0; j < N; j++) {
 	vector<double> alpha(K);
 	vector<mat> A(K);
-	double s = 0;
-//#pragma omp parallel for schedule(dynamic) shared(gen, chi2, s)
-	for (unsigned k = 1; k < K; k++) {
+	double beta = 0;
+
+#pragma omp parallel for schedule(dynamic) shared(gen, chi2, beta)
+	for (unsigned k = 0; k < K; k++) {
 	    double z2;
 
-//#pragma omp critical
+#pragma omp critical
 	    z2 = chi2(gen);
 	    gen_rand_matrix(a, b, z2, A[k]);
 	    alpha[k] = pow(norm(A[k] * E[k], "inf"), theta);
-//#pragma omp atomic
-	    s += alpha[k];
+#pragma omp atomic
+	    beta += alpha[k];
 	}
-        beta[j] = s;
 
 	vector<double> Q(K);
 	partial_sum(alpha.begin(), alpha.end(), Q.begin());
+	vector<vec> E_prev(K);
+	copy(E.begin(), E.end(), E_prev.begin());
 
-//#pragma omp parallel for shared(gen, unif)
-	for (unsigned k = 1; k < K; k++) {
+#pragma omp parallel for shared(gen, unif)
+	for (unsigned k = 0; k < K; k++) {
 	    double U;
 
-//#pragma omp critical
-	    U = unif(gen);
-	    U = U * s;
+#pragma omp critical
+	    U = unif(gen) * beta;
 	    unsigned l = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
-	    vec V = A[k] * E[l];
+	    vec V = A[k] * E_prev[l];
 	    E[k] = V / norm(V, "inf");
-	}	
-    }
+	}
 
-    double Lambda = accumulate(beta.begin(), beta.end(), 0.0,
-	       [K, N](double s, double x)
-	       {
-	           return s + log(x/K) / N;
-	       }
-    );
+	double lbt = log(beta/K);
+	Lambda += lbt / N;
+	sd += pow(lbt, 2) / N;
+    }
+    sd = sqrt(sd - pow(Lambda, 2));
     return Lambda;
 }
 
+struct func_par
+{
+    const vector<double>& a;
+    const vector<double>& b;
+    unsigned long N;
+    unsigned long K;
+};
+
+double func(double theta, void *p)
+{
+    struct func_par* par = (struct func_par*) p;
+    double sd;
+    return estimateLambda(par->a, par->b, theta, par->N, par->K, sd);
+}
+
+double find_root(const vector<double>& a,
+		 const vector<double>& b,
+		 unsigned long N,
+		 unsigned long K,
+		 double bounds[2])
+{
+    gsl_root_fsolver *solver;
+    gsl_function F;
+    int iter = 0;
+    int status = 0;
+    int max_iter = 100;
+    double lb, ub;
+    double xi;
+    struct func_par par = {
+	a, b, N, K
+    };
+    F.function = func;
+    F.params = &par;
+    solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
+    gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
+    do {
+	iter++;
+	status = gsl_root_fsolver_iterate (solver);
+	xi = gsl_root_fsolver_root (solver);
+	lb = gsl_root_fsolver_x_lower(solver);
+	ub = gsl_root_fsolver_x_upper(solver);
+	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
+	if (status == GSL_SUCCESS)
+	    cout << "Tail index found: xi = " << xi << endl;
+    } while (status == GSL_CONTINUE && iter < max_iter);
+    gsl_root_fsolver_free(solver);
+    if (status != GSL_SUCCESS) {
+	cout << "The Brent algorithm did not converge after " << max_iter
+	     << " iterations." << endl;
+	xi = -1;
+    }
+    return xi;
+}
 
 int main(int argc, char*argv[])
 {
-    vector<double> alpha({1.0e-7, 0.6, 0.001});
-    // vector<double> alpha({1.0e-7, stod(argv[3])});
-    vector<double> beta({0.005});
+    // vector<double> alpha({1.0e-7, 0.6, 0.001});
+    // vector<double> beta({0.005});
+    // vector<double> alpha({1.0e-7, 0.11, 1.0e-8});
+    vector<double> alpha({1.0e-7, 0.11});
+    vector<double> beta({0.88});
+
     double Lambda;
     
     cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
@@ -113,30 +172,22 @@ int main(int argc, char*argv[])
     cout << "N = " << argv[1] << endl;
     cout << "K = " << argv[2] << endl;
 
-    // double nu = stod(argv[1]);
-    // Lambda = estimateLambda(
-    // 	alpha, beta, nu, stoul(argv[2]),
-    // 	stoul(argv[3]), bounds);
-    // printf("%e    %e\n", nu, Lambda);
-
-    double nu = 1.05;
-    Lambda = estimateLambda(
-	alpha, beta, nu, stoul(argv[1]), stoul(argv[2]));
-    printf("%e    %e\n", nu, Lambda);
-
-    // for (double nu = stod(argv[1]); nu < 2; nu += 0.1) {
-    // 	Lambda = estimateLambda(
-    // 	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]));
-    // 	printf("%e    %e\n", nu, Lambda);
-    // }
+    unsigned long N = stoul(argv[1]), K = stoul(argv[2]);
     
-
-    // printf("Lambda(%s) = %.4e\n", argv[1], Lambda);
-    // printf("lambda(xi)^n = %.4fE%+ld (%.4fE+%ld, %.4fE+%ld)\n\n",
-    // 	   bounds[1].first, bounds[1].second,
-    // 	   bounds[0].first, bounds[0].second,
-    // 	   bounds[2].first, bounds[2].second
-    // 	);
+    double bounds[2];
+    bool flag = false;
+    for (double nu = stod(argv[3]); nu <= stod(argv[4]); nu += 0.1) {
+	double sd;
+	Lambda = estimateLambda(alpha, beta, nu, N, K, sd);
+	printf("%.4f    % .4f    %.4f    %.4f\n", nu, Lambda, sd, sd/abs(Lambda));
+	if (!flag && Lambda > 0) {
+	    bounds[1] = nu;
+	    bounds[0] = nu - 0.1;
+	    flag = true;
+	}
+    }
+    double xi = find_root(alpha, beta, N, K, bounds);
+    cout << "Lambda(" << xi << ") = 0" << endl;
     return 0;
 }
 
