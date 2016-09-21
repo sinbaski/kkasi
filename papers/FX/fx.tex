@@ -104,7 +104,16 @@ For general IGARCH(1) models, the equation
     \alpha_{j,1} Z_2^2 + 1 - \alpha_{j,1}
     )^\xi\right] = 1
 \end{equation*}
-has to be solved numerically.
+has to be solved numerically. Figure \ref{fig:xi_rho0.5} shows $\xi$
+as a function of $(\alpha_{i,1}, \alpha_{j,1})$ as defined by the
+above equation.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4]{igarch_rho0dot5.pdf}
+  \caption{$\xi(\alpha_1, \alpha_2)$ for $\rho = 1/2$}
+  \label{fig:xi_rho0.5}
+\end{figure}
+
 \section{Spectra of S\&P sectors}
 \subsection{Utilities}
 Fitting the daily returns' data of 25 companies that have been
