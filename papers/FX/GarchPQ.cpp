@@ -18,7 +18,7 @@ mat& gen_rand_matrix(const vector<double> &alpha,
 		     const vector<double> &beta,
 		     double z2, mat &M)
 {
-    unsigned p = beta.size(), q = alpha.size() - 1;
+    unsigned p = beta.size(), q = alpha.size();
     unsigned n = p + q - 1;
 
     M.zeros(n, n);
@@ -52,7 +52,7 @@ double estimateLambda(const vector<double>& a,
     // vector<double> beta(N, 0);
     vector<vec> E(K);
     for (unsigned i = 0; i < K; i++) {
-	E[i].set_size(a.size() + b.size() - 2);
+	E[i].set_size(a.size() + b.size() - 1);
 	for_each(E[i].begin(), E[i].end(),
 		 [&](double &x)
 		 {
@@ -102,20 +102,25 @@ double estimateLambda(const vector<double>& a,
     return Lambda;
 }
 
-struct func_par
+namespace GarchPQ
 {
-    const vector<double>& a;
-    const vector<double>& b;
-    unsigned long N;
-    unsigned long K;
-};
+    struct func_par
+    {
+	const vector<double>& a;
+	const vector<double>& b;
+	unsigned long N;
+	unsigned long K;
+    };
 
-double func(double theta, void *p)
-{
-    struct func_par* par = (struct func_par*) p;
-    double sd;
-    return estimateLambda(par->a, par->b, theta, par->N, par->K, sd);
+    double func(double theta, void *p)
+    {
+	struct func_par* par = (struct func_par*) p;
+	double sd;
+	return estimateLambda(par->a, par->b, theta, par->N, par->K, sd);
+    }
 }
+
+using namespace GarchPQ;
 
 double find_root(const vector<double>& a,
 		 const vector<double>& b,
@@ -162,13 +167,12 @@ int main(int argc, char*argv[])
     // vector<double> alpha({1.0e-7, 0.6, 0.001});
     // vector<double> beta({0.005});
     // vector<double> alpha({1.0e-7, 0.11, 1.0e-8});
-    vector<double> alpha({1.0e-7, 0.12});
+    vector<double> alpha({0.12});
     vector<double> beta({0.88});
 
     double Lambda;
     
-    cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
-    	alpha[1] << ", alpha[2]=" << alpha[2] <<
+    cout << ", alpha[1]=" << alpha[0] << ", alpha[2]=" << alpha[1] <<
     	", beta[1]=" << beta[0] << endl;
     cout << "N = " << argv[1] << endl;
     cout << "K = " << argv[2] << endl;
