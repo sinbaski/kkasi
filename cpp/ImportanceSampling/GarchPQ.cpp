@@ -156,13 +156,12 @@ double find_root(const vector<double>& a,
     return xi;
 }
 
-#ifdef GARCH_PQ_ALONE
 int main(int argc, char*argv[])
 {
     // vector<double> alpha({1.0e-7, 0.6, 0.001});
     // vector<double> beta({0.005});
-    // vector<double> alpha({1.0e-7, 0.11, 1.0e-8});
-    vector<double> alpha({1.0e-7, 0.12});
+    vector<double> alpha({1.0e-7, 0.11, 0});
+//    vector<double> alpha({1.0e-7, 0.12});
     vector<double> beta({0.88});
 
     double Lambda;
@@ -191,5 +190,5 @@ int main(int argc, char*argv[])
     cout << "Lambda(" << xi << ") = 0" << endl;
     return 0;
 }
-#endif
+
 

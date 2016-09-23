@@ -18,7 +18,7 @@ prepare:
 	@if [ ! -e $(objdir) ]; then mkdir $(objdir); fi
 
 .PHONY: igarch
-igarch: $(objdir)/igarch.o $(objdir)/GarchPQ.o
+igarch: $(objdir)/igarch.o
 	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: all

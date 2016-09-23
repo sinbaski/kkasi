@@ -10,22 +10,74 @@
 #include <gsl/gsl_monte_vegas.h>
 #include <gsl/gsl_roots.h>
 #include <gsl/gsl_errno.h>
+#include <gsl/gsl_integration.h>
 
 using namespace std;
 
 #define SIZE 4
-extern double estimateLambda(const vector<double>& a,
-			     const vector<double>& b,
-			     double theta,
-			     unsigned long N,
-			     unsigned long K,
-			     double &sd);
 
-extern double find_root(const vector<double>& a,
-			const vector<double>& b,
-			unsigned long N,
-			unsigned long K,
-			double bounds[2]);
+double g(double z, void *params)
+{
+    vector<double>* par = (vector<double>*)params;
+    double alpha = par->at(0);
+    double beta = par->at(1);
+    double kappa = par->at(2);
+    double t1 = z * z;
+    double t4 = pow(alpha * t1 + beta, kappa);
+    double t6 = exp(-t1 / 0.2e1);
+    double t7 = t4 * t6;
+    return t7;
+}
+
+double g_integral(vector<double> *params)
+{
+    gsl_integration_workspace * w 
+	= gsl_integration_workspace_alloc (1000);
+  
+    double result, error;
+    gsl_function G;
+    G.function = &g;
+    G.params = params;    
+    gsl_integration_qagi(&G, 0, 1.0e-7, 1000, w, &result, &error);
+    return result / sqrt(2 * M_PI);
+}
+
+double g_integral_func(double kappa, void *params)
+{
+    vector<double> *par = (vector<double>*)params;
+    vector<double> V(*par);
+    V.push_back(kappa);
+    return g_integral(&V) - 1;
+}
+
+double find_tail_index(double alpha, double beta, double bounds[2])
+{
+    gsl_root_fsolver *solver;
+    gsl_function F;
+    int iter = 0;
+    int status = 0;
+    int max_iter = 100;
+    double lb, ub;
+    double xi;
+    vector<double> params(2);
+    params[0] = alpha;
+    params[1] = beta;
+    F.function = g_integral_func;    
+    F.params = &params;
+    solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
+    gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
+    do {
+	iter++;
+	status = gsl_root_fsolver_iterate (solver);
+	xi = gsl_root_fsolver_root (solver);
+	lb = gsl_root_fsolver_x_lower(solver);
+	ub = gsl_root_fsolver_x_upper(solver);
+	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
+    } while (status == GSL_CONTINUE && iter < max_iter);
+    gsl_root_fsolver_free(solver);
+    assert(status == GSL_SUCCESS);
+    return xi;
+}
 
 struct f_params
 {
@@ -71,7 +123,7 @@ double f_integral(double kappa, double rho, double* alpha, double eps, double* e
     params.rho = rho;
     copy(alpha, alpha + 2, params.alpha);
     
-    gsl_monte_function F = { &f, 2, &params};
+    gsl_monte_function F = {&f, 2, &params};
     gsl_monte_vegas_state *state = gsl_monte_vegas_alloc(2);
 
     double M = 10;
@@ -124,28 +176,23 @@ double corr_func(double rho, void *p)
 
 void map_tail_index(array<double, 4>& field)
 {
-    unsigned long N = 1000;
-    unsigned long K = 4000;
-
     for (unsigned i = 0; i < field.size(); i++) {
-	vector<double> alpha(1, (double)(i + 1) * 0.05);
-	vector<double> beta(1, 1 - alpha[0]);
-	double sd;
-	double theta = 0.5;
-	double Lambda = estimateLambda(alpha, beta, theta, N, K, sd);
-	double inc = Lambda < 0 ? 1 : -1;
+	vector<double> params(3);
+	params[0] = (double)(i + 1) * 0.05;
+	params[1] = 1 - params[0];
+	params[2] = 0.5;
+	double lambda = g_integral(&params);
+	double inc = lambda < 1 ? 0.5 : -0.5;
 	double bounds[2];
-	while(theta < 10 && Lambda * inc < 0) {
+	while (params[2] > 0 && params[2] < 10 && inc * (lambda - 1) < 0) {
 	    inc *= 2;
-	    Lambda = estimateLambda(alpha, beta, theta += inc, N, K, sd);
+	    params[2] += inc;
+	    lambda = g_integral(&params);
 	}
-	if (theta >= 10 && Lambda * inc < 0) {
-	    field[i] = GSL_POSINF;
-	    return;
-	}
-	bounds[0] = min(theta, theta - inc);
-	bounds[1] = max(theta, theta - inc);
-	field[i] = find_root(alpha, beta, N, K, bounds);
+
+	bounds[0] = min(params[2], params[2] - inc);
+	bounds[1] = max(params[2], params[2] - inc);
+	field[i] = find_tail_index(params[0], params[1], bounds);
     }
 }
 
@@ -209,22 +256,19 @@ void map_product_tail_index(array<array<double, SIZE>, SIZE>& field, double rho)
 int main(int argc, char *argv[])
 {
     array<array<vector<double>, SIZE>, SIZE> field;
-    array<double, SIZE> uni_indices;
+//    array<double, SIZE> uni_indices;
  
-    map_tail_index(uni_indices);
     for (unsigned i = 0; i < field.size(); i++) {
+//#pragma omp parallel for schedule(dynamic)
         for (unsigned j = 0; j < field[0].size(); j++) {
-	    double xi = min(min(uni_indices[i], uni_indices[j])/2, 10.0);
-	    
-//	    double rho;
 	    double alpha[2];
 	    double err;
 	    alpha[0] = (double)(i + 1) * (double)1/SIZE;
 	    alpha[1] = (double)(j + 1) * (double)1/SIZE;
-	    array<double, 20> expectaions;
-	    for (unsigned k = 0; k < expectaions.size(); k++) {
-		expectaions[k] = f_integral(xi, k * 0.1 - 1, alpha, 1.0e-4, &err);
-		if (k > 0 && (expectaions[k] - 1) * (expectaions[k-1] - 1) < 0) {
+	    array<double, 20> expectations;
+	    for (unsigned k = 0; k < expectations.size(); k++) {
+		expectations[k] = f_integral(1.0, k * 0.1 - 1, alpha, 1.0e-4, &err);
+		if (k > 0 && (expectations[k] - 1) * (expectations[k-1] - 1) < 0) {
 		    field[i][j].push_back(k);
 		}
 	    }
@@ -232,12 +276,12 @@ int main(int argc, char *argv[])
         }
     }    
 
-    for (unsigned i = 0; i < field.size(); i++) {
-        for (unsigned j = 0; j < field[0].size(); j++) {
-            //printf("%8.4f", field[i][j]);
-    	    printf("%6ld", field[i][j].size());
-        }
-    	printf("\n");
-    }    
+    // for (unsigned i = 0; i < field.size(); i++) {
+    //     for (unsigned j = 0; j < field[0].size(); j++) {
+    //         //printf("%8.4f", field[i][j]);
+    // 	    printf("%6ld", field[i][j].size());
+    //     }
+    // 	printf("\n");
+    // }    
     return 0;
 }
