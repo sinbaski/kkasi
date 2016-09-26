@@ -62,9 +62,33 @@ double estimateLambda(const vector<double>& a,
     double Lambda = 0;
     sd = 0;
     for (unsigned j = 0; j < N; j++) {
-	vector<double> alpha(K);
-	vector<mat> A(K);
+	vector< array<double, 2> > alpha(K);
 	double beta = 0;
+	vector<mat> A(K);
+	vector<double> Q(K);
+	double s = 0;
+	// transform(alpha.begin(), alpha.end(), Q.begin(),
+	// 	  [&s](const array<double, 2> &a) {
+	// 	      return s += a[0];
+	// 	  });
+	if (j == 0) {
+#pragma omp parallel for
+	    for (unsigned k = 0; k < K; k++) {
+		alpha[k][0] = 1;
+		Q[k] = k + 1;
+	    }
+	    beta = K;
+	} else {
+	    for (unsigned k = 0; k < K; k++) {
+		if (k == 0) {
+		    Q[k] = alpha[k][0];
+		} else {
+		    Q[k] = Q[k-1] + alpha[k][0];
+		}
+		beta += alpha[k][0];
+		alpha[k][0] = alpha[k][1];
+	    }
+	}
 
 #pragma omp parallel for schedule(dynamic) shared(gen, chi2, beta)
 	for (unsigned k = 0; k < K; k++) {
@@ -73,13 +97,8 @@ double estimateLambda(const vector<double>& a,
 #pragma omp critical
 	    z2 = chi2(gen);
 	    gen_rand_matrix(a, b, z2, A[k]);
-	    alpha[k] = pow(norm(A[k] * E[k], "inf"), theta);
-#pragma omp atomic
-	    beta += alpha[k];
+	    alpha[k][1] = pow(norm(A[k] * E[k], "inf"), theta);
 	}
-
-	vector<double> Q(K);
-	partial_sum(alpha.begin(), alpha.end(), Q.begin());
 	vector<vec> E_prev(K);
 	copy(E.begin(), E.end(), E_prev.begin());
 
@@ -97,6 +116,15 @@ double estimateLambda(const vector<double>& a,
 	double lbt = log(beta/K);
 	Lambda += lbt / N;
 	sd += pow(lbt, 2) / N;
+	if (j == N) {
+	    accumulate(alpha.begin(), alpha.end(), beta = 0,
+		       [](double s, const array<double, 2>& a) {
+			   return s + a[1];
+		       });
+	    lbt = log(beta/K);
+	    Lambda += lbt / N;
+	    sd += pow(lbt, 2)/N;
+	}
     }
     sd = sqrt(sd - pow(Lambda, 2));
     return Lambda;
@@ -158,11 +186,9 @@ double find_root(const vector<double>& a,
 
 int main(int argc, char*argv[])
 {
-    // vector<double> alpha({1.0e-7, 0.6, 0.001});
-    // vector<double> beta({0.005});
-    vector<double> alpha({1.0e-7, 0.11, 0});
-//    vector<double> alpha({1.0e-7, 0.12});
-    vector<double> beta({0.88});
+    // DAX
+    vector<double> alpha({1.0e-7, 0.02749864, 0.04228535});
+    vector<double> beta({0.8968533});
 
     double Lambda;
     
