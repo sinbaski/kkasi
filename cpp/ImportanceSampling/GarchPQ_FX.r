@@ -71,6 +71,10 @@ for (i in 1:length(assets)) {
     coef[i, ] <- M@fit$params$params[c(3,4,7)];    
 }
 
+X <- getAssetReturns("2012-01-01", "2015-01-01", "FTSE100", 1, "closing", "localhost");
+M <- garchFit(~garch(2, 2), data=X, trace=FALSE);
+
+
 ##            [,1]       [,2]      [,3]
 ## [1,] 0.02749864 0.04228535 0.8968533
 ## [2,] 0.10623464 0.02904907 0.7829784

@@ -193,14 +193,20 @@ int main(int argc, char*argv[])
     // vector<double> alpha({1.0e-7, 0.02749864, 0.04228535});
     // vector<double> beta({0.8968533});
     // FTSE100
-    vector<double> alpha({1.0e-7, 0.10623464, 0.02904907});
-    vector<double> beta({0.7829784});
-
+    // vector<double> alpha({1.0e-7, 0.10623464, 0.02904907});
+    // vector<double> beta({0.7829784});
+    // // FTSE100 GARCH(1,1)
+    // vector<double> alpha({1.0e-7, 1.268747e-01});
+    // vector<double> beta({8.008847e-01});
+    // FTSE100 GARCH(2,2)
+    vector<double> alpha({1.0e-7, 1.043865e-01, 5.819967e-02});
+    vector<double> beta({5.673898e-01, 1.724495e-01});
+    
     double Lambda;
     
-    cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
-    	alpha[1] << ", alpha[2]=" << alpha[2] <<
-    	", beta[1]=" << beta[0] << endl;
+    // cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
+    // 	alpha[1] << ", alpha[2]=" << alpha[2] <<
+    // 	", beta[1]=" << beta[0] << endl;
     cout << "N = " << argv[1] << endl;
     cout << "K = " << argv[2] << endl;
 
