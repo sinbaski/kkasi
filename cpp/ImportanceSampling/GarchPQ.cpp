@@ -198,9 +198,9 @@ int main(int argc, char*argv[])
     // // FTSE100 GARCH(1,1)
     // vector<double> alpha({1.0e-7, 1.268747e-01});
     // vector<double> beta({8.008847e-01});
-    // FTSE100 GARCH(2,2)
-    vector<double> alpha({1.0e-7, 1.043865e-01, 5.819967e-02});
-    vector<double> beta({5.673898e-01, 1.724495e-01});
+    // DAX GARCH(2,1)
+    vector<double> alpha({9.225747e-06, 8.835834e-02, 9.685783e-02});
+    vector<double> beta({6.543018e-01});
     
     double Lambda;
     
@@ -224,8 +224,8 @@ int main(int argc, char*argv[])
 	    flag = true;
 	}
     }
-    // double xi = find_root(alpha, beta, N, K, bounds);
-    // cout << "Lambda(" << xi << ") = 0" << endl;
+    double xi = find_root(alpha, beta, N, K, bounds);
+    cout << "Lambda(" << xi << ") = 0" << endl;
     return 0;
 }
 
