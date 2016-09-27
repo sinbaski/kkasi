@@ -51,6 +51,8 @@ double estimateLambda(const vector<double>& a,
     chi_squared_distribution<double> chi2;
     // vector<double> beta(N, 0);
     vector<vec> E(K);
+    vector< array<double, 2> > alpha(K);
+#pragma omp parallel for schedule(dynamic) shared(gen, unif)
     for (unsigned i = 0; i < K; i++) {
 	E[i].set_size(a.size() + b.size() - 2);
 	for_each(E[i].begin(), E[i].end(),
@@ -62,11 +64,9 @@ double estimateLambda(const vector<double>& a,
     double Lambda = 0;
     sd = 0;
     for (unsigned j = 0; j < N; j++) {
-	vector< array<double, 2> > alpha(K);
 	double beta = 0;
 	vector<mat> A(K);
 	vector<double> Q(K);
-	double s = 0;
 	// transform(alpha.begin(), alpha.end(), Q.begin(),
 	// 	  [&s](const array<double, 2> &a) {
 	// 	      return s += a[0];
@@ -186,9 +186,15 @@ double find_root(const vector<double>& a,
 
 int main(int argc, char*argv[])
 {
-    // DAX
-    vector<double> alpha({1.0e-7, 0.02749864, 0.04228535});
-    vector<double> beta({0.8968533});
+    // // madeup
+    // vector<double> alpha({1.0e-7, 0.11, 0});
+    // vector<double> beta({0.88});
+    // // DAX
+    // vector<double> alpha({1.0e-7, 0.02749864, 0.04228535});
+    // vector<double> beta({0.8968533});
+    // FTSE100
+    vector<double> alpha({1.0e-7, 0.10623464, 0.02904907});
+    vector<double> beta({0.7829784});
 
     double Lambda;
     
@@ -212,8 +218,8 @@ int main(int argc, char*argv[])
 	    flag = true;
 	}
     }
-    double xi = find_root(alpha, beta, N, K, bounds);
-    cout << "Lambda(" << xi << ") = 0" << endl;
+    // double xi = find_root(alpha, beta, N, K, bounds);
+    // cout << "Lambda(" << xi << ") = 0" << endl;
     return 0;
 }
 

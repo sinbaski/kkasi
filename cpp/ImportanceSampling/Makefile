@@ -28,11 +28,11 @@ $(objdir)/%.o :%.cpp
 
 .PHONY: garch1d
 garch1d: $(objdir)/main.o $(objdir)/garch1D.o
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: garchpq
 garchpq: $(objdir)/GarchPQ.o
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 
 # .PHONY: main
 # main: $(objs)
