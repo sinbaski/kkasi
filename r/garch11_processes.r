@@ -81,7 +81,8 @@ for (i in 1:p) {
 
     M <- garchFit(~garch(1,1), data=X[, i], trace=FALSE);
     coef[i, ] <- M@fit$params$params[c(2,3,5)];
-    res[, i] <- M@residuals;
+    ## res[, i] <- M@residuals;
+    res[, i] <- M@residuals / M@sigma.t;
 
     ## M <- estimGARCH(0, 0.01, 0, X[, i]);
     ## coef[i, ] <- M$coef;
@@ -90,12 +91,6 @@ for (i in 1:p) {
     ## print(c(names[i], coef[i, 2:3]));
 }
 C <- cor(res);
-V <- apply(res, MARGIN=2, FUN=sd);
-res <- res / matrix(rep(V, n), byrow=TRUE, nrow=n, ncol=p);
-sigma <- X / res;
-M <- t(sigma) %*% sigma / n;
-
-U <- eigen(M * C);
 ## vol <- matrix(NA, nrow=n, ncol=p);
 ## for (i in 1:p) {
 ##     vol[1, i] <- coef[i, 1];
@@ -123,8 +118,8 @@ for (i in 1:dim(W)[1]) {
     if (i < dim(W)[1])
         sig2[i+1, ] <- coef[, 2] * W[i, ]^2 + coef[, 3] * sig2[i, ] + coef[, 1];
 }
-sig <- sqrt(sig2);
-sig.eig <- eigen(t(sig) %*% sig / dim(sig)[1]);
+## sig <- sqrt(sig2);
+## sig.eig <- eigen(t(sig) %*% sig / dim(sig)[1]);
 ## U <- sqrt(sig2);
 ## S <- t(U) %*% U / dim(sig2)[1];
 ## Compute Hill Estimators
@@ -151,9 +146,6 @@ sig.eig <- eigen(t(sig) %*% sig / dim(sig)[1]);
 ## data <- X - matrix(rep(M, n), nrow=n, ncol=p, byrow=TRUE);
 # q <- max(apply(data^2, MARGIN=2, FUN=quantile, probs=0.99));
 
-X2 <- X;
-W2 <- W;
-
 ## QX <- matrix(NA, p, p);
 ## for (i in 1:p) {
 ##     for (j in 1:i) {
@@ -166,7 +158,7 @@ W2 <- W;
 ## CX <- cov(X2 - matrix(rep(apply(X2, MARGIN=2, FUN=mean), n), byrow=TRUE, n, p)) * dim(X2)[1] / max(QX);
 
 ## CX <- cov(X2) * dim(X2)[1] / max(QX);
-CX <- cov(X2);
+CX <- cov(X);
 E <- eigen(CX);
 
 ## QW <- matrix(NA, p, p);
@@ -179,24 +171,24 @@ E <- eigen(CX);
 ## }
 ## CW <- cov(W2 - matrix(rep(apply(W2, MARGIN=2, FUN=mean), n), byrow=TRUE, dim(W2)[1], p)) * dim(W2)[1] / max(QW);
 # CW <- cov(W2) * dim(W2)[1] / max(QW);
-CW <- cov(W2);
+CW <- cov(W);
 F <- eigen(CW);
 
 pdf("/tmp/Returns_eigenvalues.pdf");
-plot(1:p, sig.eig$values, type="p", pch=17,
-     main="FX and GARCH(1,1) spectrum", col="#00FF00"
+plot(1:p, E$values, type="p", pch=0, cex=1,
+     main="FX and GARCH(1,1) spectrum"
 );
-points(1:p, (F$values), pch=16, col="#FF0000", cex=2);
-points(1:p, (E$values), col="#000000", cex=2, pch=0);
+points(1:p, F$values, pch=16, col="#FF0000");
+## points(1:p, (E$values), col="#000000", cex=2, pch=0);
 
 ## ## points(1:p, (E1$values)/sum(E1$values), col="#FF0000", cex=2, pch=15);
 ## ## points(1:p, (F1$values)/sum(F1$values), col="#00FF00", cex=2, pch=16);
 ## ## points(1:p, (F1$values)/sum(F1$values), col="#00FF00", cex=2, pch=17);
 
 legend("topright",
-       legend=c(expression(sigma[i] * sigma[j]), expression(cov(W)), expression(cov(X))),
-       col=c("#00FF00", "#FF0000", "#000000"),
-       pch=c(17, 16, 0), cex=2);
+       legend=c(expression(cov(FX)), expression(cov(Simulated))),
+       col=c("#000000", "#FF0000"),
+       pch=c(0, 16));
 grid();
 dev.off();
 
@@ -213,14 +205,14 @@ par(mfrow=c(3,6));
 for (i in 1:p) {
     V <- E$vectors[, i];
     U <- F$vectors[, i];
-    Q <- sig.eig$vectors[, i];
+##    Q <- sig.eig$vectors[, i];
     
     if (sum(abs(V - U)) > sum(abs(V + U))) {
         U <- -U;
     }
-    if (sum(abs(V - Q)) > sum(abs(V + Q))) {
-        Q <- -Q;
-    }
+    ## if (sum(abs(V - Q)) > sum(abs(V + Q))) {
+    ##     Q <- -Q;
+    ## }
     s <- sign(V[which.max(abs(V))]);
 
     plot(1:p, V * s, main=sprintf("FX & GARCH(1,1) V[%d]", i),
@@ -231,7 +223,7 @@ for (i in 1:p) {
     
     points(1:p, U * s, main=sprintf("eigenvector[%d]", i),
            col="#FF0000", pch=16);
-    points(1:p, Q * s, col="#00FF00", pch=17);
+##    points(1:p, Q * s, col="#00FF00", pch=17);
 
     grid();
 }
