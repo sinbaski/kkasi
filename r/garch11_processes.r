@@ -2,6 +2,7 @@ rm(list=ls());
 graphics.off();
 ## require("tseries");
 require("fGarch");
+require("rugarch");
 require("mvtnorm");
 source("libxxie.r");
 
@@ -69,28 +70,56 @@ X <- getAssetReturns("2010-01-04", "2016-04-01", currencies, 1,
 n <- dim(X)[1];
 p <- dim(X)[2];
 
-# res <- matrix(NA, nrow=n-1, ncol=p);
-res <- matrix(NA, nrow=n, ncol=p);
 inno <- matrix(NA, nrow=n, ncol=p);
 coef <- matrix(NA, nrow=p, ncol=3);
 for (i in 1:p) {
-    M <- garchFit(~garch(1,1),
+    ## spec <- ugarchspec(
+    ##     mean.model=list(
+    ##         armaOrder=c(0,0),
+    ##         include.mean=FALSE
+    ##     ),
+    ##     variance.model=list(
+    ##         garchOrder=c(1, 1)
+    ##     ),
+    ##     distribution.model="norm"
+    ## );
+
+    ## solvers <- c("nlminb", "solnp", "lbfgs", "gosolnp", "nloptr", "hybrid");
+    ## M1 <- NULL;
+    ## j <- 1;
+    ## while (j <= length(solvers) && (is.null(M1) || convergence(M1) != 0)) {
+    ##     M1 <- ugarchfit(data=X[, i] - mean(X[, i]), spec=spec, solver=solvers[j]);
+    ##     if (convergence(M1) != 0) {
+    ##         j <- j + 1;
+    ##         next
+    ##     }
+    ##     inno[, i] <- residuals(M1) / sigma(M1);
+    ##     inno[, i] <- inno[, i] - mean(inno[, i]);
+    ##     coef[i, ] <- coef(M1);
+    ## }
+    ## if (is.null(M1) || convergence(M1)) {
+    ##     stop(sprintf("Estimation failed for %d", i));
+    ## }
+    
+    M2 <- garchFit(~garch(1,0),
                   data=X[, i],
                   trace=FALSE,
                   ## cond.dist="std",
                   ## shape=9,
                   include.shape=FALSE,
-                  include.mean=FALSE,
+                  include.mean=TRUE,
                   include.delta=FALSE,
                   include.skew=FALSE
                   );
-    coef[i, ] <- M@fit$params$params[c(2,3,5)];
-    inno[, i] <- M@residuals / M@sigma.t;
-    res[, i] <- M@residuals;
+    ## coef[i, ] <- M2@fit$params$params[c(2,3,5)];
+    coef[i, ] <- c(M2@fit$params$params[c(2,3)], 0);
+    inno[, i] <- M2@residuals / M2@sigma.t;
+    inno[, i] <- inno[, i] - mean(inno[, i]);
+    inno[, i] <- inno[, i] / sd(inno[, i]);
 }
-mean.inno <- apply(inno, MARGIN=2, FUN=mean);
-inno <- inno - matrix(rep(mean.inno, n), nrow=n, ncol=p, byrow=TRUE);
-inno <- inno %*% diag(1 / apply(inno, MARGIN=2, FUN=sd));
+## mean.inno <- apply(inno, MARGIN=2, FUN=mean);
+## inno <- inno - matrix(rep(mean.inno, n), nrow=n, ncol=p, byrow=TRUE);
+## inno <- inno %*% diag(1 / apply(inno, MARGIN=2, FUN=sd));
 C <- cor(inno);
 ## V <- apply(res, MARGIN=2, FUN=sd);
 ## res <- res / matrix(rep(V, n), byrow=TRUE, nrow=n, ncol=p);
@@ -164,7 +193,7 @@ for (i in 1:dim(W)[1]) {
 ## CX <- cov(X2 - matrix(rep(apply(X2, MARGIN=2, FUN=mean), n), byrow=TRUE, n, p)) * dim(X2)[1] / max(QX);
 
 ## CX <- cov(X2) * dim(X2)[1] / max(QX);
-CX <- cov(res);
+CX <- cov(X);
 E <- eigen(CX);
 
 CY <- cov(inno);
@@ -213,9 +242,9 @@ dev.off();
 ## dev.off();
 
 
-mse <- c(0, 0);
 pdf("/tmp/FX_eigenvectors.pdf", width=20, height=10);
 par(mfrow=c(3,6));
+mse <- c(0, 0);
 for (i in 1:p) {
     V <- E$vectors[, i];
     U <- D$vectors[, i];
@@ -224,9 +253,9 @@ for (i in 1:p) {
     if (sum(abs(V - U)) > sum(abs(V + U))) {
         U <- -U;
     }
-    ## if (sum(abs(V - Q)) > sum(abs(V + Q))) {
-    ##     Q <- -Q;
-    ## }
+    if (sum(abs(V - Q)) > sum(abs(V + Q))) {
+        Q <- -Q;
+    }
     s <- sign(V[which.max(abs(V))]);
 
     mse[1] <- mse[1] + sum(abs(V * s - U * s));
@@ -238,8 +267,8 @@ for (i in 1:p) {
          xaxt="n");
     axis(side=1, at=1:p, labels=names, las=2);
     
-    points(1:p, U * s,
-           col="#0000FF", pch=17);
+    ## points(1:p, U * s,
+    ##        col="#0000FF", pch=17);
     points(1:p, Q * s, col="#FF0000", pch=16);
 
     grid();
