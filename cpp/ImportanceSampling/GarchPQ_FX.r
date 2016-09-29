@@ -64,6 +64,8 @@ source("../../r/libxxie.r");
 ##     );
 
 assets = c("DAX", "FTSE100", "SP500", "DJIA", "OMXS30");
+R <- getAssetReturns("2012-01-01", "2015-01-01", assets, 1, "closing", "localhost");
+
 coef <- matrix(NA, nrow=length(assets), ncol=3);
 for (i in 1:length(assets)) {
     X <- getAssetReturns("2012-01-01", "2015-01-01", assets[i], 1, "closing", "localhost");
@@ -71,8 +73,8 @@ for (i in 1:length(assets)) {
     coef[i, ] <- M@fit$params$params[c(3,4,7)];    
 }
 
-X <- getAssetReturns("2012-01-01", "2015-01-01", "FTSE100", 1, "closing", "localhost");
-M <- garchFit(~garch(2, 2), data=X, trace=FALSE);
+X <- getAssetReturns("2012-01-01", "2015-01-01", "SP500", 1, "closing", "localhost");
+M <- garchFit(~garch(2, 1), data=X, trace=FALSE);
 
 
 ##            [,1]       [,2]      [,3]
