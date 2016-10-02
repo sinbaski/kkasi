@@ -105,8 +105,8 @@ for (i in 1:p) {
     M2 <- garchFit(~garch(1,0),
                   data=X[, i],
                   trace=FALSE,
-                  cond.dist="std",
-                  shape=4,
+                  cond.dist="norm",
+                  ## shape=4,
                   include.shape=FALSE,
                   include.mean=TRUE,
                   include.delta=FALSE,
@@ -153,8 +153,8 @@ for (i in 1:p) {
     ## sig2[1, i] <- 0;
 }
 for (i in 1:dim(W)[1]) {
-    ## eta <- rmvnorm(n=1, mean=rep(0, p), sigma=C);
-    eta <- rmvt(n=1, sigma=C, df=4);
+    eta <- rmvnorm(n=1, mean=rep(0, p), sigma=C);
+    ## eta <- rmvt(n=1, sigma=C, df=4);
     W[i, ] <- eta * sqrt(sig2[i,]);
     if (i < dim(W)[1])
         sig2[i+1, ] <- coef[, 2] * W[i, ]^2 + coef[, 3] * sig2[i, ] + coef[, 1];
@@ -216,12 +216,12 @@ D <- eigen(CY);
 CW <- cov(W);
 F <- eigen(CW);
 
-pdf("/tmp/Returns_eigenvalues.pdf");
+pdf("/tmp/FX_eigenvalues.pdf");
 ## plot(1:p, sig.eig$values, type="p", pch=17,
 ##      main="FX and GARCH(1,1) spectrum", col="#00FF00"
 ## );
 plot(1:p, E$values/sum(E$values), type="p", pch=0,
-     main="FX and GARCH(1,1) spectrum"
+     main="FX and ARCH(1) spectrum"
 );
 points(1:p, (D$values)/sum(D$values), col="#0000FF", pch=17);
 points(1:p, (F$values)/sum(F$values), pch=16, col="#FF0000");
@@ -265,7 +265,7 @@ for (i in 1:p) {
     mse[1] <- mse[1] + sum(abs(V * s - U * s));
     mse[2] <- mse[2] + sum(abs(V * s - Q * s));
     
-    plot(1:p, V * s, main=sprintf("FX & GARCH(1,1) V[%d]", i),
+    plot(1:p, V * s, main=sprintf("FX & ARCH(1) V[%d]", i),
          xlab="i", ylab=expression(V[i]),
          ylim=c(-1, 1), pch=0,
          xaxt="n");

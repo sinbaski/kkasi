@@ -28,9 +28,8 @@ dbDisconnect(database);
 X <- getInterpolatedReturns(day1, day2, "", tables, "_US");
 n <- dim(X)[1];
 p <- dim(X)[2];
-res <- matrix(NA, nrow=n, ncol=p);
 coef <- matrix(NA, nrow=p, ncol=3);
-sigma <- matrix(NA, nrow=n, ncol=p);
+inno <- matrix(NA, nrow=n, ncol=p);
 indices <- {};
 for (i in 1:p) {
     ## M <- garch(x=X[, i], order=c(1, 1), trace=FALSE);
@@ -46,7 +45,7 @@ for (i in 1:p) {
                   ## cond.dist="std",
                   ## shape=9,
                   include.shape=FALSE,
-                  include.mean=FALSE,
+                  include.mean=TRUE,
                   include.delta=FALSE,
                   include.skew=FALSE
                   );
@@ -54,11 +53,12 @@ for (i in 1:p) {
         FALSE;
     });
     if (typeof(M) != "logical") {
-        coef[i, ] <- M@fit$params$params[c(2,3,5)];
-        sigma[, i] <- M@sigma.t;
-        if (sum(coef[i, 2:3]) < 1) {
-            res[, i] <- M@residuals / M@sigma.t;
+        coef[i, ] <- M@fit$coef[-1];
+        if (sum(coef[i, -1]) < 1) {
             indices <- union(indices, i);
+            inno[, i] <- M@residuals / M@sigma.t;
+            inno[, i] <- inno[, i] - mean(inno[, i]);
+            inno[, i] <- inno[, i] / sd(inno[, i]);
         }
     }
 
@@ -68,16 +68,12 @@ for (i in 1:p) {
     ## vol[, i] <- X[11:n, i] / res[, i];
     ## print(c(names[i], coef[i, 2:3]));
 }
-res <- res[, indices];
+inno <- inno[, indices];
 coef <- coef[indices, ];
 X <- X[, indices];
 p <- length(indices);
 
-
-mean.res <- apply(res, MARGIN=2, FUN=mean);
-res <- res - matrix(rep(mean.res, n), nrow=n, ncol=p, byrow=TRUE);
-res <- res %*% diag(1 / apply(res, MARGIN=2, FUN=sd));
-C <- cor(res);
+C <- cor(inno);
 
 W <- matrix(NA, nrow=100*n, ncol=p);
 sig2 <- matrix(NA, nrow=dim(W)[1], ncol=p);
@@ -113,9 +109,11 @@ legend("topright",
 grid();
 dev.off();
 
+names <- tables[indices];
 pdf("../papers/FX/Materials_eigenvectors1.pdf", width=10, height=10);
-par(mfrow=c(4,3));
-for (i in 1:12) {
+mse <- c(0, 0);
+par(mfrow=c(5,5));
+for (i in 1:25) {
     V <- E$vectors[, i];
     U <- D$vectors[, i];
     Q <- F$vectors[, i];
@@ -137,8 +135,8 @@ for (i in 1:12) {
          xaxt="n");
     axis(side=1, at=1:p, labels=names, las=2);
     
-    points(1:p, U * s,
-           col="#0000FF", pch=17);
+    ## points(1:p, U * s,
+    ##        col="#0000FF", pch=17);
     points(1:p, Q * s, col="#FF0000", pch=16);
 
     grid();
@@ -167,11 +165,11 @@ for (i in 12:p) {
          xlab="i", ylab=expression(V[i]),
          ylim=c(-1, 1), pch=0,
          xaxt="n");
-    axis(side=1, at=1:p, labels=names, las=2);
+    axis(side=1, at=1:p, labels=, las=2);
     
     points(1:p, U * s,
            col="#0000FF", pch=17);
-    points(1:p, Q * s, col="#FF0000", pch=16);
+##    points(1:p, Q * s, col="#FF0000", pch=16);
 
     grid();
 }
