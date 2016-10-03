@@ -271,3 +271,17 @@ double log(const ExtremeNumber &x)
 {
     return log10(x) * log(10);
 }
+
+ExtremeNumber exp(const ExtremeNumber &x)
+{
+    ExtremeNumber R;
+    long p = x.power();
+    long inc = p > 0 ? 1 : -1;
+    double q = p > 0 ? 10 : 0.1;
+    double y = 1;
+    for (long i = 0; i != p; i += inc) {
+	y *= q;
+    }
+    R.mylog = x() * y / log(10);
+    return R;
+}

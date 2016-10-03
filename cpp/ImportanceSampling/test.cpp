@@ -52,14 +52,14 @@ double estimateLambda(const vector<double>& alpha,
 		      const vector<double>& beta,
 		      double xi,
 		      unsigned long n,
-		      unsigned long iterations,
+		      unsigned long K,
 		      ExtremeNumber &sd)
 {
-    vector<ExtremeNumber> results(iterations);
+    vector<ExtremeNumber> results(K);
 #if !defined DEBUG
 #pragma omp parallel for
 #endif
-    for (unsigned k = 0; k < iterations; k++) {
+    for (unsigned k = 0; k < K; k++) {
 	vector<XMatrix> A(n);
 	for_each(A.begin(), A.end(),
 		 [&](XMatrix &M) {
@@ -80,7 +80,36 @@ double estimateLambda(const vector<double>& alpha,
     }
 
     sort(results.begin(), results.end());
-    double q = (double)iterations;
+    /* Importance sampling using the empirical distribution */
+    double M = 100;
+    double u = 1/(double)n;
+    vector<ExtremeNumber> Q(K);
+    vector<ExtremeNumber> bootstrap_est(M);
+    partial_sum(
+	results.begin(), results.end(),
+	Q.begin(),
+	[u](ExtremeNumber s, ExtremeNumber x) {
+	    return s + (x^u);
+	});
+
+    double q = (double)K;
+    for (i = 0; i < M; i++) {
+	vector<double> J(K);
+#pragma omp parallel for shared (gen)
+	for (j = 0; j < K; j++) {
+	    uniform_real_distribution<double> unif(0, Q.back());
+#pragma omp critical	    
+	    double u = unif(gen);
+	    size_t k = upper_bound(Q.begin(), Q.end(), u) - Q.begin();
+	    J[j] = results[k];
+	}
+	bootstrap_est[i] =
+	    accumulate(J.begin(), J.end(), 0.0,
+		       [](double s, double x) {
+			   return s + (x^(1 - u));
+		       });
+    }
+
     ExtremeNumber mean =
     	accumulate(results.cbegin(), results.cend(),
     		   ExtremeNumber(0.0))/q;

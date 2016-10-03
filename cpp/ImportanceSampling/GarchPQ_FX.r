@@ -69,8 +69,9 @@ R <- getAssetReturns("2012-01-01", "2015-01-01", assets, 1, "closing", "localhos
 coef <- matrix(NA, nrow=length(assets), ncol=3);
 for (i in 1:length(assets)) {
     X <- getAssetReturns("2012-01-01", "2015-01-01", assets[i], 1, "closing", "localhost");
-    M <- garchFit(~garch(2, 1), data=X, trace=FALSE);
-    coef[i, ] <- M@fit$params$params[c(3,4,7)];    
+    M <- garchFit(~garch(2, 1), data=X, trace=FALSE,
+                  include.mean=TRUE);
+    coef[i, ] <- M@fit$coef[-1];
 }
 
 X <- getAssetReturns("2012-01-01", "2015-01-01", "SP500", 1, "closing", "localhost");

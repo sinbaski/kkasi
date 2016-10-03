@@ -289,7 +289,10 @@ hillPlot <- function(X, prob=0.95, view=c(0.5, 10))
     }
     K <- rev(l-V);
     alpha <- rev(W);
-    plot(K, alpha, type="l", ylim=view);
+    plot(K, alpha, type="l", ylim=view,
+         ylab=expression(alpha),
+         xlab="Upper Order Statistic"
+         );
     grid();
     return (list(K=rev(l-V), alpha=rev(W)));
 }

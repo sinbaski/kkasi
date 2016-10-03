@@ -49,6 +49,7 @@ ExtremeNumber operator ^ (const ExtremeNumber &x, double u);
 ExtremeNumber abs(const ExtremeNumber &x);
 double log10(const ExtremeNumber &x);
 double log(const ExtremeNumber &x);
+double exp(const ExtremeNumber &x);
 
 
 #endif
