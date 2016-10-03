@@ -5,6 +5,7 @@
 \usepackage[bookmarks=true]{hyperref}
 \usepackage{bookmark}
 \usepackage{graphicx}
+\usepackage{subfigure}
 
 \newif\ifALL
 
@@ -92,6 +93,23 @@ Using this result, we immediately obtain for ARCH(1) models
   {2 \over \Gamma(2\xi + 1)}
   {1 \over (\alpha_{i, 1} \alpha_{j, 1})^\xi}
 \end{equation*}
+Fitting ARCH(1) models to the FX return series and then simulating the
+models produces a fairly good match between the spectra of the
+simulated and the real series, as shown in figure
+\ref{fig:FX_ARCH_eigenvalues} and \ref{fig:FX_ARCH_eigenvectors}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4]{FX_eigenvalues.pdf}  
+  \caption{FX \& simulated ARCH eigenvalues}
+  \label{fig:FX_ARCH_eigenvalues}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.3]{FX_eigenvectors}  
+  \caption{FX \& ARCH eigenvectors}
+  \label{fig:FX_ARCH_eigenvectors}
+\end{figure}
 
 \section{General IGARCH(1)}
 For general IGARCH(1) models, the equation
@@ -109,7 +127,7 @@ as a function of $(\alpha_{i,1}, \alpha_{j,1})$ as defined by the
 above equation.
 \begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.4]{igarch_rho0dot5.pdf}
+  % \includegraphics[scale=0.4]{igarch_rho0dot5.pdf}
   \caption{$\xi(\alpha_1, \alpha_2)$ for $\rho = 1/2$}
   \label{fig:xi_rho0.5}
 \end{figure}
