@@ -71,7 +71,7 @@ n <- dim(X)[1];
 p <- dim(X)[2];
 
 inno <- matrix(NA, nrow=n, ncol=p);
-coef <- matrix(NA, nrow=p, ncol=3);
+coef <- matrix(0, nrow=p, ncol=3);
 ics <- matrix(NA, nrow=p, ncol=4);
 for (i in 1:p) {
     ## spec <- ugarchspec(
@@ -113,8 +113,7 @@ for (i in 1:p) {
                   include.skew=FALSE
                   );
     ## coef[i, ] <- M2@fit$params$params[c(2,3,5)];
-    coef[i, ] <- c(M2@fit$coef[-1], 0);
-    ## coef[i, ] <- M2@fit$coef[-1];
+    coef[i, 1:(length(M@fit$coef) - 1)] <- M2@fit$coef[-1];
     inno[, i] <- M2@residuals / M2@sigma.t;
     inno[, i] <- inno[, i] - mean(inno[, i]);
     inno[, i] <- inno[, i] / sd(inno[, i]);
