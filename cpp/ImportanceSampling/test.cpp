@@ -80,7 +80,6 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
     sort(results.begin(), results.end());
     /* Importance sampling using the empirical distribution */
     results.emplace(results.begin(), 0.0);
-    double n_inv = 1/(double)n;
     unsigned long M = K;
     vector<ExtremeNumber> Q(K + 1);
     vector<ExtremeNumber> Y(M);
@@ -94,7 +93,6 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
     results.erase(results.begin());
     Q.erase(Q.begin());
     ExtremeNumber mean(0);
-    sd = 0;
 #pragma omp parallel for shared (gen)
     for (size_t i = 0; i < M; i++) {
 	uniform_real_distribution<double> unif(0, static_cast<double>(Q.back()));
@@ -102,46 +100,20 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 #pragma omp critical	    
 	U = unif(gen);
 	size_t k = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
-	Y[i] = results[k];
+	Y[i] = (results[k]^0.5);
 	// mean += Y[i]/fabs(log10(Y[i])) / (double)M;
-	mean += (Y[i]^0.5)/(double)M;
+	// mean += (Y[i]^0.5)/(double)M;
     }
-
-// 	vector<ExtremeNumber> J(K);
-// #pragma omp parallel for shared (gen)
-// 	for (size_t j = 0; j < K; j++) {
-// 	    uniform_real_distribution<double> unif(0, static_cast<double>(Q.back()));
-// 	    double U;
-// #pragma omp critical	    
-// 	    U = unif(gen);
-// 	    size_t k = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
-// 	    J[j] = results[k];
-// 	}
-// 	Y[i] = accumulate(J.begin(), J.end(), ExtremeNumber(0.0),
-// 			   [=](const ExtremeNumber& s, const ExtremeNumber& x)
-// 			   {
-// 			       return x/fabs(log10(x))/(double)K + s;
-// 			   });
-//     mean += Y[i] / (double)M;
-// }
-    // double Elogx = accumulate(results.begin(), results.end(), 0.0,
-    // 			      [=](double s, const ExtremeNumber& x) {
-    // 				  return s + fabs(log10(x))/(double)K;
-    // 			      });
-    // mean *= Elogx;
-    // ExtremeNumber mean =
-    // 	accumulate(.cbegin(), results.cend(),
-    // 		   ExtremeNumber(0.0))/q;
-    sd = accumulate(
-    	Y.cbegin(), Y.cend(), ExtremeNumber(0),
-    	[M, &mean](const ExtremeNumber &y, const ExtremeNumber &x)
-    	{
-    	    return y + (abs(x - mean)^2) / (double)M;
-    	});
-    
+    mean = accumulate(Y.cbegin(), Y.cend(), mean=ExtremeNumber(0),
+		      [M](const ExtremeNumber& a, const ExtremeNumber& b) {
+			  return a + b / (double)M;
+		      });
+    sd = accumulate(Y.cbegin(), Y.cend(), sd=0,
+		    [&](const ExtremeNumber& a, const ExtremeNumber& b) {
+			return a + ((b - mean)^2) / (double)M;
+		    });
     sd ^= 0.5;
     return mean;
-//    return mean() * pow(10, mean.power());
 }
 
 void test_cases(void)
