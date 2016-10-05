@@ -180,6 +180,11 @@ double ExtremeNumber::operator () (long n) const
     return sign == 1 ? x : -x;
 }
 
+ExtremeNumber::operator double() const
+{
+    return pow(10, mylog);
+}
+
 long ExtremeNumber::power(void) const
 {
     return (long)floor(mylog);
@@ -271,6 +276,14 @@ double log(const ExtremeNumber &x)
 {
     return log10(x) * log(10);
 }
+
+// ExtremeNumber log10(const ExtremeNumber &x)
+// {
+//     assert(x.sign == 1);
+//     ExtremeNumber y = x;
+//     y.mylog = log10(x.mylog);
+//     return y;
+// }
 
 ExtremeNumber exp(const ExtremeNumber &x)
 {

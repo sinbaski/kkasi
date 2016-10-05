@@ -32,6 +32,7 @@ public:
     
     double operator() (void) const;
     double operator() (long n) const;
+    operator double() const;
     long power(void) const;
 };
 
@@ -46,10 +47,13 @@ ExtremeNumber operator - (const ExtremeNumber &x, const ExtremeNumber &y);
 ExtremeNumber operator - (const ExtremeNumber &x, double y);
 ExtremeNumber operator ^ (const ExtremeNumber &x, double u);
 
+
 ExtremeNumber abs(const ExtremeNumber &x);
+ExtremeNumber exp(const ExtremeNumber &x);
+//ExtremeNumber log10(const ExtremeNumber &x);
 double log10(const ExtremeNumber &x);
 double log(const ExtremeNumber &x);
-double exp(const ExtremeNumber &x);
+
 
 
 #endif

@@ -102,24 +102,24 @@ for (i in 1:p) {
     ##     stop(sprintf("Estimation failed for %d", i));
     ## }
     
-    M2 <- garchFit(~garch(1,0),
+    M <- garchFit(~garch(1,1),
                   data=X[, i],
                   trace=FALSE,
-                  cond.dist="norm",
-                  ## shape=4,
+                  cond.dist="std",
+                  shape=4,
                   include.shape=FALSE,
                   include.mean=TRUE,
                   include.delta=FALSE,
                   include.skew=FALSE
                   );
-    ## coef[i, ] <- M2@fit$params$params[c(2,3,5)];
-    coef[i, 1:(length(M@fit$coef) - 1)] <- M2@fit$coef[-1];
-    inno[, i] <- M2@residuals / M2@sigma.t;
+    ## coef[i, ] <- M@fit$params$params[c(2,3,5)];
+    coef[i, 1:(length(M@fit$coef) - 1)] <- M@fit$coef[-1];
+    inno[, i] <- M@residuals / M@sigma.t;
     inno[, i] <- inno[, i] - mean(inno[, i]);
     inno[, i] <- inno[, i] / sd(inno[, i]);
-    ics[i, ] <- M2@fit$ics;
+    ics[i, ] <- M@fit$ics;
 }
-write.table(x=ics, file="GARCH_ic.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+# write.table(x=ics, file="GARCH_ic.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
 ## mean.inno <- apply(inno, MARGIN=2, FUN=mean);
 ## inno <- inno - matrix(rep(mean.inno, n), nrow=n, ncol=p, byrow=TRUE);
 ## inno <- inno %*% diag(1 / apply(inno, MARGIN=2, FUN=sd));
@@ -152,8 +152,8 @@ for (i in 1:p) {
     ## sig2[1, i] <- 0;
 }
 for (i in 1:dim(W)[1]) {
-    eta <- rmvnorm(n=1, mean=rep(0, p), sigma=C);
-    ## eta <- rmvt(n=1, sigma=C, df=4);
+    ## eta <- rmvnorm(n=1, mean=rep(0, p), sigma=C);
+    eta <- rmvt(n=1, sigma=C, df=4);
     W[i, ] <- eta * sqrt(sig2[i,]);
     if (i < dim(W)[1])
         sig2[i+1, ] <- coef[, 2] * W[i, ]^2 + coef[, 3] * sig2[i, ] + coef[, 1];
@@ -215,7 +215,7 @@ D <- eigen(CY);
 CW <- cov(W);
 F <- eigen(CW);
 
-pdf("/tmp/FX_eigenvalues.pdf");
+pdf("/tmp/FX_eigenvalues_ARCH_t_inno.pdf");
 ## plot(1:p, sig.eig$values, type="p", pch=17,
 ##      main="FX and GARCH(1,1) spectrum", col="#00FF00"
 ## );
@@ -245,7 +245,7 @@ dev.off();
 ## dev.off();
 
 
-pdf("/tmp/FX_eigenvectors.pdf", width=20, height=10);
+pdf("/tmp/FX_eigenvectors_ARCH_t_inno.pdf", width=20, height=10);
 par(mfrow=c(3,6));
 mse <- c(0, 0);
 for (i in 1:p) {

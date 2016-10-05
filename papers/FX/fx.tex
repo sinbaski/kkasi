@@ -106,7 +106,7 @@ simulated and the real series, as shown in figure
 
 \begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.3]{FX_eigenvectors}  
+  \includegraphics[scale=0.3]{FX_eigenvectors.pdf}  
   \caption{FX \& ARCH eigenvectors}
   \label{fig:FX_ARCH_eigenvectors}
 \end{figure}
@@ -127,10 +127,31 @@ as a function of $(\alpha_{i,1}, \alpha_{j,1})$ as defined by the
 above equation.
 \begin{figure}[htb!]
   \centering
-  % \includegraphics[scale=0.4]{igarch_rho0dot5.pdf}
+  \includegraphics[scale=0.4]{igarch_rho0dot5.pdf}
   \caption{$\xi(\alpha_1, \alpha_2)$ for $\rho = 1/2$}
   \label{fig:xi_rho0.5}
 \end{figure}
+
+\section{Heavy-Tailed Innovations}
+Figure \ref{fig:ARCH_t_FX_eigenvalues} and Figure
+\ref{fig:ARCH_t_FX_eigenvectors} show the eigenvalues and
+eigenvectors of the simulated GARCH(1, 1) process with innovations
+following t(4) distribution. Clearly, the spectrum of the simulated
+series does not match that of the observed FX series.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.4]{FX_eigenvalues_ARCH_t_inno.pdf}  
+  \caption{FX \& simulated ARCH eigenvalues. t-distributed innovations}
+  \label{fig:ARCH_t_FX_eigenvalues}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.3]{FX_eigenvectors_ARCH_t_inno.pdf}  
+  \caption{FX \& ARCH eigenvectors. t-distributed innovations}
+  \label{fig:ARCH_t_FX_eigenvectors}
+\end{figure}
+
 
 \section{Spectra of S\&P sectors}
 \subsection{Utilities}
@@ -150,7 +171,7 @@ compare the eigenvalues and eigenvectors, respectively, of the
 covariance matrices of the real and the simulated data.
 \begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.6]{Utilities_eigenvalues.pdf}
+  \includegraphics[scale=0.4]{Utilities_eigenvalues.pdf}
   \caption{Eigenvalues of Utilities: real \& simulated}
   \label{fig:Utilities_eigenvalues}
 \end{figure}

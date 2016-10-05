@@ -48,7 +48,7 @@ XMatrix & gen_rand_matrix(const vector<double> &alpha,
     return M;
 }
 
-double estimateLambda(const vector<double>& alpha,
+ExtremeNumber estimateLambda(const vector<double>& alpha,
 		      const vector<double>& beta,
 		      double xi,
 		      unsigned long n,
@@ -56,9 +56,7 @@ double estimateLambda(const vector<double>& alpha,
 		      ExtremeNumber &sd)
 {
     vector<ExtremeNumber> results(K);
-#if !defined DEBUG
 #pragma omp parallel for
-#endif
     for (unsigned k = 0; k < K; k++) {
 	vector<XMatrix> A(n);
 	for_each(A.begin(), A.end(),
@@ -81,47 +79,68 @@ double estimateLambda(const vector<double>& alpha,
 
     sort(results.begin(), results.end());
     /* Importance sampling using the empirical distribution */
-    double M = 100;
-    double u = 1/(double)n;
-    vector<ExtremeNumber> Q(K);
-    vector<ExtremeNumber> bootstrap_est(M);
+    results.emplace(results.begin(), 0.0);
+    double n_inv = 1/(double)n;
+    unsigned long M = K;
+    vector<ExtremeNumber> Q(K + 1);
+    vector<ExtremeNumber> Y(M);
     partial_sum(
 	results.begin(), results.end(),
 	Q.begin(),
-	[u](ExtremeNumber s, ExtremeNumber x) {
-	    return s + (x^u);
+	[=](const ExtremeNumber& s, const ExtremeNumber& x) {
+	    return s + (x^0.5);
+	    // return s + (x^n_inv);
 	});
-
-    double q = (double)K;
-    for (i = 0; i < M; i++) {
-	vector<double> J(K);
+    results.erase(results.begin());
+    Q.erase(Q.begin());
+    ExtremeNumber mean(0);
+    sd = 0;
 #pragma omp parallel for shared (gen)
-	for (j = 0; j < K; j++) {
-	    uniform_real_distribution<double> unif(0, Q.back());
+    for (size_t i = 0; i < M; i++) {
+	uniform_real_distribution<double> unif(0, static_cast<double>(Q.back()));
+	double U;
 #pragma omp critical	    
-	    double u = unif(gen);
-	    size_t k = upper_bound(Q.begin(), Q.end(), u) - Q.begin();
-	    J[j] = results[k];
-	}
-	bootstrap_est[i] =
-	    accumulate(J.begin(), J.end(), 0.0,
-		       [](double s, double x) {
-			   return s + (x^(1 - u));
-		       });
+	U = unif(gen);
+	size_t k = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
+	Y[i] = results[k];
+	// mean += Y[i]/fabs(log10(Y[i])) / (double)M;
+	mean += (Y[i]^0.5)/(double)M;
     }
 
-    ExtremeNumber mean =
-    	accumulate(results.cbegin(), results.cend(),
-    		   ExtremeNumber(0.0))/q;
+// 	vector<ExtremeNumber> J(K);
+// #pragma omp parallel for shared (gen)
+// 	for (size_t j = 0; j < K; j++) {
+// 	    uniform_real_distribution<double> unif(0, static_cast<double>(Q.back()));
+// 	    double U;
+// #pragma omp critical	    
+// 	    U = unif(gen);
+// 	    size_t k = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
+// 	    J[j] = results[k];
+// 	}
+// 	Y[i] = accumulate(J.begin(), J.end(), ExtremeNumber(0.0),
+// 			   [=](const ExtremeNumber& s, const ExtremeNumber& x)
+// 			   {
+// 			       return x/fabs(log10(x))/(double)K + s;
+// 			   });
+//     mean += Y[i] / (double)M;
+// }
+    // double Elogx = accumulate(results.begin(), results.end(), 0.0,
+    // 			      [=](double s, const ExtremeNumber& x) {
+    // 				  return s + fabs(log10(x))/(double)K;
+    // 			      });
+    // mean *= Elogx;
+    // ExtremeNumber mean =
+    // 	accumulate(.cbegin(), results.cend(),
+    // 		   ExtremeNumber(0.0))/q;
     sd = accumulate(
-	results.cbegin(), results.cend(), ExtremeNumber(0),
-	[q, &mean](const ExtremeNumber &y, const ExtremeNumber &x)
-	{
-	    return y + (abs(x - mean)^2) / q;
-	});
+    	Y.cbegin(), Y.cend(), ExtremeNumber(0),
+    	[M, &mean](const ExtremeNumber &y, const ExtremeNumber &x)
+    	{
+    	    return y + (abs(x - mean)^2) / (double)M;
+    	});
+    
     sd ^= 0.5;
-    sd /= mean;
-    return log(mean)/q;
+    return mean;
 //    return mean() * pow(10, mean.power());
 }
 
@@ -213,28 +232,29 @@ void test_cases(void)
 
 int main(int argc, char*argv[])
 {
-    vector<double> alpha({1.0e-7, 0.6, 0.001});
+    vector<double> alpha({9.2e-6, 0.08835834, 0.09685783});
     // vector<double> alpha({1.0e-7, stod(argv[3])});
-    vector<double> beta({0.005});
-    double Lambda;
-    ExtremeNumber sd;;
+    vector<double> beta({0.6543018});
+    ExtremeNumber expected;
+    ExtremeNumber sd;
     
     cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
     	alpha[1] << ", alpha[2]=" << alpha[2] <<
     	", beta[1]=" << beta[0] << endl;
-    cout << "n = " << argv[2] << endl;
-    cout << argv[3] << " iterations" << endl;
+    cout << "n = " << argv[3] << endl;
+    cout << argv[4] << " iterations" << endl;
 
     // double nu = stod(argv[1]);
     // Lambda = estimateLambda(
     // 	alpha, beta, nu, stoul(argv[2]),
     // 	stoul(argv[3]), bounds);
     // printf("%e    %e\n", nu, Lambda);
-
-    for (double nu = stod(argv[1]); nu < 2; nu += 0.1) {
-    	Lambda = estimateLambda(
-    	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]), sd);
-    	printf("%e    %e    %.2fe%+02ld\n", nu, Lambda, sd(), sd.power());
+    double n = stod(argv[3]);
+    for (double nu = stod(argv[1]); nu < stod(argv[2]); nu += 0.1) {
+    	expected = estimateLambda(
+    	    alpha, beta, nu, stoul(argv[3]), stoul(argv[4]), sd);
+	double rel_err = static_cast<double>(sd / expected);
+    	printf("%e    %e    %.4f\n", nu, log(expected)/n, rel_err);
     }
     
 
