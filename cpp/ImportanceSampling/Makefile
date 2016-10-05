@@ -33,7 +33,7 @@ garchpq: $(objdir)/GarchPQ.o
 .PHONY: MyTailEst
 MyTailEst: $(objs)
 #	$(CC) $(filter %.o, $^) $(LDFLAGS) -o $@
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: all
 all: MyTailEst

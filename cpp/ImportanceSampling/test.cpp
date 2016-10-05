@@ -11,6 +11,8 @@
 using namespace std;
 using namespace arma;
 
+#define SHIFT_PARAM 4.45
+
 normal_distribution<double> dist;
 // student_t_distribution<double> dist(3);
 // default_random_engine gen;
@@ -73,8 +75,8 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 	m = norm(X, "inf");
 
 	results[k] = ExtremeNumber(m);
-	results[k] ^= xi;
-	results[k].mylog += power * xi;
+	// results[k] ^= xi;
+	// results[k].mylog += power * xi;
     }
 
     sort(results.begin(), results.end());
@@ -87,7 +89,7 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 	results.begin(), results.end(),
 	Q.begin(),
 	[=](const ExtremeNumber& s, const ExtremeNumber& x) {
-	    return s + (x^0.5);
+	    return s + exp(x * SHIFT_PARAM);
 	    // return s + (x^n_inv);
 	});
     results.erase(results.begin());
@@ -100,7 +102,7 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 #pragma omp critical	    
 	U = unif(gen);
 	size_t k = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
-	Y[i] = (results[k]^0.5);
+	Y[i] = (results[k]^xi) * exp(-results[k] * SHIFT_PARAM);
 	// mean += Y[i]/fabs(log10(Y[i])) / (double)M;
 	// mean += (Y[i]^0.5)/(double)M;
     }
