@@ -51,7 +51,7 @@ double estimateLambda(const vector<double>& a,
     chi_squared_distribution<double> chi2;
     // vector<double> beta(N, 0);
     vector<vec> E(K);
-    vector< array<double, 2> > alpha(K);
+    vector<double> alpha(K, 1);
 #pragma omp parallel for schedule(dynamic) shared(gen, unif)
     for (unsigned i = 0; i < K; i++) {
 	E[i].set_size(a.size() + b.size() - 2);
@@ -60,44 +60,22 @@ double estimateLambda(const vector<double>& a,
 		 {
 		     x = unif(gen);
 		 });
+	E[i] = normalise(E[i], 2);
     }
     double Lambda = 0;
     sd = 0;
-    for (unsigned j = 0; j < N; j++) {
-	double beta = 0;
+    for (unsigned j = 1; j <= N; j++) {
 	vector<mat> A(K);
 	vector<double> Q(K);
-	// transform(alpha.begin(), alpha.end(), Q.begin(),
-	// 	  [&s](const array<double, 2> &a) {
-	// 	      return s += a[0];
-	// 	  });
-	if (j == 0) {
-#pragma omp parallel for
-	    for (unsigned k = 0; k < K; k++) {
-		alpha[k][0] = 1;
-		Q[k] = k + 1;
-	    }
-	    beta = K;
-	} else {
-	    for (unsigned k = 0; k < K; k++) {
-		if (k == 0) {
-		    Q[k] = alpha[k][0];
-		} else {
-		    Q[k] = Q[k-1] + alpha[k][0];
-		}
-		beta += alpha[k][0];
-		alpha[k][0] = alpha[k][1];
-	    }
-	}
-
-#pragma omp parallel for schedule(dynamic) shared(gen, chi2, beta)
+	partial_sum(alpha.begin(), alpha.end(), Q.begin());
+#pragma omp parallel for schedule(dynamic) shared(gen, chi2)
 	for (unsigned k = 0; k < K; k++) {
 	    double z2;
 
 #pragma omp critical
 	    z2 = chi2(gen);
 	    gen_rand_matrix(a, b, z2, A[k]);
-	    alpha[k][1] = pow(norm(A[k] * E[k], "inf"), theta);
+	    alpha[k] = pow(norm(A[k] * E[k], 2), theta);
 	}
 	vector<vec> E_prev(K);
 	copy(E.begin(), E.end(), E_prev.begin());
@@ -105,27 +83,30 @@ double estimateLambda(const vector<double>& a,
 #pragma omp parallel for shared(gen, unif)
 	for (unsigned k = 0; k < K; k++) {
 	    double U;
+	    double theta;
 
 #pragma omp critical
-	    U = unif(gen) * beta;
+	    {
+		U = unif(gen) * Q.back();
+		theta = unif(gen) * 2 * M_PI;
+	    }
+	    mat rotate(2, 2);
+	    rotate(0, 0) = cos(theta);
+	    rotate(0, 1) = -sin(theta);
+	    rotate(1, 0) = -rotate(0, 1);
+	    rotate(1, 1) = rotate(0, 0);
+	    
 	    unsigned l = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
-	    vec V = A[k] * E_prev[l];
-	    E[k] = V / norm(V, "inf");
+	    E[k] = normalise(A[k] * (rotate * E_prev[l]), 2);
 	}
 
-	double lbt = log(beta/K);
+	double lbt = log(Q.back()/K);
 	Lambda += lbt / N;
 	sd += pow(lbt, 2) / N;
-	if (j == N) {
-	    accumulate(alpha.begin(), alpha.end(), beta = 0,
-		       [](double s, const array<double, 2>& a) {
-			   return s + a[1];
-		       });
-	    lbt = log(beta/K);
-	    Lambda += lbt / N;
-	    sd += pow(lbt, 2)/N;
-	}
     }
+    double lbt = log(accumulate(alpha.begin(), alpha.end(), 0.0)/K);
+    Lambda += lbt/N;
+    sd += pow(lbt, 2)/N;
     sd = sqrt(sd - pow(Lambda, 2));
     return Lambda;
 }
@@ -207,14 +188,14 @@ int main(int argc, char*argv[])
     // cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
     // 	alpha[1] << ", alpha[2]=" << alpha[2] <<
     // 	", beta[1]=" << beta[0] << endl;
-    cout << "N = " << argv[1] << endl;
-    cout << "K = " << argv[2] << endl;
+    cout << "N = " << argv[3] << endl;
+    cout << "K = " << argv[4] << endl;
 
-    unsigned long N = stoul(argv[1]), K = stoul(argv[2]);
+    unsigned long N = stoul(argv[3]), K = stoul(argv[4]);
     
     double bounds[2];
     bool flag = false;
-    for (double nu = stod(argv[3]); nu <= stod(argv[4]); nu += 0.1) {
+    for (double nu = stod(argv[1]); nu <= stod(argv[2]); nu += 0.1) {
 	double sd;
 	Lambda = estimateLambda(alpha, beta, nu, N, K, sd);
 	printf("%.4f    % .4f    %.4f    %.4f\n", nu, Lambda, sd, sd/abs(Lambda));
@@ -224,8 +205,8 @@ int main(int argc, char*argv[])
 	    flag = true;
 	}
     }
-    double xi = find_root(alpha, beta, N, K, bounds);
-    cout << "Lambda(" << xi << ") = 0" << endl;
+    // double xi = find_root(alpha, beta, N, K, bounds);
+    // cout << "Lambda(" << xi << ") = 0" << endl;
     return 0;
 }
 
