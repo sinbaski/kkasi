@@ -1,39 +1,73 @@
+#include <assert.h>
 #include <stdio.h>
 #include <time.h>
-#include <cmath>
+#include <math.h> 
 #include <algorithm>
 #include <armadillo>
 #include <iostream>
 #include <random>
+#include <gsl/gsl_randist.h>
 #include "ExtremeNumber2.hpp"
 #include "XMatrix.hpp"
 
 using namespace std;
 using namespace arma;
 
-#define SHIFT_PARAM 4.45
-
-normal_distribution<double> dist;
-// student_t_distribution<double> dist(3);
-// default_random_engine gen;
 random_device gen;
 
-extern void adjust_numbers(ExtremeNumber &V);
+#define SHIFT_PARAM 0.49
 
-XMatrix & gen_rand_matrix(const vector<double> &alpha,
-			  const vector<double> &beta,
-			  int measure_index, XMatrix &M)
+double norm_fun(double x, const vector<double>& a, const vector<double>& b)
+{
+    double t5 = x * x;
+    double t8 = (t5 >= t5 * a[1] + a[2] + b[0] ? t5 : t5 * a[1] + a[2] + b[0]);
+    return t8;
+}
+
+double shifted_dist_semi_pdf(double x,
+			     const vector<double>& a,
+			     const vector<double>& b)
+{
+    double t1 = sqrt(2 * M_PI);
+    double t12 = exp(norm_fun(x, a, b) * SHIFT_PARAM - x * x / 2);
+    double t14 = t12 / t1;
+    return t14;
+}
+
+double draw_from_shifted_dist(const vector<double>& a,
+			      const vector<double>& b)
+{
+    double sigma = sqrt(0.5/(0.5 - SHIFT_PARAM));
+    uniform_real_distribution<double> unif(0, 1);
+    normal_distribution<double> dist(0, sigma);
+    double rv = 0;
+    bool accepted = false;
+    double C = exp(SHIFT_PARAM * (a[2] + b[0])) * sigma;
+    while (! accepted) {
+	double X = dist(gen);
+	double t1 = shifted_dist_semi_pdf(X, a, b);
+	double t2 = gsl_ran_gaussian_pdf(X, sigma);
+	
+	double prob = t1 / (t2 * C);
+	double U = unif(gen);
+	if (U <= prob) {
+	    rv = X;
+	    accepted = true;
+	}
+    }
+    assert(rv != 0);
+    return rv;
+}
+
+XMatrix& gen_rand_matrix(const vector<double> &alpha,
+		     const vector<double> &beta,
+		     double z2, XMatrix &M)
 {
     unsigned p = beta.size(), q = alpha.size() - 1;
     unsigned n = p + q - 1;
-    double z = pow(dist(gen), 2);
-    ExtremeNumber e(0);
-    M.entry.resize(n);
-    for_each(M.entry.begin(), M.entry.end(),
-	     [&](vector<ExtremeNumber> &row) {
-		 row.resize(n, e);
-	     });
-    M(0, 0) = alpha[1] * z + beta[0];
+
+    M.set_size(n, n);
+    M(0, 0) = alpha[1] * z2 + beta[0];
     for (unsigned i = 1; i < p; i++) {
 	M(0, i) = beta[i];
     }
@@ -43,7 +77,7 @@ XMatrix & gen_rand_matrix(const vector<double> &alpha,
     for (unsigned i = 1; i < p; i++) {
 	M(i, i - 1) = 1;
     }
-    if (n > 1) M(p, 0) = z;
+    if (n > 1) M(p, 0) = z2;
     for (unsigned i = p + 1; i < n; i++) {
 	M(i, i - 1) = 1;
     }
@@ -58,13 +92,16 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 		      ExtremeNumber &sd)
 {
     vector<ExtremeNumber> results(K);
-#pragma omp parallel for
+
+    #pragma omp parallel for shared(gen)
     for (unsigned k = 0; k < K; k++) {
+	vector<double> Z(n);
 	vector<XMatrix> A(n);
-	for_each(A.begin(), A.end(),
-		 [&](XMatrix &M) {
-		     gen_rand_matrix(alpha, beta, 0, M);
-		 });
+	for (unsigned i = 0; i < n; i++) {
+    #pragma omp critical
+	    Z[i] = draw_from_shifted_dist(alpha, beta);
+	    gen_rand_matrix(alpha, beta, Z[i] * Z[i], A[i]);
+	}
 	XMatrix P = A[0];
 	for (unsigned i = 1; i < A.size(); i++) {
 	    P *= A[i];
@@ -73,46 +110,22 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 	double m;
 	mat X = P.comptify(&power);
 	m = norm(X, "inf");
-
 	results[k] = ExtremeNumber(m);
-	// results[k] ^= xi;
-	// results[k].mylog += power * xi;
+	results[k] ^= xi;
+	results[k].mylog += power * xi;
+	for (unsigned i = 0; i < n; i++) {
+	    results[k] *= exp(-SHIFT_PARAM * norm_fun(Z[i], alpha, beta));
+	}
     }
 
-    sort(results.begin(), results.end());
-    /* Importance sampling using the empirical distribution */
-    results.emplace(results.begin(), 0.0);
-    unsigned long M = K;
-    vector<ExtremeNumber> Q(K + 1);
-    vector<ExtremeNumber> Y(M);
-    partial_sum(
-	results.begin(), results.end(),
-	Q.begin(),
-	[=](const ExtremeNumber& s, const ExtremeNumber& x) {
-	    return s + exp(x * SHIFT_PARAM);
-	    // return s + (x^n_inv);
-	});
-    results.erase(results.begin());
-    Q.erase(Q.begin());
-    ExtremeNumber mean(0);
-#pragma omp parallel for shared (gen)
-    for (size_t i = 0; i < M; i++) {
-	uniform_real_distribution<double> unif(0, static_cast<double>(Q.back()));
-	double U;
-#pragma omp critical	    
-	U = unif(gen);
-	size_t k = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
-	Y[i] = (results[k]^xi) * exp(-results[k] * SHIFT_PARAM);
-	// mean += Y[i]/fabs(log10(Y[i])) / (double)M;
-	// mean += (Y[i]^0.5)/(double)M;
-    }
-    mean = accumulate(Y.cbegin(), Y.cend(), mean=ExtremeNumber(0),
-		      [M](const ExtremeNumber& a, const ExtremeNumber& b) {
-			  return a + b / (double)M;
+    ExtremeNumber mean;
+    mean = accumulate(results.cbegin(), results.cend(), mean=ExtremeNumber(0),
+		      [K](const ExtremeNumber& a, const ExtremeNumber& b) {
+			  return a + b / (double)K;
 		      });
-    sd = accumulate(Y.cbegin(), Y.cend(), sd=0,
+    sd = accumulate(results.cbegin(), results.cend(), sd=0,
 		    [&](const ExtremeNumber& a, const ExtremeNumber& b) {
-			return a + ((b - mean)^2) / (double)M;
+			return a + (abs(b - mean)^2) / (double)K;
 		    });
     sd ^= 0.5;
     return mean;

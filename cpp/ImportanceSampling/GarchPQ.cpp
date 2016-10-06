@@ -13,6 +13,47 @@ using namespace arma;
 
 random_device gen;
 
+double norm_fun(double x, const vector<double>& a, const vector<double>& b)
+{
+    double t5 = x * x;
+    double t8 = (t5 >= t5 * alpha[1] + alpha[2] + beta[0] ? t5 : t5 * alpha[1] + alpha[2] + beta[0]);
+    return t8;
+}
+
+double shifted_dist_semi_pdf(double x, double xi
+			     const vector<double>& a,
+			     const vector<double>& b)
+{
+    double t1 = sqrt(2 * M_PI);
+    double t12 = exp(norm_fun(x, a, b) * xi - x * x / 2);
+    double t14 = t12 / t1;
+    return t14;
+}
+
+double draw_from_shifted_dist(const vector<double>& a,
+			      const vector<double>& b)
+{
+    double xi = 0.45;
+    double sigma = sqrt(0.5/(0.5 - xi));
+    uniform_real_distribution<double> unif(0, 1);
+    normal_distribution<double> dist(0, sigma);
+    double rv = nan("");
+    bool accepted = false;
+    while (! accepted) {
+	double X = dist(gen);
+	double prob =
+	    shifted_dist_semi_pdf(X, a, b) /
+	    gsl_ran_gaussian_pdf(X, sigma) /
+	    exp(xi * (a[2] + b[0]));
+	double U = unif(gen);
+	if (U <= prob) {
+	    rv = X;
+	    accepted = true;
+	}
+    }
+    assert(!isnan(rv));
+    return rv;
+}
 
 mat& gen_rand_matrix(const vector<double> &alpha,
 		     const vector<double> &beta,
@@ -95,8 +136,8 @@ double estimateLambda(const vector<double>& a,
 	    double z2;
 
 #pragma omp critical
-	    z2 = chi2(gen);
-	    gen_rand_matrix(a, b, z2, A[k]);
+	    z = draw_from_shifted_dist(a, b);
+	    gen_rand_matrix(a, b, z * z, A[k]);
 	    alpha[k][1] = pow(norm(A[k] * E[k], "inf"), theta);
 	}
 	vector<vec> E_prev(K);

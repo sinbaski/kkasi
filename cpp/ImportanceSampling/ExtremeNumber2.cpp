@@ -182,6 +182,7 @@ double ExtremeNumber::operator () (long n) const
 
 ExtremeNumber::operator double() const
 {
+    if (mylog == 0) return 0;
     return pow(10, mylog);
 }
 
