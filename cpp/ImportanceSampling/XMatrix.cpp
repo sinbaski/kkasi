@@ -152,3 +152,14 @@ mat XMatrix::comptify(long *power)
     }
     return X;
 }
+
+void XMatrix::set_size(unsigned int m, unsigned int n)
+{
+    entry.resize(m);
+    ExtremeNumber e(0);
+    entry.resize(n);
+    for_each(entry.begin(), entry.end(),
+	     [&](vector<ExtremeNumber> &row) {
+		 row.resize(n, e);
+	     });
+}

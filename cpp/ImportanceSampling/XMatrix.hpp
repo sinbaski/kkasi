@@ -26,6 +26,7 @@ public:
     const XMatrix& operator += (const XMatrix& Y);
     const XMatrix& operator = (const XMatrix& Y);
     const XMatrix& operator ^ (unsigned n);
+    void set_size(unsigned int m, unsigned int n);
     XMatrix operator ~ (void);
     mat comptify(long *power);
 };
