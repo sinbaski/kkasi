@@ -51,55 +51,46 @@ double estimateLambda(const vector<double>& a,
     chi_squared_distribution<double> chi2;
     // vector<double> beta(N, 0);
     vector<vec> E(K);
+    vector<vec> E_prev(K);
     vector<double> alpha(K, 1);
 #pragma omp parallel for schedule(dynamic) shared(gen, unif)
     for (unsigned i = 0; i < K; i++) {
-	E[i].set_size(a.size() + b.size() - 2);
-	for_each(E[i].begin(), E[i].end(),
+	E_prev[i].set_size(a.size() + b.size() - 2);
+	for_each(E_prev[i].begin(), E_prev[i].end(),
 		 [&](double &x)
 		 {
 		     x = unif(gen);
 		 });
-	E[i] = normalise(E[i], 2);
+//	E_prev[i] = normalise(E_prev[i], "inf");
     }
     double Lambda = 0;
     sd = 0;
-    for (unsigned j = 1; j <= N; j++) {
+    for (unsigned j = 0; j < N; j++) {
 	vector<mat> A(K);
 	vector<double> Q(K);
-	partial_sum(alpha.begin(), alpha.end(), Q.begin());
+//	partial_sum(alpha.begin(), alpha.end(), Q.begin());
 #pragma omp parallel for schedule(dynamic) shared(gen, chi2)
 	for (unsigned k = 0; k < K; k++) {
 	    double z2;
-
 #pragma omp critical
 	    z2 = chi2(gen);
 	    gen_rand_matrix(a, b, z2, A[k]);
-	    alpha[k] = pow(norm(A[k] * E[k], 2), theta);
+	    alpha[k] = pow(norm(A[k] * E_prev[k], "inf"), theta);
 	}
-	vector<vec> E_prev(K);
-	copy(E.begin(), E.end(), E_prev.begin());
+	partial_sum(alpha.begin(), alpha.end(), Q.begin());
+//	copy(E.begin(), E.end(), E_prev.begin());
 
 #pragma omp parallel for shared(gen, unif)
 	for (unsigned k = 0; k < K; k++) {
 	    double U;
-	    double theta;
-
 #pragma omp critical
-	    {
-		U = unif(gen) * Q.back();
-		theta = unif(gen) * 2 * M_PI;
-	    }
-	    mat rotate(2, 2);
-	    rotate(0, 0) = cos(theta);
-	    rotate(0, 1) = -sin(theta);
-	    rotate(1, 0) = -rotate(0, 1);
-	    rotate(1, 1) = rotate(0, 0);
-	    
+	    U = unif(gen) * Q.back();
 	    unsigned l = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
-	    E[k] = normalise(A[k] * (rotate * E_prev[l]), 2);
+//	    E[k] = normalise(A[k] * E_prev[l], "inf");
+	    E[k] = A[k] * E_prev[l];
+	    E[k] = E[k] / norm(E[k], "inf");
 	}
-
+	copy(E.begin(), E.end(), E_prev.begin());	
 	double lbt = log(Q.back()/K);
 	Lambda += lbt / N;
 	sd += pow(lbt, 2) / N;

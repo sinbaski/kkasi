@@ -7,6 +7,7 @@
 #include <iostream>
 #include <random>
 #include <gsl/gsl_randist.h>
+#include <gsl/gsl_sf_erf.h>
 #include "ExtremeNumber2.hpp"
 #include "XMatrix.hpp"
 
@@ -15,7 +16,64 @@ using namespace arma;
 
 random_device gen;
 
-#define SHIFT_PARAM 0.49
+#define SHIFT_PARAM 0.2
+
+// struct param_structure
+// {
+//     const vector<double>& a;
+//     const vector<double>& b;
+// };
+
+
+// double shift_param_def_func(double x, void *params)
+// {
+//     struct param_structure * p = (struct param_structure *)params;
+//     const vector<double>& a = p -> a;
+//     const vector<double>& b = p -> b;
+
+//     double w = (a[2] + b[0])/(1 - a[1]);
+//     double t1 = sqrt(0.2e1);
+//     double t3 = exp(x * a[2]);
+//     double t6 = exp(x * b[0]);
+//     double t10 = sqrt(-0.4e1 * x * a[1] + 0.2e1);
+//     double t11 = sqrt(w);
+//     double t14 = gsl_sf_erf(t11 * t10 / 0.2e1);
+//     double t21 = sqrt(-0.4e1 * x + 0.2e1);
+//     double t24 = gsl_sf_erf(t11 * t21 / 0.2e1);
+//     double t26 = 0.1e1 / t21;
+//     double t29 = 0.1e1 / t10 * t14 * t6 * t3 * t1 - t26 * t24 * t1 + t26 * t1;
+//     return t29 - 1;
+// }
+
+// double find_shift_param(const vector<double>& a, const vector<double>& b)
+// {
+//     gsl_root_fsolver *solver;
+//     gsl_function F;
+//     int iter = 0;
+//     int status = 0;
+//     int max_iter = 100;
+//     double lb, ub;
+//     double shift_par;
+//     struct param_structure params = {a, b};
+//     double bounds[2];
+    
+
+//     F.function = shift_param_def_func;
+//     F.params = &params;
+//     solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
+//     gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
+//     do {
+// 	iter++;
+// 	status = gsl_root_fsolver_iterate (solver);
+// 	shift_par = gsl_root_fsolver_root (solver);
+// 	lb = gsl_root_fsolver_x_lower(solver);
+// 	ub = gsl_root_fsolver_x_upper(solver);
+// 	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
+//     } while (status == GSL_CONTINUE && iter < max_iter);
+//     gsl_root_fsolver_free(solver);
+//     assert(status == GSL_SUCCESS);
+//     return shift_par;
+// }
 
 double norm_fun(double x, const vector<double>& a, const vector<double>& b)
 {
@@ -93,12 +151,12 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 {
     vector<ExtremeNumber> results(K);
 
-    #pragma omp parallel for shared(gen)
+#pragma omp parallel for shared(gen)
     for (unsigned k = 0; k < K; k++) {
 	vector<double> Z(n);
 	vector<XMatrix> A(n);
 	for (unsigned i = 0; i < n; i++) {
-    #pragma omp critical
+#pragma omp critical
 	    Z[i] = draw_from_shifted_dist(alpha, beta);
 	    gen_rand_matrix(alpha, beta, Z[i] * Z[i], A[i]);
 	}
@@ -113,6 +171,12 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 	results[k] = ExtremeNumber(m);
 	results[k] ^= xi;
 	results[k].mylog += power * xi;
+
+	ExtremeNumber t;
+	t = accumulate(Z.begin(), Z.end(), t=0,
+		       [&](const ExtremeNumber& s, const ExtremeNumber& a ) {
+			   return s + exp(SHIFT_PARAM * norm_fun(a, alpha, beta))/(double)n;
+		       });
 	for (unsigned i = 0; i < n; i++) {
 	    results[k] *= exp(-SHIFT_PARAM * norm_fun(Z[i], alpha, beta));
 	}
@@ -129,92 +193,6 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 		    });
     sd ^= 0.5;
     return mean;
-}
-
-void test_cases(void)
-{
-   /* adjust_numbers is good! */
-    // vector<double> V = {
-    // 	-14.509109561124117, -13.176534978491997, 0, 15.243856232806506, 15.720977487526168, 30.487712465613011	
-    // };
-    // ExtremeNumber X(V);
-    // adjust_numbers(X);
-
-
-    //This test case is passed.
-    // XMatrix A(2, 2), B(2, 2), M;
-    // mat X;
-    // int p;
-    // A(0, 0) = 1.7533e+15;
-    // A(0, 1) = 1.546e-29;
-    // A(1, 0) = 2.0030e+14;
-    // A(1, 1) = 0;
-
-    // B(0, 0) = 1;
-    // B(0, 1) = 3;
-    // B(1, 0) = 2;
-    // B(1, 1) = 4;
-
-    // M = A * B;
-    // X = M.comptify(&p);
-    // X.print();
-    // M *= A;
-    // X = M.comptify(&p);
-    // X.print();
-    // M += B + A * A;
-    // X = M.comptify(&p);
-    // X.print();
-
-    // Test case passed.
-    // XMatrix A(2, 3), B(3, 2);
-    // mat V;
-    // int p;
-    // A(0, 0) = 1.2;
-    // A(0, 1) = 0.9;
-    // A(0, 2) = 0.01;
-    // A(1, 0) = 1.5;
-    // A(1, 1) = 2.2;
-    // A(1, 2) = 0;
-
-    // B(0, 0) = 3.9;
-    // B(0, 1) = 0.3;
-    // B(1, 0) = 10.19;
-    // B(1, 1) = 1.22;
-    // B(2, 0) = 1.2e-3;
-    // B(2, 1) = 6.5;
-    
-    // XMatrix C = A * B;
-    // V = C.comptify(&p);
-    // V.print();
-
-    // XMatrix M = (C^10);
-    // V = M.comptify(&p);
-    // V.print();
-
-    // test case Not run.
-    // double data1[][4] = {
-    // 	{19.403665, 4.077789e-01, 797.39273, 0.03255509},
-    // 	{6.128070, 3.924188e-05,  27.35455, 1.36518070},
-    // 	{7.012403, 6.138501e+00,  41.20729, 0.37090008}
-    // };
-    // double data2[][3] = {
-    // 	{0.014663314,    0.187702,   1.3084776},
-    // 	{0.002948789,    2.226695,   0.2997368},
-    // 	{0.005873739, 1005.096251,   0.3484540},
-    // 	{0.474892351,    1.205615, 124.4773247}
-    // };
-    // double data3[][3] = {
-    // 	{0.0000418549, 0.7024121, 1.83917835},
-    // 	{0.3144126534, 0.9380704, 0.07165514},
-    // 	{4.6536517854, 0.5059325, 3.36968125},
-    // };
-    // double *p[] = {data1[0], data1[1], data1[2]};
-    // double *q[] = {data2[0], data2[1], data2[2], data2[3]};
-    // double *r[] = {data3[0], data3[1], data3[2]};
-    // XMatrix A(p, 3, 4), B(q, 4, 3), C(r, 3, 3), M(3, 3);
-    // M = A * B + C;
-    // M += C * A * B;
-    // M *= (C^2) + ((A * B)^3);
 }
 
 int main(int argc, char*argv[])
