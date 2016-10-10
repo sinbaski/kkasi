@@ -8,6 +8,7 @@
 #include <random>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_sf_erf.h>
+#include <gsl/gsl_min.h>
 #include "ExtremeNumber2.hpp"
 #include "XMatrix.hpp"
 
@@ -16,34 +17,27 @@ using namespace arma;
 
 random_device gen;
 
-#define SHIFT_PARAM 0.2
+double norm_const(double x,
+			    const vector<double>& a,
+			    const vector<double>& b)
+{
+//    struct param_structure * p = (struct param_structure *)params;
+    // const vector<double>& a = p -> a;
+    // const vector<double>& b = p -> b;
 
-// struct param_structure
-// {
-//     const vector<double>& a;
-//     const vector<double>& b;
-// };
-
-
-// double shift_param_def_func(double x, void *params)
-// {
-//     struct param_structure * p = (struct param_structure *)params;
-//     const vector<double>& a = p -> a;
-//     const vector<double>& b = p -> b;
-
-//     double w = (a[2] + b[0])/(1 - a[1]);
-//     double t1 = sqrt(0.2e1);
-//     double t3 = exp(x * a[2]);
-//     double t6 = exp(x * b[0]);
-//     double t10 = sqrt(-0.4e1 * x * a[1] + 0.2e1);
-//     double t11 = sqrt(w);
-//     double t14 = gsl_sf_erf(t11 * t10 / 0.2e1);
-//     double t21 = sqrt(-0.4e1 * x + 0.2e1);
-//     double t24 = gsl_sf_erf(t11 * t21 / 0.2e1);
-//     double t26 = 0.1e1 / t21;
-//     double t29 = 0.1e1 / t10 * t14 * t6 * t3 * t1 - t26 * t24 * t1 + t26 * t1;
-//     return t29 - 1;
-// }
+    double w = (a[2] + b[0])/(1 - a[1]);
+    double t1 = sqrt(0.2e1);
+    double t3 = exp(x * a[2]);
+    double t6 = exp(x * b[0]);
+    double t10 = sqrt(-0.4e1 * x * a[1] + 0.2e1);
+    double t11 = sqrt(w);
+    double t14 = gsl_sf_erf(t11 * t10 / 0.2e1);
+    double t21 = sqrt(-0.4e1 * x + 0.2e1);
+    double t24 = gsl_sf_erf(t11 * t21 / 0.2e1);
+    double t26 = 0.1e1 / t21;
+    double t29 = 0.1e1 / t10 * t14 * t6 * t3 * t1 - t26 * t24 * t1 + t26 * t1;
+    return t29;
+}
 
 // double find_shift_param(const vector<double>& a, const vector<double>& b)
 // {
@@ -58,7 +52,7 @@ random_device gen;
 //     double bounds[2];
     
 
-//     F.function = shift_param_def_func;
+//     F.function = norm_const;
 //     F.params = &params;
 //     solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
 //     gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
@@ -82,28 +76,29 @@ double norm_fun(double x, const vector<double>& a, const vector<double>& b)
     return t8;
 }
 
-double shifted_dist_semi_pdf(double x,
+double shifted_dist_semi_pdf(double x, double shift_param,
 			     const vector<double>& a,
 			     const vector<double>& b)
 {
     double t1 = sqrt(2 * M_PI);
-    double t12 = exp(norm_fun(x, a, b) * SHIFT_PARAM - x * x / 2);
+    double t12 = exp(norm_fun(x, a, b) * shift_param - x * x / 2);
     double t14 = t12 / t1;
     return t14;
 }
 
 double draw_from_shifted_dist(const vector<double>& a,
-			      const vector<double>& b)
+			      const vector<double>& b,
+			      double shift_param)
 {
-    double sigma = sqrt(0.5/(0.5 - SHIFT_PARAM));
+    double sigma = sqrt(0.5/(0.5 - shift_param));
     uniform_real_distribution<double> unif(0, 1);
     normal_distribution<double> dist(0, sigma);
     double rv = 0;
     bool accepted = false;
-    double C = exp(SHIFT_PARAM * (a[2] + b[0])) * sigma;
+    double C = exp(shift_param * (a[2] + b[0])) * sigma;
     while (! accepted) {
 	double X = dist(gen);
-	double t1 = shifted_dist_semi_pdf(X, a, b);
+	double t1 = shifted_dist_semi_pdf(X, shift_param, a, b);
 	double t2 = gsl_ran_gaussian_pdf(X, sigma);
 	
 	double prob = t1 / (t2 * C);
@@ -143,11 +138,12 @@ XMatrix& gen_rand_matrix(const vector<double> &alpha,
 }
 
 ExtremeNumber estimateLambda(const vector<double>& alpha,
-		      const vector<double>& beta,
-		      double xi,
-		      unsigned long n,
-		      unsigned long K,
-		      ExtremeNumber &sd)
+			     const vector<double>& beta,
+			     double shift_param,
+			     double xi,
+			     unsigned long n,
+			     unsigned long K,
+			     ExtremeNumber &sd)
 {
     vector<ExtremeNumber> results(K);
 
@@ -157,7 +153,7 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 	vector<XMatrix> A(n);
 	for (unsigned i = 0; i < n; i++) {
 #pragma omp critical
-	    Z[i] = draw_from_shifted_dist(alpha, beta);
+	    Z[i] = draw_from_shifted_dist(alpha, beta, shift_param);
 	    gen_rand_matrix(alpha, beta, Z[i] * Z[i], A[i]);
 	}
 	XMatrix P = A[0];
@@ -172,18 +168,15 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 	results[k] ^= xi;
 	results[k].mylog += power * xi;
 
-	ExtremeNumber t;
-	t = accumulate(Z.begin(), Z.end(), t=0,
-		       [&](const ExtremeNumber& s, const ExtremeNumber& a ) {
-			   return s + exp(SHIFT_PARAM * norm_fun(a, alpha, beta))/(double)n;
-		       });
+	ExtremeNumber C = norm_const(shift_param, alpha, beta);
+
 	for (unsigned i = 0; i < n; i++) {
-	    results[k] *= exp(-SHIFT_PARAM * norm_fun(Z[i], alpha, beta));
+	    results[k] *= C * exp(-shift_param * norm_fun(Z[i], alpha, beta));
 	}
     }
 
     ExtremeNumber mean;
-    mean = accumulate(results.cbegin(), results.cend(), mean=ExtremeNumber(0),
+    mean = accumulate(results.cbegin(), results.cend(), mean=0,
 		      [K](const ExtremeNumber& a, const ExtremeNumber& b) {
 			  return a + b / (double)K;
 		      });
@@ -193,6 +186,77 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 		    });
     sd ^= 0.5;
     return mean;
+}
+
+struct param_set1
+{
+    const vector<double>& alpha;
+    const vector<double>& beta;
+    double xi;
+    unsigned long n;
+    unsigned long K;
+    ExtremeNumber value;
+};
+
+double fun1(double shift_param, void *param)
+{
+    struct param_set1* par = (struct param_set1 *)param;
+    ExtremeNumber sd;
+    par->value = estimateLambda(par->alpha, par->beta, shift_param, par->xi, par->n, par->K, sd);
+    return sd.mylog - par->value.mylog;
+}
+
+ExtremeNumber refined_estimate(const vector<double>& alpha,
+			       const vector<double>& beta,
+			       double xi,
+			       unsigned long n,
+			       unsigned long K,
+			       ExtremeNumber &sd)
+{
+    int status;
+    int iter = 0, max_iter = 100;
+    gsl_min_fminimizer *s;
+    double m = 0.5 - 1/(xi + 2);
+    double a = 0, b = 0.45;
+    gsl_function F;
+
+    struct param_set1 params = {
+    	alpha, beta, xi, n, K, ExtremeNumber()
+    };
+    F.function = &fun1;
+    F.params = &params;
+    
+    // vector< array<double, 2> > fs;
+    // fs.push_back({0, fun1(0, &params)});
+    // while (fs.back()[1] >= fs.front()[1]) {
+    // 	a += 0.1 - fs.back()[0] / 4.9;
+    // 	fs.push_back({a, fun1(a, &params)});
+    // }
+    // fs.erase(fs.begin(), fs.end()-1);
+    // b = a;
+    // while (fs.back()[1] <= fs.front()[1]) {
+    // 	b += 0.1 - fs.back()[0] / 4.9;
+    // 	fs.push_back({b, fun1(b, &params)});
+    // }
+    // double m = fun1((a + b)/2, &params);
+
+    s = gsl_min_fminimizer_alloc(gsl_min_fminimizer_brent);
+    gsl_min_fminimizer_set(s, &F, m, a, b);
+
+    do {
+    	iter++;
+    	status = gsl_min_fminimizer_iterate (s);
+
+    	m = gsl_min_fminimizer_x_minimum (s);
+    	a = gsl_min_fminimizer_x_lower (s);
+    	b = gsl_min_fminimizer_x_upper (s);
+
+    	status = gsl_min_test_interval(a, b, 0.001, 0.0);
+
+    } while (status == GSL_CONTINUE && iter < max_iter);
+    assert(status == GSL_SUCCESS);
+    sd.mylog = m;
+    return params.value;
 }
 
 int main(int argc, char*argv[])
@@ -216,7 +280,9 @@ int main(int argc, char*argv[])
     // printf("%e    %e\n", nu, Lambda);
     double n = stod(argv[3]);
     for (double nu = stod(argv[1]); nu < stod(argv[2]); nu += 0.1) {
-    	expected = estimateLambda(
+    	// expected = estimateLambda(
+    	//     alpha, beta, 0.5 - 1/(2 + nu), nu, stoul(argv[3]), stoul(argv[4]), sd);
+    	expected = refined_estimate(
     	    alpha, beta, nu, stoul(argv[3]), stoul(argv[4]), sd);
 	double rel_err = static_cast<double>(sd / expected);
     	printf("%e    %e    %.4f\n", nu, log(expected)/n, rel_err);
