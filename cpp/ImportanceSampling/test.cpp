@@ -6,6 +6,7 @@
 #include <armadillo>
 #include <iostream>
 #include <random>
+#include <gsl/gsl_roots.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_sf_erf.h>
 #include <gsl/gsl_min.h>
@@ -15,16 +16,22 @@
 using namespace std;
 using namespace arma;
 
-random_device gen;
+#define URNG mt19937
+
+struct param_set1
+{
+    const vector<double>& alpha;
+    const vector<double>& beta;
+    double xi;
+    unsigned long n;
+    unsigned long K;
+    ExtremeNumber value;
+};
 
 double norm_const(double x,
-			    const vector<double>& a,
-			    const vector<double>& b)
+		  const vector<double>& a,
+		  const vector<double>& b)
 {
-//    struct param_structure * p = (struct param_structure *)params;
-    // const vector<double>& a = p -> a;
-    // const vector<double>& b = p -> b;
-
     double w = (a[2] + b[0])/(1 - a[1]);
     double t1 = sqrt(0.2e1);
     double t3 = exp(x * a[2]);
@@ -38,36 +45,6 @@ double norm_const(double x,
     double t29 = 0.1e1 / t10 * t14 * t6 * t3 * t1 - t26 * t24 * t1 + t26 * t1;
     return t29;
 }
-
-// double find_shift_param(const vector<double>& a, const vector<double>& b)
-// {
-//     gsl_root_fsolver *solver;
-//     gsl_function F;
-//     int iter = 0;
-//     int status = 0;
-//     int max_iter = 100;
-//     double lb, ub;
-//     double shift_par;
-//     struct param_structure params = {a, b};
-//     double bounds[2];
-    
-
-//     F.function = norm_const;
-//     F.params = &params;
-//     solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
-//     gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
-//     do {
-// 	iter++;
-// 	status = gsl_root_fsolver_iterate (solver);
-// 	shift_par = gsl_root_fsolver_root (solver);
-// 	lb = gsl_root_fsolver_x_lower(solver);
-// 	ub = gsl_root_fsolver_x_upper(solver);
-// 	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
-//     } while (status == GSL_CONTINUE && iter < max_iter);
-//     gsl_root_fsolver_free(solver);
-//     assert(status == GSL_SUCCESS);
-//     return shift_par;
-// }
 
 double norm_fun(double x, const vector<double>& a, const vector<double>& b)
 {
@@ -88,7 +65,8 @@ double shifted_dist_semi_pdf(double x, double shift_param,
 
 double draw_from_shifted_dist(const vector<double>& a,
 			      const vector<double>& b,
-			      double shift_param)
+			      double shift_param,
+			      URNG& gen)
 {
     double sigma = sqrt(0.5/(0.5 - shift_param));
     uniform_real_distribution<double> unif(0, 1);
@@ -113,8 +91,8 @@ double draw_from_shifted_dist(const vector<double>& a,
 }
 
 XMatrix& gen_rand_matrix(const vector<double> &alpha,
-		     const vector<double> &beta,
-		     double z2, XMatrix &M)
+			 const vector<double> &beta,
+			 double z2, XMatrix &M)
 {
     unsigned p = beta.size(), q = alpha.size() - 1;
     unsigned n = p + q - 1;
@@ -147,13 +125,13 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 {
     vector<ExtremeNumber> results(K);
 
-#pragma omp parallel for shared(gen)
+#pragma omp parallel for
     for (unsigned k = 0; k < K; k++) {
+	mt19937 gen(k);
 	vector<double> Z(n);
 	vector<XMatrix> A(n);
 	for (unsigned i = 0; i < n; i++) {
-#pragma omp critical
-	    Z[i] = draw_from_shifted_dist(alpha, beta, shift_param);
+	    Z[i] = draw_from_shifted_dist(alpha, beta, shift_param, gen);
 	    gen_rand_matrix(alpha, beta, Z[i] * Z[i], A[i]);
 	}
 	XMatrix P = A[0];
@@ -188,16 +166,6 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
     return mean;
 }
 
-struct param_set1
-{
-    const vector<double>& alpha;
-    const vector<double>& beta;
-    double xi;
-    unsigned long n;
-    unsigned long K;
-    ExtremeNumber value;
-};
-
 double fun1(double shift_param, void *param)
 {
     struct param_set1* par = (struct param_set1 *)param;
@@ -226,22 +194,20 @@ ExtremeNumber refined_estimate(const vector<double>& alpha,
     F.function = &fun1;
     F.params = &params;
     
-    // vector< array<double, 2> > fs;
-    // fs.push_back({0, fun1(0, &params)});
-    // while (fs.back()[1] >= fs.front()[1]) {
-    // 	a += 0.1 - fs.back()[0] / 4.9;
-    // 	fs.push_back({a, fun1(a, &params)});
-    // }
-    // fs.erase(fs.begin(), fs.end()-1);
-    // b = a;
-    // while (fs.back()[1] <= fs.front()[1]) {
-    // 	b += 0.1 - fs.back()[0] / 4.9;
-    // 	fs.push_back({b, fun1(b, &params)});
-    // }
-    // double m = fun1((a + b)/2, &params);
-
+    vector< array<double, 2> > fs;
+    fs.push_back({0, fun1(0, &params)});
+    while (fs.back()[1] >= fs.front()[1]) {
+    	a += 0.1 - fs.back()[0] / 4.9;
+    	fs.push_back({a, fun1(a, &params)});
+    }
+    fs.erase(fs.begin(), fs.end()-1);
+    b = a;
+    while (fs.back()[1] <= fs.front()[1]) {
+    	b += 0.1 - fs.back()[0] / 4.9;
+    	fs.push_back({b, fun1(b, &params)});
+    }
     s = gsl_min_fminimizer_alloc(gsl_min_fminimizer_brent);
-    gsl_min_fminimizer_set(s, &F, m, a, b);
+    gsl_min_fminimizer_set(s, &F, a, 0, b);
 
     do {
     	iter++;
@@ -259,12 +225,55 @@ ExtremeNumber refined_estimate(const vector<double>& alpha,
     return params.value;
 }
 
+double func(double theta, void *p)
+{
+    struct param_set1* par = (struct param_set1*) p;
+    ExtremeNumber sd;
+    ExtremeNumber expected = refined_estimate(par->alpha, par->beta, theta, par->n, par->K, sd);
+    par->value = sd;
+    return log(expected)/par->n;
+}
+
+double find_root(const vector<double>& a,
+		 const vector<double>& b,
+		 unsigned long N,
+		 unsigned long K,
+		 double bounds[2],
+		 ExtremeNumber& sd)
+{
+    gsl_root_fsolver *solver;
+    gsl_function F;
+    int iter = 0;
+    int status = 0;
+    int max_iter = 100;
+    double lb, ub;
+    double xi;
+    struct param_set1 par = {
+	a, b, 0, N, K, ExtremeNumber()
+    };
+    F.function = func;
+    F.params = &par;
+    solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
+    gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
+    do {
+	iter++;
+	status = gsl_root_fsolver_iterate (solver);
+	xi = gsl_root_fsolver_root (solver);
+	lb = gsl_root_fsolver_x_lower(solver);
+	ub = gsl_root_fsolver_x_upper(solver);
+	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
+    } while (status == GSL_CONTINUE && iter < max_iter);
+    gsl_root_fsolver_free(solver);
+    assert (status == GSL_SUCCESS);
+    sd = par.value;
+    return xi;
+}
+
 int main(int argc, char*argv[])
 {
     vector<double> alpha({9.2e-6, 0.08835834, 0.09685783});
     // vector<double> alpha({1.0e-7, stod(argv[3])});
     vector<double> beta({0.6543018});
-    ExtremeNumber expected;
     ExtremeNumber sd;
     
     cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
@@ -278,82 +287,26 @@ int main(int argc, char*argv[])
     // 	alpha, beta, nu, stoul(argv[2]),
     // 	stoul(argv[3]), bounds);
     // printf("%e    %e\n", nu, Lambda);
-    double n = stod(argv[3]);
+    unsigned long n = stoul(argv[3]);
+    unsigned long K = stoul(argv[4]);
+    double bounds[2];
+    bool flag = false;
     for (double nu = stod(argv[1]); nu < stod(argv[2]); nu += 0.1) {
-    	// expected = estimateLambda(
-    	//     alpha, beta, 0.5 - 1/(2 + nu), nu, stoul(argv[3]), stoul(argv[4]), sd);
-    	expected = refined_estimate(
-    	    alpha, beta, nu, stoul(argv[3]), stoul(argv[4]), sd);
+    	ExtremeNumber expected = refined_estimate(
+    	    alpha, beta, nu, n, K, sd);
+	double Lambda = log(expected)/(double)n;
 	double rel_err = static_cast<double>(sd / expected);
-    	printf("%e    %e    %.4f\n", nu, log(expected)/n, rel_err);
+	if (!flag && Lambda > 0) {
+	    bounds[1] = nu;
+	    bounds[0] = nu - 0.1;
+	    flag = true;
+	}
+    	printf("%e    %e    %.4f\n", nu, Lambda, rel_err);
     }
     
+    double xi = find_root(alpha, beta, n, K, bounds, sd);
+    cout << "Lambda(" << xi << ") = 0" << endl;
 
-    // printf("Lambda(%s) = %.4e\n", argv[1], Lambda);
-    // printf("lambda(xi)^n = %.4fE%+ld (%.4fE+%ld, %.4fE+%ld)\n\n",
-    // 	   bounds[1].first, bounds[1].second,
-    // 	   bounds[0].first, bounds[0].second,
-    // 	   bounds[2].first, bounds[2].second
-    // 	);
     return 0;
 }
-
-/**
-   alpha: a vector of size 2+ that contain the coefficients of past squared returns.
-   beta: a vector of size 1+ that contain the coefficients of past variances.
-   This notation is consistent with Mikosch and Davis'es paper. on GARCH(p,q)
-*/
-// mat& gen_rand_matrix(const vector<double> &alpha,
-// 		     const vector<double> &beta,
-// 		     int measure_index,
-// 		     mat& A)
-// {
-//     static chi_squared_distribution<double> dist;
-//     static random_device gen;
-    
-//     double z(dist(gen));
-//     A(0, 0) = z * alpha[0] + beta[0];
-//     A(0, 1) = alpha[1];
-//     A(1, 0) = z;
-//     A(1, 1) = 0;
-//     return A;
-// }
-
-// int main(int argc, char*argv[])
-// {
-//     vector<double> alpha({1.0e-7, 0.6, 0.1});
-//     vector<double> beta({0.1, 0.05});
-//     cube A(2, 2, stol(argv[1]));
-//     mat X(2, 2);
-//     double power = stod(argv[2]);
-//     double norms[2];
-//     double Lambda[2];
-    
-//     gen_rand_matrix(alpha, beta, 0, X);
-    
-//     for (unsigned k = 0; k < A.n_slices; k++) {
-// 	gen_rand_matrix(alpha, beta, 0, A.slice(k));
-// 	X *= A.slice(k);
-// 	for (unsigned i = 0; i < X.n_rows; i++) {
-// 	    for (unsigned j = 0; j < X.n_cols; j++)
-// 		if (X(i, j) == 0) {
-// 		    printf("A(%d, %d, %d) = 0\n", k, i, j);
-// 		}
-// 	}
-//     }
-//     norms[0] = pow(norm(X, "inf"), power);
-//     norms[1] = pow(norm(X, 2), power);
-//     unsigned long n = A.n_slices + 1;
-
-//     transform(norms, norms+2, Lambda,
-// 	      [n] (double x) {
-// 		  return log(x)/double(n);
-// 	      });
-    
-//     printf("Norms,%e,%e\n",
-// 	   norms[0], norms[1]);
-//     printf("Lambda,%e,%e\n", Lambda[0], Lambda[1]);
-
-//     return 0;
-// }
 

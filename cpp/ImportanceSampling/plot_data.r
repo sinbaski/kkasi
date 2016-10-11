@@ -12,7 +12,7 @@ graphics.off();
 
 ## old <- read.table(file="./lambda0.txt");
 ## new <- read.table(file="./lambda0_new.txt");
-data <- read.table(file="temp.txt");
+data <- read.table(file="temp2.txt");
 ## pdf("old_and_new_algo.pdf")
 plot(data$V1, data$V2,
      ##     main=expression(sigma[t]^2 == 0.11 * R[t-1]^2 + 0.88 * sigma[t-1]^2 + 10^{-7}
