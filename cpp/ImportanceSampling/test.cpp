@@ -17,6 +17,7 @@ using namespace std;
 using namespace arma;
 
 #define URNG mt19937
+unsigned long SEED;
 
 struct param_set1
 {
@@ -127,7 +128,7 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 
 #pragma omp parallel for
     for (unsigned k = 0; k < K; k++) {
-	mt19937 gen(k);
+	mt19937 gen(SEED + k);
 	vector<double> Z(n);
 	vector<XMatrix> A(n);
 	for (unsigned i = 0; i < n; i++) {
@@ -282,6 +283,7 @@ int main(int argc, char*argv[])
     cout << "n = " << argv[3] << endl;
     cout << argv[4] << " iterations" << endl;
 
+    SEED = stoul(argv[5]);
     // double nu = stod(argv[1]);
     // Lambda = estimateLambda(
     // 	alpha, beta, nu, stoul(argv[2]),

@@ -68,17 +68,15 @@ double estimateLambda(const vector<double>& a,
     for (unsigned j = 0; j < N; j++) {
 	vector<mat> A(K);
 	vector<double> Q(K);
-//	partial_sum(alpha.begin(), alpha.end(), Q.begin());
+	partial_sum(alpha.begin(), alpha.end(), Q.begin());
+
 #pragma omp parallel for schedule(dynamic) shared(gen, chi2)
 	for (unsigned k = 0; k < K; k++) {
 	    double z2;
 #pragma omp critical
 	    z2 = chi2(gen);
 	    gen_rand_matrix(a, b, z2, A[k]);
-	    alpha[k] = pow(norm(A[k] * E_prev[k], "inf"), theta);
 	}
-	partial_sum(alpha.begin(), alpha.end(), Q.begin());
-//	copy(E.begin(), E.end(), E_prev.begin());
 
 #pragma omp parallel for shared(gen, unif)
 	for (unsigned k = 0; k < K; k++) {
@@ -88,7 +86,9 @@ double estimateLambda(const vector<double>& a,
 	    unsigned l = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
 //	    E[k] = normalise(A[k] * E_prev[l], "inf");
 	    E[k] = A[k] * E_prev[l];
-	    E[k] = E[k] / norm(E[k], "inf");
+	    alpha[k] = norm(E[k], "inf");
+	    E[k] = E[k] / alpha[k];
+	    alpha[k] = pow(alpha[k], theta);
 	}
 	copy(E.begin(), E.end(), E_prev.begin());	
 	double lbt = log(Q.back()/K);
@@ -196,8 +196,8 @@ int main(int argc, char*argv[])
 	    flag = true;
 	}
     }
-    // double xi = find_root(alpha, beta, N, K, bounds);
-    // cout << "Lambda(" << xi << ") = 0" << endl;
+    double xi = find_root(alpha, beta, N, K, bounds);
+    cout << "Lambda(" << xi << ") = 0" << endl;
     return 0;
 }
 
