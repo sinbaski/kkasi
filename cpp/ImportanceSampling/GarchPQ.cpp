@@ -11,8 +11,8 @@
 using namespace std;
 using namespace arma;
 
-random_device gen;
-
+// random_device gen;
+unsigned long SEED;
 
 mat& gen_rand_matrix(const vector<double> &alpha,
 		     const vector<double> &beta,
@@ -47,14 +47,13 @@ double estimateLambda(const vector<double>& a,
 		      double &sd)
 {
 
-    uniform_real_distribution<double> unif;
-    chi_squared_distribution<double> chi2;
-    // vector<double> beta(N, 0);
     vector<vec> E(K);
     vector<vec> E_prev(K);
     vector<double> alpha(K, 1);
-#pragma omp parallel for schedule(dynamic) shared(gen, unif)
+#pragma omp parallel for
     for (unsigned i = 0; i < K; i++) {
+	uniform_real_distribution<double> unif;
+	mt19937 gen(i + K + SEED);
 	E_prev[i].set_size(a.size() + b.size() - 2);
 	for_each(E_prev[i].begin(), E_prev[i].end(),
 		 [&](double &x)
@@ -66,6 +65,10 @@ double estimateLambda(const vector<double>& a,
     double Lambda = 0;
     sd = 0;
     for (unsigned j = 0; j < N; j++) {
+	uniform_real_distribution<double> unif;
+	chi_squared_distribution<double> chi2;
+	mt19937 gen(j + SEED);
+
 	vector<mat> A(K);
 	vector<double> Q(K);
 	partial_sum(alpha.begin(), alpha.end(), Q.begin());
@@ -183,6 +186,7 @@ int main(int argc, char*argv[])
     cout << "K = " << argv[4] << endl;
 
     unsigned long N = stoul(argv[3]), K = stoul(argv[4]);
+    SEED = stoul(argv[5]);
     
     double bounds[2];
     bool flag = false;

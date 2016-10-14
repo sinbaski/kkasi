@@ -306,8 +306,8 @@ int main(int argc, char*argv[])
     	printf("%e    %e    %.4f\n", nu, Lambda, rel_err);
     }
     
-    double xi = find_root(alpha, beta, n, K, bounds, sd);
-    cout << "Lambda(" << xi << ") = 0" << endl;
+    // double xi = find_root(alpha, beta, n, K, bounds, sd);
+    // cout << "Lambda(" << xi << ") = 0" << endl;
 
     return 0;
 }

@@ -18,7 +18,7 @@ else
 	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas -fopenmp	
 endif
 
-$(objs): $(objdir)/%.o: $(srcdir)/%.cpp
+$(objdir)/%.o: $(srcdir)/%.cpp
 	@if [ ! -e $(objdir) ]; then mkdir $(objdir); fi
 	$(CC) $(CFLAGS) $^ -o $@
 
@@ -27,7 +27,7 @@ garch1d: $(objdir)/main.o $(objdir)/garch1D.o
 	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: garchpq
-garchpq: $(objs)
+garchpq: obj/GarchPQ.o
 	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: MyTailEst
@@ -40,6 +40,6 @@ all: MyTailEst
 .PHONY: clean
 clean:
 	$(RM) $(objdir)/*.o
-	$(RM) garch1d garchpq
+
 
 

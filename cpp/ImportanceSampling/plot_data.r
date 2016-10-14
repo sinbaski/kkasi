@@ -12,12 +12,12 @@ graphics.off();
 
 ## old <- read.table(file="./lambda0.txt");
 ## new <- read.table(file="./lambda0_new.txt");
-data <- read.table(file="temp2.txt");
-## pdf("old_and_new_algo.pdf")
+data <- read.table(file="Lambda.txt");
+pdf("Lambda.pdf")
 plot(data$V1, data$V2,
      ##     main=expression(sigma[t]^2 == 0.11 * R[t-1]^2 + 0.88 * sigma[t-1]^2 + 10^{-7}
-     type="l", xlab=expression(theta),
-     ylab=expression(Lambda(theta))
+     type="l", xlab=expression(alpha),
+     ylab=expression(Lambda(alpha))
      );
 ## lines(new$V1, new$V2, col="#00FF00");
 ## legend("topleft",
@@ -26,4 +26,4 @@ plot(data$V1, data$V2,
 ##        lwd=c(1, 1),
 ##        );
 grid();
-## dev.off();
+dev.off();
