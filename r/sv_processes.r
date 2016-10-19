@@ -82,19 +82,38 @@ for (i in 1 : p) {
 }
 C <- cor(inno);
 
-Y <- matrix(NA, nrow=100*n, ncol=p);
-H <- matrix(NA, nrow=100*n + 1, ncol=p);
-Mu <- params[, 1];
-Phi <- params[, 2];
-Sigma <- params[, 3];
-H[1, ] <- rmvnorm(n=1, mean=Mu, sigma=diag(Sigma^2/(1 - Phi^2)));
+## Y <- matrix(NA, nrow=100*n, ncol=p);
+## H <- matrix(NA, nrow=100*n + 1, ncol=p);
+## Mu <- params[, 1];
+## Phi <- params[, 2];
+## Sigma <- params[, 3];
+## H[1, ] <- rmvnorm(n=1, mean=Mu, sigma=diag(Sigma^2/(1 - Phi^2)));
 
-for (t in 2 : dim(H)[1]) {
-    H[t, ] <- rmvnorm(n=1, mean=Mu + Phi * (H[t-1, ] - Mu), sigma=diag(Sigma^2));
-    Vol <- exp(H[t, ]/2);
-    Y[t-1, ] <- rmvnorm(n=1, mean=rep(0, p), sigma=C);
-    Y[t-1, ] <- Y[t-1, ] * Vol;
+## for (t in 2 : dim(H)[1]) {
+##     H[t, ] <- rmvnorm(n=1, mean=Mu + Phi * (H[t-1, ] - Mu), sigma=diag(Sigma^2));
+##     Vol <- exp(H[t, ]/2);
+##     Y[t-1, ] <- rmvnorm(n=1, mean=rep(0, p), sigma=C);
+##     Y[t-1, ] <- Y[t-1, ] * Vol;
+## }
+
+## params <- matrix(NA, nrow=p, ncol=2);
+## inno <- matrix(NA, nrow=n, ncol=p);
+## models <- vector("list", p);
+## for (i in 1 : p) {
+##     sv <- svsample(X[, i] - mean(X[, i]));
+##     H <- apply(latent(sv), MARGIN=2, FUN=mean);
+##     models[[i]] <- arima(H, order=c(1,2,1));
+## ##     params[i, ] <- apply(para(sv), MARGIN=2, FUN=mean);
+##     inno[, i] <- sv$y / exp(H/2);
+##     inno[, i] <- inno[, i] - mean(inno[, i]);
+## }
+C <- cor(inno);
+
+Y <- matrix(NA, nrow=100*n, ncol=p);
+for (i in 1 : p) {
+    Y[, i] <- arima.sim(models[[i]], dim(Y)[1]);
 }
+Y <- Y * rmvnorm(n=dim(Y)[1], mean=rep(0, p), sigma=C);
 
 E <- eigen(cov(X));
 D <- eigen(cov(inno));
