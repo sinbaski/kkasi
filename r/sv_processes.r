@@ -74,6 +74,7 @@ p <- dim(X)[2];
 params <- matrix(NA, nrow=p, ncol=3);
 inno <- matrix(NA, nrow=n, ncol=p);
 for (i in 1 : p) {
+    ## result <- svsample(X[, i] - mean(X[, i]), priornu=c(3, 6));
     result <- svsample(X[, i] - mean(X[, i]));
     H <- apply(latent(result), MARGIN=2, FUN=mean);
     params[i, ] <- apply(para(result), MARGIN=2, FUN=mean);
