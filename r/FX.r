@@ -71,9 +71,22 @@ X <- getAssetReturns("2010-01-04", "2016-04-01", currencies, 1,
 n <- dim(X)[1];
 p <- dim(X)[2];
 X <- X - matrix(rep(apply(X, MARGIN=2, FUN=mean), n), nrow=n, ncol=p, byrow=TRUE);
-N <- 4;
+N <- p;
 
-E <- eigen(cov(X));
-Y <- X %*% E$vectors[, 1:N];
+E <- cov(X);
+Eig <- eigen(E);
+Y <- X %*% Eig$vectors[, 1:N];
 D <- cov(Y);
-
+Dig <- eigen(D);
+    
+C <- matrix(NA, nrow=N, ncol=p);
+Res <- matrix(NA, nrow=n, ncol=p);
+for (i in 1:p) {
+    R <- X[, i];
+    model <- lm(R ~ Y[, 1:N]);
+    C[, i] <- coef(model)[1:N+1];
+    Res[, i] <- residuals(model);
+}
+Dep <- cov(Res);
+F <- t(C) %*% D %*% C;
+Fig <- eigen(F);
