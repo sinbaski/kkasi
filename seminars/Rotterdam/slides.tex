@@ -1,0 +1,165 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+% \usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+% \usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer
+%line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation
+%symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule
+                      % in tables
+
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\input{../../physics_common}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Some Results on GARCH processes and their Applications to Financial Times Series}
+% The short title appears at the bottom of
+% every slide, the full title is only
+% on the title page
+
+\author{Xie Xiaolei} % Your name
+\institute[UCPH] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+Copenhagen University  \\ % Your institution for the title page
+\medskip
+\textit{xie@math.ku.dk} % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+% \begin{frame}
+% \frametitle{Overview}
+% \tableofcontents
+% \end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% \section{Simple dependence models}
+%------------------------------------------------
+\section{Some Empirical Results}
+\subsection{FX Series}
+\begin{frame}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.35]{FX_eigenvalues.pdf}
+    \caption{\scriptsize Eigenvalues of real FX series and Simulated GARCH(1,1) series}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.2]{FX_eigenvectors.pdf}
+    \caption{\scriptsize Eigenvectors of real FX series and Simulated GARCH(1,1) series}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  The FX series are modeled with:
+  \begin{eqnarray*}
+    X_{i, t} &=& \sigma_{i, t} Z_{i, t} \\
+    \sigma_{i, t}^2 &=& \alpha_{i} X_{i, t}^2 + \beta_{i} \sigma_{i, t-1}^2 + \omega_i \\
+    (Z_{1, t}, ..., Z_{p, t}) &\sim& N(0, \sigma)
+  \end{eqnarray*}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Emergence of the Observed Spectrum}
+  Joint regular variation of the entries of the covariance matrix can
+  produce delocalized eigenvectors as seen in the data:
+  \[
+  \lim_{u \to \infty} u^{\xi}
+  \P\left(
+    \inn{\vec{x}, V} > u
+  \right) = e_{\xi}(\vec{x}),\; \vec x \in \mathbb S^{p-1}
+  \]
+  where $V=(\E X_{1,t}^2, ..., \E X_{p,t}^2,
+  \{\E (X_{i,t}X_{j,t})\}_{1 \leq i < j \leq p})$
+\end{frame}
+\bibliographystyle{unsrt}
+\bibliography{../../thesis/econophysics}
+\end{document} 
+

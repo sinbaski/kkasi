@@ -69,9 +69,10 @@ X <- getAssetReturns("2010-01-04", "2016-04-01", currencies, 1,
                      "rate", "localhost");
 n <- dim(X)[1];
 p <- dim(X)[2];
+X <- X - matrix(rep(apply(X, FUN=mean, MARGIN=2), n), nrow=n, ncol=p, byrow=TRUE);
 
 inno <- matrix(NA, nrow=n, ncol=p);
-coef <- matrix(0, nrow=p, ncol=3);
+params <- matrix(0, nrow=p, ncol=3);
 ics <- matrix(NA, nrow=p, ncol=4);
 for (i in 1:p) {
     ## spec <- ugarchspec(
@@ -96,7 +97,7 @@ for (i in 1:p) {
     ##     }
     ##     inno[, i] <- residuals(M1) / sigma(M1);
     ##     inno[, i] <- inno[, i] - mean(inno[, i]);
-    ##     coef[i, ] <- coef(M1);
+    ##     params[i, ] <- coef(M1);
     ## }
     ## if (is.null(M1) || convergence(M1)) {
     ##     stop(sprintf("Estimation failed for %d", i));
@@ -105,15 +106,14 @@ for (i in 1:p) {
     M <- garchFit(~garch(1,1),
                   data=X[, i],
                   trace=FALSE,
-                  cond.dist="std",
-                  shape=4,
+                  ## cond.dist="std",
+                  ## shape=4,
                   include.shape=FALSE,
-                  include.mean=TRUE,
+                  include.mean=FALSE,
                   include.delta=FALSE,
                   include.skew=FALSE
                   );
-    ## coef[i, ] <- M@fit$params$params[c(2,3,5)];
-    coef[i, 1:(length(M@fit$coef) - 1)] <- M@fit$coef[-1];
+    params[i, ] <- coef(M);
     inno[, i] <- M@residuals / M@sigma.t;
     inno[, i] <- inno[, i] - mean(inno[, i]);
     inno[, i] <- inno[, i] / sd(inno[, i]);
@@ -148,15 +148,15 @@ W <- matrix(NA, nrow=100*n, ncol=p);
 sig2 <- matrix(NA, nrow=dim(W)[1], ncol=p);
 # set the initial values
 for (i in 1:p) {
-    sig2[1, i] <- coef[i, 1]/(1 - coef[i, 3]);
+    sig2[1, i] <- params[i, 1]/(1 - params[i, 3]);
     ## sig2[1, i] <- 0;
 }
 for (i in 1:dim(W)[1]) {
-    ## eta <- rmvnorm(n=1, mean=rep(0, p), sigma=C);
-    eta <- rmvt(n=1, sigma=C, df=4);
+    eta <- rmvnorm(n=1, mean=rep(0, p), sigma=C);
+    ## eta <- rmvt(n=1, sigma=C, df=4);
     W[i, ] <- eta * sqrt(sig2[i,]);
     if (i < dim(W)[1])
-        sig2[i+1, ] <- coef[, 2] * W[i, ]^2 + coef[, 3] * sig2[i, ] + coef[, 1];
+        sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 3] * sig2[i, ] + params[, 1];
 }
 ## U <- sqrt(sig2);
 ## S <- t(U) %*% U / dim(sig2)[1];
@@ -215,14 +215,16 @@ D <- eigen(CY);
 CW <- cov(W);
 F <- eigen(CW);
 
-pdf("/tmp/FX_eigenvalues_ARCH_t_inno.pdf");
+pdf("/tmp/FX_eigenvalues.pdf");
 ## plot(1:p, sig.eig$values, type="p", pch=17,
 ##      main="FX and GARCH(1,1) spectrum", col="#00FF00"
 ## );
 plot(1:p, E$values/sum(E$values), type="p", pch=0,
-     main="FX and ARCH(1) spectrum"
+     main="Spectra of FX and Simulated GARCH(1,1) Series",
+     xlab=expression(i),
+     ylab=expression(lambda[(i)])
 );
-points(1:p, (D$values)/sum(D$values), col="#0000FF", pch=17);
+## points(1:p, (D$values)/sum(D$values), col="#0000FF", pch=17);
 points(1:p, (F$values)/sum(F$values), pch=16, col="#FF0000");
 
 ## ## points(1:p, (E1$values)/sum(E1$values), col="#FF0000", cex=2, pch=15);
@@ -231,9 +233,12 @@ points(1:p, (F$values)/sum(F$values), pch=16, col="#FF0000");
 
 legend("topright",
 ##       legend=c(expression(sigma[i] * sigma[j]), expression(cov(W)), expression(cov(X))),
-       legend=c(expression(cov(FX)), expression(cov(inno)), expression(cov(sim.))),
-       col=c("#000000", "#0000FF", "#FF0000"),
-       pch=c(0, 17, 16));
+       ##       legend=c(expression(cov(FX)), expression(cov(inno)), expression(cov(sim.))),
+       legend=c(expression(cov(FX)), expression(cov(sim.))),
+       ##       col=c("#000000", "#0000FF", "#FF0000"),
+       col=c("#000000", "#FF0000"),
+       ## pch=c(0, 17, 16));
+       pch=c(0, 16));
 grid();
 dev.off();
 
@@ -245,10 +250,10 @@ dev.off();
 ## dev.off();
 
 
-pdf("/tmp/FX_eigenvectors_ARCH_t_inno.pdf", width=20, height=10);
-par(mfrow=c(3,6));
+pdf("/tmp/FX_eigenvectors.pdf", width=20, height=10);
+par(mfrow=c(2,3));
 mse <- c(0, 0);
-for (i in 1:p) {
+for (i in 1:6) {
     V <- E$vectors[, i];
     U <- D$vectors[, i];
     Q <- F$vectors[, i];
@@ -264,7 +269,7 @@ for (i in 1:p) {
     mse[1] <- mse[1] + sum(abs(V * s - U * s));
     mse[2] <- mse[2] + sum(abs(V * s - Q * s));
     
-    plot(1:p, V * s, main=sprintf("FX & ARCH(1) V[%d]", i),
+    plot(1:p, V * s, main=sprintf("FX & Sim. V[%d]", i),
          xlab="i", ylab=expression(V[i]),
          ylim=c(-1, 1), pch=0,
          xaxt="n");
