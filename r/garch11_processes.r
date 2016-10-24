@@ -123,7 +123,10 @@ for (i in 1:p) {
 ## mean.inno <- apply(inno, MARGIN=2, FUN=mean);
 ## inno <- inno - matrix(rep(mean.inno, n), nrow=n, ncol=p, byrow=TRUE);
 ## inno <- inno %*% diag(1 / apply(inno, MARGIN=2, FUN=sd));
-C <- cor(inno);
+C <- cor(X);
+W <- rmvnorm(n=100*n, mean=rep(0, p), sigma=C);
+
+
 ## V <- apply(res, MARGIN=2, FUN=sd);
 ## res <- res / matrix(rep(V, n), byrow=TRUE, nrow=n, ncol=p);
 ## sigma <- X / res;
@@ -215,12 +218,12 @@ D <- eigen(CY);
 CW <- cov(W);
 F <- eigen(CW);
 
-pdf("/tmp/FX_eigenvalues.pdf");
+pdf("/tmp/Gaussian_eigenvalues.pdf");
 ## plot(1:p, sig.eig$values, type="p", pch=17,
 ##      main="FX and GARCH(1,1) spectrum", col="#00FF00"
 ## );
 plot(1:p, E$values/sum(E$values), type="p", pch=0,
-     main="Spectra of FX and Simulated GARCH(1,1) Series",
+     main="Spectra of FX and Simulated Gaussian Series",
      xlab=expression(i),
      ylab=expression(lambda[(i)])
 );
@@ -250,10 +253,10 @@ dev.off();
 ## dev.off();
 
 
-pdf("/tmp/FX_eigenvectors.pdf", width=20, height=10);
-par(mfrow=c(2,3));
+pdf("/tmp/Gaussian_eigenvectors.pdf", width=20, height=10);
+par(mfrow=c(3,6));
 mse <- c(0, 0);
-for (i in 1:6) {
+for (i in 1:p) {
     V <- E$vectors[, i];
     U <- D$vectors[, i];
     Q <- F$vectors[, i];
