@@ -384,9 +384,70 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \section{GARCH(p,q) Processes}
-\begin{equation*}
-  
-\end{equation*}
+\begin{frame}
+  \frametitle{GARCH(p,q) processes}
+  \begin{equation*}
+    \begin{tiny}
+      \begin{pmatrix}
+        \sigma_{t}^2 \\
+        \sigma_{t-1}^2 \\
+        \vdots \\
+        \sigma_{t-q+1}^2 \\
+        X_{t-1}^2 \\
+        X_{t-2}^2 \\
+        \vdots \\
+        X_{t-p+1}^2
+      \end{pmatrix} =
+      \begin{pmatrix}
+        \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_p \\
+        1 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
+        \vdots & \vdots & \cdots & \vdots & \vdots & \vdots & \cdots & \vdots \\
+        0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
+        Z_{t-1}^2 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
+        0 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0 \\
+        \vdots & \vdots & \cdots & \vdots & \vdots & \vdots & \cdots & \vdots \\
+        0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\    
+      \end{pmatrix}
+      \begin{pmatrix}
+        \sigma_{t-1}^2 \\
+        \sigma_{t-2}^2 \\
+        \vdots \\
+        \sigma_{t-q}^2 \\
+        X_{t-2}^2 \\
+        X_{t-3}^2 \\
+        \vdots \\
+        X_{t-p}^2
+      \end{pmatrix} +
+      \begin{pmatrix}
+        \omega \\
+        0 \\
+        \vdots \\
+        0 \\
+        0 \\
+        0 \\
+        \vdots \\
+        0 \\
+      \end{pmatrix}
+      \end{tiny}
+    \end{equation*}
+    \begin{scriptsize}
+      By Kesten's  theorem, this matrix recurrence equation has a
+      stationary solution and the stationary distribution has regularly
+      varying tail:
+      \[
+      \lim_{u \to \infty} u^{-\kappa} P(\inn{x, V_t} > u) = C,\; x \in \mathbb S^{d-1}
+      \]
+      where $d = p + q -1$
+    \end{scriptsize}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{The tail index $\kappa$}
+    \begin{itemize}
+    \item Needed for risk management
+    \item 
+    \end{itemize}
+  \end{frame}
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
