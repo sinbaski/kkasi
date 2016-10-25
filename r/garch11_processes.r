@@ -123,10 +123,12 @@ for (i in 1:p) {
 ## mean.inno <- apply(inno, MARGIN=2, FUN=mean);
 ## inno <- inno - matrix(rep(mean.inno, n), nrow=n, ncol=p, byrow=TRUE);
 ## inno <- inno %*% diag(1 / apply(inno, MARGIN=2, FUN=sd));
-C <- cor(X);
-W <- rmvnorm(n=100*n, mean=rep(0, p), sigma=C);
-
-
+C <- cor(inno);
+pc <- eigen(C);
+N <- 8;
+composition <- head(t(pc$vectors), N);
+norms <- apply(composition, MARGIN=2, FUN=function(v) {sqrt(sum(v^2))});
+composition <- composition %*% diag(1/norms);
 ## V <- apply(res, MARGIN=2, FUN=sd);
 ## res <- res / matrix(rep(V, n), byrow=TRUE, nrow=n, ncol=p);
 ## sigma <- X / res;
@@ -155,10 +157,12 @@ for (i in 1:p) {
     ## sig2[1, i] <- 0;
 }
 for (i in 1:dim(W)[1]) {
-    eta <- rmvnorm(n=1, mean=rep(0, p), sigma=C);
+    eta <- rmvnorm(n=1, mean=rep(0, N), sigma=diag(pc$values[1:N]));
+    eta <- eta %*% composition;
     ## eta <- rmvt(n=1, sigma=C, df=4);
     W[i, ] <- eta * sqrt(sig2[i,]);
     if (i < dim(W)[1])
+    ##    sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 1];
         sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 3] * sig2[i, ] + params[, 1];
 }
 ## U <- sqrt(sig2);
@@ -218,12 +222,13 @@ D <- eigen(CY);
 CW <- cov(W);
 F <- eigen(CW);
 
-pdf("/tmp/Gaussian_eigenvalues.pdf");
+pdf("/tmp/FX_N8_eigenvalues.pdf");
 ## plot(1:p, sig.eig$values, type="p", pch=17,
 ##      main="FX and GARCH(1,1) spectrum", col="#00FF00"
 ## );
 plot(1:p, E$values/sum(E$values), type="p", pch=0,
-     main="Spectra of FX and Simulated Gaussian Series",
+     main="Spectra of FX and Simulated ARCH(1) Series",
+     ylim=c(0, 1),
      xlab=expression(i),
      ylab=expression(lambda[(i)])
 );
@@ -253,7 +258,7 @@ dev.off();
 ## dev.off();
 
 
-pdf("/tmp/Gaussian_eigenvectors.pdf", width=20, height=10);
+pdf("/tmp/FX_N8_eigenvectors.pdf", width=20, height=10);
 par(mfrow=c(3,6));
 mse <- c(0, 0);
 for (i in 1:p) {
