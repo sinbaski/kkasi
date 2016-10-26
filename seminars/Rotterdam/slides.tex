@@ -81,6 +81,7 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule
                       % in tables
+\usepackage{wrapfig}
 
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \input{../../physics_common}
@@ -89,7 +90,8 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title{Some Results on GARCH processes and their Applications to Financial Times Series}
+\title{Some Empirical Results about the Sample Covariance Matrix of
+  Multivariate Financial Time Series}
 % The short title appears at the bottom of
 % every slide, the full title is only
 % on the title page
@@ -123,31 +125,46 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{Agenda}
   \begin{itemize}
   \item A Multivariate GARCH Model with Correlated Innovations
-  \item Estimation of GARCH(p,q) tail index.
+  \item Matrix Recurrence Equations: Monte Carlo estimation of
+    probabilities of large exceedances.
   \end{itemize}
 \end{frame}
 
 \section{A Multivariate GARCH Model with Correlated Innovations}
 \begin{frame}
-  \frametitle{Multivariate Time Series Analysis}
-  {\bf Common multivariate GARCH models:}
-  \begin{enumerate}
-  \item A large number of parameters need to be estimated,
-    e.g. VEC(1,1):
-    \begin{itemize}
-    \item
-      \begin{eqnarray*}
-        \text{vech}(\text{cov}(X_t)) &=& c + A\;\text{vech}(X_{t-1}
-        X_{t-1}) + G\;\text{vech}(\text{cov}(X_{t-1}))
-      \end{eqnarray*}
-    \item 
-      $\text{vech}(M)$: stack the lower-triangular part of the
-      $d \times d$ square matrix $M$ into a $d(d+1)/2 \times 1$ column vector.
-    \end{itemize}
-  \item same index of regular variation for all series 
-  \end{enumerate}
-  {\bf Stochastic Volatility (SV) models:} complicated likelihood
-  function. difficult to fit to data.
+  \frametitle{Multivariate GARCH models}
+  {\bf VEC(1,1)}:
+  Given a $p$-variate series $\{X_{i, t}\}$, $i=1,...,p,
+  t=1,...,n$. For all $i, j = 1, ..., p$.
+  \begin{eqnarray*}
+    % \text{vech}(\text{cov}(X_t)) &=& c + A\;\text{vech}(X_{t-1}
+    % X_{t-1}) + G\;\text{vech}(\text{cov}(X_{t-1}))
+    \vec H_t &=& (\sigma_{1,t}^2, \sigma_{1,2, t}^2, \dots, \sigma_{2,t}^2,
+    \sigma_{2,3, t}^2, \dots, \sigma_{p,t}^2)' \\
+    \vec H_t &=& A_t \vec X_{t-1} + G_t \vec H_{t-1} + \vec c
+  \end{eqnarray*}
+  where $\sigma_i^2 = \var(X_{i, t} | \mathscr F_{t-1})$, $\sigma_{i,j}^2 =
+  \cov(X_{i,t}, X_{j,t} | \mathscr F_{t-1})$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Stochastic Volatility Models}
+  \begin{eqnarray*}
+    X_{i,t} &=& \sigma_{i, t} Z_{i, t} \\
+    \ln(\sigma_{i,t}) &\bot& (Z_{1, t}, ..., Z_{i, t}, ..., Z_{p,t}) \\
+    (\ln(\sigma_{1,t}), \dots, \ln(\sigma_{p,t})) &\sim& \text{VARMA}
+    \\
+    Z_{i,t} &\sim& N(0,1), t(\nu), ...
+  \end{eqnarray*}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Factor Model -- Orthogonal GARCH}
+  \begin{eqnarray*}
+    X_{i, t} &=& \sum_{l=1}^N C_{i, l} Y_{l, t} + \epsilon_{i, t} \\
+    Y_{l, t} &\sim& \text{GARCH}(1,1) \\
+    
+  \end{eqnarray*}
 \end{frame}
 
 \begin{frame}
@@ -158,6 +175,26 @@ University of Copenhagen \\ % Your institution for the title page
     (Z_{1, t}, ..., Z_{p, t}) &\sim& N(0, \Sigma) \\
     \var(Z_{i,t}) &=& 1
   \end{eqnarray*}
+  Advantages:
+  \begin{enumerate}
+  \item significantly fewer parameters estimate
+  \item can model a different tail index for each series.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Unnormalized Sample Covariance Matrix $C$}
+  Given a $p$-variate series $\{X_{i, t}\}$, $i=1,...,p, t=1,...,n$.
+  Assume $\E X_{i, t} = 0$.
+  \[
+  C_{i, j} = \sum_{t=1}^n X_{i,t} X_{j,t}
+  \]
+  Decompose the matrix $C$ into eigenvalues $\lambda_1, ...,
+  \lambda_p$ and eigenvectors $\vec v_1, ..., \vec v_p$:
+  \[
+  C (\vec v_1, ..., \vec v_p) = \diag(\lambda_1, ..., \lambda_p) (\vec v_1, ..., \vec v_p)
+  \]
+%%  Let $\lambda_1 > \lambda_2 > ... > \lambda_p$.
 \end{frame}
 
 \subsection{FX Series}
@@ -375,17 +412,34 @@ University of Copenhagen \\ % Your institution for the title page
       )^\xi\right] = 1
   \end{equation*}
   can be solved numerically.
-  \begin{figure}[htb!]
-    \centering
-    \includegraphics[scale=0.3]{igarch_rho0dot5.pdf}
-    \caption{$\kappa_{i,j}(\alpha_1, \alpha_2)$ for $\rho = 1/2$}
+  % {r}{0.5\textwidth}
+  \begin{figure}
+    \begin{center}
+      \includegraphics[scale=0.2]{igarch_rho0dot5.pdf}      
+    \end{center}
     \label{fig:xi_rho0.5}
+    \caption{$\kappa_{i,j}(\alpha_1, \alpha_2)$ for $\text{cov}(Z_1, Z_2) = 1/2$}
   \end{figure}
+  $X_{i,t} X_{j,t}$ can have an even heavier tail than does $X_{i,t}^2$ or $X_{j,t}^2$.
 \end{frame}
 
+\begin{frame}
+  Ongoing work to show joint regular variation of the entries of
+  the covariance matrix and explain the observed spectrum.
+\end{frame}
 \section{GARCH(p,q) Processes}
 \begin{frame}
-  \frametitle{GARCH(p,q) processes}
+  \frametitle{GARCH(p,q) processes}  
+  \begin{eqnarray*}
+    \sigma_{t}^2 &=& \omega + \sum_{i=1}^p \alpha_i X_{t-i}^2 +
+    \sum_{i=1}^q \beta_i \sigma_{t-i}^2 \\
+    X_{i, t} &=& \sigma_{i, t} Z_{i, t} \\
+    Z_{i, t} &\sim& N(0, 1), t(\nu), ...
+  \end{eqnarray*}
+  In this study we assume $Z_{i, t} \sim N(0,1)$.
+\end{frame}
+
+\begin{frame}
   \begin{equation*}
     \begin{tiny}
       \begin{pmatrix}
@@ -430,24 +484,134 @@ University of Copenhagen \\ % Your institution for the title page
       \end{pmatrix}
       \end{tiny}
     \end{equation*}
-    \begin{scriptsize}
-      By Kesten's  theorem, this matrix recurrence equation has a
-      stationary solution and the stationary distribution has regularly
-      varying tail:
-      \[
-      \lim_{u \to \infty} u^{-\kappa} P(\inn{x, V_t} > u) = C,\; x \in \mathbb S^{d-1}
-      \]
-      where $d = p + q -1$
-    \end{scriptsize}
+    Compactly
+    \[
+    V_t = A_t V_{t-1} + B
+    \]
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Properties of $A_t$}
+    \begin{itemize}
+    \item $\inf_{n \geq 1} {1 \over n}\E \ln \|A_n \cdots A_1\| < 0$
+    \item 
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{GARCH(p,q) processes}
+    By Kesten's  theorem, this matrix recurrence equation has a
+    stationary solution and the stationary distribution has regularly
+    varying tail:
+    \[
+    \lim_{u \to \infty} u^{-\kappa} P(\inn{x, V_t} > u) = C,\; x \in \mathbb S^{d-1}
+    \]
+    where $d = p + q -1$
   \end{frame}
 
   \begin{frame}
     \frametitle{The tail index $\kappa$}
     \begin{itemize}
     \item Needed for risk management
-    \item 
+    \item Needed for Importance sampling of the small probability $P(\inn{x, V_t}
+      > u)$ for large $u$. $\kappa$ is the optimal parameter in
+      changing the measure of $A_t$.
+    \item Difficult to estimate. Defined by
+      \begin{equation*}
+        \lim_{n \to \infty} {1 \over n} \ln \E \|A_n \cdots A_1\|^\kappa
+        = 0
+      \end{equation*}
+      \begin{equation*}
+        \lim_{n \to \infty} \|A_n \cdots A_1 \| = 0
+      \end{equation*}
     \end{itemize}
   \end{frame}
+
+ \begin{frame}
+   \frametitle{How to estimate $\kappa$ -- Resampling}
+    By Kesten(1973),
+    \[
+    \lim_{n \to \infty} {
+      |A_n \cdots A_1 \vec{x}|
+      \over
+      \|A_n \cdots A_1\|
+    } = 1
+    \]
+    for an arbitrary $\vec x \in S^{d-1}$. Introduce
+    \begin{eqnarray*}
+      E_n &=& {
+        A_n \cdots A_1 \vec{x}
+        \over
+        |A_n \cdots A_1 \vec{x}|
+      }
+    \end{eqnarray*}
+    Re-write
+    \begin{eqnarray*}
+      && |A_n \cdots A_1 \vec{x}|^\kappa      \\
+      &=& |A_n E_{n-1}|^\kappa |A_{n-1} \cdots A_1 \vec{x}|^\kappa \\
+      &=& \prod_{i=1}^n |A_i E_{i-1}|^\kappa \\
+    \end{eqnarray*}
+    Apply re-sampling that favors $E_{i-1}$ that is associated with
+    large $| A_{i-1} \cdots A_1 E_0 |^\kappa$.
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{Algorithm for estimating $\kappa$}
+   First estimate
+   \[
+   \Lambda(\theta) = 
+   \lim_{n \to \infty} {1 \over n}\ln
+   \E \|A_n \cdots A_1\|^\theta
+   \]
+   for any given $\theta > 0$. Then find $\kappa$ by solving
+   $\Lambda(\kappa) = 0$.
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{Algorithm for estimating $\kappa$}
+   \begin{figure}[htb!]
+     \centering
+     \includegraphics[scale=0.5]{PseudoCode.pdf}
+     % \caption{Pseudo Code for $\kappa$ estimation}
+     \label{fig:PseudoCode}
+   \end{figure}
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{Algorithm for estimating $\kappa$}
+   \begin{figure}[htb!]
+     \centering
+     \includegraphics[scale=0.5, trim={4.5cm 0cm 4.5cm 3cm}, clip]{AnandsEstimator.pdf}
+     % \caption{Pseudo Code for $\kappa$ estimation}
+     \label{fig:PseudoCode}
+   \end{figure}
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{Estimation Results}
+   \begin{minipage}{0.5\linewidth}
+   \begin{figure}[htb!]
+     \centering
+     \includegraphics[width=\linewidth]{Lambda.pdf}     
+     \caption{\scriptsize $\Lambda(\alpha)$ of S\&P 500 modeled as GARCH(2,1)}
+     \label{fig:SP500_Lambda}
+   \end{figure}
+   \end{minipage}\hfill
+   \begin{minipage}{0.5\linewidth}
+     \begin{figure}[htb!]
+       \centering
+       \includegraphics[width=\linewidth]{SP500_var_HillPlot.pdf}
+       \caption{S\&P 500 $\sigma_t^2$ Hill Plot}
+       \label{fig:SP500_var_HillPlot}
+     \end{figure}
+   \end{minipage}
+
+   \begin{itemize}
+   \item $\kappa$ = 4.4397
+   \item Hill estimator: 4.3372.
+   \item GARCH(1,1): 4.4465.
+   \end{itemize}
+ \end{frame}
+
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
