@@ -66,7 +66,7 @@
 %\usecolortheme{orchid}
 %\usecolortheme{rose}
 %\usecolortheme{seagull}
-\usecolortheme{seahorse}
+%\usecolortheme{seahorse}
 %\usecolortheme{whale}
 %\usecolortheme{wolverine}
 
@@ -81,8 +81,6 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule
                       % in tables
-\usepackage{wrapfig}
-
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \input{../../physics_common}
 
@@ -125,7 +123,7 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{Agenda}
   \begin{itemize}
   \item A Multivariate GARCH Model with Correlated Innovations
-  \item Matrix Recurrence Equations: Monte Carlo estimation of
+  \item Stochastic Fixed Point Equations: Monte Carlo estimation of
     probabilities of large exceedances.
   \end{itemize}
 \end{frame}
@@ -141,10 +139,12 @@ University of Copenhagen \\ % Your institution for the title page
     % X_{t-1}) + G\;\text{vech}(\text{cov}(X_{t-1}))
     \vec H_t &=& (\sigma_{1,t}^2, \sigma_{1,2, t}^2, \dots, \sigma_{2,t}^2,
     \sigma_{2,3, t}^2, \dots, \sigma_{p,t}^2)' \\
-    \vec H_t &=& A_t \vec X_{t-1} + G_t \vec H_{t-1} + \vec c
+    \vec V_t &=& (X_{1,t}^2, X_{1, t} X_{2, t}, \dots, X_{2,t}^2,
+    X_{2, t} X_{3,t}, \dots, X_{p,t}^2)' \\
+    \vec H_t &=& A_t \vec V_{t-1} + G_t \vec H_{t-1} + \vec c
   \end{eqnarray*}
-  where $\sigma_i^2 = \var(X_{i, t} | \mathscr F_{t-1})$, $\sigma_{i,j}^2 =
-  \cov(X_{i,t}, X_{j,t} | \mathscr F_{t-1})$.
+  where $\sigma_i^2 = \var(X_{i, t} | \mathcal F_{t-1})$, $\sigma_{i,j}^2 =
+  \cov(X_{i,t}, X_{j,t} | \mathcal F_{t-1})$.
 \end{frame}
 
 \begin{frame}
@@ -161,9 +161,9 @@ University of Copenhagen \\ % Your institution for the title page
 \begin{frame}
   \frametitle{Factor Model -- Orthogonal GARCH}
   \begin{eqnarray*}
-    X_{i, t} &=& \sum_{l=1}^N C_{i, l} Y_{l, t} + \epsilon_{i, t} \\
-    Y_{l, t} &\sim& \text{GARCH}(1,1) \\
-    
+    X_{i, t} &=& \sum_{k=1}^N C_{i,k} Y_{k, t} + \epsilon_{i, t} \\
+    Y_{k, t} &\sim& \text{GARCH}(1,1) \\
+    \epsilon_{i,t} &\sim& N(0, \sigma_i^2)
   \end{eqnarray*}
 \end{frame}
 
@@ -177,7 +177,7 @@ University of Copenhagen \\ % Your institution for the title page
   \end{eqnarray*}
   Advantages:
   \begin{enumerate}
-  \item significantly fewer parameters estimate
+  \item significantly fewer parameters to estimate
   \item can model a different tail index for each series.
   \end{enumerate}
 \end{frame}
@@ -194,66 +194,130 @@ University of Copenhagen \\ % Your institution for the title page
   \[
   C (\vec v_1, ..., \vec v_p) = \diag(\lambda_1, ..., \lambda_p) (\vec v_1, ..., \vec v_p)
   \]
-%%  Let $\lambda_1 > \lambda_2 > ... > \lambda_p$.
-\end{frame}
-
-\subsection{FX Series}
-\begin{frame}
-  \frametitle{Fit to Foreign Exchange Rates}
-  Eigenvalues:
-  \begin{figure}[htb!]
-    \centering
-    \includegraphics[scale=0.35]{FX_eigenvalues.pdf}
-    \caption{\scriptsize Eigenvalues of real FX series and Simulated GARCH(1,1) series}
-  \end{figure}
+  The goodness of fit of the theoretical eigenvalues and eigenvectors
+  to their empirical counterparts gives an indication of how well the
+  model describes the data.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Fit to Foreign Exchange Rates}
-  Eigenvectors:
+  \frametitle{Gaussian Series with the same Covariance Matrix as the
+    Observations}
   \begin{figure}[htb!]
     \centering
-    \includegraphics[scale=0.2]{FX_eigenvectors.pdf}
-    \caption{\scriptsize Eigenvectors of real FX series and Simulated GARCH(1,1) series}
+    \includegraphics[scale=0.4]{Gaussian_eigenvalues.pdf}
+    \caption{\scriptsize Eigenvalues of real FX series and Simulated Gaussian series}
   \end{figure}
 \end{frame}
 
 \begin{frame}
   \frametitle{Gaussian Series with the same Covariance Matrix as the
     Observations}
-  In contrast, Gaussian series with the same covariance matrix has a
-  different spectrum than the observations.
   \begin{figure}[htb!]
     \centering
-    \includegraphics[scale=0.35]{Gaussian_eigenvalues.pdf}
-    \caption{\scriptsize Eigenvalues of real FX series and Simulated Gaussian series}
-  \end{figure}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Gaussian Series with the same Covariance Matrix as the Observations}
-  \begin{figure}[htb!]
-    \centering
-    \includegraphics[scale=0.2]{Gaussian_eigenvectors.pdf}
+    \includegraphics[width=1.0\linewidth]{Gaussian_eigenvectors.pdf}
     \caption{\scriptsize Eigenvectors of real FX series and Simulated Gaussian series}
   \end{figure}
 \end{frame}
 
+\subsection{FX Series}
+\begin{frame}
+  \frametitle{Foreign Exchange Rates}
+  Daily return series of 17 exchange rates against Swedish krona (SEK):
+  AUD,
+  CAD,
+  CNY,
+  CZK,
+  DKK,
+  EUR,
+  GBP,
+  HKD,
+  HUF,
+  JPY,
+  KRW,
+  MAD,
+  MXN,
+  NOK,
+  NZD,
+  SGD,
+  USD
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.35]{FX_eigenvalues.pdf}
+    \caption{\scriptsize Eigenvalues of real and Simulated GARCH series}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Foreign Exchange Rates}
+  Eigenvectors:
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.2]{FX_eigenvectors.pdf}
+    \caption{\scriptsize Eigenvectors of real and Simulated GARCH series}
+  \end{figure}
+\end{frame}
+
+\subsection{Utilities}
+\begin{frame}
+  \frametitle{sector of Utilities of S\&P 500}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.35]{Utilities_eigenvalues.pdf}
+    \caption{\scriptsize Eigenvalues of real and Simulated GARCH series}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{sector of Utilities of S\&P 500}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[width=1.0\linewidth]{Utilities_eigenvectors1.pdf}
+    \caption{\scriptsize Eigenvectors of real and Simulated GARCH series}
+  \end{figure}
+\end{frame}
+
+\subsection{Materials}
+\begin{frame}
+  \frametitle{sector of Materials of S\&P 500}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.35]{Materials_eigenvalues.pdf}
+    \caption{\scriptsize Eigenvalues of real and Simulated GARCH series}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{sector of Materials of S\&P 500}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[width=1.0\linewidth]{Materials_eigenvectors1.pdf}
+    \caption{\scriptsize Eigenvectors of real and Simulated GARCH series}
+  \end{figure}
+\end{frame}
+
+\subsection{Emergence of the Observed Spectrum}
 \begin{frame}
   \frametitle{Emergence of the Observed Spectrum}
-  Joint regular variation of the entries of the covariance matrix can
-  produce delocalized eigenvectors as seen in the data:
-  \[
-  \lim_{u \to \infty} u^{\kappa}
-  \P\left(
-    \inn{\vec{x}, V} > u
-  \right) = e_{\kappa}(\vec{x}),\; \vec x \in \mathbb S^{p-1}
-  \]
-  where $V=(\E X_{1,t}^2, ..., \E X_{p,t}^2,
-  \{\E (X_{i,t}X_{j,t})\}_{1 \leq i < j \leq p})$
-
-  This way, we have a covariance matrix where some of the non-diagonal
-  entries are non-zero under proper normalization.
+  Conjecture: Joint regular variation of the entries of the covariance
+  matrix leads to the observed spectral pattern.
+  \begin{itemize}
+  \item $(X_{1,t}, ..., X_{p,t})$ jointly regularly varying with
+    different indices $\kappa_1, ..., \kappa_p$.
+  \item $(X_{1,t}^2, ..., X_{p,t}^2, \{X_{i,t}X_{j,t}\}_{1 \leq i < j
+      \leq p})$ jointly regularly varying with different indices
+  \item Tail index of $X_{i,t} X_{j,t}$ ($\kappa_{i,j}$) possibly
+    smaller than $\min\{\kappa_i, \kappa_j\}$.
+  \end{itemize}
+  % \[
+  % \lim_{u \to \infty} u^{\kappa}
+  % \P\left(
+  %   \inn{\vec{x}, V} > u
+  % \right) = e_{\kappa}(\vec{x}),\; \vec x \in \mathbb S^{p-1}
+  % \]
+  % where $V=(\E X_{1,t}^2, ..., \E X_{p,t}^2,
+  % \{\E (X_{i,t}X_{j,t})\}_{1 \leq i < j \leq p})$
+  % This way, we have a covariance matrix where some of the non-diagonal
+  % entries are non-zero under proper normalization.
 \end{frame}
 
 \begin{frame}
@@ -261,11 +325,15 @@ University of Copenhagen \\ % Your institution for the title page
   Consider the tail indices of the entries of the covariance matrix C:
   For the diagonal entries
     \begin{eqnarray*}
-      C_{i, i} &=& a_n^{-1} \sum_{t=1}^n X_{i, t}^2 \\
-      &=& a_n^{-1} \sum_{t=1}^n Z_{i, t}^2 \sigma_{i, t}^2 \\
+      C_{i, i} &=& \sum_{t=1}^n X_{i, t}^2 \\
+               &=& \sum_{t=1}^n Z_{i, t}^2 \sigma_{i, t}^2 \\
     \end{eqnarray*}
     $Z_{i, t}^2$ is light tailed, so $Z_{i, t}^2 \sigma_{i, t}^2$ has
-    the same tail index as $\sigma_{i, t}^2$, which is given by
+    the same tail index as $\sigma_{i, t}^2$.
+    \[
+    \sigma_{i, t}^2 = \omega + (\alpha_i Z_{i,t}^2 + \beta_i)\sigma_{i,t-1}
+    \]
+    So by Goldie-Kesten theorem, $\kappa_i$ is given by
     \[
     \E (\alpha_i Z^2 + \beta_i)^{\kappa_i} = 1
     \]
@@ -276,16 +344,47 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{The Tail index $\kappa_{i,j}$}
     For the non-diagonal entries
     \begin{eqnarray*}
-      C_{i, j} &=& b_n^{-1} \sum_{t=1}^n X_{i, t} X_{j, t} \\
-      &=& b_n^{-1} \sum_{t=1}^n Z_{i, t} Z_{j, t} \sigma_{i, t} \sigma_{j, t}
+      C_{i, j} &=& \sum_{t=1}^n X_{i, t} X_{j, t} \\
+      &=& \sum_{t=1}^n Z_{i, t} Z_{j, t} \sigma_{i, t} \sigma_{j, t}
     \end{eqnarray*}
-    Again, $Z_{i, t} Z_{j, t} \sigma_{i, t} \sigma_{j, t}$ has the
-    same tail index as $\sigma_{i, t} \sigma_{j, t}$, which is given
-    by
+
+    \begin{tiny}
+      \begin{eqnarray*}
+        \begin{pmatrix}
+          \sigma_{i,t}^2 \sigma_{j,t}^2 \\
+          \sigma_{i,t}^2 \\
+          \sigma_{j,t}^2
+        \end{pmatrix}
+        &=&
+        \begin{pmatrix}
+          (\alpha_i Z_{i,t}^2 + \beta_i) (\alpha_j Z_{i,t}^2 + \beta_j) & \omega_j & \omega_i \\
+          0 & \alpha_i Z_{i,t}^2 + \beta_i & 0 \\
+          0 & 0 & \alpha_j Z_{i,t}^2 + \beta_j
+        \end{pmatrix}
+        \begin{pmatrix}
+          \sigma_{i,t-1}^2 \sigma_{j,t-1}^2 \\
+          \sigma_{i,t-1}^2 \\
+          \sigma_{j,t-1}^2
+        \end{pmatrix} +
+        \begin{pmatrix}
+          \omega_i \omega_j\\
+          \omega_i \\
+          \omega_j
+        \end{pmatrix}
+      \end{eqnarray*}
+    \end{tiny}
+    Can write
     \[
-    \E [(\alpha_i Z_i + \beta_i)^{\kappa_{i,j}}(\alpha_i Z_i +
-    \beta_i)^{\kappa_{i,j}}] = 1
+    V_t = A_t V_{t-1} + B_t
     \]
+    $A_t$ upper-triangular matrix, Kesten's theorem not applicable.
+    % Again, $Z_{i, t} Z_{j, t} \sigma_{i, t} \sigma_{j, t}$ has the
+    % same tail index as $\sigma_{i, t} \sigma_{j, t}$, which is given
+    % by
+    % \[
+    % \E [(\alpha_i Z_i + \beta_i)^{\kappa_{i,j}}(\alpha_i Z_i +
+    % \beta_i)^{\kappa_{i,j}}] = 1
+    % \]
   \end{frame}
 
 
@@ -387,7 +486,7 @@ University of Copenhagen \\ % Your institution for the title page
   \begin{figure}[htb!]
     \centering
     \includegraphics[scale=0.35]{FX_ARCH_eigenvalues.pdf}
-    \caption{\scriptsize Eigenvalues of real FX series and Simulated ARCH(1) series}
+    \caption{\tiny Eigenvalues of real FX series and Simulated ARCH(1) series}
   \end{figure}
 \end{frame}
 
@@ -395,7 +494,7 @@ University of Copenhagen \\ % Your institution for the title page
   \begin{figure}[htb!]
     \centering
     \includegraphics[scale=0.2]{FX_ARCH_eigenvectors.pdf}
-    \caption{\scriptsize Eigenvectors of real FX series and Simulated ARCH(1) series}
+    \caption{\tiny Eigenvectors of real FX series and Simulated ARCH(1) series}
   \end{figure}
 \end{frame}
 
@@ -427,21 +526,198 @@ University of Copenhagen \\ % Your institution for the title page
   Ongoing work to show joint regular variation of the entries of
   the covariance matrix and explain the observed spectrum.
 \end{frame}
-\section{GARCH(p,q) Processes}
-\begin{frame}
-  \frametitle{GARCH(p,q) processes}  
-  \begin{eqnarray*}
-    \sigma_{t}^2 &=& \omega + \sum_{i=1}^p \alpha_i X_{t-i}^2 +
-    \sum_{i=1}^q \beta_i \sigma_{t-i}^2 \\
-    X_{i, t} &=& \sigma_{i, t} Z_{i, t} \\
-    Z_{i, t} &\sim& N(0, 1), t(\nu), ...
-  \end{eqnarray*}
-  In this study we assume $Z_{i, t} \sim N(0,1)$.
-\end{frame}
+
+% \section{GARCH(p,q) Processes}
+% \begin{frame}
+%   \frametitle{GARCH(p,q) processes}  
+%   \begin{eqnarray*}
+%     \sigma_{t}^2 &=& \omega + \sum_{i=1}^p \alpha_i X_{t-i}^2 +
+%     \sum_{i=1}^q \beta_i \sigma_{t-i}^2 \\
+%     X_{i, t} &=& \sigma_{i, t} Z_{i, t} \\
+%     Z_{i, t} &\sim& N(0, 1), t(\nu), ...
+%   \end{eqnarray*}
+%   In this study we assume $Z_{i, t} \sim N(0,1)$.
+% \end{frame}
+
+% \begin{frame}
+%   \begin{equation*}
+%     \begin{tiny}
+%       \begin{pmatrix}
+%         \sigma_{t}^2 \\
+%         \sigma_{t-1}^2 \\
+%         \vdots \\
+%         \sigma_{t-q+1}^2 \\
+%         X_{t-1}^2 \\
+%         X_{t-2}^2 \\
+%         \vdots \\
+%         X_{t-p+1}^2
+%       \end{pmatrix} =
+%       \begin{pmatrix}
+%         \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_p \\
+%         1 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
+%         \vdots & \vdots & \cdots & \vdots & \vdots & \vdots & \cdots & \vdots \\
+%         0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
+%         Z_{t-1}^2 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
+%         0 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0 \\
+%         \vdots & \vdots & \cdots & \vdots & \vdots & \vdots & \cdots & \vdots \\
+%         0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\    
+%       \end{pmatrix}
+%       \begin{pmatrix}
+%         \sigma_{t-1}^2 \\
+%         \sigma_{t-2}^2 \\
+%         \vdots \\
+%         \sigma_{t-q}^2 \\
+%         X_{t-2}^2 \\
+%         X_{t-3}^2 \\
+%         \vdots \\
+%         X_{t-p}^2
+%       \end{pmatrix} +
+%       \begin{pmatrix}
+%         \omega \\
+%         0 \\
+%         \vdots \\
+%         0 \\
+%         0 \\
+%         0 \\
+%         \vdots \\
+%         0 \\
+%       \end{pmatrix}
+%       \end{tiny}
+%     \end{equation*}
+%     Compactly
+%     \[
+%     V_t = A_t V_{t-1} + B
+%     \]
+%   \end{frame}
+
+%   \begin{frame}
+%     \frametitle{Properties of $A_t$}
+%     \begin{itemize}
+%     \item $\inf_{n \geq 1} {1 \over n}\E \ln \|A_n \cdots A_1\| < 0$
+%     \item 
+%     \end{itemize}
+%   \end{frame}
+%   \begin{frame}
+%     \frametitle{GARCH(p,q) processes}
+%     By Kesten's  theorem, this matrix recurrence equation has a
+%     stationary solution and the stationary distribution has regularly
+%     varying tail:
+%     \[
+%     \lim_{u \to \infty} u^{-\kappa} P(\inn{x, V_t} > u) = C,\; x \in \mathbb S^{d-1}
+%     \]
+%     where $d = p + q -1$
+%   \end{frame}
+
+%   \begin{frame}
+%     \frametitle{The tail index $\kappa$}
+%     \begin{itemize}
+%     \item Needed for risk management
+%     \item Needed for Importance sampling of the small probability $P(\inn{x, V_t}
+%       > u)$ for large $u$. $\kappa$ is the optimal parameter in
+%       changing the measure of $A_t$.
+%     \item Difficult to estimate. Defined by
+%       \begin{equation*}
+%         \lim_{n \to \infty} {1 \over n} \ln \E \|A_n \cdots A_1\|^\kappa
+%         = 0
+%       \end{equation*}
+%       \begin{equation*}
+%         \lim_{n \to \infty} \|A_n \cdots A_1 \| = 0
+%       \end{equation*}
+%     \end{itemize}
+%   \end{frame}
+
+%  \begin{frame}
+%    \frametitle{How to estimate $\kappa$ -- Resampling}
+%     By Kesten(1973),
+%     \[
+%     \lim_{n \to \infty} {
+%       |A_n \cdots A_1 \vec{x}|
+%       \over
+%       \|A_n \cdots A_1\|
+%     } = 1
+%     \]
+%     for an arbitrary $\vec x \in S^{d-1}$. Introduce
+%     \begin{eqnarray*}
+%       E_n &=& {
+%         A_n \cdots A_1 \vec{x}
+%         \over
+%         |A_n \cdots A_1 \vec{x}|
+%       }
+%     \end{eqnarray*}
+%     Re-write
+%     \begin{eqnarray*}
+%       && |A_n \cdots A_1 \vec{x}|^\kappa      \\
+%       &=& |A_n E_{n-1}|^\kappa |A_{n-1} \cdots A_1 \vec{x}|^\kappa \\
+%       &=& \prod_{i=1}^n |A_i E_{i-1}|^\kappa \\
+%     \end{eqnarray*}
+%     Apply re-sampling that favors $E_{i-1}$ that is associated with
+%     large $| A_{i-1} \cdots A_1 E_0 |^\kappa$.
+%  \end{frame}
+
+%  \begin{frame}
+%    \frametitle{Algorithm for estimating $\kappa$}
+%    First estimate
+%    \[
+%    \Lambda(\theta) = 
+%    \lim_{n \to \infty} {1 \over n}\ln
+%    \E \|A_n \cdots A_1\|^\theta
+%    \]
+%    for any given $\theta > 0$. Then find $\kappa$ by solving
+%    $\Lambda(\kappa) = 0$.
+%  \end{frame}
+
+%  \begin{frame}
+%    \frametitle{Algorithm for estimating $\kappa$}
+%    \begin{figure}[htb!]
+%      \centering
+%      \includegraphics[scale=0.5]{PseudoCode.pdf}
+%      % \caption{Pseudo Code for $\kappa$ estimation}
+%      \label{fig:PseudoCode}
+%    \end{figure}
+%  \end{frame}
+
+%  \begin{frame}
+%    \frametitle{Algorithm for estimating $\kappa$}
+%    \begin{figure}[htb!]
+%      \centering
+%      \includegraphics[scale=0.5, trim={4.5cm 0cm 4.5cm 3cm}, clip]{AnandsEstimator.pdf}
+%      % \caption{Pseudo Code for $\kappa$ estimation}
+%      \label{fig:PseudoCode}
+%    \end{figure}
+%  \end{frame}
+
+%  \begin{frame}
+%    \frametitle{Estimation Results}
+%    \begin{minipage}{0.5\linewidth}
+%    \begin{figure}[htb!]
+%      \centering
+%      \includegraphics[width=\linewidth]{Lambda.pdf}     
+%      \caption{\tiny $\Lambda(\alpha)$ of S\&P 500 modeled as GARCH(2,1)}
+%      \label{fig:SP500_Lambda}
+%    \end{figure}
+%    \end{minipage}\hfill
+%    \begin{minipage}{0.5\linewidth}
+%      \begin{figure}[htb!]
+%        \centering
+%        \includegraphics[width=\linewidth]{SP500_var_HillPlot.pdf}
+%        \caption{S\&P 500 $\sigma_t^2$ Hill Plot}
+%        \label{fig:SP500_var_HillPlot}
+%      \end{figure}
+%    \end{minipage}
+
+%    \begin{itemize}
+%    \item $\kappa$ = 4.4397
+%    \item Hill estimator: 4.3372.
+%    \item GARCH(1,1): 4.4465.
+%    \end{itemize}
+%  \end{frame}
+\section{Monte Carlo Estimation of prob. of Large Exceedances}
 
 \begin{frame}
-  \begin{equation*}
-    \begin{tiny}
+  \frametitle{Stochastic Fixed Point Equations}
+  A GARCH(p,q) process:
+  \begin{tiny}
+    \begin{equation*}
       \begin{pmatrix}
         \sigma_{t}^2 \\
         \sigma_{t-1}^2 \\
@@ -482,137 +758,32 @@ University of Copenhagen \\ % Your institution for the title page
         \vdots \\
         0 \\
       \end{pmatrix}
-      \end{tiny}
     \end{equation*}
     Compactly
     \[
     V_t = A_t V_{t-1} + B
     \]
-  \end{frame}
-
-  \begin{frame}
-    \frametitle{Properties of $A_t$}
-    \begin{itemize}
-    \item $\inf_{n \geq 1} {1 \over n}\E \ln \|A_n \cdots A_1\| < 0$
-    \item 
-    \end{itemize}
-  \end{frame}
-  \begin{frame}
-    \frametitle{GARCH(p,q) processes}
-    By Kesten's  theorem, this matrix recurrence equation has a
-    stationary solution and the stationary distribution has regularly
-    varying tail:
+    As $t \to \infty$
     \[
-    \lim_{u \to \infty} u^{-\kappa} P(\inn{x, V_t} > u) = C,\; x \in \mathbb S^{d-1}
+    V_t \overset{d}{=} A_t V_{t-1} + B
+    \]
+    By Kesten-Goldie theorem:
+    \[
+    \lim_{u \to \infty} u^{-\kappa} P(\inn{x, V_t} > u) = C \quad x \in \mathbb S^{d-1}
     \]
     where $d = p + q -1$
-  \end{frame}
+  \end{tiny}
+\end{frame}
 
-  \begin{frame}
-    \frametitle{The tail index $\kappa$}
-    \begin{itemize}
-    \item Needed for risk management
-    \item Needed for Importance sampling of the small probability $P(\inn{x, V_t}
-      > u)$ for large $u$. $\kappa$ is the optimal parameter in
-      changing the measure of $A_t$.
-    \item Difficult to estimate. Defined by
-      \begin{equation*}
-        \lim_{n \to \infty} {1 \over n} \ln \E \|A_n \cdots A_1\|^\kappa
-        = 0
-      \end{equation*}
-      \begin{equation*}
-        \lim_{n \to \infty} \|A_n \cdots A_1 \| = 0
-      \end{equation*}
-    \end{itemize}
-  \end{frame}
-
- \begin{frame}
-   \frametitle{How to estimate $\kappa$ -- Resampling}
-    By Kesten(1973),
-    \[
-    \lim_{n \to \infty} {
-      |A_n \cdots A_1 \vec{x}|
-      \over
-      \|A_n \cdots A_1\|
-    } = 1
-    \]
-    for an arbitrary $\vec x \in S^{d-1}$. Introduce
-    \begin{eqnarray*}
-      E_n &=& {
-        A_n \cdots A_1 \vec{x}
-        \over
-        |A_n \cdots A_1 \vec{x}|
-      }
-    \end{eqnarray*}
-    Re-write
-    \begin{eqnarray*}
-      && |A_n \cdots A_1 \vec{x}|^\kappa      \\
-      &=& |A_n E_{n-1}|^\kappa |A_{n-1} \cdots A_1 \vec{x}|^\kappa \\
-      &=& \prod_{i=1}^n |A_i E_{i-1}|^\kappa \\
-    \end{eqnarray*}
-    Apply re-sampling that favors $E_{i-1}$ that is associated with
-    large $| A_{i-1} \cdots A_1 E_0 |^\kappa$.
- \end{frame}
-
- \begin{frame}
-   \frametitle{Algorithm for estimating $\kappa$}
-   First estimate
-   \[
-   \Lambda(\theta) = 
-   \lim_{n \to \infty} {1 \over n}\ln
-   \E \|A_n \cdots A_1\|^\theta
-   \]
-   for any given $\theta > 0$. Then find $\kappa$ by solving
-   $\Lambda(\kappa) = 0$.
- \end{frame}
-
- \begin{frame}
-   \frametitle{Algorithm for estimating $\kappa$}
-   \begin{figure}[htb!]
-     \centering
-     \includegraphics[scale=0.5]{PseudoCode.pdf}
-     % \caption{Pseudo Code for $\kappa$ estimation}
-     \label{fig:PseudoCode}
-   \end{figure}
- \end{frame}
-
- \begin{frame}
-   \frametitle{Algorithm for estimating $\kappa$}
-   \begin{figure}[htb!]
-     \centering
-     \includegraphics[scale=0.5, trim={4.5cm 0cm 4.5cm 3cm}, clip]{AnandsEstimator.pdf}
-     % \caption{Pseudo Code for $\kappa$ estimation}
-     \label{fig:PseudoCode}
-   \end{figure}
- \end{frame}
-
- \begin{frame}
-   \frametitle{Estimation Results}
-   \begin{minipage}{0.5\linewidth}
-   \begin{figure}[htb!]
-     \centering
-     \includegraphics[width=\linewidth]{Lambda.pdf}     
-     \caption{\scriptsize $\Lambda(\alpha)$ of S\&P 500 modeled as GARCH(2,1)}
-     \label{fig:SP500_Lambda}
-   \end{figure}
-   \end{minipage}\hfill
-   \begin{minipage}{0.5\linewidth}
-     \begin{figure}[htb!]
-       \centering
-       \includegraphics[width=\linewidth]{SP500_var_HillPlot.pdf}
-       \caption{S\&P 500 $\sigma_t^2$ Hill Plot}
-       \label{fig:SP500_var_HillPlot}
-     \end{figure}
-   \end{minipage}
-
-   \begin{itemize}
-   \item $\kappa$ = 4.4397
-   \item Hill estimator: 4.3372.
-   \item GARCH(1,1): 4.4465.
-   \end{itemize}
- \end{frame}
+\begin{frame}
+  \frametitle{Stochastic Fixed Point Equations}
+  $C$ often difficult to characterise. Want to simulate the rare event prob.
+  \[
+  P(\inn{x, V_t} > u) \quad u \to \infty  
+  \]
+  \underline{Importance Sampling!}
+\end{frame}
 
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
-
