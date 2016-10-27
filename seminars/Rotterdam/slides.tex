@@ -153,8 +153,6 @@ University of Copenhagen \\ % Your institution for the title page
     X_{i,t} &=& \sigma_{i, t} Z_{i, t} \\
     \ln(\sigma_{i,t}) &\bot& (Z_{1, t}, ..., Z_{i, t}, ..., Z_{p,t}) \\
     (\ln(\sigma_{1,t}), \dots, \ln(\sigma_{p,t})) &\sim& \text{VARMA}
-    \\
-    Z_{i,t} &\sim& N(0,1), t(\nu), ...
   \end{eqnarray*}
 \end{frame}
 
@@ -249,7 +247,6 @@ University of Copenhagen \\ % Your institution for the title page
 
 \begin{frame}
   \frametitle{Foreign Exchange Rates}
-  Eigenvectors:
   \begin{figure}[htb!]
     \centering
     \includegraphics[scale=0.2]{FX_eigenvectors.pdf}
@@ -257,6 +254,35 @@ University of Copenhagen \\ % Your institution for the title page
   \end{figure}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Stochastic Volatility Models}
+  \begin{minipage}{0.6\linewidth}
+    \begin{scriptsize}
+      \begin{eqnarray*}
+        X_{i, t} &=& \sigma_{i, t} Z_{i,t} \\
+        \ln(\sigma_{i,t})|\mathcal F_{t-1} &\sim& N(\mu + \phi(\ln(\sigma_{i,t-1})) - \mu, \zeta^2)\\
+        Z_{i, t} &\bot& \ln(\sigma_{i,t})
+      \end{eqnarray*}
+    \end{scriptsize}
+  \end{minipage}\hfill
+  \begin{minipage}{0.4\linewidth}
+    \begin{figure}[htb!]
+      \centering
+      \includegraphics[width=1.0\linewidth]{FX_sv_eigenvalues.pdf}
+      \caption{\scriptsize Eigenvalues of real and Simulated SV series}
+    \end{figure}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Foreign Exchange Rates}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[width=1.0\linewidth]{FX_sv_eigenvectors.pdf}
+    \caption{\scriptsize Eigenvectors of real and Simulated SV series}
+  \end{figure}
+\end{frame}
+  
 \subsection{Utilities}
 \begin{frame}
   \frametitle{sector of Utilities of S\&P 500}
@@ -387,6 +413,17 @@ University of Copenhagen \\ % Your institution for the title page
     % \]
   \end{frame}
 
+  \begin{frame}
+    \frametitle{The Tail index $\kappa_{i,j}$}
+    Olivier Wintenberger shows $(\sigma_{i,t}^2 \sigma_{j,t}^2)$ is regularly
+    varying with index $\kappa_{i,j}$ given by
+    \[
+    \E [(\alpha_i Z_i^2 + \beta_i)^{\kappa_{i,j}}(\alpha_i Z_i^2 +
+    \beta_i)^{\kappa_{i,j}}] = 1
+    \]
+    It can happen $\kappa_{i,j} < \min\{\kappa_i, \kappa_j\}$
+    depending on $\text{cor}(Z_i, Z_j)$.
+  \end{frame}
 
   % \begin{itemize}
   % \item For a GARCH(1,1) process
@@ -523,8 +560,15 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  Ongoing work to show joint regular variation of the entries of
-  the covariance matrix and explain the observed spectrum.
+  Problems yet to be solved:
+  \begin{itemize}
+  \item Why the multivariate GARCH/ARCH models give a good fit to the observed eigenvalues \& eigenvectors.
+  \item show joint regular variation of
+    \[
+    \sigma_{1,t}^2, ..., \sigma_{p,t}^2, \{\sigma_{i,t}^2
+    \sigma_{j,t}^2\}_{1 \leq i < j \leq p}
+    \]
+  \end{itemize}
 \end{frame}
 
 % \section{GARCH(p,q) Processes}
@@ -712,9 +756,53 @@ University of Copenhagen \\ % Your institution for the title page
 %    \end{itemize}
 %  \end{frame}
 \section{Monte Carlo Estimation of prob. of Large Exceedances}
-
 \begin{frame}
   \frametitle{Stochastic Fixed Point Equations}
+  We are interested in equations of the following form
+  \[
+  V \overset{d}{=} f_Y(V)
+  \]
+  \begin{enumerate}
+  \item Forward sequence
+    \[
+    V_n = f_{Y_n} \circ f_{Y_{n-1}} \circ \cdots \circ f_{Y_1} (V_0)
+    \]
+    \item Backward sequence
+      \[
+      Z_n  = f_{Y_1} \circ f_{Y_{2}} \circ \cdots \circ f_{Y_n} (Z_0)
+      \]
+    \end{enumerate}
+    where $Y_i$ are iid copies of $Y$ and are termed ``environment
+    variables''.
+    By the {\underline Furstenberg-Letac principle}, the limiting
+    distribution of $V_n$ is equal to that of $Z_n$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Examples}
+    GARCH(1,1) a typical example of a forward sequence.
+    \begin{eqnarray*}
+      X_n &=& \sigma_n Z_n\\
+      \sigma_n^2 &=& \omega + \alpha_1 X_{n-1}^2 + \beta_1 \sigma_{n-1}^2
+    \end{eqnarray*}
+    In this case
+    \[
+    \sigma_n^2 = f_{Y_n} (\sigma_{n-1}^2) =
+    (\beta_1 + \alpha_1 z_{n-1}^2) \sigma_{n-1}^2
+    + \omega
+    \]
+    Let $V = \lim_{n \to \infty} \sigma_n^2$, then
+    \begin{eqnarray*}
+      V &\overset{d}{=}& (\beta_1 + \alpha_1 z^2) V + \omega
+    \end{eqnarray*}
+    By Kesten-Goldie theorem
+    \[
+    \lim_{u \to \infty} u^{\kappa} \P(V > u) = C
+    \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Matrix Stochastic Fixed Point Equations}
   A GARCH(p,q) process:
   \begin{tiny}
     \begin{equation*}
@@ -776,14 +864,152 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{Stochastic Fixed Point Equations}
+  \frametitle{GARCH(p,q) processes}
   $C$ often difficult to characterise. Want to simulate the rare event prob.
   \[
   P(\inn{x, V_t} > u) \quad u \to \infty  
   \]
-  \underline{Importance Sampling!}
+  \underline{Importance Sampling:}
+  Change to the $\xi$ shifted measure of $\log A_t$, under which $V_n$ has
+  been shown to be transient. $\kappa$ is given by
+  \[
+  \Lambda(\kappa) = 0
+  \]
+  Estimated by resampling.
 \end{frame}
 
+\begin{frame}
+  \frametitle{The function $\Lambda(\alpha)$}
+  \begin{minipage}{0.6\linewidth}
+%%    \begin{scriptsize}
+      \begin{itemize}
+      \item 1D:
+        \[
+        \Lambda(\alpha) = \ln \E A^\alpha
+        \]
+      \item multi-dimension:
+        \begin{equation*}
+          \Lambda(\alpha) = \lim_{n \to \infty} {1 \over n} \ln \E \|A_n \cdots A_1\|^\alpha
+        \end{equation*}
+      \end{itemize}
+%%    \end{scriptsize}
+  \end{minipage}\hfill
+  \begin{minipage}{0.4\linewidth}
+    \begin{figure}
+      \centering
+      \includegraphics[width=1.0\linewidth]{pic2.pdf}
+    \end{figure}
+    The function $\Lambda(\alpha)$ is convex, passes through the origin
+    and crosses the $\alpha$-axis.
+  \end{minipage}
+\end{frame}
+
+
+ \begin{frame}
+   \frametitle{Estimation Results}
+   \begin{minipage}{0.5\linewidth}
+   \begin{figure}[htb!]
+     \centering
+     \includegraphics[width=\linewidth]{Lambda.pdf}     
+     \caption{\tiny $\Lambda(\alpha)$ of S\&P 500 modeled as GARCH(2,1)}
+     \label{fig:SP500_Lambda}
+   \end{figure}
+   \end{minipage}\hfill
+   \begin{minipage}{0.5\linewidth}
+     \begin{figure}[htb!]
+       \centering
+       \includegraphics[width=\linewidth]{SP500_var_HillPlot.pdf}
+       \caption{S\&P 500 $\sigma_t^2$ Hill Plot}
+       \label{fig:SP500_var_HillPlot}
+     \end{figure}
+   \end{minipage}
+
+   \begin{itemize}
+   \item $\kappa$ = 4.4397
+   \item Hill estimator: 4.3372.
+   \item GARCH(1,1): 4.4465.
+   \end{itemize}
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{Estimation of prob. of large exceedances in 1D}
+   Intuitively
+   \[
+   \P(V > u) = {
+     \E N_u
+     \over
+     \E K
+   }
+   \]
+   where $K$ is a typical return time to a set $\mathcal C$ and
+   \[
+   N_u = \sum_{i=0}^{K - 1} \1{V_i > u}
+   \]
+   It is straight forward to show $\E K = 1/\pi(\mathcal C)$. We need to
+   have an efficient estimator for $\E N_u$.
+ \end{frame}
+
+\begin{frame}
+  \frametitle{Estimation of prob. of large exceedances in 1D}
+  Let $\mathcal D$ denotes the dual measure:
+  Before the MC exceeds the level $u$, $\log A_{n}$ is sampled from the
+  $\kappa$-shifted distribution $\mu_\kappa$; otherwise it is sampled from
+  $\mu$.
+  \[
+  \mu_\kappa(dx) = e^{x \kappa}\mu(dx)
+  \]
+  For a general change of measure
+  \[
+  \mu_\alpha(dx) = {
+    e^{\alpha x}\mu(dx)
+    \over
+    \lambda(\alpha)
+  }
+  \]
+  where
+  \[
+  \lambda(\alpha) = \int e^{x \alpha} \mu(dx)
+  \]
+  But $\lambda(\kappa) = \E A^\kappa = 1$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{An Efficient Estimator}
+    \[
+    \mathcal E_u = \pi(\mathcal C) {N_u
+      \over
+      (A_{T_u} \cdots A_1)^\kappa
+    }\1{T_u < K}
+    \]
+    is an efficient estimator of $\P(V > u)$, meaning 
+  \begin{eqnarray*}
+    \E_{\mathcal D}(\mathcal E_u) &=& \P(V > u) \\
+    \sup_{u > 0} {
+      \var_{\mathcal D}(\mathcal E_u)
+      \over
+      (\E_{\mathcal D} \mathcal E_u)^2
+    } &\leq& C
+  \end{eqnarray*}
+  for some constant C.
+\end{frame}
+
+\begin{frame}
+  \frametitle{In Multidimensions}
+  $\pi(\mathcal C)\mathcal E_u$ is an efficient estimator for $\P(|V|
+  > u)$:
+  \begin{eqnarray*}
+    \P(|V| > u) &=& \pi(\mathcal C) \E_{\mathcal D} \mathcal E_u \\
+    &=& \pi(\mathcal C) \E_{\mathcal D} \left[
+      N_u \1{T_u < \tau} e^{-\kappa S_{T_u}} {r(\tilde V_0; \kappa)
+        \over r(x_{T_u}; \kappa)}
+    \right]
+  \end{eqnarray*}
+  The right eigenfunction $r(\vec x; \kappa)$ is given by
+  \[
+  \int_{\mathbb S^{d-1}} \int_{\mathbb R}
+  r(\vec y; \kappa) P(\vec x, d\vec y \times ds) = r(\vec x; \kappa)
+  \]
+\end{frame}
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
