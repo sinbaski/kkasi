@@ -81,6 +81,7 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule
                       % in tables
+\usepackage{color}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \input{../../physics_common}
 
@@ -123,28 +124,32 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{Agenda}
   \begin{itemize}
   \item A Multivariate GARCH Model with Correlated Innovations
-  \item Stochastic Fixed Point Equations: Monte Carlo estimation of
-    probabilities of large exceedances.
+    \begin{enumerate}
+    \item Empirical eigen structure fitted to financial data
+    \item Theory of the eigen structure.
+    \end{enumerate}
+  \item Stochastic Recurrence Equations, e.g. GARCH(p,q): Monte Carlo
+    estimation of probabilities of large exceedances.
+    \begin{enumerate}
+    \item Importance sampling estimator in 1D
+    \item Extension to multi-dimensions
+    \end{enumerate}
   \end{itemize}
 \end{frame}
 
 \section{A Multivariate GARCH Model with Correlated Innovations}
 \begin{frame}
   \frametitle{Multivariate GARCH models}
-  {\bf VEC(1,1)}:
+  {\bf CCC [Bollerslev 1990]}:
   Given a $p$-variate series $\{X_{i, t}\}$, $i=1,...,p,
-  t=1,...,n$. For all $i, j = 1, ..., p$.
+  t=1,...,n$.
   \begin{eqnarray*}
-    % \text{vech}(\text{cov}(X_t)) &=& c + A\;\text{vech}(X_{t-1}
-    % X_{t-1}) + G\;\text{vech}(\text{cov}(X_{t-1}))
-    \vec H_t &=& (\sigma_{1,t}^2, \sigma_{1,2, t}^2, \dots, \sigma_{2,t}^2,
-    \sigma_{2,3, t}^2, \dots, \sigma_{p,t}^2)' \\
-    \vec V_t &=& (X_{1,t}^2, X_{1, t} X_{2, t}, \dots, X_{2,t}^2,
-    X_{2, t} X_{3,t}, \dots, X_{p,t}^2)' \\
-    \vec H_t &=& A_t \vec V_{t-1} + G_t \vec H_{t-1} + \vec c
+    \cov(\vec X | \mathcal F_{t-1}) &=&
+    \diag(\sigma_1, ..., \sigma_p) \ 
+    \mtx C \ 
+    \diag(\sigma_1, ..., \sigma_p) \\
+    X_{i, t} &\sim& GARCH(p,q)
   \end{eqnarray*}
-  where $\sigma_i^2 = \var(X_{i, t} | \mathcal F_{t-1})$, $\sigma_{i,j}^2 =
-  \cov(X_{i,t}, X_{j,t} | \mathcal F_{t-1})$.
 \end{frame}
 
 \begin{frame}
@@ -157,15 +162,17 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{Factor Model -- Orthogonal GARCH}
+  \frametitle{Linear Combinations of Independent GARCH}
+  Interpreted as factor models: Each independent GARCH process constitutes a {\it factor}.
   \begin{eqnarray*}
     X_{i, t} &=& \sum_{k=1}^N C_{i,k} Y_{k, t} + \epsilon_{i, t} \\
-    Y_{k, t} &\sim& \text{GARCH}(1,1) \\
+    Y_{k, t} &\sim& \text{GARCH}(p,q) \\
     \epsilon_{i,t} &\sim& N(0, \sigma_i^2)
   \end{eqnarray*}
 \end{frame}
 
 \begin{frame}
+  \frametitle{Multivariate GARCH with Correlated Innovations}
   We suggest
   \begin{eqnarray*}
     X_{i, t} &=& \sigma_{i, t} Z_{i, t} \\
@@ -190,11 +197,37 @@ University of Copenhagen \\ % Your institution for the title page
   Decompose the matrix $C$ into eigenvalues $\lambda_1, ...,
   \lambda_p$ and eigenvectors $\vec v_1, ..., \vec v_p$:
   \[
-  C (\vec v_1, ..., \vec v_p) = \diag(\lambda_1, ..., \lambda_p) (\vec v_1, ..., \vec v_p)
+  C = (\vec v_1, ..., \vec v_p) \ 
+  \diag(\lambda_1, ..., \lambda_p) \  
+  (\vec v_1, ..., \vec v_p)'
   \]
   The goodness of fit of the theoretical eigenvalues and eigenvectors
   to their empirical counterparts gives an indication of how well the
   model describes the data.
+\end{frame}
+
+\subsection{FX Series}
+\begin{frame}
+  \frametitle{Comparison with Series of Foreign Exchange Rates}
+  Daily return series of 17 exchange rates against Swedish krona (SEK):
+  AUD,
+  CAD,
+  CNY,
+  CZK,
+  DKK,
+  EUR,
+  GBP,
+  HKD,
+  HUF,
+  JPY,
+  KRW,
+  MAD,
+  MXN,
+  NOK,
+  NZD,
+  SGD,
+  USD
+  compiled by the Swedish central bank.
 \end{frame}
 
 \begin{frame}
@@ -217,43 +250,6 @@ University of Copenhagen \\ % Your institution for the title page
   \end{figure}
 \end{frame}
 
-\subsection{FX Series}
-\begin{frame}
-  \frametitle{Foreign Exchange Rates}
-  Daily return series of 17 exchange rates against Swedish krona (SEK):
-  AUD,
-  CAD,
-  CNY,
-  CZK,
-  DKK,
-  EUR,
-  GBP,
-  HKD,
-  HUF,
-  JPY,
-  KRW,
-  MAD,
-  MXN,
-  NOK,
-  NZD,
-  SGD,
-  USD
-  \begin{figure}[htb!]
-    \centering
-    \includegraphics[scale=0.35]{FX_eigenvalues.pdf}
-    \caption{\scriptsize Eigenvalues of real and Simulated GARCH series}
-  \end{figure}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Foreign Exchange Rates}
-  \begin{figure}[htb!]
-    \centering
-    \includegraphics[scale=0.2]{FX_eigenvectors.pdf}
-    \caption{\scriptsize Eigenvectors of real and Simulated GARCH series}
-  \end{figure}
-\end{frame}
-
 \begin{frame}
   \frametitle{Stochastic Volatility Models}
   \begin{minipage}{0.6\linewidth}
@@ -263,6 +259,7 @@ University of Copenhagen \\ % Your institution for the title page
         \ln(\sigma_{i,t})|\mathcal F_{t-1} &\sim& N(\mu + \phi(\ln(\sigma_{i,t-1})) - \mu, \zeta^2)\\
         Z_{i, t} &\bot& \ln(\sigma_{i,t})
       \end{eqnarray*}
+      $\cov(\vec Z)$ \underline{same as observations}.
     \end{scriptsize}
   \end{minipage}\hfill
   \begin{minipage}{0.4\linewidth}
@@ -275,17 +272,69 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{Foreign Exchange Rates}
+  \frametitle{Stochastic Volatility Models}
   \begin{figure}[htb!]
     \centering
     \includegraphics[width=1.0\linewidth]{FX_sv_eigenvectors.pdf}
     \caption{\scriptsize Eigenvectors of real and Simulated SV series}
   \end{figure}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Orthogonal Combination of GARCH}
+  \begin{minipage}{0.6\linewidth}
+    \begin{scriptsize}
+      \begin{eqnarray*}
+        X_{i, t} &=& \sum_{k=1}^N C_{i,k} Y_{k, t} + \epsilon_{i, t} \\
+        Y_{k, t} &\sim& \text{GARCH}(1,1) \\
+        Y_{i, t} &\bot& Y_{j, t} \quad i \neq j\\
+        \epsilon_{i,t} &\sim& N(0, \sigma_i^2)
+      \end{eqnarray*}
+      \underline{N=8 shown in the plot}
+    \end{scriptsize}
+  \end{minipage}\hfill
+  \begin{minipage}{0.4\linewidth}
+    \begin{figure}[htb!]
+      \centering
+      \includegraphics[width=1.0\linewidth]{FX_OGARCH_eigenvalues.pdf}
+      \caption{\scriptsize Eigenvalues of real and Simulated OGARCH series}
+    \end{figure}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Orthogonal Combination of GARCH}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.2]{FX_OGARCH_eigenvectors.pdf}
+    \caption{\scriptsize Eigenvectors of real and Simulated series}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{GARCH with correlated innovations}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.35]{FX_eigenvalues.pdf}
+    \caption{\scriptsize Eigenvalues of real and Simulated GARCH series}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{GARCH with correlated innovations}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[scale=0.2]{FX_eigenvectors.pdf}
+    \caption{\scriptsize Eigenvectors of real and Simulated GARCH series}
+  \end{figure}
+\end{frame}
+
   
 \subsection{Utilities}
 \begin{frame}
-  \frametitle{sector of Utilities of S\&P 500}
+  \frametitle{Sector of Utilities of S\&P 500}
+  Daily return series of 23 companies in the S\&P 500 Utilities sector
+  fitted to {\bf GARCH with correlated innovations}.
   \begin{figure}[htb!]
     \centering
     \includegraphics[scale=0.35]{Utilities_eigenvalues.pdf}
@@ -294,7 +343,9 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{sector of Utilities of S\&P 500}
+  \frametitle{Sector of Utilities of S\&P 500}
+  Daily return series of 23 companies in the S\&P 500 Utilities sector
+  fitted to {\bf GARCH with correlated innovations}.
   \begin{figure}[htb!]
     \centering
     \includegraphics[width=1.0\linewidth]{Utilities_eigenvectors1.pdf}
@@ -304,7 +355,9 @@ University of Copenhagen \\ % Your institution for the title page
 
 \subsection{Materials}
 \begin{frame}
-  \frametitle{sector of Materials of S\&P 500}
+  \frametitle{Sector of Materials of S\&P 500}
+  Daily return series of 21 companies in the S\&P 500 Materials sector
+  fitted to {\bf GARCH with correlated innovations}.
   \begin{figure}[htb!]
     \centering
     \includegraphics[scale=0.35]{Materials_eigenvalues.pdf}
@@ -313,7 +366,9 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{sector of Materials of S\&P 500}
+  \frametitle{Sector of Materials of S\&P 500}
+  Daily return series of 21 companies in the S\&P 500 Materials sector
+  fitted to {\bf GARCH with correlated innovations}.
   \begin{figure}[htb!]
     \centering
     \includegraphics[width=1.0\linewidth]{Materials_eigenvectors1.pdf}
@@ -418,11 +473,11 @@ University of Copenhagen \\ % Your institution for the title page
     Olivier Wintenberger shows $(\sigma_{i,t}^2 \sigma_{j,t}^2)$ is regularly
     varying with index $\kappa_{i,j}$ given by
     \[
-    \E [(\alpha_i Z_i^2 + \beta_i)^{\kappa_{i,j}}(\alpha_i Z_i^2 +
-    \beta_i)^{\kappa_{i,j}}] = 1
+    \E [(\alpha_i Z_i^2 + \beta_i)(\alpha_j Z_j^2 + \beta_j)]^{\kappa_{i,j}} = 1
     \]
-    It can happen $\kappa_{i,j} < \min\{\kappa_i, \kappa_j\}$
-    depending on $\text{cor}(Z_i, Z_j)$.
+    if $\kappa_{i,j} < \min\{\kappa_i, \kappa_j\}$.
+
+    {\bf $Z_i$ and $Z_j$ are correlated}
   \end{frame}
 
   % \begin{itemize}

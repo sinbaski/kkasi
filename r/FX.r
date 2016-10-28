@@ -2,7 +2,6 @@ rm(list=ls());
 graphics.off();
 ## require("tseries");
 require("fGarch");
-require("rugarch");
 require("mvtnorm");
 source("libxxie.r");
 
@@ -75,9 +74,9 @@ N <- 8;
 
 E <- cov(X);
 Eig <- eigen(E);
-Y <- X %*% Eig$vectors[, 1:N];
-C <- t(Eig$vectors);
-C <- head(C, N);
+C <-Eig$vectors[, 1:N];
+
+Y <- X %*% C;
 
 params <- matrix(0, nrow=N, ncol=3);
 for (i in 1:N) {
@@ -121,16 +120,17 @@ D <- cov(W);
 ##     Res[, i] <- residuals(model);
 ## }
 ## Dep <- cov(Res);
-F <- t(C) %*% D %*% C;
+F <- C %*% D %*% t(C);
 Fig <- eigen(F);
 
-pdf("/tmp/FX_eigenvalues_comparison.pdf", width=10, height=10);
+pdf("/tmp/FX_OGARCH_eigenvalues.pdf", width=10, height=10);
 plot(1:p, Eig$values, type="p", pch=0,
      xlab=expression(i),
      ylab=expression(lambda[(i)]),
+     cex=2,
      main="FX and sim. spectrum", ylim=c(0, max(Eig$values[1], Fig$values[1]))
 );
-points(1:p, (Fig$values), pch=16, col="#FF0000");
+points(1:p, (Fig$values), pch=16, col="#FF0000", cex=2);
 
 ## ## points(1:p, (E1$values)/sum(E1$values), col="#FF0000", cex=2, pch=15);
 ## ## points(1:p, (F1$values)/sum(F1$values), col="#00FF00", cex=2, pch=16);
@@ -144,10 +144,10 @@ legend("topright",
 grid();
 dev.off();
 
-pdf("/tmp/FX_eigenvectors_comparison.pdf", width=20, height=10);
-par(mfrow=c(3,6));
+pdf("/tmp/FX_OGARCH_eigenvectors.pdf", width=20, height=10);
+par(mfrow=c(2,4));
 ## mse <- c(0, 0);
-for (i in 1:p) {
+for (i in 1:8) {
     V <- Eig$vectors[, i];
     Q <- Fig$vectors[, i];
     
@@ -161,13 +161,13 @@ for (i in 1:p) {
     
     plot(1:p, V * s, main=sprintf("FX & sim. V[%d]", i),
          xlab="i", ylab=expression(V[i]),
-         ylim=c(-1, 1), pch=0,
+         ylim=c(-1, 1), pch=0, cex=2,
          xaxt="n");
     axis(side=1, at=1:p, labels=names, las=2);
     
     ## points(1:p, U * s,
     ##        col="#0000FF", pch=17);
-    points(1:p, Q * s, col="#FF0000", pch=16);
+    points(1:p, Q * s, col="#FF0000", pch=16, cex=2);
 
     grid();
 }
