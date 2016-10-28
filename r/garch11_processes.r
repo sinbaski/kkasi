@@ -2,7 +2,6 @@ rm(list=ls());
 graphics.off();
 ## require("tseries");
 require("fGarch");
-require("rugarch");
 require("mvtnorm");
 source("libxxie.r");
 
@@ -72,7 +71,8 @@ p <- dim(X)[2];
 X <- X - matrix(rep(apply(X, FUN=mean, MARGIN=2), n), nrow=n, ncol=p, byrow=TRUE);
 
 inno <- matrix(NA, nrow=n, ncol=p);
-params <- matrix(0, nrow=p, ncol=3);
+## params <- matrix(0, nrow=p, ncol=3);
+params <- matrix(0, nrow=p, ncol=2);
 ics <- matrix(NA, nrow=p, ncol=4);
 for (i in 1:p) {
     ## spec <- ugarchspec(
@@ -103,7 +103,7 @@ for (i in 1:p) {
     ##     stop(sprintf("Estimation failed for %d", i));
     ## }
     
-    M <- garchFit(~garch(1,1),
+    M <- garchFit(~garch(1,0),
                   data=X[, i],
                   trace=FALSE,
                   ## cond.dist="std",
@@ -124,11 +124,13 @@ for (i in 1:p) {
 ## inno <- inno - matrix(rep(mean.inno, n), nrow=n, ncol=p, byrow=TRUE);
 ## inno <- inno %*% diag(1 / apply(inno, MARGIN=2, FUN=sd));
 C <- cor(inno);
-pc <- eigen(C);
-N <- 8;
-composition <- head(t(pc$vectors), N);
-norms <- apply(composition, MARGIN=2, FUN=function(v) {sqrt(sum(v^2))});
-composition <- composition %*% diag(1/norms);
+
+## pc <- eigen(C);
+## N <- 8;
+## composition <- head(t(pc$vectors), N);
+## norms <- apply(composition, MARGIN=2, FUN=function(v) {sqrt(sum(v^2))});
+## composition <- composition %*% diag(1/norms);
+
 ## V <- apply(res, MARGIN=2, FUN=sd);
 ## res <- res / matrix(rep(V, n), byrow=TRUE, nrow=n, ncol=p);
 ## sigma <- X / res;
@@ -153,17 +155,18 @@ W <- matrix(NA, nrow=100*n, ncol=p);
 sig2 <- matrix(NA, nrow=dim(W)[1], ncol=p);
 # set the initial values
 for (i in 1:p) {
-    sig2[1, i] <- params[i, 1]/(1 - params[i, 3]);
-    ## sig2[1, i] <- 0;
+    # sig2[1, i] <- params[i, 1]/(1 - params[i, 3]);
+    sig2[1, i] <- 0;
 }
 for (i in 1:dim(W)[1]) {
-    eta <- rmvnorm(n=1, mean=rep(0, N), sigma=diag(pc$values[1:N]));
-    eta <- eta %*% composition;
+    ## eta <- rmvnorm(n=1, mean=rep(0, N), sigma=diag(pc$values[1:N]));
+    eta <- rmvnorm(n=1, mean=rep(0, p), sigma=C);
+    ## eta <- eta %*% composition;
     ## eta <- rmvt(n=1, sigma=C, df=4);
     W[i, ] <- eta * sqrt(sig2[i,]);
     if (i < dim(W)[1])
-    ##    sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 1];
-        sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 3] * sig2[i, ] + params[, 1];
+        sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 1];
+        ## sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 3] * sig2[i, ] + params[, 1];
 }
 ## U <- sqrt(sig2);
 ## S <- t(U) %*% U / dim(sig2)[1];
@@ -222,7 +225,7 @@ D <- eigen(CY);
 CW <- cov(W);
 F <- eigen(CW);
 
-pdf("/tmp/FX_N8_eigenvalues.pdf");
+pdf("/tmp/FX_ARCH_eigenvalues.pdf");
 ## plot(1:p, sig.eig$values, type="p", pch=17,
 ##      main="FX and GARCH(1,1) spectrum", col="#00FF00"
 ## );
@@ -258,10 +261,10 @@ dev.off();
 ## dev.off();
 
 
-pdf("/tmp/FX_N8_eigenvectors.pdf", width=20, height=10);
-par(mfrow=c(3,6));
+pdf("/tmp/FX_ARCH_eigenvectors.pdf", width=20, height=10);
+par(mfrow=c(2,3));
 mse <- c(0, 0);
-for (i in 1:p) {
+for (i in 1:6) {
     V <- E$vectors[, i];
     U <- D$vectors[, i];
     Q <- F$vectors[, i];
@@ -279,13 +282,13 @@ for (i in 1:p) {
     
     plot(1:p, V * s, main=sprintf("FX & Sim. V[%d]", i),
          xlab="i", ylab=expression(V[i]),
-         ylim=c(-1, 1), pch=0,
+         ylim=c(-1, 1), pch=0, cex=2,
          xaxt="n");
     axis(side=1, at=1:p, labels=names, las=2);
     
     ## points(1:p, U * s,
     ##        col="#0000FF", pch=17);
-    points(1:p, Q * s, col="#FF0000", pch=16);
+    points(1:p, Q * s, col="#FF0000", pch=16, cex=2);
 
     grid();
 }

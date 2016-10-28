@@ -72,12 +72,14 @@ n <- dim(X)[1];
 p <- dim(X)[2];
 
 # for t innovations
-params <- matrix(NA, nrow=p, ncol=4);
+# params <- matrix(NA, nrow=p, ncol=4);
+# for normal innovations
+params <- matrix(NA, nrow=p, ncol=3);
 inno <- matrix(NA, nrow=n, ncol=p);
 H <- matrix(NA, nrow=n, ncol=p);
 for (i in 1 : p) {
-    result <- svsample(X[, i] - mean(X[, i]), priornu=c(3, 6));
-    ## result <- svsample(X[, i] - mean(X[, i]));
+    ## result <- svsample(X[, i] - mean(X[, i]), priornu=c(3, 6));
+    result <- svsample(X[, i] - mean(X[, i]));
     H[, i] <- apply(latent(result), MARGIN=2, FUN=mean);
     params[i, ] <- apply(para(result), MARGIN=2, FUN=mean);
     inno[, i] <- result$y / exp(H[, i]/2);
@@ -131,10 +133,11 @@ plot(1:p, E$values/sum(E$values), type="p", pch=0,
      main="FX and SV spectrum",
      xlab=expression(i),
      ylab=expression(lambda[i]),
+     cex=2,
      ylim=c(0, 1)
 );
-points(1:p, (D$values)/sum(D$values), col="#0000FF", pch=17);
-points(1:p, (F$values)/sum(F$values), pch=16, col="#FF0000");
+## points(1:p, (D$values)/sum(D$values), col="#0000FF", pch=17);
+points(1:p, (F$values)/sum(F$values), pch=16, col="#FF0000", cex=2);
 
 ## ## points(1:p, (E1$values)/sum(E1$values), col="#FF0000", cex=2, pch=15);
 ## ## points(1:p, (F1$values)/sum(F1$values), col="#00FF00", cex=2, pch=16);
@@ -142,16 +145,16 @@ points(1:p, (F$values)/sum(F$values), pch=16, col="#FF0000");
 
 legend("topright",
 ##       legend=c(expression(sigma[i] * sigma[j]), expression(cov(W)), expression(cov(X))),
-       legend=c(expression(cov(FX)), expression(cov(inno)), expression(cov(sim.))),
-       col=c("#000000", "#0000FF", "#FF0000"),
-       pch=c(0, 17, 16));
+       legend=c(expression(cov(FX)), expression(cov(sim.))),
+       col=c("#000000", "#FF0000"),
+       pch=c(0, 16));
 grid();
 dev.off();
 
 pdf("/tmp/FX_sv_eigenvectors.pdf", width=20, height=10);
-par(mfrow=c(3,6));
+par(mfrow=c(2,3));
 mse <- c(0, 0);
-for (i in 1:p) {
+for (i in 1:6) {
     V <- E$vectors[, i];
     U <- D$vectors[, i];
     Q <- F$vectors[, i];
@@ -170,12 +173,13 @@ for (i in 1:p) {
     plot(1:p, V * s, main=sprintf("FX & SV V[%d]", i),
          xlab="i", ylab=expression(V[i]),
          ylim=c(-1, 1), pch=0,
+         cex=2,
          xaxt="n");
     axis(side=1, at=1:p, labels=names, las=2);
     
     ## points(1:p, U * s,
     ##        col="#0000FF", pch=17);
-    points(1:p, Q * s, col="#FF0000", pch=16);
+    points(1:p, Q * s, col="#FF0000", pch=16, cex=2);
 
     grid();
 }
