@@ -77,11 +77,12 @@
 %\setbeamertemplate{navigation symbols}{} % To remove the navigation
 %symbols from the bottom of all slides uncomment this line
 }
-
+%% \usepackage[dvipsnames]{xcolor}
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule
                       % in tables
-\usepackage{color}
+%% \usepackage{color}
+
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \input{../../physics_common}
 
@@ -231,18 +232,22 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{Gaussian Series with the same Covariance Matrix as the
-    Observations}
+  \frametitle{Gaussian Series with equal cov. compared with FX}
+  \begin{minipage}{0.5\linewidth}
+    iid. copies of $p$-variate Gaussian series with equal cov. as the FX.
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
   \begin{figure}[htb!]
     \centering
-    \includegraphics[scale=0.4]{Gaussian_eigenvalues.pdf}
+    \includegraphics[width=1.0\linewidth]{Gaussian_eigenvalues.pdf}
     \caption{\scriptsize Eigenvalues of real FX series and Simulated Gaussian series}
   \end{figure}
+  \end{minipage}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Gaussian Series with the same Covariance Matrix as the
-    Observations}
+  \frametitle{Gaussian Series with the equal cov. compared with FX}
+  iid. copies of $p$-variate Gaussian series with equal cov. as the FX.
   \begin{figure}[htb!]
     \centering
     \includegraphics[width=1.0\linewidth]{Gaussian_eigenvectors.pdf}
@@ -251,7 +256,7 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{Stochastic Volatility Models}
+  \frametitle{Stochastic Volatility Models compared with FX}
   \begin{minipage}{0.6\linewidth}
     \begin{scriptsize}
       \begin{eqnarray*}
@@ -272,7 +277,7 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{Stochastic Volatility Models}
+  \frametitle{Stochastic Volatility Models compared with FX}
   \begin{figure}[htb!]
     \centering
     \includegraphics[width=1.0\linewidth]{FX_sv_eigenvectors.pdf}
@@ -281,7 +286,7 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{Orthogonal Combination of GARCH}
+  \frametitle{Orthogonal Combination of GARCH compared with FX}
   \begin{minipage}{0.6\linewidth}
     \begin{scriptsize}
       \begin{eqnarray*}
@@ -296,23 +301,23 @@ University of Copenhagen \\ % Your institution for the title page
   \begin{minipage}{0.4\linewidth}
     \begin{figure}[htb!]
       \centering
-      \includegraphics[width=1.0\linewidth]{FX_OGARCH_eigenvalues.pdf}
+      % \includegraphics[width=1.0\linewidth]{FX_OGARCH_eigenvalues.pdf}
       \caption{\scriptsize Eigenvalues of real and Simulated OGARCH series}
     \end{figure}
   \end{minipage}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Orthogonal Combination of GARCH}
+  \frametitle{Orthogonal Combination of GARCH compared with FX}
   \begin{figure}[htb!]
     \centering
-    \includegraphics[scale=0.2]{FX_OGARCH_eigenvectors.pdf}
+    % \includegraphics[scale=0.2]{FX_OGARCH_eigenvectors.pdf}
     \caption{\scriptsize Eigenvectors of real and Simulated series}
   \end{figure}
 \end{frame}
 
 \begin{frame}
-  \frametitle{GARCH with correlated innovations}
+  \frametitle{GARCH with correlated innovations compared with FX}
   \begin{figure}[htb!]
     \centering
     \includegraphics[scale=0.35]{FX_eigenvalues.pdf}
@@ -321,7 +326,7 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{GARCH with correlated innovations}
+  \frametitle{GARCH with correlated innovations compared with FX}
   \begin{figure}[htb!]
     \centering
     \includegraphics[scale=0.2]{FX_eigenvectors.pdf}
@@ -378,27 +383,63 @@ University of Copenhagen \\ % Your institution for the title page
 
 \subsection{Emergence of the Observed Spectrum}
 \begin{frame}
+  \frametitle{Regular Variation}
+  \begin{minipage}[t]{0.4\linewidth}
+    \textcolor[HTML]{990033}{Univariate regular variation}
+    Distribution of $X$ has regularly varying tail with index $\alpha$:
+    \[
+    \lim_{u \to \infty}
+    {
+      \P(X > t u)
+      \over
+      \P(X > u)
+    } = t^{-\alpha}
+    \]
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.55\linewidth}
+    \textcolor[HTML]{990033}{Joint regular variation}    
+    Joint distribution of $\vec X = (X_1, X_2, ..., X_p)$ regular varying with
+    index $\alpha$:
+    \[
+    \lim_{u \to \infty}
+    {
+      \P(u^{-1} X \in \cdot)
+      \over
+      \P(|X|>u)
+    } = \mu(\cdot)
+    \]
+    $\mu$: A non-null Radon measure on $(\mathbb R^d \setminus \{\vec
+    0\}) \cup \{-\infty, \infty\}$:
+    \[
+      \mu(t \mathcal C) =
+      t^{-\alpha} \mu(\mathcal C)
+    \]
+    for all $t > 0$ and $\mu$-continuity set $\mathcal C$. Equivalently:
+    \[
+    {
+      \P(|\vec X| > t u, \vec{\tilde X} \in \cdot)
+      \over
+      \P(|\vec X| > u)
+    } \overset{w}{\to} t^{-\alpha} P_\Theta(\cdot)
+    \]
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
   \frametitle{Emergence of the Observed Spectrum}
   Conjecture: Joint regular variation of the entries of the covariance
   matrix leads to the observed spectral pattern.
   \begin{itemize}
   \item $(X_{1,t}, ..., X_{p,t})$ jointly regularly varying with
     different indices $\kappa_1, ..., \kappa_p$.
-  \item $(X_{1,t}^2, ..., X_{p,t}^2, \{X_{i,t}X_{j,t}\}_{1 \leq i < j
+  \item $(X_{1,t}^2, ..., X_{p,t}^2, \{X_{i,t} X_{j,t}\}_{1 \leq i < j
       \leq p})$ jointly regularly varying with different indices
   \item Tail index of $X_{i,t} X_{j,t}$ ($\kappa_{i,j}$) possibly
     smaller than $\min\{\kappa_i, \kappa_j\}$.
   \end{itemize}
-  % \[
-  % \lim_{u \to \infty} u^{\kappa}
-  % \P\left(
-  %   \inn{\vec{x}, V} > u
-  % \right) = e_{\kappa}(\vec{x}),\; \vec x \in \mathbb S^{p-1}
-  % \]
-  % where $V=(\E X_{1,t}^2, ..., \E X_{p,t}^2,
-  % \{\E (X_{i,t}X_{j,t})\}_{1 \leq i < j \leq p})$
-  % This way, we have a covariance matrix where some of the non-diagonal
-  % entries are non-zero under proper normalization.
+  Want to find dominant components, say $X_{i,t}^2, X_{j,t}^2,
+  X_{i,t} X_{j,t}, X_{k,t} X_{l,t}$ that are regularly varying with
+  the smallest tail index.
 \end{frame}
 
 \begin{frame}
@@ -811,84 +852,333 @@ University of Copenhagen \\ % Your institution for the title page
 %    \end{itemize}
 %  \end{frame}
 \section{Monte Carlo Estimation of prob. of Large Exceedances}
+% \begin{frame}
+%   \frametitle{Examples}
+%     GARCH(1,1) a typical example of a forward sequence.
+%     \begin{eqnarray*}
+%       X_n &=& \sigma_n Z_n\\
+%       \sigma_n^2 &=& \omega + \alpha_1 X_{n-1}^2 + \beta_1 \sigma_{n-1}^2
+%     \end{eqnarray*}
+%     In this case
+%     \[
+%     \sigma_n^2 = f_{Y_n} (\sigma_{n-1}^2) =
+%     (\beta_1 + \alpha_1 z_{n-1}^2) \sigma_{n-1}^2
+%     + \omega
+%     \]
+%     Let $V = \lim_{n \to \infty} \sigma_n^2$, then
+%     \begin{eqnarray*}
+%       V &\overset{d}{=}& (\beta_1 + \alpha_1 z^2) V + \omega
+%     \end{eqnarray*}
+%     By Kesten-Goldie theorem
+%     \[
+%     \lim_{u \to \infty} u^{\kappa} \P(V > u) = C
+%     \]
+% \end{frame}
+
 \begin{frame}
-  \frametitle{Stochastic Fixed Point Equations}
-  We are interested in equations of the following form
-  \[
-  V \overset{d}{=} f_Y(V)
-  \]
-  \begin{enumerate}
-  \item Forward sequence
-    \[
-    V_n = f_{Y_n} \circ f_{Y_{n-1}} \circ \cdots \circ f_{Y_1} (V_0)
-    \]
-    \item Backward sequence
-      \[
-      Z_n  = f_{Y_1} \circ f_{Y_{2}} \circ \cdots \circ f_{Y_n} (Z_0)
-      \]
+  \frametitle{Agenda}
+  \begin{itemize}
+    \item \textcolor[HTML]{AAAAAA}{A Multivariate GARCH Model with Correlated Innovations}
+      \begin{enumerate}
+      \item \textcolor[HTML]{AAAAAA}{Empirical eigen structure fitted to financial data}
+      \item \textcolor[HTML]{AAAAAA}{Theory of the eigen structure.}
+      \end{enumerate}
+  \item Stochastic Recurrence Equations, e.g. GARCH(p,q): Monte Carlo
+    estimation of probabilities of large exceedances.
+    \begin{enumerate}
+    \item Importance sampling estimator in 1D
+    \item Extension to multi-dimensions
     \end{enumerate}
-    where $Y_i$ are iid copies of $Y$ and are termed ``environment
-    variables''.
-    By the {\underline Furstenberg-Letac principle}, the limiting
-    distribution of $V_n$ is equal to that of $Z_n$.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Examples}
-    GARCH(1,1) a typical example of a forward sequence.
-    \begin{eqnarray*}
-      X_n &=& \sigma_n Z_n\\
-      \sigma_n^2 &=& \omega + \alpha_1 X_{n-1}^2 + \beta_1 \sigma_{n-1}^2
-    \end{eqnarray*}
-    In this case
-    \[
-    \sigma_n^2 = f_{Y_n} (\sigma_{n-1}^2) =
-    (\beta_1 + \alpha_1 z_{n-1}^2) \sigma_{n-1}^2
-    + \omega
-    \]
-    Let $V = \lim_{n \to \infty} \sigma_n^2$, then
-    \begin{eqnarray*}
-      V &\overset{d}{=}& (\beta_1 + \alpha_1 z^2) V + \omega
-    \end{eqnarray*}
-    By Kesten-Goldie theorem
-    \[
-    \lim_{u \to \infty} u^{\kappa} \P(V > u) = C
-    \]
+  \frametitle{Importance Sampling Estimator}
+  \underline{\scriptsize{Assume $X$ has prob. density function $f$. Want to estimate $\P(X
+  > u) = \E \1{X > u}$:}}
+
+  \begin{minipage}[t]{0.45\linewidth}
+    \textcolor[HTML]{990033}{Naive Monte Carlo}
+    \begin{scriptsize}
+      \begin{eqnarray*}
+        \E \1{X > u} &=& \int \1{X > u} f(x) dx
+      \end{eqnarray*}
+      Draw $n$ iid samples of $X$ from $f(x)$, say $x_1, ..., x_n$,
+      then estimate $\P(X > u)$ as
+      \[
+      {1 \over n} \sum_{i=1}^n \1{x_i > u}
+      \]
+    \end{scriptsize}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.5\linewidth}
+    \textcolor[HTML]{990033}{Importance Sampling}
+    \begin{scriptsize}
+      \begin{eqnarray*}
+        \E \1{X > u} &=& \int \lambda(\kappa)\1{X > u} e^{-\kappa x}
+                         {e^{\kappa x} f(x) \over \lambda(\kappa)} dx
+      \end{eqnarray*}
+      where
+      \[
+      \lambda(\kappa) = \int e^{\kappa x} f(x) dx < \infty
+      \]
+      So
+      \[
+      f_\kappa(x) = \frac{e^{\kappa x} f(x)}{\lambda(\kappa)}
+      \]
+      is a density function. Draw $x_1, ..., x_n$ from
+      $f_\kappa(x)$ and estimate $\P(X > u)$ as
+      \[
+      {1\over n}\sum_{i=1}^n \lambda(\kappa) \1{x_i > u} e^{-\kappa x_i}
+      \]
+      \bf{One can show $\kappa$ for which
+        $\lambda(\kappa) = 1$ minimises the relative error of the
+        estmator.}
+    \end{scriptsize}
+  \end{minipage}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Matrix Stochastic Fixed Point Equations}
-  A GARCH(p,q) process:
+  \frametitle{GARCH(1,1) prob. of Large Exceedance}
+  Want to estimate $\P(\sigma_t^2 > u)$ for large $u$. $\sigma_t^2
+  \sim \pi$, the stationary distribution of $\sigma_t^2$.
+  \begin{eqnarray*}
+    \sigma_t^2 &=& \alpha X_{t-1}^2 + \beta \sigma_{t-1}^2 + \omega \\
+               &=& (\alpha Z_{t-1}^2 + \beta) \sigma_{t-1}^2 + \omega
+    \\
+               &=& A_t \sigma_{t-1}^2 + \omega
+  \end{eqnarray*}
+   Intuitively
+   \[
+   \P(\sigma^2_t > u) = {
+     \E_\gamma N_u
+     \over
+     \E_\gamma K
+   }
+   \]
+   where
+   \begin{footnotesize}
+     \begin{itemize}
+     \item $K$ is the typical length of a cycle: Suppose $\sigma_0^2 \in
+       (0, M]$, $K > 0$ is the first time when $\sigma_K^2 \in
+       (0, M]$. $K$ is random.
+     \item $\sigma_0^2 \in (0, M]$ and $\sigma_0^2 \sim \gamma$,
+       $\gamma(E) = \pi(E) / \pi((0, M])$, for all $E \subseteq (0,
+       M]$.
+     \item
+       \[
+       N_u = \sum_{i=0}^{K - 1} \1{\sigma^2_i > u}
+       \]
+     \item $\E_\gamma$: Start the process with $\sigma_0^2 \sim
+       \gamma$. Take the expectation w.r.t. $\pi$.
+     \end{itemize}
+   \end{footnotesize}
+   % where  and
+   % It is straight forward to show $\E K = 1/\pi(\mathcal C)$. We need to
+   % have an efficient estimator for $\E N_u$.
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{GARCH(1,1) prob. of Large Exceedance}
+   Define
+   \begin{itemize}
+   \item $K_i$: the time when the process visits $(0, M]$ for the
+     $i$-th time;
+   \item $\mathcal R_n$: Number of visits the process pays to $(0, M]$
+     up to time $n$.
+   \end{itemize}
+   By law of large numbers for Markov chains (LLN):
+   \begin{eqnarray*}
+     \E_\gamma N_u &=& \lim_{m \to \infty} {1 \over m} \sum_{i=1}^m
+                       \sum_{t=K_{i-1}}^{K_i - 1} \1{V_t > u} \\
+                   &=& \lim_{m \to \infty} {1 \over m} \sum_{t=0}^{K_m
+                       - 1} \1{V_t > 0}
+   \end{eqnarray*}
+   Also by LLN,
+   \begin{eqnarray*}
+     \P(\sigma_t^2 > u) &=& {1 \over n} \sum_{t=0}^n \1{\sigma_t^2 > u} \\
+     &=& {1 \over n} \left[
+         \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
+         +
+         \sum_{t=K_{\mathcal R_n}}^{n} \1{\sigma_t^2 > u}
+         \right]
+   \end{eqnarray*}
+ \end{frame}
+
+\begin{frame}
+  \frametitle{GARCH(1,1) prob. of Large Exceedance}
+  \[
+  \P(\sigma_t^2 > u) =
+  {1 \over n} \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
+  +
+  {1 \over n}\sum_{t=K_{\mathcal R_n}}^{n} \1{\sigma_t^2 > u}
+  \]
+  By Markov renewal theorem (Iscoe, Ney and Nummelin (1985)) and
+  geometric ergodicity of the process, the 2nd sum tends to 0 with
+  prob. 1 as $n \to \infty$.
+  \[
+  {1 \over n} \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
+  = {\mathcal R_n \over n} {1 \over \mathcal R_n}
+  \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
+  \to \pi((0, M]) \E_\gamma N_u
+  \]
+  $\{\sigma_t^2 > u\}$ is a rare event, so importance sampling is needed to
+  estimate $\E_\gamma N_u$.
+  % Let $\mathcal D$ denotes the dual measure:
+  % Before the MC exceeds the level $u$, $\log A_{n}$ is sampled from the
+  % $\kappa$-shifted distribution $\mu_\kappa$; otherwise it is sampled from
+  % $\mu$.
+  % \[
+  % \mu_\kappa(dx) = e^{x \kappa}\mu(dx)
+  % \]
+  % For a general change of measure
+  % \[
+  % \mu_\alpha(dx) = {
+  %   e^{\alpha x}\mu(dx)
+  %   \over
+  %   \lambda(\alpha)
+  % }
+  % \]
+  % where
+  % \[
+  % \lambda(\alpha) = \int e^{x \alpha} \mu(dx)
+  % \]
+  % But $\lambda(\kappa) = \E A^\kappa = 1$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Importance Sampling for GARCH(1,1)}
+  $\sigma_{t}^2$ is a Markov chain. Define
+  \begin{itemize}
+  \item $\xi_t = \ln A_t$
+  \item $S_t = \sum_{i=1}^{t} \xi_i$
+  \item $T_u$: first time $\sigma_t^2 > u$
+  \end{itemize}
+  $(\sigma_t^2, S_t)$ is a Markov Additive process with
+  transition kernel $P(x, dy \times d\xi)$. Since $N_u \1{T_u \geq
+    K} = 0$
+  \begin{footnotesize}
+    \begin{eqnarray*}
+      \E_\gamma N_u &=& \E_\gamma(N_u\1{T_u < K}) \\
+                    &=& \underbrace{
+                        \int_0^\infty \int_{-\infty}^\infty
+                        \cdots
+                        \int_0^\infty \int_{-\infty}^\infty
+                        }_{K-1 \text{ fold}}
+                        \underbrace{
+                        \sum_{i=1}^{K-1} \1{x_i > u} \1{T_u < K}
+                        }_{N_u \1{T_u < K}}
+                        \prod_{i=1}^{K-1} P(x_{i-1}, d x_{i} \times
+                        d\xi_{i}) \\
+      &=&
+          \int_0^\infty \int_{-\infty}^\infty
+          \cdots
+          \int_0^\infty \int_{-\infty}^\infty
+          \prod_{i=1}^{T_u} \left[
+          {e^{\kappa \xi_i} \over \lambda(\kappa)}
+          P(x_{i-1}, d x_{i} \times d\xi_{i})
+          \right] \times \\
+      && \prod_{i=T_u + 1}^{K-1} P(x_{i-1}, dx_{i} \times d\xi_i)
+         \underbrace{
+         e^{-\kappa S_{T_u}} N_u\1{T_u < K} \lambda(\kappa)^{T_u}
+         }_{\text{estimator}}
+    \end{eqnarray*}
+  \end{footnotesize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Importance Sampling for GARCH(1,1)}
+  Choose $\kappa$ such that $\lambda(\kappa) = 1$.
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{figure}
+      \centering
+      \includegraphics[width=1.0\linewidth]{pic1.pdf}
+      \caption{Dual shift of Transition kernel}
+      \label{fig:dual_measure}
+    \end{figure}
+    \begin{scriptsize}
+      Note
+      \[
+      \int_0^\infty \int_{-\infty}^{\infty}
+      e^{\kappa \xi_i}
+      P(x_{i-1}, d x_{i} \times d\xi_{i})
+      = \E A_i^\kappa = \lambda(\kappa)
+      \]
+      So
+      \[
+      {e^{\kappa \xi_i} \over \lambda(\kappa)}
+      P(x_{i-1}, d x_{i} \times d\xi_{i})
+      \]
+      is a transition kernel.
+    \end{scriptsize}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.4\linewidth}
+    \begin{scriptsize}
+      Algorithm:
+      \begin{enumerate}
+      \item draw $\sigma_0^2$ according to $\gamma$
+      \item Simulate the Markov chain according to the shifted transition
+        kernel
+        \[
+        {e^{\kappa \xi_i} \over \lambda(\kappa)}
+        P(x_{i-1}, d x_{i} \times d\xi_{i})
+        \]
+        until $\sigma_t^2 > u$. Then set $N_u = 1$.
+      \item Continue to simulate the chain according to $P(x_{i-1}, d
+        x_{i} \times d\xi_{i})$ until $\sigma_t^2 \in (0, M]$. Increase $N_u$
+        each time $\sigma_t^2 > u$.
+      \end{enumerate}
+    \end{scriptsize}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{GARCH(p,q) processes}
   \begin{tiny}
     \begin{equation*}
       \begin{pmatrix}
         \sigma_{t}^2 \\
         \sigma_{t-1}^2 \\
         \vdots \\
+        \sigma_{t-q+2}^2 \\
         \sigma_{t-q+1}^2 \\
         X_{t-1}^2 \\
         X_{t-2}^2 \\
         \vdots \\
+        X_{t-p+2}^2 \\
         X_{t-p+1}^2
       \end{pmatrix} =
       \begin{pmatrix}
-        \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_p \\
-        1 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
-        \vdots & \vdots & \cdots & \vdots & \vdots & \vdots & \cdots & \vdots \\
-        0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
-        Z_{t-1}^2 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
-        0 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0 \\
-        \vdots & \vdots & \cdots & \vdots & \vdots & \vdots & \cdots & \vdots \\
-        0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\    
+        \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
+        \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_p & 0 \\
+        1 & 0 & \cdots & 
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots & 
+        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        0 & 0 & \cdots &
+        1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        Z_{t-1}^2 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        0 & 0 & \cdots &
+        0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots &
+        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
       \end{pmatrix}
       \begin{pmatrix}
         \sigma_{t-1}^2 \\
         \sigma_{t-2}^2 \\
         \vdots \\
+        \sigma_{t-q+1}^2 \\
         \sigma_{t-q}^2 \\
         X_{t-2}^2 \\
         X_{t-3}^2 \\
         \vdots \\
+        X_{t-p+1}^2 \\
         X_{t-p}^2
       \end{pmatrix} +
       \begin{pmatrix}
@@ -898,39 +1188,71 @@ University of Copenhagen \\ % Your institution for the title page
         0 \\
         0 \\
         0 \\
+        0 \\
         \vdots \\
+        0 \\
         0 \\
       \end{pmatrix}
     \end{equation*}
+  \end{tiny}
     Compactly
     \[
     V_t = A_t V_{t-1} + B
     \]
-    As $t \to \infty$
-    \[
-    V_t \overset{d}{=} A_t V_{t-1} + B
-    \]
     By Kesten-Goldie theorem:
     \[
-    \lim_{u \to \infty} u^{-\kappa} P(\inn{x, V_t} > u) = C \quad x \in \mathbb S^{d-1}
+    \lim_{u \to \infty} u^{\kappa} P(\inn{x, V_t} > u) = C \quad x \in \mathbb S^{d-1}
     \]
     where $d = p + q -1$
-  \end{tiny}
 \end{frame}
 
 \begin{frame}
   \frametitle{GARCH(p,q) processes}
-  $C$ often difficult to characterise. Want to simulate the rare event prob.
-  \[
-  P(\inn{x, V_t} > u) \quad u \to \infty  
-  \]
-  \underline{Importance Sampling:}
-  Change to the $\xi$ shifted measure of $\log A_t$, under which $V_n$ has
-  been shown to be transient. $\kappa$ is given by
-  \[
-  \Lambda(\kappa) = 0
-  \]
-  Estimated by resampling.
+  \begin{scriptsize}
+    Want to simulate the rare event prob. by importance sampling
+    \[
+    \P(|V_t| > u) \quad u \to \infty  
+    \]
+    Differences from GARCH(1,1):
+    \begin{itemize}
+    \item Instead of $(0, M]$, define
+      \[
+      \mathcal C = \{\vec v \in \mathbb R_+^{p+q-1}, |\vec v| \leq M\}
+      \]
+    \item Define
+      \begin{eqnarray*}
+        M_t &=& A_{t} \cdots A_1 \vec V_0 \over |A_{t} \cdots A_1 \vec V_0| \\
+        S_t &=& \ln |A_t \cdots A_1 \vec V_0| \\
+        \xi_t &=& S_t - S_{t-1} =
+                  \ln \left|A_t
+                  \underbrace{
+                  {A_{t-1} \cdots A_1 \vec V_0 \over |A_{t-1} \cdots A_1 \vec V_0|}
+                  }_{M_{t-1}}
+                  \right|
+      \end{eqnarray*}
+      $(M_t, S_t)$ is a Markov Additive process.
+    \end{itemize}
+  \end{scriptsize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{An Efficient Estimator}
+    \[
+    \mathcal E_u = \pi(\mathcal C) {N_u
+      \over
+      (A_{T_u} \cdots A_1)^\kappa
+    }\1{T_u < K}
+    \]
+    is an efficient estimator of $\P(V > u)$, meaning 
+  \begin{eqnarray*}
+    \E_{\mathcal D}(\mathcal E_u) &=& \P(V > u) \\
+    \sup_{u > 0} {
+      \var_{\mathcal D}(\mathcal E_u)
+      \over
+      (\E_{\mathcal D} \mathcal E_u)^2
+    } &\leq& C
+  \end{eqnarray*}
+  for some constant C.
 \end{frame}
 
 \begin{frame}
@@ -980,9 +1302,9 @@ University of Copenhagen \\ % Your institution for the title page
    \end{minipage}
 
    \begin{itemize}
-   \item $\kappa$ = 4.4397
+   \item $\kappa$ = 4.4397 when modeled as GARCH(2,1)
+   \item $\kappa=4.4465$ when modeled as GARCH(1,1)
    \item Hill estimator: 4.3372.
-   \item GARCH(1,1): 4.4465.
    \end{itemize}
  \end{frame}
 
@@ -1003,50 +1325,6 @@ University of Copenhagen \\ % Your institution for the title page
    It is straight forward to show $\E K = 1/\pi(\mathcal C)$. We need to
    have an efficient estimator for $\E N_u$.
  \end{frame}
-
-\begin{frame}
-  \frametitle{Estimation of prob. of large exceedances in 1D}
-  Let $\mathcal D$ denotes the dual measure:
-  Before the MC exceeds the level $u$, $\log A_{n}$ is sampled from the
-  $\kappa$-shifted distribution $\mu_\kappa$; otherwise it is sampled from
-  $\mu$.
-  \[
-  \mu_\kappa(dx) = e^{x \kappa}\mu(dx)
-  \]
-  For a general change of measure
-  \[
-  \mu_\alpha(dx) = {
-    e^{\alpha x}\mu(dx)
-    \over
-    \lambda(\alpha)
-  }
-  \]
-  where
-  \[
-  \lambda(\alpha) = \int e^{x \alpha} \mu(dx)
-  \]
-  But $\lambda(\kappa) = \E A^\kappa = 1$.
-\end{frame}
-
-\begin{frame}
-  \frametitle{An Efficient Estimator}
-    \[
-    \mathcal E_u = \pi(\mathcal C) {N_u
-      \over
-      (A_{T_u} \cdots A_1)^\kappa
-    }\1{T_u < K}
-    \]
-    is an efficient estimator of $\P(V > u)$, meaning 
-  \begin{eqnarray*}
-    \E_{\mathcal D}(\mathcal E_u) &=& \P(V > u) \\
-    \sup_{u > 0} {
-      \var_{\mathcal D}(\mathcal E_u)
-      \over
-      (\E_{\mathcal D} \mathcal E_u)^2
-    } &\leq& C
-  \end{eqnarray*}
-  for some constant C.
-\end{frame}
 
 \begin{frame}
   \frametitle{In Multidimensions}
