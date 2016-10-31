@@ -301,7 +301,7 @@ University of Copenhagen \\ % Your institution for the title page
   \begin{minipage}{0.4\linewidth}
     \begin{figure}[htb!]
       \centering
-      % \includegraphics[width=1.0\linewidth]{FX_OGARCH_eigenvalues.pdf}
+      \includegraphics[width=1.0\linewidth]{FX_OGARCH_eigenvalues.pdf}
       \caption{\scriptsize Eigenvalues of real and Simulated OGARCH series}
     \end{figure}
   \end{minipage}
@@ -311,7 +311,7 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{Orthogonal Combination of GARCH compared with FX}
   \begin{figure}[htb!]
     \centering
-    % \includegraphics[scale=0.2]{FX_OGARCH_eigenvectors.pdf}
+    \includegraphics[scale=0.2]{FX_OGARCH_eigenvectors.pdf}
     \caption{\scriptsize Eigenvectors of real and Simulated series}
   \end{figure}
 \end{frame}
@@ -995,8 +995,8 @@ University of Copenhagen \\ % Your institution for the title page
    \end{eqnarray*}
    Also by LLN,
    \begin{eqnarray*}
-     \P(\sigma_t^2 > u) &=& {1 \over n} \sum_{t=0}^n \1{\sigma_t^2 > u} \\
-     &=& {1 \over n} \left[
+     \P(\sigma_t^2 > u) &=& \lim_{n \to \infty} {1 \over n} \sum_{t=0}^n \1{\sigma_t^2 > u} \\
+     &=& \lim_{n \to \infty}{1 \over n} \left[
          \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
          +
          \sum_{t=K_{\mathcal R_n}}^{n} \1{\sigma_t^2 > u}
@@ -1008,9 +1008,9 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{GARCH(1,1) prob. of Large Exceedance}
   \[
   \P(\sigma_t^2 > u) =
-  {1 \over n} \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
+  \lim_{n \to \infty} {1 \over n} \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
   +
-  {1 \over n}\sum_{t=K_{\mathcal R_n}}^{n} \1{\sigma_t^2 > u}
+  \lim_{n \to \infty} {1 \over n}\sum_{t=K_{\mathcal R_n}}^{n} \1{\sigma_t^2 > u}
   \]
   By Markov renewal theorem (Iscoe, Ney and Nummelin (1985)) and
   geometric ergodicity of the process, the 2nd sum tends to 0 with
@@ -1221,7 +1221,7 @@ University of Copenhagen \\ % Your institution for the title page
       \]
     \item Define
       \begin{eqnarray*}
-        M_t &=& A_{t} \cdots A_1 \vec V_0 \over |A_{t} \cdots A_1 \vec V_0| \\
+        \vec M_t &=& A_{t} \cdots A_1 \vec V_0 \over |A_{t} \cdots A_1 \vec V_0| \\
         S_t &=& \ln |A_t \cdots A_1 \vec V_0| \\
         \xi_t &=& S_t - S_{t-1} =
                   \ln \left|A_t
@@ -1230,60 +1230,158 @@ University of Copenhagen \\ % Your institution for the title page
                   }_{M_{t-1}}
                   \right|
       \end{eqnarray*}
-      $(M_t, S_t)$ is a Markov Additive process.
+      $(\vec M_t, S_t)$ is a Markov Additive process.
     \end{itemize}
   \end{scriptsize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{An Efficient Estimator}
-    \[
-    \mathcal E_u = \pi(\mathcal C) {N_u
-      \over
-      (A_{T_u} \cdots A_1)^\kappa
-    }\1{T_u < K}
-    \]
-    is an efficient estimator of $\P(V > u)$, meaning 
+  \frametitle{GARCH(p,q) processes}
+  As in the GARCH(1,1) case,
   \begin{eqnarray*}
-    \E_{\mathcal D}(\mathcal E_u) &=& \P(V > u) \\
-    \sup_{u > 0} {
-      \var_{\mathcal D}(\mathcal E_u)
-      \over
-      (\E_{\mathcal D} \mathcal E_u)^2
-    } &\leq& C
+    \P(@_t^2 > u) &=& \pi(\mathcal C) \E_\gamma(N_u) \\
+    N_u &=& \sum_{i=1}^{K-1} \1{|\vec V_t| > u}
   \end{eqnarray*}
-  for some constant C.
+  \begin{itemize}
+  \item Knowing $\vec V_{t-1}$, $\vec V_t$ is a function of $A_t$
+  \item $A_t$ is determined by $\vec M_t$, $\xi_t$ and $\vec M_{t-1}$ via
+    \begin{eqnarray*}
+      e^{\xi_t} \vec M_t &=& A_t \vec M_{t-1}
+    \end{eqnarray*}
+    Observe $A_t$ is determined by $Z_{t-1}^2$, which is given by
+    \[
+    Z_{t-1}^2 = {
+      \inn{\vec e_{q+1}, e^{\xi_t} \vec M_{t}}
+      \over
+      \inn{\vec e_{1}, \vec M_{t-1}}
+    }
+    \]
+  \end{itemize}
+  \underline{$\vec V_t$ is a function of $\vec M_t$, $\xi_t$ and $\vec M_{t-1}$}
 \end{frame}
 
 \begin{frame}
-  \frametitle{The function $\Lambda(\alpha)$}
-  \begin{minipage}{0.6\linewidth}
-%%    \begin{scriptsize}
+  \frametitle{Importance Sampling for GARCH(p,q)}
+  \begin{itemize}
+  \item Define operator $T$ on a function $f \in \mathscr C_b(\mathbb
+    S^{d-1}_+)$, i.e. continuous and bounded functions defined on the
+    positive unit sphere.
+    \[
+    T_\kappa f(\vec x) = \int |A \vec x|^\kappa
+    f\left({A \vec x \over |A \vec x|}\right) \mu(dA)
+    \]
+  \item Define right eigen function $r_\kappa \in \mathscr C_b(\mathbb
+    S^{d-1}_+)$, and eigenvalue $\lambda(\kappa)$ by
+    \[
+    (T_\kappa r_\kappa)(\vec x) = \lambda(\kappa) r(\vec x)
+    \]
+  \item $Q(\vec x_{i-1}, d\vec x_{i} \times d\xi_{i})$: transition kernel of
+    $(\vec M_t, S_t)$. Since $\vec x_i$ and $\xi_i$ denpend only on
+    $A_i$
+    \begin{scriptsize}
+      \begin{eqnarray*}
+        && \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
+        {e^{\kappa \xi_i} \over \lambda(\kappa)}
+        {r_\kappa(\vec x_i) \over r_\kappa(\vec x_{i-1})}
+        Q(x_{i-1}, d\vec x_{i} \times d\xi_{i}) \\
+        &=&
+        {1 \over \lambda(\kappa) r_\kappa(\vec x_{i-1})}
+        \int |A_i \vec M_{i-1}|^\kappa
+        r_\kappa\left(
+          { A_i \vec x_{i-1}
+            \over
+            |A_i \vec x_{i-1}|
+          }
+        \right) \mu(dA) \\
+        &=& 
+        {1 \over \lambda(\kappa) r_\kappa(\vec x_{i-1})}
+        (T_\kappa r_\kappa)(\vec x_{i-1}) \\
+        &=& 1
+      \end{eqnarray*}
+    \end{scriptsize}
+  \end{itemize}
+  % \frametitle{An Efficient Estimator}
+  %   \[
+  %   \mathcal E_u = \pi(\mathcal C) {N_u
+  %     \over
+  %     (A_{T_u} \cdots A_1)^\kappa
+  %   }\1{T_u < K}
+  %   \]
+  %   is an efficient estimator of $\P(V > u)$, meaning 
+  % \begin{eqnarray*}
+  %   \E_{\mathcal D}(\mathcal E_u) &=& \P(V > u) \\
+  %   \sup_{u > 0} {
+  %     \var_{\mathcal D}(\mathcal E_u)
+  %     \over
+  %     (\E_{\mathcal D} \mathcal E_u)^2
+  %   } &\leq& C
+  % \end{eqnarray*}
+  % for some constant C.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Importance Sampling for GARCH(p,q)}
+  The importance sampling estimator can now be found:
+  \begin{eqnarray*}
+    && \E_\gamma (N_u \1{T_u < K}) \\
+    &=&
+    \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
+    \cdots
+    \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
+    \underbrace{
+      N_u \1{T_u < K} e^{-\kappa S_{T_u}}
+      {r_\kappa(\vec x_{0}) \over r_\kappa(\vec x_{T_u})}
+      \lambda(\kappa)^{T_u}
+    }_{\text{estimator}}
+    \times \\ 
+    && \prod_{i=1}^{T_u}
+    {e^{\kappa \xi_i} \over \lambda(\kappa)}
+    {r_\kappa(\vec x_i) \over r_\kappa(\vec x_{i-1})}
+    Q(x_{i-1}, d\vec x_{i} \times d\xi_{i})
+    \prod_{i=T_u+1}^{K}
+    Q(x_{i-1}, d\vec x_{i} \times d\xi_{i})
+  \end{eqnarray*}
+  Choose $\kappa$ such that $\lambda(\kappa) = 1$. In multidimensions,
+  \[
+  \lambda(\kappa) = \lim_{n \to \infty} (\E \|A_n \cdots A_1\|^\kappa)^{1/n}
+  \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{The function $\Lambda(\kappa)$}
+  \begin{minipage}{0.5\linewidth}
       \begin{itemize}
       \item 1D:
-        \[
-        \Lambda(\alpha) = \ln \E A^\alpha
-        \]
+        \begin{eqnarray*}
+          A &=& \alpha Z^2 + \beta \\
+          Z &\sim& N(0,1) \\
+          \Lambda(\alpha) &=& \ln(\lambda(\kappa)) = \ln \E A^\alpha          
+        \end{eqnarray*}
       \item multi-dimension:
-        \begin{equation*}
-          \Lambda(\alpha) = \lim_{n \to \infty} {1 \over n} \ln \E \|A_n \cdots A_1\|^\alpha
-        \end{equation*}
+        \begin{eqnarray*}
+          \Lambda(\alpha) &=& \ln(\lambda(\kappa)) \\
+          &=& \lim_{n \to \infty} {1 \over n} \ln \E \|A_n \cdots A_1\|^\alpha
+        \end{eqnarray*}
+        Estimation of $\kappa$ is tricker than in 1D.
       \end{itemize}
-%%    \end{scriptsize}
   \end{minipage}\hfill
   \begin{minipage}{0.4\linewidth}
     \begin{figure}
       \centering
       \includegraphics[width=1.0\linewidth]{pic2.pdf}
     \end{figure}
+    \begin{scriptsize}
     The function $\Lambda(\alpha)$ is convex, passes through the origin
     and crosses the $\alpha$-axis.
+    \end{scriptsize}
   \end{minipage}
 \end{frame}
 
 
  \begin{frame}
    \frametitle{Estimation Results}
+   By an algorithm based on resampling, we have obtained plausible
+   estimations. Results on {\bf S\&P 500 index} shown below:
    \begin{minipage}{0.5\linewidth}
    \begin{figure}[htb!]
      \centering
@@ -1309,40 +1407,9 @@ University of Copenhagen \\ % Your institution for the title page
  \end{frame}
 
  \begin{frame}
-   \frametitle{Estimation of prob. of large exceedances in 1D}
-   Intuitively
-   \[
-   \P(V > u) = {
-     \E N_u
-     \over
-     \E K
-   }
-   \]
-   where $K$ is a typical return time to a set $\mathcal C$ and
-   \[
-   N_u = \sum_{i=0}^{K - 1} \1{V_i > u}
-   \]
-   It is straight forward to show $\E K = 1/\pi(\mathcal C)$. We need to
-   have an efficient estimator for $\E N_u$.
+   \frametitle{Thank you!}
+   Questions?
  \end{frame}
-
-\begin{frame}
-  \frametitle{In Multidimensions}
-  $\pi(\mathcal C)\mathcal E_u$ is an efficient estimator for $\P(|V|
-  > u)$:
-  \begin{eqnarray*}
-    \P(|V| > u) &=& \pi(\mathcal C) \E_{\mathcal D} \mathcal E_u \\
-    &=& \pi(\mathcal C) \E_{\mathcal D} \left[
-      N_u \1{T_u < \tau} e^{-\kappa S_{T_u}} {r(\tilde V_0; \kappa)
-        \over r(x_{T_u}; \kappa)}
-    \right]
-  \end{eqnarray*}
-  The right eigenfunction $r(\vec x; \kappa)$ is given by
-  \[
-  \int_{\mathbb S^{d-1}} \int_{\mathbb R}
-  r(\vec y; \kappa) P(\vec x, d\vec y \times ds) = r(\vec x; \kappa)
-  \]
-\end{frame}
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
