@@ -453,7 +453,7 @@ University of Copenhagen \\ % Your institution for the title page
     $Z_{i, t}^2$ is light tailed, so $Z_{i, t}^2 \sigma_{i, t}^2$ has
     the same tail index as $\sigma_{i, t}^2$.
     \[
-    \sigma_{i, t}^2 = \omega + (\alpha_i Z_{i,t}^2 + \beta_i)\sigma_{i,t-1}
+    \sigma_{i, t}^2 = \omega + (\alpha_i Z_{i,t}^2 + \beta_i)\sigma_{i,t-1}^2
     \]
     So by Goldie-Kesten theorem, $\kappa_i$ is given by
     \[
@@ -1059,28 +1059,33 @@ University of Copenhagen \\ % Your institution for the title page
   \begin{footnotesize}
     \begin{eqnarray*}
       \E_\gamma N_u &=& \E_\gamma(N_u\1{T_u < K}) \\
-                    &=& \underbrace{
-                        \int_0^\infty \int_{-\infty}^\infty
-                        \cdots
-                        \int_0^\infty \int_{-\infty}^\infty
-                        }_{K-1 \text{ fold}}
-                        \underbrace{
-                        \sum_{i=1}^{K-1} \1{x_i > u} \1{T_u < K}
-                        }_{N_u \1{T_u < K}}
-                        \prod_{i=1}^{K-1} P(x_{i-1}, d x_{i} \times
-                        d\xi_{i}) \\
+      &=& \sum_{t=1}^\infty
+      \1{K=t}
+      \underbrace{
+        \int_0^\infty \int_{-\infty}^\infty
+        \cdots
+        \int_0^\infty \int_{-\infty}^\infty
+      }_{t \text{ fold}}
+      \underbrace{
+        \sum_{i=1}^{t} \1{x_i > u} \1{T_u < t}
+      }_{N_u \1{T_u < t}} \times \\
+      &&
+      \prod_{i=1}^{t} P(x_{i-1}, d x_{i} \times d\xi_{i})\\
       &=&
-          \int_0^\infty \int_{-\infty}^\infty
-          \cdots
-          \int_0^\infty \int_{-\infty}^\infty
-          \prod_{i=1}^{T_u} \left[
-          {e^{\kappa \xi_i} \over \lambda(\kappa)}
-          P(x_{i-1}, d x_{i} \times d\xi_{i})
-          \right] \times \\
-      && \prod_{i=T_u + 1}^{K-1} P(x_{i-1}, dx_{i} \times d\xi_i)
-         \underbrace{
-         e^{-\kappa S_{T_u}} N_u\1{T_u < K} \lambda(\kappa)^{T_u}
-         }_{\text{estimator}}
+      \sum_{t=1}^\infty
+      \1{K=t}
+      \int_0^\infty \int_{-\infty}^\infty
+      \cdots
+      \int_0^\infty \int_{-\infty}^\infty
+      \prod_{i=1}^{T_u} \left[
+        {e^{\kappa \xi_i} \over \lambda(\kappa)}
+        P(x_{i-1}, d x_{i} \times d\xi_{i})
+        \right] \times \\
+      &&
+      \prod_{i=T_u + 1}^{t} P(x_{i-1}, dx_{i} \times d\xi_i)
+      \underbrace{
+        e^{-\kappa S_{T_u}} N_u\1{T_u < t} \lambda(\kappa)^{T_u}
+      }_{\text{estimator}}
     \end{eqnarray*}
   \end{footnotesize}
 \end{frame}
@@ -1091,7 +1096,7 @@ University of Copenhagen \\ % Your institution for the title page
   \begin{minipage}[t]{0.55\linewidth}
     \begin{figure}
       \centering
-      \includegraphics[width=1.0\linewidth]{pic1.pdf}
+      \includegraphics[width=1.0\linewidth]{pic1.png}
       \caption{Dual shift of Transition kernel}
       \label{fig:dual_measure}
     \end{figure}
@@ -1239,7 +1244,7 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{GARCH(p,q) processes}
   As in the GARCH(1,1) case,
   \begin{eqnarray*}
-    \P(@_t^2 > u) &=& \pi(\mathcal C) \E_\gamma(N_u) \\
+    \P(|V_t| > u) &=& \pi(\mathcal C) \E_\gamma(N_u) \\
     N_u &=& \sum_{i=1}^{K-1} \1{|\vec V_t| > u}
   \end{eqnarray*}
   \begin{itemize}
@@ -1322,25 +1327,32 @@ University of Copenhagen \\ % Your institution for the title page
 \begin{frame}
   \frametitle{Importance Sampling for GARCH(p,q)}
   The importance sampling estimator can now be found:
-  \begin{eqnarray*}
-    && \E_\gamma (N_u \1{T_u < K}) \\
-    &=&
-    \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
-    \cdots
-    \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
-    \underbrace{
-      N_u \1{T_u < K} e^{-\kappa S_{T_u}}
-      {r_\kappa(\vec x_{0}) \over r_\kappa(\vec x_{T_u})}
-      \lambda(\kappa)^{T_u}
-    }_{\text{estimator}}
-    \times \\ 
-    && \prod_{i=1}^{T_u}
-    {e^{\kappa \xi_i} \over \lambda(\kappa)}
-    {r_\kappa(\vec x_i) \over r_\kappa(\vec x_{i-1})}
-    Q(x_{i-1}, d\vec x_{i} \times d\xi_{i})
-    \prod_{i=T_u+1}^{K}
-    Q(x_{i-1}, d\vec x_{i} \times d\xi_{i})
-  \end{eqnarray*}
+  \begin{scriptsize}
+    \begin{eqnarray*}
+      && \E_\gamma (N_u \1{T_u < K}) \\
+      &=&
+      \sum_{t=1}^\infty \1{K=t}
+      \left[
+        \underbrace{
+          \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
+          \cdots
+          \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
+        }_{t\ \text{fold}}
+        \underbrace{
+          N_u \1{T_u < t} e^{-\kappa S_{T_u}}
+          {r_\kappa(\vec x_{0}) \over r_\kappa(\vec x_{T_u})}
+          \lambda(\kappa)^{T_u}
+        }_{\text{estimator}}
+        \times \right.\\ 
+        && \left.\prod_{i=1}^{T_u}
+               {e^{\kappa \xi_i} \over \lambda(\kappa)}
+               {r_\kappa(\vec x_i) \over r_\kappa(\vec x_{i-1})}
+               Q(x_{i-1}, d\vec x_{i} \times d\xi_{i})
+               \prod_{i=T_u+1}^{t}
+               Q(x_{i-1}, d\vec x_{i} \times d\xi_{i})
+               \right]
+    \end{eqnarray*}
+  \end{scriptsize}
   Choose $\kappa$ such that $\lambda(\kappa) = 1$. In multidimensions,
   \[
   \lambda(\kappa) = \lim_{n \to \infty} (\E \|A_n \cdots A_1\|^\kappa)^{1/n}
