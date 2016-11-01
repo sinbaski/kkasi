@@ -6,6 +6,7 @@
 #include <string>
 #include <random>
 #include <gsl/gsl_math.h>
+#include <gsl/gsl_sf.h>
 #include <gsl/gsl_roots.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_integration.h>
@@ -31,7 +32,8 @@ double g_integral(vector<double> *params)
     gsl_function G;
     G.function = &g;
     G.params = params;    
-    gsl_integration_qag(&G, -1, 1, 0, 1.0e-7, 1000, w, &result, &error);
+    gsl_integration_qag(&G, -1, 1, 0, 1.0e-7, 1000, GSL_INTEG_GAUSS61,
+			w, &result, &error);
     return result;
 }
 
@@ -42,10 +44,11 @@ double g_integral_func(double kappa, void *params)
     V.push_back(kappa);
     // product of alpha_1 and alpha_2
     double a = par->at(1);
-    g_integral(V) - 2 / gsl_sf_gamma(2 * kappa + 1) / pow(a, kappa);
+    double r = g_integral(&V) - 2 / gsl_sf_gamma(2 * kappa + 1) / pow(a, kappa);
+    return r;
 }
 
-double find_tail_index(double rho, doube alpha_prod, double bounds[2])
+double find_tail_index(double rho, double alpha_prod, double bounds[2])
 {
     gsl_root_fsolver *solver;
     gsl_function F;
@@ -76,12 +79,12 @@ double find_tail_index(double rho, doube alpha_prod, double bounds[2])
 
 int main(int argc, char *argv[])
 {
-    for (double rho = 0.1; rho <= 1; rho++) {
-	for (double a = 0.09; a < 0.99; a++) {
-	    double xi = 0.1;
-	    while ()
-	}
-    }
+    // for (double rho = 0.1; rho <= 1; rho++) {
+    // 	for (double a = 0.09; a < 0.99; a++) {
+    // 	    double xi = 0.1;
+    // 	    while ()
+    // 	}
+    // }
 
 
     // for (unsigned i = 0; i < field.size(); i++) {
