@@ -71,6 +71,7 @@ p <- dim(X)[2];
 X <- X - matrix(rep(apply(X, FUN=mean, MARGIN=2), n), nrow=n, ncol=p, byrow=TRUE);
 
 inno <- matrix(NA, nrow=n, ncol=p);
+vola <- matrix(NA, nrow=n, ncol=p);
 params <- matrix(0, nrow=p, ncol=3);
 ## ARCH
 ## params <- matrix(0, nrow=p, ncol=2);
@@ -90,6 +91,7 @@ for (i in 1:p) {
     inno[, i] <- M@residuals / M@sigma.t;
     inno[, i] <- inno[, i] - mean(inno[, i]);
     inno[, i] <- inno[, i] / sd(inno[, i]);
+    vola[, i] <- M@sigma.t;
     ics[i, ] <- M@fit$ics;
 }
 C <- cor(inno);
@@ -106,8 +108,8 @@ for (i in 1:dim(W)[1]) {
     ## eta <- rmvt(n=1, sigma=C, df=4);
     W[i, ] <- eta * sqrt(sig2[i,]);
     if (i < dim(W)[1])
-        sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 1];
-        ## sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 3] * sig2[i, ] + params[, 1];
+        ## sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 1];
+        sig2[i+1, ] <- params[, 2] * W[i, ]^2 + params[, 3] * sig2[i, ] + params[, 1];
 }
 CX <- cov(X);
 E <- eigen(CX);
@@ -118,7 +120,7 @@ D <- eigen(CY);
 CW <- cov(W);
 F <- eigen(CW);
 
-pdf("/tmp/FX_ARCH_eigenvalues.pdf");
+pdf("/tmp/FX_GARCH_eigenvalues.pdf");
 plot(1:p, E$values/sum(E$values), type="p", pch=0,
      main="Spectra of FX and Simulated ARCH(1) Series",
      ylim=c(0, 1),
@@ -145,7 +147,7 @@ dev.off();
 ## dev.off();
 
 
-pdf("/tmp/FX_ARCH_eigenvectors.pdf", width=20, height=10);
+pdf("/tmp/FX_GARCH_eigenvectors.pdf", width=20, height=10);
 par(mfrow=c(2,3));
 mse <- c(0, 0);
 for (i in 1:6) {

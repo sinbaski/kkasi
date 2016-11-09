@@ -15,7 +15,7 @@ getAssetReturns <- function(day1, day2, tables, lag,
 
 getAssetPrices <- function(day1, day2, tables, lag, col.name, host)
 {
-    database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
+    database = dbConnect(MySQL(), user='root', password='q1w2e3r4',
         dbname='avanza', host=host);
     days <- vector('character');
     for (i in 1:length(tables)) {

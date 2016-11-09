@@ -19,11 +19,11 @@ prepare:
 
 .PHONY: igarch
 igarch: $(objdir)/igarch.o
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: arch
 arch: $(objdir)/arch.o
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: all
 all: prepare igarch

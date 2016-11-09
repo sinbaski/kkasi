@@ -125,7 +125,7 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{Agenda}
   \begin{itemize}
   \item A Multivariate GARCH Model with Correlated Innovations (Joint
-    work with Prof. Mikosch)
+    work with Prof. Mikosch and Prof. Wintenberger)
     \begin{enumerate}
     \item Empirical eigen structure fitted to financial data
     \item Theory of the eigen structure.
@@ -157,8 +157,9 @@ University of Copenhagen \\ % Your institution for the title page
 
 \begin{frame}
   \frametitle{Stochastic Volatility Models}
-  \textcolor[HTML]{FF0000}{Add references}
-  
+   Clark (1973), Taylor (1982) among others. Further references found
+   in {\it Handbook of Financial Time Series} (T.G.Andersen,
+   R.A. Davis, J.-P.Krei\ss, T. Mikosch).
   \begin{eqnarray*}
     X_{i,t} &=& \sigma_{i, t} Z_{i, t} \\
     \ln(\sigma_{i,t}) &\bot& (Z_{1, t}, ..., Z_{i, t}, ..., Z_{p,t}) \\
@@ -168,16 +169,44 @@ University of Copenhagen \\ % Your institution for the title page
 
 \begin{frame}
   \frametitle{Linear Combinations of Independent GARCH}
-  \textcolor[HTML]{FF0000}{Add references}
-  
-  Interpreted as factor models: Each independent GARCH process
-  constitutes a {\it factor}.
-  \begin{eqnarray*}
-    X_{i, t} &=& \sum_{k=1}^N C_{i,k} Y_{k, t} + \epsilon_{i, t} \\
-    Y_{k, t} &\sim& \text{GARCH}(p,q) \\
-    \epsilon_{i,t} &\sim& N(0, \sigma_i^2)
-  \end{eqnarray*}
-\end{frame}
+  \begin{minipage}[t]{0.47\linewidth}
+    \begin{scriptsize}
+      \begin{itemize}
+      \item e.g. orthogonal GARCH (O-GARCH) by Kariya (1988) and
+        Alexander and Chibumba (1997)
+      \item Can be interpreted as factor models: Each independent GARCH
+        process constitutes a {\it factor}.
+      \end{itemize}
+      \begin{eqnarray*}
+        X_{i, t} &=& \sum_{k=1}^N C_{i,k} Y_{k, t} + \epsilon_{i, t} \\
+        Y_{k, t} &\sim& \text{GARCH}(p,q) \\
+        \cov(\vec Y) &=& \diag(\sigma_1^2, ..., \sigma_p^2) \\
+        \epsilon_{i,t} &\sim& N(0, \sigma_i^2)
+      \end{eqnarray*}
+      Clearly
+      \[
+      Y_{i,t} \in \mathcal R_{-\kappa_i}
+      \]
+      $\kappa_i$, $i=1,2,...,p$ can be different from each other.
+    \end{scriptsize}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.47\linewidth}
+    \begin{scriptsize}
+    All the series have the same tail index
+    $\min_{i=1,...,p}\{\kappa_i\}$. Suppose
+    \begin{eqnarray*}
+      Y_{i,t}  &\in& \mathcal R_{-\kappa_i} \\
+      Y_{j,t}  &\in& \mathcal R_{-\kappa_j} \\
+      Y_{i,t} &\bot& Y_{j,t} \\
+      \kappa_i &<& \kappa_j
+    \end{eqnarray*}
+    One can show
+    \[
+    a Y_{i, t} + b Y_{j,t} \in \mathcal R_{-\kappa_i}
+    \]
+    \end{scriptsize}
+  \end{minipage}
+  \end{frame}
 
 \begin{frame}
   \frametitle{Multivariate GARCH with Correlated Innovations}
@@ -405,8 +434,8 @@ University of Copenhagen \\ % Your institution for the title page
   \end{minipage}\hfill
   \begin{minipage}[t]{0.55\linewidth}
     \textcolor[HTML]{990033}{Joint regular variation}    
-    Joint distribution of $\vec X = (X_1, X_2, ..., X_p)$ regular varying with
-    index $\alpha$:
+    Joint distribution of $\vec X = (X_1, X_2, ..., X_p)$ regular
+    varying with tail index $\alpha$:
     \[
     \lim_{u \to \infty}
     {
@@ -1382,7 +1411,7 @@ University of Copenhagen \\ % Your institution for the title page
           \Lambda(\alpha) &=& \ln(\lambda(\kappa)) \\
           &=& \lim_{n \to \infty} {1 \over n} \ln \E \|A_n \cdots A_1\|^\alpha
         \end{eqnarray*}
-        Estimation of $\kappa$ is tricker than in 1D.
+        Estimation of $\kappa$ is trickier than in 1D.
       \end{itemize}
   \end{minipage}\hfill
   \begin{minipage}{0.4\linewidth}

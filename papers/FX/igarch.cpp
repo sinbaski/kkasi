@@ -1,3 +1,4 @@
+#include <array>
 #include <stdio.h>
 #include <assert.h>
 #include <cmath>
@@ -24,7 +25,7 @@ double g(double z, void *params)
     double kappa = par->at(2);
     double t1 = z * z;
     double t4 = pow(alpha * t1 + beta, kappa);
-    double t6 = exp(-t1 / 0.2e1);
+    double t6 = exp(-t1 / 2);
     double t7 = t4 * t6;
     return t7;
 }
@@ -255,27 +256,67 @@ void map_product_tail_index(array<array<double, SIZE>, SIZE>& field, double rho)
 
 int main(int argc, char *argv[])
 {
-    array<array<vector<double>, SIZE>, SIZE> field;
-//    array<double, SIZE> uni_indices;
- 
-    for (unsigned i = 0; i < field.size(); i++) {
-//#pragma omp parallel for schedule(dynamic)
-        for (unsigned j = 0; j < field[0].size(); j++) {
-	    double alpha[2];
-	    double err;
-	    alpha[0] = (double)(i + 1) * (double)1/SIZE;
-	    alpha[1] = (double)(j + 1) * (double)1/SIZE;
-	    array<double, 20> expectations;
-	    for (unsigned k = 0; k < expectations.size(); k++) {
-		expectations[k] = f_integral(1.0, k * 0.1 - 1, alpha, 1.0e-4, &err);
-		if (k > 0 && (expectations[k] - 1) * (expectations[k-1] - 1) < 0) {
-		    field[i][j].push_back(k);
-		}
-	    }
+    // array<array<vector<double>, SIZE>, SIZE> field;
+    //  for (unsigned i = 0; i < field.size(); i++) {
+    //     for (unsigned j = 0; j < field[0].size(); j++) {
+    // 	    double alpha[2];
+    // 	    double err;
+    // 	    alpha[0] = (double)(i + 1) * (double)1/SIZE;
+    // 	    alpha[1] = (double)(j + 1) * (double)1/SIZE;
+    // 	    array<double, 20> expectations;
+    // 	    for (unsigned k = 0; k < expectations.size(); k++) {
+    // 		expectations[k] = f_integral(1.0, k * 0.1 - 1,
+    // 					     alpha, 1.0e-4, &err);
+    // 		if (k > 0 &&
+    // 		    (expectations[k] - 1) * (expectations[k-1] - 1) < 0) {
+    // 		    field[i][j].push_back(k);
+    // 		}
+    // 	    }
 	    
-        }
-    }    
-
+    //     }
+    // }    
+    double params[][3] = {
+	{1.366814e-06, 0.03310482, 0.9358017},
+	{2.038972e-07, 0.01293477, 0.9822200},
+	{2.708859e-07, 0.03545281, 0.9594460},
+	{1.407853e-07, 0.01608026, 0.9782595},
+	{9.147443e-07, 0.06907087, 0.8813216},
+	{8.918498e-07, 0.06847178, 0.8834009},
+	{1.438600e-06, 0.06957351, 0.8918505},
+	{3.989110e-07, 0.03910674, 0.9532438},
+	{4.749724e-07, 0.03977590, 0.9491063},
+	{6.842909e-07, 0.05922766, 0.9329871},
+	{1.712851e-06, 0.06050882, 0.9012306},
+	{2.114896e-07, 0.03975273, 0.9509966},
+	{2.497202e-07, 0.02724499, 0.9690956},
+	{1.502953e-07, 0.03094045, 0.9620178},
+	{3.291945e-07, 0.01985854, 0.9736833},
+	{7.333120e-07, 0.05322718, 0.9248166},
+	{3.852082e-07, 0.03907591, 0.9536927}
+    };
+    size_t p = sizeof(params) / sizeof(params[0]);
+    for (size_t i = 0; i < p; i++) {
+	double *p = &params[i][0];
+	double kappa = 3;
+	double bounds[2];
+	vector<double> V(p+1, p+3);
+	if (g_integral_func(kappa, &V) < 0) {
+	    do {
+		kappa *= 2;
+	    } while (g_integral_func(kappa, &V) < 0);
+	    bounds[1] = kappa;
+	    bounds[0] = kappa/2;
+	} else {
+	    do {
+		kappa /= 2;
+	    } while (g_integral_func(kappa, &V) > 0);
+	    bounds[1] = kappa * 2;
+	    bounds[0] = kappa;
+	}
+	kappa = find_tail_index(params[i][1], params[i][2], bounds);
+	printf("%6.3f\n", kappa);
+    }
+    
     // for (unsigned i = 0; i < field.size(); i++) {
     //     for (unsigned j = 0; j < field[0].size(); j++) {
     //         //printf("%8.4f", field[i][j]);
