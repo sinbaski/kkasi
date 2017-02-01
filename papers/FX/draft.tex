@@ -254,9 +254,10 @@ preferences follow Gul's (1991) original disappointment aversion.
 \subsection{power-law utility function}
 In this section we follow Routledge and Zin \cite{routledge2010generalized} and assume
 that the utility function of consumption $C$ is a power function%
-\[
-u(C)=\frac{1}{1-\gamma}C^{1-\gamma}%
-\]
+\begin{equation}
+  \label{eq:power_utility}
+  u(C)=\frac{1}{1-\gamma}C^{1-\gamma}%  
+\end{equation}
 where $\gamma > 0$. For simplicity we assume the investor
 initially has one unit of wealth. Let $r$ be the return on the
 riskless state bond and $X$ be the return on equity. Portfolio weights
@@ -268,7 +269,7 @@ are $\left(1-\phi\right)$ and $\phi$ respectively. Then
   C = (1 - \phi) e^r + \phi e^X
 \end{equation*}
 
-\subsubsection{mildly risk-avert utility function}
+\subsubsection{mildly risk-avert utility functions}
 We first consider the class of utility functions for which $\gamma < 1$.
 In this case $\E u(C) < \infty$ only if the distribution of $X$, call
 it $F(\cdot)$, has a light upper tail. We assume this for the rest of
@@ -355,7 +356,7 @@ Thus after re-arranging terms we get
   {p \over 1 - \gamma} ((1 - \phi) e^r)^{1 - \gamma} \nonumber \\
   &&
   + \sum_{k=0}^\infty
-  {\alpha p \over M^{k+1} ((1 - \phi) e^r)^{\gamma - 1}}
+  {\alpha p ((1 - \phi) e^r)^{1 - \gamma}\over M^{k+1}}
   \prod_{i=0}^{k-1} (\alpha + i)
   \sum_{n=1}^\infty {(-1)^{n-1} \over n! n^{k+1}}
   \left(
@@ -364,11 +365,7 @@ Thus after re-arranging terms we get
   && \prod_{i=1}^{n-1} (\gamma + i - 1)
   \label{eq:xxie1}
 \end{eqnarray}
-Observe that the sum over $n$ does not involve $\alpha$. In the
-following we show this sum is positive for every $k \geq 0$, then it
-is clear from \eqref{eq:xxie1} that $I_3$ and hence
-$u(v) + b u(\delta v)$ is monotonically increasing with $\alpha$. To
-see this, denote
+Observe that the sum over $n$ does not involve $\alpha$. Denote
 \[
 a_n(k) =
 {(-1)^{n-1} \over n! n^{k+1}}
@@ -377,14 +374,7 @@ a_n(k) =
      \right)^n
      \prod_{i=1}^{n-1} (\gamma + i - 1)
 \]
-For each given $k$, $a_n(k)$ is an alternating series. To show the
-positivity of $\sum_n a_n(k)$, it suffices to show
-\[
-  {a_n(k) \over |a_{n+1}(k)|} > 1
-  \quad
-  \text{ for } n=1,3,5,...
-\]
-Direct computation gives
+For each given $k$, $a_n(k)$ is an alternating series.
 \begin{eqnarray*}
   && {a_n(k) \over |a_{n+1}(k)|} \\
   &=& {
@@ -398,17 +388,24 @@ Direct computation gives
   {e^{M + r} (1 - \phi) \over \phi}
 \end{eqnarray*}
 
+If ${e^{M + r} (1 - \phi) \over \phi} > 1$, it is clear
+$a_n(k)/|a_{n+1}(k)| > 1$. It follows that $I_3$ and hence $u(v) +
+u(\delta v)$ is monotonically increasing with $\alpha$. If all
+investors are guided by and hence seek to maximize the same utility
+function, they would all 
+have constructed their portfolios by choosing from a set of equities
+that have tail indices close to the largest in the market. At market
+equilibrium, all actively traded equities would have tail indices that
+are indistinguishable from each other.
 
-Thus we see that
-$u(v) + u(\delta v)$ is monotonically increasing with $\alpha$. If
-all investors are guided by and hence seek to maximize the same
-utility function, they would all have constructed their portfolios by
-choosing from a set of equities that have tail indices close to the
-largest in the market. At market equilibrium, all actively traded
-equities would have tail indices that are indistinguishable from each
-other.
+\textcolor{red}{
+  What happens when ${e^{M + r} (1 - \phi) \over \phi} \leq 1$?
+}
 
-Notice that the summand of \eqref{eq:xxie1} decreases 
+\subsubsection{very risk-avert utility functions}
+In this section we consider power utility functions of
+\eqref{eq:power_utility} with $\gamma > 1$. For convenience, let $ĸ =
+\gamma - 1$.
 
 \section{Review of multivariate GARCH models: same tail index or not}
 Many multivariate GARCH models imply a common tail index for all
