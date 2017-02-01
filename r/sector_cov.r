@@ -13,7 +13,7 @@ assetSet <- "SP500_components";
 
 ## database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
 ##     dbname='avanza', host=Sys.getenv("PB"));
-database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
+database = dbConnect(MySQL(), user='root', password='q1w2e3r4',
     dbname='avanza', host="localhost");
 results = dbSendQuery(database, sprintf("select t1.symbol, t2.sector from
 SP500_components as t1 join company_info as t2 on t1.symbol = t2.symbol where t2.sector='Utilities';",
@@ -42,8 +42,8 @@ for (i in 1:p) {
          garchFit(~garch(1,1),
                   data=X[, i],
                   trace=FALSE,
-                  ## cond.dist="std",
-                  ## shape=9,
+                  cond.dist="std",
+                  shape=6,
                   include.shape=FALSE,
                   include.mean=TRUE,
                   include.delta=FALSE,

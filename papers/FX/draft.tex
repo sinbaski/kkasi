@@ -1,0 +1,1017 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{bookmark}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{wrapfig}
+\usepackage{subcaption}
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+
+\input{../../physics_common}
+\title{Tail Indices and Scale Parameters in Financial Time Series}
+\author{Casper de Vries, Thomas Valentin Mikosch, Xie Xiaolei}
+\date{\today}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We consider an investor with preferences that accord with Generalized
+Disappointment Aversion. Such an investor cares about downside risk and
+we assume he recognizes the heavy tail feature of asset return
+distributions. We argue that when a market is dominated by rational
+investors of this kind, the return distributions of equities that are
+actively traded in this market must have very similar tail indices.
+
+On the other hand, whether or not all equities in a multivariate model
+have the same tail index is a dividing issue for multivariate GARCH
+models proposed in the literature. Therefore, it is important to analyze
+data of real equity returns and see how close to each other the
+tail indices actually are.
+
+In this work empirical results are also presented and they appear
+to support the conclusion that the tail indices are very similar,
+with respect to the confidence bands of estimation.
+\end{abstract}
+
+\section{Introduction}
+It is generally believed that the utility function of an
+investor is increasing and concave -- as John H. Cochrane
+put it, ``the last bite is never as satisfying as the first''
+\cite{cochrane2009asset}. This implies investors are considerably
+more concerned about large losses than are cheered by large gains.
+Furthermore, it is a stylized fact that equity return distributions
+are heavy-tailed (see e.g. Jansen and de Vries \cite{jansen1991frequency}).
+In particular, the lower-tail of an equity distribution is often heavier
+than the upper-tail of the same distribution.
+
+We show in this paper that concerns of the down-side risk and the
+heavy-tail property of equity returns  imply that the lower-tail indices
+of actively traded equities in a rational market must be fairly close to
+one another.
+
+%% A cornerstone of this conclusion is the empirical fact that equity
+%% return distributions are heavy-tailed (see e.g. Jansen and de Vries
+%% (1991) \cite{jansen1991frequency}). If investors and speculators alike
+%% display concern for downside risk, as formulated via a utility function,
+%% it is important to model this risk adequately. 
+
+In section \ref{sec:GDA}, we explicitly recognize the behavioral
+concern for downside risk in the investor's evaluation of portfolios
+using the framework of Generalized Disappointment Aversion (GDA)
+introduced by Routledge and Zin \cite{routledge2010generalized}. GDA
+is an extension of the concept of Disappointment Aversion (DA) of Gul
+(1991) \cite{gul1991theory}. The Gul paper derives the DA from first
+principles (axiomatic).
+
+%% Secondly, the empirical fact that the loss return distribution is
+%% non-normally fat tailed distributed is taken into account.
+%% If investors and speculators alike display concern for downside risk,
+%% as formulated by a utility function, it becomes important to model this 
+%% risk adequately. see e.g. Jansen and de Vries (1991), exhibiting power
+%% like tails rather than exponential tails. The risk is determined both
+%% by the coefficient that regulates the hyperbolic power and the
+%% scale. We reason how both determine the risk of investment apart from
+%% the mean return.
+
+%% \section{Notations}
+%% Here is a summary of the notations that we use in the rest of the paper.
+%% In this summary $x_F$ denotes a quantity whose value that should be
+%% obvious from the context where the notation in question is used.
+%% \begin{itemize}
+%% \item $\sim$ stands for ``asymptotically equivalent to'', i.e.
+%%   $F(x) \sim G(x)$ means
+%%   \[
+%%   \lim_{x \to x_F} {F(x) \over G(x)} = 1
+%%   \]
+%% \item $O(F(x))$ stands for terms of the same order as $F(x)$, i.e.
+%%   \[
+%%   \lim_{x \to x_F } {O(F(x)) \over F(x)} = \text{constant}
+%%   \]
+%% \item $o(F(x))$ stands for terms of higher orders than $F(x)$, i.e.
+%%   \[
+%%   \lim_{x \to x_F } {o(F(x)) \over F(x)} = 0
+%%   \]
+%% \item $\hot$ stands for ``higher order terms'', i.e.
+%%   \[
+%%   \lim_{x \to x_F} {F(x) + \hot \over F(x)} = 1
+%%   \]
+%% \end{itemize}
+
+%% \section{Implications of heavy-tailed equity return}
+%% \label{sec:1}
+%% In this section we consider a rather general utility functional
+%% $U(F)$ associated with the distribution function $F(\cdot)$ of
+%% an equity return $X$. We define $U(F)$ as
+%% \[
+%% U(F) = \E u(X)
+%% \]
+%% for some function $u(\cdot)$ satisfying the following conditions:
+%% \begin{enumerate}
+%% \item $u(\cdot)$ is defined on $\mathbb R$, is increasing, concave
+%%   and differentiable.
+%% \item $u(\cdot)$ is independent of the distribution of $X$
+%% \item $\lim_{x \to \infty} u(x) = \bar u$, where $\bar u$ is a
+%%   constant
+%% \end{enumerate}
+%% %% An exampple of such utility functions is
+%% %% \[
+%% %% u(x) = \bar u - e^{-\lambda x}
+%% %% \]
+%% %% for some $\lambda > 0$.
+%% In addition we assume $F(\cdot)$ has the following properties:
+%% \begin{enumerate}
+%% \item $\lim_{x \to -\infty} F(x) u(x) = 0$
+%% \item $\lim_{x \to -\infty} {|x|^\alpha F(x) \over L(|x|)} = 1$
+%% \item $\lim_{x \to \infty} {x^\alpha (1 - F(x)) \over L(x)} = 1$
+%% \end{enumerate}
+%% for some $\alpha > 1$ and some slowly varying function $L(x) > 0$
+%% defined on $\mathbb R_+$.
+%% $\E u(X)$ can be computed as follows
+%% \begin{eqnarray*}
+%%   && \E u(X) \\
+%%   &=& \int_{-\infty}^{\infty} u(x) d F(x) \\
+%%   &=& \left. u(x) F(x) \right|_{-\infty}^{\infty}
+%%   - \int_{-\infty}^\infty F(x) u'(x) dx \\
+%%   &=& \bar u - \left(
+%%   \int_{-\infty}^{-M} + \int_{-M}^{M} + \int_{M}^{\infty}
+%%   \right) F(x) u'(x) dx
+%% \end{eqnarray*}
+%% As $M \to \infty$ we have for the lower-tail integral
+%% \begin{eqnarray*}
+%%   && \int_{-\infty}^{-M} F(x) u'(x) dx \\
+%%   &\sim& \int_{-\infty}^{-M} L(|x|) |x|^{-\alpha} u'(x) dx \\
+%%   &=& \int_{M}^{\infty} L(x) x^{-\alpha} u'(-x) dx \\
+%% \end{eqnarray*}
+%% Applying the same calculation to the upper-tail integral and
+%% using $1 - F(x) \sim L(x) x^{-\alpha}$ yields
+%% \begin{eqnarray}
+%%   && \E u(X) \nonumber \\
+%%   &=& \bar u - \int_{M}^\infty L(x) x^{-\alpha} u'(-x) dx
+%%   -\int_{-M}^M F(x) u'(x) dx \nonumber \\
+%%   && -\int_{M}^\infty [1 - L(x) x^{-\alpha}] u'(x) dx
+%%   + \hot \nonumber \\
+%%   &=& u(M) - \int_{M}^\infty L(x) x^{-\alpha} [u'(-x) - u'(x)] dx
+%%   + \hot \nonumber \\
+%%   && - \int_{-M}^M F(x) u'(x) dx \label{eq:xxie0}
+%% \end{eqnarray}
+%% In the simple case where $L(x) = A$, i.e. a constant, we have
+%% \begin{eqnarray}
+%%   \pd{\E u(X)}{\alpha} &=& \int_M^{\infty} A x^{-\alpha} \ln(x)
+%%      [u'(-x) - u'(x)] dx +\hot \nonumber \\
+%%      \pd{\E u(X)}{A} &=& -\int_M^{\infty} x^{-\alpha} [u'(-x) - u'(x)] dx
+%%      + \hot
+%%   \label{eq:xxie01}   
+%% \end{eqnarray}
+%% By concavity $u'(-x) > u'(x)$ for $x \in (M, \infty)$. So for large
+%% $M$,
+%% \[
+%% \pd{\E u(X)}{\alpha} > 0, \quad \pd{\E u(X)}{A} < 0
+%% \]
+%% %% \begin{eqnarray*}
+%% %%   \pd{\E u(X)}{\alpha} &>& 0 \\
+%% %%   \pd{\E u(X)}{A} &<& 0
+%% %% \end{eqnarray*}
+%% Now that each and every equity is assigned a score by the utility
+%% functional, all equities actively traded in a rational market that
+%% is dominated by agents exhibiting a utility function must have almost
+%% equal scores -- otherwise trading will be concentrated on those
+%% with top scores.
+
+%% Suppose the equity with the highest score in the market has parameters
+%% $(\alpha, A)$. We would like to find out how these parameters vary across
+%% equities that score almost as high. Consider a parameter pair
+%% $(\alpha + \Delta \alpha, A + \Delta A)$. If it scores the same as
+%% $(\alpha, A)$, we have
+%% \[
+%% 0 = \Delta \E u(X) = \Delta \alpha \pd{\E u(X)}{\alpha}
+%% + \Delta A \pd{\E u(X)}{A} + \hot
+%% \]
+%% Discarding higher order terms and plugging \eqref{eq:xxie01} into
+%% this equation gives
+%% \[
+%%   {\Delta \alpha \over \Delta A}
+%%   =
+%%   {
+%%     \int_M^{\infty} x^{-\alpha} [u'(-x) - u'(x)] dx    
+%%     \over
+%%     \int_M^{\infty} A x^{-\alpha} \ln(x) [u'(-x) - u'(x)] dx    
+%%   }
+%% \]
+%% Taking the limit as $M \to \infty$, we get
+%% \[
+%% \lim_{M \to \infty} {\Delta \alpha \over \Delta A}
+%% =
+%% \lim_{M \to \infty} {1 \over A \ln(M)} = 0
+%% \]
+%% We see from the last equation that in the configuration space around
+%% $(\alpha, A)$, a small variation of $\alpha$ induces a tremendous
+%% variation of $A$. Furthermore, this conclusion does not depend on the
+%% choice of the function $u(\cdot)$. Thus in a market dominated by rational
+%% agents guided by their utility functionals, we can expect to see very
+%% similar tail indices but hugely different scale parameters in equity
+%% return distributions.
+
+%% %% Due to concavity, $u'(-x) > u'(x)$ on the interval $(M, \infty)$.
+%% %% The central region integral on $(-M, M)$ does not depend on $\alpha$.
+%% %% So $\E u(X)$ is monotonically increasing with $\alpha$. Trying to
+%% %% maximize his utility function, an agent will seek the largest $\alpha$
+%% %% possible in the market. As a result, all equities traded with significant
+%% %% volumes must eventually become so close that they are indistinguishable
+%% %% by available statistical methods.
+
+%% In section \ref{sec:GDA}, we compute the utility function within the
+%% elaborate framework of {\it Generalized Disappointment Aversion} and
+%% show that the same conclusion stands -- tail indices are similar while
+%% scale parameters can be drastically different.
+
+\section{Generalized disappointment aversion}
+\label{sec:GDA}
+Routledge and Zin (2010) \cite{routledge2010generalized} define the GDA
+preferences over discrete states in their formula (2). A slight extension
+is to consider a continuum of possible states. Suppose the state variable
+$C$ is continuously supported on $(0, \infty)$ and has distribution
+function $G(\cdot)$. The utility function of an agent exhibiting GDA
+preferences reads
+\begin{equation}
+  u(v)= \E u(C) - b \int_{0}^{\delta v}
+  \left[ u(\delta v) - u(x) \right] dG(x)\label{11}%
+\end{equation}
+where $\delta > 0$, and $v>0$. Equivalently
+\begin{equation}
+  \label{eq:xxie0}
+  u(v) = \E u(C) - b \E[u(\delta v) - u(C); C < \delta v]
+\end{equation}
+Here $v$ can be thought of as the certainty payoff equivalent to the
+risky payoff $C$. Note that when $b=0$, 
+preferences are expected utility; when $\delta=1$ and $b>0$,
+preferences follow Gul's (1991) original disappointment aversion.
+
+\subsection{power-law utility function}
+In this section we follow Routledge and Zin \cite{routledge2010generalized} and assume
+that the utility function of consumption $C$ is a power function%
+\[
+u(C)=\frac{1}{1-\gamma}C^{1-\gamma}%
+\]
+where $\gamma > 0$. For simplicity we assume the investor
+initially has one unit of wealth. Let $r$ be the return on the
+riskless state bond and $X$ be the return on equity. Portfolio weights
+are $\left(1-\phi\right)$ and $\phi$ respectively. Then
+\begin{equation*}
+  %% u(C)=\frac{1}{1-\gamma}V^{1-\gamma} \max \left\{
+  %% 0, 1 + (1-\phi) r  +\phi X
+  %% \right\}^{1-\gamma} \label{3}%
+  C = (1 - \phi) e^r + \phi e^X
+\end{equation*}
+
+\subsubsection{mildly risk-avert utility function}
+We first consider the class of utility functions for which $\gamma < 1$.
+In this case $\E u(C) < \infty$ only if the distribution of $X$, call
+it $F(\cdot)$, has a light upper tail. We assume this for the rest of
+this section.
+
+We note that utility functions with $\gamma < 1$ represent investors
+who are less risk-avert than are those represented by utility
+functions with $\gamma > 1$.
+
+Formally, we assume
+\begin{equation*}
+  F(x) = \left\{
+  \begin{array}{lr}
+    p M^\alpha/|x|^\alpha & \text{ if } x < -M \\
+    F_u(x) & \text{ if } x \geq -M \\
+  \end{array}
+  \right.
+\end{equation*}
+where $0 < p < 1$ is a constant; $\alpha > 1$, $M > 1$ and $F_u(\cdot)$
+is some distribution function satisfying
+\begin{itemize}
+\item $F_u(-M) = p$
+\item
+  \[
+  \int_{-M}^\infty [(1 - \phi) e^r + \phi e^x]^{1 - \gamma} d F_u(x) < \infty
+  \]
+\end{itemize}
+%% In addition we assume
+%% \begin{equation}
+%%   \label{eq:xxie0.1}
+%% \phi < {4 e^{M + r} \over 4 e^{M + r} + 1}
+%% \end{equation}
+
+Rewriting \eqref{eq:xxie0} gives
+\begin{eqnarray*}
+  u(v) + b u(\delta v) &=& \E u(C) + b \E [u(C); C < \delta v] \\
+  &=& \alpha p M^\alpha{1 + b \over 1 - \gamma}\int_{-\infty}^{-M}
+  [(1 - \phi) e^r + \phi e^x]^{1 - \gamma} |x|^{-\alpha-1} dx \\
+  && + {1 + b \over 1 - \gamma}\int_{-M}^{\delta v}
+  [(1 - \phi) e^r + \phi e^x]^{1 - \gamma} d F_u(x) \\
+  && + \int_{\delta v}^{\infty}
+  [(1 - \phi) e^r + \phi e^x]^{1 - \gamma} d F_u(x) \\
+  &=& I_1 + I_2 + I_3
+\end{eqnarray*}
+Only the first term $I_1$ involves the tail parameters $\alpha$
+and $M$ in which we are interested, so we will only compute this
+term. The integral of $I_1$ can be written as
+\begin{eqnarray*}
+&& \int_{-\infty}^{-M}
+[(1 - \phi) e^r + \phi e^x]^{1 - \gamma} |x|^{-\alpha-1} dx \\
+&=& \int_{M}^{\infty}
+[(1 - \phi) e^r + \phi e^{-x}]^{1 - \gamma} x^{-\alpha-1} dx
+\end{eqnarray*}
+Taylor expansion at $\phi e^{-x} = 0$ gives
+\begin{eqnarray*}
+  && [(1 - \phi) e^r + \phi e^{-x}]^{1 - \gamma} \\
+  &=& ((1 - \phi) e^r)^{1 - \gamma}
+  + \sum_{n=1}^{\infty} {1 \over n!}
+  {\Gamma(2 - \gamma) \over \Gamma(2 - n -\gamma)}
+  ((1 - \phi) e^r)^{1 - n - \gamma} \phi^n e^{-n x}
+\end{eqnarray*}
+Therefore
+\begin{eqnarray*}
+&& \int_{-\infty}^{-M}
+[(1 - \phi) e^r + \phi e^x]^{1 - \gamma} |x|^{-\alpha-1} dx \\
+&=&
+{1 \over \alpha} M^{-\alpha} ((1 - \phi) e^r)^{1 - \gamma}
++ \sum_{n=1}^{\infty} {1 \over n!}
+{\Gamma(2 - \gamma) \over \Gamma(2 - n -\gamma)}
+((1 - \phi) e^r)^{1 - n - \gamma} n^\alpha \Gamma(-\alpha, n M)
+\end{eqnarray*}
+where $\Gamma(\alpha, x)$ is the upper incomplete gamma
+function. For $x > 1$, this function may be expressed as (equation
+8.11.2 of {\it NIST Digital Library of Mathematical Functions}
+\cite{NIST.DLMF})
+\[
+\Gamma(a, z) = z^{a - 1} e^{-z}
+\sum_{k=0}^\infty (-1)^k {\Gamma(a) \over \Gamma(a - k)} z^{-k}
+\]
+Thus after re-arranging terms we get
+\begin{eqnarray}
+  {1 \over 1 + b} I_3
+  &=&
+  {p \over 1 - \gamma} ((1 - \phi) e^r)^{1 - \gamma} \nonumber \\
+  &&
+  + \sum_{k=0}^\infty
+  {\alpha p \over M^{k+1} ((1 - \phi) e^r)^{\gamma - 1}}
+  \prod_{i=0}^{k-1} (\alpha + i)
+  \sum_{n=1}^\infty {(-1)^{n-1} \over n! n^{k+1}}
+  \left(
+  {\phi \over e^{M + r} (1 - \phi)}
+  \right)^n \times \nonumber \\
+  && \prod_{i=1}^{n-1} (\gamma + i - 1)
+  \label{eq:xxie1}
+\end{eqnarray}
+Observe that the sum over $n$ does not involve $\alpha$. In the
+following we show this sum is positive for every $k \geq 0$, then it
+is clear from \eqref{eq:xxie1} that $I_3$ and hence
+$u(v) + b u(\delta v)$ is monotonically increasing with $\alpha$. To
+see this, denote
+\[
+a_n(k) =
+{(-1)^{n-1} \over n! n^{k+1}}
+\left(
+     {\phi \over e^{M + r} (1 - \phi)}
+     \right)^n
+     \prod_{i=1}^{n-1} (\gamma + i - 1)
+\]
+For each given $k$, $a_n(k)$ is an alternating series. To show the
+positivity of $\sum_n a_n(k)$, it suffices to show
+\[
+  {a_n(k) \over |a_{n+1}(k)|} > 1
+  \quad
+  \text{ for } n=1,3,5,...
+\]
+Direct computation gives
+\begin{eqnarray*}
+  && {a_n(k) \over |a_{n+1}(k)|} \\
+  &=& {
+    e^{M + r} (1 - \phi) (n+1)^{k+2}
+    \over
+    \phi n^{k+1} (n + \kappa - 1)
+  } \\
+  &=&
+  \left(1 + {2 - \kappa \over n + \kappa - 1}\right)
+  \left( 1 + {1 \over n} \right)^{k+1}
+  {e^{M + r} (1 - \phi) \over \phi}
+\end{eqnarray*}
+
+
+Thus we see that
+$u(v) + u(\delta v)$ is monotonically increasing with $\alpha$. If
+all investors are guided by and hence seek to maximize the same
+utility function, they would all have constructed their portfolios by
+choosing from a set of equities that have tail indices close to the
+largest in the market. At market equilibrium, all actively traded
+equities would have tail indices that are indistinguishable from each
+other.
+
+Notice that the summand of \eqref{eq:xxie1} decreases 
+
+\section{Review of multivariate GARCH models: same tail index or not}
+Many multivariate GARCH models imply a common tail index for all
+series under consideration, e.g. the Orthogonal GARCH model of
+Alexander and Chibumba (1997) \cite{alexander1997multivariate}, its
+generalization GO-GARCH of van der Weide (2002) \cite{van2002go}, as
+well as the Full Factor GARCH model of Vrontos et al (2003)
+\cite{vrontos2003full} and the Generalized Orthogonal Factor GARCH
+model of Lanne and Saikkonen (2007) \cite{lanne2007modeling}. These
+models are characterized by their treatment of each series as a linear
+combination of factors, and each of the factors is modeled as a GARCH
+process. As a result of this treatment, each and every series under
+consideration necessarily has the lowest of the tail indices of its
+contributing factors (cf. Mikosch (2013) \cite{Mikosch2013} as well
+as Andersen, Davis, Kreiss and Mikosch (2009)
+\cite{andersen2009handbook}).
+
+In contrast, several other multivariate volatility models imply, in
+general, different tail indices for different series. For example, the
+Constant Conditional Correlation (CCC-) GARCH model of Bollerslev
+(1990) \cite{bollerslev1990modelling} specifies, for a $d$-dimensional
+series $\vec X_t$
+\begin{eqnarray}
+  \cov(X_{i,t}, X_{j,t}) &=& \sqrt{h_{i,t} h_{j,t}} \rho_{i,j}
+  \nonumber \\
+  h_{i,t} &=& \omega_i + \sum_{l=1}^q A_{i,l} X_{i, t-l}^2 +
+  \sum_{l=1}^p B_{i,l} h_{i, t-l} \label{eq:CCC-GARCH}
+\end{eqnarray}
+Consider the simple case when $p=q=1$. Assume
+$X_{i, t} = \sqrt h_{i,t} Z_{i,t}$, $Z_{i, t}$ are iid for
+all $t \in \mathbb Z$, and $\P(|Z_{i,t}| > u)/\P(\sqrt h_{i,t} > u) \to 0$ as
+$u \to \infty$. Then the tail index of the stationary distribution of
+$X_{i,t}$, call it $\kappa_i$, is given by
+\[
+\E (A_{i, 1} Z^2 + B_{i, 1})^{\kappa_i / 2} = 1
+\]
+where $Z \overset{d}{=} Z_{i,t}$.
+Provided $(A_{i,1}, B_{i,1}) \neq (A_{j,1}, B_{j,1})$, it is clear
+$\kappa_i \neq \kappa_j$.
+
+As an extension to the CCC-GARCH model, Jeantheau (1998)
+\cite{jeantheau1998strong} proposed his Extended CCC-GARCH by
+modifying \eqref{eq:CCC-GARCH} to
+\begin{equation}
+  \label{eq:ECCC-GARCH}
+  \vec h_t =
+  \sum_{l=1}^q \mtx A_{l} (\vec X_{t-l} \odot \vec X_{t-l})
+  +
+  \sum_{l=1}^p \mtx B_{l} \vec h_{t-l}
+  +
+  \vec \omega
+\end{equation}
+where $\mtx A_l$ and $\mtx B_l$ are non-diagonal $d \times d$ matrices
+and $\odot$ denotes element-wise multiplication. In the simple case $p=q=1$,
+equation \eqref{eq:ECCC-GARCH} reduces to
+\begin{eqnarray*}
+  h_{i,t} &=&
+  \sum_{j=1}^d A_{i,j} X_{j, t-1}^2
+  + \sum_{j=1}^d B_{i,j} h_{j, t-1}
+  + \omega_i
+\end{eqnarray*}
+or in vector form
+\begin{eqnarray}
+  \vec h_t &=& \left[
+    \mtx A \diag(Z_{1, t-1}^2, \dots, Z_{d, t-1}^2) + \mtx B
+    \right] \vec h_{t-1} + \vec \omega
+  \label{eq:ECCC-GARCH2}
+\end{eqnarray}
+On appropriate conditions, \eqref{eq:ECCC-GARCH2} implies the
+components of $\vec h_t$ are jointly regularly varying with some index
+$\kappa$ as $t \to \infty$. This is a direct result of the Kesten-Goldie
+theorem (cf. Kesten (1973)\cite{Kesten1973}). Thus all series under
+consideration have the same tail index $\kappa$.
+
+In summary, whether or not a common tail index is shared by all
+series is a dividing issue for multivariate GARCH
+models. Nevertheless, economic theoretical arguments are supportive of
+a common tail index for all series. Therefore, it is important to
+gather statistical evidence from financial time series if the issue is
+to be settled definitely.
+
+\section{Hill Estimator}
+%% TODO: Show Hill estimates of real and simulated data with confidence
+%% band. Argue that all estimated tail indices are indistinguishable
+%% given the confidence band.
+There have been several estimators for the tail index proposed in the
+literature, e.g. Hill (1975) \cite{hill1975simple}, Pikands (1975)
+\cite{pickands1975statistical}, Dekkers and Einmahl and De Haan (1989)
+\cite{dekkers1989moment}. See also Embrechts and Kl\"uppelberg and
+Mikosch (1997)\cite{Embrechts1997}. The most popular of these is
+arguably Hill (1975) \cite{hill1975simple}:
+\[
+\hat \alpha = \left[
+  {1 \over k} \sum_{i=1}^k \ln {x_{(i)} \over x_{(k+1)}}
+  \right]^{-1}
+\]
+where $x_{(i)}$ is the $i$-th upper order statistic of a sample
+$x_1, x_2, ..., x_n$. It has been shown that the Hill estimator is
+applicable to 
+\begin{itemize}
+\item iid random variables (Mason (1982) \cite{mason1982laws})
+\item a weakly dependent sequence (Rootz{\'e}n, Leadbetter,
+  and de Haan \cite{rootzen1992tail})
+\item a linear process (Resnick and St{\u{a}}ric{\u{a}} (1995)
+  \cite{resnick1995consistency}).
+\end{itemize}
+In these cases it is shown that, if $k \to \infty$ and $k/n \to 0$
+as $n \to \infty$, the Hill estimator is weakly consistent, i.e.
+\[
+\sqrt k (\hat \alpha - \alpha) \overset{d}{\to} N(0, \alpha^2)
+\]
+
+%% with continuous and strictly increasing
+%% distribution function $F(\cdot)$. Cheng and Peng (2001)
+%% \cite{cheng2001confidence} showed asymptotic normal distribution of
+%% the estimator $\alpha_n$:
+%% \begin{proposition}\label{prop:Hill_asymp_dist}
+%%   Suppose $X_1, ..., X_n$ are independent identically distributed and
+%%   their distribution function $F(\cdot)$ satisfies, as $x \to \infty$,
+%%   \[
+%%   1 - F(x) = A x^{-\alpha} [1 + B x^{-\beta} + o(x^{-\beta})]
+%%   \]
+%%   where $A, \alpha, \beta > 0$ and $B \neq 0$. Then
+%%   \[
+%%   \sqrt k (1/\alpha_n - 1/\alpha) \overset{d}{\to}
+%%   N(0, {1 \over \alpha^2})
+%%   \]
+%%   if and only if $k(n) \to \infty$ and $k(n) = o(n^{2\beta/(\alpha +
+%%     2\beta)})$.
+%% \end{proposition}
+%% \begin{proof}
+%%   This is proposition 1 of Cheng and Peng (2001)
+%%   \cite{cheng2001confidence}. See also Embrechts et al (1997)
+%%   \cite{Embrechts1997}.
+%% \end{proof}
+
+\section{Peaks over Threshold}
+An alternative to the Hill estimator is the method of ``Peaks over
+Threshold'' (cf. Embrechts et al (1997)
+\cite{Embrechts1997}). Consider random variable $X$ whose distribution
+satisfies 
+\[
+\P(X > x) = A (x + a)^{-\alpha}
+\]
+for all $x > M$ for some $M > 0$. Then it immediately follows
+\begin{eqnarray*}
+  \P(X > u + x)
+  &=& A (u + a)^{-\alpha} \left(
+  {x \over u + a} + 1
+  \right)^{-\alpha} \\
+  \P(X > u + x | X > u) &=& \left(
+    {x \over u + a} + 1
+    \right)^{-\alpha}
+\end{eqnarray*}
+The density function of the above conditional probability is
+\[
+f_u(x) = {
+  \alpha \over x + u + a
+} \left(
+{x \over u + a} + 1
+\right)^{-\alpha}
+\]
+
+Now suppose we have a sample $X_1, ..., X_N$ where $X_1, ..., X_n > u$
+and $X_i - u = x_i > 0$, for $i=1,2,...,n$. Using the above
+conditional density function, the log-likelihood function of the
+parameters $\alpha$ and $a$ can be found:
+\[
+L(u, a) = -(1 + \alpha) \sum_{i=1}^n \ln(x_i + u + a) +
+u \alpha \ln(u + a) + n \ln(\alpha)
+\]
+It follows
+\begin{eqnarray*}
+  \pd{L(\alpha, a)}{\alpha} &=& \sum_{i=1}^n \ln(x_i + u + a)
+  + n \ln(u + a) + n/\alpha \\
+  \pd{L(\alpha, a)}{a} &=&
+  -(1 + \alpha) \sum_{i=1}^n {1 \over x_i + u + a}
+  + {n \alpha \over u + a}
+\end{eqnarray*}
+Setting the two derivatives to 0 gives
+\begin{eqnarray*}
+  \left[
+    {1 \over n} \sum_{i=1}^n \ln(x_i + u + a)
+    - \ln(u + a)
+    \right]^{-1} &=& \alpha\\
+  \left[
+    {1 \over n} \sum_{i=1}^n (y_i + 1)
+    \right] \left[
+    {1 \over n} \sum_{i=1}^n e^{-y_i}
+    \right] &=& 1
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+  y_i &=& \ln\left(
+  {x_i \over u + a} + 1
+  \right)
+\end{eqnarray*}
+Solving the last equation numerically and substituting the result into
+the first one gives an estimate for $\alpha$ and $a$, call them $\hat
+\alpha$ and $\hat a$. Once $\hat \alpha$ and $\hat a$ have been
+obtained, an estimate of $A$, call it $\hat A$, can be obtained by
+the method of minimum mean square error.
+\begin{eqnarray*}
+  \hat P(X > x) = {1 \over N} \sum_{i=1}^N \1{X_i > x}
+  &=& \hat A (x + \hat a)^{-\hat \alpha} \\
+  \ln[\hat P(X > x)] &=& \ln(\hat A) - \hat \alpha \ln(x + \hat a)
+\end{eqnarray*}
+for all $x > M$. Using the upper order statistics of the
+sample $X_1, ..., X_N$, we have
+\[
+\ln\left({k-1 \over N}\right)
+=
+\ln(\hat A) - \hat \alpha \ln(X_{(k)} + \hat a)
+\]
+where $X_{(k)}$ denotes the $k$-th upper order statistic of the
+sample. Thus, by fitting $\ln\left({k-1 \over N}\right)$ as a linear
+function of $\ln(X_{(k)} + \hat a)$, one can find $\ln(\hat A)$ as the
+intercept.
+
+Before computing the estimates, one should certainly check whether the
+model makes sense for a given data series. One way to do this is to
+plot the {\it mean excess function}. For the tail function in the
+above, it follows
+\begin{eqnarray}
+  e(u) &=& \E (X - u | X > u) \nonumber \\
+  &=& -\int_0^\infty x  d\P(X > u + x | X > u) \nonumber \\
+  &=& \int_0^\infty \left(
+  {x \over u + a} + 1
+  \right)^{-\alpha} dx \nonumber \\
+  &=& {u + a \over \alpha - 1} \label{eq:MEF}
+\end{eqnarray}
+where we assume $\alpha > 1$ so that the conditional expectation is
+finite. It is seen from this formula that mean excesses are linear in
+the thresholds $u$ -- this may prompt discarding the farthest tail
+part of the data when carrying out estimation.
+%% The appearance of these data points are so rare that
+%% including them in the statistics significantly increases the variance
+%% of the estimate. This is analogous to the large variance of the Hill
+%% estimator when the number of upper order statistics used in the
+%% estimation is too small.
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \centering
+  \includegraphics[width=0.45\textwidth]{ADM_MEF.pdf}
+  \caption{\scriptsize The mean excess function of ADM. Thresholds are
+    taken from upper order statistics.}
+  \label{fig:ADM_MEF}
+\end{wrapfigure}
+
+For example, figure (\ref{fig:ADM_MEF}) shows the mean
+excess function of the return series of the stock of {\it
+  Archer-Daniels-Midland Co}, a company in the {\it Consumer Staples}
+sector of S\&P 500 index.
+One can see that the 8 largest observations of the sample are
+inconsistent with the linear pattern with slope $1/(\alpha - 1)$.
+%% So we would rather not include them in the maximum likelihood
+%% estimation.
+
+It is also possible to directly use equation \eqref{eq:MEF} as a means
+of estimation. After picking out a portion of the mean excess function
+that is consistent with \eqref{eq:MEF}, one may fit a linear function
+to the empirical $\hat e(u)$ by minimizing the mean square error, and
+obtain parameter estimates from the coefficients of the fitted line.
+  %% \adjustbox{valign=t} {
+  %%   \begin{minipage}[t]{0.45\textwidth}
+  %%   \end{minipage}
+  %% }\hfill
+  %% \adjustbox{valign=t} {
+  %%   \begin{minipage}[t]{0.5\textwidth}
+  %%   \end{minipage}
+  %% }
+\section{Pickand's Estimator}
+Pickands (1975) \cite{pickands1975statistical} proposed a different
+approach to estimate the tail index than that of Hill. Assume
+$\{x_i\}_{i=1}^n$ are samples from the distribution of $X$ and let $U(t)$
+denote the quantile of $1 - 1/t$ of this distribution, i.e.
+\[
+P(X > U(t)) = {1 \over t}
+\]
+The key idea of Pickands' estimator is to observe
+\[
+\lim_{t \to \infty} {
+  U(c(t) t) - U(t)
+  \over
+  U(t) - U(t/c(t))
+} = 2^{1/\alpha}
+\]
+for any function $c(t)$ satisfying $c(t) \to 2$ as $t \to \infty$.
+Pickands formulated the estimation problem in terms of the extreme
+value index $\xi$, which is the reciprocal of the tail index $\alpha$
+when the distribution of $X$ is regularly varying (cf. Embrechtsm,
+Kl\"uppelberg and Mikosch \cite{Embrechts1997}).
+
+Building upon the aforementioned observation and taking $c(t)$ to
+be simply constant 2, Pickands proposed the following estimator for
+$\xi$:
+\[
+\hat \xi = {1 \over \ln 2} \ln {
+  x_{(k)} - x_{(2k)}
+  \over
+  x_{(2k)} - x_{(4k)}
+}
+\]
+Dekkers and de Haan (1989) later showed \cite{dekkers1989estimation}
+that Pickands' estimator was consistent in both the weak and the strong
+sense, when the sequence $k(n)$ was chosen appropriately:
+\begin{itemize}
+\item if $k \to \infty$ and $k/n \to 0$ as $n \to \infty$,
+  \[
+  \hat \xi \overset{P}{\to} \xi
+  \]
+\item if $k \to \infty$, $k/n \to 0$ and $k / \ln(\ln n) \to \infty$
+  as $n \to \infty$,
+  \[
+  \hat \xi \overset{a.s.}{\to} \xi
+  \]
+\end{itemize}
+Dekkers and de Haan \cite{dekkers1989estimation} also showed the
+asymptotic normality of the estimator, when some
+extra technical conditions were satisfied by
+$U(\cdot)$ and $k(n) \to \infty$ yet grew sufficiently slowly, i.e.
+\[
+\sqrt k (\hat \xi - \xi) \overset{d}{\to} N(0, v(\xi))
+\]
+where
+\[
+v(\xi) = {
+  \xi^2 (2^{2 \xi + 1} + 1)
+  \over
+  [2 \ln(2) (2^\xi - 1)]^2
+}
+\]
+
+
+\section{Hoga Test}
+%% TODO: Show the test statistics of Hoga test applied to a sequence of
+%% two concatenated return series. A changes in the scale is characterized
+%% by a smooth bump in the test statistics while a change in the tail
+%% index is characterized by a jump. Derive a theoretical result to
+%% support this?
+
+%% What is the probability of rejecting the null hypothesis when the test
+%% is applied to $(X_1, X_2)$ where $X_1$ and $X_2$ have tail indices
+%% $\kappa_1 \neq \kappa_2$? The probability of wrongly rejecting the
+%% null hypothesis must be lower than $\alpha$.
+\textcolor{red}{Review the test of Hoga}
+
+\section{Data Analysis}
+\subsection{Tail index and scale parameter}
+In this section we apply the statistical tools reviewed in the
+previous sections to real stock return series, denoted $X_t$
+hereafter. We are interested in finding out the tail indices and the
+scale parameters of the stationary distribution of $|X_t|$.
+
+%% and show that, within a
+%% comfortable confidence interval, one cannot reject the null hypothesis
+%% that these return series have the same tail index.
+
+\subsubsection{The Energy and the Consumer Staples sectors of S\&P 500}
+Figure \ref{fig:Energy_Hill_upper} shows the Hill estimates of the
+tail indices of 32 stocks in the {\it Energy} sector of S\&P 500
+index; figure \ref{fig:Consumer_Staples_Hill_upper} shows the same of
+the {\it Consumer Staples} sector.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{Energy_Hill_upper.pdf}
+  \caption{Hill estimates of the upper tail indices of 32 stocks'
+    daily return series in the {\it Energy} sector of Standard \& Poor
+    500 index. Each circle coresponds to a Hill estimate; the grey
+    triangles above and below it mark the 97.5\% and 2.5\% quantiles
+    of its approximate normal distribution.
+    The low and high red lines mark the median of the 2.5\% quantiles
+    and median of the 97.5\% quantiles, respectively.
+    The data are from {\it Yahoo Finance} and the labels on
+    the horizontal axis are Yahoo symbols of the stocks. The data span
+    from 2010-01-01 to 2015-01-01 and comprise $n=1304$
+    observations. $k=(\ln n)^2 = 49$ upper order statistics are used
+    for computing $\alpha_n$. 
+  }
+  \label{fig:Energy_Hill_upper}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{Consumer_Staples_Hill_upper.pdf}
+  \caption{Hill estimates of the upper tail indices of 30 stocks'
+    daily return series in the {\it Consumer Staples} sector of
+    Standard \& Poor 500 index.
+  }
+  \label{fig:Consumer_Staples_Hill_upper}
+\end{figure}
+For our purpose, we have excluded a few stocks, though:
+\begin{figure}[htb!]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{WBA_price.pdf}
+    \caption{{\it Walgreens Boots Alliance} prices}
+    \label{fig:EBA_prices}
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{WFM_price.pdf}
+    \caption{{\it Whole Foods Market} prices}
+    \label{fig:WFM_prices}
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{EL_price.pdf}
+    \caption{{\it Estee Lauder Cos.} prices}    
+    \label{fig:EL_prices}
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{CL_price.pdf}
+    \caption{{\it Colgate-Palmolive} prices}    
+    \label{fig:CL_prices}
+  \end{subfigure}
+  \caption{Plot of prices of {\it Consumer Staples} stocks
+    excluded from Hill estimates}
+\end{figure}
+
+\begin{itemize}
+\item {\it Walgreens Boots Alliance}:
+
+  As shown in figure (\ref{fig:EBA_prices}),
+  this stock was traded only in a small fraction of the bank
+  days and it is hence no surprise that the price varied
+  tremendously.
+\item {\it Whole Foods Market}, {\it Estee Lauder Cos.} and {\it
+  Colgate-Palmolive}
+  
+  As seen in figures (\ref{fig:WFM_prices}), (\ref{fig:EL_prices}) and
+  (\ref{fig:CL_prices}),
+  the prices of these stocks were reduced by half during the
+  period under consideration. But the price changes are the
+  result of emission of new shares rather than random fluctuations.
+\end{itemize}
+
+Figure \ref{fig:Energy_Hill_upper} and
+\ref{fig:Consumer_Staples_Hill_upper}
+are suggestive of the conclusion that excluding price
+movements due to deterministic events, tail indices of stock return
+series tend to have the same value, within a reasonable confidence
+interval.
+
+If we look instead at the scales, differences among the stock return
+series are however rather large. Figure (\ref{fig:Energy_Hill_Scales})
+and (\ref{fig:Consumer_Staples_Hill_Scales}) show the Hill estimates of
+the scale parameters of the stocks in the S\&P 500 {\it Energy} and
+{\it Consumer Staples} sectors, respectively.
+\begin{figure}[htb!]
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{Energy_Hill_scales.pdf}
+    \caption{{\it Energy} scale estimates}    
+    \label{fig:Energy_Hill_Scales}
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{Consumer_Staples_Hill_scales.pdf}
+    \caption{{\it Consumer Staples} scale estimates}    
+    \label{fig:Consumer_Staples_Hill_Scales}
+  \end{subfigure}
+  \caption{Black boxes are Hill estimates of the scale parameters of
+    the stock return series, while red circles are the scale estimates
+    of simulated iid. Student's $t$ series with a degree of freedom
+    equal to the mean value of the estimated tail indices of the stock
+    return series. The estimates of the Student's $t$ series are
+    included for comparison with those of the return series.}
+\end{figure}
+Clearly the estimated scale parameters can differ by several orders of
+magnitude. 
+
+Using the ``Peaks over Threshold'' method and the mean excess
+function, we also obtain estimates for the tail index ($\alpha$), the
+scale parameter ($A$) and the shift parameter ($a$) for stocks in the
+{\it Energy} and the {\it Consumer Staples} sectors of the S\&P 500
+index. The results are plotted in figure
+\ref{fig:Energy_OLS_estimates} and
+\ref{fig:Consumer_Staples_OLS_estimates},
+respectively.
+\begin{figure}[htb!]
+  \includegraphics[width=\textwidth]{Energy_OLS_estimates.pdf}
+  \caption{Tail parameter estimates of {\it Energy} stocks. The top
+    plot shows the tail index estimates, the middle plot shows the
+    10-based logarithm of the scale estimates and bottom plot shows
+    the estimates of the shift parameter.
+  }
+  \label{fig:Energy_OLS_estimates}
+\end{figure}
+
+\begin{figure}[htb!]
+  \includegraphics[width=\textwidth]{Consumer_Staples_OLS_estimates.pdf}
+  \caption{Tail parameter estimates of {\it Consumer Staples}
+    stocks. The top 
+    plot shows the tail index estimates, the middle plot shows the
+    10-based logarithm of the scale estimates and bottom plot shows
+    the estimates of the shift parameter.
+  }
+  \label{fig:Consumer_Staples_OLS_estimates}
+\end{figure}
+
+Using Pickands' estimator, the same result of very similar tail indices
+is again obtained for the {\it Energy} and the {\it Consumer Staples}
+sectors. Figure \ref{fig:Energy_Pickands} and
+\ref{fig:Consumer_Staples_Pickands} illustrate this claim.
+\begin{figure}[htb!]
+  \includegraphics[width=\textwidth]{Energy_Pickands.pdf}
+  \caption{Pickands' estimates of {\it Energy} stocks.}
+  \label{fig:Energy_Pickands}
+\end{figure}
+
+\begin{figure}[htb!]
+  \includegraphics[width=\textwidth]{Consumer_Staples_Pickands.pdf}
+  \caption{Pickands' estimates of {\it Consumer Staples} stocks.}
+  \label{fig:Consumer_Staples_Pickands}
+\end{figure}
+
+\subsubsection{The Information Technology sector of S\&P 500}
+Compared with the sectors of energy and consumer staples, which enjoy
+a relatively stable demand on their products, companies of information
+technology are more subject to volatile demand and competition. As a
+result, one can expect their stock prices to be more volatile, implying
+lower tail indices and larger differences between the tail indices of
+different companies. In this section we investigate how these companies
+differ in terms of their tail indices and scale parameters.
+
+Figure \ref{fig:Information_Technology_Hill} shows the Hill
+estimates of 42 stocks in the {\it Information Technology} sector. Daily
+closing prices of these stocks have been available since 2000-01-01 and
+earlier.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{Information_Technology_Hill.pdf}
+  \caption{Hill estimates of the tail indices of 42 stocks' daily
+    return series in the {\it Information Technology} sector of Standard
+    \& Poor 500 index.
+  }
+  \label{fig:Information_Technology_Hill}
+\end{figure}
+It is seen in the figure that most of the estimates fall within the
+interval spanned by the confidence bands. Thus, given the estimation
+precision, these are consistent with the similarity conclusion of 
+\S\ref{sec:GDA}.
+
+%% From the figure it appears a few pairs of stocks do have rather different
+%% tail indices, e.g. ``ADI'', ``PAYX'' and ``XLNX'' versus ``CTSH'' and
+%% ``NVDA''.
+
+
+%% To gain more insight into these pairs, we concatenate the
+%% squared return series of each pair and apply Hoga's test to the concatenated
+%% sequence. Table \ref{tab:Information_Technology_Hoga} shows the test
+%% statistic of each concatenated pair.
+%% \begin{table}[htb!]
+%%   \centering
+%%   \begin{tabular}{c|c|c}
+%%     \multicolumn{2}{c}{Stock(s)} & Hoga Test Statistic \\
+%%     \hline
+%%     ADI & CTSH & 15.52 \\
+%%     ADI & NVDA & 4.726 \\
+%%     PAYX & CTSH & 231.5 \\
+%%     PAYX & NVDA & 110.6 \\
+%%     XLNX & CTSH & 503.5 \\
+%%     XLNX & NVDA & 146.5
+%%   \end{tabular}
+%%   \caption{Hoga Test statistic of pairs of stocks from the
+%%     {\it Information Technology} sector of S\&P 500 index.
+%%     The critical value at 95\% confidence level is 166.4}
+%%   \label{tab:Information_Technology_Hoga}
+%% \end{table}
+
+\subsection{Temporal changes of the parameters}
+
+
+
+
+%% Thomas: Try fitting data to a Burr distribution.
+%% TODO: use GPD and POT to estimate the scale and tail index.
+%% TODO: plot the Hill estimator instead of its inverse. The asymptotic
+%% normal distribution of Hill estimator is found in ``Modeling Extremal
+%% events''.
+
+
+%% TODO: Does the scale estimator also have a convergence result from
+%% which confidence bands can be derived?
+
+%% TODO: Why does the Quintos Fan test almost always reject the null?
+
+%% Hill (1975) \cite{hill1975simple} also proposed an estimator for the
+%% scale parameter $A$:
+%% \[
+%% A_n = {k \over n}X_{(k+1)}^{\alpha_n}
+%% \]
+
+
+
+%% Review of CCC by Starica and others.
+%% explain that the model implies that all series have the same tail index
+%% Explain that economic arguments also lead to the same tail index
+
+%% Explain that the tail functions of different series are
+%% differentiated more by the scale parameter.
+
+\section{Conclusion}
+TODO: Summarize and conclude that all correlated series share the same
+tail index; their tail functions differ from each other via their
+scale parameters.
+
+\bibliographystyle{unsrt}
+\bibliography{../../thesis/econophysics}
+\end{document}

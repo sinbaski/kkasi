@@ -8,7 +8,7 @@ assetSet <- "SP500_components";
 
 ## database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
 ##     dbname='avanza', host=Sys.getenv("PB"));
-database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
+database = dbConnect(MySQL(), user='root', password='q1w2e3r4',
     dbname='avanza', host="localhost");
 results = dbSendQuery(database, sprintf("select symbol from %s;",
     assetSet));
@@ -138,6 +138,7 @@ plot(tailIndices[, 1], tailIndices[, 2], type="p",
      xlim=c(a, b), ylim=c(a, b));
 X <- seq(a, b, 0.01);
 lines(X, X, col="#FF0000");
+abline(v=seq(from=2, to=5, by=0.5), h=seq(from=2, to=5, by=0.5), lty=3);
 dev.off();
 
 
