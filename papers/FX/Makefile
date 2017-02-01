@@ -3,10 +3,10 @@ srcdir := .
 objdir := obj
 
 ifeq ($(debug),1)
-	CFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -g3 -fopenmp -D DEBUG
+	CFLAGS := -std=c++11 -c -Wall -I/usr/include -Wno-unused-variable -g3 -fopenmp -D DEBUG
 	LDFLAGS := -lm -lgsl -lgslcblas -fopenmp
 else
-	CFLAGS := -std=c++11 -c -Wall -O3 -fopenmp
+	CFLAGS := -std=c++11 -c -Wall -I/usr/include -O3 -fopenmp
 	LDFLAGS := -lm -lgsl -lgslcblas -fopenmp	
 endif
 
