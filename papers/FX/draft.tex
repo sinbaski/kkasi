@@ -457,8 +457,52 @@ one's wealth allocated to the equity.
 
 \subsubsection{very risk-avert utility functions}
 In this section we consider power utility functions of
-\eqref{eq:power_utility} with $\gamma > 1$. For convenience, let $\kappa =
-\gamma - 1$.
+\eqref{eq:power_utility} with $\gamma > 1$. For convenience,
+let $\kappa = \gamma - 1$. In this case, we assume the following
+distribution function $F(\cdot)$ of the equity return:
+\[
+F(x) = \left\{
+\begin{array}{ll}
+    p M^\alpha / |x|^\alpha & \text{ if } x \leq -M \\
+    F_u(x) & \text{ if } -M < x < M\\
+    1 - p M^\alpha x^\alpha & \text{ if } x \geq M
+\end{array}
+\right.
+\]
+where the distribution function $F_u(\cdot)$ satisfies
+\begin{eqnarray*}
+  F_u(-M) &=& p \\
+  F_u(M) &=& 1 - p
+\end{eqnarray*}
+In this case we have
+\begin{eqnarray*}
+  && u(v) + b u(\delta v) \\
+  &=&
+  {
+    (1 + b) p \alpha M^\alpha
+    \over
+    \kappa
+  }
+  \int_{-\infty}^{-M}
+  ((1 - \phi) e^r + \phi e^x)^{-\kappa} |x|^{-\kappa - 1}
+  dx + \\
+  &&
+  (1 + b) \int_{-M}^{\delta v}
+  ((1 - \phi) e^r + \phi e^x)^{-\kappa} d F_u(x) + \\
+  &&
+  {
+    (1 + b) p \alpha M^\alpha
+    \over
+    \kappa
+  }
+  \int_{M}^{\infty}
+  ((1 - \phi) e^r + \phi e^x)^{-\kappa} x^{-\kappa - 1}
+  dx \\
+  &=&
+  I_1 + I_2 + I_3
+\end{eqnarray*}
+
+
 
 \section{Review of multivariate GARCH models: same tail index or not}
 Many multivariate GARCH models imply a common tail index for all
@@ -792,7 +836,7 @@ v(\xi) = {
 \]
 
 
-\section{Hoga Test}
+%% \section{Hoga Test}
 %% TODO: Show the test statistics of Hoga test applied to a sequence of
 %% two concatenated return series. A changes in the scale is characterized
 %% by a smooth bump in the test statistics while a change in the tail
