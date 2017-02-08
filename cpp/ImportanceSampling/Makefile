@@ -3,10 +3,11 @@ srcdir := .
 objdir := obj
 
 ## srcs := $(wildcard $(srcdir)/*.cpp)
-srcs := ./test.cpp ./ExtremeNumber2.cpp ./XMatrix.cpp
+## srcs := ./test.cpp ./ExtremeNumber2.cpp ./XMatrix.cpp
 ## srcs := ./GarchPQ.cpp
 ## srcs := garch21.cpp garch21_main.cpp
 # srcs := garch1D.cpp main.cpp
+srcs := right_eigenfunction.cpp
 objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
 objs := $(addprefix $(objdir)/, $(objs))
 
@@ -34,8 +35,12 @@ garchpq: obj/GarchPQ.o
 MyTailEst: $(objs)
 	$(CC) $^ $(LDFLAGS) -o $@
 
+.PHONY: right_eigenfunction
+right_eigenfunction: $(objs)
+	$(CC) $^ $(LDFLAGS) -o $@
+
 .PHONY: all
-all: MyTailEst
+all: right_eigenfunction
 
 .PHONY: clean
 clean:
