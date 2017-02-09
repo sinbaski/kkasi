@@ -1,7 +1,10 @@
+#include <cmath>
 #include <algorithm>
 #include <armadillo>
-#include <cmath>
-#include <map>
+
+#ifndef M_PI
+#define M_PI		3.14159265358979323846
+#endif
 
 using namespace std;
 using namespace arma;
@@ -14,34 +17,9 @@ struct garch21_param
     double b1;
 };
 
-										  double right_eigenfunction(struct garch21_param &param, unsigned )
+double right_eigenfunction(struct garch21_param &param,
+			   vec &r, double alpha, unsigned n)
 {
-    
-}
-
-int main(int argc, char **argv)
-{
-    struct garch21_param param = {
-	9.225747e-06, 8.835834e-02, 9.685783e-02, 6.543018e-01
-    };
-    unsigned n;
-    double alpha = 4.47103;
-
-    // cout << "alpha[1]: ";
-    // cin >> param.a1;
-
-    // cout << "alpha[2]: ";
-    // cin >> param.a2;
-
-    // cout << "beta[1]: ";
-    // cin >> param.b1;
-
-    // cout << "tail index: ";
-    // cin >> alpha;
-    
-    cout << "Number of evaluation points: ";
-    cin >> n;
-
     double ang_max = atan(1/param.a1);
     vec eigenfun(n);
     vec angles(n);
@@ -75,14 +53,65 @@ int main(int argc, char **argv)
 	    P(i, j) = pow(c1 * t1, alpha) * t2 * t3 / t5 / t6 / t7;
 	}
     }
-    cout << P << endl;
-    eig_gen(eigenval, eigenmat, P);
-    cout << "eigenvalues" << endl;
-    cout << eigenval << endl;
+    cout << "Determinant of P: " << endl;
+    cout << det(P) << endl;
 
-    cout << "eigenvectors" << endl;
-    cout << eigenmat << endl;
+    // eig_gen(eigenval, eigenmat, P);
+    // cout << "eigen values" << endl;
+    // cout << eigenval << endl;
 
+    // vec values = real(eigenval);
+    // mat vectors = real(eigenmat);
+    // auto p =
+    // 	min_element(values.begin(), values.end(),
+    // 		    [](double x, double y) {
+    // 			return fabs(x - 1) < fabs(y - 1);
+    // 		    });
+    // r = vectors.col(p - values.begin());
+    // return *p;
+    r = solve(P - eye(n, n), zeros(n));
+    cout << "eigen vector" << endl;
+    cout << r << endl;
+    return 1;
+}
 
+int main(int argc, char **argv)
+{
+    struct garch21_param param = {
+	9.225747e-06, 8.835834e-02, 9.685783e-02, 6.543018e-01
+    };
+    unsigned n = 100;
+    double alpha = 4.47103;
+
+    // cout << "alpha[1]: ";
+    // cin >> param.a1;
+
+    // cout << "alpha[2]: ";
+    // cin >> param.a2;
+
+    // cout << "beta[1]: ";
+    // cin >> param.b1;
+
+    // cout << "tail index: ";
+    // cin >> alpha;
+    
+    // cout << "Number of evaluation points: ";
+    // cin >> n;
+
+    // cout << "eigenvalues" << endl;
+    // cout << eigenval << endl;
+
+    // cout << "eigenvectors" << endl;
+    // cout << eigenmat << endl;
+    vec r(n);
+    double lambda = right_eigenfunction(param, r, alpha, n);
+    cout << lambda << endl;
+    // vec r(n = 100);
+    // double lambda;
+    // do {
+    // 	r.set_size(n);
+
+    // } while (fabs(lambda - 1) >= 1.0e-3 && (n *= 2));
+    
     return 0;
 }

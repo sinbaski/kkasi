@@ -12,8 +12,8 @@ objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
 objs := $(addprefix $(objdir)/, $(objs))
 
 ifeq ($(debug),1)
-	CFLAGS := -std=c++11 -fopenmp -c -Wall -g3 -D DEBUG -D GARCH_PQ_ALONE
-	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas -fopenmp
+	CFLAGS := -std=c++11 -c -Wall -g3 -D DEBUG -D GARCH_PQ_ALONE
+	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas
 else
 	CFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -O3 -fopenmp -D GARCH_PQ_ALONE
 	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas -fopenmp	
