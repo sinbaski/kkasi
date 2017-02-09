@@ -17,62 +17,68 @@ struct garch21_param
     double b1;
 };
 
-double right_eigenfunction(struct garch21_param &param,
+double right_eigenfunction(const struct garch21_param &param,
 			   vec &r, double alpha, unsigned n)
 {
     double ang_max = atan(1/param.a1);
-    vec eigenfun(n);
+    double flag;
     vec angles(n);
-    vec tangents(n);
-    vec cosines(n);
     mat P(n, n);
     cx_vec eigenval(n);
     cx_mat eigenmat(n, n);
-    
-    
-    double d = ang_max/(n + 1);
-    for (unsigned i = 0; i < n; i++) {
-	angles[i] = d * (i + 1);
-	tangents[i] = tan(angles[i]);
-	cosines[i] = cos(angles[i]);
-    }
-
     double c1 = pow(pow(param.a2, 2) + pow(param.b1, 2), 0.5);
     double ang1 = atan(param.b1 / param.a2);
-    for (unsigned i = 0; i < n; i++) {
-	for (unsigned j = 0; j < n; j++) {
-	    double t1 = sin(angles[i] + ang1);
-	    double t2 = sqrt(tangents[i] * param.a2 + param.b1);
-	    double t3 = (param.a2 * tangents[i] + param.b1);
-	    t3 *= tangents[j] / (1 - tangents[j] * param.a1) / 2;
-	    t3 = exp(-t3);
+    
+    do {
+	vec eigenfun(n);
+	vec tangents(n);
+	vec cosines(n);
 
-	    double t5 = sqrt(2 * M_PI * tangents[j]);
-	    double t6 = pow(cosines[j], alpha + 2);
-	    double t7 = pow(1 - tangents[j] * param.a1, alpha + 1.5);
-	    P(i, j) = pow(c1 * t1, alpha) * t2 * t3 / t5 / t6 / t7;
+	double d = ang_max/(n + 1);
+	P.set_size(n, n);
+	angles.set_size(n);
+	for (unsigned i = 0; i < n; i++) {
+	    angles[i] = d * (i + 1);
+	    tangents[i] = tan(angles[i]);
+	    cosines[i] = cos(angles[i]);
 	}
-    }
-    cout << "Determinant of P: " << endl;
-    cout << det(P) << endl;
 
-    // eig_gen(eigenval, eigenmat, P);
+	for (unsigned i = 0; i < n; i++) {
+	    for (unsigned j = 0; j < n; j++) {
+		double t1 = sin(angles[i] + ang1);
+		double t2 = sqrt(tangents[i] * param.a2 + param.b1);
+		double t3 = (param.a2 * tangents[i] + param.b1);
+		t3 *= tangents[j] / (1 - tangents[j] * param.a1) / 2;
+		t3 = exp(-t3);
+
+		double t5 = sqrt(2 * M_PI * tangents[j]);
+		double t6 = pow(cosines[j], alpha + 2);
+		double t7 = pow(1 - tangents[j] * param.a1, alpha + 1.5);
+		P(i, j) = pow(c1 * t1, alpha) * t2 * t3 / t5 / t6 / t7;
+		P(i, j) *= d;
+	    }
+	}
+	flag = det(P - eye(n, n));
+    } while (flag > 5.0e-3 && (n *= 2));
+    // cout << "Determinant of P - I: " << endl;
+    // cout << flag << endl;
+
+    eig_gen(eigenval, eigenmat, P);
     // cout << "eigen values" << endl;
     // cout << eigenval << endl;
 
-    // vec values = real(eigenval);
-    // mat vectors = real(eigenmat);
-    // auto p =
-    // 	min_element(values.begin(), values.end(),
-    // 		    [](double x, double y) {
-    // 			return fabs(x - 1) < fabs(y - 1);
-    // 		    });
-    // r = vectors.col(p - values.begin());
-    // return *p;
-    r = solve(P - eye(n, n), zeros(n));
-    cout << "eigen vector" << endl;
-    cout << r << endl;
-    return 1;
+    vec values = real(eigenval);
+    mat vectors = real(eigenmat);
+    auto p =
+    	min_element(values.begin(), values.end(),
+    		    [](double x, double y) {
+    			return fabs(x - 1) < fabs(y - 1);
+    		    });
+    r = vectors.col(p - values.begin());
+    for (size_t i = 0; i < r.size(); i++) {
+	cout << angles(i) << "  " << r(i) << endl;
+    }
+    return *p;
 }
 
 int main(int argc, char **argv)
@@ -104,8 +110,9 @@ int main(int argc, char **argv)
     // cout << "eigenvectors" << endl;
     // cout << eigenmat << endl;
     vec r(n);
-    double lambda = right_eigenfunction(param, r, alpha, n);
-    cout << lambda << endl;
+    right_eigenfunction(param, r, alpha, n);
+    // cout << "Eigenvector of eigenvalue " << lambda << endl;
+    // cout << r << endl;
     // vec r(n = 100);
     // double lambda;
     // do {
