@@ -12,7 +12,159 @@
 \usepackage{color}
 \usepackage[dvipsnames]{xcolor}
 
-\input{../../physics_common}
+\usepackage{amssymb,amsmath,amsthm,amsfonts}
+\usepackage{mathrsfs}
+\usepackage{dsfont}
+\usepackage{enumerate}
+
+%% \newtheorem{mdef}{Definition}
+
+\newcommand{\eqsplit}[2]{
+  \begin{equation}\label{#2}
+    \begin{split}
+      #1
+    \end{split}
+  \end{equation}}
+\newcommand{\eqnsplit}[1]{
+  \begin{eqnarray*}
+    #1
+  \end{eqnarray*}}
+\newcommand{\tran}[1]{
+  \tilde{#1}
+}
+\newcommand{\td}[2]{
+  \frac{d #1}{d #2}
+}
+\newcommand{\pd}[2]{
+  \frac{\partial #1}{\partial #2}
+}
+\newcommand{\ppd}[2]{
+  \frac{\partial^2 #1}{\partial #2^2}
+}
+\newcommand{\pdd}[3]{
+  \frac{\partial^2 #1}{\partial #2 \partial #3}
+}
+\newcommand{\otd}[1]{
+  \frac{d}{d #1}
+}
+\newcommand{\opd}[1]{
+  \frac{\partial}{\partial #1}
+}
+\newcommand{\oppd}[1]{
+  \frac{\partial^2}{\partial #1^2}
+}
+\newcommand{\opdd}[2]{
+  \frac{\partial^2}{\partial #1 \partial #2}
+}
+\newcommand{\ket}[1]{
+  |#1\rangle
+}
+\newcommand{\bra}[1]{
+  \langle#1|
+}
+\newcommand{\inn}[1]{
+  \langle#1\rangle
+}
+\newcommand{\mean}[1]{
+  \langle#1\rangle
+}
+\newcommand{\tr}{
+  \text{tr}\,
+}
+\newcommand{\re}{
+  \text{Re}\,
+}
+\newcommand\im{
+  \text{Im}\,
+}
+\newcommand{\arcsinh}{
+  \sinh^{-1}
+}
+\newcommand{\arccosh}{
+  \cosh^{-1}
+}
+\newcommand{\erfc}{
+  \text{erfc}
+}
+\newcommand{\E}{
+  \mathbb{E}
+}
+\renewcommand{\P}{
+  \mathbb{P}
+}
+\newcommand{\I}{
+  \mathbf{1}
+}
+\newcommand{\1}[1]{
+  \mathbf{1}_{\{#1\}}
+}
+\newcommand{\diag}{
+  \text{diag\,}
+}
+\newcommand{\pop}[1]{
+\varepsilon_{#1}
+}
+
+\newcommand{\M}{
+  {\text{max}}
+}
+\newcommand{\m}{
+  {\text{min}}
+}
+% \newcommand{\ph}{
+%   {\text{arg}\,}
+% }
+\newcommand\erf{
+  \text{erf}
+}
+\renewcommand\vec[1]{
+  \mathbf{#1}
+}
+\newcommand\cov{
+  \text{cov}
+}
+\newcommand\var{
+  \text{var}
+}
+\newcommand\cor{
+  \text{cor}
+}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\newcommand\mtx[1]{
+  \mathbf{#1}
+}
+\renewcommand \L {
+  \mathfrak{leb}
+}
+\newcommand{\hot}{
+  \text{h.o.t.}
+}
+
+
+%% \newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+
 \title{Tail Indices and Scale Parameters in Financial Time Series}
 \author{Thomas Valentin Mikosch, Casper de Vries, Xie Xiaolei}
 \date{\today}
@@ -261,8 +413,8 @@ that the utility function of consumption $C$ is a power function%
   u(C)=\frac{1}{1-\gamma}C^{1-\gamma}%  
 \end{equation}
 where $\gamma > 0$. For simplicity we assume the investor
-initially has one unit of wealth. Let $r$ be the return on the
-riskless state bond and $X$ be the return on equity. Portfolio weights
+initially has one unit of wealth. Let $r > 0$ be the return on the
+risk free state bond and $X$ be the return on equity. Portfolio weights
 are $\left(1-\phi\right)$ and $\phi$ respectively. Then
 \begin{equation}
   \label{eq:xxie1}
@@ -291,12 +443,23 @@ distribution function $F(\cdot)$ of the equity return:
   \end{array}
   \right.
 \end{equation*}
-Assume $\alpha, \beta > 1$, $0 < p < 1$, $K > 0$. Equation
+Assume $\alpha, \beta > 1$, $0 < p < 1$ and
+\begin{equation}
+  \label{eq:xxie1.1}
+  0 < K <
+  {\alpha \over \alpha + 1}
+  (e^r - 1)^\xi
+  \exp\left(
+    - r \xi
+    + {1 \over \alpha}
+  \right)
+\end{equation}
+Equation
 \eqref{eq:xxie0} can be re-arranged as
 \[
 u(v) + b u(\delta v))
 =
-\E u(C) + (1 + b) \E [u(\delta v) - u(C); C < \delta v]
+\E u(C) + b \E [u(C); C < \delta v]
 \]
 The right-hand-side of the above equation is a functional of the
 distribution function of $X$ via eq.\eqref{eq:xxie1}. For convenience
@@ -304,7 +467,7 @@ we denote it $\mathcal U(\cdot)$, i.e.
 \[
 \mathcal U F (\alpha, \beta, K, K', \phi)
 = 
-\E u(C) + (1 + b) \E [u(\delta v) - u(C); C < \delta v]
+\E u(C) + b \E [u(C); C < \delta v]
 \]
 \begin{theorem}
   Let
@@ -350,60 +513,59 @@ we denote it $\mathcal U(\cdot)$, i.e.
   \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
   \]
   \begin{enumerate}[i.]
-  \item When $C < \delta v$ implies $X < -q$ for some $q > 0$, we have
+  \item When $C < \delta v$ implies $X < -q$ for some $q \geq 0$, we have
     \begin{eqnarray*}
-      \pd{\mathcal U(F)}{\alpha}
+      && \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) \\
       &=&
       - \frac{\partial}{\partial \alpha} \left\{
-      {\alpha p K^\alpha \over \xi}
-      \left[
-      (1 + b)\int_{-\infty}^{-q} +
-      \int_{-q}^0
-      \right] \right. \\
+        {\alpha p K^\alpha \over \xi}
+        \left[
+          (1 + b)\int_{-\infty}^{-q} +
+          \int_{-q}^0
+        \right] \right. \\
       && \left.
-      \left\{
-      \left[
-        (1 - \phi) e^r + \phi e^x
-      \right]^{-\xi}
-      (K - x)^{-\alpha - 1}
-      \right\}
-      dx \right\} \\
-      &=&
-      \underbrace{
-      {p \over \xi}
-      \left[
-      (1 + b)\int_{q}^{\infty} +
-      \int_{0}^q
-      \right]
-      \left[
-        (1 - \phi) e^r + \phi e^{-x}
-      \right]^{-\xi}
-      \ln \left(
-      1 + {x \over K}
-      \right)
-            {\alpha K^{\alpha} dx
-              \over
-              (K + x)^{\alpha + 1}
-            }
-      }_{L_1}\\
+        \left\{
+          \left[
+            (1 - \hat\phi) e^r + \hat\phi e^x
+          \right]^{-\xi}
+          (K - x)^{-\alpha - 1}
+        \right\}
+        dx \right\} \\
+      &=& \underbrace{
+        {p \over \xi}
+        \left[
+          (1 + b)\int_{q}^{\infty} +
+          \int_{0}^q
+        \right]
+        \left[
+          (1 - \hat\phi) e^r + \hat\phi e^{-x}
+        \right]^{-\xi}
+        \ln \left(
+          1 + {x \over K}
+        \right)
+        {\alpha K^{\alpha} dx
+          \over
+          (K + x)^{\alpha + 1}
+        }
+      }_{L_1} \\
       && - \underbrace{
         {p \over \xi}
         \left[
           (1 + b)\int_{q}^{\infty} +
           \int_{0}^q
-          \right]
+        \right]
         \left[
-          (1 - \phi) e^r + \phi e^{-x}
-          \right]^{-\xi}
+          (1 - \hat\phi) e^r + \hat\phi e^{-x}
+        \right]^{-\xi}
         {K^{\alpha} dx \over (K + x)^{\alpha + 1} }
-      }_{L_2} \\
+      }_{L_2}
     \end{eqnarray*}
     Clearly $L_2 < \infty$. For $L_1$, observe
     \begin{eqnarray*}
       L_1 &<& {
         \alpha K^\alpha p (1 + b)
         \over
-        \xi (1 - \phi)^\xi e^{r \xi}
+        \xi (1 - \hat\phi)^\xi e^{r \xi}
       } \int_0^\infty
       {1 \over (x + K)^{\alpha + 1}}
       \left(1 + {x \over K}\right)
@@ -412,18 +574,18 @@ we denote it $\mathcal U(\cdot)$, i.e.
       {
         p \alpha (1 + b)
         \over
-        \xi (\alpha - 1) (1 - \phi)^\xi e^{r \xi}
+        \xi (\alpha - 1) (1 - \hat\phi)^\xi e^{r \xi}
       } < \infty
     \end{eqnarray*}
     Let
     \begin{eqnarray*}
       c &:=& {p \over \xi}
       \left[
-      (1 + b)\int_{q}^{\infty} +
-      \int_{0}^q
+        (1 + b)\int_{q}^{\infty} +
+        \int_{0}^q
       \right]
       \left[
-        (1 - \phi) e^r + \phi e^{-x}
+        (1 - \hat\phi) e^r + \hat\phi e^{-x}
       \right]^{-\xi}
       {
         \alpha K^{\alpha} dx \over (K + x)^{\alpha + 2}
@@ -432,24 +594,24 @@ we denote it $\mathcal U(\cdot)$, i.e.
     Define distribution function $H(x): (0, \infty) \to (0, 1)$ by its
     density with respect to the Lebesgue measure
     \[
-      {d H(x) \over d x}
-      =
-      {p \over c \xi}
-      \left[
-        (1 - \phi) e^r + \phi e^{-x}
-        \right]^{-\xi}
-      {
-        \alpha K^{\alpha}
-        \over
-        (K + x)^{\alpha + 2}
-      }
-      \times
-      \left\{
+    {d H(x) \over d x}
+    =
+    {p \over c \xi}
+    \left[
+      (1 - \hat\phi) e^r + \hat\phi e^{-x}
+    \right]^{-\xi}
+    {
+      \alpha K^{\alpha}
+      \over
+      (K + x)^{\alpha + 2}
+    }
+    \times
+    \left\{
       \begin{array}{ll}
         1 & \text{ if } 0 < x < q \\
         (1 + b) & \text{ if } x > q \\
       \end{array}
-      \right.
+    \right.
     \]
     Let $Y \sim H$, then
     \begin{eqnarray*}
@@ -457,121 +619,182 @@ we denote it $\mathcal U(\cdot)$, i.e.
       \left[
         (1 + b)\int_{q}^{\infty} +
         \int_{0}^q
-        \right]
+      \right]
       \left[
-        (1 - \phi) e^r + \phi e^{-x}
-        \right]^{-\xi}
-      \alpha K^{\alpha} (K + x)^{-\alpha - 1} dx \\
-      &=& {\alpha L_2 \over c} \\
-      L_1 &=& c \E[Y \ln(Y/K)]
+        (1 - \hat\phi) e^r + \hat\phi e^{-x}
+      \right]^{-\xi} {
+        \alpha K^{\alpha} x dx
+        \over
+        (K + x)^{\alpha + 2}
+      } \\
+      &=& {\alpha L_2 \over c} - K \\
+      L_1 &=& c \E \left[
+        (Y + K) \ln \left(1 + {Y \over K} \right)
+      \right]
     \end{eqnarray*}
     Notice
     \[
-      {
-        d^2
-        \over
-        dx^2
-      }
-      \left[
-        x \ln\left({x \over K}\right)
-      \right] = {1 \over x} > 0
-      \quad \text{ for } x > 0
+    {
+      d^2
+      \over
+      dx^2
+    }
+    \left[
+      (x + K) \ln\left(1 + {x \over K}\right)
+    \right] = {1 \over x + K} > 0
+    \quad \text{ for } x > 0
     \]
-    That is, $x \ln(x/K)$ defined on $(0, \infty)$ is a convex
+    That is, $(x + K) \ln(1 + x/K)$ defined on $(0, \infty)$ is a convex
     function. Now that $L_1, L_2 < \infty$, Jensen's inequality gives
     \[
-      {L_1 \over c} = \E [Y \ln(Y/K)]
-      >
-      \E Y \times \ln(\E Y/K)
-      =
+    {L_1 \over c} = \E \left[
+      (Y + K) \ln \left(1 + {Y \over K} \right)
+    \right]
+    >
+    (\E Y + K) \times \ln(1 + \E Y/K)
+    =
+    {\alpha L_2  \over c}
+    \ln\left(
       {\alpha L_2  \over c}
-      \ln\left(
-      {\alpha L_2  \over c K}
-      \right)
+    \right)
     \]
-  \end{enumerate}
-  Therefore
-  \[
-  L_1 - L_2 > L_2 \left[
+    Therefore
+    \[
+    L_1 - L_2 > L_2 \left[
+      \alpha \ln \left(
+        {\alpha L_2 \over c}
+      \right) - 1
+    \right]
+    \]
+    Clearly $L_2 > 0$. So it remains to show
+    \[
     \alpha \ln \left(
-    {\alpha L_2 \over c K}
-    \right) - 1
-  \right]
-  \]
-  Clearly $L_2 > 0$. So it remains to show
-  \[
-    \alpha \ln \left(
-    {\alpha L_2 \over c K}
+      {\alpha L_2 \over c}
     \right) - 1 > 0
-  \]
-  Observe
-  \begin{eqnarray*}
-    L_2 &>&
+    \]
+    Or equivalently
+    \begin{equation}
+      \label{eq:xxie5}
+      {L_2 \over c} > {1 \over \alpha} \exp\left( {1 \over \alpha} \right)
+    \end{equation}
+    Observe
+    \begin{eqnarray*}
+      L_2 &>&
       {p \over \xi}
       \left[
-      (1 + b)\int_{q}^{\infty} +
-      \int_{0}^q
+        (1 + b)\int_{q}^{\infty} +
+        \int_{0}^q
       \right]
       \left[
-        (1 - \phi) e^r + \phi
+        (1 - \hat\phi) e^r + \hat\phi
       \right]^{-\xi}
       {K^{\alpha} dx
         \over
         (K + x)^{\alpha + 1}
       } \\
       &=& {
-        p [(K + q)^{-\alpha} b + K^{-\alpha}]
+        p [(K + q)^{-\alpha} b + K^{-\alpha}] K^\alpha
         \over
-        \alpha \xi [(1 - \phi) e^r + \phi]^\xi
+        \alpha \xi [(1 - \hat\phi) e^r + \hat\phi]^\xi
       } 
-  \end{eqnarray*}
+    \end{eqnarray*}
+    Meanwhile
+    \begin{eqnarray*}
+      c &<& {p \over \xi}
+      \left[
+        (1 - \hat\phi) e^r
+      \right]^{-\xi}
+      \left[
+        (1 + b)\int_{q}^{\infty} +
+        \int_{0}^q
+      \right]
+      {
+        \alpha K^{\alpha} dx \over (K + x)^{\alpha + 2}
+      } \\
+      &=&
+      {
+        \alpha K^\alpha p \left[ (K + q)^{-\alpha - 1} b + K^{-\alpha - 1} \right]
+        \over
+        \xi (\alpha + 1) (1 - \hat\phi)^\xi e^{r \xi}
+      }
+    \end{eqnarray*}
+    Thus, to show inequality \eqref{eq:xxie5}, it is sufficient to show
+    \begin{equation}
+      \label{eq:xxie6}
+      {
+        \left[
+          b (K + q)^{-\alpha} + K^{-\alpha}
+        \right]
+        \left[
+          (1 - \hat\phi) e^r + \hat\phi
+        \right]^{-\xi}
+        (\alpha + 1)
+        \over
+        \alpha^2
+        \left[
+          b (K + q)^{-\alpha - 1} + K^{-\alpha - 1}
+        \right]
+        \left[
+          (1 - \hat\phi) e^r
+        \right]^{-\xi}
+      } > {1 \over \alpha} \exp\left( {1 \over \alpha} \right)
+    \end{equation}
+    This simplies to
+    \begin{equation}
+      \label{eq:xxie7}
+      \hat\phi < {
+        g - 1
+        \over
+        (1 - e^{-r}) g - 1
+      }
+    \end{equation}
+    where
+    \[
+    g = 
+    \left\{
+      {
+        \left[
+          (K + q)^{\alpha + 1} + b K^{\alpha + 1}
+        \right] \alpha e^{1/\alpha}
+        \over
+        (\alpha + 1) K (K + q) 
+        \left[
+          (K + q)^{\alpha} + b K^{\alpha}
+        \right]
+      }
+    \right\}^{1/\xi}
+    \]
+    Assumption \eqref{eq:xxie1.1} ensures $g > e^r/(e^r - 1)$. Hence the
+    right-hand-side of inequality \eqref{eq:xxie7} is larger than 1.
+    So \eqref{eq:xxie7} is satisfied by all $\hat\phi$. Thus
+    \eqref{eq:xxie6} holds and we conclude
+    \[
+    \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
+    \]
+
+  \item When $C < \delta v$ implies $X < q$ for some $q > 0$, we have
+    \begin{eqnarray*}
+      && \mathcal U(F)(\alpha, \beta, K, K', \hat\phi) \\
+      &=& \alpha p K^\alpha (1 + b) \int_{-\infty}^0
+      [(1 - \hat\phi) e^r + \hat\phi e^x]^{-\xi}
+      (K - x)^{-\alpha-1} dx \\
+      &&
+      + (1 - p) \beta K'^\beta \left[
+        (1 + b) \int_0^q + \int_q^\infty
+      \right]
+      [(1 - \hat\phi) e^r + \hat\phi e^x]^{-\xi} (K' + x)^{-\beta-1} dx    
+    \end{eqnarray*}
+  \end{enumerate}
+  So the same calculation as in the previous case carries through
+  with $q = 0$. The same conclusion of
+  \[
+  \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
+  \]
+  stands.
 \end{proof}
 
-%% \[
-%% F(x) = \left\{
-%% \begin{array}{ll}
-%%     p M^\alpha / |x|^\alpha & \text{ if } x \leq -M \\
-%%     F_u(x) & \text{ if } -M < x < M\\
-%%     1 - p M^\alpha x^\alpha & \text{ if } x \geq M
-%% \end{array}
-%% \right.
-%% \]
-%% where the distribution function $F_u(\cdot)$ satisfies
-%% \begin{eqnarray*}
-%%   F_u(-M) &=& p \\
-%%   F_u(M) &=& 1 - p
-%% \end{eqnarray*}
-%% In this case we have
-%% \begin{eqnarray*}
-%%   && u(v) + b u(\delta v) \\
-%%   &=&
-%%   {
-%%     (1 + b) p \alpha M^\alpha
-%%     \over
-%%     \kappa
-%%   }
-%%   \int_{-\infty}^{-M}
-%%   ((1 - \phi) e^r + \phi e^x)^{-\kappa} |x|^{-\kappa - 1}
-%%   dx + \\
-%%   &&
-%%   (1 + b) \int_{-M}^{\delta v}
-%%   ((1 - \phi) e^r + \phi e^x)^{-\kappa} d F_u(x) + \\
-%%   &&
-%%   {
-%%     (1 + b) p \alpha M^\alpha
-%%     \over
-%%     \kappa
-%%   }
-%%   \int_{M}^{\infty}
-%%   ((1 - \phi) e^r + \phi e^x)^{-\kappa} x^{-\kappa - 1}
-%%   dx \\
-%%   &=&
-%%   I_1 + I_2 + I_3
-%% \end{eqnarray*}
-
-
-
-\section{Review of multivariate GARCH models: same tail index or not}
+\section{Review of multivariate GARCH models:
+  same tail index or not}
 Many multivariate GARCH models imply a common tail index for all
 series under consideration, e.g. the Orthogonal GARCH model of
 Alexander and Chibumba (1997) \cite{alexander1997multivariate}, its
@@ -1174,5 +1397,5 @@ tail index; their tail functions differ from each other via their
 scale parameters.
 
 \bibliographystyle{unsrt}
-\bibliography{../../thesis/econophysics}
+\bibliography{my_citations}
 \end{document}
