@@ -250,9 +250,11 @@ Here $v$ can be thought of as the certainty payoff equivalent to the
 risky payoff $C$. Note that when $b=0$, 
 preferences are expected utility; when $\delta=1$ and $b>0$,
 preferences follow Gul's (1991) original disappointment aversion.
+An agent guided by this utility function will seek to maximize $u(v)$.
 
 \subsection{power-law utility function}
-In this section we follow Routledge and Zin \cite{routledge2010generalized} and assume
+In this section we follow Routledge and Zin
+\cite{routledge2010generalized} and assume 
 that the utility function of consumption $C$ is a power function%
 \begin{equation}
   \label{eq:power_utility}
@@ -262,245 +264,310 @@ where $\gamma > 0$. For simplicity we assume the investor
 initially has one unit of wealth. Let $r$ be the return on the
 riskless state bond and $X$ be the return on equity. Portfolio weights
 are $\left(1-\phi\right)$ and $\phi$ respectively. Then
-\begin{equation*}
+\begin{equation}
+  \label{eq:xxie1}
   %% u(C)=\frac{1}{1-\gamma}V^{1-\gamma} \max \left\{
   %% 0, 1 + (1-\phi) r  +\phi X
   %% \right\}^{1-\gamma} \label{3}%
   C = (1 - \phi) e^r + \phi e^X
-\end{equation*}
+\end{equation}
 
-\subsubsection{mildly risk-avert utility functions}
-We first consider the class of utility functions for which $\gamma < 1$.
-In this case $\E u(C) < \infty$ only if the distribution of $X$, call
-it $F(\cdot)$, has a light upper tail. We assume this for the rest of
-this section.
+%% \subsubsection[in case gamma > 1]{in case $\gamma > 1$}
 
-We note that utility functions with $\gamma < 1$ represent investors
-who are less risk-avert than are those represented by utility
-functions with $\gamma > 1$.
-
-Formally, we assume
+\subsubsection[in case gamma > 1]{in case $\gamma > 1$}
+In this section we consider power utility functions of
+\eqref{eq:power_utility} with $\gamma > 1$. For convenience,
+let $\xi = \gamma - 1$. In this case, we assume the following
+distribution function $F(\cdot)$ of the equity return:
 \begin{equation*}
   F(x) = \left\{
-  \begin{array}{lr}
-    p M^\alpha/|x|^\alpha & \text{ if } x < -M \\
-    F_u(x) & \text{ if } x \geq -M \\
+  \begin{array}{ll}
+    p \left(
+    {K \over K - x}
+    \right)^\alpha & x < 0 \\
+    1 - (1 - p) \left(
+    {K' \over K' + x}
+    \right)^\beta & x > 0
   \end{array}
   \right.
 \end{equation*}
-where $0 < p < 1$ is a constant; $\alpha > 1$, $M > 1$ and $F_u(\cdot)$
-is some distribution function satisfying
-\begin{itemize}
-\item $F_u(-M) = p$
-\item
+Assume $\alpha, \beta > 1$, $0 < p < 1$, $K > 0$. Equation
+\eqref{eq:xxie0} can be re-arranged as
+\[
+u(v) + b u(\delta v))
+=
+\E u(C) + (1 + b) \E [u(\delta v) - u(C); C < \delta v]
+\]
+The right-hand-side of the above equation is a functional of the
+distribution function of $X$ via eq.\eqref{eq:xxie1}. For convenience
+we denote it $\mathcal U(\cdot)$, i.e.
+\[
+\mathcal U F (\alpha, \beta, K, K', \phi)
+= 
+\E u(C) + (1 + b) \E [u(\delta v) - u(C); C < \delta v]
+\]
+\begin{theorem}
+  Let
   \[
-  \int_{-M}^\infty [(1 - \phi) e^r + \phi e^x]^{1 - \gamma} d F_u(x) < \infty
+  G(\alpha, \beta, K, K') =
+  \max_{0 < \phi \leq 1} \mathcal U F(\alpha, \beta, K, K', \phi)
   \]
-\end{itemize}
-%% In addition we assume
-%% \begin{equation}
-%%   \label{eq:xxie0.1}
-%% \phi < {4 e^{M + r} \over 4 e^{M + r} + 1}
-%% \end{equation}
+  $G(\alpha, \beta, K, K')$ is monotonically increasing with
+  $\alpha$.
+\end{theorem}
 
-Rewriting \eqref{eq:xxie0} gives
-\begin{eqnarray*}
-  u(v) + b u(\delta v) &=& \E u(C) + b \E [u(C); C < \delta v] \\
-  &=& \alpha p M^\alpha{1 + b \over 1 - \gamma}\int_{-\infty}^{-M}
-  [(1 - \phi) e^r + \phi e^x]^{1 - \gamma} |x|^{-\alpha-1} dx \\
-  && + {1 + b \over 1 - \gamma}\int_{-M}^{\delta v}
-  [(1 - \phi) e^r + \phi e^x]^{1 - \gamma} d F_u(x) \\
-  && + \int_{\delta v}^{\infty}
-  [(1 - \phi) e^r + \phi e^x]^{1 - \gamma} d F_u(x) \\
-  &=& I_1 + I_2 + I_3
-\end{eqnarray*}
-Only the first term $I_1$ involves the tail parameters $\alpha$
-and $M$ in which we are interested, so we will only compute this
-term. The integral of $I_1$ can be written as
-\begin{eqnarray*}
-&& \int_{-\infty}^{-M}
-[(1 - \phi) e^r + \phi e^x]^{1 - \gamma} |x|^{-\alpha-1} dx \\
-&=& \int_{M}^{\infty}
-[(1 - \phi) e^r + \phi e^{-x}]^{1 - \gamma} x^{-\alpha-1} dx
-\end{eqnarray*}
-Taylor expansion at $\phi e^{-x} = 0$ gives
-\begin{eqnarray*}
-  && [(1 - \phi) e^r + \phi e^{-x}]^{1 - \gamma} \\
-  &=& ((1 - \phi) e^r)^{1 - \gamma}
-  + \sum_{n=1}^{\infty} {1 \over n!}
-  {\Gamma(2 - \gamma) \over \Gamma(2 - n -\gamma)}
-  ((1 - \phi) e^r)^{1 - n - \gamma} \phi^n e^{-n x}
-\end{eqnarray*}
-Therefore
-\begin{eqnarray*}
-&& \int_{-\infty}^{-M}
-[(1 - \phi) e^r + \phi e^x]^{1 - \gamma} |x|^{-\alpha-1} dx \\
-&=&
-{1 \over \alpha} M^{-\alpha} ((1 - \phi) e^r)^{1 - \gamma}
-+ \sum_{n=1}^{\infty} {1 \over n!}
-{\Gamma(2 - \gamma) \over \Gamma(2 - n -\gamma)}
-((1 - \phi) e^r)^{1 - n - \gamma} n^\alpha \Gamma(-\alpha, n M)
-\end{eqnarray*}
-where $\Gamma(\alpha, x)$ is the upper incomplete gamma
-function. For $x > 1$, this function may be expressed as (equation
-8.11.2 of {\it NIST Digital Library of Mathematical Functions}
-\cite{NIST.DLMF})
-\[
-\Gamma(a, z) = z^{a - 1} e^{-z}
-\sum_{k=0}^\infty (-1)^k {\Gamma(a) \over \Gamma(a - k)} z^{-k}
-\]
-Thus after re-arranging terms we get
-\begin{eqnarray}
-  {1 \over 1 + b} I_1
-  &=&
-  {p \over 1 - \gamma} ((1 - \phi) e^r)^{1 - \gamma} \nonumber \\
-  &&
-  + \sum_{k=0}^\infty
-  {\alpha p ((1 - \phi) e^r)^{1 - \gamma}\over M^{k+1}}
-  \left[ \prod_{i=0}^{k-1} (\alpha + i) \right]
-  \sum_{n=1}^\infty {(-1)^{n-1} \over n! n^{k+1}}
-  \left(
-  {\phi \over e^{M + r} (1 - \phi)}
-  \right)^n \times \nonumber \\
-  && \prod_{i=1}^{n-1} (\gamma + i - 1)
-  \label{eq:xxie1}
-\end{eqnarray}
-Observe that the sum over $n$ does not involve $\alpha$. Denote
-\[
-a_n(k) =
-{(-1)^{n-1} \over n! n^{k+1}}
-\left(
-     {\phi \over e^{M + r} (1 - \phi)}
-     \right)^n
-     \prod_{i=1}^{n-1} (\gamma + i - 1)
-\]
-For each given $k$, $a_n(k)$ is an alternating series.
-For $n = 1,3,5,\cdots$
-\begin{eqnarray*}
-  && {a_n(k) \over |a_{n+1}(k)|} \\
-  &=& {
-    e^{M + r} (1 - \phi) (n+1)^{k+2}
-    \over
-    \phi n^{k+1} (n + \kappa - 1)
-  } \\
-  &=&
-  \left(1 + {2 - \kappa \over n + \kappa - 1}\right)
-  \left( 1 + {1 \over n} \right)^{k+1}
-  {e^{M + r} (1 - \phi) \over \phi}
-\end{eqnarray*}
+\begin{proof}
+  We show
+  \[
+  \td{G}{\alpha} > 0
+  \]
+  Let
+  \begin{equation}
+    \label{eq:xxie2}
+    \hat \phi := \argmax_{0 < \phi \leq 1}
+    \mathcal U F(\alpha, \beta, K, K', \phi)
+  \end{equation}
+  We have
+  \[
+  G(\alpha, \beta, K, K') = \mathcal U F(\alpha, \beta, K, K', \hat \phi)
+  \]
+  It follows
+  \begin{eqnarray}
+    \td{G}{\alpha}
+    &=&
+    \pd{\mathcal U F}{\alpha}(\alpha, \beta, K, K', \hat \phi)
+    + \pd{\mathcal U F}{\phi}(\alpha, \beta, K, K', \hat \phi)
+    \pd{\hat \phi}{\alpha}(\alpha, \beta, K, K')
+    \label{eq:xxie3}
+  \end{eqnarray}
+  The definition \eqref{eq:xxie2} implies $\forall \alpha > 1$
+  \begin{equation}
+    \label{eq:xxie4}
+    \pd{\mathcal U F}{\phi}(\alpha, \beta, K, K', \hat \phi) = 0
+  \end{equation}
+  So the second term of \eqref{eq:xxie3} vanishes. It remains to show
+  \[
+  \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
+  \]
+  \begin{enumerate}[i.]
+  \item When $C < \delta v$ implies $X < -q$ for some $q > 0$, we have
+    \begin{eqnarray*}
+      \pd{\mathcal U(F)}{\alpha}
+      &=&
+      - \frac{\partial}{\partial \alpha} \left\{
+      {\alpha p K^\alpha \over \xi}
+      \left[
+      (1 + b)\int_{-\infty}^{-q} +
+      \int_{-q}^0
+      \right] \right. \\
+      && \left.
+      \left\{
+      \left[
+        (1 - \phi) e^r + \phi e^x
+      \right]^{-\xi}
+      (K - x)^{-\alpha - 1}
+      \right\}
+      dx \right\} \\
+      &=&
+      \underbrace{
+      {p \over \xi}
+      \left[
+      (1 + b)\int_{q}^{\infty} +
+      \int_{0}^q
+      \right]
+      \left[
+        (1 - \phi) e^r + \phi e^{-x}
+      \right]^{-\xi}
+      \ln \left(
+      1 + {x \over K}
+      \right)
+            {\alpha K^{\alpha} dx
+              \over
+              (K + x)^{\alpha + 1}
+            }
+      }_{L_1}\\
+      && - \underbrace{
+        {p \over \xi}
+        \left[
+          (1 + b)\int_{q}^{\infty} +
+          \int_{0}^q
+          \right]
+        \left[
+          (1 - \phi) e^r + \phi e^{-x}
+          \right]^{-\xi}
+        {K^{\alpha} dx \over (K + x)^{\alpha + 1} }
+      }_{L_2} \\
+    \end{eqnarray*}
+    Clearly $L_2 < \infty$. For $L_1$, observe
+    \begin{eqnarray*}
+      L_1 &<& {
+        \alpha K^\alpha p (1 + b)
+        \over
+        \xi (1 - \phi)^\xi e^{r \xi}
+      } \int_0^\infty
+      {1 \over (x + K)^{\alpha + 1}}
+      \left(1 + {x \over K}\right)
+      dx \\
+      &=&
+      {
+        p \alpha (1 + b)
+        \over
+        \xi (\alpha - 1) (1 - \phi)^\xi e^{r \xi}
+      } < \infty
+    \end{eqnarray*}
+    Let
+    \begin{eqnarray*}
+      c &:=& {p \over \xi}
+      \left[
+      (1 + b)\int_{q}^{\infty} +
+      \int_{0}^q
+      \right]
+      \left[
+        (1 - \phi) e^r + \phi e^{-x}
+      \right]^{-\xi}
+      {
+        \alpha K^{\alpha} dx \over (K + x)^{\alpha + 2}
+      } < \infty
+    \end{eqnarray*}
+    Define distribution function $H(x): (0, \infty) \to (0, 1)$ by its
+    density with respect to the Lebesgue measure
+    \[
+      {d H(x) \over d x}
+      =
+      {p \over c \xi}
+      \left[
+        (1 - \phi) e^r + \phi e^{-x}
+        \right]^{-\xi}
+      {
+        \alpha K^{\alpha}
+        \over
+        (K + x)^{\alpha + 2}
+      }
+      \times
+      \left\{
+      \begin{array}{ll}
+        1 & \text{ if } 0 < x < q \\
+        (1 + b) & \text{ if } x > q \\
+      \end{array}
+      \right.
+    \]
+    Let $Y \sim H$, then
+    \begin{eqnarray*}
+      \E Y &:=& {p \over c \xi}
+      \left[
+        (1 + b)\int_{q}^{\infty} +
+        \int_{0}^q
+        \right]
+      \left[
+        (1 - \phi) e^r + \phi e^{-x}
+        \right]^{-\xi}
+      \alpha K^{\alpha} (K + x)^{-\alpha - 1} dx \\
+      &=& {\alpha L_2 \over c} \\
+      L_1 &=& c \E[Y \ln(Y/K)]
+    \end{eqnarray*}
+    Notice
+    \[
+      {
+        d^2
+        \over
+        dx^2
+      }
+      \left[
+        x \ln\left({x \over K}\right)
+      \right] = {1 \over x} > 0
+      \quad \text{ for } x > 0
+    \]
+    That is, $x \ln(x/K)$ defined on $(0, \infty)$ is a convex
+    function. Now that $L_1, L_2 < \infty$, Jensen's inequality gives
+    \[
+      {L_1 \over c} = \E [Y \ln(Y/K)]
+      >
+      \E Y \times \ln(\E Y/K)
+      =
+      {\alpha L_2  \over c}
+      \ln\left(
+      {\alpha L_2  \over c K}
+      \right)
+    \]
+  \end{enumerate}
+  Therefore
+  \[
+  L_1 - L_2 > L_2 \left[
+    \alpha \ln \left(
+    {\alpha L_2 \over c K}
+    \right) - 1
+  \right]
+  \]
+  Clearly $L_2 > 0$. So it remains to show
+  \[
+    \alpha \ln \left(
+    {\alpha L_2 \over c K}
+    \right) - 1 > 0
+  \]
+  Observe
+  \begin{eqnarray*}
+    L_2 &>&
+      {p \over \xi}
+      \left[
+      (1 + b)\int_{q}^{\infty} +
+      \int_{0}^q
+      \right]
+      \left[
+        (1 - \phi) e^r + \phi
+      \right]^{-\xi}
+      {K^{\alpha} dx
+        \over
+        (K + x)^{\alpha + 1}
+      } \\
+      &=& {
+        p [(K + q)^{-\alpha} b + K^{-\alpha}]
+        \over
+        \alpha \xi [(1 - \phi) e^r + \phi]^\xi
+      } 
+  \end{eqnarray*}
+\end{proof}
 
-If ${e^{M + r} (1 - \phi) \over \phi} > 1$, it is clear
-$a_n(k)/|a_{n+1}(k)| > 1$. It follows that $I_1$ and hence $u(v) +
-u(\delta v)$ is monotonically increasing with $\alpha$. If all
-investors are guided by and hence seek to maximize the same utility
-function, they would all 
-have constructed their portfolios by choosing from a set of equities
-that have tail indices close to the largest in the market. At market
-equilibrium, all actively traded equities would have tail indices that
-are indistinguishable from each other by standard estimation procedures.
-
-Furthermore, differentiating \eqref{eq:xxie1} gives
-\begin{eqnarray*}
-  && \opd{\phi} [u(v) + b u(\delta v)] \\
-  &=&
-  \pd{I_1}{\phi} + \opd{\phi}(I_2 + I_3) \\
-  &=&
-  -(1 + b) {
-    p ((1 - \phi) e^r)^{1- \kappa}
-    \over
-    1 - \phi
-  }
-  - (1 + b) \sum_{k=0}^\infty \sum_{n=1}^\infty
-  {\alpha p \over M^{k + 1}}
-  {\Gamma(\alpha + k) \over \Gamma(\alpha)}
-  {(-1)^{n-1} \over n! n^{k+1}} \times \\
-  &&
-  {\Gamma(\gamma + n - 1) \over \Gamma(\gamma)}
-  {1 \over \phi}
-  \left[
-    {\phi \over e^{M+r} (1 - \phi)}
-  \right]^n
-  e^r [(1 - \gamma) \phi + n] [(1 - \phi) e^r]^{-\gamma} \\
-  && + \partial_\phi I_2 + \partial_\phi I_3
-\end{eqnarray*}
-where we have used the short-hand notation $\partial_\phi I_i =
-\pd{I_i}{\phi}$. Truncating the infinite sum above after $k=0$ and
-$n=1$, and then setting the result to 0 provides a condition that the
-optimal choice of $\phi$ must satisfy:
-\begin{eqnarray*}
-  {
-    p [(1 - \phi) e^r]^{-\gamma}
-    [e^{-M} \alpha (1 - \phi (1 - \gamma)) - e^r M (1 - \phi)]
-    (1 + b)
-    \over
-    M (1 - \phi)
-  } + \partial_\phi I_2 + \partial_\phi I_3 = 0
-\end{eqnarray*}
-Solving for $\alpha$, we get
-\begin{eqnarray*}
-  \alpha &=& {
-    M e^M (1 - \bar \phi)
-    \left[
-      e^r p (1 + b) - ((1 - \bar \phi) e^r)^\gamma
-      (\partial_\phi I_2 + \partial_\phi I_3)_{\phi = \bar \phi}
-    \right]
-    \over
-    p [1 - (1 - \gamma) \bar \phi] (1 + b)
-  }
-\end{eqnarray*}
-where $\bar \phi$ denotes the optimal choice of $\phi$, the portion of
-one's wealth allocated to the equity.
-
-\textcolor{red}{
-  What happens when ${e^{M + r} (1 - \phi) \over \phi} \leq 1$?
-}
-
-\subsubsection{very risk-avert utility functions}
-In this section we consider power utility functions of
-\eqref{eq:power_utility} with $\gamma > 1$. For convenience,
-let $\kappa = \gamma - 1$. In this case, we assume the following
-distribution function $F(\cdot)$ of the equity return:
-\[
-F(x) = \left\{
-\begin{array}{ll}
-    p M^\alpha / |x|^\alpha & \text{ if } x \leq -M \\
-    F_u(x) & \text{ if } -M < x < M\\
-    1 - p M^\alpha x^\alpha & \text{ if } x \geq M
-\end{array}
-\right.
-\]
-where the distribution function $F_u(\cdot)$ satisfies
-\begin{eqnarray*}
-  F_u(-M) &=& p \\
-  F_u(M) &=& 1 - p
-\end{eqnarray*}
-In this case we have
-\begin{eqnarray*}
-  && u(v) + b u(\delta v) \\
-  &=&
-  {
-    (1 + b) p \alpha M^\alpha
-    \over
-    \kappa
-  }
-  \int_{-\infty}^{-M}
-  ((1 - \phi) e^r + \phi e^x)^{-\kappa} |x|^{-\kappa - 1}
-  dx + \\
-  &&
-  (1 + b) \int_{-M}^{\delta v}
-  ((1 - \phi) e^r + \phi e^x)^{-\kappa} d F_u(x) + \\
-  &&
-  {
-    (1 + b) p \alpha M^\alpha
-    \over
-    \kappa
-  }
-  \int_{M}^{\infty}
-  ((1 - \phi) e^r + \phi e^x)^{-\kappa} x^{-\kappa - 1}
-  dx \\
-  &=&
-  I_1 + I_2 + I_3
-\end{eqnarray*}
+%% \[
+%% F(x) = \left\{
+%% \begin{array}{ll}
+%%     p M^\alpha / |x|^\alpha & \text{ if } x \leq -M \\
+%%     F_u(x) & \text{ if } -M < x < M\\
+%%     1 - p M^\alpha x^\alpha & \text{ if } x \geq M
+%% \end{array}
+%% \right.
+%% \]
+%% where the distribution function $F_u(\cdot)$ satisfies
+%% \begin{eqnarray*}
+%%   F_u(-M) &=& p \\
+%%   F_u(M) &=& 1 - p
+%% \end{eqnarray*}
+%% In this case we have
+%% \begin{eqnarray*}
+%%   && u(v) + b u(\delta v) \\
+%%   &=&
+%%   {
+%%     (1 + b) p \alpha M^\alpha
+%%     \over
+%%     \kappa
+%%   }
+%%   \int_{-\infty}^{-M}
+%%   ((1 - \phi) e^r + \phi e^x)^{-\kappa} |x|^{-\kappa - 1}
+%%   dx + \\
+%%   &&
+%%   (1 + b) \int_{-M}^{\delta v}
+%%   ((1 - \phi) e^r + \phi e^x)^{-\kappa} d F_u(x) + \\
+%%   &&
+%%   {
+%%     (1 + b) p \alpha M^\alpha
+%%     \over
+%%     \kappa
+%%   }
+%%   \int_{M}^{\infty}
+%%   ((1 - \phi) e^r + \phi e^x)^{-\kappa} x^{-\kappa - 1}
+%%   dx \\
+%%   &=&
+%%   I_1 + I_2 + I_3
+%% \end{eqnarray*}
 
 
 
