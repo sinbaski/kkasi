@@ -443,17 +443,7 @@ distribution function $F(\cdot)$ of the equity return:
   \end{array}
   \right.
 \end{equation*}
-Assume $\alpha, \beta > 1$, $0 < p < 1$ and
-\begin{equation}
-  \label{eq:xxie1.1}
-  0 < K <
-  {\alpha \over \alpha + 1}
-  (e^r - 1)^\xi
-  \exp\left(
-    - r \xi
-    + {1 \over \alpha}
-  \right)
-\end{equation}
+Assume $\alpha, \beta > 1$, $0 < p < 1$ and $K > 0$.
 Equation
 \eqref{eq:xxie0} can be re-arranged as
 \[
@@ -475,8 +465,28 @@ we denote it $\mathcal U(\cdot)$, i.e.
   G(\alpha, \beta, K, K') =
   \max_{0 < \phi \leq 1} \mathcal U F(\alpha, \beta, K, K', \phi)
   \]
-  $G(\alpha, \beta, K, K')$ is monotonically increasing with
-  $\alpha$.
+  Let the disappointment threshold $C < \delta v$ be equivalent to $X < -q$. Assume
+  \begin{equation}
+    \label{eq:xxie1.1}
+    r > -\ln \left\{
+      1 - \left[
+          {\alpha + 1 \over \alpha}
+          {
+            \left[
+              b K^{\alpha + 1} + (K + q)^{\alpha + 1}
+            \right]
+            \over
+            \left[
+              b K^{\alpha+1} \left(1 + {q \over K} \right) + (K + q)^{\alpha + 1}
+            \right]
+          }
+          {
+            1 \over K e^{1/\alpha}
+          }
+      \right]^{1/\xi}
+    \right\}
+  \end{equation}
+  Then $G(\alpha, \beta, K, K')$ is monotonically increasing with $\alpha$.
 \end{theorem}
 
 \begin{proof}
@@ -513,7 +523,7 @@ we denote it $\mathcal U(\cdot)$, i.e.
   \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
   \]
   \begin{enumerate}[i.]
-  \item When $C < \delta v$ implies $X < -q$ for some $q \geq 0$, we have
+  \item When $q \geq 0$, we have
     \begin{eqnarray*}
       && \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) \\
       &=&
@@ -591,7 +601,7 @@ we denote it $\mathcal U(\cdot)$, i.e.
         \alpha K^{\alpha} dx \over (K + x)^{\alpha + 2}
       } < \infty
     \end{eqnarray*}
-    Define distribution function $H(x): (0, \infty) \to (0, 1)$ by its
+    Define distribution function $H(x): [0, \infty] \to [0, 1]$ by its
     density with respect to the Lebesgue measure
     \[
     {d H(x) \over d x}
@@ -644,7 +654,7 @@ we denote it $\mathcal U(\cdot)$, i.e.
     \right] = {1 \over x + K} > 0
     \quad \text{ for } x > 0
     \]
-    That is, $(x + K) \ln(1 + x/K)$ defined on $(0, \infty)$ is a convex
+    That is, $(x + K) \ln(1 + x/K)$ defined on $[0, \infty]$ is a convex
     function. Now that $L_1, L_2 < \infty$, Jensen's inequality gives
     \[
     {L_1 \over c} = \E \left[
@@ -739,32 +749,78 @@ we denote it $\mathcal U(\cdot)$, i.e.
         \right]^{-\xi}
       } > {1 \over \alpha} \exp\left( {1 \over \alpha} \right)
     \end{equation}
-    This simplies to
-    \begin{equation}
-      \label{eq:xxie7}
-      \hat\phi < {
-        g - 1
+    This expression can be simplified to
+    \begin{eqnarray}
+      \left(
+        e^r + {\hat\phi \over 1 - \hat\phi}
+      \right)^{-\xi} &>&
+      {
+        \alpha e^{1/\alpha} \left[
+          (K + q)^{-\alpha - 1} b + K^{-\alpha - 1}
+        \right]
         \over
-        (1 - e^{-r}) g - 1
-      }
-    \end{equation}
+        (\alpha + 1) e^{r \xi} \left[
+          (K + q)^{-\alpha} b + K^{-\alpha}
+        \right]
+      } \nonumber \\
+      e^r + {\hat\phi \over 1 - \hat\phi} &<&
+      \left[
+        {
+          (K + q)^{\alpha + 1} K + b K^{\alpha + 1} (K + q)
+          \over
+          b K^{\alpha + 1} + (K + q)^{\alpha + 1}
+        } {
+          \alpha
+          \over
+          \alpha + 1
+        }
+      \right]^{-1/\xi}
+      \exp \left(
+        r - {1 \over \alpha \xi}
+      \right) \nonumber \\
+      &=&
+      \left\{
+        {\alpha + 1 \over \alpha}
+        {
+          \left[
+            b K^{\alpha + 1} + (K + q)^{\alpha + 1}
+          \right]
+          \over
+          \left[
+            b K^{\alpha+1} \left(1 + {q \over K} \right) + (K + q)^{\alpha + 1}
+          \right]
+        }
+        {
+          \exp \left(
+            r \xi - {1 \over \alpha}
+          \right) \over K
+        }
+      \right\}^{1/\xi} \nonumber \\
+      \hat\phi &<& {e^r - g \over e^r - g - 1}
+      \label{eq:xxie7}
+    \end{eqnarray}
     where
     \[
     g = 
-    \left\{
-      {
-        \left[
-          (K + q)^{\alpha + 1} + b K^{\alpha + 1}
-        \right] \alpha e^{1/\alpha}
-        \over
-        (\alpha + 1) K (K + q) 
-        \left[
-          (K + q)^{\alpha} + b K^{\alpha}
-        \right]
-      }
-    \right\}^{1/\xi}
+      \left\{
+        {\alpha + 1 \over \alpha}
+        {
+          \left[
+            b K^{\alpha + 1} + (K + q)^{\alpha + 1}
+          \right]
+          \over
+          \left[
+            b K^{\alpha+1} \left(1 + {q \over K} \right) + (K + q)^{\alpha + 1}
+          \right]
+        }
+        {
+          \exp \left(
+            r \xi - {1 \over \alpha}
+          \right) \over K
+        }
+      \right\}^{1/\xi}
     \]
-    Assumption \eqref{eq:xxie1.1} ensures $g > e^r/(e^r - 1)$. Hence the
+    Assumption \eqref{eq:xxie1.1} ensures $g < e^r - 1$. Hence the
     right-hand-side of inequality \eqref{eq:xxie7} is larger than 1.
     So \eqref{eq:xxie7} is satisfied by all $\hat\phi$. Thus
     \eqref{eq:xxie6} holds and we conclude
@@ -772,7 +828,7 @@ we denote it $\mathcal U(\cdot)$, i.e.
     \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
     \]
 
-  \item When $C < \delta v$ implies $X < q$ for some $q > 0$, we have
+  \item When $q < 0$, we have
     \begin{eqnarray*}
       && \mathcal U(F)(\alpha, \beta, K, K', \hat\phi) \\
       &=& \alpha p K^\alpha (1 + b) \int_{-\infty}^0
@@ -780,7 +836,7 @@ we denote it $\mathcal U(\cdot)$, i.e.
       (K - x)^{-\alpha-1} dx \\
       &&
       + (1 - p) \beta K'^\beta \left[
-        (1 + b) \int_0^q + \int_q^\infty
+        (1 + b) \int_0^{-q} + \int_{-q}^\infty
       \right]
       [(1 - \hat\phi) e^r + \hat\phi e^x]^{-\xi} (K' + x)^{-\beta-1} dx    
     \end{eqnarray*}
@@ -792,6 +848,20 @@ we denote it $\mathcal U(\cdot)$, i.e.
   \]
   stands.
 \end{proof}
+\begin{remark}
+  When $q = 0$, the lower-bound \eqref{eq:xxie1.1} on the interest
+  rate simplifies to
+  \begin{equation}
+    \label{eq:xxie8}
+    K < {
+      (\alpha + 1) e^{-1/\alpha}
+      \over
+      \alpha (1 - e^{-r})^\xi
+    }
+  \end{equation}
+  The right-hand-side of \eqref{eq:xxie8} is a very high upper bound
+  on the scale parameter $K$, as is revealed later in this paper.
+\end{remark}
 
 \section{Review of multivariate GARCH models:
   same tail index or not}
