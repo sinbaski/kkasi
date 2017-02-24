@@ -166,7 +166,7 @@
 \newtheorem{summary}{Summary}
 
 \title{Tail Indices and Scale Parameters in Financial Time Series}
-\author{Thomas Valentin Mikosch, Casper de Vries, Xie Xiaolei}
+\author{Thomas Mikosch, Casper de Vries, Xie Xiaolei}
 \date{\today}
 \begin{document}
 \maketitle
@@ -459,6 +459,34 @@ we denote it $\mathcal U(\cdot)$, i.e.
 = 
 \E u(C) + b \E [u(C); C < \delta v]
 \]
+$C < \delta v$ implies
+\[
+X < -q(r, \phi, \delta v) := \ln \left( {
+  \delta v - (1 - \phi) e^r
+  \over
+  \phi
+} \right)
+\]
+In the rest of this section we write $q$ for $q(r, \phi, \delta v)$
+for convenience. We have
+\begin{eqnarray}
+  && \mathcal U F (\alpha, \beta, K, K', \phi) \nonumber \\
+  &=&
+  -{\alpha K^\alpha \over \xi} p
+  \int_{-\infty}^0
+      {
+       1 \over \left[ (1 - \phi) e^r + \phi e^x \right]^{\xi}
+      }
+  {1 + b \1{x < -q} \over (K + x)^{\alpha + 1}} dx \nonumber \\
+  && -{\beta K'^\beta \over \xi} (1 - p)
+  \int_{0}^\infty
+  {
+   1 \over \left[ (1 - \phi) e^r + \phi e^x \right]^{\xi}
+  }
+  {1 + b \1{x < -q} \over (K' + x)^{\beta + 1}} dx
+  \label{eq:xxie1.0}
+\end{eqnarray}
+
 \begin{theorem}
   Let
   \[
@@ -468,24 +496,16 @@ we denote it $\mathcal U(\cdot)$, i.e.
   Let the disappointment threshold $C < \delta v$ be equivalent to $X < -q$. Assume
   \begin{equation}
     \label{eq:xxie1.1}
-    r > -\ln \left\{
-      1 - \left[
-          {\alpha + 1 \over \alpha}
-          {
-            \left[
-              b K^{\alpha + 1} + (K + q)^{\alpha + 1}
-            \right]
-            \over
-            \left[
-              b K^{\alpha+1} \left(1 + {q \over K} \right) + (K + q)^{\alpha + 1}
-            \right]
-          }
-          {
-            1 \over K e^{1/\alpha}
-          }
-      \right]^{1/\xi}
-    \right\}
+    K < {
+      \alpha e^{1/\alpha} (1 - e^{-r})^\xi
+      \over
+      (\alpha + 1) A
+    }
   \end{equation}
+  where
+  \[
+  A = \max_{x \geq 1} {b x + x^{\alpha + 1} \over b + x^{\alpha + 1}}
+  \]
   Then $G(\alpha, \beta, K, K')$ is monotonically increasing with $\alpha$.
 \end{theorem}
 
@@ -723,7 +743,9 @@ we denote it $\mathcal U(\cdot)$, i.e.
       } \\
       &=&
       {
-        \alpha K^\alpha p \left[ (K + q)^{-\alpha - 1} b + K^{-\alpha - 1} \right]
+        \alpha K^\alpha p \left[
+          (K + q)^{-\alpha - 1} b + K^{-\alpha - 1}
+        \right]
         \over
         \xi (\alpha + 1) (1 - \hat\phi)^\xi e^{r \xi}
       }
@@ -736,8 +758,8 @@ we denote it $\mathcal U(\cdot)$, i.e.
           b (K + q)^{-\alpha} + K^{-\alpha}
         \right]
         \left[
-          (1 - \hat\phi) e^r + \hat\phi
-        \right]^{-\xi}
+          (1 - \hat\phi) e^r
+        \right]^{\xi}
         (\alpha + 1)
         \over
         \alpha^2
@@ -745,123 +767,144 @@ we denote it $\mathcal U(\cdot)$, i.e.
           b (K + q)^{-\alpha - 1} + K^{-\alpha - 1}
         \right]
         \left[
-          (1 - \hat\phi) e^r
-        \right]^{-\xi}
+          (1 - \hat\phi) e^r + \hat\phi
+        \right]^{\xi}
       } > {1 \over \alpha} \exp\left( {1 \over \alpha} \right)
     \end{equation}
     This expression can be simplified to
     \begin{eqnarray}
       \left(
-        e^r + {\hat\phi \over 1 - \hat\phi}
+           {\hat\phi \over 1 - \hat\phi} e^{-r} + 1
       \right)^{-\xi} &>&
       {
         \alpha e^{1/\alpha} \left[
           (K + q)^{-\alpha - 1} b + K^{-\alpha - 1}
         \right]
         \over
-        (\alpha + 1) e^{r \xi} \left[
+        (\alpha + 1) \left[
           (K + q)^{-\alpha} b + K^{-\alpha}
         \right]
       } \nonumber \\
-      e^r + {\hat\phi \over 1 - \hat\phi} &<&
+      {\hat\phi \over 1 - \hat\phi}e^{-r} + 1
+      &<&
       \left[
+        {\alpha + 1 \over \alpha}
         {
-          (K + q)^{\alpha + 1} K + b K^{\alpha + 1} (K + q)
+          b K^{\alpha + 1} (K + q)
+          + (K + q)^{\alpha + 1} K 
           \over
           b K^{\alpha + 1} + (K + q)^{\alpha + 1}
         } {
-          \alpha
+          1
           \over
-          \alpha + 1
+          e^{1/\alpha}
         }
-      \right]^{-1/\xi}
-      \exp \left(
-        r - {1 \over \alpha \xi}
-      \right) \nonumber \\
+     \right]^{1/\xi} \nonumber \\
       &=&
-      \left\{
+      \left[
         {\alpha + 1 \over \alpha}
         {
-          \left[
-            b K^{\alpha + 1} + (K + q)^{\alpha + 1}
-          \right]
+          b \left(1 + {q \over K}\right)
+          + \left(1 + {q \over K}\right)^{\alpha + 1}
           \over
-          \left[
-            b K^{\alpha+1} \left(1 + {q \over K} \right) + (K + q)^{\alpha + 1}
-          \right]
+          b + \left(1 + {q \over K}\right)^{\alpha + 1}
+        } {
+          K
+          \over
+          e^{1/\alpha}
         }
-        {
-          \exp \left(
-            r \xi - {1 \over \alpha}
-          \right) \over K
-        }
-      \right\}^{1/\xi} \nonumber \\
-      \hat\phi &<& {e^r - g \over e^r - g - 1}
+      \right]^{1/\xi} \nonumber \\
+      \hat\phi &<& {1 - g \over 1 - g - e^{-r}}
       \label{eq:xxie7}
     \end{eqnarray}
     where
     \[
     g = 
-      \left\{
-        {\alpha + 1 \over \alpha}
-        {
-          \left[
-            b K^{\alpha + 1} + (K + q)^{\alpha + 1}
-          \right]
-          \over
-          \left[
-            b K^{\alpha+1} \left(1 + {q \over K} \right) + (K + q)^{\alpha + 1}
-          \right]
-        }
-        {
-          \exp \left(
-            r \xi - {1 \over \alpha}
-          \right) \over K
-        }
-      \right\}^{1/\xi}
+    \left[
+      {\alpha + 1 \over \alpha}
+      {
+        b \left(1 + {q \over K}\right)
+        + \left(1 + {q \over K}\right)^{\alpha + 1}
+        \over
+        b + \left(1 + {q \over K}\right)^{\alpha + 1}
+      } {
+        K
+        \over
+        e^{1/\alpha}
+      }
+      \right]^{1/\xi}
     \]
-    Assumption \eqref{eq:xxie1.1} ensures $g < e^r - 1$. Hence the
-    right-hand-side of inequality \eqref{eq:xxie7} is larger than 1.
-    So \eqref{eq:xxie7} is satisfied by all $\hat\phi$. Thus
-    \eqref{eq:xxie6} holds and we conclude
+    Inequality \eqref{eq:xxie7} is satisfied by all possible
+    $\hat\phi$ if
+    \begin{eqnarray*}
+      g &<& 1 - e^{-r}
+    \end{eqnarray*}
+    Observe that the expression
+    \[
+    {
+      b \left(1 + {q \over K}\right)
+      + \left(1 + {q \over K}\right)^{\alpha + 1}
+      \over
+      b + \left(1 + {q \over K}\right)^{\alpha + 1}
+    }
+    \]
+    is 1 and increasing at $q = 0$; as $q \to \infty$, it tends to
+    1. So it must have a maximum value for
+    $q \in (0, \infty)$. Let
+    \[
+    A = \max_{x \geq 1} {b x + x^{\alpha + 1} \over b + x^{\alpha + 1}}
+    \]
+    Then $g < 1 - e^{-r}$ is implied by
+    \begin{eqnarray*}
+      {\alpha + 1 \over \alpha}
+      {K \over e^{1/\alpha}}
+      A &<& (1 - e^{-r})^\xi \\
+      K &<& {
+        \alpha e^{1/\alpha} (1 - e^{-r})^\xi
+        \over
+        (\alpha + 1) A
+      }
+    \end{eqnarray*}
+    The last inequality is indeed assumption \eqref{eq:xxie1.1}.
+    So, under this assumption, \eqref{eq:xxie7} is satisfied by all
+    $\hat\phi$ and \eqref{eq:xxie6} holds. We conclude
     \[
     \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
     \]
 
-  \item When $q < 0$, we have
+  \item When $q < 0$, it follows from \eqref{eq:xxie1.0}:
     \begin{eqnarray*}
-      && \mathcal U(F)(\alpha, \beta, K, K', \hat\phi) \\
-      &=& \alpha p K^\alpha (1 + b) \int_{-\infty}^0
-      [(1 - \hat\phi) e^r + \hat\phi e^x]^{-\xi}
-      (K - x)^{-\alpha-1} dx \\
-      &&
-      + (1 - p) \beta K'^\beta \left[
-        (1 + b) \int_0^{-q} + \int_{-q}^\infty
-      \right]
-      [(1 - \hat\phi) e^r + \hat\phi e^x]^{-\xi} (K' + x)^{-\beta-1} dx    
+      && \opd{\alpha}\mathcal U(F)(\alpha, \beta, K, K', \hat\phi) \\
+      &=& \opd{\alpha} \left[
+        -{\alpha K^\alpha \over \xi} p
+        \int_{-\infty}^0
+            {
+              1 \over \left[ (1 - \phi) e^r + \phi e^x \right]^{\xi}
+            }
+            {1 + b \over (K + x)^{\alpha + 1}} dx
+        \right]
     \end{eqnarray*}
   \end{enumerate}
   So the same calculation as in the previous case carries through
-  with $q = 0$. The same conclusion of
+  with 0 substituted for $q$. The same conclusion of
   \[
   \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
   \]
   stands.
 \end{proof}
-\begin{remark}
-  When $q = 0$, the lower-bound \eqref{eq:xxie1.1} on the interest
-  rate simplifies to
-  \begin{equation}
-    \label{eq:xxie8}
-    K < {
-      (\alpha + 1) e^{-1/\alpha}
-      \over
-      \alpha (1 - e^{-r})^\xi
-    }
-  \end{equation}
-  The right-hand-side of \eqref{eq:xxie8} is a very high upper bound
-  on the scale parameter $K$, as is revealed later in this paper.
-\end{remark}
+Since $u(v) + b u(\delta v)$ given in \eqref{eq:xxie1.0} as a
+functional of the distribution function of $X$ is increasing with the
+lower tail index $\alpha$, all agents guided by this class of utility
+functions will seek the largest $\alpha$ found in a stock group e.g.
+a sector. As a result, one can expect all the actively traded equities
+in the group to feature the same $\alpha$. In section
+\ref{sec:data_analysis} we analyse real-world data of stock returns to
+verify this conclusion.
+
+In comparison to the theoretical constancy of $\alpha$, the scale and
+shift parameter $K$ in the lower-tail distribution of $X$ may vary
+hugely from one equity to another. This could be understood also by
+computing $d\mathcal U F / dK$:
 
 \section{Review of multivariate GARCH models:
   same tail index or not}
@@ -1209,7 +1252,7 @@ v(\xi) = {
 %% null hypothesis must be lower than $\alpha$.
 \textcolor{red}{Review the test of Hoga}
 
-\section{Data Analysis}
+\section{Data Analysis} \label{sec:data_analysis}
 \subsection{Tail index and scale parameter}
 In this section we apply the statistical tools reviewed in the
 previous sections to real stock return series, denoted $X_t$
