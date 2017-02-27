@@ -431,7 +431,8 @@ In this section we consider power utility functions of
 \eqref{eq:power_utility} with $\gamma > 1$. For convenience,
 let $\xi = \gamma - 1$. In this case, we assume the following
 distribution function $F(\cdot)$ of the equity return:
-\begin{equation*}
+\begin{equation}
+  \label{eq:X_distr}
   F(x) = \left\{
   \begin{array}{ll}
     p \left(
@@ -442,7 +443,7 @@ distribution function $F(\cdot)$ of the equity return:
     \right)^\beta & x > 0
   \end{array}
   \right.
-\end{equation*}
+\end{equation}
 Assume $\alpha, \beta > 1$, $0 < p < 1$ and $K > 0$.
 Equation
 \eqref{eq:xxie0} can be re-arranged as
@@ -1018,164 +1019,60 @@ as $n \to \infty$, the Hill estimator is weakly consistent, i.e.
 \sqrt k (\hat \alpha - \alpha) \overset{d}{\to} N(0, \alpha^2)
 \]
 
-%% with continuous and strictly increasing
-%% distribution function $F(\cdot)$. Cheng and Peng (2001)
-%% \cite{cheng2001confidence} showed asymptotic normal distribution of
-%% the estimator $\alpha_n$:
-%% \begin{proposition}\label{prop:Hill_asymp_dist}
-%%   Suppose $X_1, ..., X_n$ are independent identically distributed and
-%%   their distribution function $F(\cdot)$ satisfies, as $x \to \infty$,
-%%   \[
-%%   1 - F(x) = A x^{-\alpha} [1 + B x^{-\beta} + o(x^{-\beta})]
-%%   \]
-%%   where $A, \alpha, \beta > 0$ and $B \neq 0$. Then
-%%   \[
-%%   \sqrt k (1/\alpha_n - 1/\alpha) \overset{d}{\to}
-%%   N(0, {1 \over \alpha^2})
-%%   \]
-%%   if and only if $k(n) \to \infty$ and $k(n) = o(n^{2\beta/(\alpha +
-%%     2\beta)})$.
-%% \end{proposition}
-%% \begin{proof}
-%%   This is proposition 1 of Cheng and Peng (2001)
-%%   \cite{cheng2001confidence}. See also Embrechts et al (1997)
-%%   \cite{Embrechts1997}.
-%% \end{proof}
-
-\section{Peaks over Threshold}
-An alternative to the Hill estimator is the method of ``Peaks over
-Threshold'' (cf. Embrechts et al (1997)
-\cite{Embrechts1997}). Consider random variable $X$ whose distribution
-satisfies 
-\[
-\P(X > x) = A (x + a)^{-\alpha}
-\]
-for all $x > M$ for some $M > 0$. Then it immediately follows
-\begin{eqnarray*}
-  \P(X > u + x)
-  &=& A (u + a)^{-\alpha} \left(
-  {x \over u + a} + 1
-  \right)^{-\alpha} \\
-  \P(X > u + x | X > u) &=& \left(
-    {x \over u + a} + 1
-    \right)^{-\alpha}
-\end{eqnarray*}
-The density function of the above conditional probability is
-\[
-f_u(x) = {
-  \alpha \over x + u + a
-} \left(
-{x \over u + a} + 1
-\right)^{-\alpha}
-\]
-
-Now suppose we have a sample $X_1, ..., X_N$ where $X_1, ..., X_n > u$
-and $X_i - u = x_i > 0$, for $i=1,2,...,n$. Using the above
-conditional density function, the log-likelihood function of the
-parameters $\alpha$ and $a$ can be found:
-\[
-L(u, a) = -(1 + \alpha) \sum_{i=1}^n \ln(x_i + u + a) +
-u \alpha \ln(u + a) + n \ln(\alpha)
-\]
-It follows
-\begin{eqnarray*}
-  \pd{L(\alpha, a)}{\alpha} &=& \sum_{i=1}^n \ln(x_i + u + a)
-  + n \ln(u + a) + n/\alpha \\
-  \pd{L(\alpha, a)}{a} &=&
-  -(1 + \alpha) \sum_{i=1}^n {1 \over x_i + u + a}
-  + {n \alpha \over u + a}
-\end{eqnarray*}
-Setting the two derivatives to 0 gives
-\begin{eqnarray*}
-  \left[
-    {1 \over n} \sum_{i=1}^n \ln(x_i + u + a)
-    - \ln(u + a)
-    \right]^{-1} &=& \alpha\\
-  \left[
-    {1 \over n} \sum_{i=1}^n (y_i + 1)
-    \right] \left[
-    {1 \over n} \sum_{i=1}^n e^{-y_i}
-    \right] &=& 1
-\end{eqnarray*}
-where
-\begin{eqnarray*}
-  y_i &=& \ln\left(
-  {x_i \over u + a} + 1
-  \right)
-\end{eqnarray*}
-Solving the last equation numerically and substituting the result into
-the first one gives an estimate for $\alpha$ and $a$, call them $\hat
-\alpha$ and $\hat a$. Once $\hat \alpha$ and $\hat a$ have been
-obtained, an estimate of $A$, call it $\hat A$, can be obtained by
-the method of minimum mean square error.
-\begin{eqnarray*}
-  \hat P(X > x) = {1 \over N} \sum_{i=1}^N \1{X_i > x}
-  &=& \hat A (x + \hat a)^{-\hat \alpha} \\
-  \ln[\hat P(X > x)] &=& \ln(\hat A) - \hat \alpha \ln(x + \hat a)
-\end{eqnarray*}
-for all $x > M$. Using the upper order statistics of the
-sample $X_1, ..., X_N$, we have
-\[
-\ln\left({k-1 \over N}\right)
-=
-\ln(\hat A) - \hat \alpha \ln(X_{(k)} + \hat a)
-\]
-where $X_{(k)}$ denotes the $k$-th upper order statistic of the
-sample. Thus, by fitting $\ln\left({k-1 \over N}\right)$ as a linear
-function of $\ln(X_{(k)} + \hat a)$, one can find $\ln(\hat A)$ as the
-intercept.
-
-Before computing the estimates, one should certainly check whether the
-model makes sense for a given data series. One way to do this is to
-plot the {\it mean excess function}. For the tail function in the
-above, it follows
-\begin{eqnarray}
-  e(u) &=& \E (X - u | X > u) \nonumber \\
-  &=& -\int_0^\infty x  d\P(X > u + x | X > u) \nonumber \\
-  &=& \int_0^\infty \left(
-  {x \over u + a} + 1
-  \right)^{-\alpha} dx \nonumber \\
-  &=& {u + a \over \alpha - 1} \label{eq:MEF}
-\end{eqnarray}
-where we assume $\alpha > 1$ so that the conditional expectation is
-finite. It is seen from this formula that mean excesses are linear in
-the thresholds $u$ -- this may prompt discarding the farthest tail
-part of the data when carrying out estimation.
-%% The appearance of these data points are so rare that
-%% including them in the statistics significantly increases the variance
-%% of the estimate. This is analogous to the large variance of the Hill
-%% estimator when the number of upper order statistics used in the
-%% estimation is too small.
-\begin{wrapfigure}{r}{0.5\textwidth}
+\subsubsection{The Energy and the Consumer Staples sectors of S\&P 500}
+Figure \ref{fig:Energy_Hill_upper},
+\ref{fig:Consumer_Staples_Hill_upper},
+and \ref{fig:Information_Technology_lower}
+show the Hill estimates of the
+lower tail indices of the ``energy'', ``consumer staples'' and ``information
+technology'' sectors of the S\&P 500 index, respectively.
+\begin{figure}[htb!]
   \centering
-  \includegraphics[width=0.45\textwidth]{ADM_MEF.pdf}
-  \caption{\scriptsize The mean excess function of ADM. Thresholds are
-    taken from upper order statistics.}
-  \label{fig:ADM_MEF}
-\end{wrapfigure}
+  \includegraphics[width=\textwidth]{Energy_Hill_upper.pdf}
+  \caption{Hill estimates of the upper tail indices of 32 stocks'
+    daily return series in the {\it Energy} sector of Standard \& Poor
+    500 index. Each circle coresponds to a Hill estimate; the grey
+    triangles above and below it mark the 97.5\% and 2.5\% quantiles
+    of its approximate normal distribution.
+    The low and high red lines mark the median of the 2.5\% quantiles
+    and median of the 97.5\% quantiles, respectively.
+    The data are from {\it Yahoo Finance} and the labels on
+    the horizontal axis are Yahoo symbols of the stocks. The data span
+    from 2010-01-01 to 2015-01-01 and comprise $n=1304$
+    observations. $k=(\ln n)^2 = 49$ upper order statistics are used
+    for computing $\alpha_n$. 
+  }
+  \label{fig:Energy_Hill_upper}
+\end{figure}
 
-For example, figure (\ref{fig:ADM_MEF}) shows the mean
-excess function of the return series of the stock of {\it
-  Archer-Daniels-Midland Co}, a company in the {\it Consumer Staples}
-sector of S\&P 500 index.
-One can see that the 8 largest observations of the sample are
-inconsistent with the linear pattern with slope $1/(\alpha - 1)$.
-%% So we would rather not include them in the maximum likelihood
-%% estimation.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{Consumer_Staples_Hill_upper.pdf}
+  \caption{Hill estimates of the upper tail indices of 30 stocks'
+    daily return series in the {\it Consumer Staples} sector of
+    Standard \& Poor 500 index.
+  }
+  \label{fig:Consumer_Staples_Hill_upper}
+\end{figure}
 
-It is also possible to directly use equation \eqref{eq:MEF} as a means
-of estimation. After picking out a portion of the mean excess function
-that is consistent with \eqref{eq:MEF}, one may fit a linear function
-to the empirical $\hat e(u)$ by minimizing the mean square error, and
-obtain parameter estimates from the coefficients of the fitted line.
-  %% \adjustbox{valign=t} {
-  %%   \begin{minipage}[t]{0.45\textwidth}
-  %%   \end{minipage}
-  %% }\hfill
-  %% \adjustbox{valign=t} {
-  %%   \begin{minipage}[t]{0.5\textwidth}
-  %%   \end{minipage}
-  %% }
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{Information_Technology_lower.pdf}
+  \caption{Hill estimates of the lower-tail indices of 42 stocks' daily
+    return series in the {\it Information Technology} sector of S\&P
+    500 index.
+  }
+  \label{fig:Information_Technology_lower}
+\end{figure}
+
+\section{Hybrid estimation of the assumed distribution function}
+We adopt a hybrid procedure to estimate the parameters of the
+distribution function assumed in eq.\eqref{eq:X_distr}: First we
+obtain a Hill estimate of the lower- and upper-tail indices of an
+equity return and fix $\alpha$ and $\beta$ in \eqref{eq:X_distr}
+to their Hill estimates. Then we estimate $K$ and $K'$ by maximizing
+the likelihood function with fixed $\alpha$ and $\beta$.
+
 \section{Pickand's Estimator}
 Pickands (1975) \cite{pickands1975statistical} proposed a different
 approach to estimate the tail index than that of Hill. Assume
@@ -1259,148 +1156,145 @@ previous sections to real stock return series, denoted $X_t$
 hereafter. We are interested in finding out the tail indices and the
 scale parameters of the stationary distribution of $|X_t|$.
 
-%% and show that, within a
-%% comfortable confidence interval, one cannot reject the null hypothesis
-%% that these return series have the same tail index.
+%% \subsubsection{The Energy and the Consumer Staples sectors of S\&P 500}
+%% Figure \ref{fig:Energy_Hill_upper} shows the Hill estimates of the
+%% tail indices of 32 stocks in the {\it Energy} sector of S\&P 500
+%% index; figure \ref{fig:Consumer_Staples_Hill_upper} shows the same of
+%% the {\it Consumer Staples} sector.
+%% \begin{figure}[htb!]
+%%   \centering
+%%   \includegraphics[width=\textwidth]{Energy_Hill_upper.pdf}
+%%   \caption{Hill estimates of the upper tail indices of 32 stocks'
+%%     daily return series in the {\it Energy} sector of Standard \& Poor
+%%     500 index. Each circle coresponds to a Hill estimate; the grey
+%%     triangles above and below it mark the 97.5\% and 2.5\% quantiles
+%%     of its approximate normal distribution.
+%%     The low and high red lines mark the median of the 2.5\% quantiles
+%%     and median of the 97.5\% quantiles, respectively.
+%%     The data are from {\it Yahoo Finance} and the labels on
+%%     the horizontal axis are Yahoo symbols of the stocks. The data span
+%%     from 2010-01-01 to 2015-01-01 and comprise $n=1304$
+%%     observations. $k=(\ln n)^2 = 49$ upper order statistics are used
+%%     for computing $\alpha_n$. 
+%%   }
+%%   \label{fig:Energy_Hill_upper}
+%% \end{figure}
 
-\subsubsection{The Energy and the Consumer Staples sectors of S\&P 500}
-Figure \ref{fig:Energy_Hill_upper} shows the Hill estimates of the
-tail indices of 32 stocks in the {\it Energy} sector of S\&P 500
-index; figure \ref{fig:Consumer_Staples_Hill_upper} shows the same of
-the {\it Consumer Staples} sector.
-\begin{figure}[htb!]
-  \centering
-  \includegraphics[width=\textwidth]{Energy_Hill_upper.pdf}
-  \caption{Hill estimates of the upper tail indices of 32 stocks'
-    daily return series in the {\it Energy} sector of Standard \& Poor
-    500 index. Each circle coresponds to a Hill estimate; the grey
-    triangles above and below it mark the 97.5\% and 2.5\% quantiles
-    of its approximate normal distribution.
-    The low and high red lines mark the median of the 2.5\% quantiles
-    and median of the 97.5\% quantiles, respectively.
-    The data are from {\it Yahoo Finance} and the labels on
-    the horizontal axis are Yahoo symbols of the stocks. The data span
-    from 2010-01-01 to 2015-01-01 and comprise $n=1304$
-    observations. $k=(\ln n)^2 = 49$ upper order statistics are used
-    for computing $\alpha_n$. 
-  }
-  \label{fig:Energy_Hill_upper}
-\end{figure}
+%% \begin{figure}[htb!]
+%%   \centering
+%%   \includegraphics[width=\textwidth]{Consumer_Staples_Hill_upper.pdf}
+%%   \caption{Hill estimates of the upper tail indices of 30 stocks'
+%%     daily return series in the {\it Consumer Staples} sector of
+%%     Standard \& Poor 500 index.
+%%   }
+%%   \label{fig:Consumer_Staples_Hill_upper}
+%% \end{figure}
 
-\begin{figure}[htb!]
-  \centering
-  \includegraphics[width=\textwidth]{Consumer_Staples_Hill_upper.pdf}
-  \caption{Hill estimates of the upper tail indices of 30 stocks'
-    daily return series in the {\it Consumer Staples} sector of
-    Standard \& Poor 500 index.
-  }
-  \label{fig:Consumer_Staples_Hill_upper}
-\end{figure}
-For our purpose, we have excluded a few stocks, though:
-\begin{figure}[htb!]
-  \centering
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{WBA_price.pdf}
-    \caption{{\it Walgreens Boots Alliance} prices}
-    \label{fig:EBA_prices}
-  \end{subfigure}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{WFM_price.pdf}
-    \caption{{\it Whole Foods Market} prices}
-    \label{fig:WFM_prices}
-  \end{subfigure}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{EL_price.pdf}
-    \caption{{\it Estee Lauder Cos.} prices}    
-    \label{fig:EL_prices}
-  \end{subfigure}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{CL_price.pdf}
-    \caption{{\it Colgate-Palmolive} prices}    
-    \label{fig:CL_prices}
-  \end{subfigure}
-  \caption{Plot of prices of {\it Consumer Staples} stocks
-    excluded from Hill estimates}
-\end{figure}
+%% For our purpose, we have excluded a few stocks, though:
+%% \begin{figure}[htb!]
+%%   \centering
+%%   \begin{subfigure}{0.45\textwidth}
+%%     \includegraphics[width=\textwidth]{WBA_price.pdf}
+%%     \caption{{\it Walgreens Boots Alliance} prices}
+%%     \label{fig:EBA_prices}
+%%   \end{subfigure}
+%%   \begin{subfigure}{0.45\textwidth}
+%%     \includegraphics[width=\textwidth]{WFM_price.pdf}
+%%     \caption{{\it Whole Foods Market} prices}
+%%     \label{fig:WFM_prices}
+%%   \end{subfigure}
+%%   \begin{subfigure}{0.45\textwidth}
+%%     \includegraphics[width=\textwidth]{EL_price.pdf}
+%%     \caption{{\it Estee Lauder Cos.} prices}    
+%%     \label{fig:EL_prices}
+%%   \end{subfigure}
+%%   \begin{subfigure}{0.45\textwidth}
+%%     \includegraphics[width=\textwidth]{CL_price.pdf}
+%%     \caption{{\it Colgate-Palmolive} prices}    
+%%     \label{fig:CL_prices}
+%%   \end{subfigure}
+%%   \caption{Plot of prices of {\it Consumer Staples} stocks
+%%     excluded from Hill estimates}
+%% \end{figure}
 
-\begin{itemize}
-\item {\it Walgreens Boots Alliance}:
+%% \begin{itemize}
+%% \item {\it Walgreens Boots Alliance}:
 
-  As shown in figure (\ref{fig:EBA_prices}),
-  this stock was traded only in a small fraction of the bank
-  days and it is hence no surprise that the price varied
-  tremendously.
-\item {\it Whole Foods Market}, {\it Estee Lauder Cos.} and {\it
-  Colgate-Palmolive}
+%%   As shown in figure (\ref{fig:EBA_prices}),
+%%   this stock was traded only in a small fraction of the bank
+%%   days and it is hence no surprise that the price varied
+%%   tremendously.
+%% \item {\it Whole Foods Market}, {\it Estee Lauder Cos.} and {\it
+%%   Colgate-Palmolive}
   
-  As seen in figures (\ref{fig:WFM_prices}), (\ref{fig:EL_prices}) and
-  (\ref{fig:CL_prices}),
-  the prices of these stocks were reduced by half during the
-  period under consideration. But the price changes are the
-  result of emission of new shares rather than random fluctuations.
-\end{itemize}
+%%   As seen in figures (\ref{fig:WFM_prices}), (\ref{fig:EL_prices}) and
+%%   (\ref{fig:CL_prices}),
+%%   the prices of these stocks were reduced by half during the
+%%   period under consideration. But the price changes are the
+%%   result of emission of new shares rather than random fluctuations.
+%% \end{itemize}
 
-Figure \ref{fig:Energy_Hill_upper} and
-\ref{fig:Consumer_Staples_Hill_upper}
-are suggestive of the conclusion that excluding price
-movements due to deterministic events, tail indices of stock return
-series tend to have the same value, within a reasonable confidence
-interval.
+%% Figure \ref{fig:Energy_Hill_upper} and
+%% \ref{fig:Consumer_Staples_Hill_upper}
+%% are suggestive of the conclusion that excluding price
+%% movements due to deterministic events, tail indices of stock return
+%% series tend to have the same value, within a reasonable confidence
+%% interval.
 
-If we look instead at the scales, differences among the stock return
-series are however rather large. Figure (\ref{fig:Energy_Hill_Scales})
-and (\ref{fig:Consumer_Staples_Hill_Scales}) show the Hill estimates of
-the scale parameters of the stocks in the S\&P 500 {\it Energy} and
-{\it Consumer Staples} sectors, respectively.
-\begin{figure}[htb!]
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{Energy_Hill_scales.pdf}
-    \caption{{\it Energy} scale estimates}    
-    \label{fig:Energy_Hill_Scales}
-  \end{subfigure}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{Consumer_Staples_Hill_scales.pdf}
-    \caption{{\it Consumer Staples} scale estimates}    
-    \label{fig:Consumer_Staples_Hill_Scales}
-  \end{subfigure}
-  \caption{Black boxes are Hill estimates of the scale parameters of
-    the stock return series, while red circles are the scale estimates
-    of simulated iid. Student's $t$ series with a degree of freedom
-    equal to the mean value of the estimated tail indices of the stock
-    return series. The estimates of the Student's $t$ series are
-    included for comparison with those of the return series.}
-\end{figure}
-Clearly the estimated scale parameters can differ by several orders of
-magnitude. 
+%% If we look instead at the scales, differences among the stock return
+%% series are however rather large. Figure (\ref{fig:Energy_Hill_Scales})
+%% and (\ref{fig:Consumer_Staples_Hill_Scales}) show the Hill estimates of
+%% the scale parameters of the stocks in the S\&P 500 {\it Energy} and
+%% {\it Consumer Staples} sectors, respectively.
+%% \begin{figure}[htb!]
+%%   \begin{subfigure}{0.45\textwidth}
+%%     \includegraphics[width=\textwidth]{Energy_Hill_scales.pdf}
+%%     \caption{{\it Energy} scale estimates}    
+%%     \label{fig:Energy_Hill_Scales}
+%%   \end{subfigure}
+%%   \begin{subfigure}{0.45\textwidth}
+%%     \includegraphics[width=\textwidth]{Consumer_Staples_Hill_scales.pdf}
+%%     \caption{{\it Consumer Staples} scale estimates}    
+%%     \label{fig:Consumer_Staples_Hill_Scales}
+%%   \end{subfigure}
+%%   \caption{Black boxes are Hill estimates of the scale parameters of
+%%     the stock return series, while red circles are the scale estimates
+%%     of simulated iid. Student's $t$ series with a degree of freedom
+%%     equal to the mean value of the estimated tail indices of the stock
+%%     return series. The estimates of the Student's $t$ series are
+%%     included for comparison with those of the return series.}
+%% \end{figure}
+%% Clearly the estimated scale parameters can differ by several orders of
+%% magnitude. 
 
-Using the ``Peaks over Threshold'' method and the mean excess
-function, we also obtain estimates for the tail index ($\alpha$), the
-scale parameter ($A$) and the shift parameter ($a$) for stocks in the
-{\it Energy} and the {\it Consumer Staples} sectors of the S\&P 500
-index. The results are plotted in figure
-\ref{fig:Energy_OLS_estimates} and
-\ref{fig:Consumer_Staples_OLS_estimates},
-respectively.
-\begin{figure}[htb!]
-  \includegraphics[width=\textwidth]{Energy_OLS_estimates.pdf}
-  \caption{Tail parameter estimates of {\it Energy} stocks. The top
-    plot shows the tail index estimates, the middle plot shows the
-    10-based logarithm of the scale estimates and bottom plot shows
-    the estimates of the shift parameter.
-  }
-  \label{fig:Energy_OLS_estimates}
-\end{figure}
+%% Using the ``Peaks over Threshold'' method and the mean excess
+%% function, we also obtain estimates for the tail index ($\alpha$), the
+%% scale parameter ($A$) and the shift parameter ($a$) for stocks in the
+%% {\it Energy} and the {\it Consumer Staples} sectors of the S\&P 500
+%% index. The results are plotted in figure
+%% \ref{fig:Energy_OLS_estimates} and
+%% \ref{fig:Consumer_Staples_OLS_estimates},
+%% respectively.
+%% \begin{figure}[htb!]
+%%   \includegraphics[width=\textwidth]{Energy_OLS_estimates.pdf}
+%%   \caption{Tail parameter estimates of {\it Energy} stocks. The top
+%%     plot shows the tail index estimates, the middle plot shows the
+%%     10-based logarithm of the scale estimates and bottom plot shows
+%%     the estimates of the shift parameter.
+%%   }
+%%   \label{fig:Energy_OLS_estimates}
+%% \end{figure}
 
-\begin{figure}[htb!]
-  \includegraphics[width=\textwidth]{Consumer_Staples_OLS_estimates.pdf}
-  \caption{Tail parameter estimates of {\it Consumer Staples}
-    stocks. The top 
-    plot shows the tail index estimates, the middle plot shows the
-    10-based logarithm of the scale estimates and bottom plot shows
-    the estimates of the shift parameter.
-  }
-  \label{fig:Consumer_Staples_OLS_estimates}
-\end{figure}
+%% \begin{figure}[htb!]
+%%   \includegraphics[width=\textwidth]{Consumer_Staples_OLS_estimates.pdf}
+%%   \caption{Tail parameter estimates of {\it Consumer Staples}
+%%     stocks. The top 
+%%     plot shows the tail index estimates, the middle plot shows the
+%%     10-based logarithm of the scale estimates and bottom plot shows
+%%     the estimates of the shift parameter.
+%%   }
+%%   \label{fig:Consumer_Staples_OLS_estimates}
+%% \end{figure}
 
 Using Pickands' estimator, the same result of very similar tail indices
 is again obtained for the {\it Energy} and the {\it Consumer Staples}
@@ -1418,32 +1312,32 @@ sectors. Figure \ref{fig:Energy_Pickands} and
   \label{fig:Consumer_Staples_Pickands}
 \end{figure}
 
-\subsubsection{The Information Technology sector of S\&P 500}
-Compared with the sectors of energy and consumer staples, which enjoy
-a relatively stable demand on their products, companies of information
-technology are more subject to volatile demand and competition. As a
-result, one can expect their stock prices to be more volatile, implying
-lower tail indices and larger differences between the tail indices of
-different companies. In this section we investigate how these companies
-differ in terms of their tail indices and scale parameters.
+%% \subsubsection{The Information Technology sector of S\&P 500}
+%% Compared with the sectors of energy and consumer staples, which enjoy
+%% a relatively stable demand on their products, companies of information
+%% technology are more subject to volatile demand and competition. As a
+%% result, one can expect their stock prices to be more volatile, implying
+%% lower tail indices and larger differences between the tail indices of
+%% different companies. In this section we investigate how these companies
+%% differ in terms of their tail indices and scale parameters.
 
-Figure \ref{fig:Information_Technology_Hill} shows the Hill
-estimates of 42 stocks in the {\it Information Technology} sector. Daily
-closing prices of these stocks have been available since 2000-01-01 and
-earlier.
-\begin{figure}[htb!]
-  \centering
-  \includegraphics[width=\textwidth]{Information_Technology_Hill.pdf}
-  \caption{Hill estimates of the tail indices of 42 stocks' daily
-    return series in the {\it Information Technology} sector of Standard
-    \& Poor 500 index.
-  }
-  \label{fig:Information_Technology_Hill}
-\end{figure}
-It is seen in the figure that most of the estimates fall within the
-interval spanned by the confidence bands. Thus, given the estimation
-precision, these are consistent with the similarity conclusion of 
-\S\ref{sec:GDA}.
+%% Figure \ref{fig:Information_Technology_Hill} shows the Hill
+%% estimates of 42 stocks in the {\it Information Technology} sector. Daily
+%% closing prices of these stocks have been available since 2000-01-01 and
+%% earlier.
+%% \begin{figure}[htb!]
+%%   \centering
+%%   \includegraphics[width=\textwidth]{Information_Technology_Hill.pdf}
+%%   \caption{Hill estimates of the tail indices of 42 stocks' daily
+%%     return series in the {\it Information Technology} sector of Standard
+%%     \& Poor 500 index.
+%%   }
+%%   \label{fig:Information_Technology_Hill}
+%% \end{figure}
+%% It is seen in the figure that most of the estimates fall within the
+%% interval spanned by the confidence bands. Thus, given the estimation
+%% precision, these are consistent with the similarity conclusion of 
+%% \S\ref{sec:GDA}.
 
 %% From the figure it appears a few pairs of stocks do have rather different
 %% tail indices, e.g. ``ADI'', ``PAYX'' and ``XLNX'' versus ``CTSH'' and
@@ -1472,7 +1366,7 @@ precision, these are consistent with the similarity conclusion of
 %%   \label{tab:Information_Technology_Hoga}
 %% \end{table}
 
-\subsection{Temporal changes of the parameters}
+%% \subsection{Temporal changes of the parameters}
 
 
 

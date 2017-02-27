@@ -211,13 +211,13 @@ for (i in 1:dim(X)[2]) {
 
 J <- which(abs(tail.x[1, ] - tail.x[2, ]) < 0.5);
 q <- qnorm(0.975);
-M <- tail.x[3, ] + tail.x[3, ]/sqrt(x.k) * q;
-m <- tail.x[3, ] - tail.x[3, ]/sqrt(x.k) * q;
+M <- tail.x[2, ] + tail.x[2, ]/sqrt(x.k) * q;
+m <- tail.x[2, ] - tail.x[2, ]/sqrt(x.k) * q;
 graphics.off();
 ## par(mfrow=c(1, 2));
-pdf(file="../papers/FX/Information_Technology_Hill.pdf",
+pdf(file="../papers/FX/Information_Technology_lower.pdf",
     width=7, height=3.5);
-plot(tail.x[3, ],
+plot(tail.x[2, ],
      main=expression(alpha[L]),
      ylim=c(min(m), max(M)),
      t="p",xaxt="n", xlab="", ylab="",
