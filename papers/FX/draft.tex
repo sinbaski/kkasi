@@ -437,7 +437,7 @@ distribution function $F(\cdot)$ of the equity return:
   \begin{array}{ll}
     p \left(
     {K \over K - x}
-    \right)^\alpha & x < 0 \\
+    \right)^\alpha & x \leq 0 \\
     1 - (1 - p) \left(
     {K' \over K' + x}
     \right)^\beta & x > 0
@@ -904,8 +904,17 @@ verify this conclusion.
 
 In comparison to the theoretical constancy of $\alpha$, the scale and
 shift parameter $K$ in the lower-tail distribution of $X$ may vary
-hugely from one equity to another. This could be understood also by
-computing $d\mathcal U F / dK$:
+hugely from one equity to another. This could be understood by observing
+\[
+\lim_{K \to 0} F(x) = \left\{
+\begin{array}{ll}
+  p \delta_0((-\infty, x])) & \text{ if } x \leq 0 \\
+  1 - (1 - p) \left(
+    K' \over K' + x
+  \right)^\beta & \text{ if } x > 0
+\end{array}
+\right.
+\]
 
 \section{Review of multivariate GARCH models:
   same tail index or not}
