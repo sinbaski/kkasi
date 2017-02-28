@@ -177,7 +177,9 @@ Disappointment Aversion. Such an investor cares about downside risk and
 we assume he recognizes the heavy tail feature of asset return
 distributions. We argue that when a market is dominated by rational
 investors of this kind, the return distributions of equities that are
-actively traded in this market must have very similar tail indices.
+actively traded in this market must have very similar tail indices. We
+also show, in contrast, the scale parameters of the return
+distributions may differ hugely from one another.
 
 On the other hand, whether or not all equities in a multivariate model
 have the same tail index is a dividing issue for multivariate GARCH
@@ -447,44 +449,59 @@ distribution function $F(\cdot)$ of the equity return:
 Assume $\alpha, \beta > 1$, $0 < p < 1$ and $K > 0$.
 Equation
 \eqref{eq:xxie0} can be re-arranged as
+\begin{eqnarray}
+u(v) &=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) \P[C < \delta v] \nonumber \\
+&=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(-q) \label{eq:functional}
+\end{eqnarray}
+where
+\begin{eqnarray*}
+  q(r, \phi) &:=& -\ln \left( {
+    \delta v - (1 - \phi) e^r
+    \over
+    \phi
+} \right)
+\end{eqnarray*}
+Note $C < \delta v$ implies
 \[
-u(v) + b u(\delta v))
-=
-\E u(C) + b \E [u(C); C < \delta v]
+X < -q(r, \phi)
 \]
-The right-hand-side of the above equation is a functional of the
-distribution function of $X$ via eq.\eqref{eq:xxie1}. For convenience
+The right-hand-side of \eqref{eq:functional} is a functional of the
+distribution function of $X$ via \eqref{eq:xxie1}. For convenience
 we denote it $\mathcal U(\cdot)$, i.e.
 \[
 \mathcal U F (\alpha, \beta, K, K', \phi)
 = 
-\E u(C) + b \E [u(C); C < \delta v]
+\E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(-q)
 \]
-$C < \delta v$ implies
-\[
-X < -q(r, \phi, \delta v) := \ln \left( {
-  \delta v - (1 - \phi) e^r
-  \over
-  \phi
-} \right)
-\]
-In the rest of this section we write $q$ for $q(r, \phi, \delta v)$
+In the rest of this section we write $q$ for $q(r, \phi)$
 for convenience. We have
 \begin{eqnarray}
   && \mathcal U F (\alpha, \beta, K, K', \phi) \nonumber \\
-  &=&
+  &=& \underbrace{
   -{\alpha K^\alpha \over \xi} p
   \int_{-\infty}^0
       {
        1 \over \left[ (1 - \phi) e^r + \phi e^x \right]^{\xi}
       }
-  {1 + b \1{x < -q} \over (K - x)^{\alpha + 1}} dx \nonumber \\
+  {1 + b \1{x < -q} \over (K - x)^{\alpha + 1}} dx
+  }_{J_1} \nonumber \\
   && -{\beta K'^\beta \over \xi} (1 - p)
   \int_{0}^\infty
   {
    1 \over \left[ (1 - \phi) e^r + \phi e^x \right]^{\xi}
   }
-  {1 + b \1{x < -q} \over (K' + x)^{\beta + 1}} dx
+  {1 + b \1{x < -q} \over (K' + x)^{\beta + 1}} dx \nonumber \\
+  &&
+  \underbrace{
+    -b u(\delta v) p {K^\alpha \over (K + q)^\alpha} \1{q \geq 0}
+  }_{J_2}
+  - b u(\delta v) \left[
+    1 - (1 - p) {
+      K'^\beta
+      \over
+      (K' - q)^\beta
+    } \1{q < 0}
+  \right]
   \label{eq:xxie1.0}
 \end{eqnarray}
 
@@ -540,13 +557,25 @@ for convenience. We have
     \pd{\mathcal U F}{\phi}(\alpha, \beta, K, K', \hat \phi) = 0
   \end{equation}
   So the second term of \eqref{eq:xxie3} vanishes. It remains to show
-  \[
-  \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
-  \]
+  \begin{eqnarray*}
+    \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi)
+    &=& \pd{J_1}{\alpha} + \pd{J_2}{\alpha} > 0
+  \end{eqnarray*}
+  The 2nd term is easily computed:
+  \begin{eqnarray*}
+    \pd{J_2}{\alpha} &=& b u(\delta v) p \1{q \geq 0}
+    \left(
+      {K \over K + q}
+    \right)^\alpha
+    \ln\left(
+      1 + {q \over K}
+    \right) > 0
+  \end{eqnarray*}
+  As for the 1st term we have
   \begin{enumerate}[i.]
-  \item When $q \geq 0$, we have
+  \item When $q \geq 0$,
     \begin{eqnarray*}
-      && \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) \\
+      && \pd{J_1}{\alpha}(\alpha, \beta, K, K', \hat \phi) \\
       &=&
       - \frac{\partial}{\partial \alpha} \left\{
         {\alpha p K^\alpha \over \xi}
@@ -875,7 +904,7 @@ for convenience. We have
 
   \item When $q < 0$, it follows from \eqref{eq:xxie1.0}:
     \begin{eqnarray*}
-      && \opd{\alpha}\mathcal U(F)(\alpha, \beta, K, K', \hat\phi) \\
+      && \opd{\alpha}J_1(\alpha, \beta, K, K', \hat\phi) \\
       &=& \opd{\alpha} \left[
         -{\alpha K^\alpha \over \xi} p
         \int_{-\infty}^0
