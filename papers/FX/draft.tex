@@ -451,30 +451,35 @@ Equation
 \eqref{eq:xxie0} can be re-arranged as
 \begin{eqnarray}
 u(v) &=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) \P[C < \delta v] \nonumber \\
-&=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(-q) \label{eq:functional}
+&=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(q) \label{eq:functional}
 \end{eqnarray}
 where
 \begin{eqnarray*}
-  q(r, \phi) &:=& -\ln \left( {
+  q(r, \phi) &:=& \ln \left( {
     \delta v - (1 - \phi) e^r
     \over
     \phi
-} \right)
+} \right) = \ln\left(
+e^r + {\delta v - e^r \over \phi}
+\right)
 \end{eqnarray*}
 Note $C < \delta v$ implies
 \[
-X < -q(r, \phi)
+X < q(r, \phi)
 \]
+Naturally, if an agent invests in a risky asset instead of a riskless
+bond, he expects to obtain a higher return from the risky asset than
+he is guarranteed from the riskless bond. In our notation,
+this means $\delta v > e^r$, which implies $q(r, \phi) > 0$.
 The right-hand-side of \eqref{eq:functional} is a functional of the
 distribution function of $X$ via \eqref{eq:xxie1}. For convenience
 we denote it $\mathcal U(\cdot)$, i.e.
 \[
 \mathcal U F (\alpha, \beta, K, K', \phi)
 = 
-\E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(-q)
+\E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(q(r, \phi))
 \]
-In the rest of this section we write $q$ for $q(r, \phi)$
-for convenience. We have
+Hereafter we abbreviate $q(r, \phi)$ to just $q$. We have
 \begin{eqnarray}
   && \mathcal U F (\alpha, \beta, K, K', \phi) \nonumber \\
   &=& \underbrace{
@@ -483,24 +488,21 @@ for convenience. We have
       {
        1 \over \left[ (1 - \phi) e^r + \phi e^x \right]^{\xi}
       }
-  {1 + b \1{x < -q} \over (K - x)^{\alpha + 1}} dx
+  {1 + b \over (K - x)^{\alpha + 1}} dx
   }_{J_1} \nonumber \\
   && -{\beta K'^\beta \over \xi} (1 - p)
   \int_{0}^\infty
   {
    1 \over \left[ (1 - \phi) e^r + \phi e^x \right]^{\xi}
   }
-  {1 + b \1{x < -q} \over (K' + x)^{\beta + 1}} dx \nonumber \\
+  {1 + b \1{x < q} \over (K' + x)^{\beta + 1}} dx \nonumber \\
   &&
-  \underbrace{
-    -b u(\delta v) p {K^\alpha \over (K + q)^\alpha} \1{q \geq 0}
-  }_{J_2}
   - b u(\delta v) \left[
     1 - (1 - p) {
       K'^\beta
       \over
       (K' - q)^\beta
-    } \1{q < 0}
+    }
   \right]
   \label{eq:xxie1.0}
 \end{eqnarray}
@@ -559,44 +561,23 @@ for convenience. We have
   So the second term of \eqref{eq:xxie3} vanishes. It remains to show
   \begin{eqnarray*}
     \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi)
-    &=& \pd{J_1}{\alpha} + \pd{J_2}{\alpha} > 0
+    &>& 0
   \end{eqnarray*}
-  The 2nd term is easily computed:
-  \begin{eqnarray*}
-    \pd{J_2}{\alpha} &=& b u(\delta v) p \1{q \geq 0}
-    \left(
-      {K \over K + q}
-    \right)^\alpha
-    \ln\left(
-      1 + {q \over K}
-    \right) > 0
-  \end{eqnarray*}
-  As for the 1st term we have
-  \begin{enumerate}[i.]
-  \item When $q \geq 0$,
+  We have
     \begin{eqnarray*}
-      && \pd{J_1}{\alpha}(\alpha, \beta, K, K', \hat \phi) \\
+      && \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) \\
       &=&
       - \frac{\partial}{\partial \alpha} \left\{
-        {\alpha p K^\alpha \over \xi}
-        \left[
-          (1 + b)\int_{-\infty}^{-q} +
-          \int_{-q}^0
-        \right] \right. \\
-      && \left.
-        \left\{
+        {\alpha p K^\alpha \over \xi} (1 + b)
+        \int_{-\infty}^{0}
           \left[
             (1 - \hat\phi) e^r + \hat\phi e^x
           \right]^{-\xi}
           (K - x)^{-\alpha - 1}
-        \right\}
         dx \right\} \\
       &=& \underbrace{
         {p \over \xi}
-        \left[
-          (1 + b)\int_{q}^{\infty} +
-          \int_{0}^q
-        \right]
+          (1 + b)\int_{0}^{\infty}
         \left[
           (1 - \hat\phi) e^r + \hat\phi e^{-x}
         \right]^{-\xi}
@@ -610,10 +591,7 @@ for convenience. We have
       }_{L_1} \\
       && - \underbrace{
         {p \over \xi}
-        \left[
-          (1 + b)\int_{q}^{\infty} +
-          \int_{0}^q
-        \right]
+        (1 + b)\int_{0}^{\infty}
         \left[
           (1 - \hat\phi) e^r + \hat\phi e^{-x}
         \right]^{-\xi}
@@ -622,11 +600,13 @@ for convenience. We have
     \end{eqnarray*}
     Clearly $L_2 < \infty$. For $L_1$, observe
     \begin{eqnarray*}
-      L_1 &<& {
+      L_1 &<&
+      {
         \alpha K^\alpha p (1 + b)
         \over
         \xi (1 - \hat\phi)^\xi e^{r \xi}
-      } \int_0^\infty
+      }
+      \int_0^\infty
       {1 \over (x + K)^{\alpha + 1}}
       \left(1 + {x \over K}\right)
       dx \\
@@ -638,25 +618,38 @@ for convenience. We have
       } < \infty
     \end{eqnarray*}
     Let
-    \begin{eqnarray*}
+    \begin{eqnarray}
       c &:=& {p \over \xi}
-      \left[
-        (1 + b)\int_{q}^{\infty} +
-        \int_{0}^q
-      \right]
+        (1 + b)\int_{0}^{\infty}
       \left[
         (1 - \hat\phi) e^r + \hat\phi e^{-x}
       \right]^{-\xi}
       {
         \alpha K^{\alpha} dx \over (K + x)^{\alpha + 2}
+      } \nonumber \\
+      &<&
+      {
+        \alpha K^\alpha p (1 + b)
+        \over
+        \xi (1 - \hat\phi)^\xi e^{r \xi}
+      }
+      \int_{0}^{\infty}
+      {
+        dx \over (K + x)^{\alpha + 2}
+      } \nonumber \\
+      &=& {
+        \alpha p (1 + b)
+        \over
+        K \xi (\alpha + 1) (1 - \phi)^\xi e^{r \xi}
       } < \infty
-    \end{eqnarray*}
+      \label{eq:c_lower_bound}
+    \end{eqnarray}
     Define distribution function $H(x): [0, \infty] \to [0, 1]$ by its
     density with respect to the Lebesgue measure
     \[
     {d H(x) \over d x}
     =
-    {p \over c \xi}
+    {p (1 + b)\over c \xi}
     \left[
       (1 - \hat\phi) e^r + \hat\phi e^{-x}
     \right]^{-\xi}
@@ -665,21 +658,11 @@ for convenience. We have
       \over
       (K + x)^{\alpha + 2}
     }
-    \times
-    \left\{
-      \begin{array}{ll}
-        1 & \text{ if } 0 < x < q \\
-        (1 + b) & \text{ if } x > q \\
-      \end{array}
-    \right.
     \]
     Let $Y \sim H$, then
     \begin{eqnarray*}
-      \E Y &:=& {p \over c \xi}
-      \left[
-        (1 + b)\int_{q}^{\infty} +
-        \int_{0}^q
-      \right]
+      \E Y &:=& {p (1 + b)\over c \xi}
+      \int_0^\infty
       \left[
         (1 - \hat\phi) e^r + \hat\phi e^{-x}
       \right]^{-\xi} {
@@ -740,11 +723,8 @@ for convenience. We have
     Observe
     \begin{eqnarray*}
       L_2 &>&
-      {p \over \xi}
-      \left[
-        (1 + b)\int_{q}^{\infty} +
-        \int_{0}^q
-      \right]
+      {p (1 + b) \over \xi}
+      \int_{0}^{\infty}
       \left[
         (1 - \hat\phi) e^r + \hat\phi
       \right]^{-\xi}
@@ -753,33 +733,19 @@ for convenience. We have
         (K + x)^{\alpha + 1}
       } \\
       &=& {
-        p [(K + q)^{-\alpha} b + K^{-\alpha}] K^\alpha
+        p (1 + b)
         \over
-        \alpha \xi [(1 - \hat\phi) e^r + \hat\phi]^\xi
+        \alpha \xi ((1 - \phi) e^r + \phi)^\xi
       } 
     \end{eqnarray*}
-    Meanwhile
-    \begin{eqnarray*}
-      c &<& {p \over \xi}
-      \left[
-        (1 - \hat\phi) e^r
-      \right]^{-\xi}
-      \left[
-        (1 + b)\int_{q}^{\infty} +
-        \int_{0}^q
-      \right]
-      {
-        \alpha K^{\alpha} dx \over (K + x)^{\alpha + 2}
-      } \\
-      &=&
-      {
-        \alpha K^\alpha p \left[
-          (K + q)^{-\alpha - 1} b + K^{-\alpha - 1}
-        \right]
+    Meanwhile, as computed earlier in \eqref{eq:c_lower_bound}
+    \[
+      c < {
+        \alpha p (1 + b)
         \over
-        \xi (\alpha + 1) (1 - \hat\phi)^\xi e^{r \xi}
+        K \xi (\alpha + 1) (1 - \phi)^\xi e^{r \xi}
       }
-    \end{eqnarray*}
+    \]
     Thus, to show inequality \eqref{eq:xxie5}, it is sufficient to show
     \begin{equation}
       \label{eq:xxie6}
@@ -901,26 +867,6 @@ for convenience. We have
     \[
     \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
     \]
-
-  \item When $q < 0$, it follows from \eqref{eq:xxie1.0}:
-    \begin{eqnarray*}
-      && \opd{\alpha}J_1(\alpha, \beta, K, K', \hat\phi) \\
-      &=& \opd{\alpha} \left[
-        -{\alpha K^\alpha \over \xi} p
-        \int_{-\infty}^0
-            {
-              1 \over \left[ (1 - \phi) e^r + \phi e^x \right]^{\xi}
-            }
-            {1 + b \over (K + x)^{\alpha + 1}} dx
-        \right]
-    \end{eqnarray*}
-  \end{enumerate}
-  So the same calculation as in the previous case carries through
-  with 0 substituted for $q$. The same conclusion of
-  \[
-  \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) > 0
-  \]
-  stands.
 \end{proof}
 Since $u(v) + b u(\delta v)$ given in \eqref{eq:xxie1.0} as a
 functional of the distribution function of $X$ is increasing with the
