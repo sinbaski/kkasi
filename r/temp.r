@@ -79,53 +79,53 @@ source("libxxie.r");
 ## );
 
 ## Information Technology
-tables <- c(
-    "ADBE",
-    "ADI",
-    "ADP",
-    "ADSK",
-    "AKAM",
-    "AMAT",
-    "CA",
-    "CSCO",
-    "CTSH",
-    "CTXS",
-    "EA",
-    "EBAY",
-    "FFIV",
-    "FISV",
-    "HPQ",
-    "HRS",
-    "IBM",
-    "INTC",
-    "INTU",
-    "JNPR",
-    "KLAC",
-    "LLTC",
-    "LRCX",
-    "MCHP",
-    "MSFT",
-    "MSI",
-    "MU",
-    "NTAP",
-    "NVDA",
-    "ORCL",
-    "PAYX",
-    "QCOM",
-    "RHT",
-    "SWKS",
-    "SYMC",
-    "TSS",
-    "TXN",
-    "VRSN",
-    "WDC",
-    "XLNX",
-    "XRX",
-    "YHOO"
-);
+## tables <- c(
+##     "ADBE",
+##     "ADI",
+##     "ADP",
+##     "ADSK",
+##     "AKAM",
+##     "AMAT",
+##     "CA",
+##     "CSCO",
+##     "CTSH",
+##     "CTXS",
+##     "EA",
+##     "EBAY",
+##     "FFIV",
+##     "FISV",
+##     "HPQ",
+##     "HRS",
+##     "IBM",
+##     "INTC",
+##     "INTU",
+##     "JNPR",
+##     "KLAC",
+##     "LLTC",
+##     "LRCX",
+##     "MCHP",
+##     "MSFT",
+##     "MSI",
+##     "MU",
+##     "NTAP",
+##     "NVDA",
+##     "ORCL",
+##     "PAYX",
+##     "QCOM",
+##     "RHT",
+##     "SWKS",
+##     "SYMC",
+##     "TSS",
+##     "TXN",
+##     "VRSN",
+##     "WDC",
+##     "XLNX",
+##     "XRX",
+##     "YHOO"
+## );
 
 
-data <- getInterpolatedPrices(day1="2000-01-01",
+data <- getInterpolatedPrices(day1="2010-01-01",
                                day2="2015-01-01",
                                suffix="_US",
                                tables=tables
@@ -209,13 +209,13 @@ for (i in 1:dim(X)[2]) {
 ## Qn <- QuintosFanRollingDist(gam0=0.1, n.paths=2000, n.steps=1000);
 
 
-J <- which(abs(tail.x[1, ] - tail.x[2, ]) < 0.5);
+## J <- which(abs(tail.x[1, ] - tail.x[2, ]) < 0.5);
 q <- qnorm(0.975);
 M <- tail.x[2, ] + tail.x[2, ]/sqrt(x.k) * q;
 m <- tail.x[2, ] - tail.x[2, ]/sqrt(x.k) * q;
 graphics.off();
 ## par(mfrow=c(1, 2));
-pdf(file="../papers/FX/Information_Technology_lower.pdf",
+pdf(file="../papers/FX/Consumer_Staples_lower.pdf",
     width=7, height=3.5);
 plot(tail.x[2, ],
      main=expression(alpha[L]),

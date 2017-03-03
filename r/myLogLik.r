@@ -1,6 +1,84 @@
 rm(list=ls());
 require(MASS);
 source("libxxie.r")
+#Energy
+## tables <- c (
+##     "APA",
+##     "APC",
+##     "BHI",
+##     "CHK",
+##     "COG",
+##     "COP",
+##     "DO",
+##     "DVN",
+##     "EOG",
+##     "EQT",
+##     "FTI",
+##     "HAL",
+##     "HES",
+##     "HP",
+##     "KMI",
+##     "MPC",
+##     "MRO",
+##     "MUR",
+##     "NBL",
+##     "NFX",
+##     "NOV",
+##     "OKE",
+##     "OXY",
+##     "PSX",
+##     "PXD",
+##     "RIG",
+##     "RRC",
+##     "SE",
+##     "SLB",
+##     "SWN",
+##     "TSO",
+##     "VLO",
+##     "WMB",
+##     "XEC",
+##     "XOM"
+## );
+
+## Consumer staples
+## tables <- c(
+##     "ADM",
+##     "BF_series_B",
+##     "CAG",
+## ##    "CL",
+##     "CLX",
+##     "COST",
+##     "CPB",
+##     "CVS",
+##     "DPS",
+## ##    "EL",
+##     "GIS",
+##     "HRL",
+##     "HSY",
+##     "K",
+##     "KMB",
+##     "KO",
+##     "KR",
+##     "MDLZ",
+##     "MJN",
+##     "MKC",
+##     "MNST",
+##     "MO",
+##     "PEP",
+##     "PG",
+##     "PM",
+##     "RAI",
+##     "SJM",
+##     "STZ",
+##     "SYY",
+##     "TAP",
+##     "TSN",
+## ##    "WBA",
+## ##    "WFM",
+##     "WMT"
+## );
+
+## Information Technology
 tables <- c(
     "ADBE",
     "ADI",
@@ -45,7 +123,8 @@ tables <- c(
     "XRX",
     "YHOO"
 );
-X <- getInterpolatedReturns("2000-01-01", "2015-01-01",
+
+X <- getInterpolatedReturns("2010-01-01", "2015-01-01",
                             tables=tables, suffix="_US");
 X <- X$ret;
 my.den <- function(x, K, alpha)
@@ -55,7 +134,6 @@ my.den <- function(x, K, alpha)
 params <- matrix(NA, ncol=2, nrow=dim(X)[2]);
 for (i in 1:dim(X)[2]) {
     R <- X[, i];
-    R <- R[R < 0];
     hill <- hillEstimate(-R);
     tryCatch( {
         result <- fitdistr(R[R < 0],
@@ -67,6 +145,12 @@ for (i in 1:dim(X)[2]) {
         params[i, 2] <- hill;
     }, error = function(e) e);
 }
+pdf(file="../papers/FX/Information_Technology_alpha_K.pdf");
+plot(params[, 2], params[, 1],
+     xlab=expression(alpha),
+     ylab=expression(K),
+     main="Information Technology");
+dev.off();
 
 
 

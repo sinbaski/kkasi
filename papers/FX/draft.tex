@@ -406,15 +406,15 @@ preferences are expected utility; when $\delta=1$ and $b>0$,
 preferences follow Gul's (1991) original disappointment aversion.
 An agent guided by this utility function will seek to maximize $u(v)$.
 
-\subsection{power-law utility function}
-In this section we follow Routledge and Zin
-\cite{routledge2010generalized} and assume 
-that the utility function of consumption $C$ is a power function%
+
+Routledge and Zin \cite{routledge2010generalized} assumed
+a power-law utility function of $C$:
 \begin{equation}
   \label{eq:power_utility}
   u(C)=\frac{1}{1-\gamma}C^{1-\gamma}%  
 \end{equation}
-where $\gamma > 0$. For simplicity we assume the investor
+where $\gamma > 0$. For our discussion it suffices that $u(\cdot)$ is
+an increasing function. For simplicity we assume the investor
 initially has one unit of wealth. Let $r > 0$ be the return on the
 risk free state bond and $X$ be the return on equity. Portfolio weights
 are $\left(1-\phi\right)$ and $\phi$ respectively. Then
@@ -425,14 +425,14 @@ are $\left(1-\phi\right)$ and $\phi$ respectively. Then
   %% \right\}^{1-\gamma} \label{3}%
   C = (1 - \phi) e^r + \phi e^X
 \end{equation}
-
+For the distribution of $X$, call it $F(\cdot)$, we assume
 %% \subsubsection[in case gamma > 1]{in case $\gamma > 1$}
-
-\subsubsection[in case gamma > 1]{in case $\gamma > 1$}
-In this section we consider power utility functions of
-\eqref{eq:power_utility} with $\gamma > 1$. For convenience,
-let $\xi = \gamma - 1$. In this case, we assume the following
-distribution function $F(\cdot)$ of the equity return:
+% \subsection{power-law utility function}
+% \subsubsection[in case gamma > 1]{in case $\gamma > 1$}
+% In this section we consider power utility functions of
+% \eqref{eq:power_utility} with $\gamma > 1$. For convenience,
+% let $\xi = \gamma - 1$. In this case, we assume the following
+% distribution function $F(\cdot)$ of the equity return:
 \begin{equation}
   \label{eq:X_distr}
   F(x) = \left\{
@@ -447,8 +447,7 @@ distribution function $F(\cdot)$ of the equity return:
   \right.
 \end{equation}
 Assume $\alpha, \beta > 1$, $0 < p < 1$ and $K > 0$.
-Equation
-\eqref{eq:xxie0} can be re-arranged as
+Equation \eqref{eq:xxie0} can be re-arranged as
 \begin{eqnarray}
 u(v) &=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) \P[C < \delta v] \nonumber \\
 &=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(q) \label{eq:functional}
@@ -483,18 +482,15 @@ Hereafter we abbreviate $q(r, \phi)$ to just $q$. We have
 \begin{eqnarray}
   && \mathcal U F (\alpha, \beta, K, K', \phi) \nonumber \\
   &=&
-  -{\alpha K^\alpha \over \xi} p
+  \alpha K^\alpha  p
   \int_{-\infty}^0
-      {
-       1 \over \left[ (1 - \phi) e^r + \phi e^x \right]^{\xi}
-      }
+  u\left[ (1 - \phi) e^r + \phi e^x \right]
   {1 + b \over (K - x)^{\alpha + 1}} dx
   \nonumber \\
-  && -{\beta K'^\beta \over \xi} (1 - p)
+  &&
+  \beta K'^\beta (1 - p)
   \int_{0}^\infty
-  {
-   1 \over \left[ (1 - \phi) e^r + \phi e^x \right]^{\xi}
-  }
+  u\left[ (1 - \phi) e^r + \phi e^x \right]
   {1 + b \1{x < q} \over (K' + x)^{\beta + 1}} dx \nonumber \\
   &&
   - b u(\delta v) \left[
@@ -514,15 +510,14 @@ G(\alpha, \beta, K, K') =
 
 \begin{theorem} \label{thrm:I}
   Let the disappointment threshold $C < \delta v$ be equivalent to $X
-  < q$. Assume $q > 0$. Then $G(\alpha, \beta, K, K')$ is
-  monotonically increasing with $\alpha$.
+  < q$. Assume $q > 0$. Also assume $u(\cdot)$ is an increasing function.
+  Then
+  \[
+  \td{G}{K} < 0 < \td{G}{\alpha}
+  \]
 \end{theorem}
 
 \begin{proof}
-  We show
-  \[
-  \td{G}{\alpha} > 0
-  \]
   Let
   \begin{equation}
     \label{eq:xxie2}
@@ -666,96 +661,104 @@ G(\alpha, \beta, K, K') =
     \[
     h = (e^{1/\alpha} - 1)K
     \]
+    As for $\td{G(\alpha, \beta, K, K')}{K}$, by the same argument as for
+    $\td{G(\alpha, \beta, K, K')}{\alpha}$, it suffices to show
+    \[
+    \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat\phi) < 0
+    \]
+    We have
+    \begin{eqnarray*}
+      && \pd{\mathcal UF}{K}(\alpha, \beta, K, K', \hat\phi) \\
+      &=&
+      -{\alpha p (1+ b) \over \xi}
+      \int_0^\infty
+      \left[
+        (1 - \hat\phi) e^r + \hat\phi e^{-x}
+      \right]^{-\xi}
+      {
+        K^{\alpha - 1} (\alpha x - K)
+        \over
+        (K + x)^{\alpha + 2}
+      }
+      dx \\
+      &=&
+      -{\alpha p (1+ b) \over \xi}
+      \left\{
+        - \int_{0}^{K/\alpha}
+        \left[
+          (1 - \hat\phi) e^r + \hat\phi e^{-x}
+        \right]^{-\xi}
+        {
+          K^{\alpha - 1} (K - \alpha x)
+          \over
+          (K + x)^{\alpha + 2}
+        }
+        dx \right. \\
+      &&
+      \left.
+        +
+        \int_{K/\alpha}^{\infty}
+        \left[
+          (1 - \hat\phi) e^r + \hat\phi e^{-x}
+        \right]^{-\xi}
+        {
+          K^{\alpha - 1} (\alpha x - K)
+          \over
+          (K + x)^{\alpha + 2}
+        }
+        dx
+      \right\} \\
+      &<&
+      -{\alpha p (1+ b) \over \xi}      
+      \left[
+        (1 - \hat\phi) e^r + \hat\phi e^{-M/\alpha}
+      \right]^{-\xi} \times \\
+      &&
+      \left\{
+        \int_{K/\alpha}^{\infty}
+        {
+          K^{\alpha - 1} (\alpha x - K)
+          \over
+          (K + x)^{\alpha + 2}
+        }
+        dx
+        - \int_{0}^{K/\alpha}
+        {
+          K^{\alpha - 1} (K - \alpha x)
+          \over
+          (K + x)^{\alpha + 2}
+        }
+        dx
+      \right\} \\
+      &=& 0
+    \end{eqnarray*}
   \end{proof}
 Since $u(v)$ given in \eqref{eq:xxie1.0} as a
 functional of the distribution function of $X$ is increasing with the
-lower tail index $\alpha$, all agents guided by this class of utility
-functions will seek the largest $\alpha$ found in a stock group e.g.
-a sector. As a result, one can expect all the actively traded equities
-in the group to feature the same $\alpha$. In section
-\ref{sec:data_analysis} we analyse real-world data of stock returns to
-verify this conclusion.
+lower tail index $\alpha$ and decreasing with $K$, there is a curve of
+equal preference on the plane of $(\alpha, K)$. Moving along this
+curve in the direction of increasing $\alpha$, one expects the values
+of $K$ to increase too, i.e. the estimated values of $\alpha$ and $K$
+should appear positively correlated. This is indeed the case in some
+real stock return data, e.g. the ``Energy'' and ``Information Technology''
+sectors of S\&P 500 companies. This is illustrated in figures
+\ref{fig:Energy_alpha_K} and \ref{fig:Information_Technology_alpha_K}.
 
-In comparison to the theoretical constancy of $\alpha$, the scale and
-shift parameter $K$ in the lower-tail distribution of $X$ may vary
-hugely from one equity to another. This could be explained by
-\[
-\lim_{K \to 0} \td{G}{K}(\alpha, \beta, K, K', \phi) = 0
-\]
-When $K$ is very small, as is the case in real-world stock return
-distributions, a change of $K$ makes little difference to the utility
-functional, so its value can vary drastically.
+% all agents guided by this class of utility
+% functions will seek the largest $\alpha$ and the smallest $K$ found in
+% a stock group e.g. a sector. 
 
-\begin{theorem}
-  Assume $K \leq 1$.
-  \[
-  \lim_{K \to 0} \td{G}{K}(\alpha, \beta, K, K') = 0
-  \]
-\end{theorem}
-\begin{proof}
-  By the same argument as in the proof of theorem \ref{thrm:I}, it
-  suffices to show
-  \begin{eqnarray*}
-    \lim_{K \to 0}
-    \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat \phi) &=& 0
-  \end{eqnarray*}
-  The left-hand-side is
-  \begin{eqnarray*}
-    && \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat \phi) \\
-    &=&
-    -{\alpha p (1 + b) \over \xi}
-    \int_{-\infty}^0
-    {
-      1 \over
-      \left[
-        (1 - \phi) e^r + \phi e^x
-      \right]^\xi
-    }
-    {
-      K^{\alpha - 1}
-      (\alpha x + K)
-      \over
-      (K - x)^{\alpha + 2}
-    } dx  \\
-    &=&
-    {\alpha p (1 + b) \over \xi}
-    \int_0^{\infty}
-    {
-      1 \over
-      \left[
-        (1 - \phi) e^r + \phi e^x
-      \right]^\xi
-    }
-    {
-      K^{\alpha - 1}
-      (\alpha x - K)
-      \over
-      (K + x)^{\alpha + 2}
-    } dx
-  \end{eqnarray*}
-  By reverse Fatou's lemma, it follows
-  \begin{eqnarray*}
-    &&
-    \lim_{K \to 0} \sup_{0 \leq M \leq K}
-    \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat \phi) \\
-    &\leq&
-    {\alpha p (1 + b) \over \xi}
-    \int_0^{\infty}
-    {
-      1 \over
-      \left[
-        (1 - \phi) e^r + \phi e^x
-      \right]^\xi
-    }
-    \lim_{K \to 0} \sup_{0 \leq M \leq K}
-    {
-      M^{\alpha - 1}
-      (\alpha x - M)
-      \over
-      (M + x)^{\alpha + 2}
-    } dx
-  \end{eqnarray*}
-\end{proof}
+
+% As a result, one can expect all the
+% actively traded equities in the group to feature the same $\alpha$ and
+% $K$. However, the estimated value of $K^\alpha$ may vary
+% significantly. This can be understood as a result of the smallness of
+% $K$, which as revealed in section \ref{sec:hybrid_estimation} is of the
+% order of $10^{-2}$, and the inaccuracy of the estimated value of
+% $\alpha$, which typically ranges from 2.5 to 5. Exponentiation hugely
+% magnifies the inaccuracy in $\alpha$.
+
+
 \section{Review of multivariate GARCH models:
   same tail index or not}
 Many multivariate GARCH models imply a common tail index for all
@@ -838,9 +841,6 @@ gather statistical evidence from financial time series if the issue is
 to be settled definitely.
 
 \section{Hill Estimator}
-%% TODO: Show Hill estimates of real and simulated data with confidence
-%% band. Argue that all estimated tail indices are indistinguishable
-%% given the confidence band.
 There have been several estimators for the tail index proposed in the
 literature, e.g. Hill (1975) \cite{hill1975simple}, Pikands (1975)
 \cite{pickands1975statistical}, Dekkers and Einmahl and De Haan (1989)
@@ -868,17 +868,17 @@ as $n \to \infty$, the Hill estimator is weakly consistent, i.e.
 \sqrt k (\hat \alpha - \alpha) \overset{d}{\to} N(0, \alpha^2)
 \]
 
-\subsubsection{The Energy and the Consumer Staples sectors of S\&P 500}
-Figure \ref{fig:Energy_Hill_upper},
-\ref{fig:Consumer_Staples_Hill_upper},
+%% \subsubsection{The Energy and the Consumer Staples sectors of S\&P 500}
+Figure \ref{fig:Energy_lower},
+\ref{fig:Consumer_Staples_lower},
 and \ref{fig:Information_Technology_lower}
 show the Hill estimates of the
 lower tail indices of the ``energy'', ``consumer staples'' and ``information
 technology'' sectors of the S\&P 500 index, respectively.
 \begin{figure}[htb!]
   \centering
-  \includegraphics[width=\textwidth]{Energy_Hill_upper.pdf}
-  \caption{Hill estimates of the upper tail indices of 32 stocks'
+  \includegraphics[width=\textwidth]{Energy_lower.pdf}
+  \caption{Hill estimates of the lower tail indices of 32 stocks'
     daily return series in the {\it Energy} sector of Standard \& Poor
     500 index. Each circle coresponds to a Hill estimate; the grey
     triangles above and below it mark the 97.5\% and 2.5\% quantiles
@@ -888,20 +888,20 @@ technology'' sectors of the S\&P 500 index, respectively.
     The data are from {\it Yahoo Finance} and the labels on
     the horizontal axis are Yahoo symbols of the stocks. The data span
     from 2010-01-01 to 2015-01-01 and comprise $n=1304$
-    observations. $k=(\ln n)^2 = 49$ upper order statistics are used
+    observations. $k=(\ln n)^2 = 49$ lower order statistics are used
     for computing $\alpha_n$. 
   }
-  \label{fig:Energy_Hill_upper}
+  \label{fig:Energy_lower}
 \end{figure}
 
 \begin{figure}[htb!]
   \centering
-  \includegraphics[width=\textwidth]{Consumer_Staples_Hill_upper.pdf}
-  \caption{Hill estimates of the upper tail indices of 30 stocks'
+  \includegraphics[width=\textwidth]{Consumer_Staples_lower.pdf}
+  \caption{Hill estimates of the lower tail indices of 30 stocks'
     daily return series in the {\it Consumer Staples} sector of
     Standard \& Poor 500 index.
   }
-  \label{fig:Consumer_Staples_Hill_upper}
+  \label{fig:Consumer_Staples_lower}
 \end{figure}
 
 \begin{figure}[htb!]
@@ -915,12 +915,52 @@ technology'' sectors of the S\&P 500 index, respectively.
 \end{figure}
 
 \section{Hybrid estimation of the assumed distribution function}
+\label{sec:hybrid_estimation}
 We adopt a hybrid procedure to estimate the parameters of the
-distribution function assumed in eq.\eqref{eq:X_distr}: First we
-obtain a Hill estimate of the lower- and upper-tail indices of an
-equity return and fix $\alpha$ and $\beta$ in \eqref{eq:X_distr}
-to their Hill estimates. Then we estimate $K$ and $K'$ by maximizing
-the likelihood function with fixed $\alpha$ and $\beta$.
+distribution function assumed in \eqref{eq:X_distr}: First we
+obtain a Hill estimate of the lower-tail indices of an
+equity return and fix $\alpha$ in \eqref{eq:X_distr}
+to its Hill estimate. Then we estimate $K$ by maximizing
+the likelihood function with fixed $\alpha$. Obviously we take only
+negative observations and hence condition on $X < 0$.
+
+Figure \ref{fig:Energy_alpha_K},
+\ref{fig:Consumer_Staples_alpha_K},
+and \ref{fig:Information_Technology_alpha_K}
+show the estimates of $K$ alongside the Hill estimates of $\alpha$ of
+the ``energy'', ``consumer staples'' and ``information
+technology'' sectors of the S\&P 500 index, respectively.
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{Energy_alpha_K.pdf}
+  \caption{Hybrid estimates of the lower-tail parameters of daily
+    return series in the {\it Energy} sector of S\&P
+    500 index.
+  }
+  \label{fig:Energy_alpha_K}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{Consumer_Staples_alpha_K.pdf}
+  \caption{Hybrid estimates of the lower-tail parameters of daily
+    return series in the {\it Consumer Staples} sector of S\&P
+    500 index.
+  }
+  \label{fig:Consumer_Staples_alpha_K}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{Information_Technology_alpha_K.pdf}
+  \caption{Hybrid estimates of the lower-tail parameters of daily
+    return series in the {\it Information Technology} sector of S\&P
+    500 index.
+  }
+  \label{fig:Information_Technology_alpha_K}
+\end{figure}
+
 
 \section{Pickand's Estimator}
 Pickands (1975) \cite{pickands1975statistical} proposed a different
@@ -983,6 +1023,22 @@ v(\xi) = {
   [2 \ln(2) (2^\xi - 1)]^2
 }
 \]
+Using Pickands' estimator, the same result of very similar tail indices
+is again obtained for the {\it Energy} and the {\it Consumer Staples}
+sectors. Figure \ref{fig:Energy_Pickands} and
+\ref{fig:Consumer_Staples_Pickands} illustrate this claim.
+\begin{figure}[htb!]
+  \includegraphics[width=\textwidth]{Energy_Pickands.pdf}
+  \caption{Pickands' estimates of {\it Energy} stocks.}
+  \label{fig:Energy_Pickands}
+\end{figure}
+
+\begin{figure}[htb!]
+  \includegraphics[width=\textwidth]{Consumer_Staples_Pickands.pdf}
+  \caption{Pickands' estimates of {\it Consumer Staples} stocks.}
+  \label{fig:Consumer_Staples_Pickands}
+\end{figure}
+
 
 
 %% \section{Hoga Test}
@@ -996,14 +1052,14 @@ v(\xi) = {
 %% is applied to $(X_1, X_2)$ where $X_1$ and $X_2$ have tail indices
 %% $\kappa_1 \neq \kappa_2$? The probability of wrongly rejecting the
 %% null hypothesis must be lower than $\alpha$.
-\textcolor{red}{Review the test of Hoga}
+%% \textcolor{red}{Review the test of Hoga}
 
-\section{Data Analysis} \label{sec:data_analysis}
-\subsection{Tail index and scale parameter}
-In this section we apply the statistical tools reviewed in the
-previous sections to real stock return series, denoted $X_t$
-hereafter. We are interested in finding out the tail indices and the
-scale parameters of the stationary distribution of $|X_t|$.
+% \section{Data Analysis} \label{sec:data_analysis}
+% \subsection{Tail index and scale parameter}
+% In this section we apply the statistical tools reviewed in the
+% previous sections to real stock return series, denoted $X_t$
+% hereafter. We are interested in finding out the tail indices and the
+% scale parameters of the stationary distribution of $|X_t|$.
 
 %% \subsubsection{The Energy and the Consumer Staples sectors of S\&P 500}
 %% Figure \ref{fig:Energy_Hill_upper} shows the Hill estimates of the
@@ -1144,22 +1200,6 @@ scale parameters of the stationary distribution of $|X_t|$.
 %%   }
 %%   \label{fig:Consumer_Staples_OLS_estimates}
 %% \end{figure}
-
-Using Pickands' estimator, the same result of very similar tail indices
-is again obtained for the {\it Energy} and the {\it Consumer Staples}
-sectors. Figure \ref{fig:Energy_Pickands} and
-\ref{fig:Consumer_Staples_Pickands} illustrate this claim.
-\begin{figure}[htb!]
-  \includegraphics[width=\textwidth]{Energy_Pickands.pdf}
-  \caption{Pickands' estimates of {\it Energy} stocks.}
-  \label{fig:Energy_Pickands}
-\end{figure}
-
-\begin{figure}[htb!]
-  \includegraphics[width=\textwidth]{Consumer_Staples_Pickands.pdf}
-  \caption{Pickands' estimates of {\it Consumer Staples} stocks.}
-  \label{fig:Consumer_Staples_Pickands}
-\end{figure}
 
 %% \subsubsection{The Information Technology sector of S\&P 500}
 %% Compared with the sectors of energy and consumer staples, which enjoy
