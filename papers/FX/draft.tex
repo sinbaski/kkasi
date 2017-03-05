@@ -502,18 +502,155 @@ Hereafter we abbreviate $q(r, \phi)$ to just $q$. We have
   \right]
   \label{eq:xxie1.0}
 \end{eqnarray}
+In theorem \ref{thrm:I} we show
+\[
+\max_{0 < \phi \leq 1} \mathcal U F(\alpha, \beta, K, K', \phi)
+\]
+is monotonically increasing with $\alpha$ and monotonically decreasing
+with $K$. But before that it is worthwhile to state the following
+simple observation:
+\begin{lemma} \label{lemma:I}
+  Assume distribution function $F(x; \theta)$ parameterized by
+  $\theta$ is defined on $x \in (a, b)$, $a, b \in \mathbb R \cup
+  \{-\infty, \infty\}$, and in addition $F(x; \theta)$ has density
+  function $f(x; \theta)$. Assume function $h(\cdot)$ is defined on
+  $(a, b)$ and $X \sim F$.
+  \begin{enumerate}
+  \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
+    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
+    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(x_0, b)$, 
+    \[
+    \pd{\E h(X)}{\theta} > 0
+    \]
+  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
+    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
+    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$,
+    \[
+    \pd{\E h(X)}{\theta} > 0
+    \]
+  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that
+    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
+    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(x_0, b)$
+    \[
+    \pd{\E h(X)}{\theta} < 0
+    \]
+  \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that 
+    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
+    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$
+    \[
+    \pd{\E h(X)}{\theta} < 0
+    \]
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Clearly
+  \begin{eqnarray*}
+    && \pd{\E h(X)}{\theta} \\
+    &=& \int_a^b h(x) \pd{f}{\theta}(x, \theta) dx \\
+    &=& \underbrace{\int_a^{x_0} h(x) \pd{f}{\theta}(x, \theta) dx}_{I_1}
+    + \underbrace{\int_{x_0}^b h(x) \pd{f}{\theta}(x, \theta) dx}_{I_2}
+  \end{eqnarray*}
+  \begin{enumerate}
+  \item When $h(x)$ is decreasing on $(a, b)$ and $\pd{f}{\theta}(x,
+    \theta) > 0$ on $(a, x_0)$
+    \[
+    I_1 > h(x_0) \int_a^{x_0} \pd{f}{\theta}(x, \theta) dx
+    \]
+    Similarly, because $\pd{f}{\theta}(x, \theta) < 0$ for $x \in (x_0, b)$ and
+    $h(x)$ is decreasing, we have
+    \begin{eqnarray*}
+      I_2 &=& \int_{x_0}^b -h(x_0)
+      \left|\pd{f}{\theta}(x, \theta) \right| dx \\
+      &>& -h(x_0)
+      \int_{x_0}^b \left| 
+        \pd{f}{\theta}(x, \theta)
+      \right| dx
+    \end{eqnarray*}
+    Finally we have
+    \begin{eqnarray*}
+      && \pd{\E h(X)}{\theta} \\
+      &=& I_1 + I_2 \\
+      &>& h(x_0) \int_a^b \pd{f}{\theta}(x, \theta) dx \\
+      &=& h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx \\
+      &=& h(x_0) \opd{\theta} 1 = 0
+    \end{eqnarray*}
+  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
+    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
+    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$
+    \begin{eqnarray*}
+      I_1 &=&
+      \int_a^{x_0} -h(x)
+      \left| \pd{f}{\theta}(x, \theta) \right| dx \\
+      &>&
+      -h(x_0) \int_a^{x_0}
+      \left| \pd{f}{\theta}(x, \theta) \right| dx
+    \end{eqnarray*}
+    and obviously
+    \[
+    I_2 > h(x_0) \int_{x_0}^b
+    \pd{f}{\theta}(x, \theta) dx
+    \]
+    So
+    \[
+    \pd{\E h(X)}{\theta}
+    = I_1 + I_2
+    > h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx = 0
+    \]
+  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that
+    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
+    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(x_0, b)$
+
+    Obviously
+    \[
+    I_1 = \int_a^{x_0} h(x) \pd{f}{\theta}(x, \theta) dx
+    < h(x_0) \int_a^{x_0} \pd{f}{\theta}(x, \theta) dx
+    \]
+    and
+    \begin{eqnarray*}
+      I_2 &=& \int_{x_0}^b h(x) \pd{f}{\theta}(x, \theta) dx \\
+      &<& -h(x_0) \int_{x_0}^b \left| \pd{f}{\theta}(x, \theta) \right| dx \\
+    \end{eqnarray*}
+    Thus
+    \[
+    \pd{\E h(X)}{\theta}
+    = I_1 + I_2
+    < h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx = 0
+    \]
+  \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that 
+    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
+    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$
+
+    In this case
+    \begin{eqnarray*}
+      I_1 &=& \int_a^{x_0} h(x) \pd{f}{\theta}(x, \theta) dx \\
+      &<& -h(x_0) \int_a^{x_0} \left| \pd{f}{\theta}(x, \theta) \right| dx
+    \end{eqnarray*}
+    And
+    \begin{eqnarray*}
+      I_2 &=& \int_{x_0}^b h(x) \pd{f}{\theta}(x, \theta) dx \\
+      &<& h(x_0) \int_{x_0}^b \pd{f}{\theta}(x, \theta) dx
+    \end{eqnarray*}
+    So
+    \[
+    \pd{\E h(X)}{\theta}
+    = I_1 + I_2
+    < h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx = 0
+    \]
+  \end{enumerate}
+\end{proof}
+With lemma \ref{lemma:I} it is straightforward to show the
+monotonicity claimed earlier.
 Let
 \[
 G(\alpha, \beta, K, K') =
 \max_{0 < \phi \leq 1} \mathcal U F(\alpha, \beta, K, K', \phi)
 \]
-
-\begin{theorem} \label{thrm:I}
-  Let the disappointment threshold $C < \delta v$ be equivalent to $X
-  < q$. Assume $q > 0$. Also assume $u(\cdot)$ is an increasing function.
-  Then
+\begin{theorem}
+  \label{thrm:I}
   \[
-  \td{G}{K} < 0 < \td{G}{\alpha}
+  \pd{G}{\alpha} (\alpha, \beta, K, K') > 0,
+  \quad
+  \pd{G}{K} (\alpha, \beta, K, K') < 0
   \]
 \end{theorem}
 
@@ -530,7 +667,7 @@ G(\alpha, \beta, K, K') =
   \]
   It follows
   \begin{eqnarray}
-    \td{G}{\alpha}
+    \pd{G}{\alpha}
     &=&
     \pd{\mathcal U F}{\alpha}(\alpha, \beta, K, K', \hat \phi)
     + \pd{\mathcal U F}{\phi}(\alpha, \beta, K, K', \hat \phi)
@@ -547,192 +684,73 @@ G(\alpha, \beta, K, K') =
     \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi)
     &>& 0
   \end{eqnarray*}
+  From \eqref{eq:xxie1.0}, it follows
+  \begin{eqnarray*}
+    && \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat\phi)
+    \\
+    &=& p \opd{\alpha}\E[u((1 - \phi) e^r + \phi e^X) | X < 0]
+  \end{eqnarray*}
+  The function $u((1 - \phi) e^r + \phi e^X)$ is obviously increasing
+  with $X$. Furthermore
+  \begin{eqnarray*}
+    && \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
+    &=&
+    - {K^\alpha \over (K - x)^{\alpha + 1}}
+    \left[
+      \alpha
+      \ln\left(
+        1 - {x \over K}
+      \right) - 1
+    \right]
+  \end{eqnarray*}
+  It is easily checked that when $x < K(1 - e^{1/\alpha}) < 0$,
+  \[
+  \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
+  \]
+  and when $K(1 - e^{1/\alpha}) < x < 0$,
+  \[
+  \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
+  \]
+  This is the second case of lemma \ref{lemma:I}. So we have
+  \begin{eqnarray*}
+    \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) &>& 0
+  \end{eqnarray*}
+  As for $\pd{G(\alpha, \beta, K, K')}{K}$, by the same argument as for
+  $\pd{G(\alpha, \beta, K, K')}{\alpha}$, it suffices to show
+  \[
+  \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat\phi) < 0
+  \]
   We have
-    \begin{eqnarray*}
-      && \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) \\
-      &=&
-      - \frac{\partial}{\partial \alpha} \left\{
-        {\alpha p K^\alpha \over \xi} (1 + b)
-        \int_{-\infty}^{0}
-          \left[
-            (1 - \hat\phi) e^r + \hat\phi e^x
-          \right]^{-\xi}
-          (K - x)^{-\alpha - 1}
-        dx \right\} \\
-      &=&
-      {p \over \xi}
-      (1 + b)
-      \int_{0}^{\infty}
-      \left[
-        (1 - \hat\phi) e^r + \hat\phi e^{-x}
-      \right]^{-\xi}
-      \left[
-        \alpha \ln \left(
-          1 + {x \over K}
-        \right) - 1
-      \right]
-      {K^{\alpha} dx
-        \over
-        (K + x)^{\alpha + 1}
-      } \\
-      &=&
-      - {p \over \xi}
-      (1 + b)
-      \int_{0}^{h}
-      \left[
-        (1 - \hat\phi) e^r + \hat\phi e^{-x}
-      \right]^{-\xi}
-      \left[
-        1 - \alpha \ln \left(
-          1 + {x \over K}
-        \right)
-      \right]
-      {K^{\alpha} dx
-        \over
-        (K + x)^{\alpha + 1}
-      } \\
-      &&
-      + {p \over \xi}
-      (1 + b)
-      \int_{h}^{\infty}
-      \left[
-        (1 - \hat\phi) e^r + \hat\phi e^{-x}
-      \right]^{-\xi}
-      \left[
-        \alpha \ln \left(
-          1 + {x \over K}
-        \right) - 1
-      \right]
-      {K^{\alpha} dx
-        \over
-        (K + x)^{\alpha + 1}
-      } \\
-      &>&
-      - {p \over \xi}
-      (1 + b)
-      \left[
-        (1 - \hat\phi) e^r + \hat\phi e^{-h}
-      \right]^{-\xi}
-      \int_{0}^{h}
-      \left[
-        1 - \alpha \ln \left(
-          1 + {x \over K}
-        \right)
-      \right]
-      {K^{\alpha} dx
-        \over
-        (K + x)^{\alpha + 1}
-      } \\
-      &&
-      + {p \over \xi}
-      (1 + b)
-      \left[
-        (1 - \hat\phi) e^r + \hat\phi e^{-h}
-      \right]^{-\xi}
-      \int_{h}^{\infty}
-      \left[
-        \alpha \ln \left(
-          1 + {x \over K}
-        \right) - 1
-      \right]
-      {K^{\alpha} dx
-        \over
-        (K + x)^{\alpha + 1}
-      } \\
-      &=&
-      {p \over \xi}
-      (1 + b)
-      \left[
-        (1 - \hat\phi) e^r + \hat\phi e^{-h}
-      \right]^{-\xi}
-      \int_{0}^{\infty}
-      \left[
-        \alpha \ln \left(
-          1 + {x \over K}
-        \right) - 1
-      \right]
-      {K^{\alpha} dx
-        \over
-        (K + x)^{\alpha + 1}
-      } \\
-      &=& 0
-    \end{eqnarray*}
-    where
-    \[
-    h = (e^{1/\alpha} - 1)K
-    \]
-    As for $\td{G(\alpha, \beta, K, K')}{K}$, by the same argument as for
-    $\td{G(\alpha, \beta, K, K')}{\alpha}$, it suffices to show
-    \[
-    \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat\phi) < 0
-    \]
-    We have
-    \begin{eqnarray*}
-      && \pd{\mathcal UF}{K}(\alpha, \beta, K, K', \hat\phi) \\
-      &=&
-      -{\alpha p (1+ b) \over \xi}
-      \int_0^\infty
-      \left[
-        (1 - \hat\phi) e^r + \hat\phi e^{-x}
-      \right]^{-\xi}
-      {
-        K^{\alpha - 1} (\alpha x - K)
-        \over
-        (K + x)^{\alpha + 2}
-      }
-      dx \\
-      &=&
-      -{\alpha p (1+ b) \over \xi}
-      \left\{
-        - \int_{0}^{K/\alpha}
-        \left[
-          (1 - \hat\phi) e^r + \hat\phi e^{-x}
-        \right]^{-\xi}
-        {
-          K^{\alpha - 1} (K - \alpha x)
-          \over
-          (K + x)^{\alpha + 2}
-        }
-        dx \right. \\
-      &&
-      \left.
-        +
-        \int_{K/\alpha}^{\infty}
-        \left[
-          (1 - \hat\phi) e^r + \hat\phi e^{-x}
-        \right]^{-\xi}
-        {
-          K^{\alpha - 1} (\alpha x - K)
-          \over
-          (K + x)^{\alpha + 2}
-        }
-        dx
-      \right\} \\
-      &<&
-      -{\alpha p (1+ b) \over \xi}      
-      \left[
-        (1 - \hat\phi) e^r + \hat\phi e^{-M/\alpha}
-      \right]^{-\xi} \times \\
-      &&
-      \left\{
-        \int_{K/\alpha}^{\infty}
-        {
-          K^{\alpha - 1} (\alpha x - K)
-          \over
-          (K + x)^{\alpha + 2}
-        }
-        dx
-        - \int_{0}^{K/\alpha}
-        {
-          K^{\alpha - 1} (K - \alpha x)
-          \over
-          (K + x)^{\alpha + 2}
-        }
-        dx
-      \right\} \\
-      &=& 0
-    \end{eqnarray*}
-  \end{proof}
+  \[
+  \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat\phi)
+  = p \opd{K} \E \left[
+    u((1 - \phi) e^r + \phi e^X)
+    | X < 0
+  \right] 
+  \]
+  and
+  \begin{eqnarray*}
+    && \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
+    &=&
+    -\alpha K^{\alpha - 1} {
+      \alpha x + K
+      \over
+      (K - x)^{\alpha + 2}
+    }
+  \end{eqnarray*}
+  Clearly, when $x < -\alpha/K$
+  \[
+  \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
+  \]
+  and when $-\alpha/K < x < 0$
+  \[
+  \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
+  \]
+  So by the third case of lemma \ref{lemma:I} we conclude
+  \[
+  \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat\phi) < 0  
+  \]
+\end{proof}
 Since $u(v)$ given in \eqref{eq:xxie1.0} as a
 functional of the distribution function of $X$ is increasing with the
 lower tail index $\alpha$ and decreasing with $K$, there is a curve of
@@ -743,7 +761,9 @@ should appear positively correlated. This is indeed the case in some
 real stock return data, e.g. the ``Energy'' and ``Information Technology''
 sectors of S\&P 500 companies. This is illustrated in figures
 \ref{fig:Energy_alpha_K} and \ref{fig:Information_Technology_alpha_K}.
-
+The confidence bands of the Hill estimates of $\alpha$ of these
+sectors are shown in figures \ref{fig:Energy_lower},
+\ref{fig:Consumer_Staples_lower} and \ref{fig:Information_Technology_lower}.
 % all agents guided by this class of utility
 % functions will seek the largest $\alpha$ and the smallest $K$ found in
 % a stock group e.g. a sector. 
@@ -841,6 +861,7 @@ gather statistical evidence from financial time series if the issue is
 to be settled definitely.
 
 \section{Hill Estimator}
+\label{sec:Hill}
 There have been several estimators for the tail index proposed in the
 literature, e.g. Hill (1975) \cite{hill1975simple}, Pikands (1975)
 \cite{pickands1975statistical}, Dekkers and Einmahl and De Haan (1989)
