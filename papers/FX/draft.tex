@@ -406,7 +406,6 @@ preferences are expected utility; when $\delta=1$ and $b>0$,
 preferences follow Gul's (1991) original disappointment aversion.
 An agent guided by this utility function will seek to maximize $u(v)$.
 
-
 Routledge and Zin \cite{routledge2010generalized} assumed
 a power-law utility function of $C$:
 \begin{equation}
@@ -414,101 +413,8 @@ a power-law utility function of $C$:
   u(C)=\frac{1}{1-\gamma}C^{1-\gamma}%  
 \end{equation}
 where $\gamma > 0$. For our discussion it suffices that $u(\cdot)$ is
-an increasing function. For simplicity we assume the investor
-initially has one unit of wealth. Let $r > 0$ be the return on the
-risk free state bond and $X$ be the return on equity. Portfolio weights
-are $\left(1-\phi\right)$ and $\phi$ respectively. Then
-\begin{equation}
-  \label{eq:xxie1}
-  %% u(C)=\frac{1}{1-\gamma}V^{1-\gamma} \max \left\{
-  %% 0, 1 + (1-\phi) r  +\phi X
-  %% \right\}^{1-\gamma} \label{3}%
-  C = (1 - \phi) e^r + \phi e^X
-\end{equation}
-For the distribution of $X$, call it $F(\cdot)$, we assume
-%% \subsubsection[in case gamma > 1]{in case $\gamma > 1$}
-% \subsection{power-law utility function}
-% \subsubsection[in case gamma > 1]{in case $\gamma > 1$}
-% In this section we consider power utility functions of
-% \eqref{eq:power_utility} with $\gamma > 1$. For convenience,
-% let $\xi = \gamma - 1$. In this case, we assume the following
-% distribution function $F(\cdot)$ of the equity return:
-\begin{equation}
-  \label{eq:X_distr}
-  F(x) = \left\{
-  \begin{array}{ll}
-    p \left(
-    {K \over K - x}
-    \right)^\alpha & x \leq 0 \\
-    1 - (1 - p) \left(
-    {K' \over K' + x}
-    \right)^\beta & x > 0
-  \end{array}
-  \right.
-\end{equation}
-Assume $\alpha, \beta > 1$, $0 < p < 1$ and $K > 0$.
-Equation \eqref{eq:xxie0} can be re-arranged as
-\begin{eqnarray}
-u(v) &=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) \P[C < \delta v] \nonumber \\
-&=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(q) \label{eq:functional}
-\end{eqnarray}
-where
-\begin{eqnarray*}
-  q(r, \phi) &:=& \ln \left( {
-    \delta v - (1 - \phi) e^r
-    \over
-    \phi
-} \right) = \ln\left(
-e^r + {\delta v - e^r \over \phi}
-\right)
-\end{eqnarray*}
-Note $C < \delta v$ implies
-\[
-X < q(r, \phi)
-\]
-Naturally, if an agent invests in a risky asset instead of a riskless
-bond, he expects to obtain a higher return from the risky asset than
-he is guarranteed from the riskless bond. In our notation,
-this means $\delta v > e^r$, which implies $q(r, \phi) > 0$.
-The right-hand-side of \eqref{eq:functional} is a functional of the
-distribution function of $X$ via \eqref{eq:xxie1}. For convenience
-we denote it $\mathcal U(\cdot)$, i.e.
-\[
-\mathcal U F (\alpha, \beta, K, K', \phi)
-= 
-\E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(q(r, \phi))
-\]
-Hereafter we abbreviate $q(r, \phi)$ to just $q$. We have
-\begin{eqnarray}
-  && \mathcal U F (\alpha, \beta, K, K', \phi) \nonumber \\
-  &=&
-  \alpha K^\alpha  p
-  \int_{-\infty}^0
-  u\left[ (1 - \phi) e^r + \phi e^x \right]
-  {1 + b \over (K - x)^{\alpha + 1}} dx
-  \nonumber \\
-  &&
-  \beta K'^\beta (1 - p)
-  \int_{0}^\infty
-  u\left[ (1 - \phi) e^r + \phi e^x \right]
-  {1 + b \1{x < q} \over (K' + x)^{\beta + 1}} dx \nonumber \\
-  &&
-  - b u(\delta v) \left[
-    1 - (1 - p) {
-      K'^\beta
-      \over
-      (K' + q)^\beta
-    }
-  \right]
-  \label{eq:xxie1.0}
-\end{eqnarray}
-In theorem \ref{thrm:I} we show
-\[
-\max_{0 < \phi \leq 1} \mathcal U F(\alpha, \beta, K, K', \phi)
-\]
-is monotonically increasing with $\alpha$ and monotonically decreasing
-with $K$. But before that it is worthwhile to state the following
-simple observation:
+increasing and concave. Before proceeding any further, it is worth
+stating the following simple observation:
 \begin{lemma} \label{lemma:I}
   Assume distribution function $F(x; \theta)$ parameterized by
   $\theta$ is defined on $x \in (a, b)$, $a, b \in \mathbb R \cup
@@ -641,8 +547,101 @@ simple observation:
     \]
   \end{enumerate}
 \end{proof}
-With lemma \ref{lemma:I} it is straightforward to show the
-monotonicity claimed earlier.
+
+Now for simplicity we assume the investor initially has one unit of
+wealth. Let $r > 0$ be the return on the risk free state bond and $X$
+be the return on equity. Portfolio weights are $\left(1-\phi\right)$
+and $\phi$ respectively. Then
+\begin{equation}
+  \label{eq:xxie1}
+  C = (1 - \phi) e^r + \phi e^X
+\end{equation}
+Equation \eqref{eq:xxie0} can be re-arranged as
+\begin{eqnarray}
+u(v) &=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) \P[C < \delta v] \nonumber \\
+&=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(q) \label{eq:functional}
+\end{eqnarray}
+where
+\begin{eqnarray*}
+  q(r, \phi) &:=& \ln \left( {
+    \delta v - (1 - \phi) e^r
+    \over
+    \phi
+} \right) = \ln\left(
+e^r + {\delta v - e^r \over \phi}
+\right)
+\end{eqnarray*}
+Note $C < \delta v$ implies
+\[
+X < q(r, \phi)
+\]
+Hereafter we abbreviate $q(r, \phi)$ to just $q$. 
+Naturally, if an agent invests in a risky asset instead of a riskless
+bond, he expects to obtain a higher return from the risky asset than
+he is guarranteed from the riskless bond. In our notation,
+this means $\delta v > e^r$, which implies $q(r, \phi) > r > 0$.
+The right-hand-side of \eqref{eq:functional} is a functional of the
+distribution function of $X$ via \eqref{eq:xxie1}. For convenience
+we denote it $\mathcal U(\cdot)$, i.e.
+\[
+\mathcal U F (\alpha, \beta, K, K', \phi)
+= 
+\E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(q(r, \phi))
+\]
+In the rest of this section, we use $F(\cdot)$ to denote the
+distribution function of $X$ and use $f(\cdot)$ to denote its density
+function.
+
+\subsection{Pareto-distributed equity return}
+In this section, we look into the situation when $X$ has a shifted
+Pareto distribution. Assume
+\begin{equation}
+  \label{eq:X_distr}
+  F(x) = \left\{
+  \begin{array}{ll}
+    p \left(
+    {K \over K - x}
+    \right)^\alpha & x \leq 0 \\
+    1 - (1 - p) \left(
+    {K' \over K' + x}
+    \right)^\beta & x > 0
+  \end{array}
+  \right.
+\end{equation}
+Assume $\alpha, \beta > 1$, $0 < p < 1$ and $K > 0$.
+We have
+\begin{eqnarray}
+  && \mathcal U F (\alpha, \beta, K, K', \phi) \nonumber \\
+  &=&
+  \alpha K^\alpha  p
+  \int_{-\infty}^0
+  u\left[ (1 - \phi) e^r + \phi e^x \right]
+  {1 + b \over (K - x)^{\alpha + 1}} dx
+  \nonumber \\
+  &&
+  \beta K'^\beta (1 - p)
+  \int_{0}^\infty
+  u\left[ (1 - \phi) e^r + \phi e^x \right]
+  {1 + b \1{x < q} \over (K' + x)^{\beta + 1}} dx \nonumber \\
+  &&
+  - b u(\delta v) \left[
+    1 - (1 - p) {
+      K'^\beta
+      \over
+      (K' + q)^\beta
+    }
+  \right]
+  \label{eq:xxie1.0}
+\end{eqnarray}
+% In theorem \ref{thrm:I} we show
+% \[
+% \max_{0 < \phi \leq 1} \mathcal U F(\alpha, \beta, K, K', \phi)
+% \]
+% is monotonically increasing with $\alpha$ and monotonically decreasing
+% with $K$. But before that it is worthwhile to state the following
+% simple observation:
+% With lemma \ref{lemma:I} it is straightforward to show the
+% monotonicity claimed earlier.
 Let
 \[
 G(\alpha, \beta, K, K') =
@@ -694,9 +693,11 @@ G(\alpha, \beta, K, K') =
     &=& p \opd{\alpha}\E[u((1 - \phi) e^r + \phi e^X) | X < 0]
   \end{eqnarray*}
   The function $u((1 - \phi) e^r + \phi e^X)$ is obviously increasing
-  with $X$. Furthermore
+  with $X$. Furthermore, the density function of $X | X < 0$ is ${1
+    \over p} f(x; \alpha, K)$. It follows
   \begin{eqnarray*}
-    && \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
+    && \pd{f(x; \alpha, K)}{\alpha} \\
+    &=& \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
     &=&
     - {K^\alpha \over (K - x)^{\alpha + 1}}
     \left[
@@ -733,7 +734,8 @@ G(\alpha, \beta, K, K') =
   \]
   and
   \begin{eqnarray*}
-    && \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
+    && \pd{f(x; \alpha, K)}{K} \\
+    &=& \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
     &=&
     -\alpha K^{\alpha - 1} {
       \alpha x + K
@@ -766,21 +768,107 @@ sectors of S\&P 500 companies. This is illustrated in figures
 \ref{fig:Energy_alpha_K} and \ref{fig:Information_Technology_alpha_K}.
 The confidence bands of the Hill estimates of $\alpha$ of these
 sectors are shown in figures \ref{fig:Energy_lower},
-\ref{fig:Consumer_Staples_lower} and \ref{fig:Information_Technology_lower}.
-% all agents guided by this class of utility
-% functions will seek the largest $\alpha$ and the smallest $K$ found in
-% a stock group e.g. a sector. 
+\ref{fig:Consumer_Staples_lower} and
+\ref{fig:Information_Technology_lower}.
 
-
-% As a result, one can expect all the
-% actively traded equities in the group to feature the same $\alpha$ and
-% $K$. However, the estimated value of $K^\alpha$ may vary
-% significantly. This can be understood as a result of the smallness of
-% $K$, which as revealed in section \ref{sec:hybrid_estimation} is of the
-% order of $10^{-2}$, and the inaccuracy of the estimated value of
-% $\alpha$, which typically ranges from 2.5 to 5. Exponentiation hugely
-% magnifies the inaccuracy in $\alpha$.
-
+\subsection{Student's t-distributed equity return}
+It is a common practice to use Student's t-distribution to model the
+stationary distribution of equity returns. So it is of interest to
+find out what implications this distribution has when it is combined
+with the PDA preference. Formally we assume
+\[
+f(x; \nu) = c(\nu) \left(
+  1 + {x^2 \over \nu}
+\right)^{-(\nu + 1)/2}
+\]
+where $\nu > 1$ and
+\[
+c(\nu) = {
+  \Gamma({\nu + 1 \over 2})
+  \over
+  \Gamma(\nu/2) \sqrt{\nu \pi}
+}
+\]
+Then it follows
+\begin{eqnarray*}
+\pd{f(x, \nu)}{\nu} &=& {
+  c(\nu) x^2 (\nu + 1) + (2 \nu x^2 + 2 \nu^2) c'(\nu)
+  -
+  \nu c(\nu) (x^2 + \nu) \ln(1 + x^2/\nu)
+  \over
+  2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
+}
+\end{eqnarray*}
+The nummerator of the right side of $\pd{f(x, \nu)}{\nu}$, if seen as
+a function of $x^2$, has a single root:
+\begin{equation}
+  \label{eq:xxie5}
+  x^2 = \nu\exp\left\{
+    W\left[
+      -\left(1 + {1 \over \nu}\right)
+      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+    \right]
+    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
+  \right\} - \nu
+\end{equation}
+where $W(\cdot)$ is the principle branch of the Lambert $W$
+function. and $c'(\cdot)$ is the derivative of $c(\cdot)$. To check
+the right side of \eqref{eq:xxie5} for positivity, we first note
+$c'(\nu) > 0$:
+\[
+c'(\nu) = {
+  \pi \Gamma(\nu/2 + 1/2) \left[
+    \nu \Psi(\nu/2 + 1/2) - \nu \Psi(\nu/2) - 1
+  \right]
+  \over
+  2 \Gamma(\nu/2) (\pi \nu)^{3/2}
+}
+\]
+where $\Psi(\cdot)$ is the digamma function:
+\[
+\Psi(x) = \td{\ln[\Gamma(x)]}{x}
+\]
+Since for all $x > 0$, $\Psi(x) > 0$ and $\nu > 1$, it is clear
+$c'(\nu) > 0$. Furthermore, we recall
+$W(\cdot)$ is increasing on its principle branch. So
+\begin{eqnarray*}
+  &&
+  W\left[
+    -\left( 1 + {1 \over \nu} \right)
+    e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+  \right]
+  + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
+  &>& 
+  W\left[
+    -\left( 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \right)
+    e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+  \right]
+  + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
+  &=& W(-y e^{-y}) + y
+\end{eqnarray*}
+where
+\[
+y = 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} > 1
+\]
+Now notice
+\[
+\ln(y e^{-y}) = \ln(y) - y
+\]
+is a decreasing function. Thus $-y e^{-y}$ is an increasing
+function. Hence we have
+\begin{eqnarray*}
+  W(-y e^{-y}) + y &>& W(-e^{-1}) + 1 = 0
+\end{eqnarray*}
+Now it is clear
+\[
+\nu\exp\left\{
+    W\left[
+      -\left(1 + {1 \over \nu}\right)
+      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+    \right]
+    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
+  \right\} - \nu > 0
+\]
 
 \section{Review of multivariate GARCH models:
   same tail index or not}
