@@ -514,29 +514,32 @@ simple observation:
   $\theta$ is defined on $x \in (a, b)$, $a, b \in \mathbb R \cup
   \{-\infty, \infty\}$, and in addition $F(x; \theta)$ has density
   function $f(x; \theta)$. Assume function $h(\cdot)$ is defined on
-  $(a, b)$ and $X \sim F$.
+  $(a, b)$, $X \sim F$, $\E h(X) < \infty$ and $\forall x \in (a, b)$
+  \[
+  \left| \pd{f(x, \theta)}{\theta} \right| < \infty
+  \]
   \begin{enumerate}
   \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
     $\pd{f}{\theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
-    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(x_0, b)$, 
+    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(x_0, b)$, then
     \[
     \pd{\E h(X)}{\theta} > 0
     \]
   \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
     $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
-    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$,
+    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$, then
     \[
     \pd{\E h(X)}{\theta} > 0
     \]
   \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that
     $\pd{f}{\theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
-    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(x_0, b)$
+    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(x_0, b)$, then
     \[
     \pd{\E h(X)}{\theta} < 0
     \]
   \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that 
     $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
-    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$
+    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$, then
     \[
     \pd{\E h(X)}{\theta} < 0
     \]
