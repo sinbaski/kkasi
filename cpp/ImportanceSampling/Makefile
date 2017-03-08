@@ -4,10 +4,10 @@ objdir := obj
 
 ## srcs := $(wildcard $(srcdir)/*.cpp)
 ## srcs := ./test.cpp ./ExtremeNumber2.cpp ./XMatrix.cpp
-## srcs := ./GarchPQ.cpp
+srcs := ./GarchPQ.cpp
 ## srcs := garch21.cpp garch21_main.cpp
 # srcs := garch1D.cpp main.cpp
-srcs := right_eigenfunction.cpp
+## srcs := right_eigenfunction.cpp
 objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
 objs := $(addprefix $(objdir)/, $(objs))
 
