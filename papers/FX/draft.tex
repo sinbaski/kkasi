@@ -790,20 +790,27 @@ c(\nu) = {
 }
 \]
 Then it follows
-\begin{eqnarray*}
+\begin{eqnarray}
 \pd{f(x, \nu)}{\nu} &=& {
   c(\nu) x^2 (\nu + 1) + (2 \nu x^2 + 2 \nu^2) c'(\nu)
   -
   \nu c(\nu) (x^2 + \nu) \ln(1 + x^2/\nu)
   \over
   2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
-}
-\end{eqnarray*}
-The nummerator of the right side of $\pd{f(x, \nu)}{\nu}$, if seen as
-a function of $x^2$, has a single root:
+  } \nonumber \\
+  &:=& {
+    P(x^2, \nu)
+    \over
+    2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
+  }
+  \label{eq:xxie4.1}
+\end{eqnarray}
+
+While the denominator of the right side of $\pd{f(x, \nu)}{\nu}$ is
+always positive, its nummerator $P(x^2, \nu)$ has a single root:
 \begin{equation}
   \label{eq:xxie5}
-  x^2 = \nu\exp\left\{
+  x_0^2 = \nu\exp\left\{
     W\left[
       -\left(1 + {1 \over \nu}\right)
       e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
@@ -887,6 +894,27 @@ Now it is clear
     + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
   \right\} - \nu > 0
 \]
+Now that we have established that $\pd{f}{\nu}(x, \nu) = 0$ has a
+single positive root, it remains to determine the sign of
+$\pd{f}{\nu}(x, \nu)$ on the two sides of the root in order to apply
+lemma \ref{lemma:I}. For this purpose we observe
+\begin{equation}
+  \label{eq:xxie5.1}
+  P(0, \nu) = 2 \nu^2 c'(\nu) > 0
+\end{equation}
+So we want to investigate $\pd{P}{x^2}(x^2, \nu)$:
+\begin{eqnarray}
+  && \pd{P}{x^2}(x^2, \nu) \nonumber \\
+  &=&
+  2 \nu c'(\nu) + c(\nu) - \nu c(\nu) \ln\left(
+  1 + {x^2 \over \nu}
+  \right)
+  \label{eq:xxie6}
+\end{eqnarray}
+From \eqref{eq:xxie5.1} and \eqref{eq:xxie6} it is clear
+$P(x^2, \nu) > 0$ for $0 \leq x^2 < x_0^2$ and
+$P(x^2, \nu) < 0$ for $x^2 > x_0^2$.
+
 
 \section{Review of multivariate GARCH models:
   same tail index or not}
