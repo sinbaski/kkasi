@@ -817,9 +817,9 @@ the right side of \eqref{eq:xxie5} for positivity, we first note
 $c'(\nu) > 0$:
 \[
 c'(\nu) = {
-  \pi \Gamma(\nu/2 + 1/2) \left[
-    \nu \Psi(\nu/2 + 1/2) - \nu \Psi(\nu/2) - 1
-  \right]
+  \pi \Gamma(\nu/2 + 1/2) \left\{
+    \nu \left[ \Psi(\nu/2 + 1/2) - \Psi(\nu/2)\right] - 1
+  \right\}
   \over
   2 \Gamma(\nu/2) (\pi \nu)^{3/2}
 }
@@ -828,9 +828,27 @@ where $\Psi(\cdot)$ is the digamma function:
 \[
 \Psi(x) = \td{\ln[\Gamma(x)]}{x}
 \]
-Since for all $x > 0$, $\Psi(x) > 0$ and $\nu > 1$, it is clear
-$c'(\nu) > 0$. Furthermore, we recall
-$W(\cdot)$ is increasing on its principle branch. So
+\begin{minipage}{0.48\textwidth}
+  $\Psi(x)$ \linebreak
+  \includegraphics[width=\textwidth]{digamma.png}
+\end{minipage}\hfill
+\begin{minipage}{0.5\textwidth}
+  As shown in the figure to the left, $\Psi(x)$ is increasing
+  for $x > 0$. Therefore $\Psi(\nu/2 + 1/2) - \Psi(\nu/2) > 0$.
+  So we have
+  \begin{eqnarray*}
+    && \nu \left[
+    \Psi(\nu/2 + 1/2) - \Psi(\nu/2)
+    \right] - 1 \\
+    &\geq& 1 \times \left[
+    \Psi(1/2 + 1/2) - \Psi(1/2)
+    \right] - 1 \\
+    &=& \ln(4) - \ln(e) \\
+    &>& 0
+  \end{eqnarray*}
+  Thus $c'(\nu) > 0$. Furthermore, we recall
+  $W(\cdot)$ is increasing on its principle branch. So
+\end{minipage}
 \begin{eqnarray*}
   &&
   W\left[
