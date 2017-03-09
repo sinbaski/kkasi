@@ -580,17 +580,20 @@ Naturally, if an agent invests in a risky asset instead of a riskless
 bond, he expects to obtain a higher return from the risky asset than
 he is guarranteed from the riskless bond. In our notation,
 this means $\delta v > e^r$, which implies $q(r, \phi) > r > 0$.
-The right-hand-side of \eqref{eq:functional} is a functional of the
-distribution function of $X$ via \eqref{eq:xxie1}. For convenience
-we denote it $\mathcal U(\cdot)$, i.e.
+The right-hand-side of \eqref{eq:functional} is a functional of $\phi$
+and the distribution function of $X$ via \eqref{eq:xxie1}. For convenience
+we denote it $\mathcal U(\cdot, \cdot)$, i.e.
 \[
-\mathcal U F (\alpha, \beta, K, K', \phi)
+\mathcal U(F, \phi)
 = 
 \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(q(r, \phi))
 \]
 In the rest of this section, we use $F(\cdot)$ to denote the
 distribution function of $X$ and use $f(\cdot)$ to denote its density
-function.
+function. Let
+\[
+G(F) = \max_{0 < \phi \leq 1} \mathcal U(F, \phi)
+\]
 
 \subsection{Pareto-distributed equity return}
 In this section, we look into the situation when $X$ has a shifted
@@ -633,26 +636,12 @@ We have
   \right]
   \label{eq:xxie1.0}
 \end{eqnarray}
-% In theorem \ref{thrm:I} we show
-% \[
-% \max_{0 < \phi \leq 1} \mathcal U F(\alpha, \beta, K, K', \phi)
-% \]
-% is monotonically increasing with $\alpha$ and monotonically decreasing
-% with $K$. But before that it is worthwhile to state the following
-% simple observation:
-% With lemma \ref{lemma:I} it is straightforward to show the
-% monotonicity claimed earlier.
-Let
-\[
-G(\alpha, \beta, K, K') =
-\max_{0 < \phi \leq 1} \mathcal U F(\alpha, \beta, K, K', \phi)
-\]
 \begin{theorem}
   \label{thrm:I}
   \[
-  \pd{G}{\alpha} (\alpha, \beta, K, K') > 0,
+  \pd{G(F)}{\alpha} (\alpha, \beta, K, K') > 0,
   \quad
-  \pd{G}{K} (\alpha, \beta, K, K') < 0
+  \pd{G(F)}{K} (\alpha, \beta, K, K') < 0
   \]
 \end{theorem}
 
@@ -660,35 +649,35 @@ G(\alpha, \beta, K, K') =
   Let
   \begin{equation}
     \label{eq:xxie2}
-    \hat \phi := \argmax_{0 < \phi \leq 1}
-    \mathcal U F(\alpha, \beta, K, K', \phi)
+    \hat \phi := \argmax_{0 < \phi \leq 1} \mathcal U(F, \phi)
   \end{equation}
   We have
   \[
-  G(\alpha, \beta, K, K') = \mathcal U F(\alpha, \beta, K, K', \hat \phi)
+  G(F)(\alpha, \beta, K, K') = \mathcal U(F, \hat\phi)(\alpha, \beta, K, K')
   \]
   It follows
   \begin{eqnarray}
-    \pd{G}{\alpha}
+    \pd{G(F)}{\alpha}
     &=&
-    \pd{\mathcal U F}{\alpha}(\alpha, \beta, K, K', \hat \phi)
-    + \pd{\mathcal U F}{\phi}(\alpha, \beta, K, K', \hat \phi)
-    \pd{\hat \phi}{\alpha}(\alpha, \beta, K, K')
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, \beta, K, K', \hat\phi)
+    \nonumber \\
+    && + \pd{\mathcal U(F, \phi)}{\phi}(\alpha, \beta, K, K', \hat\phi)
+    \pd{\hat\phi}{\alpha}(\alpha, \beta, K, K')
     \label{eq:xxie3}
   \end{eqnarray}
   The definition \eqref{eq:xxie2} implies $\forall \alpha > 1$
   \begin{equation}
     \label{eq:xxie4}
-    \pd{\mathcal U F}{\phi}(\alpha, \beta, K, K', \hat \phi) = 0
+    \pd{\mathcal U(F, \phi)}{\phi}(\alpha, \beta, K, K', \hat \phi) = 0
   \end{equation}
   So the second term of \eqref{eq:xxie3} vanishes. It remains to show
   \begin{eqnarray*}
-    \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi)
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, \beta, K, K', \hat \phi)
     &>& 0
   \end{eqnarray*}
   From \eqref{eq:xxie1.0}, it follows
   \begin{eqnarray*}
-    && \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat\phi)
+    && \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, \beta, K, K', \hat\phi)
     \\
     &=& p \opd{\alpha}\E[u((1 - \phi) e^r + \phi e^X) | X < 0]
   \end{eqnarray*}
@@ -717,16 +706,16 @@ G(\alpha, \beta, K, K') =
   \]
   This is the second case of lemma \ref{lemma:I}. So we have
   \begin{eqnarray*}
-    \pd{\mathcal U(F)}{\alpha}(\alpha, \beta, K, K', \hat \phi) &>& 0
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, \beta, K, K', \hat \phi) &>& 0
   \end{eqnarray*}
   As for $\pd{G(\alpha, \beta, K, K')}{K}$, by the same argument as for
   $\pd{G(\alpha, \beta, K, K')}{\alpha}$, it suffices to show
   \[
-  \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat\phi) < 0
+  \pd{\mathcal U(F, \phi)}{K}(\alpha, \beta, K, K', \hat\phi) < 0
   \]
   We have
   \[
-  \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat\phi)
+  \pd{\mathcal U(F, \phi)}{K}(\alpha, \beta, K, K', \hat\phi)
   = p \opd{K} \E \left[
     u((1 - \phi) e^r + \phi e^X)
     | X < 0
@@ -753,7 +742,7 @@ G(\alpha, \beta, K, K') =
   \]
   So by the third case of lemma \ref{lemma:I} we conclude
   \[
-  \pd{\mathcal U(F)}{K}(\alpha, \beta, K, K', \hat\phi) < 0  
+  \pd{\mathcal U(F, \phi)}{K}(\alpha, \beta, K, K', \hat\phi) < 0  
   \]
 \end{proof}
 Since $u(v)$ given in \eqref{eq:xxie1.0} as a
@@ -789,6 +778,29 @@ c(\nu) = {
   \Gamma(\nu/2) \sqrt{\nu \pi}
 }
 \]
+\begin{theorem}
+  \[
+  \pd{G(F)}{\nu} > 0
+  \]
+  where the distribution function $F(x, \nu)$ corresponds to the
+  density function $f(x, \nu)$ defined above.
+\end{theorem}
+\begin{proof}
+  By the same argument as in the proof of theorem \ref{thrm:I}, it
+  suffices to show
+  \begin{eqnarray*}
+    \pd{\mathcal U(F, \phi)}{\nu}(\nu, \hat\phi) &>& 0
+  \end{eqnarray*}
+  where $\hat\phi$ is defined in \eqref{eq:xxie2}. We have
+  \begin{eqnarray*}
+    && \mathcal U(F, \phi) \\
+    &=&
+    \int_{-\infty}^\infty
+    u[(1 - \phi) e^r + \phi e^x] (1 + b \1{x < q}) f(x, \nu) dx
+  \end{eqnarray*}
+
+\end{proof}
+
 Then it follows
 \begin{eqnarray}
 \pd{f(x, \nu)}{\nu} &=& {
