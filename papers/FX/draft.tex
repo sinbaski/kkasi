@@ -554,7 +554,7 @@ be the return on equity. Portfolio weights are $\left(1-\phi\right)$
 and $\phi$ respectively. Then
 \begin{equation}
   \label{eq:xxie1}
-  C = (1 - \phi) e^r + \phi e^X
+  C(X) = (1 - \phi) e^r + \phi e^X
 \end{equation}
 Equation \eqref{eq:xxie0} can be re-arranged as
 \begin{eqnarray}
@@ -795,139 +795,170 @@ c(\nu) = {
   \begin{eqnarray*}
     && \mathcal U(F, \phi) \\
     &=&
-    \int_{-\infty}^\infty
-    u[(1 - \phi) e^r + \phi e^x] (1 + b \1{x < q}) f(x, \nu) dx
+    \underbrace{
+      \int_{-\infty}^\infty
+      u[C(x)] f(x, \nu) dx
+    }_{I_1}
+    + b \underbrace{
+      \int_{-\infty}^{-q}
+      u[C(x)] f(x, \nu) dx
+    }_{I_2}
+    + b \underbrace{
+      \int_{-q}^q
+      u[C(x)] f(x, \nu) dx
+    }_{I_3}
   \end{eqnarray*}
+  where $C(\cdot)$ is defined in \eqref{eq:xxie1}. In the following we show
+  \[
+  \pd{I_1}{\nu} > 0, \quad
+  \pd{I_2}{\nu} > 0, \quad
+  \pd{I_3}{\nu} > 0
+  \]
+  For $I_3$ we have
+  \begin{eqnarray*}
+    I_3 &=&
+    \int_{-q}^q
+    u[C(x)] f(x, \nu) dx \\
+    &=& \int_0^q
+    \left[
+      u(C(x)) + u(C(-x))
+    \right]
+    f(x, \nu) dx
+  \end{eqnarray*}
+  Observe that $u(C(x)) + u(C(-x))$ is a decreasing function:
+  \begin{eqnarray*}
+    \opd{x}
+    \left[
+      u(C(x)) + u(C(-x))
+    \right] &=& u'(C(x)) C'(x) - u'(C(-x)) C'(-x)
+  \end{eqnarray*}
+  Direct computation yields
+  \begin{eqnarray}
+    \pd{f(x, \nu)}{\nu} &=& {
+      c(\nu) x^2 (\nu + 1) + (2 \nu x^2 + 2 \nu^2) c'(\nu)
+      -
+      \nu c(\nu) (x^2 + \nu) \ln(1 + x^2/\nu)
+      \over
+      2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
+    } \nonumber \\
+    &:=& {
+      P(x^2, \nu)
+      \over
+      2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
+    }
+    \label{eq:xxie4.1}
+  \end{eqnarray}
+
+  While the denominator of the right side of $\pd{f(x, \nu)}{\nu}$ is
+  always positive, its nummerator $P(x^2, \nu)$ has a single root:
+  \begin{equation}
+    \label{eq:xxie5}
+    x_0^2 = \nu\exp\left\{
+    W\left[
+      -\left(1 + {1 \over \nu}\right)
+      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+      \right]
+    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
+    \right\} - \nu
+  \end{equation}
+  where $W(\cdot)$ is the principle branch of the Lambert $W$
+  function. and $c'(\cdot)$ is the derivative of $c(\cdot)$. To check
+  the right side of \eqref{eq:xxie5} for positivity, we first note
+  $c'(\nu) > 0$:
+  \[
+  c'(\nu) = {
+    \pi \Gamma(\nu/2 + 1/2) \left\{
+    \nu \left[ \Psi(\nu/2 + 1/2) - \Psi(\nu/2)\right] - 1
+    \right\}
+    \over
+    2 \Gamma(\nu/2) (\pi \nu)^{3/2}
+  }
+  \]
+  where $\Psi(\cdot)$ is the digamma function:
+  \[
+  \Psi(x) = \td{\ln[\Gamma(x)]}{x}
+  \]
+  \begin{minipage}{0.48\textwidth}
+    $\Psi(x)$ \linebreak
+    \includegraphics[width=\textwidth]{digamma.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\textwidth}
+    As shown in the figure to the left, $\Psi(x)$ is increasing
+    for $x > 0$. Therefore $\Psi(\nu/2 + 1/2) - \Psi(\nu/2) > 0$.
+    So we have
+    \begin{eqnarray*}
+      && \nu \left[
+        \Psi(\nu/2 + 1/2) - \Psi(\nu/2)
+        \right] - 1 \\
+      &\geq& 1 \times \left[
+        \Psi(1/2 + 1/2) - \Psi(1/2)
+        \right] - 1 \\
+      &=& \ln(4) - \ln(e) \\
+      &>& 0
+    \end{eqnarray*}
+    Thus $c'(\nu) > 0$. Furthermore, we recall
+    $W(\cdot)$ is increasing on its principle branch. So
+  \end{minipage}
+  \begin{eqnarray*}
+    &&
+    W\left[
+      -\left( 1 + {1 \over \nu} \right)
+      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+      \right]
+    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
+    &>& 
+    W\left[
+      -\left( 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \right)
+      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+      \right]
+    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
+    &=& W(-y e^{-y}) + y
+  \end{eqnarray*}
+  where
+  \[
+  y = 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} > 1
+  \]
+  Now notice
+  \[
+  \ln(y e^{-y}) = \ln(y) - y
+  \]
+  is a decreasing function. Thus $-y e^{-y}$ is an increasing
+  function. Hence we have
+  \begin{eqnarray*}
+    W(-y e^{-y}) + y &>& W(-e^{-1}) + 1 = 0
+  \end{eqnarray*}
+  Now it is clear
+  \[
+  \nu\exp\left\{
+  W\left[
+    -\left(1 + {1 \over \nu}\right)
+    e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+    \right]
+  + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
+  \right\} - \nu > 0
+  \]
+  Now that we have established that $\pd{f}{\nu}(x, \nu) = 0$ has a
+  single positive root, it remains to determine the sign of
+  $\pd{f}{\nu}(x, \nu)$ on the two sides of the root in order to apply
+  lemma \ref{lemma:I}. For this purpose we observe
+  \begin{equation}
+    \label{eq:xxie5.1}
+    P(0, \nu) = 2 \nu^2 c'(\nu) > 0
+  \end{equation}
+  So we want to investigate $\pd{P}{x^2}(x^2, \nu)$:
+  \begin{eqnarray}
+    && \pd{P}{x^2}(x^2, \nu) \nonumber \\
+    &=&
+    2 \nu c'(\nu) + c(\nu) - \nu c(\nu) \ln\left(
+    1 + {x^2 \over \nu}
+    \right)
+    \label{eq:xxie6}
+  \end{eqnarray}
+  From \eqref{eq:xxie5.1} and \eqref{eq:xxie6} it is clear
+  $P(x^2, \nu) > 0$ for $0 \leq x^2 < x_0^2$ and
+  $P(x^2, \nu) < 0$ for $x^2 > x_0^2$.
 
 \end{proof}
-
-Then it follows
-\begin{eqnarray}
-\pd{f(x, \nu)}{\nu} &=& {
-  c(\nu) x^2 (\nu + 1) + (2 \nu x^2 + 2 \nu^2) c'(\nu)
-  -
-  \nu c(\nu) (x^2 + \nu) \ln(1 + x^2/\nu)
-  \over
-  2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
-  } \nonumber \\
-  &:=& {
-    P(x^2, \nu)
-    \over
-    2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
-  }
-  \label{eq:xxie4.1}
-\end{eqnarray}
-
-While the denominator of the right side of $\pd{f(x, \nu)}{\nu}$ is
-always positive, its nummerator $P(x^2, \nu)$ has a single root:
-\begin{equation}
-  \label{eq:xxie5}
-  x_0^2 = \nu\exp\left\{
-    W\left[
-      -\left(1 + {1 \over \nu}\right)
-      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
-    \right]
-    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
-  \right\} - \nu
-\end{equation}
-where $W(\cdot)$ is the principle branch of the Lambert $W$
-function. and $c'(\cdot)$ is the derivative of $c(\cdot)$. To check
-the right side of \eqref{eq:xxie5} for positivity, we first note
-$c'(\nu) > 0$:
-\[
-c'(\nu) = {
-  \pi \Gamma(\nu/2 + 1/2) \left\{
-    \nu \left[ \Psi(\nu/2 + 1/2) - \Psi(\nu/2)\right] - 1
-  \right\}
-  \over
-  2 \Gamma(\nu/2) (\pi \nu)^{3/2}
-}
-\]
-where $\Psi(\cdot)$ is the digamma function:
-\[
-\Psi(x) = \td{\ln[\Gamma(x)]}{x}
-\]
-\begin{minipage}{0.48\textwidth}
-  $\Psi(x)$ \linebreak
-  \includegraphics[width=\textwidth]{digamma.png}
-\end{minipage}\hfill
-\begin{minipage}{0.5\textwidth}
-  As shown in the figure to the left, $\Psi(x)$ is increasing
-  for $x > 0$. Therefore $\Psi(\nu/2 + 1/2) - \Psi(\nu/2) > 0$.
-  So we have
-  \begin{eqnarray*}
-    && \nu \left[
-    \Psi(\nu/2 + 1/2) - \Psi(\nu/2)
-    \right] - 1 \\
-    &\geq& 1 \times \left[
-    \Psi(1/2 + 1/2) - \Psi(1/2)
-    \right] - 1 \\
-    &=& \ln(4) - \ln(e) \\
-    &>& 0
-  \end{eqnarray*}
-  Thus $c'(\nu) > 0$. Furthermore, we recall
-  $W(\cdot)$ is increasing on its principle branch. So
-\end{minipage}
-\begin{eqnarray*}
-  &&
-  W\left[
-    -\left( 1 + {1 \over \nu} \right)
-    e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
-  \right]
-  + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
-  &>& 
-  W\left[
-    -\left( 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \right)
-    e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
-  \right]
-  + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
-  &=& W(-y e^{-y}) + y
-\end{eqnarray*}
-where
-\[
-y = 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} > 1
-\]
-Now notice
-\[
-\ln(y e^{-y}) = \ln(y) - y
-\]
-is a decreasing function. Thus $-y e^{-y}$ is an increasing
-function. Hence we have
-\begin{eqnarray*}
-  W(-y e^{-y}) + y &>& W(-e^{-1}) + 1 = 0
-\end{eqnarray*}
-Now it is clear
-\[
-\nu\exp\left\{
-    W\left[
-      -\left(1 + {1 \over \nu}\right)
-      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
-    \right]
-    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
-  \right\} - \nu > 0
-\]
-Now that we have established that $\pd{f}{\nu}(x, \nu) = 0$ has a
-single positive root, it remains to determine the sign of
-$\pd{f}{\nu}(x, \nu)$ on the two sides of the root in order to apply
-lemma \ref{lemma:I}. For this purpose we observe
-\begin{equation}
-  \label{eq:xxie5.1}
-  P(0, \nu) = 2 \nu^2 c'(\nu) > 0
-\end{equation}
-So we want to investigate $\pd{P}{x^2}(x^2, \nu)$:
-\begin{eqnarray}
-  && \pd{P}{x^2}(x^2, \nu) \nonumber \\
-  &=&
-  2 \nu c'(\nu) + c(\nu) - \nu c(\nu) \ln\left(
-  1 + {x^2 \over \nu}
-  \right)
-  \label{eq:xxie6}
-\end{eqnarray}
-From \eqref{eq:xxie5.1} and \eqref{eq:xxie6} it is clear
-$P(x^2, \nu) > 0$ for $0 \leq x^2 < x_0^2$ and
-$P(x^2, \nu) < 0$ for $x^2 > x_0^2$.
-
-
 \section{Review of multivariate GARCH models:
   same tail index or not}
 Many multivariate GARCH models imply a common tail index for all
