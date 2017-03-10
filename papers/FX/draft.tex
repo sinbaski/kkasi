@@ -420,10 +420,15 @@ stating the following simple observation:
   $\theta$ is defined on $x \in (a, b)$, $a, b \in \mathbb R \cup
   \{-\infty, \infty\}$, and in addition $F(x; \theta)$ has density
   function $f(x; \theta)$. Assume function $h(\cdot)$ is defined on
-  $(a, b)$, $X \sim F$, $\E h(X) < \infty$ and $\forall x \in (a, b)$
-  \[
-  \left| \pd{f(x, \theta)}{\theta} \right| < \infty
-  \]
+  $(a, b)$, $X \sim F$, $\text{supp}(X) = (a,b)$,
+  $\E h(X) < \infty$ and
+  \begin{eqnarray*}
+    \opd{\theta}\left[
+      F(b) - F(a)
+    \right] = 0 \\
+    \left| \pd{f(x, \theta)}{\theta} \right| < \infty
+    \quad \forall x \in (a, b)
+  \end{eqnarray*}
   \begin{enumerate}
   \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
     $\pd{f}{\theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
@@ -437,117 +442,21 @@ stating the following simple observation:
     \[
     \pd{\E h(X)}{\theta} > 0
     \]
-  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that
-    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
-    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(x_0, b)$, then
-    \[
-    \pd{\E h(X)}{\theta} < 0
-    \]
-  \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that 
-    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
-    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$, then
-    \[
-    \pd{\E h(X)}{\theta} < 0
-    \]
   \end{enumerate}
 \end{lemma}
-\begin{proof}
-  Clearly
-  \begin{eqnarray*}
-    && \pd{\E h(X)}{\theta} \\
-    &=& \int_a^b h(x) \pd{f}{\theta}(x, \theta) dx \\
-    &=& \underbrace{\int_a^{x_0} h(x) \pd{f}{\theta}(x, \theta) dx}_{I_1}
-    + \underbrace{\int_{x_0}^b h(x) \pd{f}{\theta}(x, \theta) dx}_{I_2}
-  \end{eqnarray*}
+\begin{remark}
+  \label{remark:I}
+  Two other cases follow trivially from lemma \ref{lemma:I}:
   \begin{enumerate}
-  \item When $h(x)$ is decreasing on $(a, b)$ and $\pd{f}{\theta}(x,
-    \theta) > 0$ on $(a, x_0)$
-    \[
-    I_1 > h(x_0) \int_a^{x_0} \pd{f}{\theta}(x, \theta) dx
-    \]
-    Similarly, because $\pd{f}{\theta}(x, \theta) < 0$ for $x \in (x_0, b)$ and
-    $h(x)$ is decreasing, we have
-    \begin{eqnarray*}
-      I_2 &=& \int_{x_0}^b -h(x_0)
-      \left|\pd{f}{\theta}(x, \theta) \right| dx \\
-      &>& -h(x_0)
-      \int_{x_0}^b \left| 
-        \pd{f}{\theta}(x, \theta)
-      \right| dx
-    \end{eqnarray*}
-    Finally we have
-    \begin{eqnarray*}
-      && \pd{\E h(X)}{\theta} \\
-      &=& I_1 + I_2 \\
-      &>& h(x_0) \int_a^b \pd{f}{\theta}(x, \theta) dx \\
-      &=& h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx \\
-      &=& h(x_0) \opd{\theta} 1 = 0
-    \end{eqnarray*}
-  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
-    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
-    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$
-    \begin{eqnarray*}
-      I_1 &=&
-      \int_a^{x_0} -h(x)
-      \left| \pd{f}{\theta}(x, \theta) \right| dx \\
-      &>&
-      -h(x_0) \int_a^{x_0}
-      \left| \pd{f}{\theta}(x, \theta) \right| dx
-    \end{eqnarray*}
-    and obviously
-    \[
-    I_2 > h(x_0) \int_{x_0}^b
-    \pd{f}{\theta}(x, \theta) dx
-    \]
-    So
-    \[
-    \pd{\E h(X)}{\theta}
-    = I_1 + I_2
-    > h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx = 0
-    \]
-  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that
-    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
-    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(x_0, b)$
-
-    Obviously
-    \[
-    I_1 = \int_a^{x_0} h(x) \pd{f}{\theta}(x, \theta) dx
-    < h(x_0) \int_a^{x_0} \pd{f}{\theta}(x, \theta) dx
-    \]
-    and
-    \begin{eqnarray*}
-      I_2 &=& \int_{x_0}^b h(x) \pd{f}{\theta}(x, \theta) dx \\
-      &<& -h(x_0) \int_{x_0}^b \left| \pd{f}{\theta}(x, \theta) \right| dx \\
-    \end{eqnarray*}
-    Thus
-    \[
-    \pd{\E h(X)}{\theta}
-    = I_1 + I_2
-    < h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx = 0
-    \]
-  \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that 
-    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
-    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$
-
-    In this case
-    \begin{eqnarray*}
-      I_1 &=& \int_a^{x_0} h(x) \pd{f}{\theta}(x, \theta) dx \\
-      &<& -h(x_0) \int_a^{x_0} \left| \pd{f}{\theta}(x, \theta) \right| dx
-    \end{eqnarray*}
-    And
-    \begin{eqnarray*}
-      I_2 &=& \int_{x_0}^b h(x) \pd{f}{\theta}(x, \theta) dx \\
-      &<& h(x_0) \int_{x_0}^b \pd{f}{\theta}(x, \theta) dx
-    \end{eqnarray*}
-    So
-    \[
-    \pd{\E h(X)}{\theta}
-    = I_1 + I_2
-    < h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx = 0
-    \]
+  \item If $h(\cdot)$ is increasing and $\pd{f}{\theta}$ satisfies the
+    same conditions of the 1st case of lemma \ref{lemma:I},
+    $\pd{\E h(X)}{\theta} < 0$. This immediately follows from applying
+    1st case of lemma \ref{lemma:I} to $-h(\cdot)$.
+  \item By the same argument, if $h(\cdot)$ is decreasing and
+    $\pd{f}{\theta}$ satisfies the same conditions of the 2nd case of
+    lemma \ref{lemma:I}, $\pd{\E h(X)}{\theta} < 0$.
   \end{enumerate}
-\end{proof}
-
+\end{remark}
 Now for simplicity we assume the investor initially has one unit of
 wealth. Let $r > 0$ be the return on the risk free state bond and $X$
 be the return on equity. Portfolio weights are $\left(1-\phi\right)$
@@ -563,37 +472,35 @@ u(v) &=& \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) \P[C < \delta v] \n
 \end{eqnarray}
 where
 \begin{eqnarray*}
-  q(r, \phi) &:=& \ln \left( {
-    \delta v - (1 - \phi) e^r
-    \over
-    \phi
-} \right) = \ln\left(
-e^r + {\delta v - e^r \over \phi}
-\right)
+  q = q(r, \phi) &:=& \ln \left( {
+      \delta v - (1 - \phi) e^r
+      \over
+      \phi
+    } \right) = \ln\left(
+    e^r + {\delta v - e^r \over \phi}
+  \right)
 \end{eqnarray*}
-Note $C < \delta v$ implies
-\[
-X < q(r, \phi)
-\]
-Hereafter we abbreviate $q(r, \phi)$ to just $q$. 
-Naturally, if an agent invests in a risky asset instead of a riskless
-bond, he expects to obtain a higher return from the risky asset than
-he is guarranteed from the riskless bond. In our notation,
-this means $\delta v > e^r$, which implies $q(r, \phi) > r > 0$.
-The right-hand-side of \eqref{eq:functional} is a functional of $\phi$
-and the distribution function of $X$ via \eqref{eq:xxie1}. For convenience
-we denote it $\mathcal U(\cdot, \cdot)$, i.e.
-\[
-\mathcal U(F, \phi)
-= 
-\E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(q(r, \phi))
-\]
+Note $C < \delta v$ implies $X < q$. Naturally, if an agent invests in
+a risky asset instead of a riskless bond, he expects to obtain a
+higher return from the risky asset than he is guarranteed from the
+riskless bond. In our notation, this means $\delta v > e^r$, which
+implies $q(r, \phi) > r > 0$. The right-hand-side of
+\eqref{eq:functional} is a functional of $\phi$ and the distribution
+function of $X$ via \eqref{eq:xxie1}. For convenience we denote it
+$\mathcal U(\cdot, \cdot)$, i.e.
+\begin{equation}
+  \label{eq:U_functional}
+  \mathcal U(F, \phi)
+  = 
+  \E u(C) + b \E [u(C); C < \delta v] - b u(\delta v) F(q(r, \phi))
+\end{equation}
 In the rest of this section, we use $F(\cdot)$ to denote the
 distribution function of $X$ and use $f(\cdot)$ to denote its density
 function. Let
-\[
-G(F) = \max_{0 < \phi \leq 1} \mathcal U(F, \phi)
-\]
+\begin{equation}
+  \label{eq:G_functional}
+  G(F) = \max_{0 < \phi \leq 1} \mathcal U(F, \phi)  
+\end{equation}
 
 \subsection{Pareto-distributed equity return}
 In this section, we look into the situation when $X$ has a shifted
@@ -625,25 +532,43 @@ We have
   \beta K'^\beta (1 - p)
   \int_{0}^\infty
   u\left[ (1 - \phi) e^r + \phi e^x \right]
-  {1 + b \1{x < q} \over (K' + x)^{\beta + 1}} dx \nonumber \\
-  &&
-  - b u(\delta v) \left[
-    1 - (1 - p) {
-      K'^\beta
-      \over
-      (K' + q)^\beta
-    }
-  \right]
+  {1 + b \1{x < q} \over (K' + x)^{\beta + 1}} dx 
+  + \text{const.}
+  % &&
+  % - b u(\delta v) \left[
+  %   1 - (1 - p) {
+  %     K'^\beta
+  %     \over
+  %     (K' + q)^\beta
+  %   }
+  % \right]
   \label{eq:xxie1.0}
 \end{eqnarray}
+where the last term is a constant independent of $\phi$, $\alpha$ and $K$.
 \begin{theorem}
   \label{thrm:I}
+  Suppose functional $G(\cdot)$ is given as \eqref{eq:G_functional},
+  function $u(\cdot)$ is increasing and differentiable, then
   \[
-  \pd{G(F)}{\alpha} (\alpha, \beta, K, K') > 0,
+  \pd{G(F)}{\alpha} > 0,
   \quad
-  \pd{G(F)}{K} (\alpha, \beta, K, K') < 0
+  \pd{G(F)}{K} < 0
   \]
 \end{theorem}
+Since $u(v)$ given in \eqref{eq:xxie1.0} as a
+functional of the distribution function of $X$ is increasing with the
+lower tail index $\alpha$ and decreasing with $K$, there is a curve of
+equal preference on the plane of $(\alpha, K)$. Moving along this
+curve in the direction of increasing $\alpha$, one expects the values
+of $K$ to increase too, i.e. the estimated values of $\alpha$ and $K$
+should appear positively correlated. This is indeed the case in some
+real stock return data, e.g. the ``Energy'' and ``Information Technology''
+sectors of S\&P 500 companies. This is illustrated in figures
+\ref{fig:Energy_alpha_K} and \ref{fig:Information_Technology_alpha_K}.
+The confidence bands of the Hill estimates of $\alpha$ of these
+sectors are shown in figures \ref{fig:Energy_lower},
+\ref{fig:Consumer_Staples_lower} and
+\ref{fig:Information_Technology_lower}.
 
 \begin{proof}
   Let
@@ -653,37 +578,34 @@ We have
   \end{equation}
   We have
   \[
-  G(F)(\alpha, \beta, K, K') = \mathcal U(F, \hat\phi)(\alpha, \beta, K, K')
+  G(F) = \mathcal U(F, \hat\phi)
   \]
   It follows
   \begin{eqnarray}
     \pd{G(F)}{\alpha}
     &=&
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, \beta, K, K', \hat\phi)
-    \nonumber \\
-    && + \pd{\mathcal U(F, \phi)}{\phi}(\alpha, \beta, K, K', \hat\phi)
-    \pd{\hat\phi}{\alpha}(\alpha, \beta, K, K')
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi)
+    + \pd{\mathcal U(F, \phi)}{\phi}(\alpha, K, \hat\phi)
+    \pd{\hat\phi}{\alpha}(\alpha, K)
     \label{eq:xxie3}
   \end{eqnarray}
   The definition \eqref{eq:xxie2} implies $\forall \alpha > 1$
   \begin{equation}
     \label{eq:xxie4}
-    \pd{\mathcal U(F, \phi)}{\phi}(\alpha, \beta, K, K', \hat \phi) = 0
+    \pd{\mathcal U(F, \phi)}{\phi}(\alpha, K, \hat \phi) = 0
   \end{equation}
   So the second term of \eqref{eq:xxie3} vanishes. It remains to show
   \begin{eqnarray*}
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, \beta, K, K', \hat \phi)
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat \phi)
     &>& 0
   \end{eqnarray*}
   From \eqref{eq:xxie1.0}, it follows
   \begin{eqnarray*}
-    && \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, \beta, K, K', \hat\phi)
-    \\
-    &=& p \opd{\alpha}\E[u((1 - \phi) e^r + \phi e^X) | X < 0]
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi)
+    = \opd{\alpha}\E[u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}]
   \end{eqnarray*}
-  The function $u((1 - \phi) e^r + \phi e^X)$ is obviously increasing
-  with $X$. Furthermore, the density function of $X | X < 0$ is ${1
-    \over p} f(x; \alpha, K)$. It follows
+  The function $u((1 - \hat\phi) e^r + \hat\phi e^X)$ is obviously increasing
+  with $X$. It follows
   \begin{eqnarray*}
     && \pd{f(x; \alpha, K)}{\alpha} \\
     &=& \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
@@ -706,19 +628,18 @@ We have
   \]
   This is the second case of lemma \ref{lemma:I}. So we have
   \begin{eqnarray*}
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, \beta, K, K', \hat \phi) &>& 0
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi) &>& 0
   \end{eqnarray*}
-  As for $\pd{G(\alpha, \beta, K, K')}{K}$, by the same argument as for
-  $\pd{G(\alpha, \beta, K, K')}{\alpha}$, it suffices to show
+  As for $\pd{G(F)}{K}$, by the same argument as for
+  $\pd{G(F)}{\alpha}$, it suffices to show
   \[
-  \pd{\mathcal U(F, \phi)}{K}(\alpha, \beta, K, K', \hat\phi) < 0
+  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi) < 0
   \]
   We have
   \[
-  \pd{\mathcal U(F, \phi)}{K}(\alpha, \beta, K, K', \hat\phi)
-  = p \opd{K} \E \left[
-    u((1 - \phi) e^r + \phi e^X)
-    | X < 0
+  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi)
+  = \opd{K} \E \left[
+    u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}
   \right] 
   \]
   and
@@ -740,25 +661,11 @@ We have
   \[
   \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
   \]
-  So by the third case of lemma \ref{lemma:I} we conclude
+  So by the 1st case of remark \ref{remark:I} we conclude
   \[
-  \pd{\mathcal U(F, \phi)}{K}(\alpha, \beta, K, K', \hat\phi) < 0  
+  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi) < 0  
   \]
 \end{proof}
-Since $u(v)$ given in \eqref{eq:xxie1.0} as a
-functional of the distribution function of $X$ is increasing with the
-lower tail index $\alpha$ and decreasing with $K$, there is a curve of
-equal preference on the plane of $(\alpha, K)$. Moving along this
-curve in the direction of increasing $\alpha$, one expects the values
-of $K$ to increase too, i.e. the estimated values of $\alpha$ and $K$
-should appear positively correlated. This is indeed the case in some
-real stock return data, e.g. the ``Energy'' and ``Information Technology''
-sectors of S\&P 500 companies. This is illustrated in figures
-\ref{fig:Energy_alpha_K} and \ref{fig:Information_Technology_alpha_K}.
-The confidence bands of the Hill estimates of $\alpha$ of these
-sectors are shown in figures \ref{fig:Energy_lower},
-\ref{fig:Consumer_Staples_lower} and
-\ref{fig:Information_Technology_lower}.
 
 \subsection{Student's t-distributed equity return}
 It is a common practice to use Student's t-distribution to model the
@@ -778,18 +685,30 @@ c(\nu) = {
   \Gamma(\nu/2) \sqrt{\nu \pi}
 }
 \]
+\begin{lemma}
+  \label{lemma:II}
+  There exists $x_0 > 0$ such that $\pd{f}{\nu}(x_0, \nu) = 0$ and
+  $\forall x \in (0, x_0), \pd{f}{\nu}(x, \nu) > 0$ and
+  $\forall x \in (x_0, \infty), \pd{f}{\nu}(x, \nu) < 0$.
+\end{lemma}
+
+\subsubsection{log-utility function}
+We first consider the case where the utility function is simply
+$u(\cdot) = \ln(\cdot)$. This corresponds to the limiting case of
+\eqref{eq:power_utility} as $\gamma \to 0$.
 \begin{theorem}
+  Suppose functional $G(\cdot)$ is given as \eqref{eq:G_functional},
+  function $u(\cdot) = \ln(\cdot)$, then
   \[
-  \pd{G(F)}{\nu} > 0
+  \pd{G(F)}{\nu} < 0
   \]
-  where the distribution function $F(x, \nu)$ corresponds to the
-  density function $f(x, \nu)$ defined above.
+  where $F(x, \nu)$ is the Student's t-distribution function.
 \end{theorem}
 \begin{proof}
   By the same argument as in the proof of theorem \ref{thrm:I}, it
   suffices to show
   \begin{eqnarray*}
-    \pd{\mathcal U(F, \phi)}{\nu}(\nu, \hat\phi) &>& 0
+    \pd{\mathcal U(F, \phi)}{\nu}(\nu, \hat\phi) &<& 0
   \end{eqnarray*}
   where $\hat\phi$ is defined in \eqref{eq:xxie2}. We have
   \begin{eqnarray*}
@@ -891,8 +810,8 @@ Now notice
 \[
 \ln(y e^{-y}) = \ln(y) - y
 \]
-is a decreasing function. Thus $-y e^{-y}$ is an increasing
-function. Hence we have
+is a decreasing function for $y > 1$. Thus $-y e^{-y}$ is an
+increasing function. Hence we have
 \begin{eqnarray*}
   W(-y e^{-y}) + y &>& W(-e^{-1}) + 1 = 0
 \end{eqnarray*}
@@ -1461,6 +1380,66 @@ sectors. Figure \ref{fig:Energy_Pickands} and
 TODO: Summarize and conclude that all correlated series share the same
 tail index; their tail functions differ from each other via their
 scale parameters.
+
+\appendix
+\section{Proof of lemma \ref{lemma:I}}
+\begin{proof}
+  Clearly
+  \begin{eqnarray*}
+    && \pd{\E h(X)}{\theta} \\
+    &=& \int_a^b h(x) \pd{f}{\theta}(x, \theta) dx \\
+    &=& \underbrace{\int_a^{x_0} h(x) \pd{f}{\theta}(x, \theta) dx}_{I_1}
+    + \underbrace{\int_{x_0}^b h(x) \pd{f}{\theta}(x, \theta) dx}_{I_2}
+  \end{eqnarray*}
+  \begin{enumerate}
+  \item When $h(x)$ is decreasing on $(a, b)$ and $\pd{f}{\theta}(x,
+    \theta) > 0$ on $(a, x_0)$
+    \[
+    I_1 > h(x_0) \int_a^{x_0} \pd{f}{\theta}(x, \theta) dx
+    \]
+    Similarly, because $\pd{f}{\theta}(x, \theta) < 0$ for $x \in (x_0, b)$ and
+    $h(x)$ is decreasing, we have
+    \begin{eqnarray*}
+      I_2 &=& \int_{x_0}^b -h(x_0)
+      \left|\pd{f}{\theta}(x, \theta) \right| dx \\
+      &>& -h(x_0)
+      \int_{x_0}^b \left| 
+        \pd{f}{\theta}(x, \theta)
+      \right| dx
+    \end{eqnarray*}
+    Finally we have
+    \begin{eqnarray*}
+      \pd{\E h(X)}{\theta}
+      > h(x_0) \int_a^b \pd{f}{\theta}(x, \theta) dx
+      = h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx
+      = 0
+    \end{eqnarray*}
+  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
+    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
+    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$
+    \begin{eqnarray*}
+      I_1 &=&
+      \int_a^{x_0} -h(x)
+      \left| \pd{f}{\theta}(x, \theta) \right| dx \\
+      &>&
+      -h(x_0) \int_a^{x_0}
+      \left| \pd{f}{\theta}(x, \theta) \right| dx
+    \end{eqnarray*}
+    and obviously
+    \[
+    I_2 > h(x_0) \int_{x_0}^b
+    \pd{f}{\theta}(x, \theta) dx
+    \]
+    So
+    \[
+    \pd{\E h(X)}{\theta}
+    = I_1 + I_2
+    > h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx = 0
+    \]
+  \end{enumerate}
+\end{proof}
+
+\section{Proof of lemma \ref{lemma:II}}
 
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
