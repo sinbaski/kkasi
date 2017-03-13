@@ -695,208 +695,48 @@ c(\nu) = {
 \subsubsection{log-utility function}
 We first consider the case where the utility function is simply
 $u(\cdot) = \ln(\cdot)$. This corresponds to the limiting case of
-\eqref{eq:power_utility} as $\gamma \to 0$.
-\begin{theorem}
-  Suppose functional $G(\cdot)$ is given as \eqref{eq:G_functional},
-  function $u(\cdot) = \ln(\cdot)$, then
-  \[
-  \pd{G(F)}{\nu} < 0
-  \]
-  where $F(x, \nu)$ is the Student's t-distribution function.
-\end{theorem}
-\begin{proof}
-  By the same argument as in the proof of theorem \ref{thrm:I}, it
-  suffices to show
-  \begin{eqnarray*}
-    \pd{\mathcal U(F, \phi)}{\nu}(\nu, \hat\phi) &<& 0
-  \end{eqnarray*}
-  where $\hat\phi$ is defined in \eqref{eq:xxie2}. We have
-  \begin{eqnarray*}
-    && \mathcal U(F, \phi) \\
-    &=&
-    \int_{-\infty}^\infty
-    \ln[C(x)] (1 + b \1{x < q})f(x, \nu) dx
-    - b \ln(\delta v) F(q, \nu) \\
-    &=& 
-    \int_{0}^\infty
-    \ln\left[C(x) C(-x)\right]
-    f(x, \nu) dx
-    +
-    b \int_{-\infty}^\infty
-    \ln
-    \left[
-      C(x)
-      \over
-      C(q)
-    \right]
-    \1{x < q} f(x, \nu) dx \\
-    &=&
-    \underbrace{
-      \int_{0}^\infty
-      \ln\left[C(x) C(-x)\right]
-      f(x, \nu) dx
-    }_{I_1}
-    +
-    b \underbrace{
-      \int_{0}^\infty
-      \left\{
-      \ln
-      \left[
-        C(x)
-        \over
-        C(q)
-        \right]
-      \1{x < q}
-      +
-      \ln\left[
-        C(-x)
-        \over
-        C(q)
-        \right]
-      \right\}
-      f(x, \nu) dx
-    }_{I_2}
-  \end{eqnarray*}
-  where $C(\cdot)$ is defined in \eqref{eq:xxie1}.
-  Observe that $\ln(C(x)C(-x))$ is an increasing function:
-  \begin{eqnarray*}
-    \opd{x}
-    \left[
-      \ln(C(x) C(-x))
-    \right]
-    &=&
-    {
-      \phi (1- \phi) e^r (e^x - e^{-x})
-      \over
-      ((1 - \phi) e^r + \phi e^x)
-      ((1 - \phi) e^r + \phi e^{-x})
-    } > 0
-  \end{eqnarray*}
-  Thus by 1st case of remark \ref{remark:I} and lemma \ref{lemma:II},
-  $\pd{I_1}{\nu} < 0$. If $b = 0$, i.e.
-  $\mathcal U(F, \phi) = \E u(C(X))$, then we have concluded
-  $\pd{G(F)}{\nu} < 0$. Otherwise we need to investigate $I_2$:
-  \begin{enumerate}
-  \item In case $q \leq x_0$, by lemma \ref{lemma:II},
-    $\pd{f}{\nu}(x, \nu) > 0$ for $x \leq q < x_0$. Moreover
-    \[
-    \ln\left[
-      C(-x)
-      \over
-      C(q)
-      \right] < 0
-    \quad
-    \forall x > 0
-    \]
-    Therefore
-    \begin{eqnarray*}
-      \pd{I_2}{\nu}
-      &<&
-      \int_{0}^\infty
-      \ln
-      \left[
-        C(x) C(-x)
-        \over
-        C(q)^2
-        \right]
-      \1{x < q}
-      \pd{f}{\nu}(x, \nu) dx \\
-      &&
-      + \int_{0}^\infty
-      \ln
-      \left[
-        C(-x)
-        \over
-        C(q)
-        \right]
-      \1{x > x_0}
-      \pd{f}{\nu}(x, \nu) dx \\
-    \end{eqnarray*}
+\eqref{eq:power_utility} as $\gamma \to 0$. Straightforward
+computation gives
+\begin{eqnarray*}
+  && \mathcal U(F, \phi) \\
+  &=&
+  \int_{0}^{\infty}
+  \left[
+    \ln(C(x)) + (1 + b)\ln(C(-x))
+  \right]
+  f(x, \nu) dx
+  + b \int_{0}^{q}
+  \ln(C(x))
+  f(x, \nu) dx \\
+  &&
+  - b \ln(C(q)) F(q, \nu)
+\end{eqnarray*}
+where $C(\cdot)$ is defined in \eqref{eq:xxie1}. Notice that
+when $b = 0$, $\mathcal U(F, \phi)$  reduces to $\E u(C(X))$.
+Also observe $\ln(C(x)C(-x))$ is an increasing function:
+\begin{eqnarray*}
+  \pd{C(x) C(-x)}{x}
+  &=&
+  \phi e^r (1 - \phi) (e^x - e^{-x}) > 0
+\end{eqnarray*}
+Thus by 1st case of remark \ref{remark:I} and lemma \ref{lemma:II},
+$\pd{\mathcal U(F, \phi))}{\nu} < 0$ for all $\phi$. Hence all
+investors guided by this utility function would be seeking the
+smallest $\nu$, i.e. the heaviest tail in the market.
 
-  \item If $q > x_0$
-  \end{enumerate}
+However, this is not necessarily the case when $b > 0$. For example,
+consider the case when $q = 0$ and $\hat\phi = 1$. This may be
+viewed an approximation to the situation where the interest rate $r$ is
+vanishingly low while the investor is more conservative than
+greedy. In this case we have
+\begin{eqnarray*}
+  \mathcal U(F, \phi) = \int_{0}^{\infty} e^{-b x} f(x, \nu) dx
+\end{eqnarray*}
+Thus by the 1st case of lemma \ref{lemma:I} and lemma \ref{lemma:II},
+$\opd{\nu}\mathcal U(F, \phi) > 0$. In this extreme case, the investor
+would rather seek the largest $\nu$ or in other words, the lightest
+tail in the market.
 
-  \begin{eqnarray}
-    \pd{f(x, \nu)}{\nu} &=& {
-      c(\nu) x^2 (\nu + 1) + (2 \nu x^2 + 2 \nu^2) c'(\nu)
-      -
-      \nu c(\nu) (x^2 + \nu) \ln(1 + x^2/\nu)
-      \over
-      2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
-    } \nonumber \\
-    &:=& {
-      P(x^2, \nu)
-      \over
-      2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
-    }
-    \label{eq:xxie4.1}
-  \end{eqnarray}
-
-  While the denominator of the right side of $\pd{f(x, \nu)}{\nu}$ is
-  always positive, its nummerator $P(x^2, \nu)$ has a single root:
-  \begin{equation}
-    \label{eq:xxie5}
-    x_0^2 = \nu\exp\left\{
-    W\left[
-      -\left(1 + {1 \over \nu}\right)
-      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
-      \right]
-    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
-    \right\} - \nu
-  \end{equation}
-  where $W(\cdot)$ is the principle branch of the Lambert $W$
-  function. and $c'(\cdot)$ is the derivative of $c(\cdot)$. To check
-  the right side of \eqref{eq:xxie5} for positivity, we first note
-  $c'(\nu) > 0$:
-  \[
-  c'(\nu) = {
-    \pi \Gamma(\nu/2 + 1/2) \left\{
-    \nu \left[ \Psi(\nu/2 + 1/2) - \Psi(\nu/2)\right] - 1
-    \right\}
-    \over
-    2 \Gamma(\nu/2) (\pi \nu)^{3/2}
-  }
-  \]
-  where $\Psi(\cdot)$ is the digamma function:
-  \[
-  \Psi(x) = \td{\ln[\Gamma(x)]}{x}
-  \]
-  \begin{minipage}{0.48\textwidth}
-    $\Psi(x)$ \linebreak
-    \includegraphics[width=\textwidth]{digamma.png}
-  \end{minipage}\hfill
-  \begin{minipage}{0.5\textwidth}
-    As shown in the figure to the left, $\Psi(x)$ is increasing
-    for $x > 0$. Therefore $\Psi(\nu/2 + 1/2) - \Psi(\nu/2) > 0$.
-    So we have
-    \begin{eqnarray*}
-      && \nu \left[
-        \Psi(\nu/2 + 1/2) - \Psi(\nu/2)
-        \right] - 1 \\
-      &\geq& 1 \times \left[
-        \Psi(1/2 + 1/2) - \Psi(1/2)
-        \right] - 1 \\
-      &=& \ln(4) - \ln(e) \\
-      &>& 0
-    \end{eqnarray*}
-    Thus $c'(\nu) > 0$. Furthermore, we recall
-    $W(\cdot)$ is increasing on its principle branch. So
-  \end{minipage}
-  \begin{eqnarray*}
-    &&
-    W\left[
-      -\left( 1 + {1 \over \nu} \right)
-      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
-      \right]
-    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
-    &>& 
-    W\left[
-      -\left( 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \right)
-      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
-      \right]
-    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
-    &=& W(-y e^{-y}) + y
-  \end{eqnarray*}
 %   where
 %   \[
 %   y = 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} > 1
@@ -920,51 +760,6 @@ $u(\cdot) = \ln(\cdot)$. This corresponds to the limiting case of
 %   + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
 %   &=& W(-y e^{-y}) + y
 % \end{eqnarray*}
-where
-\[
-y = 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} > 1
-\]
-Now notice
-\[
-\ln(y e^{-y}) = \ln(y) - y
-\]
-is a decreasing function for $y > 1$. Thus $-y e^{-y}$ is an
-increasing function. Hence we have
-\begin{eqnarray*}
-  W(-y e^{-y}) + y &>& W(-e^{-1}) + 1 = 0
-\end{eqnarray*}
-Now it is clear
-\[
-\nu\exp\left\{
-    W\left[
-      -\left(1 + {1 \over \nu}\right)
-      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
-    \right]
-  + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
-  \right\} - \nu > 0
-  \]
-  Now that we have established that $\pd{f}{\nu}(x, \nu) = 0$ has a
-  single positive root, it remains to determine the sign of
-  $\pd{f}{\nu}(x, \nu)$ on the two sides of the root in order to apply
-  lemma \ref{lemma:I}. For this purpose we observe
-  \begin{equation}
-    \label{eq:xxie5.1}
-    P(0, \nu) = 2 \nu^2 c'(\nu) > 0
-  \end{equation}
-  So we want to investigate $\pd{P}{x^2}(x^2, \nu)$:
-  \begin{eqnarray}
-    && \pd{P}{x^2}(x^2, \nu) \nonumber \\
-    &=&
-    2 \nu c'(\nu) + c(\nu) - \nu c(\nu) \ln\left(
-    1 + {x^2 \over \nu}
-    \right)
-    \label{eq:xxie6}
-  \end{eqnarray}
-  From \eqref{eq:xxie5.1} and \eqref{eq:xxie6} it is clear
-  $P(x^2, \nu) > 0$ for $0 \leq x^2 < x_0^2$ and
-  $P(x^2, \nu) < 0$ for $x^2 > x_0^2$.
-
-\end{proof}
 \section{Review of multivariate GARCH models:
   same tail index or not}
 Many multivariate GARCH models imply a common tail index for all
@@ -1558,6 +1353,143 @@ scale parameters.
 \end{proof}
 
 \section{Proof of lemma \ref{lemma:II}}
+\begin{proof}
+  Straightforward computation gives
+  \begin{eqnarray}
+    \pd{f(x, \nu)}{\nu} &=& {
+      c(\nu) x^2 (\nu + 1) + (2 \nu x^2 + 2 \nu^2) c'(\nu)
+      -
+      \nu c(\nu) (x^2 + \nu) \ln(1 + x^2/\nu)
+      \over
+      2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
+    } \nonumber \\
+    &:=& {
+      P(x^2, \nu)
+      \over
+      2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
+    }
+    \label{eq:xxie4.1}
+  \end{eqnarray}
+
+  While the denominator of the right side of $\pd{f(x, \nu)}{\nu}$ is
+  always positive, its nummerator $P(x^2, \nu)$ has a single root:
+  \begin{equation}
+    \label{eq:xxie5}
+    x_0^2 = \nu\exp\left\{
+      W\left[
+        -\left(1 + {1 \over \nu}\right)
+        e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+      \right]
+      + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
+    \right\} - \nu
+  \end{equation}
+  where $W(\cdot)$ is the principle branch of the Lambert $W$
+  function. and $c'(\cdot)$ is the derivative of $c(\cdot)$. To check
+  the right side of \eqref{eq:xxie5} for positivity, we first note
+  $c'(\nu) > 0$:
+  \[
+  c'(\nu) = {
+    \pi \Gamma(\nu/2 + 1/2) \left\{
+      \nu \left[ \Psi(\nu/2 + 1/2) - \Psi(\nu/2)\right] - 1
+    \right\}
+    \over
+    2 \Gamma(\nu/2) (\pi \nu)^{3/2}
+  }
+  \]
+  where $\Psi(\cdot)$ is the digamma function:
+  \[
+  \Psi(x) = \td{\ln[\Gamma(x)]}{x}
+  \]
+  \begin{minipage}{0.48\textwidth}
+    $\Psi(x)$ \linebreak
+    \includegraphics[width=\textwidth]{digamma.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\textwidth}
+    As shown in the figure to the left, $\Psi(x)$ is increasing
+    for $x > 0$. Therefore $\Psi(\nu/2 + 1/2) - \Psi(\nu/2) > 0$.
+    So we have
+    \begin{eqnarray*}
+      && \nu \left[
+        \Psi(\nu/2 + 1/2) - \Psi(\nu/2)
+      \right] - 1 \\
+      &\geq& 1 \times \left[
+        \Psi(1/2 + 1/2) - \Psi(1/2)
+      \right] - 1 \\
+      &=& \ln(4) - \ln(e) \\
+      &>& 0
+    \end{eqnarray*}
+    Thus $c'(\nu) > 0$. Furthermore, we recall
+    $W(\cdot)$ is increasing on its principle branch. So
+  \end{minipage}
+  \begin{eqnarray*}
+    &&
+    W\left[
+      -\left( 1 + {1 \over \nu} \right)
+      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+    \right]
+    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
+    &>& 
+    W\left[
+      -\left( 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \right)
+      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+    \right]
+    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
+    &=& W(-y e^{-y}) + y
+  \end{eqnarray*}
+  where
+  \[
+  y = 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} > 1
+  \]
+  Now notice
+  \[
+  \ln(y e^{-y}) = \ln(y) - y
+  \]
+  is a decreasing function for $y > 1$. Thus $-y e^{-y}$ is an
+  increasing function. Hence we have
+  \begin{eqnarray*}
+    W(-y e^{-y}) + y &>& W(-e^{-1}) + 1 = 0
+  \end{eqnarray*}
+  Now it is clear
+  \[
+  \nu\exp\left\{
+    W\left[
+      -\left(1 + {1 \over \nu}\right)
+      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+    \right]
+    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
+  \right\} - \nu > 0
+  \]
+  Now that we have established that $\pd{f}{\nu}(x, \nu) = 0$ has a
+  single positive root, it remains to determine the sign of
+  $\pd{f}{\nu}(x, \nu)$ on the two sides of the root. For this purpose
+  we observe
+  \begin{equation}
+    \label{eq:xxie5.1}
+    P(0, \nu) = 2 \nu^2 c'(\nu) > 0
+  \end{equation}
+  So we want to investigate $\pd{P}{x}(x, \nu)$:
+  \begin{eqnarray}
+    \pd{P}{x}(x, \nu) &=&
+    2 \nu c'(\nu) + c(\nu) - \nu c(\nu) \ln\left(
+      1 + {x \over \nu}
+    \right)
+    \label{eq:xxie6}
+  \end{eqnarray}
+  Clearly, $\pd{P}{x}(0, \nu) > 0$. Hence from \eqref{eq:xxie5.1} and
+  \eqref{eq:xxie6} it is clear
+  \begin{equation*}
+    \text{sign}\left[
+      \pd{f}{\nu}(x, \nu)
+    \right]
+    = \left\{
+    \begin{array}{rl}
+      1 & 0 < x < x_0 \\
+      -1 & x > x_0
+    \end{array}
+    \right.
+  \end{equation*}
+  where $x_0$ is the positive root of \eqref{eq:xxie5}.
+\end{proof}
 
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
