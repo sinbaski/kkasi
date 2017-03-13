@@ -485,7 +485,7 @@ a risky asset instead of a riskless bond, he expects to obtain a
 higher return from the risky asset than he is guarranteed from the
 riskless bond. In our notation, this means $\delta v > e^r$, which
 implies $q(r, \phi) > r > 0$. The right-hand-side of
-\eqref{eq:functional} is a functional of $\phi$ and the distribution
+\eqref{eq:functional} is a functional of $\phi$ and of the distribution
 function of $X$ via \eqref{eq:xxie1}. For convenience we denote it
 $\mathcal U(\cdot, \cdot)$, i.e.
 \begin{equation}
@@ -714,44 +714,108 @@ $u(\cdot) = \ln(\cdot)$. This corresponds to the limiting case of
   \begin{eqnarray*}
     && \mathcal U(F, \phi) \\
     &=&
-    \underbrace{
-      \int_{-\infty}^\infty
-      u[C(x)] f(x, \nu) dx
-    }_{I_1}
-    + b \underbrace{
-      \int_{-\infty}^{-q}
-      u[C(x)] f(x, \nu) dx
-    }_{I_2}
-    + b \underbrace{
-      \int_{-q}^q
-      u[C(x)] f(x, \nu) dx
-    }_{I_3}
-  \end{eqnarray*}
-  where $C(\cdot)$ is defined in \eqref{eq:xxie1}. In the following we show
-  \[
-  \pd{I_1}{\nu} > 0, \quad
-  \pd{I_2}{\nu} > 0, \quad
-  \pd{I_3}{\nu} > 0
-  \]
-  For $I_3$ we have
-  \begin{eqnarray*}
-    I_3 &=&
-    \int_{-q}^q
-    u[C(x)] f(x, \nu) dx \\
-    &=& \int_0^q
-    \left[
-      u(C(x)) + u(C(-x))
-    \right]
+    \int_{-\infty}^\infty
+    \ln[C(x)] (1 + b \1{x < q})f(x, \nu) dx
+    - b \ln(\delta v) F(q, \nu) \\
+    &=& 
+    \int_{0}^\infty
+    \ln\left[C(x) C(-x)\right]
     f(x, \nu) dx
+    +
+    b \int_{-\infty}^\infty
+    \ln
+    \left[
+      C(x)
+      \over
+      C(q)
+    \right]
+    \1{x < q} f(x, \nu) dx \\
+    &=&
+    \underbrace{
+      \int_{0}^\infty
+      \ln\left[C(x) C(-x)\right]
+      f(x, \nu) dx
+    }_{I_1}
+    +
+    b \underbrace{
+      \int_{0}^\infty
+      \left\{
+      \ln
+      \left[
+        C(x)
+        \over
+        C(q)
+        \right]
+      \1{x < q}
+      +
+      \ln\left[
+        C(-x)
+        \over
+        C(q)
+        \right]
+      \right\}
+      f(x, \nu) dx
+    }_{I_2}
   \end{eqnarray*}
-  Observe that $u(C(x)) + u(C(-x))$ is a decreasing function:
+  where $C(\cdot)$ is defined in \eqref{eq:xxie1}.
+  Observe that $\ln(C(x)C(-x))$ is an increasing function:
   \begin{eqnarray*}
     \opd{x}
     \left[
-      u(C(x)) + u(C(-x))
-    \right] &=& u'(C(x)) C'(x) - u'(C(-x)) C'(-x)
+      \ln(C(x) C(-x))
+    \right]
+    &=&
+    {
+      \phi (1- \phi) e^r (e^x - e^{-x})
+      \over
+      ((1 - \phi) e^r + \phi e^x)
+      ((1 - \phi) e^r + \phi e^{-x})
+    } > 0
   \end{eqnarray*}
-  Direct computation yields
+  Thus by 1st case of remark \ref{remark:I} and lemma \ref{lemma:II},
+  $\pd{I_1}{\nu} < 0$. If $b = 0$, i.e.
+  $\mathcal U(F, \phi) = \E u(C(X))$, then we have concluded
+  $\pd{G(F)}{\nu} < 0$. Otherwise we need to investigate $I_2$:
+  \begin{enumerate}
+  \item In case $q \leq x_0$, by lemma \ref{lemma:II},
+    $\pd{f}{\nu}(x, \nu) > 0$ for $x \leq q < x_0$. Moreover
+    \[
+    \ln\left[
+      C(-x)
+      \over
+      C(q)
+      \right] < 0
+    \quad
+    \forall x > 0
+    \]
+    Therefore
+    \begin{eqnarray*}
+      \pd{I_2}{\nu}
+      &<&
+      \int_{0}^\infty
+      \ln
+      \left[
+        C(x) C(-x)
+        \over
+        C(q)^2
+        \right]
+      \1{x < q}
+      \pd{f}{\nu}(x, \nu) dx \\
+      &&
+      + \int_{0}^\infty
+      \ln
+      \left[
+        C(-x)
+        \over
+        C(q)
+        \right]
+      \1{x > x_0}
+      \pd{f}{\nu}(x, \nu) dx \\
+    \end{eqnarray*}
+
+  \item If $q > x_0$
+  \end{enumerate}
+
   \begin{eqnarray}
     \pd{f(x, \nu)}{\nu} &=& {
       c(\nu) x^2 (\nu + 1) + (2 \nu x^2 + 2 \nu^2) c'(\nu)
