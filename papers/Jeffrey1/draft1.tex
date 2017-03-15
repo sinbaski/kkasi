@@ -835,6 +835,61 @@ Now, to prove \eqref{eq:drift}, consider
 \fi
 
 \section{Estimation of $\xi$}
+\subsection{The algorithm}
+The idea is to estimate $\Lambda(\alpha)$ according to
+\begin{equation}
+  \label{eq:Lambda}
+  \Lambda(\alpha) = \lim_{n \to \infty}{1 \over n} \ln \E |A_n \cdots A_1 X_0|^\alpha  
+\end{equation}
+and then solve $\Lambda(\xi) = 0$ for $\xi$.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\linewidth, trim=2cm 16cm 2.5cm 2cm, clip]{AnandsEstimator.pdf}
+  \caption{A possible realization of the re-sampling procedure. $n =
+    3$, $K = 4$. A number in a parenthesis indicates the probability
+    of the unit vectors above it being chosen to the next step.}
+  \label{fig:AnandsEstimator}
+\end{figure}
+The difficulty with brute-force simulation and estimation is that,
+when $n$ is large, the variance of $\|A_n \cdots A_1 X_0\|^\alpha$
+is very large too, resulting in uselessly inaccurate estimations. One
+approach of variance reduction is re-sampling. We divide the
+estimation of $\Lambda(\alpha)$ into $n$ steps and we are prepared to
+simulate $K$ realizations of $A_n, \dots, A_1$ and $X_0$. For
+convenience, let
+\begin{eqnarray*}
+  M_n &=& A_n \cdots A_1 X_0 \\
+  X_n &=& {M_n \over |M_n|}
+\end{eqnarray*}
+We can write
+\begin{eqnarray*}
+  M_n &=& A_n X_{n - 1} |M_{n - 1}| \\
+  &=& A_n X_{n - 1} |A_{n-1} X_{n-2}| \cdot |M_{n-2}| \\
+  &=& \cdots \\
+  |M_n|^\alpha &=& \prod_{i=1}^n |A_i X_{i-1}|^\alpha
+\end{eqnarray*}
+With $K$ realizations of $A_n, \dots, A_1$ and $X_0$, a brute-force
+estimator of $\E |M_n|^\alpha$ can be
+\[
+\mathscr E_\alpha = {1 \over K} \sum_{l=1}^K \prod_{i=1}^n |A_i^l X^l_{i-1}|^\alpha
+\]
+where $A_i^l$ denotes the $l$-th realization of $A_i$ and
+$X^l_{i-1} = A_{i-1}^l X^l_{i-2}/|A_{i-1}^l X^l_{i-2}|$. To reduce the
+variance of the estimator, we introduce a re-sampling procedure:
+\begin{equation}
+  \label{eq:AnandsEstimator}
+  \mathscr E_\alpha^* =
+  {1 \over K}
+  \sum_{l=1}^K \prod_{i=1}^n
+  |A_i^l X^{w_{l, i-1}}_{i-1}|^\alpha
+\end{equation}
+where the random variable $w_{l, i-1}$ has conditional distribution
+\begin{eqnarray*}
+  \P(w_{l, i-1} = j | w_{1, i-2}, \dots, w_{K, i-2}) &=& {a^j_{i-1} \over b_{i-1}} \\
+  a_{i-1}^j &=& |A_{i-1}^j X_{i-2}^{w_{j, i-2}}|^\alpha \\
+  b_{i-1} &=& \sum_{l=1}^K a_{i-1}^l
+\end{eqnarray*}
+  
 \subsection{S\&P 500}
 \begin{itemize}
 \item GARCH(1, 1)
