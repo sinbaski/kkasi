@@ -83,8 +83,11 @@ double right_eigenfunction(const struct garch21_param &param,
 
 int main(int argc, char **argv)
 {
+    // struct garch21_param param = {
+    // 	9.225747e-06, 8.835834e-02, 9.685783e-02, 6.543018e-01
+    // };
     struct garch21_param param = {
-	9.225747e-06, 8.835834e-02, 9.685783e-02, 6.543018e-01
+	1.0e-7, 0.02749864, 0.04228535, 0.8968533
     };
     unsigned n = 100;
     double alpha = 4.47103;

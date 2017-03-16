@@ -12,18 +12,20 @@ graphics.off();
 
 ## old <- read.table(file="./lambda0.txt");
 ## new <- read.table(file="./lambda0_new.txt");
-data <- read.table(file="Lambda.txt");
-pdf("Lambda.pdf")
-plot(data$V1, data$V2,
+data <- read.table("SP500_garch21_tailindex.dat");
+## data <- read.table("./test.dat");
+pdf("../../papers/Jeffrey1/SP500_xi.pdf");
+plot(data[, 1], data[, 2],
      ##     main=expression(sigma[t]^2 == 0.11 * R[t-1]^2 + 0.88 * sigma[t-1]^2 + 10^{-7}
      type="l", xlab=expression(alpha),
      ylab=expression(Lambda(alpha))
      );
+grid();
 ## lines(new$V1, new$V2, col="#00FF00");
 ## legend("topleft",
 ##        legend=c("old", "new"),
 ##        col=c("#000000", "#00FF00"),
 ##        lwd=c(1, 1),
 ##        );
-grid();
+
 dev.off();

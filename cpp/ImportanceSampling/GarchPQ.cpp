@@ -60,9 +60,12 @@ double estimateLambda(const vector<double>& a,
 		 {
 		     x = unif(gen);
 		 });
-//	E_prev[i] = normalise(E_prev[i], "inf");
+	auto n = norm(E_prev[i], "Inf");
+	E_prev[i] /= n;
     }
     double Lambda = 0;
+    // According to me
+    // vector<double> Lambda_samples(K, 1);
     sd = 0;
     for (unsigned j = 0; j < N; j++) {
 	uniform_real_distribution<double> unif;
@@ -87,22 +90,41 @@ double estimateLambda(const vector<double>& a,
 #pragma omp critical
 	    U = unif(gen) * Q.back();
 	    unsigned l = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
-//	    E[k] = normalise(A[k] * E_prev[l], "inf");
 	    E[k] = A[k] * E_prev[l];
 	    alpha[k] = norm(E[k], "inf");
-	    E[k] = E[k] / alpha[k];
+	    E[k] /= alpha[k];
 	    alpha[k] = pow(alpha[k], theta);
+
+	    // according to me
+	    // Lambda_samples[k] *= log(alpha[k]);
 	}
-	copy(E.begin(), E.end(), E_prev.begin());	
-	double lbt = log(Q.back()/K);
-	Lambda += lbt / N;
+	copy(E.begin(), E.end(), E_prev.begin());
+	// According to Anand
+	// double lbt = log(Q.back()/K);
+	Lambda += log(Q.back()/K) / N;
 	sd += pow(lbt, 2) / N;
     }
+    // According to Anand
     double lbt = log(accumulate(alpha.begin(), alpha.end(), 0.0)/K);
     Lambda += lbt/N;
     sd += pow(lbt, 2)/N;
     sd = sqrt(sd - pow(Lambda, 2));
     return Lambda;
+
+    // according to me
+    // Lambda = 
+    // accumulate(Lambda_samples.begin(), Lambda_samples.end(), 0.0,
+    // 	       [=](double s, double x) {
+    // 		   return s + x/K;
+    // 	       });
+    // sd =
+    // accumulate(Lambda_samples.begin(), Lambda_samples.end(), 0.0,
+    // 	       [=](double s, double x) {
+    // 		   double t = exp(x) - Lambda;
+    // 		   return s + t * t/K;
+    // 	       });
+    // sd = sqrt(sd);
+    // return log(Lambda)/N;
 }
 
 struct func_par
@@ -164,7 +186,7 @@ int main(int argc, char*argv[])
     // // madeup
     // vector<double> alpha({1.0e-7, 0.11, 0});
     // vector<double> beta({0.88});
-    // // DAX
+    // DAX
     // vector<double> alpha({1.0e-7, 0.02749864, 0.04228535});
     // vector<double> beta({0.8968533});
     // FTSE100
@@ -194,7 +216,11 @@ int main(int argc, char*argv[])
     for (double nu = stod(argv[1]); nu <= stod(argv[2]); nu += 0.1) {
 	double sd;
 	Lambda = estimateLambda(alpha, beta, nu, N, K, sd);
+	// according to Anand
 	printf("%.4f    % .4f    %.4f    %.4f\n", nu, Lambda, sd, sd/abs(Lambda));
+
+	// according to me
+	// printf("%.4f    % .4f    %.4f    %.4f\n", nu, exp(Lambda), sd, sd/exp(Lambda));
 	if (!flag && Lambda > 0) {
 	    bounds[1] = nu;
 	    bounds[0] = nu - 0.1;
