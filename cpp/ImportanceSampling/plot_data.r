@@ -12,9 +12,8 @@ graphics.off();
 
 ## old <- read.table(file="./lambda0.txt");
 ## new <- read.table(file="./lambda0_new.txt");
-data <- read.table("SP500_garch21_tailindex.dat");
-## data <- read.table("./test.dat");
-pdf("../../papers/Jeffrey1/SP500_xi.pdf");
+data <- read.table("DAX_garch21_tailindex.dat");
+pdf("../../papers/Jeffrey1/DAX_xi.pdf");
 plot(data[, 1], data[, 2],
      ##     main=expression(sigma[t]^2 == 0.11 * R[t-1]^2 + 0.88 * sigma[t-1]^2 + 10^{-7}
      type="l", xlab=expression(alpha),

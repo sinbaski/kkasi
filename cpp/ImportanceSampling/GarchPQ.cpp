@@ -11,7 +11,7 @@
 using namespace std;
 using namespace arma;
 
-// random_device gen;
+random_device gen;
 unsigned long SEED;
 
 mat& gen_rand_matrix(const vector<double> &alpha,
@@ -53,7 +53,7 @@ double estimateLambda(const vector<double>& a,
 #pragma omp parallel for
     for (unsigned i = 0; i < K; i++) {
 	uniform_real_distribution<double> unif;
-	mt19937 gen(i + K + SEED);
+	// mt19937 gen(i + K + SEED);
 	E_prev[i].set_size(a.size() + b.size() - 2);
 	for_each(E_prev[i].begin(), E_prev[i].end(),
 		 [&](double &x)
@@ -70,7 +70,7 @@ double estimateLambda(const vector<double>& a,
     for (unsigned j = 0; j < N; j++) {
 	uniform_real_distribution<double> unif;
 	chi_squared_distribution<double> chi2;
-	mt19937 gen(j + SEED);
+	// mt19937 gen(j + SEED);
 
 	vector<mat> A(K);
 	vector<double> Q(K);
@@ -79,7 +79,7 @@ double estimateLambda(const vector<double>& a,
 #pragma omp parallel for schedule(dynamic) shared(gen, chi2)
 	for (unsigned k = 0; k < K; k++) {
 	    double z2;
-#pragma omp critical
+// #pragma omp critical
 	    z2 = chi2(gen);
 	    gen_rand_matrix(a, b, z2, A[k]);
 	}
@@ -87,7 +87,7 @@ double estimateLambda(const vector<double>& a,
 #pragma omp parallel for shared(gen, unif)
 	for (unsigned k = 0; k < K; k++) {
 	    double U;
-#pragma omp critical
+// #pragma omp critical
 	    U = unif(gen) * Q.back();
 	    unsigned l = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
 	    E[k] = A[k] * E_prev[l];
@@ -100,8 +100,8 @@ double estimateLambda(const vector<double>& a,
 	}
 	copy(E.begin(), E.end(), E_prev.begin());
 	// According to Anand
-	// double lbt = log(Q.back()/K);
-	Lambda += log(Q.back()/K) / N;
+	double lbt = log(Q.back()/K);
+	Lambda += lbt / N;
 	sd += pow(lbt, 2) / N;
     }
     // According to Anand
@@ -187,8 +187,8 @@ int main(int argc, char*argv[])
     // vector<double> alpha({1.0e-7, 0.11, 0});
     // vector<double> beta({0.88});
     // DAX
-    // vector<double> alpha({1.0e-7, 0.02749864, 0.04228535});
-    // vector<double> beta({0.8968533});
+    vector<double> alpha({1.0e-7, 0.02749864, 0.04228535});
+    vector<double> beta({0.8968533});
     // FTSE100
     // vector<double> alpha({1.0e-7, 0.10623464, 0.02904907});
     // vector<double> beta({0.7829784});
@@ -197,8 +197,8 @@ int main(int argc, char*argv[])
     // vector<double> beta({8.008847e-01});
 
     // SP500
-    vector<double> alpha({9.225747e-06, 8.835834e-02, 9.685783e-02});
-    vector<double> beta({6.543018e-01});
+    // vector<double> alpha({9.225747e-06, 8.835834e-02, 9.685783e-02});
+    // vector<double> beta({6.543018e-01});
     
     double Lambda;
     
