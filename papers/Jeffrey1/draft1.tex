@@ -853,7 +853,7 @@ and then solve $\Lambda(\xi) = 0$ for $\xi$.
   \label{fig:AnandsEstimator}
 \end{figure}
 The difficulty with brute-force simulation and estimation is that,
-when $n$ is large, the variance of $\|A_n \cdots A_1 X_0\|^\alpha$
+when $n$ is large, the variance of $|A_n \cdots A_1 X_0|^\alpha$
 is very large too, resulting in uselessly inaccurate estimations. One
 approach of variance reduction is re-sampling. We divide the
 estimation of $\Lambda(\alpha)$ into $n$ steps and we are prepared to
@@ -894,17 +894,19 @@ where the random variable $w_{l, i-1}$ has conditional distribution
   a_{i-1}^j &=& |A_{i-1}^j X_{i-2}^{w_{j, i-2}}|^\alpha \\
   b_{i-1} &=& \sum_{l=1}^K a_{i-1}^l
 \end{eqnarray*}
-Algorithm \ref{alg:Lambda_estimator} outlines an implementation of the
-described procedure. We take $\|\cdot\|$ as the max norm.
+Figure \ref{fig:AnandsEstimator} shows a possible realization of the
+resampling procedure and algorithm \ref{alg:Lambda_estimation}
+outlines an implementation of $\mathscr E_\alpha$. We take
+$|\cdot|$ as the max norm.
 For an GARCH(p, q) processes, the $A_i$ matrices have dimension
 $d \times d$, where $d = p + q - 1$, and the $X_i$ are $d$-dimensional
 unit vectors. 
-\begin{algorithm}
+\begin{algorithm}[H]
   \caption{Algorithm for estimating
     $\Lambda(\alpha) = \lim_{n \to \infty} {1 \over n} \ln\left(\E |A_n \cdots A_1|^\alpha \right)$}
   \label{alg:Lambda_estimation}
   \begin{algorithmic}
-    \Procedure{$\mathscr E_\alpha$}{$n, K, \alpha$}
+    \Procedure{$\mathscr E_\alpha$}{$n, K$}
     \State Define $K$ $d$-dimensional vectors $X^1, \dots, X^K$
     \State Define $K$ $d$-dimensional vectors $Y^1, \dots, Y^K$
     \State Define $K$-dimensional vector $a \gets (1, 1, \dots, 1)$
@@ -936,9 +938,8 @@ unit vectors.
 
     \State For all $k=1,\dots,K$, $X^k \gets Y^k$
     \State $\Lambda \gets \Lambda + {1 \over n}\ln\left( { Q(K) \over K} \right)$
-
     \EndFor
-    \State $\Lambda \gets {1 \over n}\ln\left[ {1 \over K}\sum_{k=1}^K a(k) \right]$
+    \State $\Lambda \gets \Lambda + {1 \over n}\ln\left[ {1 \over K}\sum_{k=1}^K a(k) \right]$
 
     \Return $\Lambda$
     \EndProcedure
