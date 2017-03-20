@@ -40,25 +40,28 @@ F <- function(x, alpha, alpha.r, K, K.r) {
 ## }
 
 preference <- function(phi, alpha, alpha.r, K, K.r) {
+    q <- Inf;
     if (phi > 0) {
         q <- log(exp(r) + (delta.v - exp(r))/phi);
-    } else {
-        q <- Inf;
     }
 
     y1 <- integrate(function(x) {
-        U <- utility(consumption(x, phi, r)) * alpha * K^alpha * p /(K - x)^(alpha + 1);
+        U <- utility(consumption(x, phi, r)) *
+            alpha * K^alpha * p /(K - x)^(alpha + 1);
         return(U * (1 + b));
     }, -Inf, 0)$value;
 
     y2 <- integrate(function(x) {
-        U <- utility(consumption(x, phi, r)) * alpha.r * K.r^alpha.r * (1 - p) /(K.r + x)^(alpha.r + 1);
+        U <- utility(consumption(x, phi, r)) *
+            alpha.r * K.r^alpha.r * (1 - p) /(K.r + x)^(alpha.r + 1);
         U[x < q] <- U[x < q] * (1 + b);
         return(U);
     }, 0, Inf)$value;
 
-    ## return(c(y1, y2, y1 + y2 - F(q, alpha, alpha.r, K, K.r) * b * utility(delta.v)));
-    return(y1 + y2 - F(q, alpha, alpha.r, K, K.r) * b * utility(delta.v));
+    ## return(c(y1, y2, y1 + y2 -
+    ## F(q, alpha, alpha.r, K, K.r) * b * utility(delta.v)));
+    return(c(y1, y2, y1 + y2 - F(q, alpha, alpha.r, K, K.r) * b *
+                     utility(delta.v)));
 }
 
 r <- 0.02;
@@ -74,7 +77,7 @@ K <- 0.001;
 M <- matrix(NA, nrow=20, ncol=3);
 counter <- 1;
 for (phi in seq(from=0, to=1, length.out=20)) {
-    M[counter, ] <- preference(phi, 3, 1.8, 0.03, 0.03);
+    M[counter, ] <- preference(phi, 3, 1.8, K, K.r);
     counter <- counter + 1;
 }
 plot(M[, 2]);
