@@ -1,13 +1,12 @@
 rm(list=ls());
+library(plot3D)
 
 consumption <- function(x, phi, r) {
     return((1 - phi) * exp(r) + phi * exp(x));
 }
 
-utility <- function(x) {
-    return(log(x));
-    ## abs(x)^0.5/(1 - 0.5);
-    ## -abs(x)^(-3)/3;
+power.utility <- function(x) {
+    return(-abs(x)^(-xi)/xi);
 }
 
 F <- function(x, alpha, alpha.r, K, K.r) {
@@ -17,27 +16,6 @@ F <- function(x, alpha, alpha.r, K, K.r) {
         return(1 - (1 - p)* (K.r / (K.r + x))^alpha.r);
     }
 }
-
-## density.X <- function(x, r, phi, b) {
-##     x[x < 0]
-## }
-
-## q <- function(r, phi) {
-##     return(log(exp(r) + (delta.v - exp(r))/phi));
-## }
-
-## f <- function(x, K, alpha, b) {
-##     y <- alpha * K^alpha * /(K - x)^(alpha + 1);
-##     return(y);
-## }
-
-## g <- function(x, K.r, alpha.r) {
-##     u <- utility((1 - phi) * exp(r) + phi * exp(x));
-##     I <- which(x <= q);
-##     u[I] <- u[I] * (1 + b);
-##     u <- u / (K.r + x)^(alpha.r + 1);
-##     return(u);
-## }
 
 preference <- function(phi, alpha, alpha.r, K, K.r) {
     q <- Inf;
@@ -58,30 +36,76 @@ preference <- function(phi, alpha, alpha.r, K, K.r) {
         return(U);
     }, 0, Inf)$value;
 
-    ## return(c(y1, y2, y1 + y2 -
-    ## F(q, alpha, alpha.r, K, K.r) * b * utility(delta.v)));
-    return(c(y1, y2, y1 + y2 - F(q, alpha, alpha.r, K, K.r) * b *
-                     utility(delta.v)));
+    y3 <- b * F(q, alpha, alpha.r, K, K.r) *
+        utility(consumption(q, phi, r));
+
+    return(c(y1, y2, y3));
 }
 
-r <- 0.02;
+optimal.alloc <- function(alpha, alpha.r, K, K.r) {
+    result <- optimize(
+        function(phi, alpha, alpha.r, K, K.r) {
+            y <- preference(phi, alpha, alpha.r, K, K.r);
+            return(y[1] + y[2] - y[3]);
+        },
+        interval=c(0, 1),
+        alpha=alpha, alpha.r=alpha.r,
+        K=K, K.r=K.r, maximum=TRUE
+    );
+    return(result$maximum);
+}
+
+r <- 0.01;
+# q <- r;
 b <- 0.01;
 p <- 0.5;
-phi <- 0.8;
 delta.v <- exp(r)*1.05;
-alpha.r <- 1.8;
-alpha <- 3.5;
-K.r <- 0.01;
-K <- 0.01;
+xi <- 4;
 
-M <- matrix(NA, nrow=20, ncol=3);
-portions <- seq(from=0, to=1, length.out=20)
-for (i in 1:length(portions)) {
-    M[i, ] <- preference(portions[i], 3, 1.8, K, K.r);
+alpha.r <- 3.5;
+alpha <- 3;
+K.r <- 0.5;
+K <- 0.1;
+
+## utility <- function(x) log(x);
+utility <- power.utility;
+
+scales <- seq(from=0.01, to=1, length.out=50);
+indices <- seq(from=2, to=5, length.out=40);
+M <- mesh(indices, scales);
+phi.hat <- matrix(NA, nrow=length(indices),
+                  ncol=length(scales));
+for (i in 1:length(indices)) {
+    for (j in 1 : length(scales)) {
+        phi <- optimal.alloc(indices[i], indices[i],
+                             scales[j], scales[j]);
+        phi.hat[i, j] <- phi;
+    }
 }
-plot(portions, M[, 3],
-     type="p",
+filled.contour(indices, scales, phi.hat, nlevels=60,
+               xlab=expression(alpha), ylab=expression(K),
+               color=terrain.colors,
+               );
+## surf3D(M$x, M$y, phi.hat);
+
+M <- matrix(NA, nrow=60, ncol=3);
+portions <- seq(from=0.05, to=0.95, length.out=60)
+for (i in 1:length(portions)) {
+    M[i, ] <- preference(portions[i], alpha, alpha.r, K, K.r);
+}
+plot(portions, M[, 1] + M[, 2] - M[, 3],
+     type="l",
      xlab=expression(phi), ylab="preference");
-result <- optimize(preference, interval=c(0, 1), alpha=2, alpha.r=3.5, K=2.0e-6, K.r=2.0e-6, maximum=TRUE);
-## result <- optimize(function(x) -(x-1)^2 + 1, c(0, 2), maximum=TRUE);
+grid(nx=20);
+
+
+
+result <- optimize(function(phi, alpha, alpha.r, K, K.r) {
+    y <- preference(phi, alpha, alpha.r, K, K.r);
+    return(y[1] + y[2] - y[3]);
+    },
+    interval=c(0, 1),
+    alpha=alpha, alpha.r=alpha.r,
+    K=K, K.r=K.r, maximum=TRUE);
+## result <- optimize(function(x, a) -(x-1)^2 + a, c(0, 2), a=1, maximum=TRUE);
 result
