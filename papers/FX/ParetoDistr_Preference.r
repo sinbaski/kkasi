@@ -69,18 +69,19 @@ b <- 0.01;
 p <- 0.5;
 phi <- 0.8;
 delta.v <- exp(r)*1.05;
-alpha.r <- 3.5;
+alpha.r <- 1.8;
 alpha <- 3.5;
-K.r <- 0.001;
-K <- 0.001;
+K.r <- 0.01;
+K <- 0.01;
 
 M <- matrix(NA, nrow=20, ncol=3);
-counter <- 1;
-for (phi in seq(from=0, to=1, length.out=20)) {
-    M[counter, ] <- preference(phi, 3, 1.8, K, K.r);
-    counter <- counter + 1;
+portions <- seq(from=0, to=1, length.out=20)
+for (i in 1:length(portions)) {
+    M[i, ] <- preference(portions[i], 3, 1.8, K, K.r);
 }
-plot(M[, 2]);
+plot(portions, M[, 3],
+     type="p",
+     xlab=expression(phi), ylab="preference");
 result <- optimize(preference, interval=c(0, 1), alpha=2, alpha.r=3.5, K=2.0e-6, K.r=2.0e-6, maximum=TRUE);
 ## result <- optimize(function(x) -(x-1)^2 + 1, c(0, 2), maximum=TRUE);
 result
