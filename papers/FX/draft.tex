@@ -533,7 +533,7 @@ We have
   \int_{0}^\infty
   u\left[ (1 - \phi) e^r + \phi e^x \right]
   {1 + b \1{x < q} \over (K' + x)^{\beta + 1}} dx 
-  + \text{const.}
+  - b u(\delta v) F(q)
   % &&
   % - b u(\delta v) \left[
   %   1 - (1 - p) {
@@ -544,7 +544,6 @@ We have
   % \right]
   \label{eq:xxie1.0}
 \end{eqnarray}
-where the last term is a constant independent of $\phi$, $\alpha$ and $K$.
 \begin{theorem}
   \label{thrm:I}
   Suppose functional $G(\cdot)$ is given as \eqref{eq:G_functional},
@@ -666,6 +665,74 @@ sectors are shown in figures \ref{fig:Energy_lower},
   \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi) < 0  
   \]
 \end{proof}
+By numerically integration and optimization with respect to $\phi$,
+the value of $\hat\phi$ can be obtained for given $u(\cdot)$ and given
+values of $K, K', \alpha, \beta$. Figures \ref{fig:phi_hat_pareto5e-1}
+and \ref{fig:phi_hat_pareto4} show the values of $\hat\phi$ for
+$u(C) = -\frac{C^{-\xi}}{\xi}$ with $\xi = 1/2, 4$ respectively.
+$\beta=\alpha$ and $K'=K$ in both figures.
+\begin{figure}
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_pareto5e-1.pdf}
+    \caption{$\hat\phi$}
+    \label{fig:phi_hat_pareto5e-1}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_pareto4.pdf}
+    \caption{$\hat\phi$}
+    \label{fig:phi_hat_pareto4}
+  \end{subfigure}
+  \caption{$\hat\phi$, the optimal equity allocation when the utility
+    function is $u(C) = -{C^{-\xi} \over \xi}$ for $\xi = 1/2, 4$.
+  }
+\end{figure}
+
+\begin{minipage}{0.5\linewidth}
+  \includegraphics[width=\textwidth]{power_utilities.png}
+\end{minipage}\hfill
+\begin{minipage}{0.42\textwidth}
+  As shown to the left, the power utility function with a small
+  $\xi$ grows slower and saturates later than does one with a large
+  $\xi$. It represents an agent that is more tolerant of low
+  consumption and that seeks wealth more aggressively. In other
+  words, he is less risk-avert than is one with a higher $\xi$.
+  Such an agent will therefore invest more heavily on the equity as
+  is shown in figures \ref{fig:phi_hat_pareto5e-1} and
+  \ref{fig:phi_hat_pareto4}.
+\end{minipage}
+Certainly, it rarely happens in practice that the lower- and
+upper-tail indices of an equity are equal. Thus, to verify our result
+that $G(F)$ is increasing with $\alpha$ and decreasing with $K$, we
+need to verify that the 1st integral of \eqref{eq:xxie1.0} with $\phi$
+replaced by $\hat\phi$, i.e.
+\[
+I(\alpha, K) = 
+  \alpha K^\alpha  p
+  \int_{-\infty}^0
+  u\left[ (1 - \hat\phi(\alpha, K)) e^r + \hat\phi(\alpha, K) e^x \right]
+  {1 + b \over (K - x)^{\alpha + 1}} dx
+\]
+is increasing with $\alpha$ and decreasing with $K$. Figures
+\ref{fig:preference_pareto5e-1} and \ref{fig:preference_pareto4}
+show the values of the above integral when $\alpha$ and $K$ take
+a range of values.
+\begin{figure}[htb!]
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{preference_pareto5e-1.pdf}
+    \caption{$I(\alpha, K)$}
+    \label{fig:preference_pareto5e-1}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{preference_pareto4.pdf}
+    \caption{$I(\alpha, K)$}
+    \label{fig:preference_pareto4}
+  \end{subfigure}
+  \caption{$I(\alpha, K)$ when the utility function is
+    $u(C) = -{C^{-\xi} \over \xi}$ for $\xi = 1/2, 4$.
+  }
+\end{figure}
+
+
 
 \subsection{Student's t-distributed equity return}
 It is a common practice to use Student's t-distribution to model the
