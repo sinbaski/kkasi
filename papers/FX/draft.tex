@@ -674,12 +674,12 @@ $\beta=\alpha$ and $K'=K$ in both figures.
 \begin{figure}
   \begin{subfigure}[b]{0.5\linewidth}
     \includegraphics[width=\textwidth]{phi_hat_pareto5e-1.pdf}
-    \caption{$\hat\phi$}
+    \caption{$\hat\phi$ when $\xi = 1/2$}
     \label{fig:phi_hat_pareto5e-1}
   \end{subfigure}
   \begin{subfigure}[b]{0.5\linewidth}
     \includegraphics[width=\textwidth]{phi_hat_pareto4.pdf}
-    \caption{$\hat\phi$}
+    \caption{$\hat\phi$ when $\xi = 4$}
     \label{fig:phi_hat_pareto4}
   \end{subfigure}
   \caption{$\hat\phi$, the optimal equity allocation when the utility
@@ -732,8 +732,6 @@ a range of values.
   }
 \end{figure}
 
-
-
 \subsection{Student's t-distributed equity return}
 It is a common practice to use Student's t-distribution to model the
 stationary distribution of equity returns. So it is of interest to
@@ -752,6 +750,23 @@ c(\nu) = {
   \Gamma(\nu/2) \sqrt{\nu \pi}
 }
 \]
+We can write $\mathcal U(F, \phi)$ as
+\begin{eqnarray}
+  && \mathcal U(F, \phi) \nonumber \\
+  &=&
+  \int_{0}^{\infty}
+  \left[
+    u(C(x, \phi)) + (1 + b)u(C(-x, \phi))
+  \right]
+  f(x, \nu) dx \nonumber \\
+  &&
+  + b \int_{0}^{q}
+  u(C(x, \phi))
+  f(x, \nu) dx - b u(C(q, \phi)) F(q, \nu)
+  \label{eq:t1}
+\end{eqnarray}
+where $C(\cdot)$ is defined in \eqref{eq:xxie1}.
+
 \begin{lemma}
   \label{lemma:II}
   There exists $x_0 > 0$ such that $\pd{f}{\nu}(x_0, \nu) = 0$ and
@@ -759,33 +774,23 @@ c(\nu) = {
   $\forall x \in (x_0, \infty), \pd{f}{\nu}(x, \nu) < 0$.
 \end{lemma}
 
-We consider the case where the utility function is simply
+\subsubsection{log-utility function}
+We first consider the case where the utility function is simply
 $u(\cdot) = \ln(\cdot)$. This corresponds to the limiting case of
-\eqref{eq:power_utility} as $\gamma \to 0$. Straightforward
-computation gives
+\eqref{eq:power_utility} as $\gamma \to 0$.
+
+First notice that when $b = 0$, $\mathcal U(F, \phi)$ reduces to
+$\E u(C(X, \phi))$. Only the first integral of \eqref{eq:t1} remains.
+Its integrand becomes $\ln[C(x, \phi) C(-x, \phi)]$.
+Now observe $\ln(C(x, \phi)C(-x, \phi))$ is an increasing function of
+$x$:
 \begin{eqnarray*}
-  && \mathcal U(F, \phi) \\
-  &=&
-  \int_{0}^{\infty}
-  \left[
-    \ln(C(x)) + (1 + b)\ln(C(-x))
-  \right]
-  f(x, \nu) dx
-  + b \int_{0}^{q}
-  \ln(C(x))
-  f(x, \nu) dx \\
-  &&
-  - b \ln(C(q)) F(q, \nu)
-\end{eqnarray*}
-where $C(\cdot)$ is defined in \eqref{eq:xxie1}. Notice that
-when $b = 0$, $\mathcal U(F, \phi)$  reduces to $\E u(C(X))$.
-Also observe $\ln(C(x)C(-x))$ is an increasing function:
-\begin{eqnarray*}
-  \pd{C(x) C(-x)}{x}
+  \pd{C(x, \phi) C(-x, \phi)}{x}
   &=&
   \phi e^r (1 - \phi) (e^x - e^{-x}) > 0
 \end{eqnarray*}
-Thus by 1st case of remark \ref{remark:I} and lemma \ref{lemma:II},
+Thus when $b = 0$, by 1st case of remark \ref{remark:I} and lemma
+\ref{lemma:II},
 $\pd{\mathcal U(F, \phi))}{\nu} < 0$ for all $\phi$. Hence all
 investors guided by this utility function would be seeking the
 smallest $\nu$, i.e. the heaviest tail in the market.
@@ -802,6 +807,34 @@ Thus by the 1st case of lemma \ref{lemma:I} and lemma \ref{lemma:II},
 $\opd{\nu}\mathcal U(F, \phi) > 0$. In this extreme case, the investor
 would rather seek the largest $\nu$ or in other words, the lightest
 tail in the market.
+
+\subsubsection{power-utility function}
+In this section we consider the case when the utility function
+$u(\cdot)$ takes the form
+\[
+u(C) = -{1 \over \xi} C^{-\xi}
+\]
+Another major difference caused by a non-zero value of $b$ is seen in
+the value of $\hat\phi$. When $b = 0$, $\hat\phi$ increases
+continuously with $\nu$ as shown in figure \ref{fig:phi_hat_t5e-1};
+when $b > 0$, $\hat\phi$ instead increases by jumping up at a sequence
+of values of $\nu$. This is shown in figure \ref{fig:phi_hat_b_t5e-1}.
+\begin{figure}[htb!]
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_t5e-1.pdf}
+    \caption{$\hat\phi$ when $b = 0$}
+    \label{fig:phi_hat_t5e-1}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_b_t5e-1.pdf}
+    \caption{$\hat\phi$ when $b = 0.01$}
+    \label{fig:phi_hat_b_t5e-1}
+  \end{subfigure}
+  \caption{$\hat\phi$, the optimal equity allocation when the utility
+    function is $u(C) = -{2 \over \sqrt{C}}$
+  }
+\end{figure}
+
 
 %   where
 %   \[
@@ -907,7 +940,8 @@ a common tail index for all series. Therefore, it is important to
 gather statistical evidence from financial time series if the issue is
 to be settled definitely.
 
-\section{Hill Estimator}
+\section{Data analysis}
+\subsection{Hill Estimator}
 \label{sec:Hill}
 There have been several estimators for the tail index proposed in the
 literature, e.g. Hill (1975) \cite{hill1975simple}, Pikands (1975)
@@ -936,7 +970,6 @@ as $n \to \infty$, the Hill estimator is weakly consistent, i.e.
 \sqrt k (\hat \alpha - \alpha) \overset{d}{\to} N(0, \alpha^2)
 \]
 
-%% \subsubsection{The Energy and the Consumer Staples sectors of S\&P 500}
 Figure \ref{fig:Energy_lower},
 \ref{fig:Consumer_Staples_lower},
 and \ref{fig:Information_Technology_lower}
@@ -945,9 +978,26 @@ lower tail indices of the ``energy'', ``consumer staples'' and ``information
 technology'' sectors of the S\&P 500 index, respectively.
 \begin{figure}[htb!]
   \centering
-  \includegraphics[width=\textwidth]{Energy_lower.pdf}
-  \caption{Hill estimates of the lower tail indices of 32 stocks'
-    daily return series in the {\it Energy} sector of Standard \& Poor
+  \begin{subfigure}[b]{\linewidth}
+    \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
+                    {Energy_lower.pdf}
+    \caption{``Energy'' sector of S\&P 500}
+    \label{fig:Energy_lower}
+  \end{subfigure}
+  \begin{subfigure}[b]{\linewidth}
+    \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
+                    {Consumer_Staples_lower.pdf}
+    \caption{``Consumer Staples'' sector of S\&P 500}
+    \label{fig:Consumer_Staples_lower}
+  \end{subfigure}
+  \begin{subfigure}[b]{\linewidth}
+    \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
+                    {Information_Technology_lower.pdf}
+    \caption{``Information Technology'' sector of S\&P 500}
+    \label{fig:Information_Technology_lower}
+  \end{subfigure}
+  \caption{\small Hill estimates of lower tail indices of
+    daily return series in sectors of Standard \& Poor
     500 index. Each circle coresponds to a Hill estimate; the grey
     triangles above and below it mark the 97.5\% and 2.5\% quantiles
     of its approximate normal distribution.
@@ -956,33 +1006,12 @@ technology'' sectors of the S\&P 500 index, respectively.
     The data are from {\it Yahoo Finance} and the labels on
     the horizontal axis are Yahoo symbols of the stocks. The data span
     from 2010-01-01 to 2015-01-01 and comprise $n=1304$
-    observations. $k=(\ln n)^2 = 49$ lower order statistics are used
+    observations. $k=50$ lower order statistics are used
     for computing $\alpha_n$. 
   }
-  \label{fig:Energy_lower}
 \end{figure}
 
-\begin{figure}[htb!]
-  \centering
-  \includegraphics[width=\textwidth]{Consumer_Staples_lower.pdf}
-  \caption{Hill estimates of the lower tail indices of 30 stocks'
-    daily return series in the {\it Consumer Staples} sector of
-    Standard \& Poor 500 index.
-  }
-  \label{fig:Consumer_Staples_lower}
-\end{figure}
-
-\begin{figure}[htb!]
-  \centering
-  \includegraphics[width=\textwidth]{Information_Technology_lower.pdf}
-  \caption{Hill estimates of the lower-tail indices of 42 stocks' daily
-    return series in the {\it Information Technology} sector of S\&P
-    500 index.
-  }
-  \label{fig:Information_Technology_lower}
-\end{figure}
-
-\section{Hybrid estimation of the assumed distribution function}
+\subsection{Hybrid fitting of the shifted Pareto distribution}
 \label{sec:hybrid_estimation}
 We adopt a hybrid procedure to estimate the parameters of the
 distribution function assumed in \eqref{eq:X_distr}: First we
@@ -1029,8 +1058,7 @@ technology'' sectors of the S\&P 500 index, respectively.
   \label{fig:Information_Technology_alpha_K}
 \end{figure}
 
-
-\section{Pickand's Estimator}
+\subsection{Pickand's Estimator}
 Pickands (1975) \cite{pickands1975statistical} proposed a different
 approach to estimate the tail index than that of Hill. Assume
 $\{x_i\}_{i=1}^n$ are samples from the distribution of $X$ and let $U(t)$

@@ -92,6 +92,7 @@ t.optimal.alloc <- function(nu) {
 r <- 0.01;
 # q <- r;
 b <- 0.01;
+## b <- 0;
 p <- 0.5;
 delta.v <- exp(r)*1.05;
 xi <- 0.5;
@@ -130,8 +131,12 @@ for (i in 1:length(nu)) {
     U[i] <- y[1] + y[2] - y[3];
 }
 
-pdf("phi_hat_t5e-1.pdf");
-plot(nu, phi.hat, type="p", pch=22);
+pdf("phi_hat_b_t5e-1.pdf");
+plot(nu, phi.hat, type="p",pch=22,
+     xlab=expression(nu),
+     main=expression(list(u(C)==-frac(2, sqrt(C)), b == 0.01)),
+     ylab=expression(hat(phi)));
+grid(nx=20);
 dev.off();
 
 
