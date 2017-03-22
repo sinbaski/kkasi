@@ -1019,7 +1019,45 @@ obtain a Hill estimate of the lower-tail indices of an
 equity return and fix $\alpha$ in \eqref{eq:X_distr}
 to its Hill estimate. Then we estimate $K$ by maximizing
 the likelihood function with fixed $\alpha$. Obviously we take only
-negative observations and hence condition on $X < 0$.
+negative observations and hence condition on $X < 0$. Regularity
+conditions on the maximum likelihood estimator are easily checked for
+the distribution \eqref{eq:X_distr}.
+The density function of $X$ conditional on $X < 0$ is
+\[
+f_L(x) = {\alpha K^{\alpha} \over (K - x)^{\alpha + 1}}
+\]
+Clearly, the log-likelihood function of the $K$ parameter is
+\[
+l(K | X < 0) = \ln(\alpha) + \alpha \ln(K) - (\alpha + 1)\ln(K - X)
+\]
+where, as is just mentioned, we pre-estimate $\alpha$ with Hill
+estimator and regard it as known at this step. With $n$ observations
+$X_1, \dots, X_n$, the log-likelihood function of $K$ is
+\[
+L(K | \forall i=1,2,...,n, X_i < 0) = n \ln(\alpha) + n \alpha \ln(K)
+- (\alpha + 1) \sum_{i=1}^n \ln(K - X_i)
+\]
+To obtain the maximum likelihood estimation, we need to solve the
+equation $\pd{L}{K} = 0$, which expands to
+\[
+{n \alpha \over K} - (\alpha + 1) \sum_{i=1}^n {1 \over K - X_i} = 0
+\]
+This equation has to be solved numerically.
+The Fisher information of $K$ follows as
+\begin{eqnarray*}
+  I(K) &=& \E\left[ \left( \opd{K} l(K | X < 0) \right)^2 \right] \\
+  &=& \alpha K^{\alpha - 2}
+  \int_{-\infty}^0 {(\alpha x + K)^2 \over (K - x)^{\alpha + 3}} dx \\
+  &=& {\alpha \over (2 + \alpha) K^2}
+\end{eqnarray*}
+So the maximum likelihood estimator, call it $\hat K$, is
+asymptotically normal:
+\[
+\sqrt n (\hat K - K) \to N \left(
+  0, \left( 1 + {2 \over \alpha} \right) K^2
+\right)
+\]
+
 
 Figure \ref{fig:Energy_alpha_K},
 \ref{fig:Consumer_Staples_alpha_K},
@@ -1027,6 +1065,7 @@ and \ref{fig:Information_Technology_alpha_K}
 show the estimates of $K$ alongside the Hill estimates of $\alpha$ of
 the ``energy'', ``consumer staples'' and ``information
 technology'' sectors of the S\&P 500 index, respectively.
+
 
 \begin{figure}[htb!]
   \centering
@@ -1058,82 +1097,82 @@ technology'' sectors of the S\&P 500 index, respectively.
   \label{fig:Information_Technology_alpha_K}
 \end{figure}
 
-\subsection{Pickand's Estimator}
-Pickands (1975) \cite{pickands1975statistical} proposed a different
-approach to estimate the tail index than that of Hill. Assume
-$\{x_i\}_{i=1}^n$ are samples from the distribution of $X$ and let $U(t)$
-denote the quantile of $1 - 1/t$ of this distribution, i.e.
-\[
-P(X > U(t)) = {1 \over t}
-\]
-The key idea of Pickands' estimator is to observe
-\[
-\lim_{t \to \infty} {
-  U(c(t) t) - U(t)
-  \over
-  U(t) - U(t/c(t))
-} = 2^{1/\alpha}
-\]
-for any function $c(t)$ satisfying $c(t) \to 2$ as $t \to \infty$.
-Pickands formulated the estimation problem in terms of the extreme
-value index $\xi$, which is the reciprocal of the tail index $\alpha$
-when the distribution of $X$ is regularly varying (cf. Embrechtsm,
-Kl\"uppelberg and Mikosch \cite{Embrechts1997}).
+% \subsection{Pickand's Estimator}
+% Pickands (1975) \cite{pickands1975statistical} proposed a different
+% approach to estimate the tail index than that of Hill. Assume
+% $\{x_i\}_{i=1}^n$ are samples from the distribution of $X$ and let $U(t)$
+% denote the quantile of $1 - 1/t$ of this distribution, i.e.
+% \[
+% P(X > U(t)) = {1 \over t}
+% \]
+% The key idea of Pickands' estimator is to observe
+% \[
+% \lim_{t \to \infty} {
+%   U(c(t) t) - U(t)
+%   \over
+%   U(t) - U(t/c(t))
+% } = 2^{1/\alpha}
+% \]
+% for any function $c(t)$ satisfying $c(t) \to 2$ as $t \to \infty$.
+% Pickands formulated the estimation problem in terms of the extreme
+% value index $\xi$, which is the reciprocal of the tail index $\alpha$
+% when the distribution of $X$ is regularly varying (cf. Embrechtsm,
+% Kl\"uppelberg and Mikosch \cite{Embrechts1997}).
 
-Building upon the aforementioned observation and taking $c(t)$ to
-be simply constant 2, Pickands proposed the following estimator for
-$\xi$:
-\[
-\hat \xi = {1 \over \ln 2} \ln {
-  x_{(k)} - x_{(2k)}
-  \over
-  x_{(2k)} - x_{(4k)}
-}
-\]
-Dekkers and de Haan (1989) later showed \cite{dekkers1989estimation}
-that Pickands' estimator was consistent in both the weak and the strong
-sense, when the sequence $k(n)$ was chosen appropriately:
-\begin{itemize}
-\item if $k \to \infty$ and $k/n \to 0$ as $n \to \infty$,
-  \[
-  \hat \xi \overset{P}{\to} \xi
-  \]
-\item if $k \to \infty$, $k/n \to 0$ and $k / \ln(\ln n) \to \infty$
-  as $n \to \infty$,
-  \[
-  \hat \xi \overset{a.s.}{\to} \xi
-  \]
-\end{itemize}
-Dekkers and de Haan \cite{dekkers1989estimation} also showed the
-asymptotic normality of the estimator, when some
-extra technical conditions were satisfied by
-$U(\cdot)$ and $k(n) \to \infty$ yet grew sufficiently slowly, i.e.
-\[
-\sqrt k (\hat \xi - \xi) \overset{d}{\to} N(0, v(\xi))
-\]
-where
-\[
-v(\xi) = {
-  \xi^2 (2^{2 \xi + 1} + 1)
-  \over
-  [2 \ln(2) (2^\xi - 1)]^2
-}
-\]
-Using Pickands' estimator, the same result of very similar tail indices
-is again obtained for the {\it Energy} and the {\it Consumer Staples}
-sectors. Figure \ref{fig:Energy_Pickands} and
-\ref{fig:Consumer_Staples_Pickands} illustrate this claim.
-\begin{figure}[htb!]
-  \includegraphics[width=\textwidth]{Energy_Pickands.pdf}
-  \caption{Pickands' estimates of {\it Energy} stocks.}
-  \label{fig:Energy_Pickands}
-\end{figure}
+% Building upon the aforementioned observation and taking $c(t)$ to
+% be simply constant 2, Pickands proposed the following estimator for
+% $\xi$:
+% \[
+% \hat \xi = {1 \over \ln 2} \ln {
+%   x_{(k)} - x_{(2k)}
+%   \over
+%   x_{(2k)} - x_{(4k)}
+% }
+% \]
+% Dekkers and de Haan (1989) later showed \cite{dekkers1989estimation}
+% that Pickands' estimator was consistent in both the weak and the strong
+% sense, when the sequence $k(n)$ was chosen appropriately:
+% \begin{itemize}
+% \item if $k \to \infty$ and $k/n \to 0$ as $n \to \infty$,
+%   \[
+%   \hat \xi \overset{P}{\to} \xi
+%   \]
+% \item if $k \to \infty$, $k/n \to 0$ and $k / \ln(\ln n) \to \infty$
+%   as $n \to \infty$,
+%   \[
+%   \hat \xi \overset{a.s.}{\to} \xi
+%   \]
+% \end{itemize}
+% Dekkers and de Haan \cite{dekkers1989estimation} also showed the
+% asymptotic normality of the estimator, when some
+% extra technical conditions were satisfied by
+% $U(\cdot)$ and $k(n) \to \infty$ yet grew sufficiently slowly, i.e.
+% \[
+% \sqrt k (\hat \xi - \xi) \overset{d}{\to} N(0, v(\xi))
+% \]
+% where
+% \[
+% v(\xi) = {
+%   \xi^2 (2^{2 \xi + 1} + 1)
+%   \over
+%   [2 \ln(2) (2^\xi - 1)]^2
+% }
+% \]
+% Using Pickands' estimator, the same result of very similar tail indices
+% is again obtained for the {\it Energy} and the {\it Consumer Staples}
+% sectors. Figure \ref{fig:Energy_Pickands} and
+% \ref{fig:Consumer_Staples_Pickands} illustrate this claim.
+% \begin{figure}[htb!]
+%   \includegraphics[width=\textwidth]{Energy_Pickands.pdf}
+%   \caption{Pickands' estimates of {\it Energy} stocks.}
+%   \label{fig:Energy_Pickands}
+% \end{figure}
 
-\begin{figure}[htb!]
-  \includegraphics[width=\textwidth]{Consumer_Staples_Pickands.pdf}
-  \caption{Pickands' estimates of {\it Consumer Staples} stocks.}
-  \label{fig:Consumer_Staples_Pickands}
-\end{figure}
+% \begin{figure}[htb!]
+%   \includegraphics[width=\textwidth]{Consumer_Staples_Pickands.pdf}
+%   \caption{Pickands' estimates of {\it Consumer Staples} stocks.}
+%   \label{fig:Consumer_Staples_Pickands}
+% \end{figure}
 
 
 
