@@ -1,44 +1,45 @@
 rm(list=ls());
 require(MASS);
+require(gplots);
 source("libxxie.r")
 #Energy
-tables <- c (
-    "APA",
-    "APC",
-    "BHI",
-    "CHK",
-    "COG",
-    "COP",
-    "DO",
-    "DVN",
-    "EOG",
-    "EQT",
-    "FTI",
-    "HAL",
-    "HES",
-    "HP",
-    "KMI",
-    "MPC",
-    "MRO",
-    "MUR",
-    "NBL",
-    "NFX",
-    "NOV",
-    "OKE",
-    "OXY",
-    "PSX",
-    "PXD",
-    "RIG",
-    "RRC",
-    "SE",
-    "SLB",
-    "SWN",
-    "TSO",
-    "VLO",
-    "WMB",
-    "XEC",
-    "XOM"
-);
+## tables <- c (
+##     "APA",
+##     "APC",
+##     "BHI",
+##     "CHK",
+##     "COG",
+##     "COP",
+##     "DO",
+##     "DVN",
+##     "EOG",
+##     "EQT",
+##     "FTI",
+##     "HAL",
+##     "HES",
+##     "HP",
+##     "KMI",
+##     "MPC",
+##     "MRO",
+##     "MUR",
+##     "NBL",
+##     "NFX",
+##     "NOV",
+##     "OKE",
+##     "OXY",
+##     "PSX",
+##     "PXD",
+##     "RIG",
+##     "RRC",
+##     "SE",
+##     "SLB",
+##     "SWN",
+##     "TSO",
+##     "VLO",
+##     "WMB",
+##     "XEC",
+##     "XOM"
+## );
 
 ## Consumer staples
 ## tables <- c(
@@ -79,50 +80,50 @@ tables <- c (
 ## );
 
 ## Information Technology
-## tables <- c(
-##     "ADBE",
-##     "ADI",
-##     "ADP",
-##     "ADSK",
-##     "AKAM",
-##     "AMAT",
-##     "CA",
-##     "CSCO",
-##     "CTSH",
-##     "CTXS",
-##     "EA",
-##     "EBAY",
-##     "FFIV",
-##     "FISV",
-##     "HPQ",
-##     "HRS",
-##     "IBM",
-##     "INTC",
-##     "INTU",
-##     "JNPR",
-##     "KLAC",
-##     "LLTC",
-##     "LRCX",
-##     "MCHP",
-##     "MSFT",
-##     "MSI",
-##     "MU",
-##     "NTAP",
-##     "NVDA",
-##     "ORCL",
-##     "PAYX",
-##     "QCOM",
-##     "RHT",
-##     "SWKS",
-##     "SYMC",
-##     "TSS",
-##     "TXN",
-##     "VRSN",
-##     "WDC",
-##     "XLNX",
-##     "XRX",
-##     "YHOO"
-## );
+tables <- c(
+    "ADBE",
+    "ADI",
+    "ADP",
+    "ADSK",
+    "AKAM",
+    "AMAT",
+    "CA",
+    "CSCO",
+    "CTSH",
+    "CTXS",
+    "EA",
+    "EBAY",
+    "FFIV",
+    "FISV",
+    "HPQ",
+    "HRS",
+    "IBM",
+    "INTC",
+    "INTU",
+    "JNPR",
+    "KLAC",
+    "LLTC",
+    "LRCX",
+    "MCHP",
+    "MSFT",
+    "MSI",
+    "MU",
+    "NTAP",
+    "NVDA",
+    "ORCL",
+    "PAYX",
+    "QCOM",
+    "RHT",
+    "SWKS",
+    "SYMC",
+    "TSS",
+    "TXN",
+    "VRSN",
+    "WDC",
+    "XLNX",
+    "XRX",
+    "YHOO"
+);
 
 X <- getInterpolatedReturns("2010-01-01", "2015-01-01",
                             tables=tables, suffix="_US");
@@ -158,29 +159,28 @@ f <- function(X) {
     return(X);
 }
 
-pdf(file="../papers/FX/Energy_alpha_K.pdf");
-
+pdf(file="../papers/FX/Information_Technology_alpha_K_ci.pdf");
 A <- sort(alpha, index.return=TRUE);
 plot(alpha[A$ix], (K + 2*sd)[A$ix],
      type="l", ylim=c(0, max(K + 2*sd)),
      xlab=expression(alpha),
      ylab=expression(K),
-     main="Energy");
+     main="Information Technology");
 polygon(
     x=c(alpha[A$ix], rev(alpha[A$ix])),
     y=c(K[A$ix] + 2*sd[A$ix], rep(0, length(K))),
     col="grey"
 );
-points(alpha, K, pch=16, col="#FF0000");
-
 plotCI(alpha, K,
-     uiw=0.5, liw=0.5,
+     uiw=0, liw=0,
      ui=K + 2*sd,
-     li=f(K - 2*sd),
+     li=rep(0, length(K)),
+     col="#FF0000",
+     lwd=1.5,
      xlab=expression(alpha),
      ylab=expression(K),
      add=T,
-     main="Energy");
+     main="Information Technology");
 grid(nx=20);
 dev.off();
 
