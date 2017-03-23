@@ -1,6 +1,45 @@
 rm(list=ls());
 source("libxxie.r");
 
+#Energy
+tables <- c (
+    "APA",
+    "APC",
+    "BHI",
+    "CHK",
+    "COG",
+    "COP",
+    "DO",
+    "DVN",
+    "EOG",
+    "EQT",
+    "FTI",
+    "HAL",
+    "HES",
+    "HP",
+    "KMI",
+    "MPC",
+    "MRO",
+    "MUR",
+    "NBL",
+    "NFX",
+    "NOV",
+    "OKE",
+    "OXY",
+    "PSX",
+    "PXD",
+    "RIG",
+    "RRC",
+    "SE",
+    "SLB",
+    "SWN",
+    "TSO",
+    "VLO",
+    "WMB",
+    "XEC",
+    "XOM"
+);
+
 ## Consumer staples
 ## tables <- c(
 ##     "ADM",
@@ -37,45 +76,6 @@ source("libxxie.r");
 ## ##    "WBA",
 ## ##    "WFM",
 ##     "WMT"
-## );
-
-#Energy
-## tables <- c (
-##     "APA",
-##     "APC",
-##     "BHI",
-##     "CHK",
-##     "COG",
-##     "COP",
-##     "DO",
-##     "DVN",
-##     "EOG",
-##     "EQT",
-##     "FTI",
-##     "HAL",
-##     "HES",
-##     "HP",
-##     "KMI",
-##     "MPC",
-##     "MRO",
-##     "MUR",
-##     "NBL",
-##     "NFX",
-##     "NOV",
-##     "OKE",
-##     "OXY",
-##     "PSX",
-##     "PXD",
-##     "RIG",
-##     "RRC",
-##     "SE",
-##     "SLB",
-##     "SWN",
-##     "TSO",
-##     "VLO",
-##     "WMB",
-##     "XEC",
-##     "XOM"
 ## );
 
 ## Information Technology
@@ -154,8 +154,6 @@ x.k <- round(log(dim(X)[1])^2);
 
 tail.x <- matrix(NA, nrow=3, ncol=dim(X)[2]);
 A.x <- matrix(NA, nrow=2, ncol=dim(X)[2]);
-pickands.x.up <- matrix(NA, ncol=dim(X)[2], nrow=2);
-pickands.x.down <- matrix(NA, ncol=dim(X)[2], nrow=2);
 for (i in 1:dim(X)[2]) {
     tail.x[1, i] <- hillEstimate(X[, i]);
     tail.x[2, i] <- hillEstimate(-X[, i]);
@@ -186,10 +184,10 @@ for (i in 1:dim(X)[2]) {
 ## tail.y <- apply(Y, MARGIN=2,
 ##                 FUN=hillEstimate);
 
-## Hoga.x <- apply(X, MARGIN=2,
-##                 FUN=function(S) {
-##                     max(HogaTest(S, p=3.0e-2, t0=0.1))
-##                 });
+Hoga.x <- apply(X, MARGIN=2,
+                FUN=function(S) {
+                    max(HogaTest(S, p=3.0e-2, t0=0.1))
+                });
 ## Hoga.y <- apply(Y, MARGIN=2,
 ##                 FUN=function(S) {
 ##                     max(HogaTest(S, p=3.0e-2, t0=0.1))

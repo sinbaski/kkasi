@@ -453,6 +453,41 @@ technology'' sectors of the S\&P 500 index, respectively.
     for computing $\alpha_n$. 
   }
 \end{figure}
+One can see that all the confidence intervals of the ``Energy'' and
+``Consumer Staples'' sectors overlap. Hence it is informative to test
+the hypothesis that the tail indices of these return series are equal.
+Hoga \cite{Hoga2017} devised tests for this purpose. We adopt his
+approach but use our own implementation. The next section has more
+details on this.
+
+\subsection{Hoga's Test}
+Hoga \cite{Hoga2017} devised tests for the change of a specified
+extreme quantile.
+
+We first test whether there is a change of tail indices in each of two
+series, and if there is no change in either series, we concatenate
+them and test for a change. Figure \ref{fig:Hoga_Energy_Single} shows
+the test statistics of stocks in the ``Energy'' sector of the S\&P 500
+index. Clearly, the null hypothesis, i.e. there is a change in the
+extreme quantile can not be rejected at the specified significance
+level for any of the stocks.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{Hoga_Energy_Single.pdf}
+  \caption{Hoga Test Statistics}
+  \label{fig:Hoga_Energy_Single}
+\end{figure}
+
+% Figure \ref{fig:Hoga_Energy_pair} shows
+% the test statistics of pairs of stocks in the ``Energy'' sector of the
+% S\&P 500 index: We first order the stocks by their names and then
+% concatenate the 1st to the 2nd to form the 1st sequence, the 2nd and
+% the 3rd to form the 2nd sequence, and so forth.
+
+% Clearly, the null hypothesis, i.e. there is a change in the
+% extreme quantile  can not be rejected at the specified significance
+% level for any of the stocks.
+
 
 \section{Review of multivariate GARCH models:
   same tail index or not}

@@ -408,7 +408,7 @@ estimGARCH<- function(omega,alpha,beta,eps,petit=sqrt(.Machine$double.eps),r0=10
 weissmanEstimate <- function (X, s, t, p)
 {
     n <- length(X);
-    k <- ceiling(n * 0.16);
+    k <- max(50, n * 0.03);
     X.sorted <- sort(X[ceiling(n*s):floor(n*t)], decreasing=TRUE);
     N <- ceiling(k * (t - s));
     hill.inv <- mean(log(X.sorted[1:(N-1)] / X.sorted[N]));
@@ -499,140 +499,142 @@ myPotEstimate <- function(Z, k)
 
 }
 
-## HogaTest <- function(X, p, t0)
-## {
-##     times <- seq(from=t0, to=1-t0, length.out=100);
-##     ## G <- rep(NA, length(times));
-##     f1 <- function(s, t) {
-##         r <- rep(NA, length(s));
-##         y <- weissmanEstimate(X, 0, t, p);
-##         for (i in 1:length(s)) {
-##             x <- weissmanEstimate(X, 0, s[i], p)/y;
-##             r[i] <- (log(x) * s[i])^2;
-##         }
-##         return(r);
-##     }
-##     f2 <- function(s, t) {
-##         r <- rep(NA, length(s));
-##         y <- weissmanEstimate(X, t, 1, p);
-##         for (i in 1:length(s)) {
-##             x <- weissmanEstimate(X, s[i], 1, p)/y;
-##             r[i] <- (log(x) * (1 - s[i]))^2;
-##         }
-##         return(r);
-##     }
-##     T1 <- rep(NA, length(times));
-##     T2 <- rep(NA, length(times));
-##     T3 <- rep(NA, length(times));
-##     G <- rep(NA, length(times));
-##     for (i in 1:length(times)) {
-##         T1[i] <- weissmanEstimate(X, 0, times[i], p)/
-##             weissmanEstimate(X, times[i], 1, p);
-##         T1[i] <- (times[i] * (1 - times[i])*log(T1[i]))^2;
-##         if (T1[i] == 0) {
-##             G[i] <- 0;
-##             next
-##         }
-        
-##         T2[i] <- integrate(f=function(s) {f1(s, times[i])},
-##                         lower=t0, upper=times[i])$value;
-##         T3[i] <- integrate(f=function(s) {f2(s, times[i])},
-##                         lower=times[i], upper=1 - t0)$value;
-##         G[i] <- T1[i] / (T2[i] + T3[i]);
-##     }
-##     return(G);
-## }
-
-HogaTest <- function(X, t0, k, p)
-{  
-    n <- length(X)                                      
-    AnzAntEx <- length(k)                               
-    k <- floor(k * n)                                   
-    
-    
-    T_0t  <- array(NA, dim=c(n, AnzAntEx))      
-    Tq_0t <- array(NA, dim=c(n, AnzAntEx))      
-
-    Y <- sort.int(X[1 : floor(n * t0)],
-                  decreasing = TRUE, method = "quick")
-    
-    for(i in (floor(n * t0) + 1) : n){
-        Y <- sort.int(c(Y, X[i]),
-                      decreasing = TRUE, method = "quick")      
-
-        for(j in (1 : AnzAntEx)){      
-            
-            T_0t[i, j] <- 1/(k[j]*(i/n)) *
-                sum(log(Y[1 : (floor(k[j]*(i/n))+1)] /
-                        Y[floor(k[j]*(i/n))+1])) 
-            Tq_0t[i, j] <- Y[floor(k[j]*(i/n))+1] *
-                ((n*p) / k[j])^(-T_0t[i, j])                            
+HogaTest <- function(X, p, t0)
+{
+    times <- seq(from=t0, to=1-t0, length.out=100);
+    ## G <- rep(NA, length(times));
+    f1 <- function(s, t) {
+        r <- rep(NA, length(s));
+        y <- weissmanEstimate(X, 0, t, p);
+        for (i in 1:length(s)) {
+            x <- weissmanEstimate(X, 0, s[i], p)/y;
+            r[i] <- (log(x) * s[i])^2;
         }
-    } 
-    
-    T_t1  <- array(NA, dim=c(n, AnzAntEx))      
-    Tq_t1 <- array(NA, dim=c(n, AnzAntEx))      
-    
-    Y    <- sort.int(X[(floor(n * (1 - t0)) + 1) : n],
-                     decreasing = TRUE, method = "quick")
-    
-    for(i in floor(n * (1 - t0)) : 1){      
-        Y <- sort.int(c(Y, X[i]), decreasing = TRUE, method = "quick")  
-        for(j in (1 : AnzAntEx)){           
-            T_t1[i, j] <- 1/(k[j]*(1 - (i-1)/n)) *
-                sum(log(Y[1 : (floor(k[j]*(1 - (i-1)/n))+1)] /
-                        Y[floor(k[j]*(1 - (i-1)/n)) + 1]))
-            Tq_t1[i, j] <- Y[floor(k[j]*(1 - (i-1)/n))+1] *
-                ((n*p) / k[j])^(-T_t1[i, j])
-        }
+        return(r);
     }
-
-    ## Calculate SN test statistics
-    ## Save realised suprema for different no. of k's
-    maxQ_T  <- array(NA, dim = c(AnzAntEx))
-    maxQ_Tq <- array(NA, dim = c(AnzAntEx)) 
-    Q_T     <- array(NA, dim = c(n, AnzAntEx))    
-    Q_Tq    <- array(NA, dim = c(n, AnzAntEx))    
-    ## Calculating the self-normalizer "AnzAntEx" versch.
-    ## k's für die "5" Schätzer
-    SN      <- array(NA, dim = c(n, AnzAntEx))
-    ## Calculating the self-normalizer "AnzAntEx" versch.
-    ## k's für die "5" Schätzer
-    SN_T    <- array(NA, dim = c(n, AnzAntEx))
-    l_sq    <- log(k / (n*p))^2
-
-    ## loop over time      
-    for(i in (floor(n*t0)+1) : floor(n*(1-t0))){
-        ## discretize time "t"
-        t <- i/n
-        Q_Tq[i, ] <- k / l_sq *
-            (t * (1-t) * log(Tq_0t[i, ] / Tq_t1[i, ]))^2 
-        Q_T[i, ]  <- k  * (t * (1-t) * (T_0t[i, ] - T_t1[i, ]))^2
-        
-        for(m in 1:AnzAntEx){
-            SN[i, m] <- 1/n * k[m] / l_sq[m] *
-                sum((((floor(n*t0)+1) : i)/n *
-                     log(Tq_0t[(floor(n*t0)+1) : i, m] / Tq_0t[i, m]))^2)
-            SN[i, m] <- SN[i, m] + 1/n * k[m] / l_sq[m] *
-                sum((((n-(i : floor(n*(1-t0))) + 1) / n) *
-                     log(Tq_t1[i : floor(n*(1-t0)), m] / Tq_t1[i, m]))^2)
-            
-            SN_T[i, m] <- 1/n * k[m] *
-                sum((((floor(n*t0)+1) : i)/n *
-                     (T_0t[(floor(n*t0)+1) : i, m] - T_0t[i, m]))^2)
-            SN_T[i, m] <- SN_T[i, m] + 1/n * k[m] *
-                sum((((n-(i : floor(n*(1-t0))) + 1) / n) *
-                     (T_t1[i : floor(n*(1-t0)), m] - T_t1[i, m]))^2)
+    f2 <- function(s, t) {
+        r <- rep(NA, length(s));
+        y <- weissmanEstimate(X, t, 1, p);
+        for (i in 1:length(s)) {
+            x <- weissmanEstimate(X, s[i], 1, p)/y;
+            r[i] <- (log(x) * (1 - s[i]))^2;
         }
+        return(r);
     }
-    ## elementwise division
-    maxQ_T  <- colMaxs( Q_T[(floor(n * t0) + 1) : floor(n * (1-t0)), ] /
-                        SN_T[(floor(n * t0) + 1) : floor(n * (1-t0)), ])
-    ## elementwise division
-    maxQ_Tq <- colMaxs(Q_Tq[(floor(n * t0) + 1) : floor(n * (1-t0)), ] /
-                       SN[(floor(n * t0) + 1) : floor(n * (1-t0)), ])   
-    return(list(TI = maxQ_T, EQ = maxQ_Tq))
+    T1 <- rep(NA, length(times));
+    T2 <- rep(NA, length(times));
+    T3 <- rep(NA, length(times));
+    G <- rep(NA, length(times));
+    for (i in 1:length(times)) {
+        T1[i] <- weissmanEstimate(X, 0, times[i], p)/
+            weissmanEstimate(X, times[i], 1, p);
+        T1[i] <- (times[i] * (1 - times[i])*log(T1[i]))^2;
+        if (T1[i] == 0) {
+            G[i] <- 0;
+            next
+        }
+        
+        T2[i] <- integrate(f=function(s) {f1(s, times[i])},
+                        lower=t0, upper=times[i],
+                        subdivisions=200L)$value;
+        T3[i] <- integrate(f=function(s) {f2(s, times[i])},
+                        lower=times[i], upper=1 - t0,
+                        subdivisions=200L)$value;
+        G[i] <- T1[i] / (T2[i] + T3[i]);
+    }
+    return(G);
 }
+
+## HogaTest <- function(X, t0, k, p)
+## {  
+##     n <- length(X)                                      
+##     AnzAntEx <- length(k)                               
+##     k <- floor(k * n)                                   
+    
+    
+##     T_0t  <- array(NA, dim=c(n, AnzAntEx))      
+##     Tq_0t <- array(NA, dim=c(n, AnzAntEx))      
+
+##     Y <- sort.int(X[1 : floor(n * t0)],
+##                   decreasing = TRUE, method = "quick")
+    
+##     for(i in (floor(n * t0) + 1) : n){
+##         Y <- sort.int(c(Y, X[i]),
+##                       decreasing = TRUE, method = "quick")      
+
+##         for(j in (1 : AnzAntEx)){      
+            
+##             T_0t[i, j] <- 1/(k[j]*(i/n)) *
+##                 sum(log(Y[1 : (floor(k[j]*(i/n))+1)] /
+##                         Y[floor(k[j]*(i/n))+1])) 
+##             Tq_0t[i, j] <- Y[floor(k[j]*(i/n))+1] *
+##                 ((n*p) / k[j])^(-T_0t[i, j])                            
+##         }
+##     } 
+    
+##     T_t1  <- array(NA, dim=c(n, AnzAntEx))      
+##     Tq_t1 <- array(NA, dim=c(n, AnzAntEx))      
+    
+##     Y    <- sort.int(X[(floor(n * (1 - t0)) + 1) : n],
+##                      decreasing = TRUE, method = "quick")
+    
+##     for(i in floor(n * (1 - t0)) : 1){      
+##         Y <- sort.int(c(Y, X[i]), decreasing = TRUE, method = "quick")  
+##         for(j in (1 : AnzAntEx)){           
+##             T_t1[i, j] <- 1/(k[j]*(1 - (i-1)/n)) *
+##                 sum(log(Y[1 : (floor(k[j]*(1 - (i-1)/n))+1)] /
+##                         Y[floor(k[j]*(1 - (i-1)/n)) + 1]))
+##             Tq_t1[i, j] <- Y[floor(k[j]*(1 - (i-1)/n))+1] *
+##                 ((n*p) / k[j])^(-T_t1[i, j])
+##         }
+##     }
+
+##     ## Calculate SN test statistics
+##     ## Save realised suprema for different no. of k's
+##     maxQ_T  <- array(NA, dim = c(AnzAntEx))
+##     maxQ_Tq <- array(NA, dim = c(AnzAntEx)) 
+##     Q_T     <- array(NA, dim = c(n, AnzAntEx))    
+##     Q_Tq    <- array(NA, dim = c(n, AnzAntEx))    
+##     ## Calculating the self-normalizer "AnzAntEx" versch.
+##     ## k's für die "5" Schätzer
+##     SN      <- array(NA, dim = c(n, AnzAntEx))
+##     ## Calculating the self-normalizer "AnzAntEx" versch.
+##     ## k's für die "5" Schätzer
+##     SN_T    <- array(NA, dim = c(n, AnzAntEx))
+##     l_sq    <- log(k / (n*p))^2
+
+##     ## loop over time      
+##     for(i in (floor(n*t0)+1) : floor(n*(1-t0))){
+##         ## discretize time "t"
+##         t <- i/n
+##         Q_Tq[i, ] <- k / l_sq *
+##             (t * (1-t) * log(Tq_0t[i, ] / Tq_t1[i, ]))^2 
+##         Q_T[i, ]  <- k  * (t * (1-t) * (T_0t[i, ] - T_t1[i, ]))^2
+        
+##         for(m in 1:AnzAntEx){
+##             SN[i, m] <- 1/n * k[m] / l_sq[m] *
+##                 sum((((floor(n*t0)+1) : i)/n *
+##                      log(Tq_0t[(floor(n*t0)+1) : i, m] / Tq_0t[i, m]))^2)
+##             SN[i, m] <- SN[i, m] + 1/n * k[m] / l_sq[m] *
+##                 sum((((n-(i : floor(n*(1-t0))) + 1) / n) *
+##                      log(Tq_t1[i : floor(n*(1-t0)), m] / Tq_t1[i, m]))^2)
+            
+##             SN_T[i, m] <- 1/n * k[m] *
+##                 sum((((floor(n*t0)+1) : i)/n *
+##                      (T_0t[(floor(n*t0)+1) : i, m] - T_0t[i, m]))^2)
+##             SN_T[i, m] <- SN_T[i, m] + 1/n * k[m] *
+##                 sum((((n-(i : floor(n*(1-t0))) + 1) / n) *
+##                      (T_t1[i : floor(n*(1-t0)), m] - T_t1[i, m]))^2)
+##         }
+##     }
+##     ## elementwise division
+##     maxQ_T  <- colMaxs( Q_T[(floor(n * t0) + 1) : floor(n * (1-t0)), ] /
+##                         SN_T[(floor(n * t0) + 1) : floor(n * (1-t0)), ])
+##     ## elementwise division
+##     maxQ_Tq <- colMaxs(Q_Tq[(floor(n * t0) + 1) : floor(n * (1-t0)), ] /
+##                        SN[(floor(n * t0) + 1) : floor(n * (1-t0)), ])   
+##     return(list(TI = maxQ_T, EQ = maxQ_Tq))
+## }
 
 quantilsup.SN1 <- function(AnzSim, AnzGitter, t0, Quantile){   # AnzSim = Anzahl Wiener-Pfade, AnzGitter = Diskretisierungspunkte der Wiener-Pfade, Quantile = Vektor der zu berechnenden Quantile
       RealZVseqc  <- rep.int(0, AnzSim)                    # Hier werden die "AnzSim"-vielen Realisationen der Grenz-Zufallsvariablen sup_{t\in[t0,1-t0]}(B(t)-tB(1))^{2} gespeichert
@@ -654,32 +656,32 @@ quantilsup.SN1 <- function(AnzSim, AnzGitter, t0, Quantile){   # AnzSim = Anzahl
       return(quantile(RealZVseqc, probs = Quantile))
 }     # quantile-function gives required quantiles
     
-## asymptoticDist <- function(n.paths, n.steps, t0)
-## {
-##     W <- matrix(rnorm(n.steps * n.paths),
-##                 nrow=n.steps, ncol=n.paths);
-##     W <- apply(W, MARGIN=2, FUN=cumsum);
-##     f <- function(X) {
-##         n <- length(X);
-##         ds <- 1/n;
-##         a <- ceiling(t0 * n);
-##         b <- floor((1 - t0) * n);
-##         results <- rep(NA, b-a+1);
-##         for (i in a:b) {
-##             t <- i/n;
-##             S <- (a : i)/n;
-##             I1 <- sum((X[a:i] - (S/t) * X[i])^2)/n;
-##             S <- (i : b)/n;
-##             T <- ((-X[i:b] + X[n]) + ((S - 1)/(1 - t))*(X[n] - X[i]))^2;
-##             I2 <- sum(T)/n;
-##             denom <- (X[i] - t * X[1])^2;
-##             results[i-a+1] <- denom/(I1 + I2);
-##         }
-##         return(max(results));
-##     }
-##     samples <- apply(W, MARGIN=2, FUN=f);
-##     return(ecdf(samples));
-## }
+asymptoticDist <- function(n.paths, n.steps, t0)
+{
+    W <- matrix(rnorm(n.steps * n.paths),
+                nrow=n.steps, ncol=n.paths);
+    W <- apply(W, MARGIN=2, FUN=cumsum);
+    f <- function(X) {
+        n <- length(X);
+        ds <- 1/n;
+        a <- ceiling(t0 * n);
+        b <- floor((1 - t0) * n);
+        results <- rep(NA, b-a+1);
+        for (i in a:b) {
+            t <- i/n;
+            S <- (a : i)/n;
+            I1 <- sum((X[a:i] - (S/t) * X[i])^2)/n;
+            S <- (i : b)/n;
+            T <- ((-X[i:b] + X[n]) - ((1 - S)/(1 - t))*(X[n] - X[i]))^2;
+            I2 <- sum(T)/n;
+            denom <- (X[i] - t * X[1])^2;
+            results[i-a+1] <- denom/(I1 + I2);
+        }
+        return(max(results));
+    }
+    samples <- apply(W, MARGIN=2, FUN=f);
+    return(ecdf(samples));
+}
 
 ## gam0: ratio of sub-sample size over full sample size
 ## k: ratio of order statistics over sub-sample size
