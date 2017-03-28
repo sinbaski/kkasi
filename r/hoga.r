@@ -1,5 +1,6 @@
 rm(list=ls());
 source("libxxie.r")
+library(parallel)
 #Energy
 ## tables <- c (
 ##     "APA",
@@ -123,26 +124,71 @@ tables <- c(
 ##     "YHOO"
 ## );
 
-X <- getInterpolatedReturns("2010-01-01", "2015-01-01",
+data <- getInterpolatedReturns("2010-01-01", "2015-01-01",
                             tables=tables, suffix="_US");
-names <- X$assets;
-X <- X$ret;
+names <- data$assets;
+X <- data$ret;
 
 Fn <- asymptoticDist(1000, 2000, t0=0.1);
 
-A <- matrix(NA, nrow=100, ncol=dim(X)[2]);
-for (i in 1:length(names)) {
-    A[, i] <- HogaTest(-X[, i], p=0.02, 0.1);
+## A <- matrix(NA, nrow=100, ncol=dim(X)[2]);
+## for (i in 1:length(names)) {
+##     A[, i] <- HogaTest(-X[, i], p=0.02, 0.1);
+## }
+
+## Simulate from t-distributions
+X <- matrix(NA, nrow=dim(data$ret)[1], ncol=dim(data$ret)[2]);
+for (i in 1:dim(X)[2]) {
+    X[, i] <- rt(n=dim(X)[1], df=2+0.1*i);
 }
 
 B <- matrix(NA, nrow=dim(X)[2], ncol=dim(X)[2]);
-for (i in 1:length(names)) {
-    for (j in (i+1):length(names)) {
-        B[i, j] <- max(HogaTest(-c(X[, c(i, j)]), p=0.02, 0.1));
-        B[j, i] <- B[i, j];
+for (i in 1:(length(names)-1)) {
+    myfun <- function(j) {
+        h <- NA;
+        tryCatch( {
+            h <- max(HogaTest(-c(X[, c(i, j)]), p=0.02, 0.1))
+        }, error=function(e) h <- NA
+        );
+        return(h);
     }
+    B[i, (i+1):dim(X)[2]] <- unlist(mclapply((i+1):length(names), myfun, mc.cores=3));
+    B[(i+1):dim(X)[2], i] <- B[i, (i+1):dim(X)[2]];
+    print(paste("Row ", i));
 }
 
+
+p <- dim(X)[2];
+## pdf("../papers/FX/Hoga_Consumer_Staples_pair.pdf")
+pdf("../papers/FX/t_sim_pair.pdf")
+plot(1, 1, type="n", xlim=c(1, p), ylim=c(1, p), xaxt="n", yaxt="n");
+for (i in 1:(p-1)) {
+    for (j in (i+1):p) {
+        if (is.na(B[i, j])) {
+            color = "black";
+        } else if (B[i, j] == 0) {
+            color="white";
+        } else if (B[i, j] < quantile(Fn, 0.85)) {
+            color="grey";
+        } else if (B[i, j] < quantile(Fn, 0.9)) {
+            color="#00FF00";
+        } else if (B[i, j] < quantile(Fn, 0.95)) {
+            color="#0000FF";
+        } else {
+            color="#FF0000";
+        }
+        points(x=i, y=j, pch=19, cex=2, col=color);
+        points(x=j, y=i, pch=19, cex=2, col=color);
+    }
+}
+df <- 2 + 0.1 * (1:length(names));
+## axis(side=1, at=1:p, labels=gsub("_US", "", names), las=2);
+## axis(side=2, at=1:p, labels=gsub("_US", "", names), las=1);
+axis(side=1, at=1:p, labels=df, las=2);
+axis(side=2, at=1:p, labels=df, las=1);
+abline(h=1:p, lty=3, col="gray");
+abline(v=1:p, lty=3, col="gray");
+dev.off();
 
 ## barplot(G, xlim=c(0, ceiling(q)),
 ##         width=1, space=0.2,

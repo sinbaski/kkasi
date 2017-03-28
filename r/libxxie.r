@@ -1,5 +1,6 @@
 library(RMySQL);
 library(abind);
+library(parallel)
 ## library(rmgarch);
 
 ###
@@ -660,8 +661,10 @@ asymptoticDist <- function(n.paths, n.steps, t0)
 {
     W <- matrix(rnorm(n.steps * n.paths),
                 nrow=n.steps, ncol=n.paths);
+    ## W <- unlist(mclapply(1:n.steps, cumsum, mc.cores=detectCores()));
     W <- apply(W, MARGIN=2, FUN=cumsum);
-    f <- function(X) {
+    f <- function(index) {
+        X <- W[, index];
         n <- length(X);
         ds <- 1/n;
         a <- ceiling(t0 * n);
@@ -679,7 +682,9 @@ asymptoticDist <- function(n.paths, n.steps, t0)
         }
         return(max(results));
     }
-    samples <- apply(W, MARGIN=2, FUN=f);
+    ## samples <- apply(W, MARGIN=2, FUN=f);
+    samples <- unlist(mclapply(X=1:n.paths, FUN=f, mc.cores=detectCores()));
+    ## samples <- lapply(X=n.paths, FUN=f);
     return(ecdf(samples));
 }
 

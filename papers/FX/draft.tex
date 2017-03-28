@@ -432,7 +432,59 @@ same througout the selected period of time.
     \eqref{eq:Q1_distr}}.
 \end{figure}
 
+To test whether two series share the same tail index, we concatenate
+the two series and apply the Hoga test. For the ``Energy'' and the
+``Consumer Staples'' sector, we summarise the results in figure
+\ref{fig:Hoga_Energy_pair} and \ref{fig:Hoga_consumer_Staples_pair}.
+\begin{figure}[htb!]
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{Hoga_Energy_pair.pdf}
+    \caption{``Energy''}
+    \label{fig:Hoga_Energy_pair}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{Hoga_Consumer_Staples_pair.pdf}
+    \caption{``Consumer Staples''}
+    \label{fig:Hoga_consumer_Staples_pair}
+  \end{subfigure}
+  \caption{Hoga Test Statistics of stocks in the ``Energy'' and
+    ``Consumer Staples'' sectors of
+    S\&P 500. The green, blue and red colors represent, respectively,
+    exceedances of the 85\%, 90\% and 95\% quantiles of the distribution of
+    \eqref{eq:Q1_distr}.
+    Grey points stand for pairs for which the test statistic is below
+    the 85\% quantile;
+    black points represent pairs for which
+    computation of the test statistics fails for given precision
+    requirements and time limits}.
+\end{figure}
+Clearly, these figures show that the null
+hypothesis of an equal tail index is rejected for more pairs in the
+``Energy'' sector than it is for those in the ``Consumer Staples''
+sector. This suggests that lower tail indices of stocks in the
+``energy'' sector are more spread out than are those of the ``Consumer
+Staples'' sector.
 
+Also observe that while 3 stocks, say A, B and C, test in favor of
+relations $\alpha_A = \alpha_B, \alpha_A \neq \alpha_C$, it often
+happens that another test on B and C is supportive of $\alpha_B =
+\alpha_C$ . This is due to the limited power of the test. Based
+on such results, one may guess $\alpha_B$ lies between $\alpha_A$ and
+$\alpha_C$. The test is unable to recognize the smaller differences
+between $\alpha_A, \alpha_B$ and between $\alpha_B, \alpha_C$.
+
+To have an idea about the power of Hoga's test, we run it on
+concatenated samples drawn from t-distributions with different degrees
+of freedom. Figure \ref{fig:t_sim_pair} shows the result.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{t_sim_pair.pdf}
+  \caption{Test Statistics of concatenated t-samples with different
+    degrees of freedom. Numbers on the axis are the degrees of freedom.}
+  \label{fig:t_sim_pair}
+\end{figure}
+From the figure one can see that the power of the test decreases as
+the minimum tail index of a concatenated pair increases.
 
 \section{Review of multivariate GARCH models:
   same tail index or not}
