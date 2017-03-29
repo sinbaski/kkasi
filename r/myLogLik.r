@@ -125,9 +125,9 @@ tables <- c(
     "YHOO"
 );
 
-X <- getInterpolatedReturns("2010-01-01", "2015-01-01",
+data <- getInterpolatedReturns("2010-01-01", "2015-01-01",
                             tables=tables, suffix="_US");
-X <- X$ret;
+X <- data$ret;
 my.den <- function(x, K, alpha)
 {
     return(alpha * K^alpha / (K - x)^(alpha + 1));
@@ -159,30 +159,48 @@ f <- function(X) {
     return(X);
 }
 
+
+## plot(alpha[1], K[1],
+##      type="p",
+##      cex=sd[1]
+##      xlab=expression(alpha),
+##      ylab=expression(K),
+##      main="Energy");
+
+
 pdf(file="../papers/FX/Information_Technology_alpha_K_ci.pdf");
 A <- sort(alpha, index.return=TRUE);
-plot(alpha[A$ix], (K + 2*sd)[A$ix],
-     type="l", ylim=c(0, max(K + 2*sd)),
+plot(alpha[A$ix], K[A$ix],
+     type="p", pch=16,
+     xlim=c(min(alpha), max(alpha)),
+     ylim=c(0, max(K)),
+     col="#FF0000",
      xlab=expression(alpha),
      ylab=expression(K),
      main="Information Technology");
-polygon(
-    x=c(alpha[A$ix], rev(alpha[A$ix])),
-    y=c(K[A$ix] + 2*sd[A$ix], rep(0, length(K))),
-    col="grey"
-);
+## polygon(
+##     x=c(alpha[A$ix], rev(alpha[A$ix])),
+##     y=c(K[A$ix] + sd[A$ix], rep(0, length(K))),
+##     col="grey"
+## );
 plotCI(alpha, K,
      uiw=0, liw=0,
      ui=K + 2*sd,
      li=rep(0, length(K)),
-     col="#FF0000",
-     lwd=1.5,
+     barcol="#000000",
+     col="red",
+     lwd=1,
      xlab=expression(alpha),
      ylab=expression(K),
-     add=T,
-     main="Information Technology");
-grid(nx=20);
+     add=T);
+abline(v=seq(from=floor(min(alpha)), by=0.5, to=ceiling(max(alpha))),
+       lty=3, col="grey");
+abline(h=seq(from=0, by=0.01, to=ceiling(max(K+2*sd))),
+       lty=3, col="grey");
 dev.off();
 
-
+plot(1:length(K),
+     type="p",
+     
+     )
 

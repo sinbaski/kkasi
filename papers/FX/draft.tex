@@ -1431,20 +1431,52 @@ Thus when $b = 0$, by 1st case of remark \ref{remark:I} and lemma
 \ref{lemma:II},
 $\pd{\mathcal U(F, \phi))}{\nu} < 0$ for all $\phi$. Hence all
 investors guided by this utility function would be seeking the
-smallest $\nu$, i.e. the heaviest tail in the market.
+smallest $\nu$, i.e. the heaviest tail in the market. Here note that
+Student's t is a symmetric distribution; heavier tails imply greater
+down-side risk as well as greater up-side potential.
 
-However, this is not necessarily the case when $b > 0$. For example,
-consider the case when $q = 0$ and $\hat\phi = 1$. This may be
-viewed an approximation to the situation where the interest rate $r$ is
-vanishingly low while the investor is more conservative than
-greedy. In this case we have
-\begin{eqnarray*}
-  \mathcal U(F, \phi) = \int_{0}^{\infty} e^{-b x} f(x, \nu) dx
-\end{eqnarray*}
-Thus by the 1st case of lemma \ref{lemma:I} and lemma \ref{lemma:II},
-$\opd{\nu}\mathcal U(F, \phi) > 0$. In this extreme case, the investor
-would rather seek the largest $\nu$ or in other words, the lightest
-tail in the market.
+In fact, even when $b > 0$, the same monotonicity property holds. This
+is revealed by numerically maximizing $\mathcal U(F, \phi)$ with
+respect to $\phi$ for a sequence of selected values of $\nu$. The
+results are shown in figures \ref{fig:phi_hat_t_log} and
+\ref{fig:U_b_t_log}.
+\begin{figure}[htb!]
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_b_t_log.pdf}
+    \caption{$\hat\phi(\nu)$ of log-utility function}
+    \label{fig:phi_hat_t_log}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{U_b_t_log.pdf}
+    \caption{$G(\nu)$ of log-utility function}
+    \label{fig:U_b_t_log}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
+    \caption{$\hat\phi(\nu)$ of power-utility function}
+    \label{fig:phi_hat_t_power}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\linewidth}
+    \includegraphics[width=\textwidth]{U_b_t_power.pdf}
+    \caption{$G(\nu)$ of power-utility function}
+    \label{fig:U_b_t_power}
+  \end{subfigure}
+  \caption{$\hat\phi$ and $G(\nu)$
+  }
+\end{figure}
+
+%% However, this is not necessarily the case when $b > 0$. For example,
+%% consider the case when $q = 0$ and $\hat\phi = 1$. This may be
+%% viewed an approximation to the situation where the interest rate $r$ is
+%% vanishingly low while the investor is more conservative than
+%% greedy. In this case we have
+%% \begin{eqnarray*}
+%%   \mathcal U(F, \phi) = \int_{0}^{\infty} e^{-b x} f(x, \nu) dx
+%% \end{eqnarray*}
+%% Thus by the 1st case of lemma \ref{lemma:I} and lemma \ref{lemma:II},
+%% $\opd{\nu}\mathcal U(F, \phi) > 0$. In this extreme case, the investor
+%% would rather seek the largest $\nu$ or in other words, the lightest
+%% tail in the market.
 
 \subsubsection{power-utility function}
 In this section we consider the case when the utility function
@@ -1452,26 +1484,24 @@ $u(\cdot)$ takes the form
 \[
 u(C) = -{1 \over \xi} C^{-\xi}
 \]
-Another major difference caused by a non-zero value of $b$ is seen in
-the value of $\hat\phi$. When $b = 0$, $\hat\phi$ increases
-continuously with $\nu$ as shown in figure \ref{fig:phi_hat_t5e-1};
-when $b > 0$, $\hat\phi$ instead increases by jumping up at a sequence
-of values of $\nu$. This is shown in figure \ref{fig:phi_hat_b_t5e-1}.
-\begin{figure}[htb!]
-  \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{phi_hat_t5e-1.pdf}
-    \caption{$\hat\phi$ when $b = 0$}
-    \label{fig:phi_hat_t5e-1}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{phi_hat_b_t5e-1.pdf}
-    \caption{$\hat\phi$ when $b = 0.01$}
-    \label{fig:phi_hat_b_t5e-1}
-  \end{subfigure}
-  \caption{$\hat\phi$, the optimal equity allocation when the utility
-    function is $u(C) = -{2 \over \sqrt{C}}$
-  }
-\end{figure}
+One can see from figure \ref{fig:phi_hat_t_power} and
+\ref{fig:U_b_t_power} that both $\hat \phi$ and $G(\nu)$ are monotonically 
+decreasing with $\nu$ as in the case of a log-utility function.
+%% \begin{figure}[htb!]
+%%   \begin{subfigure}[b]{0.5\linewidth}
+%%     \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
+%%     \caption{$\hat\phi(\nu)$}
+%%     \label{fig:phi_hat_t_power}
+%%   \end{subfigure}
+%%   \begin{subfigure}[b]{0.5\linewidth}
+%%     \includegraphics[width=\textwidth]{U_b_t_power.pdf}
+%%     \caption{$G(\nu)$}
+%%     \label{fig:U_b_t_power}
+%%   \end{subfigure}
+%%   \caption{$\hat\phi$ and $G(\nu)$ when the utility
+%%     function is $u(C) = -{2 \over \sqrt{C}}$
+%%   }
+%% \end{figure}
 
 
 %   where

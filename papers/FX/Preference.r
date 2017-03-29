@@ -1,5 +1,6 @@
 rm(list=ls());
 library(plot3D)
+library(parallel)
 
 consumption <- function(x, phi, r) {
     return((1 - phi) * exp(r) + phi * exp(x));
@@ -54,12 +55,19 @@ t.preference <- function(phi, nu) {
         return(U * (1 + b));
     }, -Inf, 0)$value;
 
-    y2 <- integrate(function(x) {
+    y2 <- (1 + b) * integrate(function(x) {
         U <- utility(consumption(x, phi, r)) * dt(x, nu);
-        U[x < q] <- U[x < q] * (1 + b);
         return(U);
-    }, 0, Inf)$value;
-
+    }, 0, q)$value;
+    y2 <- y2 + integrate(function(x) {
+        U <- utility(consumption(0, phi, r-x)) * dt(x, nu);
+        return(U);
+    }, q, Inf)$value;
+    y2 <- y2 + integrate(function(x) {
+        U <- (1/x^2 + 1/nu)^(-nu/2-1/2) * x^(-nu);
+        return(U);
+    }, q, Inf)$value;
+    
     y3 <- b * pt(q, nu) * utility(consumption(q, phi, r));
     return(c(y1, y2, y3));
 }
@@ -122,22 +130,55 @@ utility <- power.utility;
 ##     }
 ## }
 
-nu <- seq(from=1.5, to=5, length.out=100);
-phi.hat <- rep(NA, length(nu));
-U <- rep(NA, length(nu));
-for (i in 1:length(nu)) {
-    phi.hat[i] <- t.optimal.alloc(nu[i]);
-    y <- t.preference(phi.hat[i], nu[i]);
-    U[i] <- y[1] + y[2] - y[3];
+nu <- seq(from=1.5, to=5, length.out=200);
+phi.hat <- matrix(NA, nrow=length(nu), ncol=4);
+U <- matrix(NA, nrow=length(nu), ncol=4);
+for (k in 1:4) {
+    b <- 0.5 * (k - 1);
+    for (i in 1:length(nu)) {
+        phi.hat[i, k] <- t.optimal.alloc(nu[i]);
+        y <- t.preference(phi.hat[i], nu[i]);
+        U[i, k] <- y[1] + y[2] - y[3];
+    }
 }
 
-pdf("phi_hat_b_t5e-1.pdf");
-plot(nu, phi.hat, type="p",pch=22,
-     xlab=expression(nu),
-     main=expression(list(u(C)==-frac(2, sqrt(C)), b == 0.01)),
+pdf("phi_hat_b_t_power.pdf");
+colors <- c("black", "green", "blue", "red");
+plot(nu, phi.hat[, 1], type="l", lwd=2,
+     ## xlim=c(1.5, 6),
+     ylim=c(min(phi.hat), max(phi.hat)),
+     xlab=expression(nu), col=colors[1],
+     ## main=expression(list(u(C)==ln(C))),
+     main=expression(list(u(C)==-frac(2, sqrt(C)))),
      ylab=expression(hat(phi)));
-grid(nx=20);
+for (k in 2:4) {
+    lines(nu, phi.hat[, k], col=colors[k], lwd=2);
+}
 dev.off();
+
+pdf("U_b_t_power.pdf");
+colors <- c("black", "green", "blue", "red");
+plot(nu, U[, 1], type="l", lwd=2,
+     ## xlim=c(1.5, 6),
+     ylim=c(min(U), max(U)),
+     xlab=expression(nu), col=colors[1],
+     ## main=expression(list(u(C)==ln(C))),
+     main=expression(list(u(C)==-frac(2, sqrt(C)))),
+     ylab=expression(G(nu)));
+for (k in 2:4) {
+    lines(nu, U[, k], col=colors[k], lwd=2);
+}
+legend("topright", col=colors,
+       lwd=rep(2, 4),
+       legend=c(
+           expression(b==0),
+           expression(b==0.5),
+           expression(b==1.0),
+           expression(b==1.5)
+       )
+       );
+dev.off();
+
 
 
 pdf("phi_hat_pareto5e-1.pdf")
