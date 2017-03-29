@@ -51,31 +51,28 @@ with respect to the confidence bands of estimation.
 It is generally believed that the utility function of an
 investor is increasing and concave -- as John H. Cochrane
 put it, ``the last bite is never as satisfying as the first''
-\cite{cochrane2009asset}. This implies investors are considerably
-more concerned about large losses than are cheered by large gains.
+\cite{cochrane2009asset}. This implies investors are repelled to a
+larger extent by large losses than they are tempted by large gains. 
 Furthermore, it is a stylized fact that equity return distributions
 are heavy-tailed (see e.g. Jansen and de Vries \cite{jansen1991frequency}).
 In particular, the lower-tail of an equity distribution is often heavier
 than the upper-tail of the same distribution.
 
-We show in this paper that concerns of the down-side risk and the
-heavy-tail property of equity returns  imply that the lower-tail indices
-of actively traded equities in a rational market must be fairly close to
-one another.
-
-%% A cornerstone of this conclusion is the empirical fact that equity
-%% return distributions are heavy-tailed (see e.g. Jansen and de Vries
-%% (1991) \cite{jansen1991frequency}). If investors and speculators alike
-%% display concern for downside risk, as formulated via a utility function,
-%% it is important to model this risk adequately. 
-
-In section \ref{sec:GDA}, we explicitly recognize the behavioral
+we explore in this paper the market implications of investor
+preferences and the heavy-tail property of equity return
+distributions. The rest of this paper is organized into the following
+sections:
+In section \ref{sec:empirical_results} we present a survey of
+statistical characteristics of equity returns. Then 
+in section \ref{sec:GDA}, we explicitly recognize the behavioral
 concern for downside risk in the investor's evaluation of portfolios
 using the framework of Generalized Disappointment Aversion (GDA)
 introduced by Routledge and Zin \cite{routledge2010generalized}. GDA
 is an extension of the concept of Disappointment Aversion (DA) of Gul
 (1991) \cite{gul1991theory}. The Gul paper derives the DA from first
 principles (axiomatic).
+In this section we infer characteristics of equity returns from the
+GDA theory and compare them with the empirical results. 
 
 %% Secondly, the empirical fact that the loss return distribution is
 %% non-normally fat tailed distributed is taken into account.
@@ -239,6 +236,40 @@ principles (axiomatic).
 %% scale parameters can be drastically different.
 
 \section{Empirical Results}
+\label{sec:empirical_results}
+As has been mentioned, we are interested in the heavy-tail properties
+of equity returns. Let $X_t$ be an equity return series. If the
+distribution of $X_t$ is heavy-tailed, we can write
+\begin{eqnarray*}
+  \lim_{x \to \infty} {x^{\beta}\P(X_t > x) \over L_+(x)} &=& 1 \\
+  \lim_{x \to \infty} {x^{\alpha}\P(X_t < -x) \over L_-(x)} &=& 1
+\end{eqnarray*}
+where $L_+(x)$ and $L_-(x)$ are slowly varying functions satisfying
+\[
+\lim_{x \to \infty} {L_*(a x) \over L_*(x)} = 1
+\]
+for all $a > 0$. Here ``*'' can be either ``+'' or ``-''. In the
+simplest case, $L_+(x)$ and $L_(x)$ are constants and the distribution
+has power-law tails. Let $J_*(1/x) = L_*(x)$. A Taylor expansion at
+$x=\infty$ gives
+\[
+J_*(1/x) = J_*(0) + {J'_*(0) \over x} + O(x^{-2})
+\]
+Thus
+\[
+x^{-\alpha} L_-(x) = J_-(0) x^{-\alpha} + J'_-(0) x^{-\alpha - 1} + O(x^{-\alpha-2})
+\]
+when $x \to \infty$. Clearly the tail indices $\alpha$ and $\beta$ as
+well as the scale parameters $J_-(0)$ and $J_+(0)$ play crutial roles
+in determining the tail distribution and hence in asset allocation and
+risk management. These parameters of the equities in a market are
+characteristics of the market and provide a useful description of the
+market. One can also use them to help build a model of the equities in
+the market. With these motives in mind, we present a survey of the
+tail indices and scale parameters of 3 sectors, namely ``Energy'',
+``Consumer Staples'' and ``Information Technology'', of the S\&P 500
+index.
+
 \subsection{Hill estimates of lower tail indices}
 \label{sec:Hill}
 There have been several estimators for the tail index proposed in the
@@ -311,9 +342,16 @@ technology'' sectors of the S\&P 500 index, respectively.
 One can see that all the confidence intervals of stocks in the
 ``Energy'' and ``Consumer Staples'' sectors, as well as those of a
 large portion of stocks in the ``Information Technology'' sector,
-overlap. This naturally prompts an investigation into the extreme
-quantile estimates of the same stocks.
+overlap. This suggests that the stocks in each sector may have very
+similar tail indices. Hoga's test on the change of extreme quantiles
+may provide some insight about how similar these tail indices are,
+because different tail indices are likely to result in different
+extreme quantiles. Nevertheless, changes in the extreme quantiles can
+be the result of changed tail indices but can also be the result of
+changed scale parameters. Thus we first investigate the scale
+parameters of stocks in the same sectors before applying Hoga's test.
 
+\subsection{Hill estimates of lower-tail scale parameters}
 
 
 %% Hence it is informative to test
@@ -331,6 +369,8 @@ quantile estimates of the same stocks.
 %% same stock return series.
 
 \subsection{Hoga's Test}
+\label{sec:Hoga}
+
 Hoga \cite{Hoga2017} proposed his test for a time series
 $\{X_i\}_{i=1}^n$ with tail functions
 $\bar F_i(\cdot)$, i.e. $\P(X_i > x) = \bar F_i(x)$. The null
@@ -456,7 +496,7 @@ the two series and apply the Hoga test. For the ``Energy'' and the
     the 85\% quantile;
     black points represent pairs for which
     computation of the test statistics fails for given precision
-    requirements and time limits}.
+    requirements and time limits.}
 \end{figure}
 Clearly, these figures show that the null
 hypothesis of an equal tail index is rejected for more pairs in the
