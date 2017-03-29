@@ -199,8 +199,5 @@ abline(h=seq(from=0, by=0.01, to=ceiling(max(K+2*sd))),
        lty=3, col="grey");
 dev.off();
 
-plot(1:length(K),
-     type="p",
-     
-     )
+plot(1:length(K), type="p", log10(K^alpha));
 

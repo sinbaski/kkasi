@@ -50,9 +50,9 @@ t.preference <- function(phi, nu) {
         q <- log(exp(r) + (delta.v - exp(r))/phi);
     }
 
-    y1 <- integrate(function(x) {
+    y1 <- (1 + b) * integrate(function(x) {
         U <- utility(consumption(x, phi, r)) * dt(x, nu);
-        return(U * (1 + b));
+        return(U);
     }, -Inf, 0)$value;
 
     y2 <- (1 + b) * integrate(function(x) {
@@ -137,7 +137,7 @@ for (k in 1:4) {
     b <- 0.5 * (k - 1);
     for (i in 1:length(nu)) {
         phi.hat[i, k] <- t.optimal.alloc(nu[i]);
-        y <- t.preference(phi.hat[i], nu[i]);
+        y <- t.preference(phi.hat[i, k], nu[i]);
         U[i, k] <- y[1] + y[2] - y[3];
     }
 }
