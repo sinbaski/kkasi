@@ -368,7 +368,15 @@ tail index  estimator:
 \hat A = {k \over n} X_{(k+1)}^{\hat \alpha}
 \]
 where $X_{(k+1)}$ is the $(k+1)$-th upper order statistic of the
-sequence $X_t$ as defined in section\ref{sec:Hill}.
+sequence $X_t$ as defined in section\ref{sec:Hill}. $\hat \alpha$
+is the Hill tail index estimator.
+Estimates of $A$ of the ``Energy'', ``Consumer Staples'' and
+``Information Technology'' sectors of the S\&P 500 index are computed
+using this method. The results are shown in figure \ref{fig:Energy_scale},
+\ref{fig:Consumer_Staples_scale} and
+\ref{fig:Information_Technology_scale}, along with estimates obtained
+using the hybrid method described in section
+\ref{sec:hybrid_estimation}.
 
 %% Hence it is informative to test
 %% the hypothesis that the tail indices of these return series are equal.
@@ -463,7 +471,7 @@ series and, if there is no change in either series, whether the two
 series have the same tail index. Obviously, for either question, if
 the tail index changes, the extreme quantile will change.
 For the first question, Hoga's test is directly applicable; for the
-second question, we concatenate the two series before applying the
+second, we concatenate the two series before applying the
 test.
 
 Figure \ref{fig:Hoga_Energy_Single} shows the test statistics of
@@ -534,7 +542,8 @@ concatenated samples drawn from t-distributions with different degrees
 of freedom. Figure \ref{fig:t_sim_pair} shows the result.
 \begin{figure}[htb!]
   \centering
-  \includegraphics[width=\textwidth]{t_sim_pair.pdf}
+  \includegraphics[width=\textwidth, trim={1cm 1cm 1cm 2cm},
+  clip]{t_sim_pair.pdf}
   \caption{Test Statistics of concatenated t-samples with different
     degrees of freedom. Numbers on the axis are the degrees of freedom.}
   \label{fig:t_sim_pair}
@@ -1035,7 +1044,36 @@ distribution function: For all $x < 0$,
   \right)
 \end{eqnarray*}
 Comparing this expression with \eqref{eq:lower_tail_expansion}, one
-can immediately identity $p K^\alpha$ as the scale parameter.
+can immediately identity $p K^\alpha$ as the scale parameter. Figure
+\ref{fig:Energy_scale}, \ref{fig:Consumer_Staples_scale} and
+\ref{fig:Information_Technology_scale} compare the estimates obtained
+from Hill's scale estimator with those from the $p K^\alpha$ method.
+
+\begin{figure}[htb!]
+  \centering
+  \begin{subfigure}[b]{0.32\linewidth}
+    \includegraphics[width=\textwidth]
+                    {Energy_scale.pdf}
+                    \caption{``Energy''}
+                    \label{fig:Energy_scale}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\linewidth}
+    \includegraphics[width=\textwidth]
+                    {Consumer_Staples_scale.pdf}
+                    \caption{``Consumer Staples''}
+                    \label{fig:Consumer_Staples_scale}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\linewidth}
+    \includegraphics[width=\textwidth]
+                    {Information_Technology_scale.pdf}
+                    \caption{``IT''}
+                    \label{fig:Information_Technology_scale}
+  \end{subfigure}
+  \caption{\small Scale estimates obtained from Hill's scale estimator
+    and from $p K^\alpha$ . Red dots are Hill's scale estimates and
+    triangles are $p K^\alpha$ estimates.
+  }
+\end{figure}
 
 
 %% \begin{figure}[htb!]

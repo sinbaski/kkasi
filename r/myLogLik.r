@@ -3,43 +3,43 @@ require(MASS);
 require(gplots);
 source("libxxie.r")
 #Energy
-tables <- c (
-    "APA",
-    "APC",
-    "BHI",
-    "CHK",
-    "COG",
-    "COP",
-    "DO",
-    "DVN",
-    "EOG",
-    "EQT",
-    "FTI",
-    "HAL",
-    "HES",
-    "HP",
-    "KMI",
-    "MPC",
-    "MRO",
-    "MUR",
-    "NBL",
-    "NFX",
-    "NOV",
-    "OKE",
-    "OXY",
-    "PSX",
-    "PXD",
-    "RIG",
-    "RRC",
-    "SE",
-    "SLB",
-    "SWN",
-    "TSO",
-    "VLO",
-    "WMB",
-    "XEC",
-    "XOM"
-);
+## tables <- c (
+##     "APA",
+##     "APC",
+##     "BHI",
+##     "CHK",
+##     "COG",
+##     "COP",
+##     "DO",
+##     "DVN",
+##     "EOG",
+##     "EQT",
+##     "FTI",
+##     "HAL",
+##     "HES",
+##     "HP",
+##     "KMI",
+##     "MPC",
+##     "MRO",
+##     "MUR",
+##     "NBL",
+##     "NFX",
+##     "NOV",
+##     "OKE",
+##     "OXY",
+##     "PSX",
+##     "PXD",
+##     "RIG",
+##     "RRC",
+##     "SE",
+##     "SLB",
+##     "SWN",
+##     "TSO",
+##     "VLO",
+##     "WMB",
+##     "XEC",
+##     "XOM"
+## );
 
 ## Consumer staples
 ## tables <- c(
@@ -80,50 +80,50 @@ tables <- c (
 ## );
 
 ## Information Technology
-## tables <- c(
-##     "ADBE",
-##     "ADI",
-##     "ADP",
-##     "ADSK",
-##     "AKAM",
-##     "AMAT",
-##     "CA",
-##     "CSCO",
-##     "CTSH",
-##     "CTXS",
-##     "EA",
-##     "EBAY",
-##     "FFIV",
-##     "FISV",
-##     "HPQ",
-##     "HRS",
-##     "IBM",
-##     "INTC",
-##     "INTU",
-##     "JNPR",
-##     "KLAC",
-##     "LLTC",
-##     "LRCX",
-##     "MCHP",
-##     "MSFT",
-##     "MSI",
-##     "MU",
-##     "NTAP",
-##     "NVDA",
-##     "ORCL",
-##     "PAYX",
-##     "QCOM",
-##     "RHT",
-##     "SWKS",
-##     "SYMC",
-##     "TSS",
-##     "TXN",
-##     "VRSN",
-##     "WDC",
-##     "XLNX",
-##     "XRX",
-##     "YHOO"
-## );
+tables <- c(
+    "ADBE",
+    "ADI",
+    "ADP",
+    "ADSK",
+    "AKAM",
+    "AMAT",
+    "CA",
+    "CSCO",
+    "CTSH",
+    "CTXS",
+    "EA",
+    "EBAY",
+    "FFIV",
+    "FISV",
+    "HPQ",
+    "HRS",
+    "IBM",
+    "INTC",
+    "INTU",
+    "JNPR",
+    "KLAC",
+    "LLTC",
+    "LRCX",
+    "MCHP",
+    "MSFT",
+    "MSI",
+    "MU",
+    "NTAP",
+    "NVDA",
+    "ORCL",
+    "PAYX",
+    "QCOM",
+    "RHT",
+    "SWKS",
+    "SYMC",
+    "TSS",
+    "TXN",
+    "VRSN",
+    "WDC",
+    "XLNX",
+    "XRX",
+    "YHOO"
+);
 
 data <- getInterpolatedReturns("2010-01-01", "2015-01-01",
                             tables=tables, suffix="_US");
@@ -132,7 +132,9 @@ my.den <- function(x, K, alpha)
 {
     return(alpha * K^alpha / (K - x)^(alpha + 1));
 }
-params <- matrix(NA, ncol=2, nrow=dim(X)[2]);
+params <- matrix(NA, ncol=3, nrow=dim(X)[2]);
+A <- rep(NA, dim(X)[2]);
+
 for (i in 1:dim(X)[2]) {
     R <- X[, i];
     hill <- hillEstimate(-R);
@@ -143,19 +145,35 @@ for (i in 1:dim(X)[2]) {
                            list(K=1),
                            lower=c(1.0e-8),
                            upper=c(Inf));
-        params[i, 1] <- result$estimate;
-        params[i, 2] <- hill;
+        params[i, ] <- c(result$estimate, hill, sum(R < 0));
     }, error = function(e) e);
 }
 
 I <- !is.na(params[, 1]);
 alpha <- params[I, 2];
 K <- params[I, 1];
+N <- params[I, 3];
+p <- N/dim(X)[1];
 
-N <- apply(X, MARGIN=2, FUN=function(V) sum(V<0));
-sd = K * sqrt(1 + 2 / alpha) / sqrt(N[I]);
+A <- apply(X, MARGIN=2, FUN=function(V) scaleEstimate(-V, max(floor(length(V)[1]*0.03), 60)));
+B <- p*K^alpha;
 
-p <- N[I]/dim(X)[1];
+pdf(file="../papers/FX/Information_Technology_scale.pdf")
+plot(1:sum(I), log10(A[I]),
+     col="red",
+     ylim=c(min(c(log10(A[I]), log10(B))),
+            max(c(log10(A[I]), log10(B)))),
+     main="Information Technology Scale Estimates",
+     xlab="Equity", ylab="Scale",
+     xaxt="n",
+     pch=16);
+axis(side=1, at=1:sum(I),
+     labels=gsub("_series_", ".", gsub("_US", "", data$asset[I])),
+     las=2);
+points(1:sum(I), log10(p*K^alpha), pch=2);
+dev.off();
+
+sd = K * sqrt(1 + 2 / alpha) / sqrt(N);
 p.sd <- sqrt(p - p^2)/sqrt(dim(X)[1]);
 
 pdf(file="../papers/FX/Energy_p.pdf");
