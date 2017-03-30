@@ -1,5 +1,6 @@
 rm(list=ls());
 source("libxxie.r");
+library(parallel);
 
 #Energy
 tables <- c (
@@ -136,6 +137,16 @@ assets <- data$assets;
 
 X <- diff(log(price));
 n <- dim(price)[1];
+A <- lapply(1:dim(X)[2],
+            FUN=function(i) {
+                scaleEstimate(-X[, i], max(floor(dim(X)[1]*0.03), 60))
+            });
+A <- unlist(A);
+plot(1:dim(X)[2], A)
+
+
+
+
 for (i in 1:dim(X)[2]) {
     I <- which(price[1:(n-1), i]/price[2:n, i] > 1.5);
     if (length(I) > 0) {
