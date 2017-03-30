@@ -3,43 +3,43 @@ require(MASS);
 require(gplots);
 source("libxxie.r")
 #Energy
-## tables <- c (
-##     "APA",
-##     "APC",
-##     "BHI",
-##     "CHK",
-##     "COG",
-##     "COP",
-##     "DO",
-##     "DVN",
-##     "EOG",
-##     "EQT",
-##     "FTI",
-##     "HAL",
-##     "HES",
-##     "HP",
-##     "KMI",
-##     "MPC",
-##     "MRO",
-##     "MUR",
-##     "NBL",
-##     "NFX",
-##     "NOV",
-##     "OKE",
-##     "OXY",
-##     "PSX",
-##     "PXD",
-##     "RIG",
-##     "RRC",
-##     "SE",
-##     "SLB",
-##     "SWN",
-##     "TSO",
-##     "VLO",
-##     "WMB",
-##     "XEC",
-##     "XOM"
-## );
+tables <- c (
+    "APA",
+    "APC",
+    "BHI",
+    "CHK",
+    "COG",
+    "COP",
+    "DO",
+    "DVN",
+    "EOG",
+    "EQT",
+    "FTI",
+    "HAL",
+    "HES",
+    "HP",
+    "KMI",
+    "MPC",
+    "MRO",
+    "MUR",
+    "NBL",
+    "NFX",
+    "NOV",
+    "OKE",
+    "OXY",
+    "PSX",
+    "PXD",
+    "RIG",
+    "RRC",
+    "SE",
+    "SLB",
+    "SWN",
+    "TSO",
+    "VLO",
+    "WMB",
+    "XEC",
+    "XOM"
+);
 
 ## Consumer staples
 ## tables <- c(
@@ -80,50 +80,50 @@ source("libxxie.r")
 ## );
 
 ## Information Technology
-tables <- c(
-    "ADBE",
-    "ADI",
-    "ADP",
-    "ADSK",
-    "AKAM",
-    "AMAT",
-    "CA",
-    "CSCO",
-    "CTSH",
-    "CTXS",
-    "EA",
-    "EBAY",
-    "FFIV",
-    "FISV",
-    "HPQ",
-    "HRS",
-    "IBM",
-    "INTC",
-    "INTU",
-    "JNPR",
-    "KLAC",
-    "LLTC",
-    "LRCX",
-    "MCHP",
-    "MSFT",
-    "MSI",
-    "MU",
-    "NTAP",
-    "NVDA",
-    "ORCL",
-    "PAYX",
-    "QCOM",
-    "RHT",
-    "SWKS",
-    "SYMC",
-    "TSS",
-    "TXN",
-    "VRSN",
-    "WDC",
-    "XLNX",
-    "XRX",
-    "YHOO"
-);
+## tables <- c(
+##     "ADBE",
+##     "ADI",
+##     "ADP",
+##     "ADSK",
+##     "AKAM",
+##     "AMAT",
+##     "CA",
+##     "CSCO",
+##     "CTSH",
+##     "CTXS",
+##     "EA",
+##     "EBAY",
+##     "FFIV",
+##     "FISV",
+##     "HPQ",
+##     "HRS",
+##     "IBM",
+##     "INTC",
+##     "INTU",
+##     "JNPR",
+##     "KLAC",
+##     "LLTC",
+##     "LRCX",
+##     "MCHP",
+##     "MSFT",
+##     "MSI",
+##     "MU",
+##     "NTAP",
+##     "NVDA",
+##     "ORCL",
+##     "PAYX",
+##     "QCOM",
+##     "RHT",
+##     "SWKS",
+##     "SYMC",
+##     "TSS",
+##     "TXN",
+##     "VRSN",
+##     "WDC",
+##     "XLNX",
+##     "XRX",
+##     "YHOO"
+## );
 
 data <- getInterpolatedReturns("2010-01-01", "2015-01-01",
                             tables=tables, suffix="_US");
@@ -152,32 +152,44 @@ I <- !is.na(params[, 1]);
 alpha <- params[I, 2];
 K <- params[I, 1];
 
-sd = K * sqrt(1 + 2 / alpha);
+N <- apply(X, MARGIN=2, FUN=function(V) sum(V<0));
+sd = K * sqrt(1 + 2 / alpha) / sqrt(N[I]);
 
-f <- function(X) {
-    X[X < 0] <- 0;
-    return(X);
-}
+p <- N[I]/dim(X)[1];
+p.sd <- sqrt(p - p^2)/sqrt(dim(X)[1]);
+
+pdf(file="../papers/FX/Energy_p.pdf");
+plotCI(1:sum(I), p,
+       barcol="#000000",
+       col="#FF0000",
+       lwd=1,
+       ui=p + 2*p.sd,
+       li=p - 2*p.sd,
+       type="p", pch=16,
+       ylim=c(min(p - 2*p.sd), max(p + 2*p.sd)),
+       xlab="",
+       ylab=expression(P(X < 0)),
+       xaxt="n",
+       main="Energy");
+axis(side=1, at=1:sum(I),
+     labels=gsub("_series_", ".", gsub("_US", "", data$asset[I])),
+     las=2);
+dev.off();
+
+## abline(v=1:sum(I), lty=3, col="grey");
+## abline(h=seq(from=min(p), to=max(p), length.out=10), lty=3, col="grey");
 
 
-## plot(alpha[1], K[1],
-##      type="p",
-##      cex=sd[1]
-##      xlab=expression(alpha),
-##      ylab=expression(K),
-##      main="Energy");
-
-
-pdf(file="../papers/FX/Information_Technology_alpha_K_ci.pdf");
+pdf(file="../papers/FX/Energy_alpha_K_ci.pdf");
 A <- sort(alpha, index.return=TRUE);
 plot(alpha[A$ix], K[A$ix],
      type="p", pch=16,
      xlim=c(min(alpha), max(alpha)),
-     ylim=c(0, max(K)),
+     ylim=c(min(K - 2 * sd), max(K + 2 * sd)),
      col="#FF0000",
      xlab=expression(alpha),
      ylab=expression(K),
-     main="Information Technology");
+     main="Energy");
 ## polygon(
 ##     x=c(alpha[A$ix], rev(alpha[A$ix])),
 ##     y=c(K[A$ix] + sd[A$ix], rep(0, length(K))),
@@ -186,7 +198,7 @@ plot(alpha[A$ix], K[A$ix],
 plotCI(alpha, K,
      uiw=0, liw=0,
      ui=K + 2*sd,
-     li=rep(0, length(K)),
+     li=K - 2*sd,
      barcol="#000000",
      col="red",
      lwd=1,
@@ -198,6 +210,4 @@ abline(v=seq(from=floor(min(alpha)), by=0.5, to=ceiling(max(alpha))),
 abline(h=seq(from=0, by=0.01, to=ceiling(max(K+2*sd))),
        lty=3, col="grey");
 dev.off();
-
-plot(1:length(K), type="p", log10(K^alpha));
 

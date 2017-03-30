@@ -244,7 +244,9 @@ distribution of $X_t$ is heavy-tailed, we can write
   \lim_{x \to \infty} {x^{\beta}\P(X_t > x) \over L_+(x)} &=& 1 \\
   \lim_{x \to \infty} {x^{\alpha}\P(X_t < -x) \over L_-(x)} &=& 1
 \end{eqnarray*}
-where $L_+(x)$ and $L_-(x)$ are slowly varying functions satisfying
+where the constants $\alpha$ and $\beta$ are left and right tail
+indices, respectively, and $L_+(x)$ and $L_-(x)$ are slowly varying
+functions satisfying
 \[
 \lim_{x \to \infty} {L_*(a x) \over L_*(x)} = 1
 \]
@@ -252,13 +254,16 @@ for all $a > 0$. Here ``*'' can be either ``+'' or ``-''. In the
 simplest case, $L_+(x)$ and $L_(x)$ are constants and the distribution
 has power-law tails. Let $J_*(1/x) = L_*(x)$. A Taylor expansion at
 $x=\infty$ gives
-\[
-J_*(1/x) = J_*(0) + {J'_*(0) \over x} + O(x^{-2})
-\]
+\begin{equation}
+  \label{eq:scale_parameter}
+  J_*(1/x) = J_*(0) + {J'_*(0) \over x} + O(x^{-2})
+\end{equation}
 Thus
-\[
-x^{-\alpha} L_-(x) = J_-(0) x^{-\alpha} + J'_-(0) x^{-\alpha - 1} + O(x^{-\alpha-2})
-\]
+\begin{equation}
+  \label{eq:lower_tail_expansion}
+  x^{-\alpha} L_-(x) =
+  J_-(0) x^{-\alpha} + J'_-(0) x^{-\alpha - 1} + O(x^{-\alpha-2})
+\end{equation}
 when $x \to \infty$. Clearly the tail indices $\alpha$ and $\beta$ as
 well as the scale parameters $J_-(0)$ and $J_+(0)$ play crutial roles
 in determining the tail distribution and hence in asset allocation and
@@ -278,11 +283,12 @@ literature, e.g. Hill (1975) \cite{hill1975simple}, Pikands (1975)
 \cite{dekkers1989moment}. See also Embrechts and Kl\"uppelberg and
 Mikosch (1997)\cite{Embrechts1997}. The most popular of these is
 arguably Hill (1975) \cite{hill1975simple}:
-\[
-\hat \alpha = \left[
-  {1 \over k} \sum_{i=1}^k \ln {x_{(i)} \over x_{(k+1)}}
-  \right]^{-1}
-\]
+\begin{equation}
+  \label{eq:Hill_index}
+  \hat \alpha = \left[
+    {1 \over k} \sum_{i=1}^k \ln {x_{(i)} \over x_{(k+1)}}
+    \right]^{-1}
+\end{equation}
 where $x_{(i)}$ is the $i$-th upper order statistic of a sample
 $x_1, x_2, ..., x_n$. It has been shown that the Hill estimator is
 applicable to 
@@ -352,7 +358,17 @@ changed scale parameters. Thus we first investigate the scale
 parameters of stocks in the same sectors before applying Hoga's test.
 
 \subsection{Hill estimates of lower-tail scale parameters}
+\label{sec:HillScaleEstimates}
 
+For convenience, we denote the scale parameter by $A$. It is the
+constant $J_*(0)$ in the Taylor expansion \eqref{eq:scale_parameter}.
+Hill \cite{hill1975simple} put forward an estimator of $A$ using his
+tail index  estimator:
+\[
+\hat A = {k \over n} X_{(k+1)}^{\hat \alpha}
+\]
+where $X_{(k+1)}$ is the $(k+1)$-th upper order statistic of the
+sequence $X_t$ as defined in section\ref{sec:Hill}.
 
 %% Hence it is informative to test
 %% the hypothesis that the tail indices of these return series are equal.
@@ -778,6 +794,8 @@ We have
   \pd{G(F)}{K} < 0
   \]
 \end{theorem}
+The proof of theorem \ref{thrm:I} is given in secton
+\ref{sec:thrmI_proof}.
 Since $u(v)$ given in \eqref{eq:xxie1.0} as a
 functional of the distribution function of $X$ is increasing with the
 lower tail index $\alpha$ and decreasing with $K$, there is a curve of
@@ -785,110 +803,16 @@ equal preference on the plane of $(\alpha, K)$. Moving along this
 curve in the direction of increasing $\alpha$, one expects the values
 of $K$ to increase too, i.e. the estimated values of $\alpha$ and $K$
 should appear positively correlated. This is indeed the case in some
-real stock return data, e.g. the ``Energy'' and ``Information Technology''
-sectors of S\&P 500 companies. This is illustrated in figures
-\ref{fig:Energy_alpha_K} and \ref{fig:Information_Technology_alpha_K}.
+real stock return data, e.g. the ``Energy'', ``Consumer Staples'' and
+``Information Technology'' sectors of S\&P 500 companies. This is
+illustrated in figures 
+\ref{fig:Energy_alpha_K_ci}, \ref{fig:Consumer_Staples_alpha_K_ci}
+and \ref{fig:Information_Technology_alpha_K_ci}.
 The confidence bands of the Hill estimates of $\alpha$ of these
 sectors are shown in figures \ref{fig:Energy_lower},
 \ref{fig:Consumer_Staples_lower} and
 \ref{fig:Information_Technology_lower}.
 
-\begin{proof}
-  Let
-  \begin{equation}
-    \label{eq:xxie2}
-    \hat \phi := \argmax_{0 < \phi \leq 1} \mathcal U(F, \phi)
-  \end{equation}
-  We have
-  \[
-  G(F) = \mathcal U(F, \hat\phi)
-  \]
-  It follows
-  \begin{eqnarray}
-    \pd{G(F)}{\alpha}
-    &=&
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi)
-    + \pd{\mathcal U(F, \phi)}{\phi}(\alpha, K, \hat\phi)
-    \pd{\hat\phi}{\alpha}(\alpha, K)
-    \label{eq:xxie3}
-  \end{eqnarray}
-  The definition \eqref{eq:xxie2} implies $\forall \alpha > 1$
-  \begin{equation}
-    \label{eq:xxie4}
-    \pd{\mathcal U(F, \phi)}{\phi}(\alpha, K, \hat \phi) = 0
-  \end{equation}
-  So the second term of \eqref{eq:xxie3} vanishes. It remains to show
-  \begin{eqnarray*}
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat \phi)
-    &>& 0
-  \end{eqnarray*}
-  From \eqref{eq:xxie1.0}, it follows
-  \begin{eqnarray*}
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi)
-    = \opd{\alpha}\E[u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}]
-  \end{eqnarray*}
-  The function $u((1 - \hat\phi) e^r + \hat\phi e^X)$ is obviously increasing
-  with $X$. It follows
-  \begin{eqnarray*}
-    && \pd{f(x; \alpha, K)}{\alpha} \\
-    &=& \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
-    &=&
-    - {K^\alpha \over (K - x)^{\alpha + 1}}
-    \left[
-      \alpha
-      \ln\left(
-        1 - {x \over K}
-      \right) - 1
-    \right]
-  \end{eqnarray*}
-  It is easily checked that when $x < K(1 - e^{1/\alpha}) < 0$,
-  \[
-  \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
-  \]
-  and when $K(1 - e^{1/\alpha}) < x < 0$,
-  \[
-  \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
-  \]
-  This is the second case of lemma \ref{lemma:I}. So we have
-  \begin{eqnarray*}
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi) &>& 0
-  \end{eqnarray*}
-  As for $\pd{G(F)}{K}$, by the same argument as for
-  $\pd{G(F)}{\alpha}$, it suffices to show
-  \[
-  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi) < 0
-  \]
-  We have
-  \[
-  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi)
-  = \opd{K} \E \left[
-    u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}
-  \right] 
-  \]
-  and
-  \begin{eqnarray*}
-    && \pd{f(x; \alpha, K)}{K} \\
-    &=& \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
-    &=&
-    -\alpha K^{\alpha - 1} {
-      \alpha x + K
-      \over
-      (K - x)^{\alpha + 2}
-    }
-  \end{eqnarray*}
-  Clearly, when $x < -\alpha/K$
-  \[
-  \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
-  \]
-  and when $-\alpha/K < x < 0$
-  \[
-  \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
-  \]
-  So by the 1st case of remark \ref{remark:I} we conclude
-  \[
-  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi) < 0  
-  \]
-\end{proof}
 By numerically integration and optimization with respect to $\phi$,
 the value of $\hat\phi$ can be obtained for given $u(\cdot)$ and given
 values of $K, K', \alpha, \beta$. Figures \ref{fig:phi_hat_pareto5e-1}
@@ -1003,19 +927,63 @@ asymptotically normal:
 \right)
 \]
 
-Figure \ref{fig:Energy_alpha_K},
-\ref{fig:Consumer_Staples_alpha_K},
-and \ref{fig:Information_Technology_alpha_K}
+To obtain an estimate of $p$, we use the law of large number:
+\begin{eqnarray*}
+  p &=& \P(X < 0) = \lim_{n \to \infty}
+  {1 \over n} \sum_{t=1}^n \1{X_t < 0}
+\end{eqnarray*}
+By the central limit theorem,
+\begin{eqnarray*}
+  \sqrt n \left[
+    {1 \over n}\sum_{t=1}^n \1{X_t < 0} - p
+  \right] \to N(0, p - p^2))
+\end{eqnarray*}
+
+
+Figure \ref{fig:Energy_alpha_K_ci},
+\ref{fig:Consumer_Staples_alpha_K_ci},
+and \ref{fig:Information_Technology_alpha_K_ci}
 show the estimates of $K$ alongside the Hill estimates of $\alpha$ of
-the ``energy'', ``consumer staples'' and ``information
-technology'' sectors of the S\&P 500 index, respectively.
+the ``energy'', ``consumer staples'' and ``information technology''
+sectors of the S\&P 500 index, respectively.
+Figure \ref{fig:Energy_p}, \ref{fig:Consumer_Staples_p} and
+\ref{fig:Information_Technology_p} show the estimates of $p$ of the
+same sectors.
+
+From these figures, one can see that stocks of the ``Energy'' and the
+``Information Technology'' sectors generally have larger values of
+$p$, meaning their stock prices fall more often than do those in the
+``consumer Staples'' sector; Also, the values of $K$ in the ``Energy''
+and ``Information Technology'' sectors are larger than those in the
+``Consumer Staples'' sector. A larger value of $K$ means, for a given
+value of $p$, i.e. a given probability of losses, large losses are
+more probable. Thus one can conclude that these two sectors are
+considerablly riskier than the ``Consumer Staples'' sector. This is of
+course a confirmation of one's economic instinct.
+
+One can also see from figure \ref{fig:Energy_alpha_K_ci}
+and \ref{fig:Information_Technology_alpha_K_ci} that, while the
+``Energy'' and the ``Information Technology'' sectors are similar in
+riskiness, the correlation between $\alpha$ and $K$ is stronger in
+``Energy''. As discussed in the last section, moving along a curve of
+equal preference in the direction of increasing $\alpha$, $K$ also
+increases. So the strong positive correlation seen in the ``Energy''
+sector suggests these stocks might have very similar investor
+preferences. This in turn may be attributed to stronger business
+relations between the energy enterprises. While two IT companies
+may provide a variety of products and services and not depend on each
+other, two energy companies are more likely to depend on each other
+via relations of supplier and customer or otherwise to compete with each
+other if they are on the same link of the chain of energy production
+and distribution.
+
 \begin{figure}[htb!]
   \centering
   \begin{subfigure}[b]{0.45\linewidth}
     \includegraphics[width=\textwidth]
-                    {Energy_alpha_K.pdf}
+                    {Energy_p.pdf}
                     \caption{``Energy''}
-                    \label{fig:Energy_alpha_K}
+                    \label{fig:Energy_p}
   \end{subfigure}
   \begin{subfigure}[b]{0.45\linewidth}
     \includegraphics[width=\textwidth]
@@ -1025,9 +993,9 @@ technology'' sectors of the S\&P 500 index, respectively.
   \end{subfigure}
   \begin{subfigure}[b]{0.45\linewidth}
     \includegraphics[width=\textwidth]
-                    {Consumer_Staples_alpha_K.pdf}
+                    {Consumer_Staples_p.pdf}
                     \caption{``Consumer Staples''}
-                    \label{fig:Consumer_Staples_alpha_K}
+                    \label{fig:Consumer_Staples_p}
   \end{subfigure}
   \begin{subfigure}[b]{0.45\linewidth}
     \includegraphics[width=\textwidth]
@@ -1037,9 +1005,9 @@ technology'' sectors of the S\&P 500 index, respectively.
   \end{subfigure}
   \begin{subfigure}[b]{0.45\linewidth}
     \includegraphics[width=\textwidth]
-                    {Information_Technology_alpha_K.pdf}
+                    {Information_Technology_p.pdf}
                     \caption{``Information Technology''}
-                    \label{fig:Information_Technology_alpha_K}
+                    \label{fig:Information_Technology_p}
   \end{subfigure}
   \begin{subfigure}[b]{0.45\linewidth}
     \includegraphics[width=\textwidth]
@@ -1047,13 +1015,28 @@ technology'' sectors of the S\&P 500 index, respectively.
                     \caption{``Information Technology''}
                     \label{fig:Information_Technology_alpha_K_ci}
   \end{subfigure}
-  \caption{\small Maximum likelihood estimates of $K$, the scale
-    parameter, of stocks in sectors of the S\&P 500 index. The points
-    are the
-    estimated values; the bars are the upper bound of the 98\%
-    confidence interval. The lower bound is 0.
+  \caption{\small Estimates of $p$ and $K$ of stocks in sectors of the
+    S\&P 500 index. The points are the estimated values; the bars are
+    the $2\sigma$ confidence intervals.
   }
 \end{figure}
+To compare the maximum likelihood estimates with the results obtained
+from Hill's scale estimates, one can re-write the lower-tail
+distribution function: For all $x < 0$,
+\begin{eqnarray*}
+  \P(X < x)
+  &=&
+  p {K^\alpha \over (K - x)^\alpha} \\
+  &=&
+  p {K^\alpha |x|^{-\alpha} \over (1 - K/x)^\alpha} \\
+  &=&
+  p K^\alpha |x|^{-\alpha} \left(
+  1 + {\alpha K \over x} + O(|x|^{-2})
+  \right)
+\end{eqnarray*}
+Comparing this expression with \eqref{eq:lower_tail_expansion}, one
+can immediately identity $p K^\alpha$ as the scale parameter.
+
 
 %% \begin{figure}[htb!]
 %%   \centering
@@ -1472,8 +1455,8 @@ Thus when $b = 0$, by 1st case of remark \ref{remark:I} and lemma
 $\pd{\mathcal U(F, \phi))}{\nu} < 0$ for all $\phi$. Hence all
 investors guided by this utility function would be seeking the
 smallest $\nu$, i.e. the heaviest tail in the market. Here note that
-Student's t is a symmetric distribution; heavier tails imply greater
-down-side risk as well as greater up-side potential.
+Student's t is a symmetric distribution; a heavier tail implies not
+only greater down-side risk but also greater up-side potential.
 
 In fact, even when $b > 0$, the same monotonicity property holds. This
 is revealed by numerically maximizing $\mathcal U(F, \phi)$ with
@@ -1767,6 +1750,105 @@ scale parameters.
     \right.
   \end{equation*}
   where $x_0$ is the positive root of \eqref{eq:xxie5}.
+\end{proof}
+
+\section{Proof of Theorem \ref{thrm:I}}
+\label{sec:thrmI_proof}
+\begin{proof}
+  Let
+  \begin{equation}
+    \label{eq:xxie2}
+    \hat \phi := \argmax_{0 < \phi \leq 1} \mathcal U(F, \phi)
+  \end{equation}
+  We have
+  \[
+  G(F) = \mathcal U(F, \hat\phi)
+  \]
+  It follows
+  \begin{eqnarray}
+    \pd{G(F)}{\alpha}
+    &=&
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi)
+    + \pd{\mathcal U(F, \phi)}{\phi}(\alpha, K, \hat\phi)
+    \pd{\hat\phi}{\alpha}(\alpha, K)
+    \label{eq:xxie3}
+  \end{eqnarray}
+  The definition \eqref{eq:xxie2} implies $\forall \alpha > 1$
+  \begin{equation}
+    \label{eq:xxie4}
+    \pd{\mathcal U(F, \phi)}{\phi}(\alpha, K, \hat \phi) = 0
+  \end{equation}
+  So the second term of \eqref{eq:xxie3} vanishes. It remains to show
+  \begin{eqnarray*}
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat \phi)
+    &>& 0
+  \end{eqnarray*}
+  From \eqref{eq:xxie1.0}, it follows
+  \begin{eqnarray*}
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi)
+    = \opd{\alpha}\E[u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}]
+  \end{eqnarray*}
+  The function $u((1 - \hat\phi) e^r + \hat\phi e^X)$ is obviously
+  increasing with $X$. It follows
+  \begin{eqnarray*}
+    && \pd{f(x; \alpha, K)}{\alpha} \\
+    &=& \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
+    &=&
+    - {K^\alpha \over (K - x)^{\alpha + 1}}
+    \left[
+      \alpha
+      \ln\left(
+        1 - {x \over K}
+      \right) - 1
+    \right]
+  \end{eqnarray*}
+  It is easily checked that when $x < K(1 - e^{1/\alpha}) < 0$,
+  \[
+  \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
+  \]
+  and when $K(1 - e^{1/\alpha}) < x < 0$,
+  \[
+  \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
+  \]
+  This is the second case of lemma \ref{lemma:I}. So we have
+  \begin{eqnarray*}
+    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi) &>& 0
+  \end{eqnarray*}
+  As for $\pd{G(F)}{K}$, by the same argument as for
+  $\pd{G(F)}{\alpha}$, it suffices to show
+  \[
+  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi) < 0
+  \]
+  We have
+  \[
+  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi)
+  = \opd{K} \E \left[
+    u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}
+  \right] 
+  \]
+  and
+  \begin{eqnarray*}
+    && \pd{f(x; \alpha, K)}{K} \\
+    &=& \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
+    &=&
+    -\alpha K^{\alpha - 1} {
+      \alpha x + K
+      \over
+      (K - x)^{\alpha + 2}
+    }
+  \end{eqnarray*}
+  Clearly, when $x < -\alpha/K$
+  \[
+  \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
+  \]
+  and when $-\alpha/K < x < 0$
+  \[
+  \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
+  \]
+  So by the 1st case of remark \ref{remark:I} we conclude
+  \[
+  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi) < 0  
+  \]
 \end{proof}
 
 \bibliographystyle{unsrt}
