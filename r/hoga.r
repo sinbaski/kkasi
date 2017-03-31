@@ -222,4 +222,25 @@ abline(v=quantile(Fn, 0.95), lwd=2, col="#FF0000");
 dev.off();
 
 
+p <- 1000;
+n <- dim(X)[1];
+t0 <- 0.1;
+T <- matrix(rt(n=n*p, df=3), nrow=n, ncol=p);
+H <- rep(NA, p);
+for (i in 281:300) {
+    H[i] <- max(HogaTest(T[, i], 0.02, t0));
+    print(paste("series ", i, ": ", H[i]));
+}
+write.table(H[281:300], file="T3_Hoga_Statistics.dat",
+            quote=F, col.names=F, row.names=F,
+            append=TRUE
+            );
+
+## H <- apply(
+##     T, MARGIN=2, FUN=function(V) {
+##         return(Hogatest(V, 0.02, t0));
+##     }
+## );
+
+
 

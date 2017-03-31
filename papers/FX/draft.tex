@@ -502,12 +502,18 @@ the two series and apply the Hoga test. For the ``Energy'' and the
 \ref{fig:Hoga_Energy_pair} and \ref{fig:Hoga_consumer_Staples_pair}.
 \begin{figure}[htb!]
   \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{Hoga_Energy_pair.pdf}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 1cm, 1cm, 1cm}, clip
+    ]{Hoga_Energy_pair.pdf}
     \caption{``Energy''}
     \label{fig:Hoga_Energy_pair}
   \end{subfigure}
   \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{Hoga_Consumer_Staples_pair.pdf}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 1cm, 1cm, 1cm}, clip
+    ]{Hoga_Consumer_Staples_pair.pdf}
     \caption{``Consumer Staples''}
     \label{fig:Hoga_consumer_Staples_pair}
   \end{subfigure}
@@ -542,7 +548,7 @@ concatenated samples drawn from t-distributions with different degrees
 of freedom. Figure \ref{fig:t_sim_pair} shows the result.
 \begin{figure}[htb!]
   \centering
-  \includegraphics[width=\textwidth, trim={1cm 1cm 1cm 2cm},
+  \includegraphics[width=\textwidth, trim={1.0cm 1.5cm 1cm 2cm},
   clip]{t_sim_pair.pdf}
   \caption{Test Statistics of concatenated t-samples with different
     degrees of freedom. Numbers on the axis are the degrees of freedom.}
@@ -550,6 +556,16 @@ of freedom. Figure \ref{fig:t_sim_pair} shows the result.
 \end{figure}
 From the figure one can see that the power of the test decreases as
 the minimum tail index of a concatenated pair increases.
+
+Also of concern is the distribution of the test statistic under the
+null hypothesis. This distribution is only known asymptotically (given
+in equation \eqref{eq:Q1_distr}) when the sample size tends to
+infinity. The rate at which the finite-sample distribution tends to
+\eqref{eq:Q1_distr} is unclear. To find out more about this issue, we
+draw samples from the Student's t(3) distribution and compare the
+empirical distribution of the test statistic $Q_1$ with the
+empirical distribution of \eqref{eq:Q1_distr}, which we also obtain by
+simulating the Brownian motion $W(t)$.
 
 \section{Review of multivariate GARCH models:
   same tail index or not}
