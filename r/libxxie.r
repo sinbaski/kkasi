@@ -1,5 +1,5 @@
-library(RMySQL);
-library(abind);
+## library(RMySQL);
+## library(abind);
 library(parallel)
 ## library(rmgarch);
 
@@ -685,7 +685,7 @@ asymptoticDist <- function(n.paths, n.steps, t0)
     ## samples <- apply(W, MARGIN=2, FUN=f);
     samples <- unlist(mclapply(X=1:n.paths, FUN=f, mc.cores=detectCores()));
     ## samples <- lapply(X=n.paths, FUN=f);
-    return(ecdf(samples));
+    return(samples);
 }
 
 ## gam0: ratio of sub-sample size over full sample size

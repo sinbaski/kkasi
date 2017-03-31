@@ -222,19 +222,59 @@ abline(v=quantile(Fn, 0.95), lwd=2, col="#FF0000");
 dev.off();
 
 
-p <- 1000;
-n <- dim(X)[1];
-t0 <- 0.1;
-T <- matrix(rt(n=n*p, df=3), nrow=n, ncol=p);
-H <- rep(NA, p);
-for (i in 281:300) {
-    H[i] <- max(HogaTest(T[, i], 0.02, t0));
-    print(paste("series ", i, ": ", H[i]));
-}
-write.table(H[281:300], file="T3_Hoga_Statistics.dat",
-            quote=F, col.names=F, row.names=F,
-            append=TRUE
-            );
+## p <- 1000;
+## n <- dim(X)[1];
+## t0 <- 0.1;
+## T <- matrix(rt(n=n*p, df=3), nrow=n, ncol=p);
+## H <- rep(NA, p);
+## for (i in 281:300) {
+##     H[i] <- max(HogaTest(T[, i], 0.02, t0));
+##     print(paste("series ", i, ": ", H[i]));
+## }
+## write.table(H[281:300], file="../papers/FX/T3_Hoga_Statistics.dat",
+##             quote=F, col.names=F, row.names=F,
+##             append=TRUE
+##             );
+F <- read.table(file="../papers/FX/HogaAsymptotic.dat")$V1;
+H <- read.table(file="../papers/FX/T3_Hoga_Statistics.dat")$V1;
+G <- read.table(file="../papers/FX/T4_Hoga_Statistics.dat")$V1;
+
+f <- density(F);
+h <- density(H);
+g <- density(G);
+
+pdf("../papers/FX/Hoga_AsymptoticDistribution.pdf");
+plot(
+    f$x, f$y, type="l",
+    xlab=expression(Q[1]),
+    ylab="density",
+    xlim=c(0, 200),
+    ylim=c(0, max(c(f$y, h$y, g$y))),
+    lwd=2
+    );
+lines(h$x, h$y, col="red", lwd=1.5);
+lines(g$x, g$y, col="blue", lwd=1.5);
+legend(
+    "topright",
+    lwd=c(2, 1.5, 1.5), col=c("black", "red", "blue"),
+    legend=c(
+        "Asymptotic",
+        expression(t(3)),
+        expression(t(4)))
+);
+dev.off();
+
+## R <- mclapply(
+##     X=1:p,
+##     mc.cores=detectCores(),
+##     FUN=function(i) {
+##         return(max(HogaTest(T[, i], 0.02, t0)));
+##     }
+## );
+## R <- unlist(R);
+## write.table(R, file="../papers/FX/T3_Hoga_Statistics.dat",
+##             quote=F, col.names=F, row.names=F,
+##             append=TRUE
 
 ## H <- apply(
 ##     T, MARGIN=2, FUN=function(V) {

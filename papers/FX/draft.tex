@@ -17,7 +17,8 @@
 \usepackage{dsfont}
 \usepackage{enumerate}
 
-\input{../../physics_common.tex}
+%\input{../../physics_common.tex}
+\input{physics_common.tex}
 
 
 \title{Tail Indices and Scale Parameters in Financial Time Series}
@@ -562,10 +563,39 @@ null hypothesis. This distribution is only known asymptotically (given
 in equation \eqref{eq:Q1_distr}) when the sample size tends to
 infinity. The rate at which the finite-sample distribution tends to
 \eqref{eq:Q1_distr} is unclear. To find out more about this issue, we
-draw samples from the Student's t(3) distribution and compare the
-empirical distribution of the test statistic $Q_1$ with the
+draw samples from the Student's t(3) and t(4) distributions and
+compare the empirical distribution of the test statistic $Q_1$ with the
 empirical distribution of \eqref{eq:Q1_distr}, which we also obtain by
-simulating the Brownian motion $W(t)$.
+simulating the Brownian motion $W(t)$. The empirical density functions
+are shown in figure \ref{fig:Q1_distr}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{Hoga_AsymptoticDistribution.pdf}
+  \caption{Comparison of the asymptotic distribution with empirical
+    distribution of $Q_1$ obtained from Student's t samples. The t
+    samples have the same size as the S\&P sectors' data, namely 1304
+    observations.}
+  \label{fig:Q1_distr}
+\end{figure}
+As seen in the figure, the asymptotic distribution \eqref{eq:Q1_distr}
+assigns significantly more mass to the tail than do the empirical
+distributions of size 1304. Table \ref{tab:HogaAsymptotic} lists a few
+quantiles of these distributions.
+\begin{table}[htb!]
+  \centering
+  \begin{tabular}{c|c|c|c|c}
+    & \multicolumn{4}{c}{Quantiles} \\
+    \hline
+    Distribution & 80\% & 85\% & 90\% & 95\% \\
+    \hline
+    Asymptotic & 47.48 & 59.61 & 78.90 & 113.12 \\
+    t(3) empirical & 23.30 & 28.27 & 35.04 & 46.75 \\
+    t(4) empirical & 25.76 & 31.13 & 38.81 & 56.32
+  \end{tabular}
+  \caption{Quantiles of the asymptotic and empirical test statistic
+    distributions}
+  \label{tab:HogaAsymptotic}
+\end{table}
 
 \section{Review of multivariate GARCH models:
   same tail index or not}
@@ -1906,5 +1936,6 @@ scale parameters.
 \end{proof}
 
 \bibliographystyle{unsrt}
-\bibliography{../../thesis/econophysics}
+%% \bibliography{../../thesis/econophysics}
+\bibliography{econophysics}
 \end{document}
