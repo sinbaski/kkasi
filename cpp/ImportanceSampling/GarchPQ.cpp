@@ -187,8 +187,8 @@ int main(int argc, char*argv[])
     // vector<double> alpha({1.0e-7, 0.11, 0});
     // vector<double> beta({0.88});
     // DAX
-    vector<double> alpha({1.0e-7, 0.02749864, 0.04228535});
-    vector<double> beta({0.8968533});
+    vector<double> alpha({3.374294e-06, 2.074732e-02, 4.104949e-02});
+    vector<double> beta({9.102376e-01});
     // FTSE100
     // vector<double> alpha({1.0e-7, 0.10623464, 0.02904907});
     // vector<double> beta({0.7829784});
@@ -197,8 +197,8 @@ int main(int argc, char*argv[])
     // vector<double> beta({8.008847e-01});
 
     // SP500
-    // vector<double> alpha({9.225747e-06, 8.835834e-02, 9.685783e-02});
-    // vector<double> beta({6.543018e-01});
+    // vector<double> alpha({9.376992e-06, 7.949678e-02, 8.765884e-02});
+    // vector<double> beta({6.683833e-01});
     
     double Lambda;
     
@@ -209,7 +209,7 @@ int main(int argc, char*argv[])
     cout << "K = " << argv[4] << endl;
 
     unsigned long N = stoul(argv[3]), K = stoul(argv[4]);
-    SEED = stoul(argv[5]);
+    // SEED = stoul(argv[5]);
     
     double bounds[2];
     bool flag = false;

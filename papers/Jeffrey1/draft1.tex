@@ -946,8 +946,47 @@ unit vectors.
   \end{algorithmic}
 \end{algorithm}
 
+\subsection{GARCH(2,1) process}
+As examples of the algorithm described in the previous section, we
+consider GARCH(2,1) processes. In this particular case we have
+\begin{eqnarray*}
+  \sigma_t^2 &=& \omega + \alpha_1 R_{t-1}^2 + \alpha_2 R_{t-2}^2 +
+  \beta_1 \sigma_{t-1}^2
+\end{eqnarray*}
+Or in matrix forms
+\begin{eqnarray*}
+  \begin{pmatrix}
+    \sigma_t^2 \\
+    R_{t-1}^2
+  \end{pmatrix}
+  &=&
+  \begin{pmatrix}
+  \alpha_1 Z_{t-1}^2 + \beta_1 & \alpha_2 \\
+  Z_{t-1}^2 & 0
+  \end{pmatrix}
+  \begin{pmatrix}
+    \sigma_{t-1}^2 \\
+    R_{t-2}^2
+  \end{pmatrix}
+  +
+  \begin{pmatrix}
+    \omega \\
+    0
+  \end{pmatrix}
+\end{eqnarray*}
+where $R_t$ is the $t$-th observation of the sequence in question and
+$Z_t$ are i.i.d $N(0,1)$ random variables. To estimate the 
+values of $\omega, \alpha_1, \alpha_2, \beta_1$, we use the ``fGarch''
+package of the ``R'' language. Its ``garchFit'' function provides
+routine to fit a specified type of model to a given series.
+The ``garchFit'' function provides 4 algorithms for maximum likelihood
+estimation of the parameters. We choose its default algorithm ``nlminb'',
+i.e. ``unconstrained and box-constrained optimization using PORT
+routines''. The ``fGarch'' package is developed and maintained by {\it
+Rmetrics} (https://www.rmetrics.org/).
+
   
-\subsection{S\&P 500}
+\subsubsection{S\&P 500}
 \begin{itemize}
 \item GARCH(1, 1)
   When modeled as a GARCH(1, 1) process, the S\&P 500 return series
@@ -960,9 +999,11 @@ unit vectors.
   tail index of the inferred $\sigma_t^2$ at 4.3372.
 
 \item GARCH(2, 1)
-  When fitted to a GARCH(2, 1) process, the S\&P 500 return series has the following model
+  When fitted to a GARCH(2, 1) process, the S\&P 500 return series has
+  the following model
+  %% 7.949678e-02, 8.765884e-02, 9.376992e-06
   \[
-  \sigma_t^2 = 0.088 R_{t-1}^2 + 0.097 R_{t-2}^2 + 0.654 \sigma_{t-1}^2 + 9.2 \times 10^{-6}
+  \sigma_t^2 = 0.079 R_{t-1}^2 + 0.088 R_{t-2}^2 + 0.668 \sigma_{t-1}^2 + 9.4 \times 10^{-6}
   \]
   Using the proposed re-sampling algorithm, our estimate of the tail
   index is $4.30026$. The values of $\Lambda(\alpha)$ in the
@@ -1022,7 +1063,7 @@ unit vectors.
   
 \end{itemize}
 
-\subsection{DAX}
+\subsubsection{DAX}
 \begin{itemize}
 \item GARCH(1, 1)
   When modeled as a GARCH(1, 1) process, the DAX return series

@@ -1,4 +1,3 @@
-## library(RMySQL);
 ## library(abind);
 library(parallel)
 ## library(rmgarch);
@@ -16,6 +15,7 @@ getAssetReturns <- function(day1, day2, tables, lag,
 
 getAssetPrices <- function(day1, day2, tables, lag, col.name, host)
 {
+    require(RMySQL);
     database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
         dbname='avanza', host=host);
     days <- vector('character');

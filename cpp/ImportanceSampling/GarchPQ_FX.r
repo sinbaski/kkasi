@@ -70,7 +70,7 @@ coef <- matrix(NA, nrow=length(assets), ncol=3);
 for (i in 1:length(assets)) {
     X <- getAssetReturns("2012-01-01", "2015-01-01", assets[i], 1, "closing", "localhost");
     M <- garchFit(~garch(2, 1), data=X, trace=FALSE,
-                  include.mean=TRUE);
+                  include.mean=FALSE);
     coef[i, ] <- M@fit$coef[-1];
 }
 
