@@ -21,21 +21,53 @@
 \input{physics_common.tex}
 
 
-\title{Tail Indices and Scale Parameters in Financial Time Series}
+\title{Generalized Disappointment Aversion and heavy-tail property of
+  equity return distributions}
 \author{Thomas Mikosch, Casper de Vries, Xie Xiaolei}
 \date{\today}
 \begin{document}
 \maketitle
 
 \begin{abstract}
-We consider an investor with preferences that accord with Generalized
-Disappointment Aversion. Such an investor cares about downside risk and
-we assume he recognizes the heavy tail feature of asset return
-distributions. We argue that when a market is dominated by rational
-investors of this kind, the return distributions of equities that are
-actively traded in this market must have very similar tail indices. We
-also show, in contrast, the scale parameters of the return
-distributions may differ hugely from one another.
+We study the heavy tail properties of real-world equity return
+distributions and, based on the framework of Generalized
+Disappointment Aversion, derive how an investor's preference varies
+with the tail distribution characteristics, namely the tail index and
+the scale parameter. We find, when the equity return is t-distributed,
+the GDA preference actually decreases with the degree of freedom of
+the distribution, i.e. the tail index; we interprete this as a
+consequence of the symmetry of the distribution. When the equity
+return is assumed to have a shifted Pareto distribution with
+independent parameters of the left and the right tails, we find the
+GDA preference increasing with both the lower tail index and the scale
+parameter. We attribute this to the risk avert nature of rational
+investors. By numerical methods, optimal asset allocation is also
+solved in both cases.
+
+%% We consider investors with preferences that accord with Generalized
+%% Disappointment Aversion. Such an investor cares about downside risk and
+%% we assume he recognizes the heavy tail feature of asset return
+%% distributions. We argue that when a market is dominated by rational
+%% investors of this kind, the return distributions of equities that are
+%% actively traded in this market must have very similar tail indices. We
+%% also show, in contrast, the scale parameters of the return
+%% distributions may differ hugely from one another.
+
+%% It is generally believed that the utility function of an
+%% investor is increasing and concave -- as John H. Cochrane
+%% put it, ``the last bite is never as satisfying as the first''
+%% \cite{cochrane2009asset}. This implies investors are more repelled
+%% by large losses than they are tempted by large gains. 
+%% Furthermore, it is a stylized fact that equity return distributions
+%% are heavy-tailed (see e.g. Jansen and de Vries
+%% \cite{jansen1991frequency}).
+%% In particular, the lower-tail of an equity distribution is often heavier
+%% than the upper-tail of the same distribution.
+
+%% We explore in this paper the market implications of investor
+%% preferences and the heavy-tail property of equity return
+%% distributions.
+
 
 On the other hand, whether or not all equities in a multivariate model
 have the same tail index is a dividing issue for multivariate GARCH
@@ -43,17 +75,17 @@ models proposed in the literature. Therefore, it is important to analyze
 data of real equity returns and see how close to each other the
 tail indices actually are.
 
-In this work empirical results are also presented and they appear
-to support the conclusion that the tail indices are very similar,
-with respect to the confidence bands of estimation.
+%% In this work empirical results are also presented and they appear
+%% to support the conclusion that the tail indices are very similar,
+%% with respect to the confidence bands of estimation.
 \end{abstract}
 
 \section{Introduction}
 It is generally believed that the utility function of an
 investor is increasing and concave -- as John H. Cochrane
 put it, ``the last bite is never as satisfying as the first''
-\cite{cochrane2009asset}. This implies investors are repelled to a
-larger extent by large losses than they are tempted by large gains. 
+\cite{cochrane2009asset}. This implies investors are more repelled
+by large losses than they are tempted by large gains. 
 Furthermore, it is a stylized fact that equity return distributions
 are heavy-tailed (see e.g. Jansen and de Vries \cite{jansen1991frequency}).
 In particular, the lower-tail of an equity distribution is often heavier
@@ -61,19 +93,18 @@ than the upper-tail of the same distribution.
 
 we explore in this paper the market implications of investor
 preferences and the heavy-tail property of equity return
-distributions. The rest of this paper is organized into the following
-sections:
-In section \ref{sec:empirical_results} we present a survey of
-statistical characteristics of equity returns. Then 
+distributions. The rest of this paper is organized into the following 
+sections: In section \ref{sec:empirical_results} we present a survey
+of statistical characteristics of equity returns. Then 
 in section \ref{sec:GDA}, we explicitly recognize the behavioral
 concern for downside risk in the investor's evaluation of portfolios
 using the framework of Generalized Disappointment Aversion (GDA)
 introduced by Routledge and Zin \cite{routledge2010generalized}. GDA
 is an extension of the concept of Disappointment Aversion (DA) of Gul
 (1991) \cite{gul1991theory}. The Gul paper derives the DA from first
-principles (axiomatic).
-In this section we infer characteristics of equity returns from the
-GDA theory and compare them with the empirical results. 
+principles (axiomatic). In this section we infer characteristics of
+equity returns from the GDA theory and compare them with the empirical
+results.
 
 %% Secondly, the empirical fact that the loss return distribution is
 %% non-normally fat tailed distributed is taken into account.

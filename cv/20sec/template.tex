@@ -19,7 +19,8 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[letterpaper]{twentysecondcv} % a4paper for A4
+%% \documentclass[letterpaper]{twentysecondcv} % a4paper for A4
+\documentclass[a4paper]{twentysecondcv} % a4paper for A4
 
 %----------------------------------------------------------------------------------------
 %	 PERSONAL INFORMATION
@@ -46,19 +47,27 @@
 %	 ABOUT ME
 %----------------------------------------------------------------------------------------
 
-\aboutme{Alice is a sensible prepubescent girl from a wealthy English family who finds herself in a strange world ruled by imagination and fantasy. Alice feels comfortable with her identity and has a strong sense that her environment is comprised of clear, logical, and consistent rules and features. Alice's familiarity with the world has led one critic to describe her as a "disembodied intellect". Alice displays great curiosity and attempts to fit her diverse experiences into a clear understanding of the world.} % To have no About Me section, just remove all the text and leave \aboutme{}
+\aboutme{
+  \begin{itemize}
+  \item Ph.D of Mathematical Statistics at Copenhagen University
+  \item M.Sc. of Mathematical Physics
+  \item M.Sc. of Computer Science
+  \item 7 years work experience in programming 
+  \item strong in statistical analysis \& numerical methods
+  \end{itemize}
+} % To have no About Me section, just remove all the text and leave \aboutme{}
 
 %----------------------------------------------------------------------------------------
 %	 SKILLS
 %----------------------------------------------------------------------------------------
 
 % Skill bar section, each skill must have a value between 0 an 6 (float)
-\skills{{pursuer of rabbits/5.8},{good manners/4},{outgoing/4.3},{polite/4},{Java/0.01}}
+\skills {{Python/3},{SQL/4},{GNU Scientific Library/5},{Matlab/5.2},{R/5.8},{C/5},{C++/5}}
 
 %------------------------------------------------
 
 % Skill text section, each skill must have a value between 0 an 6
-\skillstext{{lovely/4},{narcissistic/3}}
+%% \skillstext{{lovely/4},{narcissistic/3}}
 
 %----------------------------------------------------------------------------------------
 
@@ -68,56 +77,158 @@
 %	 INTERESTS
 %----------------------------------------------------------------------------------------
 
-\section{Interests}
-
-The heroine and the dreamer of Wonderland; Alice is the principal character.
-
+%% \section{Summary}
+ 
 %----------------------------------------------------------------------------------------
 %	 EDUCATION
 %----------------------------------------------------------------------------------------
 
 \section{Education}
 
-\begin{twenty} % Environment for a list with descriptions
-	\twentyitem{since 1865}{Ph.D. {\normalfont candidate in Computer Science}}{Wonderland}{\emph{A Quantified Theory of Social Cohesion.}}
-	\twentyitem{1863-1865}{M.Sc. magna cum laude}{Wonderland}{Majoring in Computer Science}
-	\twentyitem{1861-1863}{B.Sc. magna cum laude}{Wonderland}{Majoring in Computer Science}
-	\twentyitem{1856-1861}{High school}{Wonderland}{Specializing in mathematics and physics.}
-	%\twentyitem{<dates>}{<title>}{<location>}{<description>}
-\end{twenty}
+\begin{minipage}{0.15\linewidth}
+  Oct. 2014 - Sep. 2017
+\end{minipage} \hfill
+\begin{minipage}{0.85\linewidth}
+  \begin{itemize}
+  \item Ph.D. in Mathematical Statistics
+  \item Copenhagen University
+  \item Areas of research:
+    \begin{itemize}
+      \item {\bf Time series analysis}: ARIMA, GARCH, stochastic volatility
+        models
+      \item {\bf Asset allocation \& risk management}: Principle component
+        analysis; optimization of investor utility functions; extreme
+        value theory
+      \item {\bf Numerical methods}: Importance sampling, numerical
+        optimization, estimation of GARCH(p,q) tail indices
+    \end{itemize}
+  \end{itemize}
+\end{minipage}
 
-%----------------------------------------------------------------------------------------
-%	 PUBLICATIONS
-%----------------------------------------------------------------------------------------
+\vspace{3mm}
+
+\begin{minipage}{0.15\linewidth}
+  Sep. 2011 - June 2014
+\end{minipage} \hfill
+\begin{minipage}{0.85\linewidth}
+  \begin{itemize}
+  \item M.Sc. in Mathematical Physics
+  \item Lund University
+  \item Thesis project: Distribution of eigenvalues of large
+    sample covariance matrices in the infinite dimensional limit with
+    a focus on the influence of autocorrelations and heavy tails. The
+    theoretical derivation is based on the {\it free probability
+      theory} and is checked against {\it intraday tick-by-tick
+      prices} of high-volume Swedish stocks.
+  \item Course work:    
+    \begin{itemize}
+      \item Mathematical methods of Physics and Engineering
+      \item Statistical mechanics, Quantum mechanics, General
+        relativity
+    \end{itemize}
+  \end{itemize}
+\end{minipage}
+
+
+
+%% \begin{minipage}[b]{0.2\linewidth}
+%%   Oct. 2014 - Sep. 2017
+%% \end{minipage} \hfill
+%% \begin{minipage}{0.8\linewidth}
+%%   \begin{itemize}
+%%   \item Ph.D. in Mathematical Statistics
+%%   \item Copenhagen University
+%%   \item \emph{portfolio \& risk management} Balbla. Oh my god, I have
+%%     to write a lot more about my research
+%%   \end{itemize}
+%% \end{minipage}
+
 
 \section{Publications}
 
-\begin{twentyshort} % Environment for a short list with no descriptions
-	\twentyitemshort{1865}{Chapter One, Down the Rabbit Hole.}
-	\twentyitemshort{1865}{Chapter Two, The Pool of Tears.}
-	\twentyitemshort{1865}{Chapter Three,  The Caucus Race and a Long Tale.}
-	\twentyitemshort{1865}{Chapter Four,  The Rabbit Sends a Little Bill.}
-	\twentyitemshort{1865}{Chapter Five,  Advice from a Caterpillar.}
-	%\twentyitemshort{<dates>}{<title/description>}
-\end{twentyshort}
+\begin{itemize}
+\item Davis, R.A., Heiny, J., Mikosch, T. and {\bf Xie, X.},
+  2016. {\it Extreme value analysis for the sample autocovariance
+    matrices of heavy-tailed multivariate time series}.
+  \underline{Extremes}, 19(3), pp.517-547.
+  
+  {\small
+  We provide, among others, a limit theory for the largest eigenvalues
+  of a sample covariance matrix of heavy-tailed, possibly linearly
+  dependent data with infinite dimensions. We prove weak convergence of
+  the point process of the largest eigenvalues to Poisson or cluster
+  Poisson processes and, based on this convergence result, derive limit
+  laws of functions of the ordered eigenvalues.}
 
+\item Jan\ss en, A., Mikosch, T., Rezapour, M., {\bf Xie, X},
+  2016. {\it The eigenvalues of the sample covariance matrix of a
+    multivariate heavy-tailed stochastic volatility model}.
+  To appear in the \underline{Bernoulli Journal}.
+  
+  {\small
+  We derive multivariate $\alpha$-stable limit distributions of the
+  sample covariance matrix when the sample size was large. We
+  consider two possibilities of heavy-tails: 1. the innovation
+  sequence is heavy tailed; and 2. the volatility sequence is
+  heavy-tailed. While the eigen system of the first case is shown to
+  resemble that of i.i.d data, the eigen system in the second case is
+  found to allow dependencies in their limiting distributions, which
+  are determined by the structure of the volatility sequence.}
+\end{itemize}
+
+\section{Papers in Finalization}
+\begin{itemize}
+\item Mikosch, T., de Vries, C., {\bf Xie, X.}, 2017,
+  {\it Generalized Disappointment Aversion and heavy-tail property of
+    equity return distributions}
+
+  {\small
+    We study the heavy tail properties of real-world equity return
+    distributions and, based on the framework of Generalized
+    Disappointment Aversion, derive how an investor's preference varies
+    with the tail distribution characteristics, namely the tail index and
+    the scale parameter. We find, when the equity return is t-distributed,
+    the GDA preference actually decreases with the degree of freedom of
+    the distribution, i.e. the tail index; we interprete this as a
+    consequence of the symmetry of the distribution. When the equity
+    return is assumed to have a shifted Pareto distribution with
+    independent parameters of the left and the right tails, we find the
+    GDA preference increasing with both the lower tail index and the scale
+    parameter. We attribute this to the risk avert nature of rational
+    investors. By numerical methods, optimal asset allocation is also
+    solved in both cases.
+  }
+\end{itemize}
 %----------------------------------------------------------------------------------------
 %	 AWARDS
 %----------------------------------------------------------------------------------------
 
-\section{Awards}
+%% \section{Awards}
 
-\begin{twentyshort} % Environment for a short list with no descriptions
-	\twentyitemshort{1987}{All-Time Best Fantasy Novel.}
-	\twentyitemshort{1998}{All-Time Best Fantasy Novel before 1990.}
-	%\twentyitemshort{<dates>}{<title/description>}
-\end{twentyshort}
+%% \begin{twentyshort} % Environment for a short list with no descriptions
+%% 	\twentyitemshort{1987}{All-Time Best Fantasy Novel.}
+%% 	\twentyitemshort{1998}{All-Time Best Fantasy Novel before 1990.}
+%% 	%\twentyitemshort{<dates>}{<title/description>}
+%% \end{twentyshort}
 
 %----------------------------------------------------------------------------------------
 %	 EXPERIENCE
 %----------------------------------------------------------------------------------------
 
-\section{Experience}
+%----------------------------------------------------------------------------------------
+%	 OTHER INFORMATION
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	 SECOND PAGE EXAMPLE
+%----------------------------------------------------------------------------------------
+
+\newpage % Start a new page
+
+\makeprofile % Print the sidebar
+
+\section{Work Experience}
 
 \begin{twenty} % Environment for a list with descriptions
 	\twentyitem{1900}{Alice in Wonderland-The Circra (1900's) Silent Film.}{Film}{The first Alice on film was over a hundred years ago.}
@@ -126,29 +237,22 @@ The heroine and the dreamer of Wonderland; Alice is the principal character.
 	%\twentyitem{<dates>}{<title>}{<location>}{<description>}
 \end{twenty}
 
-%----------------------------------------------------------------------------------------
-%	 OTHER INFORMATION
-%----------------------------------------------------------------------------------------
 
 \section{Other information}
 
 \subsection{Review}
 
-Alice approaches Wonderland as an anthropologist, but maintains a strong sense of noblesse oblige that comes with her class status. She has confidence in her social position, education, and the Victorian virtue of good manners. Alice has a feeling of entitlement, particularly when comparing herself to Mabel, whom she declares has a ``poky little house," and no toys. Additionally, she flaunts her limited information base with anyone who will listen and becomes increasingly obsessed with the importance of good manners as she deals with the rude creatures of Wonderland. Alice maintains a superior attitude and behaves with solicitous indulgence toward those she believes are less privileged.
-
-%----------------------------------------------------------------------------------------
-%	 SECOND PAGE EXAMPLE
-%----------------------------------------------------------------------------------------
-
-%\newpage % Start a new page
-
-%\makeprofile % Print the sidebar
-
-%\section{Other information}
-
-%\subsection{Review}
-
-%Alice approaches Wonderland as an anthropologist, but maintains a strong sense of noblesse oblige that comes with her class status. She has confidence in her social position, education, and the Victorian virtue of good manners. Alice has a feeling of entitlement, particularly when comparing herself to Mabel, whom she declares has a ``poky little house," and no toys. Additionally, she flaunts her limited information base with anyone who will listen and becomes increasingly obsessed with the importance of good manners as she deals with the rude creatures of Wonderland. Alice maintains a superior attitude and behaves with solicitous indulgence toward those she believes are less privileged.
+Alice approaches Wonderland as an anthropologist, but maintains a
+strong sense of noblesse oblige that comes with her class status. She
+has confidence in her social position, education, and the Victorian
+virtue of good manners. Alice has a feeling of entitlement,
+particularly when comparing herself to Mabel, whom she declares has a
+``poky little house," and no toys. Additionally, she flaunts her
+limited information base with anyone who will listen and becomes
+increasingly obsessed with the importance of good manners as she deals
+with the rude creatures of Wonderland. Alice maintains a superior
+attitude and behaves with solicitous indulgence toward those she
+believes are less privileged.
 
 %\section{Other information}
 
