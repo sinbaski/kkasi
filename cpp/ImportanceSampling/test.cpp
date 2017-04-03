@@ -1,105 +1,92 @@
-#include <assert.h>
 #include <stdio.h>
 #include <time.h>
-#include <math.h> 
+#include <cmath>
 #include <algorithm>
 #include <armadillo>
 #include <iostream>
 #include <random>
-#include <gsl/gsl_roots.h>
-#include <gsl/gsl_randist.h>
-#include <gsl/gsl_sf_erf.h>
-#include <gsl/gsl_min.h>
 #include "ExtremeNumber2.hpp"
 #include "XMatrix.hpp"
 
 using namespace std;
 using namespace arma;
 
-#define URNG mt19937
-unsigned long SEED;
+normal_distribution<double> dist;
+// student_t_distribution<double> dist(3);
+// default_random_engine gen;
+random_device gen;
 
-struct param_set1
-{
-    const vector<double>& alpha;
-    const vector<double>& beta;
-    double xi;
-    unsigned long n;
-    unsigned long K;
-    ExtremeNumber value;
-};
+extern void adjust_numbers(ExtremeNumber &V);
 
-double norm_const(double x,
-		  const vector<double>& a,
-		  const vector<double>& b)
+double opt_func(double phi, const vector<ExtremeNumber> &samples)
 {
-    double w = (a[2] + b[0])/(1 - a[1]);
-    double t1 = sqrt(0.2e1);
-    double t3 = exp(x * a[2]);
-    double t6 = exp(x * b[0]);
-    double t10 = sqrt(-0.4e1 * x * a[1] + 0.2e1);
-    double t11 = sqrt(w);
-    double t14 = gsl_sf_erf(t11 * t10 / 0.2e1);
-    double t21 = sqrt(-0.4e1 * x + 0.2e1);
-    double t24 = gsl_sf_erf(t11 * t21 / 0.2e1);
-    double t26 = 0.1e1 / t21;
-    double t29 = 0.1e1 / t10 * t14 * t6 * t3 * t1 - t26 * t24 * t1 + t26 * t1;
-    return t29;
+    ExtremeNumber f = accumulate(samples.cbegin(), samples.cend(), ExtremeNumber(0.0),
+				 [&](ExtremeNumber s, const ExtremeNumber &x) {
+				     return exp(x * phi) + s;
+				 });
+    double x = double(f - ExtremeNumber(1.0));
+    return x;
 }
 
-double norm_fun(double x, const vector<double>& a, const vector<double>& b)
+double find_optimal_shift(const vector<ExtremeNumber> &samples)
 {
-    double t5 = x * x;
-    double t8 = (t5 >= t5 * a[1] + a[2] + b[0] ? t5 : t5 * a[1] + a[2] + b[0]);
-    return t8;
-}
+    gsl_root_fsolver *solver;
+    gsl_function F;
+    int iter = 0;
+    int status = 0;
+    int max_iter = 100;
+    double lb, ub;
+    double phi;
+    double K = (double)samples.size();
+    F.function = opt_func;
+    F.params = samples;
+    solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
 
-double shifted_dist_semi_pdf(double x, double shift_param,
-			     const vector<double>& a,
-			     const vector<double>& b)
-{
-    double t1 = sqrt(2 * M_PI);
-    double t12 = exp(norm_fun(x, a, b) * shift_param - x * x / 2);
-    double t14 = t12 / t1;
-    return t14;
-}
+    ExtremeNumber mean = accumulate(samples.cbegin(), samples.cend(),
+				    ExtremeNumber(0.0))/K;
+    phi = log(1/K) / double(mean);
+    do {
+	lb = opt_func(phi++, samples);
+    } while (lb < 1);
+    lb = phi - 1;
+    ub = phi;
 
-double draw_from_shifted_dist(const vector<double>& a,
-			      const vector<double>& b,
-			      double shift_param,
-			      URNG& gen)
-{
-    double sigma = sqrt(0.5/(0.5 - shift_param));
-    uniform_real_distribution<double> unif(0, 1);
-    normal_distribution<double> dist(0, sigma);
-    double rv = 0;
-    bool accepted = false;
-    double C = exp(shift_param * (a[2] + b[0])) * sigma;
-    while (! accepted) {
-	double X = dist(gen);
-	double t1 = shifted_dist_semi_pdf(X, shift_param, a, b);
-	double t2 = gsl_ran_gaussian_pdf(X, sigma);
-	
-	double prob = t1 / (t2 * C);
-	double U = unif(gen);
-	if (U <= prob) {
-	    rv = X;
-	    accepted = true;
-	}
+    gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
+    do {
+	iter++;
+	status = gsl_root_fsolver_iterate (solver);
+	xi = gsl_root_fsolver_root (solver);
+	lb = gsl_root_fsolver_x_lower(solver);
+	ub = gsl_root_fsolver_x_upper(solver);
+	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
+	if (status == GSL_SUCCESS)
+	    cout << "Tail index found: xi = " << xi << endl;
+    } while (status == GSL_CONTINUE && iter < max_iter);
+    gsl_root_fsolver_free(solver);
+    if (status != GSL_SUCCESS) {
+	cout << "The Brent algorithm did not converge after " << max_iter
+	     << " iterations." << endl;
+	xi = -1;
     }
-    assert(rv != 0);
-    return rv;
+    return xi;
 }
 
-XMatrix& gen_rand_matrix(const vector<double> &alpha,
-			 const vector<double> &beta,
-			 double z2, XMatrix &M)
+
+XMatrix & gen_rand_matrix(const vector<double> &alpha,
+			  const vector<double> &beta,
+			  int measure_index, XMatrix &M)
 {
     unsigned p = beta.size(), q = alpha.size() - 1;
     unsigned n = p + q - 1;
-
-    M.set_size(n, n);
-    M(0, 0) = alpha[1] * z2 + beta[0];
+    double z = dist(gen);
+    z *= z;
+    ExtremeNumber e(0);
+    M.entry.resize(n);
+    for_each(M.entry.begin(), M.entry.end(),
+	     [&](vector<ExtremeNumber> &row) {
+		 row.resize(n, e);
+	     });
+    M(0, 0) = alpha[1] * z + beta[0];
     for (unsigned i = 1; i < p; i++) {
 	M(0, i) = beta[i];
     }
@@ -109,32 +96,30 @@ XMatrix& gen_rand_matrix(const vector<double> &alpha,
     for (unsigned i = 1; i < p; i++) {
 	M(i, i - 1) = 1;
     }
-    if (n > 1) M(p, 0) = z2;
+    if (n > 1) M(p, 0) = z;
     for (unsigned i = p + 1; i < n; i++) {
 	M(i, i - 1) = 1;
     }
     return M;
 }
 
-ExtremeNumber estimateLambda(const vector<double>& alpha,
-			     const vector<double>& beta,
-			     double shift_param,
-			     double xi,
-			     unsigned long n,
-			     unsigned long K,
-			     ExtremeNumber &sd)
+double estimateLambda(const vector<double>& alpha,
+		      const vector<double>& beta,
+		      double xi,
+		      unsigned long n,
+		      unsigned long iterations,
+		      vector< pair<double, long> > &bounds)
 {
-    vector<ExtremeNumber> results(K);
-
+    vector<ExtremeNumber> results(iterations);
+#if !defined DEBUG
 #pragma omp parallel for
-    for (unsigned k = 0; k < K; k++) {
-	mt19937 gen(SEED + k);
-	vector<double> Z(n);
+#endif
+    for (unsigned k = 0; k < iterations; k++) {
 	vector<XMatrix> A(n);
-	for (unsigned i = 0; i < n; i++) {
-	    Z[i] = draw_from_shifted_dist(alpha, beta, shift_param, gen);
-	    gen_rand_matrix(alpha, beta, Z[i] * Z[i], A[i]);
-	}
+	for_each(A.begin(), A.end(),
+		 [&](XMatrix &M) {
+		     gen_rand_matrix(alpha, beta, 0, M);
+		 });
 	XMatrix P = A[0];
 	for (unsigned i = 1; i < A.size(); i++) {
 	    P *= A[i];
@@ -142,173 +127,234 @@ ExtremeNumber estimateLambda(const vector<double>& alpha,
 	long power;
 	double m;
 	mat X = P.comptify(&power);
-	m = norm(X, "inf");
+	m = norm(X);
+
 	results[k] = ExtremeNumber(m);
 	results[k] ^= xi;
 	results[k].mylog += power * xi;
-
-	ExtremeNumber C = norm_const(shift_param, alpha, beta);
-
-	for (unsigned i = 0; i < n; i++) {
-	    results[k] *= C * exp(-shift_param * norm_fun(Z[i], alpha, beta));
-	}
     }
 
-    ExtremeNumber mean;
-    mean = accumulate(results.cbegin(), results.cend(), mean=0,
-		      [K](const ExtremeNumber& a, const ExtremeNumber& b) {
-			  return a + b / (double)K;
-		      });
-    sd = accumulate(results.cbegin(), results.cend(), sd=0,
-		    [&](const ExtremeNumber& a, const ExtremeNumber& b) {
-			return a + (abs(b - mean)^2) / (double)K;
-		    });
-    sd ^= 0.5;
-    return mean;
-}
-
-double fun1(double shift_param, void *param)
-{
-    struct param_set1* par = (struct param_set1 *)param;
-    ExtremeNumber sd;
-    par->value = estimateLambda(par->alpha, par->beta, shift_param, par->xi, par->n, par->K, sd);
-    return sd.mylog - par->value.mylog;
-}
-
-ExtremeNumber refined_estimate(const vector<double>& alpha,
-			       const vector<double>& beta,
-			       double xi,
-			       unsigned long n,
-			       unsigned long K,
-			       ExtremeNumber &sd)
-{
-    int status;
-    int iter = 0, max_iter = 100;
-    gsl_min_fminimizer *s;
-    double m = 0.5 - 1/(xi + 2);
-    double a = 0, b = 0.45;
-    gsl_function F;
-
-    struct param_set1 params = {
-    	alpha, beta, xi, n, K, ExtremeNumber()
-    };
-    F.function = &fun1;
-    F.params = &params;
+    // find the optimal shift parameter for resampling
     
-    vector< array<double, 2> > fs;
-    fs.push_back({0, fun1(0, &params)});
-    while (fs.back()[1] >= fs.front()[1]) {
-    	a += 0.1 - fs.back()[0] / 4.9;
-    	fs.push_back({a, fun1(a, &params)});
-    }
-    fs.erase(fs.begin(), fs.end()-1);
-    b = a;
-    while (fs.back()[1] <= fs.front()[1]) {
-    	b += 0.1 - fs.back()[0] / 4.9;
-    	fs.push_back({b, fun1(b, &params)});
-    }
-    s = gsl_min_fminimizer_alloc(gsl_min_fminimizer_brent);
-    gsl_min_fminimizer_set(s, &F, a, 0, b);
 
-    do {
-    	iter++;
-    	status = gsl_min_fminimizer_iterate (s);
+    // resampling and importance sampling
+    vector<ExtremeNumber> resampled(iterations);
+#if !defined DEBUG
+#pragma omp parallel for
+#endif
+    for (unsigned i = 0; i < iterations; i++) {
+	int array[iterations];
+	for (unsigned j = 0; j < iterations; j++)
+	    array[j] = j;
+	discrete_distribution<int> resample_dist(array);
+	
+    }    
 
-    	m = gsl_min_fminimizer_x_minimum (s);
-    	a = gsl_min_fminimizer_x_lower (s);
-    	b = gsl_min_fminimizer_x_upper (s);
-
-    	status = gsl_min_test_interval(a, b, 0.001, 0.0);
-
-    } while (status == GSL_CONTINUE && iter < max_iter);
-    assert(status == GSL_SUCCESS);
-    sd.mylog = m;
-    return params.value;
+    sort(results.begin(), results.end());
+    unsigned i = (unsigned)(iterations * 2.5e-2);
+    unsigned j = (unsigned)ceil(iterations * 97.5e-2);
+    double K = (double)iterations;
+    ExtremeNumber mean =
+    	accumulate(results.cbegin(), results.cend(),
+    		   ExtremeNumber(0.0))/K;
+    bounds.resize(3);
+    
+    bounds[0] = make_pair(
+    	results[i](),
+    	results[i].power()
+    	);
+    bounds[1] = make_pair(
+    	mean(),
+    	mean.power()
+    	);
+    bounds[2] = make_pair(
+    	results[j](),
+    	results[j].power()
+    	);
+    // for (unsigned i = 0; i < results.size(); i++) {
+    // 	printf("% e\n", results[i].mylog);
+    // }
+    return log(mean)/K;
 }
 
-double func(double theta, void *p)
+void test_cases(void)
 {
-    struct param_set1* par = (struct param_set1*) p;
-    ExtremeNumber sd;
-    ExtremeNumber expected = refined_estimate(par->alpha, par->beta, theta, par->n, par->K, sd);
-    par->value = sd;
-    return log(expected)/par->n;
-}
+   /* adjust_numbers is good! */
+    // vector<double> V = {
+    // 	-14.509109561124117, -13.176534978491997, 0, 15.243856232806506, 15.720977487526168, 30.487712465613011	
+    // };
+    // ExtremeNumber X(V);
+    // adjust_numbers(X);
 
-double find_root(const vector<double>& a,
-		 const vector<double>& b,
-		 unsigned long N,
-		 unsigned long K,
-		 double bounds[2],
-		 ExtremeNumber& sd)
-{
-    gsl_root_fsolver *solver;
-    gsl_function F;
-    int iter = 0;
-    int status = 0;
-    int max_iter = 100;
-    double lb, ub;
-    double xi;
-    struct param_set1 par = {
-	a, b, 0, N, K, ExtremeNumber()
-    };
-    F.function = func;
-    F.params = &par;
-    solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
-    gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
-    do {
-	iter++;
-	status = gsl_root_fsolver_iterate (solver);
-	xi = gsl_root_fsolver_root (solver);
-	lb = gsl_root_fsolver_x_lower(solver);
-	ub = gsl_root_fsolver_x_upper(solver);
-	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
-    } while (status == GSL_CONTINUE && iter < max_iter);
-    gsl_root_fsolver_free(solver);
-    assert (status == GSL_SUCCESS);
-    sd = par.value;
-    return xi;
+
+    //This test case is passed.
+    // XMatrix A(2, 2), B(2, 2), M;
+    // mat X;
+    // int p;
+    // A(0, 0) = 1.7533e+15;
+    // A(0, 1) = 1.546e-29;
+    // A(1, 0) = 2.0030e+14;
+    // A(1, 1) = 0;
+
+    // B(0, 0) = 1;
+    // B(0, 1) = 3;
+    // B(1, 0) = 2;
+    // B(1, 1) = 4;
+
+    // M = A * B;
+    // X = M.comptify(&p);
+    // X.print();
+    // M *= A;
+    // X = M.comptify(&p);
+    // X.print();
+    // M += B + A * A;
+    // X = M.comptify(&p);
+    // X.print();
+
+    // Test case passed.
+    // XMatrix A(2, 3), B(3, 2);
+    // mat V;
+    // int p;
+    // A(0, 0) = 1.2;
+    // A(0, 1) = 0.9;
+    // A(0, 2) = 0.01;
+    // A(1, 0) = 1.5;
+    // A(1, 1) = 2.2;
+    // A(1, 2) = 0;
+
+    // B(0, 0) = 3.9;
+    // B(0, 1) = 0.3;
+    // B(1, 0) = 10.19;
+    // B(1, 1) = 1.22;
+    // B(2, 0) = 1.2e-3;
+    // B(2, 1) = 6.5;
+    
+    // XMatrix C = A * B;
+    // V = C.comptify(&p);
+    // V.print();
+
+    // XMatrix M = (C^10);
+    // V = M.comptify(&p);
+    // V.print();
+
+    // test case Not run.
+    // double data1[][4] = {
+    // 	{19.403665, 4.077789e-01, 797.39273, 0.03255509},
+    // 	{6.128070, 3.924188e-05,  27.35455, 1.36518070},
+    // 	{7.012403, 6.138501e+00,  41.20729, 0.37090008}
+    // };
+    // double data2[][3] = {
+    // 	{0.014663314,    0.187702,   1.3084776},
+    // 	{0.002948789,    2.226695,   0.2997368},
+    // 	{0.005873739, 1005.096251,   0.3484540},
+    // 	{0.474892351,    1.205615, 124.4773247}
+    // };
+    // double data3[][3] = {
+    // 	{0.0000418549, 0.7024121, 1.83917835},
+    // 	{0.3144126534, 0.9380704, 0.07165514},
+    // 	{4.6536517854, 0.5059325, 3.36968125},
+    // };
+    // double *p[] = {data1[0], data1[1], data1[2]};
+    // double *q[] = {data2[0], data2[1], data2[2], data2[3]};
+    // double *r[] = {data3[0], data3[1], data3[2]};
+    // XMatrix A(p, 3, 4), B(q, 4, 3), C(r, 3, 3), M(3, 3);
+    // M = A * B + C;
+    // M += C * A * B;
+    // M *= (C^2) + ((A * B)^3);
 }
 
 int main(int argc, char*argv[])
 {
-    vector<double> alpha({9.2e-6, 0.08835834, 0.09685783});
+    vector<double> alpha({1.0e-7, 0.11, 1.0e-8});
     // vector<double> alpha({1.0e-7, stod(argv[3])});
-    vector<double> beta({0.6543018});
-    ExtremeNumber sd;
+    vector<double> beta({0.88});
+    double Lambda;
+    vector< pair<double, long> > bounds;
     
     cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
     	alpha[1] << ", alpha[2]=" << alpha[2] <<
     	", beta[1]=" << beta[0] << endl;
-    cout << "n = " << argv[3] << endl;
-    cout << argv[4] << " iterations" << endl;
+    cout << "n = " << argv[2] << endl;
+    cout << argv[3] << " iterations" << endl;
 
-    SEED = stoul(argv[5]);
     // double nu = stod(argv[1]);
     // Lambda = estimateLambda(
     // 	alpha, beta, nu, stoul(argv[2]),
     // 	stoul(argv[3]), bounds);
     // printf("%e    %e\n", nu, Lambda);
-    unsigned long n = stoul(argv[3]);
-    unsigned long K = stoul(argv[4]);
-    double bounds[2];
-    bool flag = false;
-    for (double nu = stod(argv[1]); nu < stod(argv[2]); nu += 0.1) {
-    	ExtremeNumber expected = refined_estimate(
-    	    alpha, beta, nu, n, K, sd);
-	double Lambda = log(expected)/(double)n;
-	double rel_err = static_cast<double>(sd / expected);
-	if (!flag && Lambda > 0) {
-	    bounds[1] = nu;
-	    bounds[0] = nu - 0.1;
-	    flag = true;
-	}
-    	printf("%e    %e    %.4f\n", nu, Lambda, rel_err);
+
+    for (double nu = stod(argv[1]); nu < 4; nu += 0.25) {
+    	Lambda = estimateLambda(
+    	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]), bounds);
+    	printf("%e    %e\n", nu, Lambda);
     }
     
-    // double xi = find_root(alpha, beta, n, K, bounds, sd);
-    // cout << "Lambda(" << xi << ") = 0" << endl;
 
+    // printf("Lambda(%s) = %.4e\n", argv[1], Lambda);
+    // printf("lambda(xi)^n = %.4fE%+ld (%.4fE+%ld, %.4fE+%ld)\n\n",
+    // 	   bounds[1].first, bounds[1].second,
+    // 	   bounds[0].first, bounds[0].second,
+    // 	   bounds[2].first, bounds[2].second
+    // 	);
     return 0;
 }
+
+/**
+   alpha: a vector of size 2+ that contain the coefficients of past squared returns.
+   beta: a vector of size 1+ that contain the coefficients of past variances.
+   This notation is consistent with Mikosch and Davis'es paper. on GARCH(p,q)
+*/
+// mat& gen_rand_matrix(const vector<double> &alpha,
+// 		     const vector<double> &beta,
+// 		     int measure_index,
+// 		     mat& A)
+// {
+//     static chi_squared_distribution<double> dist;
+//     static random_device gen;
+    
+//     double z(dist(gen));
+//     A(0, 0) = z * alpha[0] + beta[0];
+//     A(0, 1) = alpha[1];
+//     A(1, 0) = z;
+//     A(1, 1) = 0;
+//     return A;
+// }
+
+// int main(int argc, char*argv[])
+// {
+//     vector<double> alpha({1.0e-7, 0.6, 0.1});
+//     vector<double> beta({0.1, 0.05});
+//     cube A(2, 2, stol(argv[1]));
+//     mat X(2, 2);
+//     double power = stod(argv[2]);
+//     double norms[2];
+//     double Lambda[2];
+    
+//     gen_rand_matrix(alpha, beta, 0, X);
+    
+//     for (unsigned k = 0; k < A.n_slices; k++) {
+// 	gen_rand_matrix(alpha, beta, 0, A.slice(k));
+// 	X *= A.slice(k);
+// 	for (unsigned i = 0; i < X.n_rows; i++) {
+// 	    for (unsigned j = 0; j < X.n_cols; j++)
+// 		if (X(i, j) == 0) {
+// 		    printf("A(%d, %d, %d) = 0\n", k, i, j);
+// 		}
+// 	}
+//     }
+//     norms[0] = pow(norm(X, "inf"), power);
+//     norms[1] = pow(norm(X, 2), power);
+//     unsigned long n = A.n_slices + 1;
+
+//     transform(norms, norms+2, Lambda,
+// 	      [n] (double x) {
+// 		  return log(x)/double(n);
+// 	      });
+    
+//     printf("Norms,%e,%e\n",
+// 	   norms[0], norms[1]);
+//     printf("Lambda,%e,%e\n", Lambda[0], Lambda[1]);
+
+//     return 0;
+// }
 

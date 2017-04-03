@@ -182,8 +182,8 @@ double ExtremeNumber::operator () (long n) const
 
 ExtremeNumber::operator double() const
 {
-    if (mylog == 0) return 0;
-    return pow(10, mylog);
+    if (sign == 0) return 0;
+    return pow(10, mylog) * (sign > 0 ? 1 : -1);
 }
 
 long ExtremeNumber::power(void) const
@@ -289,13 +289,14 @@ double log(const ExtremeNumber &x)
 ExtremeNumber exp(const ExtremeNumber &x)
 {
     ExtremeNumber R;
-    long p = x.power();
-    long inc = p > 0 ? 1 : -1;
-    double q = p > 0 ? 10 : 0.1;
-    double y = 1;
-    for (long i = 0; i != p; i += inc) {
-	y *= q;
-    }
-    R.mylog = x() * y / log(10);
+    // long p = x.power();
+    // long inc = p > 0 ? 1 : -1;
+    // double q = p > 0 ? 10 : 0.1;
+    // double y = 1;
+    // for (long i = 0; i != p; i += inc) {
+    // 	y *= q;
+    // }
+    // R.mylog = x() * y / log(10);
+    R.mylog = double(x) / log(10);
     return R;
 }

@@ -841,7 +841,9 @@ Now, to prove \eqref{eq:drift}, consider
 The idea is to estimate $\Lambda(\alpha)$ according to
 \begin{equation}
   \label{eq:Lambda}
-  \Lambda(\alpha) = \lim_{n \to \infty}{1 \over n} \ln \E |A_n \cdots A_1 X_0|^\alpha  
+  \Lambda(\alpha) = \lim_{n \to \infty}{1 \over n} \ln \left(
+    \E |A_n \cdots A_1 X_0|^\alpha
+  \right)
 \end{equation}
 and then solve $\Lambda(\xi) = 0$ for $\xi$.
 \begin{figure}[htb!]
@@ -894,6 +896,17 @@ where the random variable $w_{l, i-1}$ has conditional distribution
   a_{i-1}^j &=& |A_{i-1}^j X_{i-2}^{w_{j, i-2}}|^\alpha \\
   b_{i-1} &=& \sum_{l=1}^K a_{i-1}^l
 \end{eqnarray*}
+\begin{theorem}
+  \[
+  \E \left\{
+    \sum_{i=1}^n \ln \left(
+      {1 \over K}\sum_{l=1}^K |A_i^l X^{w_{l, i-1}}_{i-1}|^\alpha
+    \right)
+  \right\} = \ln \left(
+    \E |A_n \cdots A_1 X_0|^\alpha
+  \right)
+  \]
+\end{theorem}
 Figure \ref{fig:AnandsEstimator} shows a possible realization of the
 resampling procedure and algorithm \ref{alg:Lambda_estimation}
 outlines an implementation of $\mathscr E_\alpha$. We take
