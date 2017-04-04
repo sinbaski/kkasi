@@ -1,371 +1,572 @@
-\documentclass{article}
-\usepackage{amsmath}
-\usepackage{amsthm}
-\usepackage{enumerate}
-\usepackage[bookmarks=true]{hyperref}
-\usepackage{bookmark}
+% \documentclass{article}
+% \usepackage{amsmath}
+% \usepackage{amsthm}
+% \usepackage{enumerate}
+% \usepackage{bookmark}
+% \usepackage{graphicx}
+% \usepackage{multirow}
+% \usepackage{adjustbox}
+% \usepackage{wrapfig}
+% \usepackage{subcaption}
+% \usepackage{color}
+% \usepackage[dvipsnames]{xcolor}
+
+% \usepackage{amssymb,amsmath,amsthm,amsfonts}
+% \usepackage{mathrsfs}
+% \usepackage{dsfont}
+% \usepackage{enumerate}
+
+% \input{physics_common.tex}
+
+
+\documentclass[11pt,a4]{amsart}
+%\usepackage{amsmath}
+%\usepackage{amsthm}
+%\usepackage{enumerate}
+%\usepackage[bookmarks=true]{hyperref}
+%\usepackage{bookmark}
 \usepackage{graphicx}
-\usepackage{multirow}
-\usepackage{adjustbox}
-\usepackage{wrapfig}
-\usepackage{subcaption}
+\usepackage[bookmarks=true]{ hyperref}
+%\usepackage{multirow}
+%\usepackage{adjustbox}
+%\usepackage{wrapfig}
+%\usepackage{subcaption}
 \usepackage{color}
 \usepackage[dvipsnames]{xcolor}
 
 \usepackage{amssymb,amsmath,amsthm,amsfonts}
-\usepackage{mathrsfs}
-\usepackage{dsfont}
-\usepackage{enumerate}
+%\usepackage{mathrsfs}
+%\usepackage{dsfont}
+%\usepackage{enumerate}
 
 %\input{../../physics_common.tex}
-\input{physics_common.tex}
+%\input{physics_common.tex}
 
+\textwidth 6.50in
+\topmargin -0.50in
+\oddsidemargin 0in
+\evensidemargin 0in
+\textheight 9.00in
+%\pagestyle{plain}
+\definecolor{darkblue}{rgb}{.2, 0.2,.8}
+\definecolor{darkgreen}{rgb}{0,0.5,0.3}
+\definecolor{darkred}{rgb}{.8, .1,.1}
+\newcommand{\pd}{\partial}
+\newcommand{\red}{\color{darkred}}
+\newcommand{\blue}{\color{darkblue}}
+\newcommand{\green}{\color{darkgreen}}
+\newcommand{\black}{\color{black}}
+\newcommand{\levy}{L\'evy}
+\newcommand{\slln}{strong law of large numbers}
+\newcommand{\clt}{central limit theorem}
+\newcommand{\sde}{stochastic \de}
+\newcommand{\de}{differential equation}
+\newcommand{\mregvar}{multivariate \regvar}
+\newcommand{\garch}{{\rm GARCH}$(1,1)$}
+\newcommand{\spr}{stochastic process}
+\newcommand{\It}{It\^o}
+\newcommand{\sta}{St\u aric\u a}
+\newcommand{\ex}{{\rm e}\,}
+\newcommand{\sas}{s$\alpha$s}
+\newcommand{\civ}{\stackrel{v}{\rightarrow}}
+\newcommand{\asy}{asymptotic}
+\newcommand {\hatt} {\hat{\theta}}
+\newcommand {\hattg} {\hat{\theta}_{MLE}}
+\newcommand {\hattz} {\hat{\theta}_0}
+\newcommand {\hatb} {\hat{\beta}}
+\newcommand {\hatbg} {\hat{\beta}_G}
+\newcommand {\spp} {^\prime}
+\newcommand{\ts}{time series}
+\newcommand{\tsa}{\ts\ analysis}
+\newcommand{\garchpq}{{\rm GARCH}$(p,q)$}
+\def\theequation{\thesection.\arabic{equation}}
+\def\tag{\refstepcounter{equation}\leqno }
+\def\neqno{\refstepcounter{equation}\leqno(\thesection.\arabic{equation})}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{figur}[lemma]{Figure}
+\newtheorem{theorem}[lemma]{Theorem}
+\newcommand{\Leb}{{\mathbb L}{\mathbb E}{\mathbb B}}
+\newcommand{\bbc}{{\mathbb C}}
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{corollary}[lemma]{Corollary}
+\newtheorem{example}[lemma]{Example}
+\newtheorem{exercise}[lemma]{Exercise}
+\newtheorem{remark}[lemma]{Remark}
+\newtheorem{fig}[lemma]{Figure}
+\newtheorem{tab}[lemma]{Table}
+\newtheorem{hypothesis}{Hypothesis}
+\newcommand{\play}{\displaystyle}
+\newcommand{\rmk}{\noindent R{\sc emark}}
+\newcommand{\cid}{\stackrel{d}{\rightarrow}}
+\newcommand{\cip}{\stackrel{P}{\rightarrow}}
+\newcommand{\reference}{\hangindent=5pc\hangafter=1}
+\newcommand{\MC}{Markov chain}
+\newcommand{\bfQ}{{\bf Q}}
+\newcommand{\bfM}{{\bf M}}
+\newcommand{\bfu}{{\bf u}}
+\newcommand{\bfv}{{\bf v}}
+\newcommand{\bfV}{{\bf V}}
+\newcommand{\bfU}{{\bf U}}
+\newcommand{\bfR}{{\bf R}}
+\newcommand{\bfC}{{\bf C}}
+\newcommand{\bfF}{{\bf F}}
+\newcommand{\RV}{{\rm RV}}
+\newcommand{\LN}{{\rm LN}}
+\newcommand{\WE}{{\rm WE}}
+\newcommand{\bth}{\begin{theorem}}
+\newcommand{\ethe}{\end{theorem}}
+\newcommand{\sv}{stochastic volatility}
+\newcommand{\bre}{\begin{remark}\em }
+\newcommand{\ere}{\end{remark}}
+\newcommand{\fre}{frequenc}
+\newcommand{\ble}{\begin{lemma}}
+\newcommand{\ele}{\end{lemma}}
+\newcommand{\sre}{stochastic recurrence equation}
+\newcommand{\pp}{point process}
+\newcommand{\bde}{\begin{definition}}
+\newcommand{\ede}{\end{definition}}
+\newcommand{\bco}{\begin{corollary}}
+\newcommand{\eco}{\end{corollary}}
 
-\title{Generalized Disappointment Aversion and heavy-tail property of
-  equity return distributions}
-\author{Thomas Mikosch, Casper de Vries, Xie Xiaolei}
-\date{\today}
+\newcommand{\bpr}{\begin{proposition}}
+\newcommand{\epr}{\end{proposition}}
+
+\newcommand{\bexer}{\begin{exercise}}
+\newcommand{\eexer}{\end{exercise}}
+
+\newcommand{\bexam}{\begin{example}}
+\newcommand{\eexam}{\end{example}}
+
+\newcommand{\bfi}{\begin{fig}}
+\newcommand{\efi}{\end{fig}}
+
+\newcommand{\btab}{\begin{tab}}
+\newcommand{\etab}{\end{tab}}
+%\renewcommand{\thetab}{\arabic{section}.9.\arabic{tab}}
+
+\newcommand{\edf}{empirical distribution function}
+\newcommand{\epro}{empirical process}
+\newcommand{\per}{periodogram}
+\newcommand{\pf}{{\bf Proof.}}
+\newcommand{\lhs}{left-hand side}
+\newcommand{\fidi}{finite-dimensional distribution}
+\newcommand{\rv}{random variable}
+\newcommand{\DA}{{\rm DA}}
+\newcommand{\DNA}{{\rm DNA}}
+\newcommand{\MDA}{{\rm MDA}}
+\newcommand{\sign}{{\rm sign}}
+\newcommand{\PRM}{{\rm PRM}}
+\newcommand{\card}{{\rm card}}
+\newcommand{\var}{{\rm var}}
+\newcommand{\med}{{\rm med}}
+\newcommand{\cov}{{\rm cov}}
+\newcommand{\corr}{{\rm corr}}
+\newcommand{\as}{{\rm a.s.}}
+\newcommand{\io}{{\rm i.o.}}
+\newcommand{\Pois}{\rm Poisson}
+
+\newcommand{\bfth}{\mbox{\boldmath$\theta$}}
+\newcommand{\bfTh}{\mbox{\boldmath$\Theta$}}
+\newcommand{\bfmu}{\mbox{\boldmath$\mu$}}
+
+\newcommand{\bfvep}{\mbox{\boldmath$\vep$}}
+\newcommand{\rhs}{right-hand side}
+\newcommand{\df}{distribution function}
+\newcommand{\dsum}{\displaystyle\sum}
+%\newcommand{\dfrac}{\displaystyle\frac}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dlim}{\displaystyle\lim\limits}
+\newcommand{\dmax}{\displaystyle\max\limits}
+\newcommand{\dsup}{\displaystyle\sup\limits}
+\newcommand{\dmin}{\displaystyle\min\limits}
+\newcommand{\dprod}{\displaystyle\prod}
+
+\newcommand{\beao}{\begin{eqnarray*}}
+\newcommand{\eeao}{\end{eqnarray*}\noindent}
+
+\newcommand{\beam}{\begin{eqnarray}}
+\newcommand{\eeam}{\end{eqnarray}\noindent}
+
+\newcommand{\beqq}{\begin{equation}}
+\newcommand{\eeqq}{\end{equation}\noindent}
+
+\newcommand{\bce}{\begin{center}}
+\newcommand{\ece}{\end{center}}
+
+\newcommand{\barr}{\begin{array}}
+\newcommand{\earr}{\end{array}}
+\newcommand{\cadlag}{c\`adl\`ag}
+\newcommand{\tep}{\tilde\epsilon}
+\newcommand{\stp}{\stackrel{\P}{\rightarrow}}
+\newcommand{\std}{\stackrel{d}{\rightarrow}}
+\newcommand{\stas}{\stackrel{\rm a.s.}{\rightarrow}}
+\newcommand{\stj}{\stackrel{J_1}{\rightarrow}}
+\newcommand{\stv}{\stackrel{v}{\rightarrow}}
+\newcommand{\stw}{\stackrel{w}{\rightarrow}}
+\newcommand{\stww}{\stackrel{\wh w}{\rightarrow}}
+\newcommand{\eqd}{\stackrel{d}{=}}
+
+\newcommand{\refbib}{\cite}
+\newcommand{\vague}{\stackrel{\lower0.2ex\hbox{$\scriptscriptstyle
+                    \it{v} $}}{\rightarrow}}
+\newcommand{\weak}{\stackrel{\lower0.2ex\hbox{$\scriptscriptstyle
+                    \it{w} $}}{\rightarrow}}
+\newcommand{\what}{\stackrel{\lower0.2ex\hbox{$\scriptscriptstyle
+                    \it{\hat{w}} $}}{\rightarrow}}
+
+\newcommand{\bdis}{\begin{displaymath}}
+\newcommand{\edis}{\end{displaymath}\noindent}
+
+\newcommand{\Thetabold}{{\boldsymbol{\Theta}}}
+\newcommand{\Prob}{\operatorname{P}}
+\newcommand{\Dspace}{\mathbb{D}}
+\newcommand{\Espace}{\mathbb{E}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Xbold}{{\mathbf{X}}}
+\newcommand{\xbold}{{\mathbf{x}}}
+\newcommand{\Ybold}{{\mathbf{Y}}}
+\newcommand{\ybold}{{\mathbf{y}}}
+\newcommand{\zerobold}{{\mathbf{0}}}
+\newcommand{\Sphere}{\mathbb{S}}
+\newcommand{\Dbar}{\overline{\mathbb{D}}_{0}}
+\newcommand{\ind}{independent}
+\newcommand{\w}{\omega}
+\newcommand{\W}{\Omega}
+\newcommand{\bw}{\bigwedge}
+\newcommand{\bv}{\bigvee}
+\newcommand{\nto}{n\to\infty}
+\newcommand{\kto}{k\to\infty}
+\newcommand{\xto}{x\to\infty}
+\newcommand{\tto}{T\to\infty}
+\newcommand{\uto}{u\to\infty}
+\newcommand{\ov}{\overline}
+\newcommand{\wt}{\widetilde}
+\newcommand{\wh}{\widehat}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ep}{\epsilon}
+\newcommand{\vap}{\varphi}
+\newcommand{\la}{\lambda}
+\newcommand{\La}{\Lambda}
+
+\newcommand{\halmos}{\hfill \qed}
+\newcommand{\regvary}{regularly varying}
+\newcommand{\slvary}{slowly varying}
+\newcommand{\regvar}{regular variation}
+%\newcommand{\bbr}{{I\!\!R}}
+%\newcommand{\bbn}{{I\!\!N}}
+%\newcommand{\bbz}{{I\!\!\!Z}}
+
+\newcommand{\ka}{\kappa}
+\newcommand{\bba}{{\mathcal A}}
+\newcommand{\bbe}{{\ov \bbr^{d}_0}}
+\newcommand{\bfT}{{\bf T}}
+\newcommand{\bbr}{{\mathbb R}}
+\newcommand{\bbm}{{\mathcal M}}
+\newcommand{\bbb}{{\mathcal B}}
+\newcommand{\bbz}{{\mathbb Z}}
+\newcommand{\bbn}{{\mathbb N}}
+\newcommand{\bbd}{{\mathbb D}}
+\newcommand{\bbf}{{\mathcal F}}
+\newcommand{\bbs}{{\mathbb S}}
+\newcommand{\bbE}{{\mathcal E}}
+
+\newcommand{\BM}{Brownian motion}
+\newcommand{\BB}{Brownian bridge}
+\newcommand{\con}{convergence}
+\newcommand{\ev}{extreme value}
+\newcommand{\evt}{extreme value theory}
+\newcommand{\evd}{extreme value distribution}
+\newcommand{\clp}{central limit problem}
+\newcommand{\nc}{norming constant}
+\newcommand{\st}{such that}
+\newcommand{\fif}{if and only if}
+\newcommand{\wrt}{with respect to}
+\newcommand{\chf}{characteristic function}
+\newcommand{\fct}{function}
+\newcommand{\mdoa}{maximum domain of attraction}
+\newcommand{\ds}{distribution}
+\newcommand{\gev}{generalized extreme value distribution}
+\newcommand{\gpd}{generalized Pareto distribution}
+\newcommand{\pwm}{probability-weighted moments}
+\newcommand{\mle}{maximum likelihood estimator}
+\newcommand{\mel}{mean excess function}
+\newcommand{\an}{asymptotically normal}
+\newcommand{\ac}{absolutely continuous}
+\newcommand{\rep}{representation}
+\newcommand{\cmt}{continuous mapping theorem}
+\newcommand{\seq}{sequence}
+\newcommand{\pr} {{\bf Proof.}}
+\newcommand{\ins}{insurance}
+\newcommand{\mat}{mathematic}
+\newcommand{\pro}{probabilit}
+\newcommand{\pros}{probabilities}
+\newcommand{\ms}{measure}
+\newcommand{\mgf}{moment generating function}
+\newcommand{\ld}{large deviation}
+\newcommand{\bfx}{{\bf x}}
+\newcommand{\bfX}{{\bf X}}
+\newcommand{\bfB}{{\bf B}}
+\newcommand{\bfY}{{\bf Y}}
+\newcommand{\bfy}{{\bf y}}
+\newcommand{\bfA}{{\bf A}}
+\newcommand{\bfG}{{\bf G}}
+\newcommand{\bfO}{{\bf 0}}
+\newcommand{\bfZ}{{\bf Z}}
+\newcommand{\bfz}{{\bf z}}
+\newcommand{\bfS}{{\bf S}}
+\newcommand{\bfa}{{\bf a}}
+\newcommand{\bfb}{{\bf b}}
+\newcommand{\bfe}{{\bf e}}
+\newcommand{\bft}{{\bf t}}
+\newcommand{\bfI}{{\bf I}}
+\newcommand{\bfs}{{\bf s}}
+\newcommand{\bfh}{{\bf h}}
+\newcommand{\bfunit}{{\bf h}}
+\newcommand{\ARCH}{{\rm ARCH}}
+\newcommand{\E }{{\mathbb E}}
+\renewcommand{\P }{{\mathbb P}}
+\newcommand{\Q }{{\mathbb Q}}
+\newcommand{\1}{{\mathbf 1}}
+
+\newcommand{\floor}[1]{
+  \lfloor #1\rfloor
+}
+\newcommand{\ceil}[1]{
+  \lceil #1\rceil
+}
+
+\allowdisplaybreaks
 \begin{document}
+\title{Tail-indices and scale parameters of returns series}
+\author{Thomas Mikosch,  Casper de Vries, Xie Xiaolei, }
+\date{\today}
+
 \maketitle
 
 \begin{abstract}
-We study the heavy tail properties of real-world equity return
-distributions and, based on the framework of Generalized
-Disappointment Aversion, derive how an investor's preference varies
-with the tail distribution characteristics, namely the tail index and
-the scale parameter. We find, when the equity return is t-distributed,
-the GDA preference actually decreases with the degree of freedom of
-the distribution, i.e. the tail index; we interprete this as a
-consequence of the symmetry of the distribution. When the equity
-return is assumed to have a shifted Pareto distribution with
-independent parameters of the left and the right tails, we find the
-GDA preference increasing with both the lower tail index and the scale
-parameter. We attribute this to the risk avert nature of rational
-investors. By numerical methods, optimal asset allocation is also
-solved in both cases.
-
-%% We consider investors with preferences that accord with Generalized
-%% Disappointment Aversion. Such an investor cares about downside risk and
-%% we assume he recognizes the heavy tail feature of asset return
-%% distributions. We argue that when a market is dominated by rational
-%% investors of this kind, the return distributions of equities that are
-%% actively traded in this market must have very similar tail indices. We
-%% also show, in contrast, the scale parameters of the return
-%% distributions may differ hugely from one another.
-
-%% It is generally believed that the utility function of an
-%% investor is increasing and concave -- as John H. Cochrane
-%% put it, ``the last bite is never as satisfying as the first''
-%% \cite{cochrane2009asset}. This implies investors are more repelled
-%% by large losses than they are tempted by large gains. 
-%% Furthermore, it is a stylized fact that equity return distributions
-%% are heavy-tailed (see e.g. Jansen and de Vries
-%% \cite{jansen1991frequency}).
-%% In particular, the lower-tail of an equity distribution is often heavier
-%% than the upper-tail of the same distribution.
-
-%% We explore in this paper the market implications of investor
-%% preferences and the heavy-tail property of equity return
-%% distributions.
-
-
-On the other hand, whether or not all equities in a multivariate model
-have the same tail index is a dividing issue for multivariate GARCH
-models proposed in the literature. Therefore, it is important to analyze
-data of real equity returns and see how close to each other the
-tail indices actually are.
-
-%% In this work empirical results are also presented and they appear
-%% to support the conclusion that the tail indices are very similar,
-%% with respect to the confidence bands of estimation.
+%We consider an investor with preferences that accord with Generalized
+%Disappointment Aversion. Such an investor cares about downside risk and
+%we assume he recognizes the heavy tail feature of asset return
+%distributions. We argue that when a market is dominated by rational
+%investors of this kind, the return distributions of equities that are
+%actively traded in this market must have very similar tail indices. We
+%also show, in contrast, the scale parameters of the return
+%distributions may differ hugely from one another.
+%On the other hand, whether or not all equities in a multivariate model
+%have the same tail index is a dividing issue for multivariate GARCH
+%models proposed in the literature. Therefore, it is important to analyze
+%data of real equity returns and see how close to each other the
+%tail indices actually are.
+%In this work empirical results are also presented and they appear
+%to support the conclusion that the tail indices are very similar,
+%with respect to the confidence bands of estimation.
 \end{abstract}
 
-\section{Introduction}
-It is generally believed that the utility function of an
-investor is increasing and concave -- as John H. Cochrane
-put it, ``the last bite is never as satisfying as the first''
-\cite{cochrane2009asset}. This implies investors are more repelled
-by large losses than they are tempted by large gains. 
-Furthermore, it is a stylized fact that equity return distributions
-are heavy-tailed (see e.g. Jansen and de Vries \cite{jansen1991frequency}).
-In particular, the lower-tail of an equity distribution is often heavier
-than the upper-tail of the same distribution.
-
-we explore in this paper the market implications of investor
-preferences and the heavy-tail property of equity return
-distributions. The rest of this paper is organized into the following 
-sections: In section \ref{sec:empirical_results} we present a survey
-of statistical characteristics of equity returns. Then 
-in section \ref{sec:GDA}, we explicitly recognize the behavioral
-concern for downside risk in the investor's evaluation of portfolios
+\section{Introduction}\setcounter{equation}{0}
+It is one of the stylized facts of financial econometrics that 
+returns of speculative prices are {\em heavy-tailed.} There is no agreement
+in the literature how heavy tails really are. For example, Barndorff-Nielsen and Shephard
+\cite{barndorff:shephard:2001} and Eberlein \cite{eberlein:2001} favor ``semi-heavy'' tails, i.e.,
+tails which are comparable with those of a gamma \ds . On the other
+hand, tails of returns have been studied in great detail 
+in the extreme value community. Among extreme value specialists
+there is general agreement that returns $X_t$ have tails of power-law-type, i.e.,
+\beam\label{eq:1}
+\P(X_t>x)\sim c_+ \,x^{\alpha_{\rm up}}\quad\mbox{and}\quad \P(X_t<-x)\sim c_-\,x^{-\alpha_{\rm low}}\,,\quad\xto\,,
+\eeam  
+where $c_{\pm}$ are positive constants.\footnote{Here and in what
+  follows, $f(x)\sim g(x)$ for positive \fct s $f$ and $g$ means 
+that $f(x)/g(x)\to 1$ as $\xto$.} See for example, Embrechts et
+al. \cite{embrechts:klueppelberg:mikosch:1997}, Jansen and de Vries
+\cite{jansen1991frequency}, Mikosch \cite{mikosch:2003}, Resnick
+\cite{resnick:2007}.  
+In the extreme value literature it is common to replace the constants $c_\pm$ by a suitable
+{\em slowly varying} \fct s; cf. Embrechts et
+al. \cite{embrechts:klueppelberg:mikosch:1997}, Chapter 3. In this
+paper, for the  
+sake of argument, we stick to the condition \eqref{eq:1}.
+\par
+There are some good theoretical reasons for the appearance of power-law tails in situations where certain moments 
+of data are believed to be infinite. Tails of the type \eqref{eq:1}
+describe the maximum domain of attraction of the  
+Fr\'echet \ds\ $\Phi_\alpha(x)=\exp(-x^{-\alpha})$ for $x>0$. Equivalently, power-law tails are prescribed by the 
+generalized Pareto \ds\ which is the limit \ds\ of the excesses of $X_t$ above high thresholds, i.e.,
+\beao
+\P((X_t-u)/a(u)>x \mid X_t>x) \to (1+ x/\alpha)^{-\alpha}\,,\qquad u\to\infty\,.
+\eeao
+The aforementioned results 
+are considered very natural for iid and weakly dependent strictly stationary \seq s of random variables $(X_t)$; 
+in the world of extremes they are the analogs
+of the \clt\ from the world of sums.
+\par
+In the literature on extremes for return data one finds the 
+statement that {\em estimated} values $\hat \alpha_{\rm up}$ and $\hat \alpha_{\rm low}$ 
+of the tail-indices $\alpha_{\rm up}$ and $\alpha_{\rm low}$,
+respectively, typically have the tendency that $\hat \alpha_{\rm
+  up}>\hat \alpha_{\rm low}$. 
+This observation is often explained by the fact that investors are
+more prone to negative than to positive news in te market. 
+Moreover, in the literature the {\em estimated} tail-indices $\hat \alpha$ (both in the left and right tails) 
+are typically found in the range $(2.5,4)$. For an illustration, see
+Figure~\ref{fig:1} where estimates $\hat \alpha_{\rm low}$ 
+in three sectors of the Standard \& Poor 500 index  are shown. The
+estimates are based on 1304 observations of daily return 
+data from 1 January 2010 to 1 January 2015.
+\par
+When looking at Figure~\ref{fig:1} one might ask the following questions:
+\begin{itemize}
+\item
+In view of the wide \asy\ confidence bands of the estimators of tail-indices, 
+are the estimated tail-indices from different series really distinct?
+\item
+Are there some {\em theoretical} reasons in favor of the fact that the tail indices from different series are {\em not} 
+distinct?
+\end{itemize}
+In this paper, we try to find some answers to these questions. 
+\par
+The estimator of the tail-index $\alpha$  which favored in the literature  is the {\em Hill estimator}; the graphs in 
+Figure~\ref{fig:1} are based on this estimator. We introduce this estimator in Section~\ref{sec:1} and discuss 
+some of its virtues and vices. In addition to tail-index estimation we also discuss the related problem of
+estimation of the scale parameters in the tail (these are the constants $c_+$ and $c_-$ in \eqref{eq:1}). It turns out 
+that the simulateneous estimation of the tail-index and the scale parameter are strongly related.
+\par
+In Section~\ref{sec:2} we discuss the theoretical problem of appearance of power-law tails in models 
+for daily or, more generally, low \fre y 
+return data. In particular, we address the power-law tails of univariate and multivariate GARCH models as potential models
+for a set of return data from distinct assets. As a matter of fact, under mild conditions, the aforementioned models
+have power-tails due to their relation with so-called {\em \sre s}.
+\par
+In Section~\ref{sec:3} we discuss an economic argument for the fact that return data of similar assets
+(such as return series in a given sector of the S\&P 500 index) may have tail indices which are close to each other.
+We argue based on a  utility \fct\ approach. We explicitly recognize the behavioral
+concern for downside risk in an investor's evaluation of a portfolio
 using the framework of Generalized Disappointment Aversion (GDA)
 introduced by Routledge and Zin \cite{routledge2010generalized}. GDA
 is an extension of the concept of Disappointment Aversion (DA) of Gul
-(1991) \cite{gul1991theory}. The Gul paper derives the DA from first
-principles (axiomatic). In this section we infer characteristics of
-equity returns from the GDA theory and compare them with the empirical
-results.
+(1991) \cite{gul1991theory}. The Gul paper derives the DA from first principles (axiomatic).
+\par 
+In Section~\ref{sec:4} we summarize the discussion of the previous sections. 
 
-%% Secondly, the empirical fact that the loss return distribution is
-%% non-normally fat tailed distributed is taken into account.
-%% If investors and speculators alike display concern for downside risk,
-%% as formulated by a utility function, it becomes important to model this 
-%% risk adequately. see e.g. Jansen and de Vries (1991), exhibiting power
-%% like tails rather than exponential tails. The risk is determined both
-%% by the coefficient that regulates the hyperbolic power and the
-%% scale. We reason how both determine the risk of investment apart from
-%% the mean return.
 
-%% \section{Notations}
-%% Here is a summary of the notations that we use in the rest of the paper.
-%% In this summary $x_F$ denotes a quantity whose value that should be
-%% obvious from the context where the notation in question is used.
-%% \begin{itemize}
-%% \item $\sim$ stands for ``asymptotically equivalent to'', i.e.
-%%   $F(x) \sim G(x)$ means
-%%   \[
-%%   \lim_{x \to x_F} {F(x) \over G(x)} = 1
-%%   \]
-%% \item $O(F(x))$ stands for terms of the same order as $F(x)$, i.e.
-%%   \[
-%%   \lim_{x \to x_F } {O(F(x)) \over F(x)} = \text{constant}
-%%   \]
-%% \item $o(F(x))$ stands for terms of higher orders than $F(x)$, i.e.
-%%   \[
-%%   \lim_{x \to x_F } {o(F(x)) \over F(x)} = 0
-%%   \]
-%% \item $\hot$ stands for ``higher order terms'', i.e.
-%%   \[
-%%   \lim_{x \to x_F} {F(x) + \hot \over F(x)} = 1
-%%   \]
-%% \end{itemize}
 
-%% \section{Implications of heavy-tailed equity return}
-%% \label{sec:1}
-%% In this section we consider a rather general utility functional
-%% $U(F)$ associated with the distribution function $F(\cdot)$ of
-%% an equity return $X$. We define $U(F)$ as
-%% \[
-%% U(F) = \E u(X)
-%% \]
-%% for some function $u(\cdot)$ satisfying the following conditions:
-%% \begin{enumerate}
-%% \item $u(\cdot)$ is defined on $\mathbb R$, is increasing, concave
-%%   and differentiable.
-%% \item $u(\cdot)$ is independent of the distribution of $X$
-%% \item $\lim_{x \to \infty} u(x) = \bar u$, where $\bar u$ is a
-%%   constant
-%% \end{enumerate}
-%% %% An exampple of such utility functions is
-%% %% \[
-%% %% u(x) = \bar u - e^{-\lambda x}
-%% %% \]
-%% %% for some $\lambda > 0$.
-%% In addition we assume $F(\cdot)$ has the following properties:
-%% \begin{enumerate}
-%% \item $\lim_{x \to -\infty} F(x) u(x) = 0$
-%% \item $\lim_{x \to -\infty} {|x|^\alpha F(x) \over L(|x|)} = 1$
-%% \item $\lim_{x \to \infty} {x^\alpha (1 - F(x)) \over L(x)} = 1$
-%% \end{enumerate}
-%% for some $\alpha > 1$ and some slowly varying function $L(x) > 0$
-%% defined on $\mathbb R_+$.
-%% $\E u(X)$ can be computed as follows
-%% \begin{eqnarray*}
-%%   && \E u(X) \\
-%%   &=& \int_{-\infty}^{\infty} u(x) d F(x) \\
-%%   &=& \left. u(x) F(x) \right|_{-\infty}^{\infty}
-%%   - \int_{-\infty}^\infty F(x) u'(x) dx \\
-%%   &=& \bar u - \left(
-%%   \int_{-\infty}^{-M} + \int_{-M}^{M} + \int_{M}^{\infty}
-%%   \right) F(x) u'(x) dx
-%% \end{eqnarray*}
-%% As $M \to \infty$ we have for the lower-tail integral
-%% \begin{eqnarray*}
-%%   && \int_{-\infty}^{-M} F(x) u'(x) dx \\
-%%   &\sim& \int_{-\infty}^{-M} L(|x|) |x|^{-\alpha} u'(x) dx \\
-%%   &=& \int_{M}^{\infty} L(x) x^{-\alpha} u'(-x) dx \\
-%% \end{eqnarray*}
-%% Applying the same calculation to the upper-tail integral and
-%% using $1 - F(x) \sim L(x) x^{-\alpha}$ yields
-%% \begin{eqnarray}
-%%   && \E u(X) \nonumber \\
-%%   &=& \bar u - \int_{M}^\infty L(x) x^{-\alpha} u'(-x) dx
-%%   -\int_{-M}^M F(x) u'(x) dx \nonumber \\
-%%   && -\int_{M}^\infty [1 - L(x) x^{-\alpha}] u'(x) dx
-%%   + \hot \nonumber \\
-%%   &=& u(M) - \int_{M}^\infty L(x) x^{-\alpha} [u'(-x) - u'(x)] dx
-%%   + \hot \nonumber \\
-%%   && - \int_{-M}^M F(x) u'(x) dx \label{eq:xxie0}
-%% \end{eqnarray}
-%% In the simple case where $L(x) = A$, i.e. a constant, we have
-%% \begin{eqnarray}
-%%   \pd{\E u(X)}{\alpha} &=& \int_M^{\infty} A x^{-\alpha} \ln(x)
-%%      [u'(-x) - u'(x)] dx +\hot \nonumber \\
-%%      \pd{\E u(X)}{A} &=& -\int_M^{\infty} x^{-\alpha} [u'(-x) - u'(x)] dx
-%%      + \hot
-%%   \label{eq:xxie01}   
-%% \end{eqnarray}
-%% By concavity $u'(-x) > u'(x)$ for $x \in (M, \infty)$. So for large
-%% $M$,
-%% \[
-%% \pd{\E u(X)}{\alpha} > 0, \quad \pd{\E u(X)}{A} < 0
-%% \]
-%% %% \begin{eqnarray*}
-%% %%   \pd{\E u(X)}{\alpha} &>& 0 \\
-%% %%   \pd{\E u(X)}{A} &<& 0
-%% %% \end{eqnarray*}
-%% Now that each and every equity is assigned a score by the utility
-%% functional, all equities actively traded in a rational market that
-%% is dominated by agents exhibiting a utility function must have almost
-%% equal scores -- otherwise trading will be concentrated on those
-%% with top scores.
 
-%% Suppose the equity with the highest score in the market has parameters
-%% $(\alpha, A)$. We would like to find out how these parameters vary across
-%% equities that score almost as high. Consider a parameter pair
-%% $(\alpha + \Delta \alpha, A + \Delta A)$. If it scores the same as
-%% $(\alpha, A)$, we have
-%% \[
-%% 0 = \Delta \E u(X) = \Delta \alpha \pd{\E u(X)}{\alpha}
-%% + \Delta A \pd{\E u(X)}{A} + \hot
-%% \]
-%% Discarding higher order terms and plugging \eqref{eq:xxie01} into
-%% this equation gives
-%% \[
-%%   {\Delta \alpha \over \Delta A}
-%%   =
-%%   {
-%%     \int_M^{\infty} x^{-\alpha} [u'(-x) - u'(x)] dx    
-%%     \over
-%%     \int_M^{\infty} A x^{-\alpha} \ln(x) [u'(-x) - u'(x)] dx    
-%%   }
-%% \]
-%% Taking the limit as $M \to \infty$, we get
-%% \[
-%% \lim_{M \to \infty} {\Delta \alpha \over \Delta A}
-%% =
-%% \lim_{M \to \infty} {1 \over A \ln(M)} = 0
-%% \]
-%% We see from the last equation that in the configuration space around
-%% $(\alpha, A)$, a small variation of $\alpha$ induces a tremendous
-%% variation of $A$. Furthermore, this conclusion does not depend on the
-%% choice of the function $u(\cdot)$. Thus in a market dominated by rational
-%% agents guided by their utility functionals, we can expect to see very
-%% similar tail indices but hugely different scale parameters in equity
-%% return distributions.
+\section{Power-law tails of return series: some empirical results}\label{sec:1}\setcounter{equation}{0}
+In this section, we assume the model \eqref{eq:1} for the tails of the marginal
+\ds\ of a univariate return series $(X_t)$. For the sake of argument, we assume
+that this series constitutes a strictly stationary \seq . In what follows, we focus
+on the left tail of the \ds , i.e., on the losses. However, it is common to present the tail index estimators
+for positive data. Therefore we will multiply the losses by minus one, swapping the negative with the positive values.
+ The two parameters -- the tail-index  $\alpha_{\rm low}$ and the scale parameter
+$c_-$ -- are assumed positive. They play crucial roles for the understanding the risk hidden in the data, hence 
+for asset allocation and risk management. These parameters are market characteristics  and provide a simple but 
+useful description of the risk. Alternatively, these parameters can be
+used for model building of the equities in the market such as the GARCH model; see Section~\ref{sec:2}.
+%With these motives in mind, we present a survey of the
+%tail indices and scale parameters of 3 sectors, namely ``Energy'',
+%``Consumer Staples'' and ``Information Technology'', of the S\&P 500
+%index.
 
-%% %% Due to concavity, $u'(-x) > u'(x)$ on the interval $(M, \infty)$.
-%% %% The central region integral on $(-M, M)$ does not depend on $\alpha$.
-%% %% So $\E u(X)$ is monotonically increasing with $\alpha$. Trying to
-%% %% maximize his utility function, an agent will seek the largest $\alpha$
-%% %% possible in the market. As a result, all equities traded with significant
-%% %% volumes must eventually become so close that they are indistinguishable
-%% %% by available statistical methods.
-
-%% In section \ref{sec:GDA}, we compute the utility function within the
-%% elaborate framework of {\it Generalized Disappointment Aversion} and
-%% show that the same conclusion stands -- tail indices are similar while
-%% scale parameters can be drastically different.
-
-\section{Empirical Results}
-\label{sec:empirical_results}
-As has been mentioned, we are interested in the heavy-tail properties
-of equity returns. Let $X_t$ be an equity return series. If the
-distribution of $X_t$ is heavy-tailed, we can write
-\begin{eqnarray*}
-  \lim_{x \to \infty} {x^{\beta}\P(X_t > x) \over L_+(x)} &=& 1 \\
-  \lim_{x \to \infty} {x^{\alpha}\P(X_t < -x) \over L_-(x)} &=& 1
-\end{eqnarray*}
-where the constants $\alpha$ and $\beta$ are left and right tail
-indices, respectively, and $L_+(x)$ and $L_-(x)$ are slowly varying
-functions satisfying
-\[
-\lim_{x \to \infty} {L_*(a x) \over L_*(x)} = 1
-\]
-for all $a > 0$. Here ``*'' can be either ``+'' or ``-''. In the
-simplest case, $L_+(x)$ and $L_(x)$ are constants and the distribution
-has power-law tails. Let $J_*(1/x) = L_*(x)$. A Taylor expansion at
-$x=\infty$ gives
-\begin{equation}
-  \label{eq:scale_parameter}
-  J_*(1/x) = J_*(0) + {J'_*(0) \over x} + O(x^{-2})
-\end{equation}
-Thus
-\begin{equation}
-  \label{eq:lower_tail_expansion}
-  x^{-\alpha} L_-(x) =
-  J_-(0) x^{-\alpha} + J'_-(0) x^{-\alpha - 1} + O(x^{-\alpha-2})
-\end{equation}
-when $x \to \infty$. Clearly the tail indices $\alpha$ and $\beta$ as
-well as the scale parameters $J_-(0)$ and $J_+(0)$ play crutial roles
-in determining the tail distribution and hence in asset allocation and
-risk management. These parameters of the equities in a market are
-characteristics of the market and provide a useful description of the
-market. One can also use them to help build a model of the equities in
-the market. With these motives in mind, we present a survey of the
-tail indices and scale parameters of 3 sectors, namely ``Energy'',
-``Consumer Staples'' and ``Information Technology'', of the S\&P 500
-index.
-
-\subsection{Hill estimates of lower tail indices}
-\label{sec:Hill}
-There have been several estimators for the tail index proposed in the
-literature, e.g. Hill (1975) \cite{hill1975simple}, Pikands (1975)
-\cite{pickands1975statistical}, Dekkers and Einmahl and De Haan (1989)
-\cite{dekkers1989moment}. See also Embrechts and Kl\"uppelberg and
-Mikosch (1997)\cite{Embrechts1997}. The most popular of these is
-arguably Hill (1975) \cite{hill1975simple}:
-\begin{equation}
-  \label{eq:Hill_index}
-  \hat \alpha = \left[
-    {1 \over k} \sum_{i=1}^k \ln {x_{(i)} \over x_{(k+1)}}
-    \right]^{-1}
-\end{equation}
-where $x_{(i)}$ is the $i$-th upper order statistic of a sample
-$x_1, x_2, ..., x_n$. It has been shown that the Hill estimator is
-applicable to 
-\begin{itemize}
-\item iid random variables (Mason (1982) \cite{mason1982laws})
-\item a weakly dependent sequence (Rootz{\'e}n, Leadbetter,
-  and de Haan \cite{rootzen1992tail})
-\item a linear process (Resnick and St{\u{a}}ric{\u{a}} (1995)
-  \cite{resnick1995consistency}).
-\end{itemize}
-In these cases it is shown that, if $k \to \infty$ and $k/n \to 0$
-as $n \to \infty$, the Hill estimator is weakly consistent, i.e.
-\[
-\sqrt k (\hat \alpha - \alpha) \overset{d}{\to} N(0, \alpha^2)
-\]
-
-Figure \ref{fig:Energy_lower},
-\ref{fig:Consumer_Staples_lower},
-and \ref{fig:Information_Technology_lower}
-show the Hill estimates of the
-lower tail indices of the ``energy'', ``consumer staples'' and ``information
-technology'' sectors of the S\&P 500 index, respectively.
+\subsection{Hill estimates of lower tail indices}\label{sec:Hill}
+Various estimators of the tail index $\alpha_{\rm low}$  in the model
+\eqref{eq:1} have been proposed in the literature;
+see Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997}, de
+Haan and Ferreira \cite{dehaan:ferreira:2006}, Resnick
+\cite{resnick:2007}. The most popular among them was introduced  by
+Hill \cite{hill1975simple}.
+Given a sample $X_1,\ldots,X_n$ from \eqref{eq:1}, one can calculate
+the order statistices $X_{(1)}\le \cdots\le X_{(n)}$ and construct the
+{\em Hill estimator}:
+\beao%\label{eq:Hill_index}
+  \hat \alpha_{\rm low} = \Big(
+    {1 \over k} \sum_{i=1}^k \ln {X_{(n-i+1)} \over X_{(n-k)}}
+    \Big)^{-1}\,.
+\eeao
+Here $k$  is the number of upper order statistics in the sample used
+for the estimation. The estimator $\hat \alpha_{\rm low}$ is 
+a maximum-likelihood estimator of $\alpha$ based on the $k$ upper
+order statistics in the pure Pareto model (recall that 
+we multiplied the data by minus one)
+\beao
+\P(X_t>x)= \dfrac{K^\alpha}{x^\alpha}\,,\quad x>K\,,
+\eeao
+under the hypothesis that we do not know the (high) threshold value
+$K$. The estimator has ``good'' properties such as 
+\asy\ consistency and \asy\ normality. These properties hold under
+strict stationarity assumptions on the data; Drees and Rootz\'en 
+\cite{drees:rootzen:2010} give perhaps most general conditions for
+dependent \seq s and de Haan and Ferreira provide
+a complete \asy\ theory in the iid case.
+\par
+A major problem for Hill estimation is the choice of the number $k$ of
+order statistics. As  matter of fact,
+if $k$ is too large the order statistics are too close to the center
+of the \ds\ of the $X_t$. This leads to bias
+of the estimator. On the other hand, by construction $\hat \alpha_{\rm
+  low}$ is an average of $k$ log-differences of the 
+data. Therefore, the variance of the estimator is the larger the
+smaller $k$. For these reasons, \asy\ theory requires 
+to choose $k=k_n$ \st\ $k_n\to\infty$ and $k_n/n\to 0$ as $\nto$. This
+fact does not make the estimation of $\alpha_{\rm low}$ an  
+easy matter: one has to choose a ``small'' value $k$ which is not
+``too large''. For practical purposes,
+a so-called {\em Hill plot} is recommended where $\hat \alpha$ is
+plotted for a variety of $k$-values, corresponding to
+some high quantile $X_{(n-k)}$ of the data. Then $k$ is chosen from a
+region in the plot where $\hat \alpha_{\rm low}$ is relatively
+stable. For example, in Figure~\ref{fig:1} we have chosen $k=50$ from
+a sample of size $n=1304$, corresponding to the 96\%-quantile of the
+data. In general, the estimation of the tail index is an art and
+requires some expertise; for some guidance
+see Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997},
+Resnick \cite{resnick:2007} and Drees et al. 
+\cite{drees:resnick:how to make a Hill plot}. In Figure~\ref{fig:1},
+we exhibit 95\% \asy\ confidence bands which is based on the \clt
+\beam\label{eq:2}
+\sqrt k\, \big(\hat \alpha_{\rm low} - \alpha_{\rm low}\big) \std N(0, \alpha^2)\,,
+\eeam
+i.e., $\hat \alpha_{\rm low}$ is \asy ally unbiased and has variance
+$\alpha^2/k$. Since $k/n\to 0$ this means that the 
+confidence bands are significantly larger than the classical
+$\sqrt{n}$-rates. This fact is one explanation for the fact that it is
+difficult to say something meaningful about the true value of
+$\alpha_{\rm low}$. There exist various other reasons why one should
+not have 100\% trust in the confidence bands shown in
+Figure~\ref{fig:1}. Indeed, \eqref{eq:2}
+holds under rather subtle {\em second order conditions} on the tail
+$\P(X_t>x)$ which cannot be verified on data. However, 
+given a theoretical model such as the GARCH, these conditions can be
+verified based on the properties of the model. If they are not satisfied the 
+Hill estimator may exhibit significant bias; see Embrechts et
+al. \cite{embrechts:klueppelberg:mikosch:1997} for illustrations 
+of this fact leading to so-called ``Hill horror plots''. Moreover, the
+Hill estimator is rather sensitive to non-stationarity 
+of the data and to dependence. For example, results in Drees and
+Rootz\'en \cite{drees:rootzen:???} show that the \asy\ variance of the
+Hill estimator can be significantly larger than in the iid case. 
+Since return data are dependent, the \asy\ confidence bands should be
+even wider than exhibited in Figure~\ref{fig:1}. 
+Again, only under he assumption of a concrete model like GARCH these
+confidence bands could be evaluated.
 \begin{figure}[htb!]
-  \centering
-  \begin{subfigure}[b]{\linewidth}
+  \begin{minipage}{1.0\linewidth}
     \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
-                    {Energy_lower.pdf}
-    \caption{``Energy'' sector of S\&P 500}
-    \label{fig:Energy_lower}
-  \end{subfigure}
-  \begin{subfigure}[b]{\linewidth}
+    {Energy_lower.pdf}
+  \end{minipage}
+  \begin{minipage}{1.0\linewidth}
     \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
-                    {Consumer_Staples_lower.pdf}
-    \caption{``Consumer Staples'' sector of S\&P 500}
-    \label{fig:Consumer_Staples_lower}
-  \end{subfigure}
-  \begin{subfigure}[b]{\linewidth}
+    {Consumer_Staples_lower.pdf}
+  \end{minipage}
+  \begin{minipage}{1.0\linewidth}
     \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
-                    {Information_Technology_lower.pdf}
-    \caption{``Information Technology'' sector of S\&P 500}
-    \label{fig:Information_Technology_lower}
-  \end{subfigure}
+    {Information_Technology_lower.pdf}
+  \end{minipage}
   \caption{\small Hill estimates of lower tail indices of
     daily return series in sectors of Standard \& Poor
-    500 index. Each circle coresponds to a Hill estimate; the grey
+    500 index. The figures from top to bottom are ``Energy'',
+    ``Consumer Staples'' and ``Information Technology'' sectors.
+    Each circle coresponds to a Hill estimate; the grey
     triangles above and below it mark the 97.5\% and 2.5\% quantiles
     of its approximate normal distribution.
     The low and high red lines mark the median of the 2.5\% quantiles
@@ -375,19 +576,24 @@ technology'' sectors of the S\&P 500 index, respectively.
     from 2010-01-01 to 2015-01-01 and comprise $n=1304$
     observations. $k=50$ lower order statistics are used
     for computing $\alpha_n$. 
-  }
+  }\label{fig:1}
 \end{figure}
-One can see that all the confidence intervals of stocks in the
-``Energy'' and ``Consumer Staples'' sectors, as well as those of a
-large portion of stocks in the ``Information Technology'' sector,
-overlap. This suggests that the stocks in each sector may have very
-similar tail indices. Hoga's test on the change of extreme quantiles
+
+In Figure~\ref{fig:1} we see that confidence intervals of the Hill
+estimates of the losses in the ``Energy'' and ``Consumer Staples''
+sectors of the S\& P 500 index, as well as those of a 
+large portion of losses in the ``Information Technology'' sector,
+overlap. This fact indicates that the returns in each sector may 
+have comparable tail indices.
+
+Hoga's test on the change of extreme quantiles
 may provide some insight about how similar these tail indices are,
 because different tail indices are likely to result in different
 extreme quantiles. Nevertheless, changes in the extreme quantiles can
 be the result of changed tail indices but can also be the result of
 changed scale parameters. Thus we first investigate the scale
 parameters of stocks in the same sectors before applying Hoga's test.
+
 
 \subsection{Hill estimates of lower-tail scale parameters}
 \label{sec:HillScaleEstimates}
@@ -506,49 +712,43 @@ For the first question, Hoga's test is directly applicable; for the
 second, we concatenate the two series before applying the
 test.
 
-Figure \ref{fig:Hoga_Energy_Single} shows the test statistics of
-stocks in the ``Energy'' sector of the S\&P 500
-index. The null hypothesis here is that the tail index remains the
+Figure \ref{fig:Hoga_Single} shows the test statistics of
+stocks in the ``Energy'' and ``Consumer Staples'' sectors of the S\&P
+500 index. The null hypothesis here is that the tail index remains the
 same througout the selected period of time.
 \begin{figure}[htb!]
-  \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{Hoga_Energy_Single.pdf}
-    \caption{``Energy''}
-    \label{fig:Hoga_Energy_Single}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{Hoga_Consumer_Staples_Single.pdf}
-    \caption{``Consumer Staples''}
-    \label{fig:Hoga_consumer_Staples_Single}
-  \end{subfigure}
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]
+    {Hoga_Energy_Single.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]
+    {Hoga_Consumer_Staples_Single.pdf}
+  \end{minipage}
   \caption{Hoga Test Statistics of stocks in the ``Energy'' and
-    ``Consumer Staples'' sectors of
-    S\&P 500. The green, blue and red lines are, respectively the
-    85\%, 90\% and 95\% quantiles of the distribution of
-    \eqref{eq:Q1_distr}}.
+    ``Consumer Staples'' sectors of S\&P 500. The green, blue and red
+    lines are, respectively the 85\%, 90\% and 95\% quantiles of the
+    distribution of \eqref{eq:Q1_distr}}.
+  \label{fig:Hoga_Single}
 \end{figure}
 
 To test whether two series share the same tail index, we concatenate
 the two series and apply the Hoga test. For the ``Energy'' and the
 ``Consumer Staples'' sector, we summarise the results in figure
-\ref{fig:Hoga_Energy_pair} and \ref{fig:Hoga_consumer_Staples_pair}.
+\ref{fig:Hoga_pair}.
 \begin{figure}[htb!]
-  \begin{subfigure}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \includegraphics[
       width=\textwidth,
       trim={0.3cm, 1cm, 1cm, 1cm}, clip
     ]{Hoga_Energy_pair.pdf}
-    \caption{``Energy''}
-    \label{fig:Hoga_Energy_pair}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.5\linewidth}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
     \includegraphics[
       width=\textwidth,
       trim={0.3cm, 1cm, 1cm, 1cm}, clip
     ]{Hoga_Consumer_Staples_pair.pdf}
-    \caption{``Consumer Staples''}
-    \label{fig:Hoga_consumer_Staples_pair}
-  \end{subfigure}
+  \end{minipage}
   \caption{Hoga Test Statistics of stocks in the ``Energy'' and
     ``Consumer Staples'' sectors of
     S\&P 500. The green, blue and red colors represent, respectively,
@@ -559,6 +759,7 @@ the two series and apply the Hoga test. For the ``Energy'' and the
     black points represent pairs for which
     computation of the test statistics fails for given precision
     requirements and time limits.}
+  \label{fig:Hoga_pair}
 \end{figure}
 Clearly, these figures show that the null
 hypothesis of an equal tail index is rejected for more pairs in the
@@ -630,6 +831,7 @@ quantiles of these distributions.
 
 \section{Review of multivariate GARCH models:
   same tail index or not}
+\label{sec:2}
 Many multivariate GARCH models imply a common tail index for all
 series under consideration, e.g. the Orthogonal GARCH model of
 Alexander and Chibumba (1997) \cite{alexander1997multivariate}, its
@@ -674,13 +876,13 @@ modifying \eqref{eq:CCC-GARCH} to
 \begin{equation}
   \label{eq:ECCC-GARCH}
   \vec h_t =
-  \sum_{l=1}^q \mtx A_{l} (\vec X_{t-l} \odot \vec X_{t-l})
+  \sum_{l=1}^q \mathbf A_{l} (\vec X_{t-l} \odot \vec X_{t-l})
   +
-  \sum_{l=1}^p \mtx B_{l} \vec h_{t-l}
+  \sum_{l=1}^p \mathbf B_{l} \vec h_{t-l}
   +
   \vec \omega
 \end{equation}
-where $\mtx A_l$ and $\mtx B_l$ are non-diagonal $d \times d$ matrices
+where $\mathbf A_l$ and $\mathbf B_l$ are non-diagonal $d \times d$ matrices
 and $\odot$ denotes element-wise multiplication. In the simple case $p=q=1$,
 equation \eqref{eq:ECCC-GARCH} reduces to
 \begin{eqnarray*}
@@ -692,7 +894,7 @@ equation \eqref{eq:ECCC-GARCH} reduces to
 or in vector form
 \begin{eqnarray}
   \vec h_t &=& \left[
-    \mtx A \diag(Z_{1, t-1}^2, \dots, Z_{d, t-1}^2) + \mtx B
+    \mathbf A \text{diag}(Z_{1, t-1}^2, \dots, Z_{d, t-1}^2) + \mathbf B
     \right] \vec h_{t-1} + \vec \omega
   \label{eq:ECCC-GARCH2}
 \end{eqnarray}
@@ -710,7 +912,7 @@ gather statistical evidence from financial time series if the issue is
 to be settled definitely.
 
 \section{Generalized disappointment aversion}
-\label{sec:GDA}
+\label{sec:3}
 Routledge and Zin (2010) \cite{routledge2010generalized} define the GDA
 preferences over discrete states in their formula (2). A slight extension
 is to consider a continuum of possible states. Suppose the state variable
@@ -749,7 +951,7 @@ stating the following simple observation:
   $(a, b)$, $X \sim F$, $\text{supp}(X) = (a,b)$,
   $\E h(X) < \infty$ and
   \begin{eqnarray*}
-    \opd{\theta}\left[
+    {\partial \over \partial \theta}\left[
       F(b) - F(a)
     \right] = 0 \\
     \left| \pd{f(x, \theta)}{\theta} \right| < \infty
@@ -875,9 +1077,9 @@ We have
   Suppose functional $G(\cdot)$ is given as \eqref{eq:G_functional},
   function $u(\cdot)$ is increasing and differentiable, then
   \[
-  \pd{G(F)}{\alpha} > 0,
+  \frac{\pd G(F)}{\pd \alpha} > 0,
   \quad
-  \pd{G(F)}{K} < 0
+  \frac{\pd G(F)}{\pd K} < 0
   \]
 \end{theorem}
 The proof of theorem \ref{thrm:I} is given in secton
@@ -891,34 +1093,27 @@ of $K$ to increase too, i.e. the estimated values of $\alpha$ and $K$
 should appear positively correlated. This is indeed the case in some
 real stock return data, e.g. the ``Energy'', ``Consumer Staples'' and
 ``Information Technology'' sectors of S\&P 500 companies. This is
-illustrated in figures 
-\ref{fig:Energy_alpha_K_ci}, \ref{fig:Consumer_Staples_alpha_K_ci}
-and \ref{fig:Information_Technology_alpha_K_ci}.
+illustrated in figure \ref{fig:sectors_parameters}.
 The confidence bands of the Hill estimates of $\alpha$ of these
-sectors are shown in figures \ref{fig:Energy_lower},
-\ref{fig:Consumer_Staples_lower} and
-\ref{fig:Information_Technology_lower}.
+sectors are shown in figure~\ref{fig:1}.
 
 By numerically integration and optimization with respect to $\phi$,
 the value of $\hat\phi$ can be obtained for given $u(\cdot)$ and given
-values of $K, K', \alpha, \beta$. Figures \ref{fig:phi_hat_pareto5e-1}
-and \ref{fig:phi_hat_pareto4} show the values of $\hat\phi$ for
-$u(C) = -\frac{C^{-\xi}}{\xi}$ with $\xi = 1/2, 4$ respectively.
-$\beta=\alpha$ and $K'=K$ in both figures.
+values of $K, K', \alpha, \beta$. Figures \ref{fig:phi_hat_pareto}
+shows the values of $\hat\phi$ for $u(C) = -\frac{C^{-\xi}}{\xi}$ with
+$\xi = 1/2, 4$. $\beta=\alpha$ and $K'=K$ in both figures.
 \begin{figure}
-  \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{phi_hat_pareto5e-1.pdf}
-    \caption{$\hat\phi$ when $\xi = 1/2$}
-    \label{fig:phi_hat_pareto5e-1}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_pareto5e-1.pdf}    
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{phi_hat_pareto4.pdf}
-    \caption{$\hat\phi$ when $\xi = 4$}
-    \label{fig:phi_hat_pareto4}
-  \end{subfigure}
+  \end{minipage}
   \caption{$\hat\phi$, the optimal equity allocation when the utility
-    function is $u(C) = -{C^{-\xi} \over \xi}$ for $\xi = 1/2, 4$.
+    function is $u(C) = -{C^{-\xi} \over \xi}$ for $\xi = 1/2$
+    (left). and $\xi = 1/2$ (right).
   }
+  \label{fig:phi_hat_pareto}
 \end{figure}
 
 \begin{minipage}{0.5\linewidth}
@@ -929,10 +1124,9 @@ $\beta=\alpha$ and $K'=K$ in both figures.
   $\xi$ grows slower and saturates later than does one with a large
   $\xi$. It represents an agent that is more tolerant of low
   consumption and that seeks wealth more aggressively. In other
-  words, he is less risk-avert than is one with a higher $\xi$.
+  words, he is less risk-averse than is one with a higher $\xi$.
   Such an agent will therefore invest more heavily on the equity as
-  is shown in figures \ref{fig:phi_hat_pareto5e-1} and
-  \ref{fig:phi_hat_pareto4}.
+  is shown in figures \ref{fig:phi_hat_pareto}.
 \end{minipage}
 Certainly, it rarely happens in practice that the lower- and
 upper-tail indices of an equity are equal. Thus, to verify our result
@@ -946,24 +1140,21 @@ I(\alpha, K) =
   u\left[ (1 - \hat\phi(\alpha, K)) e^r + \hat\phi(\alpha, K) e^x \right]
   {1 + b \over (K - x)^{\alpha + 1}} dx
 \]
-is increasing with $\alpha$ and decreasing with $K$. Figures
-\ref{fig:preference_pareto5e-1} and \ref{fig:preference_pareto4}
-show the values of the above integral when $\alpha$ and $K$ take
+is increasing with $\alpha$ and decreasing with
+$K$. Figure~\ref{fig:preference_pareto}
+shows the values of the above integral when $\alpha$ and $K$ take
 a range of values.
 \begin{figure}[htb!]
-  \begin{subfigure}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{preference_pareto5e-1.pdf}
-    \caption{$I(\alpha, K)$}
-    \label{fig:preference_pareto5e-1}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.5\linewidth}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{preference_pareto4.pdf}
-    \caption{$I(\alpha, K)$}
-    \label{fig:preference_pareto4}
-  \end{subfigure}
+  \end{minipage}
   \caption{$I(\alpha, K)$ when the utility function is
     $u(C) = -{C^{-\xi} \over \xi}$ for $\xi = 1/2, 4$.
   }
+  \label{fig:preference_pareto}
 \end{figure}
 
 \subsection{Hybrid fitting of the shifted Pareto distribution}
@@ -1000,7 +1191,7 @@ equation $\pd{L}{K} = 0$, which expands to
 This equation has to be solved numerically.
 The Fisher information of $K$ follows as
 \begin{eqnarray*}
-  I(K) &=& \E\left[ \left( \opd{K} l(K | X < 0) \right)^2 \right] \\
+  I(K) &=& \E\left[ \left( {\partial \over \partial K} l(K | X < 0) \right)^2 \right] \\
   &=& \alpha K^{\alpha - 2}
   \int_{-\infty}^0 {(\alpha x + K)^2 \over (K - x)^{\alpha + 3}} dx \\
   &=& {\alpha \over (2 + \alpha) K^2}
@@ -1026,15 +1217,12 @@ By the central limit theorem,
 \end{eqnarray*}
 
 
-Figure \ref{fig:Energy_alpha_K_ci},
-\ref{fig:Consumer_Staples_alpha_K_ci},
-and \ref{fig:Information_Technology_alpha_K_ci}
+The plots in the 1st column of figure \ref{fig:sectors_parameters}
 show the estimates of $K$ alongside the Hill estimates of $\alpha$ of
 the ``energy'', ``consumer staples'' and ``information technology''
-sectors of the S\&P 500 index, respectively.
-Figure \ref{fig:Energy_p}, \ref{fig:Consumer_Staples_p} and
-\ref{fig:Information_Technology_p} show the estimates of $p$ of the
-same sectors.
+sectors of the S\&P 500 index;
+The plots in the 2nd column show the estimates of $p$ of the same
+sectors.
 
 From these figures, one can see that stocks of the ``Energy'' and the
 ``Information Technology'' sectors generally have larger values of
@@ -1047,9 +1235,8 @@ more probable. Thus one can conclude that these two sectors are
 considerablly riskier than the ``Consumer Staples'' sector. This is of
 course a confirmation of one's economic instinct.
 
-One can also see from figure \ref{fig:Energy_alpha_K_ci}
-and \ref{fig:Information_Technology_alpha_K_ci} that, while the
-``Energy'' and the ``Information Technology'' sectors are similar in
+One can also see from figure \ref{fig:sectors_parameters} that, while
+the ``Energy'' and the ``Information Technology'' sectors are similar in
 riskiness, the correlation between $\alpha$ and $K$ is stronger in
 ``Energy''. As discussed in the last section, moving along a curve of
 equal preference in the direction of increasing $\alpha$, $K$ also
@@ -1065,46 +1252,71 @@ and distribution.
 
 \begin{figure}[htb!]
   \centering
-  \begin{subfigure}[b]{0.45\linewidth}
+  % \begin{subfigure}[b]{0.45\linewidth}
+  %   \includegraphics[width=\textwidth]
+  %                   {Energy_p.pdf}
+  %                   \caption{``Energy''}
+  %                   \label{fig:Energy_p}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.45\linewidth}
+  %   \includegraphics[width=\textwidth]
+  %                   {Energy_alpha_K_ci.pdf}
+  %                   \caption{``Energy''}
+  %                   \label{fig:Energy_alpha_K_ci}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.45\linewidth}
+  %   \includegraphics[width=\textwidth]
+  %                   {Consumer_Staples_p.pdf}
+  %                   \caption{``Consumer Staples''}
+  %                   \label{fig:Consumer_Staples_p}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.45\linewidth}
+  %   \includegraphics[width=\textwidth]
+  %                   {Consumer_Staples_alpha_K_ci.pdf}
+  %                   \caption{``Consumer Staples''}
+  %                   \label{fig:Consumer_Staples_alpha_K_ci}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.45\linewidth}
+  %   \includegraphics[width=\textwidth]
+  %                   {Information_Technology_p.pdf}
+  %                   \caption{``Information Technology''}
+  %                   \label{fig:Information_Technology_p}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.45\linewidth}
+  %   \includegraphics[width=\textwidth]
+  %                   {Information_Technology_alpha_K_ci.pdf}
+  %                   \caption{``Information Technology''}
+  %                   \label{fig:Information_Technology_alpha_K_ci}
+  % \end{subfigure}
+  \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-                    {Energy_p.pdf}
-                    \caption{``Energy''}
-                    \label{fig:Energy_p}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.45\linewidth}
+    {Energy_p.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-                    {Energy_alpha_K_ci.pdf}
-                    \caption{``Energy''}
-                    \label{fig:Energy_alpha_K_ci}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.45\linewidth}
+    {Energy_alpha_K_ci.pdf}
+  \end{minipage}
+  \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-                    {Consumer_Staples_p.pdf}
-                    \caption{``Consumer Staples''}
-                    \label{fig:Consumer_Staples_p}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.45\linewidth}
+    {Consumer_Staples_alpha_K_ci.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-                    {Consumer_Staples_alpha_K_ci.pdf}
-                    \caption{``Consumer Staples''}
-                    \label{fig:Consumer_Staples_alpha_K_ci}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.45\linewidth}
+    {Consumer_Staples_alpha_K_ci.pdf}
+  \end{minipage}
+  \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-                    {Information_Technology_p.pdf}
-                    \caption{``Information Technology''}
-                    \label{fig:Information_Technology_p}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.45\linewidth}
+    {Information_Technology_alpha_K_ci.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-                    {Information_Technology_alpha_K_ci.pdf}
-                    \caption{``Information Technology''}
-                    \label{fig:Information_Technology_alpha_K_ci}
-  \end{subfigure}
+    {Information_Technology_alpha_K_ci.pdf}
+  \end{minipage}
   \caption{\small Estimates of $p$ and $K$ of stocks in sectors of the
     S\&P 500 index. The points are the estimated values; the bars are
     the $2\sigma$ confidence intervals.
   }
+  \label{fig:sectors_parameters}
 \end{figure}
 To compare the maximum likelihood estimates with the results obtained
 from Hill's scale estimates, one can re-write the lower-tail
@@ -1128,24 +1340,38 @@ from Hill's scale estimator with those from the $p K^\alpha$ method.
 
 \begin{figure}[htb!]
   \centering
-  \begin{subfigure}[b]{0.32\linewidth}
+  \begin{minipage}{0.32\linewidth}
     \includegraphics[width=\textwidth]
-                    {Energy_scale.pdf}
-                    \caption{``Energy''}
-                    \label{fig:Energy_scale}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.32\linewidth}
+    {Energy_scale.pdf}
+    
+  \end{minipage}
+  \begin{minipage}{0.32\linewidth}
     \includegraphics[width=\textwidth]
-                    {Consumer_Staples_scale.pdf}
-                    \caption{``Consumer Staples''}
-                    \label{fig:Consumer_Staples_scale}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.32\linewidth}
+    {Consumer_Staples_scale.pdf}
+    
+  \end{minipage}
+  \begin{minipage}{0.32\linewidth}
     \includegraphics[width=\textwidth]
-                    {Information_Technology_scale.pdf}
-                    \caption{``IT''}
-                    \label{fig:Information_Technology_scale}
-  \end{subfigure}
+    {Information_Technology_scale.pdf}
+  \end{minipage}
+  % \begin{subfigure}[b]{0.32\linewidth}
+  %   \includegraphics[width=\textwidth]
+  %   {Energy_scale.pdf}
+  %   \caption{``Energy''}
+  %   \label{fig:Energy_scale}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.32\linewidth}
+  %   \includegraphics[width=\textwidth]
+  %   {Consumer_Staples_scale.pdf}
+  %   \caption{``Consumer Staples''}
+  %   \label{fig:Consumer_Staples_scale}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.32\linewidth}
+  %   \includegraphics[width=\textwidth]
+  %   {Information_Technology_scale.pdf}
+  %   \caption{``IT''}
+  %   \label{fig:Information_Technology_scale}
+  % \end{subfigure}
   \caption{\small Scale estimates obtained from Hill's scale estimator
     and from $p K^\alpha$ . Red dots are Hill's scale estimates and
     triangles are $p K^\alpha$ estimates.
@@ -1579,26 +1805,26 @@ respect to $\phi$ for a sequence of selected values of $\nu$. The
 results are shown in figures \ref{fig:phi_hat_t_log} and
 \ref{fig:U_b_t_log}.
 \begin{figure}[htb!]
-  \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{phi_hat_b_t_log.pdf}
-    \caption{$\hat\phi(\nu)$ of log-utility function}
-    \label{fig:phi_hat_t_log}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{U_b_t_log.pdf}
-    \caption{$G(\nu)$ of log-utility function}
-    \label{fig:U_b_t_log}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
-    \caption{$\hat\phi(\nu)$ of power-utility function}
-    \label{fig:phi_hat_t_power}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.5\linewidth}
-    \includegraphics[width=\textwidth]{U_b_t_power.pdf}
-    \caption{$G(\nu)$ of power-utility function}
-    \label{fig:U_b_t_power}
-  \end{subfigure}
+  % \begin{subfigure}[b]{0.5\linewidth}
+  %   \includegraphics[width=\textwidth]{phi_hat_b_t_log.pdf}
+  %   \caption{$\hat\phi(\nu)$ of log-utility function}
+  %   \label{fig:phi_hat_t_log}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.5\linewidth}
+  %   \includegraphics[width=\textwidth]{U_b_t_log.pdf}
+  %   \caption{$G(\nu)$ of log-utility function}
+  %   \label{fig:U_b_t_log}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.5\linewidth}
+  %   \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
+  %   \caption{$\hat\phi(\nu)$ of power-utility function}
+  %   \label{fig:phi_hat_t_power}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.5\linewidth}
+  %   \includegraphics[width=\textwidth]{U_b_t_power.pdf}
+  %   \caption{$G(\nu)$ of power-utility function}
+  %   \label{fig:U_b_t_power}
+  % \end{subfigure}
   \caption{$\hat\phi$ and $G(\nu)$
   }
 \end{figure}
@@ -1641,30 +1867,6 @@ decreasing with $\nu$ as in the case of a log-utility function.
 %%   }
 %% \end{figure}
 
-
-%   where
-%   \[
-%   y = 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} > 1
-%   \]
-%   Now notice
-%   \[
-%   \ln(y e^{-y}) = \ln(y) - y
-%   \]
-%   is a decreasing function. Thus $-y e^{-y}$ is an increasing
-%   function. Hence we have
-%   \begin{eqnarray*}
-%     W(-y e^{-y}) + y &>& W(-e^{-1}) + 1 = 0
-%   \end{eqnarray*}
-%   Now it is clear
-%   \[
-%   \nu\exp\left\{
-%   W\left[
-%     -\left(1 + {1 \over \nu}\right)
-%     e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
-%   \right]
-%   + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
-%   &=& W(-y e^{-y}) + y
-% \end{eqnarray*}
 \section{Conclusion}
 TODO: Summarize and conclude that all correlated series share the same
 tail index; their tail functions differ from each other via their
@@ -1700,7 +1902,7 @@ scale parameters.
     \begin{eqnarray*}
       \pd{\E h(X)}{\theta}
       > h(x_0) \int_a^b \pd{f}{\theta}(x, \theta) dx
-      = h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx
+      = h(x_0) {\partial \over \partial \theta} \int_a^b f(x, \theta) dx
       = 0
     \end{eqnarray*}
   \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
@@ -1723,7 +1925,7 @@ scale parameters.
     \[
     \pd{\E h(X)}{\theta}
     = I_1 + I_2
-    > h(x_0) \opd{\theta} \int_a^b f(x, \theta) dx = 0
+    > h(x_0) {\partial \over \partial \theta} \int_a^b f(x, \theta) dx = 0
     \]
   \end{enumerate}
 \end{proof}
@@ -1774,7 +1976,7 @@ scale parameters.
   \]
   where $\Psi(\cdot)$ is the digamma function:
   \[
-  \Psi(x) = \td{\ln[\Gamma(x)]}{x}
+  \Psi(x) = {d \ln[\Gamma(x)] \over d x}
   \]
   \begin{minipage}{0.48\textwidth}
     $\Psi(x)$ \linebreak
@@ -1873,7 +2075,7 @@ scale parameters.
   Let
   \begin{equation}
     \label{eq:xxie2}
-    \hat \phi := \argmax_{0 < \phi \leq 1} \mathcal U(F, \phi)
+    \hat \phi := \text{argmax}_{0 < \phi \leq 1} \mathcal U(F, \phi)
   \end{equation}
   We have
   \[
@@ -1901,13 +2103,13 @@ scale parameters.
   From \eqref{eq:xxie1.0}, it follows
   \begin{eqnarray*}
     \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi)
-    = \opd{\alpha}\E[u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}]
+    = {\partial \over \partial \alpha}\E[u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}]
   \end{eqnarray*}
   The function $u((1 - \hat\phi) e^r + \hat\phi e^X)$ is obviously
   increasing with $X$. It follows
   \begin{eqnarray*}
     && \pd{f(x; \alpha, K)}{\alpha} \\
-    &=& \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
+    &=& {\partial \over \partial \alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
     &=&
     - {K^\alpha \over (K - x)^{\alpha + 1}}
     \left[
@@ -1919,11 +2121,11 @@ scale parameters.
   \end{eqnarray*}
   It is easily checked that when $x < K(1 - e^{1/\alpha}) < 0$,
   \[
-  \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
+  {\partial \over \partial \alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
   \]
   and when $K(1 - e^{1/\alpha}) < x < 0$,
   \[
-  \opd{\alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
+  {\partial \over \partial \alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
   \]
   This is the second case of lemma \ref{lemma:I}. So we have
   \begin{eqnarray*}
@@ -1937,14 +2139,14 @@ scale parameters.
   We have
   \[
   \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi)
-  = \opd{K} \E \left[
+  = {\partial \over \partial K} \E \left[
     u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}
   \right] 
   \]
   and
   \begin{eqnarray*}
     && \pd{f(x; \alpha, K)}{K} \\
-    &=& \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
+    &=& {\partial \over \partial K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
     &=&
     -\alpha K^{\alpha - 1} {
       \alpha x + K
@@ -1954,11 +2156,11 @@ scale parameters.
   \end{eqnarray*}
   Clearly, when $x < -\alpha/K$
   \[
-  \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
+  {\partial \over \partial K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
   \]
   and when $-\alpha/K < x < 0$
   \[
-  \opd{K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
+  {\partial \over \partial K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
   \]
   So by the 1st case of remark \ref{remark:I} we conclude
   \[
@@ -1967,6 +2169,5 @@ scale parameters.
 \end{proof}
 
 \bibliographystyle{unsrt}
-%% \bibliography{../../thesis/econophysics}
-\bibliography{econophysics}
+\bibliography{../../thesis/econophysics}
 \end{document}
