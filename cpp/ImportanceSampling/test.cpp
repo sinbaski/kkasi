@@ -20,57 +20,14 @@ extern void adjust_numbers(ExtremeNumber &V);
 
 double opt_func(double phi, const vector<ExtremeNumber> &samples)
 {
-    ExtremeNumber f = accumulate(samples.cbegin(), samples.cend(), ExtremeNumber(0.0),
-				 [&](ExtremeNumber s, const ExtremeNumber &x) {
-				     return exp(x * phi) + s;
-				 });
+    ExtremeNumber f =
+	accumulate(samples.cbegin(), samples.cend(), ExtremeNumber(0.0), 
+		   [&](ExtremeNumber s, const ExtremeNumber &x) {
+		       return exp(x * phi) + s;
+		   });
     double x = double(f - ExtremeNumber(1.0));
     return x;
 }
-
-double find_optimal_shift(const vector<ExtremeNumber> &samples)
-{
-    gsl_root_fsolver *solver;
-    gsl_function F;
-    int iter = 0;
-    int status = 0;
-    int max_iter = 100;
-    double lb, ub;
-    double phi;
-    double K = (double)samples.size();
-    F.function = opt_func;
-    F.params = samples;
-    solver = gsl_root_fsolver_alloc(gsl_root_fsolver_brent);
-
-    ExtremeNumber mean = accumulate(samples.cbegin(), samples.cend(),
-				    ExtremeNumber(0.0))/K;
-    phi = log(1/K) / double(mean);
-    do {
-	lb = opt_func(phi++, samples);
-    } while (lb < 1);
-    lb = phi - 1;
-    ub = phi;
-
-    gsl_root_fsolver_set(solver, &F, bounds[0], bounds[1]);
-    do {
-	iter++;
-	status = gsl_root_fsolver_iterate (solver);
-	xi = gsl_root_fsolver_root (solver);
-	lb = gsl_root_fsolver_x_lower(solver);
-	ub = gsl_root_fsolver_x_upper(solver);
-	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
-	if (status == GSL_SUCCESS)
-	    cout << "Tail index found: xi = " << xi << endl;
-    } while (status == GSL_CONTINUE && iter < max_iter);
-    gsl_root_fsolver_free(solver);
-    if (status != GSL_SUCCESS) {
-	cout << "The Brent algorithm did not converge after " << max_iter
-	     << " iterations." << endl;
-	xi = -1;
-    }
-    return xi;
-}
-
 
 XMatrix & gen_rand_matrix(const vector<double> &alpha,
 			  const vector<double> &beta,
@@ -111,9 +68,7 @@ double estimateLambda(const vector<double>& alpha,
 		      vector< pair<double, long> > &bounds)
 {
     vector<ExtremeNumber> results(iterations);
-#if !defined DEBUG
 #pragma omp parallel for
-#endif
     for (unsigned k = 0; k < iterations; k++) {
 	vector<XMatrix> A(n);
 	for_each(A.begin(), A.end(),
@@ -134,47 +89,57 @@ double estimateLambda(const vector<double>& alpha,
 	results[k].mylog += power * xi;
     }
 
-    // find the optimal shift parameter for resampling
-    
-
     // resampling and importance sampling
+    vector<ExtremeNumber> weights(iterations);    
     vector<ExtremeNumber> resampled(iterations);
-#if !defined DEBUG
+    transform(
+	results.cbegin(), results.cend(),
+	weights.begin(),
+	[&](const ExtremeNumber &x) {
+	    return(x^2);
+	});
+    discrete_distribution<int>
+	resample_dist(weights.cbegin(), weights.cend());
+    ExtremeNumber W =
+	accumulate(weights.cbegin(), weights.cend(), ExtremeNumber(0.0));
 #pragma omp parallel for
-#endif
     for (unsigned i = 0; i < iterations; i++) {
-	int array[iterations];
-	for (unsigned j = 0; j < iterations; j++)
-	    array[j] = j;
-	discrete_distribution<int> resample_dist(array);
-	
-    }    
-
-    sort(results.begin(), results.end());
-    unsigned i = (unsigned)(iterations * 2.5e-2);
-    unsigned j = (unsigned)ceil(iterations * 97.5e-2);
-    double K = (double)iterations;
-    ExtremeNumber mean =
-    	accumulate(results.cbegin(), results.cend(),
-    		   ExtremeNumber(0.0))/K;
-    bounds.resize(3);
+	resampled[i] = results[resample_dist(gen)];
+    }
     
-    bounds[0] = make_pair(
-    	results[i](),
-    	results[i].power()
-    	);
-    bounds[1] = make_pair(
-    	mean(),
-    	mean.power()
-    	);
-    bounds[2] = make_pair(
-    	results[j](),
-    	results[j].power()
-    	);
+    // sort(resampled.begin(), resampled.end());
+    // unsigned i = (unsigned)(iterations * 2.5e-2);
+    // unsigned j = (unsigned)ceil(iterations * 97.5e-2);
+    double K = (double)iterations;
+    ExtremeNumber mean(0.0);
+    for (unsigned i = 0; i < iterations; i++) {
+	mean += W / resampled[i];
+	mean /= K*K;
+    }
+    // ExtremeNumber mean = accumulate(
+    // 	resampled.cbegin(), resampled.cend(),
+    // 	ExtremeNumber(0.0),
+    // 	[&](ExtremeNumber s, const ExtremeNumber &x) {
+    // 	    exp(-x)
+    // 	});
+    // bounds.resize(3);
+    
+    // bounds[0] = make_pair(
+    // 	resampled[i](),
+    // 	resampled[i].power()
+    // 	);
+    // bounds[1] = make_pair(
+    // 	mean(),
+    // 	mean.power()
+    // 	);
+    // bounds[2] = make_pair(
+    // 	resampled[j](),
+    // 	resampled[j].power()
+    // 	);
     // for (unsigned i = 0; i < results.size(); i++) {
     // 	printf("% e\n", results[i].mylog);
     // }
-    return log(mean)/K;
+    return log(mean)/n;
 }
 
 void test_cases(void)
@@ -265,17 +230,22 @@ void test_cases(void)
 
 int main(int argc, char*argv[])
 {
-    vector<double> alpha({1.0e-7, 0.11, 1.0e-8});
-    // vector<double> alpha({1.0e-7, stod(argv[3])});
-    vector<double> beta({0.88});
+    // DAX
+    // vector<double> alpha({3.374294e-06, 2.074732e-02, 4.104949e-02});
+    // vector<double> beta({9.102376e-01});
+
+    // SP500
+    vector<double> alpha({9.376992e-06, 7.949678e-02, 8.765884e-02});
+    vector<double> beta({6.683833e-01});
+
     double Lambda;
     vector< pair<double, long> > bounds;
     
     cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
     	alpha[1] << ", alpha[2]=" << alpha[2] <<
     	", beta[1]=" << beta[0] << endl;
-    cout << "n = " << argv[2] << endl;
-    cout << argv[3] << " iterations" << endl;
+    cout << "n = " << argv[3] << endl;
+    cout << argv[4] << " iterations" << endl;
 
     // double nu = stod(argv[1]);
     // Lambda = estimateLambda(
@@ -283,9 +253,9 @@ int main(int argc, char*argv[])
     // 	stoul(argv[3]), bounds);
     // printf("%e    %e\n", nu, Lambda);
 
-    for (double nu = stod(argv[1]); nu < 4; nu += 0.25) {
+    for (double nu = stod(argv[1]); nu < stod(argv[2]); nu += 0.1) {
     	Lambda = estimateLambda(
-    	    alpha, beta, nu, stoul(argv[2]), stoul(argv[3]), bounds);
+    	    alpha, beta, nu, stoul(argv[3]), stoul(argv[4]), bounds);
     	printf("%e    %e\n", nu, Lambda);
     }
     
