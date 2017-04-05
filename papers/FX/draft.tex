@@ -23,10 +23,9 @@
 %\usepackage{amsmath}
 %\usepackage{amsthm}
 %\usepackage{enumerate}
-%\usepackage[bookmarks=true]{hyperref}
+\usepackage[bookmarks=true]{hyperref}
 %\usepackage{bookmark}
 \usepackage{graphicx}
-\usepackage[bookmarks=true]{ hyperref}
 %\usepackage{multirow}
 %\usepackage{adjustbox}
 %\usepackage{wrapfig}
@@ -447,7 +446,8 @@ introduced by Routledge and Zin \cite{routledge2010generalized}. GDA
 is an extension of the concept of Disappointment Aversion (DA) of Gul
 (1991) \cite{gul1991theory}. The Gul paper derives the DA from first principles (axiomatic).
 \par 
-In Section~\ref{sec:4} we summarize the discussion of the previous sections. 
+In Section~\ref{sec:4} we summarize the discussion of the previous
+sections. 
 
 
 
@@ -610,9 +610,8 @@ sequence $X_t$ as defined in section\ref{sec:Hill}. $\hat \alpha$
 is the Hill tail index estimator.
 Estimates of $A$ of the ``Energy'', ``Consumer Staples'' and
 ``Information Technology'' sectors of the S\&P 500 index are computed
-using this method. The results are shown in figure \ref{fig:Energy_scale},
-\ref{fig:Consumer_Staples_scale} and
-\ref{fig:Information_Technology_scale}, along with estimates obtained
+using this method. The results are shown in figure
+\ref{fig:sectors_parameters}, along with estimates obtained
 using the hybrid method described in section
 \ref{sec:hybrid_estimation}.
 
@@ -954,21 +953,21 @@ stating the following simple observation:
     {\partial \over \partial \theta}\left[
       F(b) - F(a)
     \right] = 0 \\
-    \left| \pd{f(x, \theta)}{\theta} \right| < \infty
+    \left| \frac{\pd f(x, \theta)}{\pd \theta} \right| < \infty
     \quad \forall x \in (a, b)
   \end{eqnarray*}
   \begin{enumerate}
   \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
-    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
-    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(x_0, b)$, then
+    $\frac{\pd f}{\pd \theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
+    $\frac{\pd f}{\pd \theta}(x_0; \theta) < 0$ on $(x_0, b)$, then
     \[
-    \pd{\E h(X)}{\theta} > 0
+    \frac{\pd \E h(X)}{\pd \theta} > 0
     \]
   \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
-    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
-    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$, then
+    $\frac{\pd f}{\pd \theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
+    $\frac{\pd f}{\pd \theta}(x_0; \theta) > 0$ on $(x_0, b)$, then
     \[
-    \pd{\E h(X)}{\theta} > 0
+    \frac{\pd \E h(X)}{\pd \theta} > 0
     \]
   \end{enumerate}
 \end{lemma}
@@ -976,13 +975,14 @@ stating the following simple observation:
   \label{remark:I}
   Two other cases follow trivially from lemma \ref{lemma:I}:
   \begin{enumerate}
-  \item If $h(\cdot)$ is increasing and $\pd{f}{\theta}$ satisfies the
+  \item If $h(\cdot)$ is increasing and $\frac{\pd f}{\pd \theta}$
+    satisfies the
     same conditions of the 1st case of lemma \ref{lemma:I},
-    $\pd{\E h(X)}{\theta} < 0$. This immediately follows from applying
-    1st case of lemma \ref{lemma:I} to $-h(\cdot)$.
+    $\frac{\pd \E h(X)}{\pd \theta} < 0$. This immediately follows
+    from applying 1st case of lemma \ref{lemma:I} to $-h(\cdot)$.
   \item By the same argument, if $h(\cdot)$ is decreasing and
-    $\pd{f}{\theta}$ satisfies the same conditions of the 2nd case of
-    lemma \ref{lemma:I}, $\pd{\E h(X)}{\theta} < 0$.
+    ${\pd f \over \pd \theta}$ satisfies the same conditions of the 2nd case of
+    lemma \ref{lemma:I}, ${\pd \E h(X) \over \pd \theta} < 0$.
   \end{enumerate}
 \end{remark}
 Now for simplicity we assume the investor initially has one unit of
@@ -1184,7 +1184,7 @@ L(K | \forall i=1,2,...,n, X_i < 0) = n \ln(\alpha) + n \alpha \ln(K)
 - (\alpha + 1) \sum_{i=1}^n \ln(K - X_i)
 \]
 To obtain the maximum likelihood estimation, we need to solve the
-equation $\pd{L}{K} = 0$, which expands to
+equation ${\pd L \over \pd K} = 0$, which expands to
 \[
 {n \alpha \over K} - (\alpha + 1) \sum_{i=1}^n {1 \over K - X_i} = 0
 \]
@@ -1252,42 +1252,6 @@ and distribution.
 
 \begin{figure}[htb!]
   \centering
-  % \begin{subfigure}[b]{0.45\linewidth}
-  %   \includegraphics[width=\textwidth]
-  %                   {Energy_p.pdf}
-  %                   \caption{``Energy''}
-  %                   \label{fig:Energy_p}
-  % \end{subfigure}
-  % \begin{subfigure}[b]{0.45\linewidth}
-  %   \includegraphics[width=\textwidth]
-  %                   {Energy_alpha_K_ci.pdf}
-  %                   \caption{``Energy''}
-  %                   \label{fig:Energy_alpha_K_ci}
-  % \end{subfigure}
-  % \begin{subfigure}[b]{0.45\linewidth}
-  %   \includegraphics[width=\textwidth]
-  %                   {Consumer_Staples_p.pdf}
-  %                   \caption{``Consumer Staples''}
-  %                   \label{fig:Consumer_Staples_p}
-  % \end{subfigure}
-  % \begin{subfigure}[b]{0.45\linewidth}
-  %   \includegraphics[width=\textwidth]
-  %                   {Consumer_Staples_alpha_K_ci.pdf}
-  %                   \caption{``Consumer Staples''}
-  %                   \label{fig:Consumer_Staples_alpha_K_ci}
-  % \end{subfigure}
-  % \begin{subfigure}[b]{0.45\linewidth}
-  %   \includegraphics[width=\textwidth]
-  %                   {Information_Technology_p.pdf}
-  %                   \caption{``Information Technology''}
-  %                   \label{fig:Information_Technology_p}
-  % \end{subfigure}
-  % \begin{subfigure}[b]{0.45\linewidth}
-  %   \includegraphics[width=\textwidth]
-  %                   {Information_Technology_alpha_K_ci.pdf}
-  %                   \caption{``Information Technology''}
-  %                   \label{fig:Information_Technology_alpha_K_ci}
-  % \end{subfigure}
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
     {Energy_p.pdf}
@@ -1334,8 +1298,7 @@ distribution function: For all $x < 0$,
 \end{eqnarray*}
 Comparing this expression with \eqref{eq:lower_tail_expansion}, one
 can immediately identity $p K^\alpha$ as the scale parameter. Figure
-\ref{fig:Energy_scale}, \ref{fig:Consumer_Staples_scale} and
-\ref{fig:Information_Technology_scale} compare the estimates obtained
+\ref{fig:scale_estimates} compare the estimates obtained
 from Hill's scale estimator with those from the $p K^\alpha$ method.
 
 \begin{figure}[htb!]
@@ -1343,396 +1306,21 @@ from Hill's scale estimator with those from the $p K^\alpha$ method.
   \begin{minipage}{0.32\linewidth}
     \includegraphics[width=\textwidth]
     {Energy_scale.pdf}
-    
   \end{minipage}
   \begin{minipage}{0.32\linewidth}
     \includegraphics[width=\textwidth]
     {Consumer_Staples_scale.pdf}
-    
   \end{minipage}
   \begin{minipage}{0.32\linewidth}
     \includegraphics[width=\textwidth]
     {Information_Technology_scale.pdf}
   \end{minipage}
-  % \begin{subfigure}[b]{0.32\linewidth}
-  %   \includegraphics[width=\textwidth]
-  %   {Energy_scale.pdf}
-  %   \caption{``Energy''}
-  %   \label{fig:Energy_scale}
-  % \end{subfigure}
-  % \begin{subfigure}[b]{0.32\linewidth}
-  %   \includegraphics[width=\textwidth]
-  %   {Consumer_Staples_scale.pdf}
-  %   \caption{``Consumer Staples''}
-  %   \label{fig:Consumer_Staples_scale}
-  % \end{subfigure}
-  % \begin{subfigure}[b]{0.32\linewidth}
-  %   \includegraphics[width=\textwidth]
-  %   {Information_Technology_scale.pdf}
-  %   \caption{``IT''}
-  %   \label{fig:Information_Technology_scale}
-  % \end{subfigure}
   \caption{\small Scale estimates obtained from Hill's scale estimator
     and from $p K^\alpha$ . Red dots are Hill's scale estimates and
     triangles are $p K^\alpha$ estimates.
   }
+  \label{fig:scale_estimates}
 \end{figure}
-
-
-%% \begin{figure}[htb!]
-%%   \centering
-%%   \includegraphics[width=\textwidth]{Energy_alpha_K.pdf}
-%%   \caption{Hybrid estimates of the lower-tail parameters of daily
-%%     return series in the {\it Energy} sector of S\&P
-%%     500 index.
-%%   }
-%%   \label{fig:Energy_alpha_K}
-%% \end{figure}
-
-%% \begin{figure}[htb!]
-%%   \centering
-%%   \includegraphics[width=\textwidth]{Consumer_Staples_alpha_K.pdf}
-%%   \caption{Hybrid estimates of the lower-tail parameters of daily
-%%     return series in the {\it Consumer Staples} sector of S\&P
-%%     500 index.
-%%   }
-%%   \label{fig:Consumer_Staples_alpha_K}
-%% \end{figure}
-
-%% \begin{figure}[htb!]
-%%   \centering
-%%   \includegraphics[width=\textwidth]{Information_Technology_alpha_K.pdf}
-%%   \caption{Hybrid estimates of the lower-tail parameters of daily
-%%     return series in the {\it Information Technology} sector of S\&P
-%%     500 index.
-%%   }
-%%   \label{fig:Information_Technology_alpha_K}
-%% \end{figure}
-
-% \subsection{Pickand's Estimator}
-% Pickands (1975) \cite{pickands1975statistical} proposed a different
-% approach to estimate the tail index than that of Hill. Assume
-% $\{x_i\}_{i=1}^n$ are samples from the distribution of $X$ and let $U(t)$
-% denote the quantile of $1 - 1/t$ of this distribution, i.e.
-% \[
-% P(X > U(t)) = {1 \over t}
-% \]
-% The key idea of Pickands' estimator is to observe
-% \[
-% \lim_{t \to \infty} {
-%   U(c(t) t) - U(t)
-%   \over
-%   U(t) - U(t/c(t))
-% } = 2^{1/\alpha}
-% \]
-% for any function $c(t)$ satisfying $c(t) \to 2$ as $t \to \infty$.
-% Pickands formulated the estimation problem in terms of the extreme
-% value index $\xi$, which is the reciprocal of the tail index $\alpha$
-% when the distribution of $X$ is regularly varying (cf. Embrechtsm,
-% Kl\"uppelberg and Mikosch \cite{Embrechts1997}).
-
-% Building upon the aforementioned observation and taking $c(t)$ to
-% be simply constant 2, Pickands proposed the following estimator for
-% $\xi$:
-% \[
-% \hat \xi = {1 \over \ln 2} \ln {
-%   x_{(k)} - x_{(2k)}
-%   \over
-%   x_{(2k)} - x_{(4k)}
-% }
-% \]
-% Dekkers and de Haan (1989) later showed \cite{dekkers1989estimation}
-% that Pickands' estimator was consistent in both the weak and the strong
-% sense, when the sequence $k(n)$ was chosen appropriately:
-% \begin{itemize}
-% \item if $k \to \infty$ and $k/n \to 0$ as $n \to \infty$,
-%   \[
-%   \hat \xi \overset{P}{\to} \xi
-%   \]
-% \item if $k \to \infty$, $k/n \to 0$ and $k / \ln(\ln n) \to \infty$
-%   as $n \to \infty$,
-%   \[
-%   \hat \xi \overset{a.s.}{\to} \xi
-%   \]
-% \end{itemize}
-% Dekkers and de Haan \cite{dekkers1989estimation} also showed the
-% asymptotic normality of the estimator, when some
-% extra technical conditions were satisfied by
-% $U(\cdot)$ and $k(n) \to \infty$ yet grew sufficiently slowly, i.e.
-% \[
-% \sqrt k (\hat \xi - \xi) \overset{d}{\to} N(0, v(\xi))
-% \]
-% where
-% \[
-% v(\xi) = {
-%   \xi^2 (2^{2 \xi + 1} + 1)
-%   \over
-%   [2 \ln(2) (2^\xi - 1)]^2
-% }
-% \]
-% Using Pickands' estimator, the same result of very similar tail indices
-% is again obtained for the {\it Energy} and the {\it Consumer Staples}
-% sectors. Figure \ref{fig:Energy_Pickands} and
-% \ref{fig:Consumer_Staples_Pickands} illustrate this claim.
-% \begin{figure}[htb!]
-%   \includegraphics[width=\textwidth]{Energy_Pickands.pdf}
-%   \caption{Pickands' estimates of {\it Energy} stocks.}
-%   \label{fig:Energy_Pickands}
-% \end{figure}
-
-% \begin{figure}[htb!]
-%   \includegraphics[width=\textwidth]{Consumer_Staples_Pickands.pdf}
-%   \caption{Pickands' estimates of {\it Consumer Staples} stocks.}
-%   \label{fig:Consumer_Staples_Pickands}
-% \end{figure}
-
-
-
-%% \section{Hoga Test}
-%% TODO: Show the test statistics of Hoga test applied to a sequence of
-%% two concatenated return series. A changes in the scale is characterized
-%% by a smooth bump in the test statistics while a change in the tail
-%% index is characterized by a jump. Derive a theoretical result to
-%% support this?
-
-%% What is the probability of rejecting the null hypothesis when the test
-%% is applied to $(X_1, X_2)$ where $X_1$ and $X_2$ have tail indices
-%% $\kappa_1 \neq \kappa_2$? The probability of wrongly rejecting the
-%% null hypothesis must be lower than $\alpha$.
-%% \textcolor{red}{Review the test of Hoga}
-
-% \section{Data Analysis} \label{sec:data_analysis}
-% \subsection{Tail index and scale parameter}
-% In this section we apply the statistical tools reviewed in the
-% previous sections to real stock return series, denoted $X_t$
-% hereafter. We are interested in finding out the tail indices and the
-% scale parameters of the stationary distribution of $|X_t|$.
-
-%% \subsubsection{The Energy and the Consumer Staples sectors of S\&P 500}
-%% Figure \ref{fig:Energy_Hill_upper} shows the Hill estimates of the
-%% tail indices of 32 stocks in the {\it Energy} sector of S\&P 500
-%% index; figure \ref{fig:Consumer_Staples_Hill_upper} shows the same of
-%% the {\it Consumer Staples} sector.
-%% \begin{figure}[htb!]
-%%   \centering
-%%   \includegraphics[width=\textwidth]{Energy_Hill_upper.pdf}
-%%   \caption{Hill estimates of the upper tail indices of 32 stocks'
-%%     daily return series in the {\it Energy} sector of Standard \& Poor
-%%     500 index. Each circle coresponds to a Hill estimate; the grey
-%%     triangles above and below it mark the 97.5\% and 2.5\% quantiles
-%%     of its approximate normal distribution.
-%%     The low and high red lines mark the median of the 2.5\% quantiles
-%%     and median of the 97.5\% quantiles, respectively.
-%%     The data are from {\it Yahoo Finance} and the labels on
-%%     the horizontal axis are Yahoo symbols of the stocks. The data span
-%%     from 2010-01-01 to 2015-01-01 and comprise $n=1304$
-%%     observations. $k=(\ln n)^2 = 49$ upper order statistics are used
-%%     for computing $\alpha_n$. 
-%%   }
-%%   \label{fig:Energy_Hill_upper}
-%% \end{figure}
-
-%% \begin{figure}[htb!]
-%%   \centering
-%%   \includegraphics[width=\textwidth]{Consumer_Staples_Hill_upper.pdf}
-%%   \caption{Hill estimates of the upper tail indices of 30 stocks'
-%%     daily return series in the {\it Consumer Staples} sector of
-%%     Standard \& Poor 500 index.
-%%   }
-%%   \label{fig:Consumer_Staples_Hill_upper}
-%% \end{figure}
-
-%% For our purpose, we have excluded a few stocks, though:
-%% \begin{figure}[htb!]
-%%   \centering
-%%   \begin{subfigure}{0.45\textwidth}
-%%     \includegraphics[width=\textwidth]{WBA_price.pdf}
-%%     \caption{{\it Walgreens Boots Alliance} prices}
-%%     \label{fig:EBA_prices}
-%%   \end{subfigure}
-%%   \begin{subfigure}{0.45\textwidth}
-%%     \includegraphics[width=\textwidth]{WFM_price.pdf}
-%%     \caption{{\it Whole Foods Market} prices}
-%%     \label{fig:WFM_prices}
-%%   \end{subfigure}
-%%   \begin{subfigure}{0.45\textwidth}
-%%     \includegraphics[width=\textwidth]{EL_price.pdf}
-%%     \caption{{\it Estee Lauder Cos.} prices}    
-%%     \label{fig:EL_prices}
-%%   \end{subfigure}
-%%   \begin{subfigure}{0.45\textwidth}
-%%     \includegraphics[width=\textwidth]{CL_price.pdf}
-%%     \caption{{\it Colgate-Palmolive} prices}    
-%%     \label{fig:CL_prices}
-%%   \end{subfigure}
-%%   \caption{Plot of prices of {\it Consumer Staples} stocks
-%%     excluded from Hill estimates}
-%% \end{figure}
-
-%% \begin{itemize}
-%% \item {\it Walgreens Boots Alliance}:
-
-%%   As shown in figure (\ref{fig:EBA_prices}),
-%%   this stock was traded only in a small fraction of the bank
-%%   days and it is hence no surprise that the price varied
-%%   tremendously.
-%% \item {\it Whole Foods Market}, {\it Estee Lauder Cos.} and {\it
-%%   Colgate-Palmolive}
-  
-%%   As seen in figures (\ref{fig:WFM_prices}), (\ref{fig:EL_prices}) and
-%%   (\ref{fig:CL_prices}),
-%%   the prices of these stocks were reduced by half during the
-%%   period under consideration. But the price changes are the
-%%   result of emission of new shares rather than random fluctuations.
-%% \end{itemize}
-
-%% Figure \ref{fig:Energy_Hill_upper} and
-%% \ref{fig:Consumer_Staples_Hill_upper}
-%% are suggestive of the conclusion that excluding price
-%% movements due to deterministic events, tail indices of stock return
-%% series tend to have the same value, within a reasonable confidence
-%% interval.
-
-%% If we look instead at the scales, differences among the stock return
-%% series are however rather large. Figure (\ref{fig:Energy_Hill_Scales})
-%% and (\ref{fig:Consumer_Staples_Hill_Scales}) show the Hill estimates of
-%% the scale parameters of the stocks in the S\&P 500 {\it Energy} and
-%% {\it Consumer Staples} sectors, respectively.
-%% \begin{figure}[htb!]
-%%   \begin{subfigure}{0.45\textwidth}
-%%     \includegraphics[width=\textwidth]{Energy_Hill_scales.pdf}
-%%     \caption{{\it Energy} scale estimates}    
-%%     \label{fig:Energy_Hill_Scales}
-%%   \end{subfigure}
-%%   \begin{subfigure}{0.45\textwidth}
-%%     \includegraphics[width=\textwidth]{Consumer_Staples_Hill_scales.pdf}
-%%     \caption{{\it Consumer Staples} scale estimates}    
-%%     \label{fig:Consumer_Staples_Hill_Scales}
-%%   \end{subfigure}
-%%   \caption{Black boxes are Hill estimates of the scale parameters of
-%%     the stock return series, while red circles are the scale estimates
-%%     of simulated iid. Student's $t$ series with a degree of freedom
-%%     equal to the mean value of the estimated tail indices of the stock
-%%     return series. The estimates of the Student's $t$ series are
-%%     included for comparison with those of the return series.}
-%% \end{figure}
-%% Clearly the estimated scale parameters can differ by several orders of
-%% magnitude. 
-
-%% Using the ``Peaks over Threshold'' method and the mean excess
-%% function, we also obtain estimates for the tail index ($\alpha$), the
-%% scale parameter ($A$) and the shift parameter ($a$) for stocks in the
-%% {\it Energy} and the {\it Consumer Staples} sectors of the S\&P 500
-%% index. The results are plotted in figure
-%% \ref{fig:Energy_OLS_estimates} and
-%% \ref{fig:Consumer_Staples_OLS_estimates},
-%% respectively.
-%% \begin{figure}[htb!]
-%%   \includegraphics[width=\textwidth]{Energy_OLS_estimates.pdf}
-%%   \caption{Tail parameter estimates of {\it Energy} stocks. The top
-%%     plot shows the tail index estimates, the middle plot shows the
-%%     10-based logarithm of the scale estimates and bottom plot shows
-%%     the estimates of the shift parameter.
-%%   }
-%%   \label{fig:Energy_OLS_estimates}
-%% \end{figure}
-
-%% \begin{figure}[htb!]
-%%   \includegraphics[width=\textwidth]{Consumer_Staples_OLS_estimates.pdf}
-%%   \caption{Tail parameter estimates of {\it Consumer Staples}
-%%     stocks. The top 
-%%     plot shows the tail index estimates, the middle plot shows the
-%%     10-based logarithm of the scale estimates and bottom plot shows
-%%     the estimates of the shift parameter.
-%%   }
-%%   \label{fig:Consumer_Staples_OLS_estimates}
-%% \end{figure}
-
-%% \subsubsection{The Information Technology sector of S\&P 500}
-%% Compared with the sectors of energy and consumer staples, which enjoy
-%% a relatively stable demand on their products, companies of information
-%% technology are more subject to volatile demand and competition. As a
-%% result, one can expect their stock prices to be more volatile, implying
-%% lower tail indices and larger differences between the tail indices of
-%% different companies. In this section we investigate how these companies
-%% differ in terms of their tail indices and scale parameters.
-
-%% Figure \ref{fig:Information_Technology_Hill} shows the Hill
-%% estimates of 42 stocks in the {\it Information Technology} sector. Daily
-%% closing prices of these stocks have been available since 2000-01-01 and
-%% earlier.
-%% \begin{figure}[htb!]
-%%   \centering
-%%   \includegraphics[width=\textwidth]{Information_Technology_Hill.pdf}
-%%   \caption{Hill estimates of the tail indices of 42 stocks' daily
-%%     return series in the {\it Information Technology} sector of Standard
-%%     \& Poor 500 index.
-%%   }
-%%   \label{fig:Information_Technology_Hill}
-%% \end{figure}
-%% It is seen in the figure that most of the estimates fall within the
-%% interval spanned by the confidence bands. Thus, given the estimation
-%% precision, these are consistent with the similarity conclusion of 
-%% \S\ref{sec:GDA}.
-
-%% From the figure it appears a few pairs of stocks do have rather different
-%% tail indices, e.g. ``ADI'', ``PAYX'' and ``XLNX'' versus ``CTSH'' and
-%% ``NVDA''.
-
-
-%% To gain more insight into these pairs, we concatenate the
-%% squared return series of each pair and apply Hoga's test to the concatenated
-%% sequence. Table \ref{tab:Information_Technology_Hoga} shows the test
-%% statistic of each concatenated pair.
-%% \begin{table}[htb!]
-%%   \centering
-%%   \begin{tabular}{c|c|c}
-%%     \multicolumn{2}{c}{Stock(s)} & Hoga Test Statistic \\
-%%     \hline
-%%     ADI & CTSH & 15.52 \\
-%%     ADI & NVDA & 4.726 \\
-%%     PAYX & CTSH & 231.5 \\
-%%     PAYX & NVDA & 110.6 \\
-%%     XLNX & CTSH & 503.5 \\
-%%     XLNX & NVDA & 146.5
-%%   \end{tabular}
-%%   \caption{Hoga Test statistic of pairs of stocks from the
-%%     {\it Information Technology} sector of S\&P 500 index.
-%%     The critical value at 95\% confidence level is 166.4}
-%%   \label{tab:Information_Technology_Hoga}
-%% \end{table}
-
-%% \subsection{Temporal changes of the parameters}
-
-
-
-
-%% Thomas: Try fitting data to a Burr distribution.
-%% TODO: use GPD and POT to estimate the scale and tail index.
-%% TODO: plot the Hill estimator instead of its inverse. The asymptotic
-%% normal distribution of Hill estimator is found in ``Modeling Extremal
-%% events''.
-
-
-%% TODO: Does the scale estimator also have a convergence result from
-%% which confidence bands can be derived?
-
-%% TODO: Why does the Quintos Fan test almost always reject the null?
-
-%% Hill (1975) \cite{hill1975simple} also proposed an estimator for the
-%% scale parameter $A$:
-%% \[
-%% A_n = {k \over n}X_{(k+1)}^{\alpha_n}
-%% \]
-
-
-
-%% Review of CCC by Starica and others.
-%% explain that the model implies that all series have the same tail index
-%% Explain that economic arguments also lead to the same tail index
-
-%% Explain that the tail functions of different series are
-%% differentiated more by the scale parameter.
 
 \subsection{Student's t-distributed equity return}
 It is a common practice to use Student's t-distribution to model the
@@ -1771,9 +1359,9 @@ where $C(\cdot)$ is defined in \eqref{eq:xxie1}.
 
 \begin{lemma}
   \label{lemma:II}
-  There exists $x_0 > 0$ such that $\pd{f}{\nu}(x_0, \nu) = 0$ and
-  $\forall x \in (0, x_0), \pd{f}{\nu}(x, \nu) > 0$ and
-  $\forall x \in (x_0, \infty), \pd{f}{\nu}(x, \nu) < 0$.
+  There exists $x_0 > 0$ such that ${\pd f \over \pd \nu}(x_0, \nu) = 0$ and
+  $\forall x \in (0, x_0), {\pd f \over \pd \nu}(x, \nu) > 0$ and
+  $\forall x \in (x_0, \infty), {\pd f \over \pd \nu}(x, \nu) < 0$.
 \end{lemma}
 
 \subsubsection{log-utility function}
@@ -1787,13 +1375,13 @@ Its integrand becomes $\ln[C(x, \phi) C(-x, \phi)]$.
 Now observe $\ln(C(x, \phi)C(-x, \phi))$ is an increasing function of
 $x$:
 \begin{eqnarray*}
-  \pd{C(x, \phi) C(-x, \phi)}{x}
+  {\pd C(x, \phi) C(-x, \phi) \over \pd x}
   &=&
   \phi e^r (1 - \phi) (e^x - e^{-x}) > 0
 \end{eqnarray*}
 Thus when $b = 0$, by 1st case of remark \ref{remark:I} and lemma
 \ref{lemma:II},
-$\pd{\mathcal U(F, \phi))}{\nu} < 0$ for all $\phi$. Hence all
+${\pd \mathcal U(F, \phi)) \over \pd \nu} < 0$ for all $\phi$. Hence all
 investors guided by this utility function would be seeking the
 smallest $\nu$, i.e. the heaviest tail in the market. Here note that
 Student's t is a symmetric distribution; a heavier tail implies not
@@ -1802,8 +1390,7 @@ only greater down-side risk but also greater up-side potential.
 In fact, even when $b > 0$, the same monotonicity property holds. This
 is revealed by numerically maximizing $\mathcal U(F, \phi)$ with
 respect to $\phi$ for a sequence of selected values of $\nu$. The
-results are shown in figures \ref{fig:phi_hat_t_log} and
-\ref{fig:U_b_t_log}.
+results are shown in figure~\ref{fig:phi_hat_U}.
 \begin{figure}[htb!]
   % \begin{subfigure}[b]{0.5\linewidth}
   %   \includegraphics[width=\textwidth]{phi_hat_b_t_log.pdf}
@@ -1825,7 +1412,20 @@ results are shown in figures \ref{fig:phi_hat_t_log} and
   %   \caption{$G(\nu)$ of power-utility function}
   %   \label{fig:U_b_t_power}
   % \end{subfigure}
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_b_t_log.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{U_b_t_log.pdf}
+  \end{minipage}
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{U_b_t_power.pdf}
+  \end{minipage}
   \caption{$\hat\phi$ and $G(\nu)$
+    \label{fig:phi_hat_U}
   }
 \end{figure}
 
@@ -1848,26 +1448,24 @@ $u(\cdot)$ takes the form
 \[
 u(C) = -{1 \over \xi} C^{-\xi}
 \]
-One can see from figure \ref{fig:phi_hat_t_power} and
-\ref{fig:U_b_t_power} that both $\hat \phi$ and $G(\nu)$ are monotonically 
-decreasing with $\nu$ as in the case of a log-utility function.
-%% \begin{figure}[htb!]
-%%   \begin{subfigure}[b]{0.5\linewidth}
-%%     \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
-%%     \caption{$\hat\phi(\nu)$}
-%%     \label{fig:phi_hat_t_power}
-%%   \end{subfigure}
-%%   \begin{subfigure}[b]{0.5\linewidth}
-%%     \includegraphics[width=\textwidth]{U_b_t_power.pdf}
-%%     \caption{$G(\nu)$}
-%%     \label{fig:U_b_t_power}
-%%   \end{subfigure}
-%%   \caption{$\hat\phi$ and $G(\nu)$ when the utility
-%%     function is $u(C) = -{2 \over \sqrt{C}}$
-%%   }
-%% \end{figure}
+One can see from figure \ref{fig:phi_hat_U_power} that both $\hat
+\phi$ and $G(\nu)$ are monotonically decreasing with $\nu$ as in the
+case of a log-utility function.
+\begin{figure}[htb!]
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{U_b_t_power.pdf}
+  \end{minipage}
+  \caption{$\hat\phi$ and $G(\nu)$ when the utility
+    function is $u(C) = -{2 \over \sqrt{C}}$
+  }
+  \label{fig:phi_hat_U_power}
+\end{figure}
 
 \section{Conclusion}
+\label{sec:4}
 TODO: Summarize and conclude that all correlated series share the same
 tail index; their tail functions differ from each other via their
 scale parameters.
@@ -1877,53 +1475,53 @@ scale parameters.
 \begin{proof}
   Clearly
   \begin{eqnarray*}
-    && \pd{\E h(X)}{\theta} \\
-    &=& \int_a^b h(x) \pd{f}{\theta}(x, \theta) dx \\
-    &=& \underbrace{\int_a^{x_0} h(x) \pd{f}{\theta}(x, \theta) dx}_{I_1}
-    + \underbrace{\int_{x_0}^b h(x) \pd{f}{\theta}(x, \theta) dx}_{I_2}
+    && {\pd \E h(X) \over \pd \theta} \\
+    &=& \int_a^b h(x) {\pd f \over \pd \theta}(x, \theta) dx \\
+    &=& \underbrace{\int_a^{x_0} h(x) {\pd f \over \pd \theta}(x, \theta) dx}_{I_1}
+    + \underbrace{\int_{x_0}^b h(x) {\pd f \over \pd \theta}(x, \theta) dx}_{I_2}
   \end{eqnarray*}
   \begin{enumerate}
-  \item When $h(x)$ is decreasing on $(a, b)$ and $\pd{f}{\theta}(x,
+  \item When $h(x)$ is decreasing on $(a, b)$ and ${\pd f \over \pd \theta}(x,
     \theta) > 0$ on $(a, x_0)$
     \[
-    I_1 > h(x_0) \int_a^{x_0} \pd{f}{\theta}(x, \theta) dx
+    I_1 > h(x_0) \int_a^{x_0} {\pd f \over \pd \theta}(x, \theta) dx
     \]
-    Similarly, because $\pd{f}{\theta}(x, \theta) < 0$ for $x \in (x_0, b)$ and
+    Similarly, because ${\pd f \over \pd \theta}(x, \theta) < 0$ for $x \in (x_0, b)$ and
     $h(x)$ is decreasing, we have
     \begin{eqnarray*}
       I_2 &=& \int_{x_0}^b -h(x_0)
-      \left|\pd{f}{\theta}(x, \theta) \right| dx \\
+      \left|{\pd f \over \pd \theta}(x, \theta) \right| dx \\
       &>& -h(x_0)
       \int_{x_0}^b \left| 
-        \pd{f}{\theta}(x, \theta)
+        {\pd f \over \pd \theta}(x, \theta)
       \right| dx
     \end{eqnarray*}
     Finally we have
     \begin{eqnarray*}
-      \pd{\E h(X)}{\theta}
-      > h(x_0) \int_a^b \pd{f}{\theta}(x, \theta) dx
+      {\pd \E h(X) \over \pd \theta}
+      > h(x_0) \int_a^b {\pd f \over \pd \theta}(x, \theta) dx
       = h(x_0) {\partial \over \partial \theta} \int_a^b f(x, \theta) dx
       = 0
     \end{eqnarray*}
   \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
-    $\pd{f}{\theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
-    $\pd{f}{\theta}(x_0; \theta) > 0$ on $(x_0, b)$
+    ${\pd f \over \pd \theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
+    ${\pd f \over \pd \theta}(x_0; \theta) > 0$ on $(x_0, b)$
     \begin{eqnarray*}
       I_1 &=&
       \int_a^{x_0} -h(x)
-      \left| \pd{f}{\theta}(x, \theta) \right| dx \\
+      \left| {\pd f \over \pd \theta}(x, \theta) \right| dx \\
       &>&
       -h(x_0) \int_a^{x_0}
-      \left| \pd{f}{\theta}(x, \theta) \right| dx
+      \left| {\pd f \over \pd \theta}(x, \theta) \right| dx
     \end{eqnarray*}
     and obviously
     \[
     I_2 > h(x_0) \int_{x_0}^b
-    \pd{f}{\theta}(x, \theta) dx
+    {\pd f \over \pd \theta}(x, \theta) dx
     \]
     So
     \[
-    \pd{\E h(X)}{\theta}
+    {\pd \E h(X) \over \pd \theta}
     = I_1 + I_2
     > h(x_0) {\partial \over \partial \theta} \int_a^b f(x, \theta) dx = 0
     \]
@@ -1934,7 +1532,7 @@ scale parameters.
 \begin{proof}
   Straightforward computation gives
   \begin{eqnarray}
-    \pd{f(x, \nu)}{\nu} &=& {
+    {\pd f(x, \nu) \over \pd \nu} &=& {
       c(\nu) x^2 (\nu + 1) + (2 \nu x^2 + 2 \nu^2) c'(\nu)
       -
       \nu c(\nu) (x^2 + \nu) \ln(1 + x^2/\nu)
@@ -1949,7 +1547,7 @@ scale parameters.
     \label{eq:xxie4.1}
   \end{eqnarray}
 
-  While the denominator of the right side of $\pd{f(x, \nu)}{\nu}$ is
+  While the denominator of the right side of ${\pd f(x, \nu) \over \pd \nu}$ is
   always positive, its nummerator $P(x^2, \nu)$ has a single root:
   \begin{equation}
     \label{eq:xxie5}
@@ -2037,23 +1635,24 @@ scale parameters.
     + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
   \right\} - \nu > 0
   \]
-  Now that we have established that $\pd{f}{\nu}(x, \nu) = 0$ has a
+  Now that we have established that ${\pd f \over \pd \nu}(x, \nu) = 0$ has a
   single positive root, it remains to determine the sign of
-  $\pd{f}{\nu}(x, \nu)$ on the two sides of the root. For this purpose
+  ${\pd f \over \pd \nu}(x, \nu)$ on the two sides of the root. For this purpose
   we observe
   \begin{equation}
     \label{eq:xxie5.1}
     P(0, \nu) = 2 \nu^2 c'(\nu) > 0
   \end{equation}
-  So we want to investigate $\pd{P}{x}(x, \nu)$:
+  So we want to investigate ${\pd P \over \pd x}(x, \nu)$:
   \begin{eqnarray}
-    \pd{P}{x}(x, \nu) &=&
+    {\pd P \over \pd x}(x, \nu) &=&
     2 \nu c'(\nu) + c(\nu) - \nu c(\nu) \ln\left(
       1 + {x \over \nu}
     \right)
     \label{eq:xxie6}
   \end{eqnarray}
-  Clearly, $\pd{P}{x}(0, \nu) > 0$. Hence from \eqref{eq:xxie5.1} and
+  Clearly, $\frac{\pd P}{\pd x}(0, \nu) > 0$. Hence from
+  \eqref{eq:xxie5.1} and
   \eqref{eq:xxie6} it is clear
   \begin{equation*}
     \text{sign}\left[
