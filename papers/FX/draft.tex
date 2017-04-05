@@ -367,23 +367,25 @@
 It is one of the stylized facts of financial econometrics that 
 returns of speculative prices are {\em heavy-tailed.} There is no agreement
 in the literature how heavy tails really are. For example, Barndorff-Nielsen and Shephard
-\cite{barndorff:shephard:2001} and Eberlein \cite{eberlein:2001} favor ``semi-heavy'' tails, i.e.,
-tails which are comparable with those of a gamma \ds . On the other
-hand, tails of returns have been studied in great detail 
-in the extreme value community. Among extreme value specialists
-there is general agreement that returns $X_t$ have tails of power-law-type, i.e.,
+\cite{barndorff:shephard:2001} and Eberlein \cite{eberlein:2001} favor
+``semi-heavy'' tails, i.e., tails which are comparable with those of a
+gamma \ds . On the other hand, tails of returns have been studied in
+great detail in the extreme value community. Among extreme value
+specialists there is general agreement that returns $X_t$ have tails
+of power-law-type, i.e.,
 \beam\label{eq:1}
-\P(X_t>x)\sim c_+ \,x^{\alpha_{\rm up}}\quad\mbox{and}\quad \P(X_t<-x)\sim c_-\,x^{-\alpha_{\rm low}}\,,\quad\xto\,,
+\P(X_t>x)\sim c_+ \,x^{-\alpha_{\rm up}}\quad\mbox{and}\quad
+\P(X_t<-x)\sim c_-\,x^{-\alpha_{\rm low}}\,,\quad\xto\,,
 \eeam  
 where $c_{\pm}$ are positive constants.\footnote{Here and in what
   follows, $f(x)\sim g(x)$ for positive \fct s $f$ and $g$ means 
 that $f(x)/g(x)\to 1$ as $\xto$.} See for example, Embrechts et
-al. \cite{embrechts:klueppelberg:mikosch:1997}, Jansen and de Vries
+al. \cite{Embrechts1997}, Jansen and de Vries
 \cite{jansen1991frequency}, Mikosch \cite{mikosch:2003}, Resnick
 \cite{resnick:2007}.  
 In the extreme value literature it is common to replace the constants $c_\pm$ by a suitable
 {\em slowly varying} \fct s; cf. Embrechts et
-al. \cite{embrechts:klueppelberg:mikosch:1997}, Chapter 3. In this
+al. \cite{Embrechts1997}, Chapter 3. In this
 paper, for the  
 sake of argument, we stick to the condition \eqref{eq:1}.
 \par
@@ -444,7 +446,7 @@ concern for downside risk in an investor's evaluation of a portfolio
 using the framework of Generalized Disappointment Aversion (GDA)
 introduced by Routledge and Zin \cite{routledge2010generalized}. GDA
 is an extension of the concept of Disappointment Aversion (DA) of Gul
-(1991) \cite{gul1991theory}. The Gul paper derives the DA from first principles (axiomatic).
+ \cite{gul1991theory}. The Gul paper derives the DA from first principles (axiomatic).
 \par 
 In Section~\ref{sec:4} we summarize the discussion of the previous
 sections. 
@@ -471,7 +473,7 @@ used for model building of the equities in the market such as the GARCH model; s
 \subsection{Hill estimates of lower tail indices}\label{sec:Hill}
 Various estimators of the tail index $\alpha_{\rm low}$  in the model
 \eqref{eq:1} have been proposed in the literature;
-see Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997}, de
+see Embrechts et al. \cite{Embrechts1997}, de
 Haan and Ferreira \cite{dehaan:ferreira:2006}, Resnick
 \cite{resnick:2007}. The most popular among them was introduced  by
 Hill \cite{hill1975simple}.
@@ -519,9 +521,9 @@ stable. For example, in Figure~\ref{fig:1} we have chosen $k=50$ from
 a sample of size $n=1304$, corresponding to the 96\%-quantile of the
 data. In general, the estimation of the tail index is an art and
 requires some expertise; for some guidance
-see Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997},
+see Embrechts et al. \cite{Embrechts1997},
 Resnick \cite{resnick:2007} and Drees et al. 
-\cite{drees:resnick:how to make a Hill plot}. In Figure~\ref{fig:1},
+\cite{drees:resnick:2000}. In Figure~\ref{fig:1},
 we exhibit 95\% \asy\ confidence bands which is based on the \clt
 \beam\label{eq:2}
 \sqrt k\, \big(\hat \alpha_{\rm low} - \alpha_{\rm low}\big) \std N(0, \alpha^2)\,,
@@ -539,11 +541,11 @@ $\P(X_t>x)$ which cannot be verified on data. However,
 given a theoretical model such as the GARCH, these conditions can be
 verified based on the properties of the model. If they are not satisfied the 
 Hill estimator may exhibit significant bias; see Embrechts et
-al. \cite{embrechts:klueppelberg:mikosch:1997} for illustrations 
+al. \cite{Embrechts1997} for illustrations 
 of this fact leading to so-called ``Hill horror plots''. Moreover, the
 Hill estimator is rather sensitive to non-stationarity 
 of the data and to dependence. For example, results in Drees and
-Rootz\'en \cite{drees:rootzen:???} show that the \asy\ variance of the
+Rootz\'en \cite{drees:rootzen:2010} show that the \asy\ variance of the
 Hill estimator can be significantly larger than in the iid case. 
 Since return data are dependent, the \asy\ confidence bands should be
 even wider than exhibited in Figure~\ref{fig:1}. 
@@ -598,8 +600,8 @@ parameters of stocks in the same sectors before applying Hoga's test.
 \subsection{Hill estimates of lower-tail scale parameters}
 \label{sec:HillScaleEstimates}
 
-For convenience, we denote the scale parameter by $A$. It is the
-constant $J_*(0)$ in the Taylor expansion \eqref{eq:scale_parameter}.
+For convenience, we denote the scale parameter by $A$.
+%% It is the constant $J_*(0)$ in the Taylor expansion \eqref{eq:scale_parameter}.
 Hill \cite{hill1975simple} put forward an estimator of $A$ using his
 tail index  estimator:
 \[
@@ -637,16 +639,22 @@ $\{X_i\}_{i=1}^n$ with tail functions
 $\bar F_i(\cdot)$, i.e. $\P(X_i > x) = \bar F_i(x)$. The null
 hypothesis is
 \begin{hypothesis}
-  $\mathcal H_0$: For a given $p$, $\exists t^* \in [t_0, 1 - t_0]$
-  such that
-  \[
-  \bar F_1^{-1}(p) = \bar F_2^{-1}(p) = \cdots =
-  \bar F_{\floor{t^* n}}^{-1}(p) \neq
-  \bar F_{\ceil{t^* n}}^{-1}(p) = \cdots = F_n^{-1}(p)
-  \]
+  $\mathcal H_0$: For a given $p$ and all $1 \leq i < j \leq n$,
+  $F_i^{-1}(p) = F_j^{-1}(p)$
 \end{hypothesis}
-where $t_0 \in (0, 1/2)$. The alternative hypothesis is that no such
-$t^*$ exists. Hoga proposed the following test statistics:
+while the alternative is $\exists t^* \in [t_0, 1 - t_0]$ such that
+\[
+\bar F_1^{-1}(p) = \bar F_2^{-1}(p) = \cdots =
+\bar F_{\floor{t^* n}}^{-1}(p) \neq
+\bar F_{\ceil{t^* n}}^{-1}(p) = \cdots = F_n^{-1}(p)
+\]
+where $t_0 \in (0, 1/2)$ and $\hat x_p(s, t)$ is the Weissman
+estimator applied to the partial series
+$X_{\ceil{ns}}, \dots, X_{\floor{nt}}$ using $\ceil{k(t - s)}$
+upper-order statistics. See Embrechts, Kl\"uppelberg and T.Mikosch
+\cite{Embrechts1997}, p.347.
+
+Hoga proposed the following test statistics:
 \[
 Q_1 = \sup_{t \in [t_0, 1 - t_0]}
 \left\{
@@ -679,7 +687,8 @@ Q_1 = \sup_{t \in [t_0, 1 - t_0]}
   }
 \right\}
 \]
-Under the null hypothesis, Hoga showed that as $n \to \infty$,
+Under the null hypothesis and suitable dependence conditions, Hoga
+showed that as $n \to \infty$,
 \begin{equation}
   \label{eq:Q1_distr}
   Q_1 \overset{d}{\to}
@@ -702,7 +711,7 @@ q_t =
 \]
 $W(t)$ with $t \in (0, 1)$ is a standard Brownian motion.
 
-When applied to our problem, We would like to test, first of all,
+When applied to our problem, we would like to test, first of all,
 whether there is a change of tail index in each of two 
 series and, if there is no change in either series, whether the two
 series have the same tail index. Obviously, for either question, if
@@ -713,8 +722,8 @@ test.
 
 Figure \ref{fig:Hoga_Single} shows the test statistics of
 stocks in the ``Energy'' and ``Consumer Staples'' sectors of the S\&P
-500 index. The null hypothesis here is that the tail index remains the
-same througout the selected period of time.
+500 index. The null hypothesis here is that the extreme quantile
+remains the same througout the selected period of time.
 \begin{figure}[htb!]
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]
@@ -803,8 +812,8 @@ are shown in figure \ref{fig:Q1_distr}.
   \centering
   \includegraphics[width=\textwidth]{Hoga_AsymptoticDistribution.pdf}
   \caption{Comparison of the asymptotic distribution with empirical
-    distribution of $Q_1$ obtained from Student's t samples. The t
-    samples have the same size as the S\&P sectors' data, namely 1304
+    distribution of $Q_1$ obtained from Student's t samples. Each t
+    sample has the same size as the S\&P sectors' data, namely 1304
     observations.}
   \label{fig:Q1_distr}
 \end{figure}
@@ -833,23 +842,23 @@ quantiles of these distributions.
 \label{sec:2}
 Many multivariate GARCH models imply a common tail index for all
 series under consideration, e.g. the Orthogonal GARCH model of
-Alexander and Chibumba (1997) \cite{alexander1997multivariate}, its
-generalization GO-GARCH of van der Weide (2002) \cite{van2002go}, as
-well as the Full Factor GARCH model of Vrontos et al (2003)
+Alexander and Chibumba \cite{alexander1997multivariate}, its
+generalization GO-GARCH of van der Weide \cite{van2002go}, as
+well as the Full Factor GARCH model of Vrontos et al 
 \cite{vrontos2003full} and the Generalized Orthogonal Factor GARCH
-model of Lanne and Saikkonen (2007) \cite{lanne2007modeling}. These
+model of Lanne and Saikkonen \cite{lanne2007modeling}. These
 models are characterized by their treatment of each series as a linear
 combination of factors, and each of the factors is modeled as a GARCH
 process. As a result of this treatment, each and every series under
 consideration necessarily has the lowest of the tail indices of its
-contributing factors (cf. Mikosch (2013) \cite{Mikosch2013} as well
-as Andersen, Davis, Kreiss and Mikosch (2009)
+contributing factors (cf. Mikosch \cite{Mikosch2013} as well
+as Andersen, Davis, Kreiss and Mikosch 
 \cite{andersen2009handbook}).
 
 In contrast, several other multivariate volatility models imply, in
 general, different tail indices for different series. For example, the
 Constant Conditional Correlation (CCC-) GARCH model of Bollerslev
-(1990) \cite{bollerslev1990modelling} specifies, for a $d$-dimensional
+\cite{bollerslev1990modelling} specifies, for a $d$-dimensional
 series $\vec X_t$
 \begin{eqnarray}
   \cov(X_{i,t}, X_{j,t}) &=& \sqrt{h_{i,t} h_{j,t}} \rho_{i,j}
@@ -865,11 +874,10 @@ $X_{i,t}$, call it $\kappa_i$, is given by
 \[
 \E (A_{i, 1} Z^2 + B_{i, 1})^{\kappa_i / 2} = 1
 \]
-where $Z \overset{d}{=} Z_{i,t}$.
-Provided $(A_{i,1}, B_{i,1}) \neq (A_{j,1}, B_{j,1})$, it is clear
-$\kappa_i \neq \kappa_j$.
+where $Z \overset{d}{=} Z_{i,t}$. It is clear $\kappa_i \neq \kappa_j$
+except for special values of $A_i, B_i$ and $A_j, B_j$.
 
-As an extension to the CCC-GARCH model, Jeantheau (1998)
+As an extension to the CCC-GARCH model, Jeantheau 
 \cite{jeantheau1998strong} proposed his Extended CCC-GARCH by
 modifying \eqref{eq:CCC-GARCH} to
 \begin{equation}
@@ -900,7 +908,7 @@ or in vector form
 On appropriate conditions, \eqref{eq:ECCC-GARCH2} implies the
 components of $\vec h_t$ are jointly regularly varying with some index
 $\kappa$ as $t \to \infty$. This is a direct result of the Kesten-Goldie
-theorem (cf. Kesten (1973)\cite{Kesten1973}). Thus all series under
+theorem (cf. Kesten \cite{Kesten1973}). Thus all series under
 consideration have the same tail index $\kappa$.
 
 In summary, whether or not a common tail index is shared by all
@@ -912,7 +920,7 @@ to be settled definitely.
 
 \section{Generalized disappointment aversion}
 \label{sec:3}
-Routledge and Zin (2010) \cite{routledge2010generalized} define the GDA
+Routledge and Zin \cite{routledge2010generalized} define the GDA
 preferences over discrete states in their formula (2). A slight extension
 is to consider a continuum of possible states. Suppose the state variable
 $C$ is continuously supported on $(0, \infty)$ and has distribution
@@ -922,7 +930,7 @@ preferences reads
   u(v)= \E u(C) - b \int_{0}^{\delta v}
   \left[ u(\delta v) - u(x) \right] dG(x)\label{11}%
 \end{equation}
-where $\delta > 0$, and $v>0$. Equivalently
+where $\delta > 0$, $v>0$ and $b > 0$. Equivalently
 \begin{equation}
   \label{eq:xxie0}
   u(v) = \E u(C) - b \E[u(\delta v) - u(C); C < \delta v]
@@ -930,7 +938,7 @@ where $\delta > 0$, and $v>0$. Equivalently
 Here $v$ can be thought of as the certainty payoff equivalent to the
 risky payoff $C$. Note that when $b=0$, 
 preferences are expected utility; when $\delta=1$ and $b>0$,
-preferences follow Gul's (1991) original disappointment aversion.
+preferences follow Gul's original disappointment aversion.
 An agent guided by this utility function will seek to maximize $u(v)$.
 
 Routledge and Zin \cite{routledge2010generalized} assumed
@@ -950,9 +958,6 @@ stating the following simple observation:
   $(a, b)$, $X \sim F$, $\text{supp}(X) = (a,b)$,
   $\E h(X) < \infty$ and
   \begin{eqnarray*}
-    {\partial \over \partial \theta}\left[
-      F(b) - F(a)
-    \right] = 0 \\
     \left| \frac{\pd f(x, \theta)}{\pd \theta} \right| < \infty
     \quad \forall x \in (a, b)
   \end{eqnarray*}
@@ -1060,7 +1065,7 @@ We have
   \beta K'^\beta (1 - p)
   \int_{0}^\infty
   u\left[ (1 - \phi) e^r + \phi e^x \right]
-  {1 + b \1{x < q} \over (K' + x)^{\beta + 1}} dx 
+  {1 + b \1_{\{x < q\}} \over (K' + x)^{\beta + 1}} dx 
   - b u(\delta v) F(q)
   % &&
   % - b u(\delta v) \left[
@@ -1207,12 +1212,12 @@ asymptotically normal:
 To obtain an estimate of $p$, we use the law of large number:
 \begin{eqnarray*}
   p &=& \P(X < 0) = \lim_{n \to \infty}
-  {1 \over n} \sum_{t=1}^n \1{X_t < 0}
+  {1 \over n} \sum_{t=1}^n \1_{\{X_t < 0\}}
 \end{eqnarray*}
 By the central limit theorem,
 \begin{eqnarray*}
   \sqrt n \left[
-    {1 \over n}\sum_{t=1}^n \1{X_t < 0} - p
+    {1 \over n}\sum_{t=1}^n \1_{\{X_t < 0\}} - p
   \right] \to N(0, p - p^2))
 \end{eqnarray*}
 
@@ -1296,8 +1301,8 @@ distribution function: For all $x < 0$,
   1 + {\alpha K \over x} + O(|x|^{-2})
   \right)
 \end{eqnarray*}
-Comparing this expression with \eqref{eq:lower_tail_expansion}, one
-can immediately identity $p K^\alpha$ as the scale parameter. Figure
+% Comparing this expression with \eqref{eq:lower_tail_expansion},
+Then one can identity $p K^\alpha$ as the scale parameter. Figure
 \ref{fig:scale_estimates} compare the estimates obtained
 from Hill's scale estimator with those from the $p K^\alpha$ method.
 
@@ -1582,7 +1587,19 @@ scale parameters.
   \end{minipage}\hfill
   \begin{minipage}{0.5\textwidth}
     As shown in the figure to the left, $\Psi(x)$ is increasing
-    for $x > 0$. Therefore $\Psi(\nu/2 + 1/2) - \Psi(\nu/2) > 0$.
+    for $x > 0$. This immediately follows from the series
+    representation
+    \[
+    \Psi(x + 1) = -\gamma + \sum_{n=1}^\infty {x \over n(n + x)}
+    \quad x \neq -1, -2, -3,\dots
+    \]
+    which gives
+    \[
+    {\pd \Psi(x + 1) \over \pd x}
+    = \sum_{n=1}^\infty {1 \over (n + x)^2} > 0
+    \]
+    See Abramowitz and Stegun \cite{abramowitz1972handbook}, p.259,
+    formula 6.3.16. Therefore $\Psi(\nu/2 + 1/2) - \Psi(\nu/2) > 0$.
     So we have
     \begin{eqnarray*}
       && \nu \left[
@@ -1656,7 +1673,7 @@ scale parameters.
   \eqref{eq:xxie6} it is clear
   \begin{equation*}
     \text{sign}\left[
-      \pd{f}{\nu}(x, \nu)
+      {\pd f \over \pd\nu}(x, \nu)
     \right]
     = \left\{
     \begin{array}{rl}
@@ -1682,32 +1699,32 @@ scale parameters.
   \]
   It follows
   \begin{eqnarray}
-    \pd{G(F)}{\alpha}
+    {\pd G(F) \over \pd \alpha}
     &=&
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi)
-    + \pd{\mathcal U(F, \phi)}{\phi}(\alpha, K, \hat\phi)
-    \pd{\hat\phi}{\alpha}(\alpha, K)
+    {\pd \mathcal U(F, \phi) \over \pd \alpha}(\alpha, K, \hat\phi)
+    + {\pd \mathcal U(F, \phi) \over \pd \phi}(\alpha, K, \hat\phi)
+    {\pd \hat\phi \over \pd \alpha}(\alpha, K)
     \label{eq:xxie3}
   \end{eqnarray}
   The definition \eqref{eq:xxie2} implies $\forall \alpha > 1$
   \begin{equation}
     \label{eq:xxie4}
-    \pd{\mathcal U(F, \phi)}{\phi}(\alpha, K, \hat \phi) = 0
+    {\pd \mathcal U(F, \phi) \over \pd \phi}(\alpha, K, \hat \phi) = 0
   \end{equation}
   So the second term of \eqref{eq:xxie3} vanishes. It remains to show
   \begin{eqnarray*}
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat \phi)
+    {\pd \mathcal U(F, \phi) \over \pd \alpha}(\alpha, K, \hat \phi)
     &>& 0
   \end{eqnarray*}
   From \eqref{eq:xxie1.0}, it follows
   \begin{eqnarray*}
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi)
-    = {\partial \over \partial \alpha}\E[u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}]
+    {\pd \mathcal U(F, \phi) \over \pd \alpha}(\alpha, K, \hat\phi)
+    = {\partial \over \partial \alpha}\E[u((1 - \hat\phi) e^r + \hat\phi e^X) \1_{\{X < 0\}}]
   \end{eqnarray*}
   The function $u((1 - \hat\phi) e^r + \hat\phi e^X)$ is obviously
   increasing with $X$. It follows
   \begin{eqnarray*}
-    && \pd{f(x; \alpha, K)}{\alpha} \\
+    && {\pd f(x; \alpha, K) \over \pd \alpha} \\
     &=& {\partial \over \partial \alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
     &=&
     - {K^\alpha \over (K - x)^{\alpha + 1}}
@@ -1728,23 +1745,23 @@ scale parameters.
   \]
   This is the second case of lemma \ref{lemma:I}. So we have
   \begin{eqnarray*}
-    \pd{\mathcal U(F, \phi)}{\alpha}(\alpha, K, \hat\phi) &>& 0
+    {\pd \mathcal U(F, \phi) \over \pd \alpha}(\alpha, K, \hat\phi) &>& 0
   \end{eqnarray*}
-  As for $\pd{G(F)}{K}$, by the same argument as for
-  $\pd{G(F)}{\alpha}$, it suffices to show
+  As for ${\pd G(F) \over \pd K}$, by the same argument as for
+  ${\pd G(F) \over \pd \alpha}$, it suffices to show
   \[
-  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi) < 0
+  {\pd \mathcal U(F, \phi) \over \pd K}(\alpha, K, \hat\phi) < 0
   \]
   We have
   \[
-  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi)
+  {\pd \mathcal U(F, \phi) \over \pd K}(\alpha, K, \hat\phi)
   = {\partial \over \partial K} \E \left[
-    u((1 - \hat\phi) e^r + \hat\phi e^X) \1{X < 0}
+    u((1 - \hat\phi) e^r + \hat\phi e^X) \1_{\{X < 0\}}
   \right] 
   \]
   and
   \begin{eqnarray*}
-    && \pd{f(x; \alpha, K)}{K} \\
+    && {\pd f(x; \alpha, K) \over \pd K} \\
     &=& {\partial \over \partial K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
     &=&
     -\alpha K^{\alpha - 1} {
@@ -1763,7 +1780,7 @@ scale parameters.
   \]
   So by the 1st case of remark \ref{remark:I} we conclude
   \[
-  \pd{\mathcal U(F, \phi)}{K}(\alpha, K, \hat\phi) < 0  
+  {\pd \mathcal U(F, \phi) \over \pd K}(\alpha, K, \hat\phi) < 0  
   \]
 \end{proof}
 
