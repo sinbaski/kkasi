@@ -339,12 +339,23 @@
 \allowdisplaybreaks
 \begin{document}
 \title{Tail-indices and scale parameters of returns series}
-\author{Thomas Mikosch,  Casper de Vries, Xie Xiaolei, }
+\author{Thomas Mikosch,  Casper de Vries, Xie Xiaolei}
 \date{\today}
 
 \maketitle
 
 \begin{abstract}
+  It is a stylized fact that equity return distributions are
+  heavy-tailed. We discuss how an investor's preference of an equity
+  varies with the parameters of the tail distribution of the return on
+  equity. These parameters can be seen as characteristics of the
+  market and provide a quantitative description of the market's status.
+  In addition, we also find optimal asset allocation schemes
+  corresponding to different investor preferences as captured by the
+  investors' utility functions. These results can be useful when
+  considering a problem of asset allocation. Real-world stock return
+  series, which have motivated our work, are analyzed and presented.
+  
 %We consider an investor with preferences that accord with Generalized
 %Disappointment Aversion. Such an investor cares about downside risk and
 %we assume he recognizes the heavy tail feature of asset return
@@ -1062,6 +1073,7 @@ We have
   {1 + b \over (K - x)^{\alpha + 1}} dx
   \nonumber \\
   &&
+  +
   \beta K'^\beta (1 - p)
   \int_{0}^\infty
   u\left[ (1 - \phi) e^r + \phi e^x \right]
@@ -1259,11 +1271,11 @@ and distribution.
   \centering
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-    {Energy_p.pdf}
-  \end{minipage}\hfill
-  \begin{minipage}{0.45\linewidth}
-    \includegraphics[width=\textwidth]
     {Energy_alpha_K_ci.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.45\linewidth}
+    \includegraphics[width=\textwidth]
+    {Energy_p.pdf}
   \end{minipage}
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
@@ -1271,7 +1283,7 @@ and distribution.
   \end{minipage}\hfill
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-    {Consumer_Staples_alpha_K_ci.pdf}
+    {Consumer_Staples_p.pdf}
   \end{minipage}
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
@@ -1279,7 +1291,7 @@ and distribution.
   \end{minipage}\hfill
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-    {Information_Technology_alpha_K_ci.pdf}
+    {Information_Technology_p.pdf}
   \end{minipage}
   \caption{\small Estimates of $p$ and $K$ of stocks in sectors of the
     S\&P 500 index. The points are the estimated values; the bars are
