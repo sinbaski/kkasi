@@ -92,7 +92,7 @@ distribution of the Markov chain $V_{n} = A_n V_{n-1} + B_n$. Here
 $A_n$ are i.i.d $d \times d$ random matrices and $B_n$ are
 $d$-dimensional random vectors. Let $\mu$ denote the distribution of
 $A_n$ and $A \sim \mu$.
-\begin{enumerate}[i]
+\begin{enumerate}[(i)]
 \item For each and every $n \geq 1$ and for all
   $1 \leq i \leq j \leq d$, $(A_n)_{i,j} > 0$.
 \item With probability 1, the matrices $A_n$ have no all-zero rows or
@@ -129,12 +129,28 @@ $A_n$ and $A \sim \mu$.
     \quad
     \E(|B|^\xi) < \infty
   \end{eqnarray*}
-\item 
+\item Let $\pi$ denote the stationary distribution of $V_n$ and $P$
+  denote the transition kernel of $V_n$. Assume that
+  there exists a set $\mathcal C$ with $\pi(\mathcal C) > 0$
+  such that $\forall x \in \mathcal C$, $P(x, \cdot)$ has an
+  absolutely continuous component with respect to some $\sigma$-finite
+  non-null measure $\phi$.
 \end{enumerate}
 These are the same conditions that Collamore and
 Mentemeier~\cite{collamore2016large} assumed in their hypotheses
 $H_1, H_2, H_3$. One can compare them with conditions (M) and (A) of
-Kesten~\cite{Kesten1973}.
+Kesten~\cite{Kesten1973}. Under these conditions, Collamore and
+mentemeier \cite{collamore2016large} showed that the chain $V_n$ is an
+aperiodic, positive Harris chain on $\mathbb R_+^d$. Cf. their lemma
+3.4. Moreover, it follows from condition (v)
+\[
+P(x, A) \geq \I_{\mathcal C}(x) \phi(A) \inf_{y \in A} f(y)
+\]
+where $f(\cdot)$ is the Radon-Nikodym derivative of $P(x, \cdot)$ with
+respect to $\phi$. This minorization condition gives rise to a
+regenerative structure of the path of $V_n$. Cf. Ney and Nummelin
+\cite{ney1987markov}, lemma 3.1. Let $\tau$ has the distribution of
+the length of a regeneration cycle in this structure.
 
 For a general vector $x$, let $\tilde x$ denote ${x \over |x|}$. For
 convenience, we also use the following notations:
@@ -149,114 +165,114 @@ S_n &=& \ln |A_n \cdots A_1 \tilde V_0| \\
 &=& \frac{|A_n \cdots A_1 \tilde V_0|}{|A_{n-1} \cdots A_1 \tilde V_0|} \\
 &=& \ln\left| A_n \frac{A_{n-1} \cdots A_1 \tilde V_0}
     {|A_{n-1} \cdots A_1 \tilde V_0|} \right|\\
-&=& \ln |A_n X_{n-1}| \\
+&=& \ln |A_n X_{n-1}|
+\end{eqnarray*}
+Furthermore, we define
+\begin{eqnarray*}
+R_n &:=& \inf\{0 \leq i \leq n: V_i \in \mathcal C\} \\
+K_0 &:=& 0 \\
+K_i &:=& \inf\{k \geq 1: k > K_{i-1}, V_k \in \mathcal C, K_0 = 0\} \\
+N_u &:=& \sum_{i=1}^\tau \1{V_i > u} \\
+T_u &=& \inf\{n \geq 1: |V_n| > u\}
 \end{eqnarray*}
 
-\begin{theorem}
-  The pair $(X_n, S_n)$ is a Markov additive process with transition
-  kernel $P$. In addition, $(X_n, S_n)$ is Harris recurrent.
+% \begin{theorem}
+%   The pair $(X_n, S_n)$ is a Markov additive process with transition
+%   kernel $P$. In addition, $(X_n, S_n)$ is Harris recurrent.
   
-\end{theorem}
-
-
+% \end{theorem}
 
 \section{Consistency}\label{sec:consistency}
-By the law of large numbers
-\begin{eqnarray*}
-  && \P(|V| > u) \\
-  &=& \lim_{n \to \infty} {1 \over n} \sum_{i=0}^n \1{|V_i| > u}
-\end{eqnarray*}
-Define
-\[
-R_n := \inf\{0 \leq i \leq n: V_i \in \mathcal C\}
-\]
-and
-\begin{eqnarray*}
-  K_0 &:=& 0 \\
-  K_i &:=& \inf\{k \geq 1: k > K_{i-1}, V_k \in \mathcal C, K_0 = 0\}
-\end{eqnarray*}
-Then one can write
-\begin{eqnarray*}
-  && \lim_{n \to \infty} {1 \over n} \sum_{i=1}^n \1{|V_i| > u} \\
-  &=& \lim_{n \to \infty} {1 \over n} \left[
-    \sum_{i=0}^{K_{R_n}-1} \1{|V_i| > u} + \sum_{i=K_{R_n}}^n \1{|V_i| > u}
-\right]
-\end{eqnarray*}
-For the 2nd term, by a Borel-Cantelli argument, it maybe shown
-\[
-\lim_{n \to \infty} {1 \over n}\sum_{i=K_{R_n}}^n \1{|V_i| > u} = 0
-\]
-For the 1st term,
-\begin{eqnarray*}
-&& \lim_{n \to \infty} {1 \over n} \sum_{i=0}^{K_{R_n}-1} \1{|V_i| >
-  u}  \\
-&=& \lim_{n \to \infty} {R_n \over n} {1 \over R_n} \sum_{i=1}^{R_n}
-\sum_{j=K_{i-1}}^{K_i-1}\1{|V_i| > u} \\
-&=& \pi(\mathcal C) \E_\gamma N_u
-\end{eqnarray*}
-where the law of large numbers of Markov chains has been used to reach
-the last line. In addition, it is assumed
-\begin{eqnarray*}
-  V_{K_i} &\sim& \gamma \; \forall i \geq 0 \\
-  \gamma(E) &=& \pi(E)/\pi(\mathcal C)\; \forall E \in \mathcal
-  B(\mathcal C)
-\end{eqnarray*}
-Define
-\begin{eqnarray*}
-  T_u &=& \inf\{n \geq 1: |V_n| > u\} \\
-  \tau &\overset{d}{=}& K_i - K_{i-1} \\
-  N_u &:=& \sum_{i=0}^{\tau-1} \1{|V_i| > u}  \\
-\end{eqnarray*}
-Then $\E_\gamma N_u$ may be evaluated as
-\begin{eqnarray*}
-  && \E_\gamma N_u \\
-  &=& \E_\gamma N_u \1{T_u < \tau} \\
-  &=& \int_{\mathds S^{d-1}} \int_{\mathds R} \cdots \int_{\mathds
-    S^{d-1}} \int_{\mathds R} N_u \1{T_u < \tau} \times \\
-  && \prod_{i=1}^{T_u} e^{-\xi(s_i - s_{i-1}) + \lambda(\xi)}
-  {r(x_{i-1}; \xi) \over r(x_{i}; \xi)}P_\xi(x_{i-1}, dx_i \times ds_i) \times \\
-  && \prod_{i=T_u+1}^{\tau-1} P(x_{i-1}, dx_i \times d s_i) \\
-  &=& \E_{\mathcal D} \left[
-    N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(\tilde V_0; \xi)
-      \over r(x_{T_u}; \xi)}
-  \right]
-\end{eqnarray*}
-where
-\[
-P_\xi(x_{i-1}, dx_i \times ds_i) = e^{\xi(s_i - s_{i-1}) -
-  \lambda(\xi)} {r(x_i; \xi) \over r(x_{i-1}; \xi)} P(x_{i-1}, dx_i
-\times ds_i)
-\]
-is the $\xi$-shifted transition kernel of the {\it Markov Additive
-  process} $(X_n, S_n)$. $\xi$ is chosen such that 
-\[
-\lambda(\xi) = \lim_{n \to \infty} \ln \left(
-\E \|A_n \cdots A_1\|^\xi
-\right)^{1/n} = 0
-\]
-$\E_{\mathcal D}$ denotes expectation taken with respect to the dual
-measure defined as
-\[
-P_{\mathcal D} (x_i, dx_{i+1} \times ds) = \left\{
-  \begin{array}{ll}
-    P_\xi (x_i, dx_{i+1} \times ds) & \text{ if } i < T_u \\
-    P(x_i, dx_{i+1} \times ds) & \text{ if } i \geq T_u \\
-  \end{array}
-\right.
-\]
-Because the top Lyapunov exponent is negative, it follows from a lemma
-in Kesten \cite{Kesten1973} that there is a $s > 0$ such that
-$\lambda(s) < 0$.
+\begin{theorem}
+  \begin{eqnarray*}
+    \P(|V| > u) &=& \pi(\mathcal C) \E_{\mathcal D} \left[
+      N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(\tilde V_0; \xi)
+        \over r(x_{T_u}; \xi)}
+    \right]
+  \end{eqnarray*}
+\end{theorem}
+\begin{proof}
+  By the law of large numbers
+  \begin{eqnarray*}
+    && \P(|V| > u) \\
+    &=& \lim_{n \to \infty} {1 \over n} \sum_{i=0}^n \1{|V_i| > u}
+  \end{eqnarray*}
+  Then one can write
+  \begin{eqnarray*}
+    && \lim_{n \to \infty} {1 \over n} \sum_{i=1}^n \1{|V_i| > u} \\
+    &=& \lim_{n \to \infty} {1 \over n} \left[
+      \sum_{i=0}^{K_{R_n}-1} \1{|V_i| > u} + \sum_{i=K_{R_n}}^n \1{|V_i| > u}
+    \right]
+  \end{eqnarray*}
+  For the 2nd term, by a Borel-Cantelli argument, it maybe shown
+  \[
+  \lim_{n \to \infty} {1 \over n}\sum_{i=K_{R_n}}^n \1{|V_i| > u} = 0
+  \]
+  For the 1st term,
+  \begin{eqnarray*}
+    && \lim_{n \to \infty} {1 \over n} \sum_{i=0}^{K_{R_n}-1} \1{|V_i| >
+      u}  \\
+    &=& \lim_{n \to \infty} {R_n \over n} {1 \over R_n} \sum_{i=1}^{R_n}
+    \sum_{j=K_{i-1}}^{K_i-1}\1{|V_i| > u} \\
+    &=& \pi(\mathcal C) \E_\gamma N_u
+  \end{eqnarray*}
+  where the law of large numbers of Markov chains has been used to reach
+  the last line. In addition, it is assumed
+  \begin{eqnarray*}
+    V_{K_i} &\sim& \gamma \; \forall i \geq 0 \\
+    \gamma(E) &=& \pi(E)/\pi(\mathcal C)\; \forall E \in \mathcal
+    B(\mathcal C)
+  \end{eqnarray*}
+  Then $\E_\gamma N_u$ may be evaluated as
+  \begin{eqnarray*}
+    && \E_\gamma N_u \\
+    &=& \E_\gamma N_u \1{T_u < \tau} \\
+    &=& \int_{\mathds S^{d-1}} \int_{\mathds R} \cdots \int_{\mathds
+      S^{d-1}} \int_{\mathds R} N_u \1{T_u < \tau} \times \\
+    && \prod_{i=1}^{T_u} e^{-\xi(s_i - s_{i-1}) + \lambda(\xi)}
+    {r(x_{i-1}; \xi) \over r(x_{i}; \xi)}P_\xi(x_{i-1}, dx_i \times ds_i) \times \\
+    && \prod_{i=T_u+1}^{\tau-1} P(x_{i-1}, dx_i \times d s_i) \\
+    &=& \E_{\mathcal D} \left[
+      N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(\tilde V_0; \xi)
+        \over r(x_{T_u}; \xi)}
+    \right]
+  \end{eqnarray*}
+  where
+  \[
+  P_\xi(x_{i-1}, dx_i \times ds_i) = e^{\xi(s_i - s_{i-1}) -
+    \lambda(\xi)} {r(x_i; \xi) \over r(x_{i-1}; \xi)} P(x_{i-1}, dx_i
+  \times ds_i)
+  \]
+  is the $\xi$-shifted transition kernel of the {\it Markov Additive
+    process} $(X_n, S_n)$. $\xi$ is chosen such that 
+  \[
+  \lambda(\xi) = \lim_{n \to \infty} \ln \left(
+    \E \|A_n \cdots A_1\|^\xi
+  \right)^{1/n} = 0
+  \]
+  $\E_{\mathcal D}$ denotes expectation taken with respect to the dual
+  measure defined as
+  \[
+  P_{\mathcal D} (x_i, dx_{i+1} \times ds) = \left\{
+    \begin{array}{ll}
+      P_\xi (x_i, dx_{i+1} \times ds) & \text{ if } i < T_u \\
+      P(x_i, dx_{i+1} \times ds) & \text{ if } i \geq T_u \\
+    \end{array}
+  \right.
+  \]
+  Because the top Lyapunov exponent is negative, it follows from a lemma
+  in Kesten \cite{Kesten1973} that there is a $s > 0$ such that
+  $\lambda(s) < 0$.
 
-Thus we have obtained a consistent estimator
-$\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
-\begin{eqnarray*}
-\P(|V| > u) &=& \pi(\mathcal C) \E_{\mathcal D} \mathcal E_u \\
-&=& \pi(\mathcal C) \E_{\mathcal D} \left[
-  N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(\tilde V_0; \xi)
-    \over r(x_{T_u}; \xi)}
-\right]
-\end{eqnarray*}
+  Thus we have obtained a consistent estimator
+  $\pi(\mathcal C)\mathcal E_u$ for $\P(|V| > u)$:
+  \begin{eqnarray*}
+    \P(|V| > u) &=& \pi(\mathcal C) \E_{\mathcal D} \left[
+      N_u \1{T_u < \tau} e^{-\xi S_{T_u}} {r(\tilde V_0; \xi)
+        \over r(x_{T_u}; \xi)}
+    \right]
+  \end{eqnarray*}
+\end{proof}
 
 \section{Efficiency}\label{sec:efficiency}
 \begin{lemma}
