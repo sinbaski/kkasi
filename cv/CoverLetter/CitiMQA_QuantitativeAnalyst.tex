@@ -1,0 +1,93 @@
+%% start of file `template.tex'.
+%% Copyright 2006-2013 Xavier Danaux (xdanaux@gmail.com).
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License version 1.3c,
+% available at http://www.latex-project.org/lppl/.
+
+
+\documentclass[10pt,a4paper, gentium]{moderncv}        % possible options include font size ('10pt', '11pt' and '12pt'), paper size ('a4paper', 'letterpaper', 'a5paper', 'legalpaper', 'executivepaper' and 'landscape') and font family ('sans' and 'roman')
+
+% moderncv themes
+\moderncvstyle{banking}                            % style options are 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvcolor{red}                                % color options 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
+\renewcommand{\familydefault}{\sfdefault}         % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name
+%\nopagenumbers{}                                  % uncomment to suppress automatic page numbering for CVs longer than one page
+
+% character encoding
+\usepackage[utf8]{inputenc}                       % if you are not using xelatex ou lualatex, replace by the encoding you are using
+%\usepackage{CJKutf8}                              % if you need to use CJK to typeset your resume in Chinese, Japanese or Korean
+
+% adjust the page margins
+\usepackage[scale=0.75]{geometry}
+%\setlength{\hintscolumnwidth}{3cm}                % if you want to change the width of the column with the dates
+%\setlength{\makecvtitlenamewidth}{10cm}           % for the 'classic' style, if you want to force the width allocated to your name and avoid line breaks. be careful though, the length is normally calculated to avoid any overlap with your personal info; use this at your own typographical risks...
+
+% personal data
+\name{Xie}{Xiaolei}
+%\title{Resumé title}                               % optional, remove / comment the line if not wanted
+\address{Kiviksgatan 7C}{21440 Malm\"o}{Sweden}% optional, remove / comment the line if not wanted; the "postcode city" and and "country" arguments can be omitted or provided empty
+\phone[mobile]{+46~76~060~6638}                   % optional, remove / comment the line if not wanted
+%\phone[fixed]{+2~(345)~678~901}                    % optional, remove / comment the line if not wanted
+%\phone[fax]{+3~(456)~789~012}                      % optional, remove / comment the line if not wanted
+\email{xie.xiaolei@gmail.com}                               % optional, remove / comment the line if not wanted
+%\homepage{www.johndoe.com}                         % optional, remove / comment the line if not wanted
+%\extrainfo{additional information}                 % optional, remove / comment the line if not wanted
+%\photo[64pt][0.4pt]{picture}                       % optional, remove / comment the line if not wanted; '64pt' is the height the picture must be resized to, 0.4pt is the thickness of the frame around it (put it to 0pt for no frame) and 'picture' is the name of the picture file
+%\quote{Some quote}                                 % optional, remove / comment the line if not wanted
+
+% to show numerical labels in the bibliography (default is to show no labels); only useful if you make citations in your resume
+%\makeatletter
+%\renewcommand*{\bibliographyitemlabel}{\@biblabel{\arabic{enumiv}}}
+%\makeatother
+%\renewcommand*{\bibliographyitemlabel}{[\arabic{enumiv}]}% CONSIDER REPLACING THE ABOVE BY THIS
+
+% bibliography with mutiple entries
+%\usepackage{multibib}
+%\newcites{book,misc}{{Books},{Others}}
+%----------------------------------------------------------------------------------
+%            content
+%----------------------------------------------------------------------------------
+\begin{document}
+%-----       letter       ---------------------------------------------------------
+% recipient data
+\recipient{Cross Asset Quantitative Analysis team}{Citi}{London}
+\date{\today}
+\opening{Dear Sir/Madam,}
+\closing{Yours sincerely,}
+%\enclosure[Attached]{curriculum vit\ae{}}          % use an optional argument to use a string other than "Enclosure", or redefine \enclname
+% \enclosure[Attached]{curriculum vit\ae{}, Master's thesis in
+%   Econophysics}          % use an optional argument to use a string other than "Enclosure", or redefine \enclname
+\makelettertitle
+
+I see on Citi's website that you are recruiting a quantitative
+analyst to join your cross asset quantitative analysis team. In the
+description of the job, you emphasized knowledge and skills in time
+series analysis, C++ programming and understanding of the financial
+market. These are indeed areas in which I find confidence. So I would
+like to ask you for your consideration.
+
+I am currently a Ph.D student at Copenhagen University, researching in
+Mathematical statistics and particularly in time series analysis. I
+have co-authored and published two papers on eigen systems of sample
+covariance matrices with a focus on heavy-tailed time series. These
+results can be helpful in principle component analysis.
+
+I am also finalizing two other papers. One of them is about how an
+investor's preference (as characterized by {\em Generalized
+  Disappointment Aversion}) of an equity varies with the tail
+parameters of the stationary distribution of the equity. I think this
+result can be applied to problems of portfolio construction as well as
+assessment of the overall market risk. As part of the paper, I also did
+statistical analysis on the tail parameters of equities in the S\&P
+500 index, specifically, the ``Energy'', ``Consumer Staples'' and
+``Information Technology'' sectors. R and C++ programming are
+indispensible part of the work.
+
+The other paper of mine is about estimation of the probability of very
+large losses posed by portfolios whose volatility dynamics are
+described by multivariate GARCH or GARCH(p,q) processes. 
+
+\makeletterclosing
+
+\end{document}
