@@ -1,0 +1,359 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Twenty Seconds Resume/CV
+% LaTeX Template
+% Version 1.1 (8/1/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Carmine Spagnuolo (cspagnuolo@unisa.it) with major modifications by 
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% The MIT License (see included LICENSE file)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+%% \documentclass[letterpaper]{twentysecondcv} % a4paper for A4
+\documentclass[a4paper]{twentysecondcv} % a4paper for A4
+
+%----------------------------------------------------------------------------------------
+%	 PERSONAL INFORMATION
+%----------------------------------------------------------------------------------------
+
+% If you don't need one or more of the below, just remove the content leaving the command, e.g. \cvnumberphone{}
+
+\profilepic{selfie1.jpg} % Profile picture
+
+\cvname{Xie Xiaolei} % Your name
+\cvjobtitle{Quantitative Analyst} % Job title/career
+
+\cvdate{09 Jan. 1983, Swedish citizen} % Date of birth
+\cvaddress{Kivksgatan 7C, 21440 Malm\"o} % Short address/location, use \newline if more than 1 line is required
+\cvnumberphone{+46 760606638} % Phone number
+\cvsite{https://www.linkedin.com/in/xie-xiaolei-bb0788b/} % Personal website
+\cvmail{xie.xiaolei@gmail.com} % Email address
+
+%----------------------------------------------------------------------------------------
+\newenvironment{aperiod}{
+  \begin{list}{}{
+    \setlength{\leftmargin}{1.5em}
+    \setlength{\itemsep}{1em}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0.25em}
+  }
+}{
+  \end{list}
+}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	 ABOUT ME
+%----------------------------------------------------------------------------------------
+
+\aboutme{
+  \begin{itemize}
+  \item Ph.D of Mathematical Statistics at Copenhagen University
+  \item M.Sc. of Mathematical Physics
+  \item M.Sc. of Computer Science
+  \item 6.5 years work experience in programming 
+  \item strong in statistical analysis \& numerical methods
+  \end{itemize}
+} % To have no About Me section, just remove all the text and leave \aboutme{}
+
+%----------------------------------------------------------------------------------------
+%	 SKILLS
+%----------------------------------------------------------------------------------------
+
+% Skill bar section, each skill must have a value between 0 an 6 (float)
+\skills {{Java/3},{Python/3},{SQL/4},{Matlab/5.2},{GNU Scientific Library/5},{R/5.8},{Parallel Computing OpenMP/4.5},{C/5},{C++/5}}
+
+%------------------------------------------------
+
+% Skill text section, each skill must have a value between 0 an 6
+%% \skillstext{{lovely/4},{narcissistic/3}}
+
+%----------------------------------------------------------------------------------------
+
+\makeprofile % Print the sidebar
+
+%----------------------------------------------------------------------------------------
+%	 INTERESTS
+%----------------------------------------------------------------------------------------
+
+%% \section{Summary}
+ 
+%----------------------------------------------------------------------------------------
+%	 EDUCATION
+%----------------------------------------------------------------------------------------
+
+\section{Education}
+
+\begin{minipage}{0.15\linewidth}
+  Oct. 2014 - Sep. 2017
+\end{minipage} \hfill
+\begin{minipage}{0.85\linewidth}
+  \begin{itemize}
+  \item \underline{Ph.D. in Mathematical Statistics}
+  \item Copenhagen University, Denmark
+  \item Areas of research:
+    \begin{itemize}
+      \item {\bf Time series analysis}: ARIMA, GARCH, stochastic volatility
+        models
+      \item {\bf Asset allocation \& risk management}: Principle component
+        analysis; optimization of investor utility functions; extreme
+        value theory
+      \item {\bf Numerical methods}: Importance sampling, numerical
+        optimization, estimation of GARCH(p,q) tail indices
+    \end{itemize}
+  \end{itemize}
+\end{minipage}
+
+\vspace{3mm}
+
+\begin{minipage}{0.15\linewidth}
+  Sep. 2011 - June 2014
+\end{minipage} \hfill
+\begin{minipage}{0.85\linewidth}
+  \begin{itemize}
+  \item \underline{M.Sc. in Mathematical Physics}
+  \item Lund University, Sweden
+  \item Thesis project: Distribution of eigenvalues of large
+    sample covariance matrices in the infinite dimensional limit with
+    a focus on the influence of autocorrelations and heavy tails. The
+    theoretical derivation is based on the {\it free probability
+      theory} and is checked against {\it intraday tick-by-tick
+      prices} of high-volume Swedish stocks.
+  \item Course work:    
+    \begin{itemize}
+      \item Mathematical methods of Physics and Engineering
+      \item Statistical mechanics, Quantum mechanics, General
+        relativity
+    \end{itemize}
+  \end{itemize}
+\end{minipage}
+\vspace{3mm}
+
+\begin{minipage}{0.15\linewidth}
+  Sep. 2005 - June 2008
+\end{minipage}\hfill
+\begin{minipage}{0.85\linewidth}
+  \begin{itemize}
+  \item \underline{M.Sc.Computer Science and Engineering}
+  \item Helsinki University of Technology
+  \item {\it Major Subject:} Mobile Computing - Services and Security
+  \item {\it Average grade:} 4.17/5.
+  \end{itemize}
+\end{minipage}
+\vspace{3mm}
+
+\begin{minipage}{0.15\linewidth}
+  Sep. 2001 - June 2005
+\end{minipage}\hfill
+\begin{minipage}{0.85\linewidth}
+  \begin{itemize}
+  \item \underline{B.Sc.Computer Science and Engineering}
+  \item Beijing Institute of Technology
+  \end{itemize}
+\end{minipage}
+
+%% \begin{minipage}[b]{0.2\linewidth}
+%%   Oct. 2014 - Sep. 2017
+%% \end{minipage} \hfill
+%% \begin{minipage}{0.8\linewidth}
+%%   \begin{itemize}
+%%   \item Ph.D. in Mathematical Statistics
+%%   \item Copenhagen University
+%%   \item \emph{portfolio \& risk management} Balbla. Oh my god, I have
+%%     to write a lot more about my research
+%%   \end{itemize}
+%% \end{minipage}
+
+
+\section{Publications}
+
+\begin{itemize}
+\item {\bf Xie, X.}, Davis, R.A., Heiny, J. and Mikosch, T.
+  2016. {\it Extreme value analysis for the sample autocovariance
+    matrices of heavy-tailed multivariate time series}.
+  \underline{Extremes}, 19(3), pp.517-547.
+  
+  {\small
+  We provide, among others, a limit theory for the largest eigenvalues
+  of a sample covariance matrix of heavy-tailed, possibly linearly
+  dependent data with infinite dimensions. We prove weak convergence of
+  the point process of the largest eigenvalues to Poisson or cluster
+  Poisson processes and, based on this convergence result, derive limit
+  laws of functions of the ordered eigenvalues.}
+
+\item {\bf Xie, X}, Jan\ss en, A., Mikosch, T. and Rezapour, M.
+  2016. {\it The eigenvalues of the sample covariance matrix of a
+    multivariate heavy-tailed stochastic volatility model}.
+  To appear in the \underline{Bernoulli Journal}.
+  
+  {\small
+  We derive multivariate $\alpha$-stable limit distributions of the
+  sample covariance matrix when the sample size was large. We
+  consider two possibilities of heavy-tails: 1. the innovation
+  sequence is heavy tailed; and 2. the volatility sequence is
+  heavy-tailed. While the eigen system of the first case is shown to
+  resemble that of i.i.d data, the eigen system in the second case is
+  found to allow dependencies in their limiting distributions, which
+  are determined by the structure of the volatility sequence.}
+\end{itemize}
+
+\section{Papers in Finalization}
+\begin{itemize}
+\item {\bf Xie, X.}, Mikosch, T. and de Vries, C., 2017,
+  {\it Tail-indices and scale parameters of returns series}
+
+  {\small
+    It is a stylized fact that equity return distributions are
+    heavy-tailed. We discuss how an investor's preference of an equity
+    varies with the parameters of the tail distribution of the return on
+    equity. These parameters can be seen as characteristics of the
+    market and provide a quantitative description of the status of the
+    market.
+    In addition, we also find optimal asset allocation schemes
+    corresponding to different investor preferences as captured by the
+    investors' utility functions. These results can be useful when
+    considering a problem of asset allocation. Real-world stock return
+    series, which have motivated our work, are analyzed and presented.
+  }
+\end{itemize}
+
+\pagebreak
+\makeprofile % Print the sidebar
+
+\section{Papers in Finalization}
+\begin{itemize}
+\item {\bf Xie, X.} Collamore, J, 2017
+  {\it An efficient estimator of the probability of very large losses posed by
+    GARCH(p,q) processes}
+
+  {\small
+    We propose an efficient importance sampling estimator of the
+    probability of excursion over high thresholds (causing large
+    losses) by Multivariate Markov chains e.g. a GARCH(p,q) process or
+    a multivariate GARCH process.
+    Although stationary distributions of these processes are known
+    to have power-law tails, precise evaluation of the tail
+    probabilities is difficult because the exact distribution is
+    unknown. Moreover, naive simulation methods lead to erractic
+    estimates. Our importance sampling estimator presents a solution.
+  }
+\end{itemize}
+%----------------------------------------------------------------------------------------
+%	 AWARDS
+%----------------------------------------------------------------------------------------
+
+%% \section{Awards}
+
+%% \begin{twentyshort} % Environment for a short list with no descriptions
+%% 	\twentyitemshort{1987}{All-Time Best Fantasy Novel.}
+%% 	\twentyitemshort{1998}{All-Time Best Fantasy Novel before 1990.}
+%% 	%\twentyitemshort{<dates>}{<title/description>}
+%% \end{twentyshort}
+
+%----------------------------------------------------------------------------------------
+%	 EXPERIENCE
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	 OTHER INFORMATION
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	 SECOND PAGE EXAMPLE
+%----------------------------------------------------------------------------------------
+
+% \newpage % Start a new page
+
+% \makeprofile % Print the sidebar
+
+\section{Work Experience}
+% \begin{twenty} % Environment for a list with descriptions
+% 	\twentyitem{1900}{Alice in Wonderland-The Circra (1900's) Silent Film.}{Film}{The first Alice on film was over a hundred years ago.}
+% 	\twentyitem{1933}{Alice in Wonderland 1933 version.}{Film}{This film stars Ethel griffies and Charlotte Henry. It was a box office flop when it was released.}
+% 	\twentyitem{1951}{Disney Film.}{Film}{Walt Disney brings Lewis Carroll's fantasy story to life in this well done animated classic. Even though many elements from the book were dropped, such as the duchess with the baby pig and mock turtle, this version is without a doubt the most famous Alice adaption made.}
+% 	%\twentyitem{<dates>}{<title>}{<location>}{<description>}
+% \end{twenty}
+\begin{aperiod}
+%% \begin{small}
+\item {\it \href{http://www.stericsson.com}{\tt
+      ST-Ericsson, Lund, Sweden}, Audio, Multimedia, Development
+    Engineer, Sep 2008 - Jan 2011}
+
+  My responsibilities included developing audio low-level software,
+  typically device drivers, in the Linux OS. This involved designing and
+  implementing data structures and procedures so that the hardware
+  devices were used in the optimal way, in terms of parallelism,
+  power consumption, robustness, and ease of maintenance.
+
+  {\it C, C++, Java, Linux}
+\item {\it \href{http://www.hiit.fi}{\tt Helsinki
+      Institute of Information Technology, Helsinki}, Oct 2007 - May 2008}
+
+  Funded by HIIT, I wrote my thesis ``A Mutual authentication and Key
+  Agreement Protocol for the UMTS Network''. The algorithm of my
+  protocol proposal was based on the Diffie-Hellman Exchange, but had
+  significant modifications and extensions so that the mutual
+  authentication between the mobile user and the network was delegated
+  to the serving instead of the home network. The protocol design
+  incorporated puzzle schemes that demanded unbalanced computing
+  resources on the two sides to mitigate Denial-of-Service attacks.
+  
+  {\it C, C++, Linux}
+\item {\it
+    \href{http://www.goodmillsystems.com}{\tt Goodmillsystems,
+      Helsinki}, Software Designer, May 2007 - Sep 2007}
+
+  I developed a daemon program that ran on the company's smart router
+  product to collect statistical data about the router's network
+  traffic. The emphasis of the program was high performance in the
+  context of competing read and write accesses.
+
+  {\it C, C++, Linux}
+\item {\it \href{http://www.cardinal.fi/}{\tt
+      Cardinal Information Systems, Helsinki}, Software
+    Developer, Sep 2006 - April 2007}
+
+  I implemented the FLUTE protocol for the company's DVB-H
+  mobile-end middleware. The implementation was multi-threaded and was
+  built on the {\it pthread} library. Good performance and robustness
+  were crucial requirements on the implementation.
+
+  {\it C, C++, Linux}
+\item {\it
+    \href{http://www.digitalchocolate.com/}{\tt Digital Chocolate,
+      Helsinki, Finland}, Game Engineer, Feb 2006 - Sep 2006}
+
+  My responsibilities were porting and customizing mobile
+  phone games for various handsets.
+
+  {\it Java, J2ME, Bash}
+\item {\it {\tt Beijing Holystone Ltd, Beijing}, Software
+    Engineer, April 2004 - June 2005}
+
+  I developed JSP pages and database routines for
+  the company's information system.
+
+  {\it Java, J2EE}
+%% \end{small}
+\end{aperiod}
+
+\section{Interests}
+\begin{itemize}
+\item Algorithmic trading, alpha generation
+\item statistical inference, machine learning, neural network
+\end{itemize}
+
+
+\end{document} 
