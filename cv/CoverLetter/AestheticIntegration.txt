@@ -1,0 +1,14 @@
+Dear Sir/Madam,
+
+I see on your company's website that you are recruiting a quantitative analyst to work on financial data analysis, strategy development and risk analysis; and you point out that C/C++ development, experience with large financial data sets, as well as knowledge in risk modelling and strategy design are essential. With my PhD studies and earlier work experience backing me, I believe I have what it takes to succeed in this role. So I would like to ask you for your consideration.
+
+I am currently a PhD student at Copenhagen University, researching in Mathematical statistics and particularly in time series analysis, extreme value theory and random matrix theory. I am available for immediate full-time work and expect to receive my degree on 30th September, 2017. So far I have co-authored and published two papers on eigen systems of sample covariance matrices, with a focus on heavy-tailed (e.g. power-law tail) time series. These results are applicable to principle component analysis, for example.
+
+I am also finalising two other papers. One of them is about how an investor's preference (as quantified by Generalised Disappointment Aversion) of an equity varies with the tail parameters of the stationary distribution of the equity. This result can be applied to, for example, portfolio construction and assessment of the overall market risk. As part of the paper, I have also done statistical analysis on the tail parameters of equities in the S\&P 500 index, specifically the "Energy", "Consumer Staples" and "Information Technology" sectors. R and C++ programming are indispensable part of the work.
+
+The fourth paper of mine is about estimation of the probability of very large losses posed by portfolios whose volatility dynamics are time series modeled by univariate GARCH(p,q) or multivariate GARCH processes. Because the stationary distribution of such a process is not known exactly, the aforementioned probability as well as the related risk measures Value at Risk and Expected  Shortfall cannot be computed precisely. In the paper I propose an estimator based on importance sampling and Markov chain theory and naturally, would be more than happy to see it applied in practical risk management. I have implemented the estimator in C++, and in particular, have used the OpenMP directives to achieve high performance via parallel computing.
+
+I look forward to discussing the job with you in more details. You can always call me at +46 76 060 6638 or email me at xie.xiaolei@gmail.com. It would be my pleasure to hear from you.
+
+Best Regards,
+Xie Xiaolei
