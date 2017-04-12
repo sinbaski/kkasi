@@ -23,8 +23,8 @@
 %\usepackage{amsmath}
 %\usepackage{amsthm}
 %\usepackage{enumerate}
-%\usepackage[bookmarks=true]{hyperref}
-%\usepackage{bookmark}
+\usepackage[bookmarks=true]{hyperref}
+%% \usepackage{bookmark}
 \usepackage{graphicx}
 %\usepackage{multirow}
 %\usepackage{adjustbox}
@@ -826,7 +826,7 @@ of the form
 \P(\sigma_t>x)\sim c\,x^{-\alpha}\,,\qquad \xto\,,
 \eeam
 for some positive $c>0$ and a positive tail index $\alpha$ being the unique solution of the equation 
-$\E [(\alpha_1 Z_1+\beta_1)^{\alpha/2}]=1$
+$\E [(\alpha_1 Z_1^2+\beta_1)^{\alpha/2}]=1$
 provided the latter soluton exists and some mild assumptions on the \ds\ of $Z_t$ hold. This result
 follows by an application of the Kesten-Goldie theorem; see Kesten \cite{kesten:1973}, Goldie \cite{goldie:1991}, cf. 
 Buraczewski et al. \cite{buraczewski:damek:mikosch:2016}. The latter result ensures power-law tails  for
@@ -945,23 +945,39 @@ the utility of an agent with GDA preferences is given by
   \wt u&=& \E [u(C)] - b\, \int_{0}^{\delta v}
   \big[ u(\delta \,v) - u(x) \big] F_C(dx)\nonumber\\&=& \E u(C) - b \E\big[\big(u(\delta \,v) - u(C)\big)\1( C < \delta \,v)\big]\,,
 \eeao
-where $\delta $ and $v$ are positive constants, and $b\ge 0$. {\red meaning of these constants?} 
+where $\delta $ and $v$ are positive constants, and $b\ge 0$. {\red
+  meaning of these constants?}
+{\blue 
  Here $v$ can be thought of as the certainty payoff equivalent to the
-risky payoff $C$. If $b=0$, 
-preferences are the classical expected utility. If $\delta=1$ and $b>0$ preferences follow Gul's \cite{gul:1991} 
-disappointment aversion which were generalized by Routledge and Zin \cite{routledge2010generalized}.
-An agent guided by the utility function $u$ will seek to maximize the \fct al $\wt u$.
-Routledge and Zin assumed
-a power-law utility function 
+ risky payoff $C$; $\delta$ tunes the threshold of {\em
+   disappointment} in proportion to $v$; $b$ determines the extra
+ weight given to the expected return of $C$ when $C$ is below the
+ disappoinment threshold $\delta v$.
+ If $b=0$, preferences are the classical expected utility. If
+ $\delta=1$ and $b>0$ preferences follow Gul's \cite{gul:1991} 
+disappointment aversion which were generalized by Routledge and Zin
+\cite{routledge2010generalized}.
+}
+An agent guided by the utility function $u$ will seek to maximize the
+\fct al $\wt u$.
+Routledge and Zin assumed a power-law utility function 
 \beam\label{eq:u}
-  u(x)=\frac{1}{-\xi}\,x^{-\xi}\,,\quad \xi>-1\,. 
+u(x)=\frac{1}{1 - \gamma}\,x^{1 - \gamma}\,,\quad \gamma>0\,. 
 \eeam
-For the sake of argument, we assume that an investor initially has one unit of
-wealth. He invests $1-\phi\in (0,1)$ units in a risk-free 
-bond with interest rate $r>0$ and $\phi$ units in a risky asset with return $X$ over one time unit, i.e.,
-\beao%\label{eq:xxie1}
-  C = (1 - \phi)\, \ex^{r} + \phi \,\ex^{X}\,.
+In practice it is more often to observe $\gamma > 1$ {\blue Let's
+consult Casper for references.} Therefore we adopt a more convenient
+notation
+\beao
+u(x)=-\frac{1}{\xi}\,x^{-\xi}\,,\quad \xi>0\,. 
 \eeao
+  
+For the sake of argument, we assume that an investor initially has one
+unit of wealth. He invests $1-\phi\in (0,1)$ units in a risk-free 
+bond with interest rate $r>0$ and $\phi$ units in a risky asset with
+return $X$ over one time unit, i.e.,
+\beam\label{eq:xxie1}
+  C = (1 - \phi)\, \ex^{r} + \phi \,\ex^{X}\,.
+\eeam
 Then we have 
 \beao
 \wt u(\phi) &=& \E [u(C)] + b\, \E \big[u(C)\1(C < \delta v)\big] - b \,u(\delta\, v) F_X(q)\,, %\label{eq:functional}
@@ -1009,7 +1025,7 @@ We consider the case when $X$ has a two-sided Pareto \ds\ given by
 \eeam
 where 
 $\alpha, \beta > 1$, $0 < p < 1$ and $K,K' > 0$. Then we have
-\beam
+\beam\label{eq:xxie1.0}
  \wt u(F_X,\phi)\nonumber
   &=&
   \alpha\, K^\alpha\,  p\,
@@ -1023,14 +1039,15 @@ $\alpha, \beta > 1$, $0 < p < 1$ and $K,K' > 0$. Then we have
   {1 + b \1(x < q) \over (K' + x)^{\beta + 1}} \,dx 
   - b \,u(\delta v) \,F_X(q) \,.\label{eq:pp}
 \eeam
-{\red Is this worth a theorem?}
-\begin{theorem}\label{thrm:I}
+    {\red Is this worth a theorem?}
+    {\blue No}
+\begin{remark}\label{thrm:I}
  Assume the two-sided Pareto model \eqref{eq:pp} and that the utility \fct\ $u$ is increasing and differentiable. Then
 $\frac{\pd \wt u_{\rm max}}{\pd \alpha} > 0$ and $\frac{\pd \wt u_{\rm max}}{\pd K} < 0$.
-\end{theorem}
+\end{remark}
 The proof is given in Appendix~\ref{sec:thrmI_proof}. 
 \par
-We illustrate the results of Theorem~\ref{thrm:I} in Figure~\ref{fig:preference_pareto} for the power-utility
+We illustrate the results of remark~\ref{thrm:I} in Figure~\ref{fig:preference_pareto} for the power-utility
 \fct\ \eqref{eq:u}.
 For this reason, we replace $\phi$ in the first integral in \eqref{eq:pp} by the optimal $\hat\phi$. The resulting
 quantity is denoted by $I(\alpha, K)$.
@@ -1091,17 +1108,17 @@ The graphs clearly show that  $I(\alpha, K)$ increases with $\alpha$ and decreas
   \label{fig:preference_pareto}
 \end{figure}
 
-\subsection{Hybrid fitting of the shifted Pareto distribution}
+\subsection{Fitting the shifted Pareto distribution}
 \label{sec:hybrid_estimation}
 We adopt a hybrid procedure to estimate the parameters of the
-distribution function assumed in \eqref{eq:X_distr}: First we
+distribution function assumed in \eqref{eq:pareto}: First we
 obtain a Hill estimate of the lower-tail indices of an
-equity return and fix $\alpha$ in \eqref{eq:X_distr}
+equity return and fix $\alpha$ in \eqref{eq:pareto}
 to its Hill estimate. Then we estimate $K$ by maximizing
 the likelihood function with fixed $\alpha$. Obviously we take only
 negative observations and hence condition on $X < 0$. Regularity
 conditions on the maximum likelihood estimator are easily checked for
-the distribution \eqref{eq:X_distr}.
+the distribution \eqref{eq:pareto}.
 The density function of $X$ conditional on $X < 0$ is
 \[
 f_L(x) = {\alpha K^{\alpha} \over (K - x)^{\alpha + 1}}
@@ -1146,7 +1163,7 @@ To obtain an estimate of $p$, we use the law of large number:
 By the central limit theorem,
 \begin{eqnarray*}
   \sqrt n \left[
-    {1 \over n}\sum_{t=1}^n \1{X_t < 0} - p
+    {1 \over n}\sum_{t=1}^n \1_{\{X_t < 0\}} - p
   \right] \to N(0, p - p^2))
 \end{eqnarray*}
 
@@ -1303,7 +1320,7 @@ where $C(\cdot)$ is defined in \eqref{eq:xxie1}.
 \subsubsection{log-utility function}
 We first consider the case where the utility function is simply
 $u(\cdot) = \ln(\cdot)$. This corresponds to the limiting case of
-\eqref{eq:power_utility} as $\gamma \to 0$.
+\eqref{eq:u} as $\gamma \to 0$.
 
 First notice that when $b = 0$, $\mathcal U(F, \phi)$ reduces to
 $\E u(C(X, \phi))$. Only the first integral of \eqref{eq:t1} remains.
@@ -1407,23 +1424,66 @@ tail index; their tail functions differ from each other via their
 scale parameters.
 
 \appendix
-\section{Proof of lemma \ref{lemma:I}}
+\section{A monontonicity lemma}
+\begin{lemma} \label{lemma:I}
+  Assume distribution function $F(x; \theta)$ parameterized by
+  $\theta$ is defined on $x \in (a, b)$, $a, b \in \mathbb R \cup
+  \{-\infty, \infty\}$, and in addition $F(x; \theta)$ has density
+  function $f(x; \theta)$. Assume function $h(\cdot)$ is defined on
+  $(a, b)$, $X \sim F$, $\text{supp}(X) = (a,b)$,
+  $\E h(X) < \infty$ and
+  \begin{eqnarray*}
+    \left| \frac{\pd f(x, \theta)}{\pd \theta} \right| < \infty
+    \quad \forall x \in (a, b)
+  \end{eqnarray*}
+  \begin{enumerate}
+  \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
+    $\frac{\pd f}{\pd \theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
+    $\frac{\pd f}{\pd \theta}(x_0; \theta) < 0$ on $(x_0, b)$, then
+    \[
+    \frac{\pd \E h(X)}{\pd \theta} > 0
+    \]
+  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
+    $\frac{\pd f}{\pd \theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
+    $\frac{\pd f}{\pd \theta}(x_0; \theta) > 0$ on $(x_0, b)$, then
+    \[
+    \frac{\pd \E h(X)}{\pd \theta} > 0
+    \]
+  \end{enumerate}
+\end{lemma}
+\begin{remark}
+  \label{remark:I}
+  Two other cases follow trivially from lemma \ref{lemma:I}:
+  \begin{enumerate}
+  \item If $h(\cdot)$ is increasing and $\frac{\pd f}{\pd \theta}$
+    satisfies the
+    same conditions of the 1st case of lemma \ref{lemma:I},
+    $\frac{\pd \E h(X)}{\pd \theta} < 0$. This immediately follows
+    from applying 1st case of lemma \ref{lemma:I} to $-h(\cdot)$.
+  \item By the same argument, if $h(\cdot)$ is decreasing and
+    ${\pd f \over \pd \theta}$ satisfies the same conditions of the
+    2nd case of lemma \ref{lemma:I}, ${\pd \E h(X) \over \pd \theta} < 0$.
+  \end{enumerate}
+\end{remark}
+
 \begin{proof}
   Clearly
   \begin{eqnarray*}
     && {\pd \E h(X) \over \pd \theta} \\
     &=& \int_a^b h(x) {\pd f \over \pd \theta}(x, \theta) dx \\
-    &=& \underbrace{\int_a^{x_0} h(x) {\pd f \over \pd \theta}(x, \theta) dx}_{I_1}
-    + \underbrace{\int_{x_0}^b h(x) {\pd f \over \pd \theta}(x, \theta) dx}_{I_2}
+    &=& \underbrace{\int_a^{x_0} h(x) {\pd f \over \pd \theta}(x,
+      \theta) dx}_{I_1}
+    + \underbrace{\int_{x_0}^b h(x) {\pd f \over \pd \theta}(x,
+      \theta) dx}_{I_2}
   \end{eqnarray*}
   \begin{enumerate}
-  \item When $h(x)$ is decreasing on $(a, b)$ and ${\pd f \over \pd \theta}(x,
-    \theta) > 0$ on $(a, x_0)$
+  \item When $h(x)$ is decreasing on $(a, b)$ and ${\pd f \over \pd
+    \theta}(x, \theta) > 0$ on $(a, x_0)$
     \[
     I_1 > h(x_0) \int_a^{x_0} {\pd f \over \pd \theta}(x, \theta) dx
     \]
-    Similarly, because ${\pd f \over \pd \theta}(x, \theta) < 0$ for $x \in (x_0, b)$ and
-    $h(x)$ is decreasing, we have
+    Similarly, because ${\pd f \over \pd \theta}(x, \theta) < 0$ for
+    $x \in (x_0, b)$ and $h(x)$ is decreasing, we have
     \begin{eqnarray*}
       I_2 &=& \int_{x_0}^b -h(x_0)
       \left|{\pd f \over \pd \theta}(x, \theta) \right| dx \\
