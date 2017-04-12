@@ -91,7 +91,9 @@ inferInnovations <- function(X) {
 
 
 getInterpolatedPrices <- function(day1, day2, assetSet="",
-                                   tables="", suffix="") {
+                                   tables="", suffix="")
+{
+    require(RMySQL);
     database = dbConnect(MySQL(), user='sinbaski', password='q1w2e3r4',
         dbname='avanza', host="localhost");
     if (nchar(assetSet) > 0) {

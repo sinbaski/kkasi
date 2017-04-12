@@ -1,6 +1,8 @@
 rm(list=ls());
 source("libxxie.r");
 library(parallel);
+library(doParallel);
+library(foreach);
 
 #Energy
 tables <- c (
@@ -137,12 +139,52 @@ assets <- data$assets;
 
 X <- diff(log(price));
 n <- dim(price)[1];
-A <- lapply(1:dim(X)[2],
-            FUN=function(i) {
-                scaleEstimate(-X[, i], max(floor(dim(X)[1]*0.03), 60))
-            });
-A <- unlist(A);
-plot(1:dim(X)[2], A)
+
+cl <- makeCluster(detectCores());
+registerDoParallel(cl);
+k <- max(floor(dim(X)[1]*0.03), 50);
+
+params <- foreach (i=1:dim(X)[2], .combine=rbind) %dopar% {
+    R <- sort(-X[, i], decreasing=TRUE);
+    alpha <- hillEstimate(-X[, i], k);
+    K <- R[k+1] * (k/n)^(1/alpha);
+    c(alpha, K)
+}
+
+pdf(file="../papers/FX/Consumer_Staples_K.pdf");
+sd <- params[, 2]/params[, 1]/sqrt(k);
+plotCI(params[, 1], params[, 2],
+       uiw=0, liw=0,
+       ui=params[, 2] + 2*sd,
+       li=params[, 2] - 2*sd,
+       barcol="#000000",
+       main="Consumer Staples",
+       col="red",
+##       pch=16,
+       lwd=1,
+       xlab=expression(alpha),
+       ylab=expression(K));
+dev.off();
+
+pdf(file="../papers/FX/Consumer_Staples_scale.pdf");
+values <- params[, 2]^params[, 1];
+sd <- values/sqrt(k);
+plotCI(1:dim(X)[2], log10(values),
+       uiw=0, liw=0,
+       ui=log10(values + 2*sd),
+       li=log10(values - 2*sd),
+       barcol="#000000",
+       main="Consumer Staples",
+       col="red",
+       lwd=1,
+       xlab="",
+       xaxt="n",
+       ylab=expression(log10(K^alpha)));
+axis(side=1, at=1:dim(X)[2],
+     labels=gsub("_series_", ".", gsub("_US", "", data$assets)),
+     las=2);
+dev.off();
+
 
 
 
@@ -252,7 +294,7 @@ M <- pickands.x[1, ] + sigma * q;
 m <- pickands.x[1, ] - sigma * q;
 graphics.off();
 ## par(mfrow=c(1, 2));
-pdf(file="../papers/FX/Information_Technology_Pickands.pdf",
+pdf(file="../papers/FX/Consumer_Staples_Pickands.pdf",
     width=7, height=3.5);
 plot(pickands.x[1, ],
      main=expression(alpha),
@@ -279,7 +321,7 @@ lx <- log10(A.x);
 ly <- log10(A.y);
 l.m <- min(c(lx, ly));
 l.M <- max(c(lx, ly));
-pdf("../papers/FX/Information_Technology_Hill_scales.pdf")
+pdf("../papers/FX/Consumer_Staples_Hill_scales.pdf")
 plot(lx, pch=0, ylim=c(-9, 0), xaxt="n",
      xlab="", main=expression(log[10](A)),
      ylab="");
@@ -305,7 +347,7 @@ for (i in 1:dim(X)[2])
     params[i, 3] <- R[[i]]$shift;
 }
 
-## pdf("../papers/FX/Information_Technology_OLS_estimates.pdf");
+## pdf("../papers/FX/Consumer_Staples_OLS_estimates.pdf");
 ## par(mfrow=c(3, 1));
 ## plot(params[-21, 1], xlab="", ylab=expression(alpha), xaxt="n");
 ## axis(side=1, at=1:length(tables),
@@ -328,7 +370,7 @@ for (i in 1:dim(X)[2])
 ## abline(v=1:(dim(X)[2]-1), lty=3);
 ## dev.off();
 
-pdf("../papers/FX/Information_Technology_OLS_estimates.pdf");
+pdf("../papers/FX/Consumer_Staples_OLS_estimates.pdf");
 par(mfrow=c(3, 1));
 plot(params[, 1], xlab="", ylab=expression(alpha), xaxt="n");
 axis(side=1, at=1:length(tables),

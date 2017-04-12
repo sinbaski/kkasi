@@ -465,7 +465,8 @@ In this section, we assume the model \eqref{eq:1} for the tails of the marginal
 that this series constitutes a strictly stationary \seq . In what follows, we focus
 on the left tail of the \ds , i.e., on the losses. 
 However, it is common to present the tail index estimators
-for positive data. Therefore we will multiply the losses $X_t$ by minus one, swapping the negative with the positive values.
+for positive data. Therefore we will multiply the losses $X_t$ by
+minus one, swapping the negative with the positive values.
 For simplicity, we also suppress subscripts in the notation:
 \beam\label{eq:1a}
 \P(-X_t>x)\sim c\,x^{-\alpha}\,,\qquad \xto\,,
@@ -609,29 +610,54 @@ parameters of daily stock returns in the same sectors of S\&P 500 before we appl
 
 
 \subsection{Hill estimates of lower-tail scale parameters}\label{sec:HillScaleEstimates}
-We assume the pure Pareto model \eqref{eq:3} with scale parameter $K>0$. 
+We assume the pure Pareto model \eqref{eq:3} with scale parameter $K>0$.
 Hill \cite{hill1975simple} proposed  the maximum-likelihood estimator of $K$
 derived from the joint \ds\ of $k$ upper order statistics in the sample; cf.
 Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997}, p.~334.
 It is given by
 \beao
-\hat K_k = {k \over n} X_{(n-k+1)}\,.
+\hat K_k = \left({k \over n}\right)^{1/\hat\alpha} X_{(n-k)}\,.
 \eeao
-Estimates of $K$ {\red or $K^\alpha$?} of the ``Energy'', ``Consumer Staples'' and
+Using the asymptotic normality property of upper order statistics
+(cf. de Haan and Ferreira~\cite{haan:ferreira:2006}, theorem 2.2.1), one can show
+\begin{eqnarray*}
+  \sqrt k (\hat K_k - K) &\overset{d}{\to}& N\left(
+    0, \left( {K \over \alpha}  \right)^2
+  \right) \\
+  \sqrt k (\hat K_k^\alpha - K^\alpha) &\overset{d}{\to}& N\left(
+    0, \left( {K^{2\alpha}}  \right)^2
+  \right)
+\end{eqnarray*}
+where the tail index $\alpha$ is regarded as known. From the above
+asymptotic normality property, confidence bands of the estimate of $K$
+and $K^\alpha$ can be constructed. 
+Estimates of $K$ of the ``Energy'', ``Consumer Staples'' and
 ``Information Technology'' sectors of the S\&P 500 index are computed
-using this method. {\blue The results are shown in Figure~\ref{fig:sectors_parameters} {\red ???} along with estimates obtained
-using the hybrid method described in section
-\ref{sec:hybrid_estimation}.} {\red Figures of the Hill estimates of $K$ or $K^\alpha$ with Hill confidence bands. 
-Discuss confidence bands and what you see in the data.}
+using this method. The results are shown in
+Figure~\ref{fig:sectors_parameters}.
+One can see that $K$ generally takes a rather small value. For the
+more volatile sectors of ``Energy'' and ``Information Technology'',
+the average value of $K$ is around 0.01, while for the more stable
+sector of ``Consumer Staples'', the average value is around 0.005. Due
+to the smallness of $K$, mild variations of $\alpha$ would lead to
+huge variations of $K^\alpha$, as shown in the 2nd column of
+figure~\ref{fig:sectors_parameters}.
 
-%% Hence it is informative to test
-%% the hypothesis that the tail indices of these return series are equal.
-%% Hoga \cite{hoga:2016} devised tests suitable this purpose. We adopt his
-%% approach but use our own implementation. The next section has more
-%% details.
+Secondly, one can see that the values of $\alpha$ and $K$ are appear
+positively correlated. This prompts Pareto tails of the return
+distributions. We expain more about this in
+section~\ref{sec:pareto_tail}.
 
-%% \subsection{Hill estimates of extreme quantiles}
-
+\subsection{A test of equal tail indices based on Hill estimator}
+From \eqref{eq:2} one can deduce
+\begin{equation}
+  \label{eq:x1}
+  \sqrt k (\hat \alpha_A - \hat \alpha_B) \overset{d}{\to} N(0, \alpha_A^2 - \alpha_B^2)  
+\end{equation}
+where $\hat \alpha_A$ and $\hat \alpha_B$ are Hill estimates of
+$\alpha_A$ and $\alpha_B$, the tail indices of two series $A$ and
+$B$. The weak convergence of \eqref{eq:x1} allows one to construct a
+test of the equality of $\alpha_A$ and $\alpha_B$.
 
 %% By the design of Hoga's test, the null hypothesis can be
 %% rejected due to changed scale parameters instead of changed tail
@@ -1009,7 +1035,7 @@ and we assume that
 \eeao
 exists. 
 
-\subsection{Pareto-distributed returns}
+\subsection{Pareto-distributed returns}\label{sec:pareto_tail}
 We consider the case when $X$ has a two-sided Pareto \ds\ given by
 \beam\label{eq:pareto}
   F_X(x) = \left\{
@@ -1060,7 +1086,7 @@ of $K$ to increase too, i.e., the estimated values of $\alpha$ and $K$
 should appear positively dependent. This is indeed the case for some
 real return data, e.g. the ``Energy'', ``Consumer Staples'' and
 ``Information Technology'' sectors of the S\&P 500 index; see 
-Figure \ref{fig:sectors_parameters}. {\red how can I see positive dependence?}
+Figure \ref{fig:sectors_parameters}.
 \par
 The value of $\hat\phi$ can be calculated
 by numerical integration and optimization with respect to $\phi$ for given values of $K, K', \alpha, \beta$. 
@@ -1074,11 +1100,12 @@ Figure \ref{fig:phi_hat_pareto} for the power utility \fct\ \eqref{eq:u}.
     \includegraphics[width=\textwidth]{phi_hat_pareto4.pdf}
   \end{minipage}
   \caption{The graphs show $\hat\phi$, the optimal equity allocation
-as a \fct\ of $\alpha$ and $K$ in the two-sided Pareto model \eqref{eq:pareto} with $K=K'$, $\alpha=\beta$. We choose
-the utility $u$ from \eqref{eq:u}
-    function $u(x) = -x^{-\xi}/\xi$ for $\xi = 1/2$
-    (left) and $\xi = 4$ (right). {\rm change the $u(C)$ to $u(x)$ everywhere also in other figures, and use the same
-structure of the formulas.}
+    as a \fct\ of $\alpha$ and $K$ in the two-sided Pareto model
+    \eqref{eq:pareto} with $K=K'$, $\alpha=\beta$. We choose
+    the utility $u$ from \eqref{eq:u}
+    function $u(x) = -x^{-\xi}/\xi$ for $\xi = 1/2$ (left) and $\xi = 4$
+    (right). {\rm change the $u(C)$ to $u(x)$ everywhere also in other
+      figures, and use the same structure of the formulas.}
   }
   \label{fig:phi_hat_pareto}
 \end{figure}
@@ -1205,33 +1232,34 @@ and distribution.
   \centering
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-    {Energy_alpha_K_ci.pdf}
+    {Energy_K.pdf}
   \end{minipage}\hfill
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-    {Energy_p.pdf}
+    {Energy_scale.pdf}
   \end{minipage}
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-    {Consumer_Staples_alpha_K_ci.pdf}
+    {Consumer_Staples_K.pdf}
   \end{minipage}\hfill
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-    {Consumer_Staples_p.pdf}
+    {Consumer_Staples_scale.pdf}
   \end{minipage}
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-    {Information_Technology_alpha_K_ci.pdf}
+    {Information_Technology_K.pdf}
   \end{minipage}\hfill
   \begin{minipage}{0.45\linewidth}
     \includegraphics[width=\textwidth]
-    {Information_Technology_p.pdf}
+    {Information_Technology_scale.pdf}
   \end{minipage}
-  \caption{\small Estimates of $p$ and $K$ of stocks in sectors of the
-    S\&P 500 index. The points are the estimated values; the bars are
+  \caption{\small Estimates of $K$ and $K^\alpha$ of stocks in sectors
+    of the S\&P 500 index. The points are the estimated values; the bars are
     the $2\sigma$ confidence intervals. The confidence bands of the
     corresponding Hill estimates $\hat \alpha$ of these sectors are
-    shown in figure~\ref{fig:1}.
+    shown in figure~\ref{fig:1}. Note $\log_{10}(K^\alpha)$ is shown
+    instead of $K^\alpha$.
   }
   \label{fig:sectors_parameters}
 \end{figure}
@@ -1676,7 +1704,7 @@ scale parameters.
   where $x_0$ is the positive root of \eqref{eq:xxie5}.
 \end{proof}
 
-\section{Proof of Theorem \ref{thrm:I}}
+\section{Proof of Remark \ref{thrm:I}}
 \label{sec:thrmI_proof}
 \begin{proof}
   Let
