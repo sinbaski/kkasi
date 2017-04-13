@@ -2,81 +2,81 @@ rm(list=ls());
 source("libxxie.r")
 library(parallel)
 #Energy
-## tables <- c (
-##     "APA",
-##     "APC",
-##     "BHI",
-##     "CHK",
-##     "COG",
-##     "COP",
-##     "DO",
-##     "DVN",
-##     "EOG",
-##     "EQT",
-##     "FTI",
-##     "HAL",
-##     "HES",
-##     "HP",
-##     "KMI",
-##     "MPC",
-##     "MRO",
-##     "MUR",
-##     "NBL",
-##     "NFX",
-##     "NOV",
-##     "OKE",
-##     "OXY",
-##     "PSX",
-##     "PXD",
-##     "RIG",
-##     "RRC",
-##     "SE",
-##     "SLB",
-##     "SWN",
-##     "TSO",
-##     "VLO",
-##     "WMB",
-##     "XEC",
-##     "XOM"
-## );
+tables <- c (
+    "APA",
+    "APC",
+    "BHI",
+    "CHK",
+    "COG",
+    "COP",
+    "DO",
+    "DVN",
+    "EOG",
+    "EQT",
+    "FTI",
+    "HAL",
+    "HES",
+    "HP",
+    "KMI",
+    "MPC",
+    "MRO",
+    "MUR",
+    "NBL",
+    "NFX",
+    "NOV",
+    "OKE",
+    "OXY",
+    "PSX",
+    "PXD",
+    "RIG",
+    "RRC",
+    "SE",
+    "SLB",
+    "SWN",
+    "TSO",
+    "VLO",
+    "WMB",
+    "XEC",
+    "XOM"
+);
 
 ## Consumer staples
-tables <- c(
-    "ADM",
-    "BF_series_B",
-    "CAG",
-##    "CL",
-    "CLX",
-    "COST",
-    "CPB",
-    "CVS",
-    "DPS",
-##    "EL",
-    "GIS",
-    "HRL",
-    "HSY",
-    "K",
-    "KMB",
-    "KO",
-    "KR",
-    "MDLZ",
-    "MJN",
-    "MKC",
-    "MNST",
-    "MO",
-    "PEP",
-    "PG",
-    "PM",
-    "RAI",
-    "SJM",
-    "STZ",
-    "SYY",
-    "TAP",
-    "TSN",
-##    "WBA",
-##    "WFM",
-    "WMT"
-);
+## tables <- c(
+##     "ADM",
+##     "BF_series_B",
+##     "CAG",
+## ##    "CL",
+##     "CLX",
+##     "COST",
+##     "CPB",
+##     "CVS",
+##     "DPS",
+## ##    "EL",
+##     "GIS",
+##     "HRL",
+##     "HSY",
+##     "K",
+##     "KMB",
+##     "KO",
+##     "KR",
+##     "MDLZ",
+##     "MJN",
+##     "MKC",
+##     "MNST",
+##     "MO",
+##     "PEP",
+##     "PG",
+##     "PM",
+##     "RAI",
+##     "SJM",
+##     "STZ",
+##     "SYY",
+##     "TAP",
+##     "TSN",
+## ##    "WBA",
+## ##    "WFM",
+##     "WMT"
+## );
 
 ## Information Technology
 ## tables <- c(
@@ -131,16 +131,16 @@ X <- data$ret;
 
 Fn <- asymptoticDist(1000, 2000, t0=0.1);
 
-## A <- matrix(NA, nrow=100, ncol=dim(X)[2]);
-## for (i in 1:length(names)) {
-##     A[, i] <- HogaTest(-X[, i], p=0.02, 0.1);
-## }
+A <- matrix(NA, nrow=100, ncol=dim(X)[2]);
+for (i in 1:length(names)) {
+    A[, i] <- HogaTest(-X[, i], p=0.02, 0.1);
+}
 
 ## Simulate from t-distributions
-X <- matrix(NA, nrow=dim(data$ret)[1], ncol=dim(data$ret)[2]);
-for (i in 1:dim(X)[2]) {
-    X[, i] <- rt(n=dim(X)[1], df=2+0.1*i);
-}
+## X <- matrix(NA, nrow=dim(data$ret)[1], ncol=dim(data$ret)[2]);
+## for (i in 1:dim(X)[2]) {
+##     X[, i] <- rt(n=dim(X)[1], df=2+0.1*i);
+## }
 
 B <- matrix(NA, nrow=dim(X)[2], ncol=dim(X)[2]);
 for (i in 1:(length(names)-1)) {
@@ -152,18 +152,18 @@ for (i in 1:(length(names)-1)) {
         );
         return(h);
     }
-    B[i, (i+1):dim(X)[2]] <- unlist(mclapply((i+1):length(names), myfun, mc.cores=3));
-    B[(i+1):dim(X)[2], i] <- B[i, (i+1):dim(X)[2]];
+    B[i, (i+1):dim(X)[2]] <- unlist(lapply((i+1):length(names), myfun));
+    ## B[i, (i+1):dim(X)[2]] <- unlist(mclapply((i+1):length(names), myfun, mc.cores=3));
     print(paste("Row ", i));
 }
 
 
 p <- dim(X)[2];
-## pdf("../papers/FX/Hoga_Consumer_Staples_pair.pdf")
-pdf("../papers/FX/t_sim_pair.pdf")
+pdf("../papers/FX/Hoga_Energy_pair.pdf")
+## pdf("../papers/FX/t_sim_pair.pdf")
 plot(1, 1, type="n", xlim=c(1, p), ylim=c(1, p), xaxt="n", yaxt="n");
-for (i in 1:(p-1)) {
-    for (j in (i+1):p) {
+for (i in 1:p) {
+    for (j in i:p) {
         if (is.na(B[i, j])) {
             color = "black";
         } else if (B[i, j] == 0) {
@@ -178,12 +178,12 @@ for (i in 1:(p-1)) {
             color="#FF0000";
         }
         points(x=i, y=j, pch=19, cex=2, col=color);
-        points(x=j, y=i, pch=19, cex=2, col=color);
     }
 }
-df <- 2 + 0.1 * (1:length(names));
+
 ## axis(side=1, at=1:p, labels=gsub("_US", "", names), las=2);
 ## axis(side=2, at=1:p, labels=gsub("_US", "", names), las=1);
+df <- 2 + 0.1 * (1:length(names));
 axis(side=1, at=1:p, labels=df, las=2);
 axis(side=2, at=1:p, labels=df, las=1);
 abline(h=1:p, lty=3, col="gray");

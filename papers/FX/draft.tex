@@ -649,15 +649,62 @@ distributions. We expain more about this in
 section~\ref{sec:pareto_tail}.
 
 \subsection{A test of equal tail indices based on Hill estimator}
+Suppose we have two iid series $X_1, \dots, X_n \sim F_X$ and
+$Y_1, \dots, Y_n \sim F_Y$. Both $F_X$ and $F_Y$ have power-law tails
+with indices $\alpha_X$ and $\alpha_Y$, respectively.
 From \eqref{eq:2} one can deduce
+\[
+\sqrt k
+\begin{pmatrix}
+  {\hat \alpha_X - \alpha_X} \\
+  {\hat \alpha_X - \alpha_X} \\
+\end{pmatrix} \overset{d}{\to}
+\begin{pmatrix}
+  Z_X \\
+  Z_Y
+\end{pmatrix}
+\sim
+N\left(
+0, \text{diag}(\alpha_X^2, \alpha_Y^2)
+\right)
+\]
+where $\hat \alpha_X$ and $\hat \alpha_Y$ are Hill estimates of
+$\alpha_X$ and $\alpha_Y$. Then it follows from continuous mapping
+theorem
 \begin{equation}
   \label{eq:x1}
-  \sqrt k (\hat \alpha_A - \hat \alpha_B) \overset{d}{\to} N(0, \alpha_A^2 - \alpha_B^2)  
+  \sqrt k [(\hat \alpha_X -\alpha_X) - (\hat \alpha_Y - \alpha_Y)]
+  \overset{d}{\to}
+  Z_X - Z_Y \sim N(0, \alpha_X^2 + \alpha_Y^2)
 \end{equation}
-where $\hat \alpha_A$ and $\hat \alpha_B$ are Hill estimates of
-$\alpha_A$ and $\alpha_B$, the tail indices of two series $A$ and
-$B$. The weak convergence of \eqref{eq:x1} allows one to construct a
-test of the equality of $\alpha_A$ and $\alpha_B$.
+The weak convergence of \eqref{eq:x1} allows one to construct a test
+of the equality $\alpha_X = \alpha_Y$. As the null hypothesis, assume
+$\alpha_X = \alpha_Y$. Under this hypothesis \eqref{eq:x1} means the
+test statistic
+$\hat \alpha_X - \hat \alpha_Y \overset{d}{\to} N(0, \alpha_X^2 +
+\alpha_Y^2)$
+We apply this test to the equities in the ``Energy'',
+``Consumder Staples'' and ``Information Technology''
+sectors of the S\&P 500 index. The results are shown in
+\ref{fig:PairTest}.
+\begin{figure}[htb!]
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[
+      width=\textwidth,
+    ]{HillTest_Energy.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 1cm, 1cm, 1cm}, clip
+    ]{Hoga_Energy_pair.pdf}
+  \end{minipage}
+  \caption{Test of equal tail indices}
+  \label{fig:PairTest} 
+\end{figure}
+
+
+
 
 %% By the design of Hoga's test, the null hypothesis can be
 %% rejected due to changed scale parameters instead of changed tail
