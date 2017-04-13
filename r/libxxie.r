@@ -685,8 +685,8 @@ asymptoticDist <- function(n.paths, n.steps, t0)
         return(max(results));
     }
     ## samples <- apply(W, MARGIN=2, FUN=f);
-    ## samples <- unlist(lapply(X=1:n.paths, FUN=f, mc.cores=detectCores()));
-    samples <- unlist(lapply(X=1:n.paths, FUN=f));
+    samples <- unlist(mclapply(X=1:n.paths, FUN=f, mc.cores=detectCores()));
+    ## samples <- unlist(lapply(X=1:n.paths, FUN=f));
     return(samples);
 }
 
