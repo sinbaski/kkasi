@@ -1,82 +1,83 @@
 rm(list=ls());
 source("libxxie.r")
-library(parallel)
+library(doParallel);
+
 #Energy
-tables <- c (
-    "APA",
-    "APC",
-    "BHI",
-    "CHK",
-    "COG",
-    "COP",
-    "DO",
-    "DVN",
-    "EOG",
-    "EQT",
-    "FTI",
-    "HAL",
-    "HES",
-    "HP",
-    "KMI",
-    "MPC",
-    "MRO",
-    "MUR",
-    "NBL",
-    "NFX",
-    "NOV",
-    "OKE",
-    "OXY",
-    "PSX",
-    "PXD",
-    "RIG",
-    "RRC",
-    "SE",
-    "SLB",
-    "SWN",
-    "TSO",
-    "VLO",
-    "WMB",
-    "XEC",
-    "XOM"
-);
+## tables <- c (
+##     "APA",
+##     "APC",
+##     "BHI",
+##     "CHK",
+##     "COG",
+##     "COP",
+##     "DO",
+##     "DVN",
+##     "EOG",
+##     "EQT",
+##     "FTI",
+##     "HAL",
+##     "HES",
+##     "HP",
+##     "KMI",
+##     "MPC",
+##     "MRO",
+##     "MUR",
+##     "NBL",
+##     "NFX",
+##     "NOV",
+##     "OKE",
+##     "OXY",
+##     "PSX",
+##     "PXD",
+##     "RIG",
+##     "RRC",
+##     "SE",
+##     "SLB",
+##     "SWN",
+##     "TSO",
+##     "VLO",
+##     "WMB",
+##     "XEC",
+##     "XOM"
+## );
 
 ## ## Consumer staples
-## tables <- c(
-##     "ADM",
-##     "BF_series_B",
-##     "CAG",
-## ##    "CL",
-##     "CLX",
-##     "COST",
-##     "CPB",
-##     "CVS",
-##     "DPS",
-## ##    "EL",
-##     "GIS",
-##     "HRL",
-##     "HSY",
-##     "K",
-##     "KMB",
-##     "KO",
-##     "KR",
-##     "MDLZ",
-##     "MJN",
-##     "MKC",
-##     "MNST",
-##     "MO",
-##     "PEP",
-##     "PG",
-##     "PM",
-##     "RAI",
-##     "SJM",
-##     "STZ",
-##     "SYY",
-##     "TAP",
-##     "TSN",
-## ##    "WBA",
-## ##    "WFM",
-##     "WMT"
-## );
+tables <- c(
+    "ADM",
+    "BF_series_B",
+    "CAG",
+##    "CL",
+    "CLX",
+    "COST",
+    "CPB",
+    "CVS",
+    "DPS",
+##    "EL",
+    "GIS",
+    "HRL",
+    "HSY",
+    "K",
+    "KMB",
+    "KO",
+    "KR",
+    "MDLZ",
+    "MJN",
+    "MKC",
+    "MNST",
+    "MO",
+    "PEP",
+    "PG",
+    "PM",
+    "RAI",
+    "SJM",
+    "STZ",
+    "SYY",
+    "TAP",
+    "TSN",
+##    "WBA",
+##    "WFM",
+    "WMT"
+);
 
 ## Information Technology
 ## tables <- c(
@@ -129,12 +130,19 @@ data <- getInterpolatedReturns("2010-01-01", "2015-01-01",
 names <- data$assets;
 X <- data$ret;
 
-Fn <- asymptoticDist(1000, 2000, t0=0.1);
+if (! file.exists("Fn.data")) {
+    Fn <- asymptoticDist(1000, 2000, t0=0.1);
+    save(Fn, file="Fn.data");
+} else {
+    load("Fn.data");
+}
 
-## A <- matrix(NA, nrow=100, ncol=dim(X)[2]);
-## for (i in 1:length(names)) {
-##     A[, i] <- HogaTest(-X[, i], p=0.02, 0.1);
-## }
+cl <- makeCluster(detectCores());
+registerDoParallel(cl);
+
+A <- foreach (i = 1:length(names), .combine=rbind) %dopar% {
+    HogaTest(-X[, i], p=0.02, 0.1)
+}
 
 ## Simulate from t-distributions
 ## X <- matrix(NA, nrow=dim(data$ret)[1], ncol=dim(data$ret)[2]);
@@ -142,6 +150,7 @@ Fn <- asymptoticDist(1000, 2000, t0=0.1);
 ##     X[, i] <- rt(n=dim(X)[1], df=2+0.1*i);
 ## }
 
+## load("B.data");
 B <- matrix(NA, nrow=dim(X)[2], ncol=dim(X)[2]);
 for (i in 1:(length(names)-1)) {
     myfun <- function(j) {
@@ -158,14 +167,15 @@ for (i in 1:(length(names)-1)) {
 }
 
 
-p <- dim(X)[2];
-pdf("../papers/FX/Hoga_Energy_pair.pdf")
-## pdf("../papers/FX/t_sim_pair.pdf")
+p <- 32;
+## p <- dim(X)[2];
+## pdf("../papers/FX/Hoga_IT_pair.pdf")
+pdf("../papers/FX/t_sim_pair.pdf")
 plot(1, 1, type="n", xlim=c(1, p), ylim=c(1, p),
      xlab="", ylab="",
-     xaxt="n", yaxt="n", main="Energy");
-for (i in 1:p) {
-    for (j in i:p) {
+     xaxt="n", yaxt="n");
+for (i in 1:(p-1)) {
+    for (j in (i+1):p) {
         if (is.na(B[i, j])) {
             color = "black";
         } else if (B[i, j] == 0) {
@@ -179,16 +189,16 @@ for (i in 1:p) {
         } else {
             color="#FF0000";
         }
-        points(x=i, y=j, pch=19, cex=2, col=color);
+        points(x=i, y=j, pch=19, cex=1.5, col=color);
     }
 }
-
-labels <- gsub("_series_", ".", gsub("_US", "", names));
-axis(side=1, at=1:p, labels=labels, las=2);
-axis(side=2, at=1:p, labels=labels, las=1);
-## df <- 2 + 0.1 * (1:length(names));
-## axis(side=1, at=1:p, labels=df, las=2);
-## axis(side=2, at=1:p, labels=df, las=1);
+lines(1:p, 1:p, lwd=2);
+## labels <- gsub("_series_", ".", gsub("_US", "", names));
+## axis(side=1, at=1:p, labels=labels, las=2, cex.axis=0.8);
+## axis(side=2, at=1:p, labels=labels, las=1, cex.axis=0.8);
+df <- 2 + 0.1 * (1:p);
+axis(side=1, at=1:p, labels=df, las=2);
+axis(side=2, at=1:p, labels=df, las=1);
 abline(h=1:p, lty=3, col="gray");
 abline(v=1:p, lty=3, col="gray");
 dev.off();
@@ -207,17 +217,18 @@ dev.off();
 
 
 
-H <- apply(A, FUN=max, MARGIN=2);
-pdf("../papers/FX/Hoga_Consumer_Staples_Single.pdf")
+H <- apply(A, FUN=max, MARGIN=1);
+pdf("../papers/FX/Hoga_CS_Single.pdf")
 barplot(H, xlim=c(0, max(quantile(Fn, 0.95), max(H))),
         width=1, space=0.2,
         horiz=T,
         main="Test Statistics of Consumer Staples",
-        xlab=expression(Q), ylab=""
+        xlab=expression(T[n]), ylab="",
+        yaxt="n"
         );
+labels <- gsub("_series_", ".", gsub("_US", "", names));
 axis(side=2, at=seq(from=0.6, by=1.2, length.out=length(H)),
-     labels=gsub("_US", "", names),
-     las=1);
+     labels=labels, las=1);
 abline(v=quantile(Fn, 0.85), lwd=2, col="#00FF00");
 abline(v=quantile(Fn, 0.90), lwd=2, col="#0000FF");
 abline(v=quantile(Fn, 0.95), lwd=2, col="#FF0000");
@@ -249,7 +260,7 @@ g <- density(G);
 pdf("../papers/FX/Hoga_AsymptoticDistribution.pdf");
 plot(
     f$x, f$y, type="l",
-    xlab=expression(Q[1]),
+    xlab=expression(T[n]),
     ylab="density",
     xlim=c(0, 200),
     ylim=c(0, max(c(f$y, h$y, g$y))),

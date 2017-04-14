@@ -140,16 +140,14 @@ alpha <- foreach (i = 1:p, .combine=rbind) %do% {
     hillEstimate(-X[, i], k)
 }
 
-pdf("../papers/FX/HillTest_Information_Technology.pdf")
+pdf("../papers/FX/HillTest_IT.pdf")
 plot(1, 1, type="n", xlim=c(1, p), ylim=c(1, p),
      xaxt="n", yaxt="n", xlab="", ylab="",
      main="Information Technology");
-for (i in 1:p) {
-    for (j in i:p) {
+for (i in 1:(p-1)) {
+    for (j in (i+1):p) {
         sd <- sqrt(alpha[i]^2 + alpha[j]^2) / sqrt(k);
-        if (i == j) {
-            color = "black";
-        } else if (abs(alpha[i] - alpha[j]) <
+        if (abs(alpha[i] - alpha[j]) <
                    qnorm(mean=0, sd=sd, p=0.85)) {
             color="grey";
         } else if (abs(alpha[i] - alpha[j]) <
@@ -161,11 +159,13 @@ for (i in 1:p) {
         } else {
             color="#FF0000";
         }
-        points(x=i, y=j, pch=19, cex=2, col=color);
+        points(x=i, y=j, pch=19, cex=1.5, col=color);
     }
 }
-axis(side=1, at=1:p, labels=gsub("_US", "", names), las=2);
-axis(side=2, at=1:p, labels=gsub("_US", "", names), las=1);
+lines(1:p, 1:p, lwd=2);
+labels <- gsub("_series_", ".", gsub("_US", "", names));
+axis(side=1, at=1:p, labels=labels, las=2, cex.axis=0.8);
+axis(side=2, at=1:p, labels=labels, las=1, cex.axis=0.8);
 ## df <- 2 + 0.1 * (1:length(names));
 ## axis(side=1, at=1:p, labels=df, las=2);
 ## axis(side=2, at=1:p, labels=df, las=1);

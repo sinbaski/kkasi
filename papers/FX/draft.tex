@@ -635,6 +635,41 @@ Estimates of $K$ of the ``Energy'', ``Consumer Staples'' and
 ``Information Technology'' sectors of the S\&P 500 index are computed
 using this method. The results are shown in
 Figure~\ref{fig:sectors_parameters}.
+\begin{figure}[htb!]
+  \centering
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {Energy_K.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {Consumer_Staples_K.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {Information_Technology_K.pdf}
+  \end{minipage}
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {Energy_scale.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {Consumer_Staples_scale.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {Information_Technology_scale.pdf}
+  \end{minipage}
+  \caption{\small Estimates of $K$ and $K^\alpha$ of stocks in sectors
+    of the S\&P 500 index. The points are the estimated values; the bars are
+    the $2\sigma$ confidence intervals. The confidence bands of the
+    corresponding Hill estimates $\hat \alpha$ of these sectors are
+    shown in figure~\ref{fig:1}. Note $\log_{10}(K^\alpha)$ is shown
+    instead of $K^\alpha$.
+  }
+  \label{fig:sectors_parameters}
+\end{figure}
 One can see that $K$ generally takes a rather small value. For the
 more volatile sectors of ``Energy'' and ``Information Technology'',
 the average value of $K$ is around 0.01, while for the more stable
@@ -643,31 +678,57 @@ to the smallness of $K$, mild variations of $\alpha$ would lead to
 huge variations of $K^\alpha$, as shown in the 2nd column of
 figure~\ref{fig:sectors_parameters}.
 
-Secondly, one can see that the values of $\alpha$ and $K$ are appear
+Secondly, one can see that the values of $\alpha$ and $K$ appear
 positively correlated. This prompts Pareto tails of the return
 distributions. We expain more about this in
 section~\ref{sec:pareto_tail}.
 
+Thirdly, figure~\ref{fig:sectors_parameters} shows the values of $K$
+in the ``Energy'' and ``Information Technology'' sectors are on
+average larger than those in the ``Consumer Staples'' sector. A larger
+value of $K$ means, for a given value of $p$, i.e. a given probability
+of losses, large losses are more probable. Thus one can conclude that
+these two sectors are considerablly riskier than the ``Consumer
+Staples'' sector. This is of course a confirmation of one's economic
+instinct.
+
+Yet another indication from figure \ref{fig:sectors_parameters} is
+that, while the ``Energy'' and the ``Information Technology'' sectors
+are similar in riskiness, the correlation between $\alpha$ and $K$ is
+stronger in ``Energy''. As discussed in the last section, moving along
+a curve of equal preference in the direction of increasing $\alpha$, $K$ also
+increases. So the strong positive correlation seen in the ``Energy''
+sector suggests these stocks might have very similar investor
+preferences. This in turn may be attributed to stronger business
+relations between the energy enterprises. While two IT companies
+may provide a variety of products and services and not depend on each
+other, two energy companies are more likely to depend on each other
+via relations of supplier and customer or otherwise to compete with each
+other if they are on the same link of the chain of energy production
+and distribution.
+
 \subsection{A test of equal tail indices based on Hill estimator}
-Suppose we have two iid series $X_1, \dots, X_n \sim F_X$ and
+Suppose we have two weakly dependent series $X_1, \dots, X_n \sim F_X$ and
 $Y_1, \dots, Y_n \sim F_Y$. Both $F_X$ and $F_Y$ have power-law tails
-with indices $\alpha_X$ and $\alpha_Y$, respectively.
+with indices $\alpha_X$ and $\alpha_Y$, respectively. Assume also
+$X_i$ is independent of $Y_j$ for all $1 \leq i \leq j \leq n$.
 From \eqref{eq:2} one can deduce
-\[
-\sqrt k
-\begin{pmatrix}
-  {\hat \alpha_X - \alpha_X} \\
-  {\hat \alpha_X - \alpha_X} \\
-\end{pmatrix} \overset{d}{\to}
-\begin{pmatrix}
-  Z_X \\
-  Z_Y
-\end{pmatrix}
-\sim
-N\left(
-0, \text{diag}(\alpha_X^2, \alpha_Y^2)
-\right)
-\]
+\begin{equation}
+  \label{eq:x3}
+  \sqrt k
+  \begin{pmatrix}
+    {\hat \alpha_X - \alpha_X} \\
+    {\hat \alpha_X - \alpha_X} \\
+  \end{pmatrix} \overset{d}{\to}
+  \begin{pmatrix}
+    Z_X \\
+    Z_Y
+  \end{pmatrix}
+  \sim
+  N\left(
+    0, \text{diag}(\alpha_X^2, \alpha_Y^2)
+  \right)
+\end{equation}
 where $\hat \alpha_X$ and $\hat \alpha_Y$ are Hill estimates of
 $\alpha_X$ and $\alpha_Y$. Then it follows from continuous mapping
 theorem
@@ -679,30 +740,82 @@ theorem
 \end{equation}
 The weak convergence of \eqref{eq:x1} allows one to construct a test
 of the equality $\alpha_X = \alpha_Y$. As the null hypothesis, assume
-$\alpha_X = \alpha_Y$. Under this hypothesis \eqref{eq:x1} means the
-test statistic
-$\hat \alpha_X - \hat \alpha_Y \overset{d}{\to} N(0, \alpha_X^2 +
-\alpha_Y^2)$
+$\alpha_X = \alpha_Y$. Under this hypothesis, \eqref{eq:x1} means the
+test statistic $\hat \alpha_X - \hat \alpha_Y \overset{d}{\to} N(0,
+\alpha_X^2 + \alpha_Y^2)$. 
 We apply this test to the equities in the ``Energy'',
 ``Consumder Staples'' and ``Information Technology''
 sectors of the S\&P 500 index. The results are shown in
 \ref{fig:PairTest}.
 \begin{figure}[htb!]
-  \begin{minipage}{0.5\linewidth}
+  \begin{minipage}{0.33\linewidth}
     \includegraphics[
       width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
     ]{HillTest_Energy.pdf}
   \end{minipage}\hfill
-  \begin{minipage}{0.5\linewidth}
+  \begin{minipage}{0.33\linewidth}
     \includegraphics[
-      width=\textwidth
-%%      trim={0.3cm, 1cm, 1cm, 1cm}, clip
-    ]{Hoga_Energy_pair.pdf}
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{HillTest_CS.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{HillTest_IT.pdf}
   \end{minipage}
-  \caption{Test of equal tail indices}
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{Hoga_Energy_pair.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{Hoga_CS_pair.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{Hoga_IT_pair.pdf}
+  \end{minipage}
+  \caption{
+    {\em 1st row}: Test for changing tail index using Hill estimator based on
+    concatenated series in the ``Energy'' and ``Consumer Staples''
+    sectors of S\&P 500. The green, blue and red colors represent,
+    respectively, the cases when the 85\%, 90\% and 95\% quantiles of
+    the limit distribution of the test statistic is exceeded. 
+    Grey points stand for pairs for which the test statistic is below
+    the 85\% \asy\ quantile;
+    {\em 2nd row:} Test for changing tail index or scale parameter
+    using Hoga's test based on the same concatenated series. black points represent
+    pairs for which the computation of $T_n$ fails for given precision
+    requirements and time limits.
+    The same number of upper-order statistics are used for both tests.
+  }
   \label{fig:PairTest} 
 \end{figure}
+One can see from the figure that tail indices of equities in the
+``Energy'' or ``Information Technology'' sectors vary more than do
+their counterparts in the ``Consumer Staples'' sector, as the null
+hypothesis is rejected more often for members of these two sectors.
+Moreover, these figures suggest that the test based on Hill estimator
+is more powerful in distinguishing differences between tail indices,
+as it results in more rejections for the ``Energy'' and the
+``Information Technology'' sectors than does the other test. We
+argue this can be the result of slow convergence of the distribution
+of the test statistic to its asymptotic distribution. We elaborate on
+this in the section~\ref{sec:Hoga}.
 
+Nevertheless, one should to bear in mind that the weak convergence
+\eqref{eq:x3} is valid only on condition that both the $X_i$ and $Y_i$
+series are independent of each other, which is generally untrue for
+two return series in the same market.
 
 
 
@@ -768,7 +881,7 @@ simulation evidence, see below.
 \par
 To check whether any two series share the same tail index and scale parameter we concatenate
 any two series and apply the aforementioned test on the concatenated series. For the ``Energy'' and the
-``Consumer Staples'' sector we summarize the results in Figure~\ref{fig:Hoga_pair}.
+``Consumer Staples'' sector we summarize the results in Figure~\ref{fig:PairTest}.
 These graphs show that the ``null
 hypothesis'' of an equal tail index and scale parameter is rejected for more pairs in the
 ``Energy'' sector than it is for those in the ``Consumer Staples''
@@ -791,7 +904,7 @@ between $\alpha_A, \alpha_B$ on one hand and between $\alpha_B, \alpha_C$ on the
   \end{minipage}\hfill
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]
-    {Hoga_Consumer_Staples_Single.pdf}
+    {Hoga_CS_Single.pdf}
   \end{minipage}
   \caption{Test statistic $T_n$ from \eqref{eq:4} for the  stocks in the ``Energy'' and
     ``Consumer Staples'' sectors of S\&P 500. The green, blue and red
@@ -801,65 +914,73 @@ by simulations from the limit \ds .}
 \end{figure}
 
 
-\begin{figure}[htb!]
-  \begin{minipage}{0.5\linewidth}
-    \includegraphics[
-      width=\textwidth,
-      trim={0.3cm, 1cm, 1cm, 1cm}, clip
-    ]{Hoga_Energy_pair.pdf}
-  \end{minipage}\hfill
-  \begin{minipage}{0.5\linewidth}
-    \includegraphics[
-      width=\textwidth,
-      trim={0.3cm, 1cm, 1cm, 1cm}, clip
-    ]{Hoga_Consumer_Staples_pair.pdf}
-  \end{minipage}
-  \caption{{\red check the symbols on the axes. Some are too long.} Test for changing tail index or scale parameter based on concatenated series in the ``Energy'' and
-    ``Consumer Staples'' sectors of
-    S\&P 500. The green, blue and red colors represent, respectively, the cases when  
-    the 85\%, 90\% and 95\% quantiles of the limit distribution of $T_n$ is exceeded.
-    Grey points stand for pairs for which $T_n$ is below
-    the 85\% \asy\ quantile;
-    black points represent pairs for which
-    the computation of $T_n$ fails for given precision
-    requirements and time limits.}
-  \label{fig:Hoga_pair}
-\end{figure}
+% \begin{figure}[htb!]
+%   \begin{minipage}{0.5\linewidth}
+%     \includegraphics[
+%       width=\textwidth,
+%       trim={0.3cm, 1cm, 1cm, 1cm}, clip
+%     ]{Hoga_Energy_pair.pdf}
+%   \end{minipage}\hfill
+%   \begin{minipage}{0.5\linewidth}
+%     \includegraphics[
+%       width=\textwidth,
+%       trim={0.3cm, 1cm, 1cm, 1cm}, clip
+%     ]{Hoga_CS_pair.pdf}
+%   \end{minipage}
+%   \caption{{\red check the symbols on the axes. Some are too long.} Test for changing tail index or scale parameter based on concatenated series in the ``Energy'' and
+%     ``Consumer Staples'' sectors of
+%     S\&P 500. The green, blue and red colors represent, respectively, the cases when  
+%     the 85\%, 90\% and 95\% quantiles of the limit distribution of $T_n$ is exceeded.
+%     Grey points stand for pairs for which $T_n$ is below
+%     the 85\% \asy\ quantile;
+%     black points represent pairs for which
+%     the computation of $T_n$ fails for given precision
+%     requirements and time limits.}
+%   \label{fig:Hoga_pair}
+% \end{figure}
 
 
 
 \par
 To get an idea about the power of the test we run it on a
-sample concatenated from two independent iid samples of the same size $n=1304$ as the S\&P 500 series. 
-Both pieces are $t$-distributed with distinct degrees
-of freedom. The results are shown in Figure~\ref{fig:t_sim_pair}: the power of the test is the smaller the larger the minimum
-tail index in the concatenated pair.
+sample concatenated from two independent iid samples of the same size
+$n=1304$ as the S\&P 500 series. Both pieces are $t$-distributed with
+distinct degrees of freedom. The results are shown in
+Figure~\ref{fig:t_sim_pair}: the power of the test is the smaller the
+larger the minimum tail index in the concatenated pair.
 \begin{figure}[htb!]
-  \centering
-  \includegraphics[width=\textwidth, trim={1.0cm 1.5cm 1cm 2cm},
-  clip]{t_sim_pair.pdf}
-  \caption{Test  of concatenated $t$-samples with different
-    degrees of freedom. Numbers on the axes are the degrees of freedom in the subsamples. For an interpretation of the colored
-bullets, see Figure~\ref{fig:Hoga_pair}. The graph shows the limited power of the test. In particular, if
-both degrees of freedom are relatively large it loses the capablity of  distinguishing the \ds .}
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{t_sim_pair.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{Hoga_AsymptoticDistribution.pdf}
+  \end{minipage}
+  \caption{
+    {\em Left}: Test  of concatenated $t$-samples with different
+    degrees of freedom. Numbers on the axes are the degrees of freedom
+    in the subsamples. For an interpretation of the colored bullets,
+    see Figure~\ref{fig:PairTest}. The graph shows the limited power
+    of the test. In particular, if both degrees of freedom are
+    relatively large it loses the capablity of distinguishing the \ds\ .
+    {\em Right}: Comparison of the \asy\ distribution of the test statistic
+    $T_n$ in \eqref{eq:4} under the null hypothesis and the \ds\ of
+    $T_n$ for $n=1304$ iid $t$-distributed $X_t$ with 3 and 4 degrees
+    of freedom.
+  }
   \label{fig:t_sim_pair}
 \end{figure}
+
 \par
 A major problem in this test is the \asy\ distribution of the test statistic under the
 null hypothesis.  The rate at which the finite-sample distribution tends to its limit is not known.
 To find out about this problem we compared the \ds s of $T_n$ 
 with $n=1304$ for $t$-distributed $X_t$ with  3 and 4 degrees of freedom and the limit \ds\ of $T_n$.
-The estimated density functions are shown in Figure~\ref{fig:Q1_distr}.
-\begin{figure}[htb!]
-  \centering
-  \includegraphics[width=\textwidth]{Hoga_AsymptoticDistribution.pdf}
-  \caption{{\red Change $Q_1$ on $x$-axis} Comparison of the \asy\ distribution of the test statistic $T_n$ in \eqref{eq:4} under the null hypothesis 
-and the \ds\ of $T_n$ for $n=1304$ iid $t$-distributed $X_t$ with 3 and 4 degrees of freedom.}
-  \label{fig:Q1_distr}
-\end{figure}
-As seen in the graph, the asymptotic distribution 
-assigns significantly more mass to the tail than the \ds s of $T_n$ do. For comparison, we list a few quantiles of these \ds s in
-Table~\ref{tab:HogaAsymptotic}, showing major differences between the \asy\ and finite-sample \ds s.
+The estimated density functions are shown in on the right of Figure~\ref{fig:t_sim_pair}.
+As seen in the graph, the asymptotic distribution assigns
+significantly more mass to the tail than the \ds s of $T_n$ do. For
+comparison, we list a few quantiles of these \ds s in
+Table~\ref{tab:HogaAsymptotic}, showing major differences between the
+\asy\ and finite-sample \ds s.
 \begin{table}[htb!]
   \centering
   \begin{tabular}{l|c|c|c|r}
@@ -1007,7 +1128,7 @@ Similar remarks apply when one considers a CCC model in general dimension. Of co
 are not natural since they do not allow for a linear relationship between all squared volatilities
 on a given day. 
 
-\subsection{An utility based argument for equal tail indices} \setcounter{equation}{0}\label{sec:3}
+\subsection{An utility based argument for equal tail indices}\label{sec:3}
 In this section we give an argument based on economic theory which  favors equality of  tail indices for return series.
 We follow an approach by Routledge and Zin \cite{routledge2010generalized} who introduced the notion of
 Generalized Disappointment Aversion (GDA). We consider the risky payoff $C$ of an investor and assume that
@@ -1039,7 +1160,7 @@ u(x)=\frac{1}{1 - \gamma}\,x^{1 - \gamma}\,,\quad \gamma>0\,.
 \eeam
 In practice it is more often to observe $\gamma > 1$ {\blue Let's
 consult Casper for references.} Therefore we adopt a more convenient
-notation
+notation in this case
 \beao
 u(x)=-\frac{1}{\xi}\,x^{-\xi}\,,\quad \xi>0\,. 
 \eeao
@@ -1113,10 +1234,12 @@ $\alpha, \beta > 1$, $0 < p < 1$ and $K,K' > 0$. Then we have
   - b \,u(\delta v) \,F_X(q) \,.\label{eq:pp}
 \eeam
     {\red Is this worth a theorem?}
-    {\blue No}
+    {\blue No, let's change it to a remark.}
 \begin{remark}\label{thrm:I}
- Assume the two-sided Pareto model \eqref{eq:pp} and that the utility \fct\ $u$ is increasing and differentiable. Then
-$\frac{\pd \wt u_{\rm max}}{\pd \alpha} > 0$ and $\frac{\pd \wt u_{\rm max}}{\pd K} < 0$.
+ Assume the two-sided Pareto model \eqref{eq:pp} and that the utility
+ \fct\ $u$ is increasing and differentiable. Then $\frac{\pd \wt
+   u_{\rm max}}{\pd \alpha} > 0$ and $\frac{\pd \wt u_{\rm max}}{\pd
+   K} < 0$.
 \end{remark}
 The proof is given in Appendix~\ref{sec:thrmI_proof}. 
 \par
@@ -1182,174 +1305,6 @@ The graphs clearly show that  $I(\alpha, K)$ increases with $\alpha$ and decreas
   \label{fig:preference_pareto}
 \end{figure}
 
-\subsection{Fitting the shifted Pareto distribution}
-\label{sec:hybrid_estimation}
-We adopt a hybrid procedure to estimate the parameters of the
-distribution function assumed in \eqref{eq:pareto}: First we
-obtain a Hill estimate of the lower-tail indices of an
-equity return and fix $\alpha$ in \eqref{eq:pareto}
-to its Hill estimate. Then we estimate $K$ by maximizing
-the likelihood function with fixed $\alpha$. Obviously we take only
-negative observations and hence condition on $X < 0$. Regularity
-conditions on the maximum likelihood estimator are easily checked for
-the distribution \eqref{eq:pareto}.
-The density function of $X$ conditional on $X < 0$ is
-\[
-f_L(x) = {\alpha K^{\alpha} \over (K - x)^{\alpha + 1}}
-\]
-Clearly, the log-likelihood function of the $K$ parameter is
-\[
-l(K | X < 0) = \ln(\alpha) + \alpha \ln(K) - (\alpha + 1)\ln(K - X)
-\]
-where, as is just mentioned, we pre-estimate $\alpha$ with Hill
-estimator and regard it as known at this step. With $n$ observations
-$X_1, \dots, X_n$, the log-likelihood function of $K$ is
-\[
-L(K | \forall i=1,2,...,n, X_i < 0) = n \ln(\alpha) + n \alpha \ln(K)
-- (\alpha + 1) \sum_{i=1}^n \ln(K - X_i)
-\]
-To obtain the maximum likelihood estimation, we need to solve the
-equation ${\pd L \over \pd K} = 0$, which expands to
-\[
-{n \alpha \over K} - (\alpha + 1) \sum_{i=1}^n {1 \over K - X_i} = 0
-\]
-This equation has to be solved numerically.
-The Fisher information of $K$ follows as
-\begin{eqnarray*}
-  I(K) &=& \E\left[ \left( {\partial \over \partial K} l(K | X < 0) \right)^2 \right] \\
-  &=& \alpha K^{\alpha - 2}
-  \int_{-\infty}^0 {(\alpha x + K)^2 \over (K - x)^{\alpha + 3}} dx \\
-  &=& {\alpha \over (2 + \alpha) K^2}
-\end{eqnarray*}
-So the maximum likelihood estimator, call it $\hat K$, is
-asymptotically normal:
-\[
-\sqrt n (\hat K - K) \to N \left(
-  0, \left( 1 + {2 \over \alpha} \right) K^2
-\right)
-\]
-
-To obtain an estimate of $p$, we use the law of large number:
-\begin{eqnarray*}
-  p &=& \P(X < 0) = \lim_{n \to \infty}
-  {1 \over n} \sum_{t=1}^n \1{X_t < 0}
-\end{eqnarray*}
-By the central limit theorem,
-\begin{eqnarray*}
-  \sqrt n \left[
-    {1 \over n}\sum_{t=1}^n \1_{\{X_t < 0\}} - p
-  \right] \to N(0, p - p^2))
-\end{eqnarray*}
-
-
-The plots in the 1st column of figure \ref{fig:sectors_parameters}
-show the estimates of $K$ alongside the Hill estimates of $\alpha$ of
-the ``energy'', ``consumer staples'' and ``information technology''
-sectors of the S\&P 500 index;
-The plots in the 2nd column show the estimates of $p$ of the same
-sectors.
-
-From these figures, one can see that stocks of the ``Energy'' and the
-``Information Technology'' sectors generally have larger values of
-$p$, meaning their stock prices fall more often than do those in the
-``consumer Staples'' sector; Also, the values of $K$ in the ``Energy''
-and ``Information Technology'' sectors are larger than those in the
-``Consumer Staples'' sector. A larger value of $K$ means, for a given
-value of $p$, i.e. a given probability of losses, large losses are
-more probable. Thus one can conclude that these two sectors are
-considerablly riskier than the ``Consumer Staples'' sector. This is of
-course a confirmation of one's economic instinct.
-
-One can also see from figure \ref{fig:sectors_parameters} that, while
-the ``Energy'' and the ``Information Technology'' sectors are similar in
-riskiness, the correlation between $\alpha$ and $K$ is stronger in
-``Energy''. As discussed in the last section, moving along a curve of
-equal preference in the direction of increasing $\alpha$, $K$ also
-increases. So the strong positive correlation seen in the ``Energy''
-sector suggests these stocks might have very similar investor
-preferences. This in turn may be attributed to stronger business
-relations between the energy enterprises. While two IT companies
-may provide a variety of products and services and not depend on each
-other, two energy companies are more likely to depend on each other
-via relations of supplier and customer or otherwise to compete with each
-other if they are on the same link of the chain of energy production
-and distribution.
-
-\begin{figure}[htb!]
-  \centering
-  \begin{minipage}{0.45\linewidth}
-    \includegraphics[width=\textwidth]
-    {Energy_K.pdf}
-  \end{minipage}\hfill
-  \begin{minipage}{0.45\linewidth}
-    \includegraphics[width=\textwidth]
-    {Energy_scale.pdf}
-  \end{minipage}
-  \begin{minipage}{0.45\linewidth}
-    \includegraphics[width=\textwidth]
-    {Consumer_Staples_K.pdf}
-  \end{minipage}\hfill
-  \begin{minipage}{0.45\linewidth}
-    \includegraphics[width=\textwidth]
-    {Consumer_Staples_scale.pdf}
-  \end{minipage}
-  \begin{minipage}{0.45\linewidth}
-    \includegraphics[width=\textwidth]
-    {Information_Technology_K.pdf}
-  \end{minipage}\hfill
-  \begin{minipage}{0.45\linewidth}
-    \includegraphics[width=\textwidth]
-    {Information_Technology_scale.pdf}
-  \end{minipage}
-  \caption{\small Estimates of $K$ and $K^\alpha$ of stocks in sectors
-    of the S\&P 500 index. The points are the estimated values; the bars are
-    the $2\sigma$ confidence intervals. The confidence bands of the
-    corresponding Hill estimates $\hat \alpha$ of these sectors are
-    shown in figure~\ref{fig:1}. Note $\log_{10}(K^\alpha)$ is shown
-    instead of $K^\alpha$.
-  }
-  \label{fig:sectors_parameters}
-\end{figure}
-To compare the maximum likelihood estimates with the results obtained
-from Hill's scale estimates, one can re-write the lower-tail
-distribution function: For all $x < 0$,
-\begin{eqnarray*}
-  \P(X < x)
-  &=&
-  p {K^\alpha \over (K - x)^\alpha} \\
-  &=&
-  p {K^\alpha |x|^{-\alpha} \over (1 - K/x)^\alpha} \\
-  &=&
-  p K^\alpha |x|^{-\alpha} \left(
-  1 + {\alpha K \over x} + O(|x|^{-2})
-  \right)
-\end{eqnarray*}
-% Comparing this expression with \eqref{eq:lower_tail_expansion},
-Then one can identity $p K^\alpha$ as the scale parameter. Figure
-\ref{fig:scale_estimates} compare the estimates obtained
-from Hill's scale estimator with those from the $p K^\alpha$ method.
-
-\begin{figure}[htb!]
-  \centering
-  \begin{minipage}{0.32\linewidth}
-    \includegraphics[width=\textwidth]
-    {Energy_scale.pdf}
-  \end{minipage}
-  \begin{minipage}{0.32\linewidth}
-    \includegraphics[width=\textwidth]
-    {Consumer_Staples_scale.pdf}
-  \end{minipage}
-  \begin{minipage}{0.32\linewidth}
-    \includegraphics[width=\textwidth]
-    {Information_Technology_scale.pdf}
-  \end{minipage}
-  \caption{\small Scale estimates obtained from Hill's scale estimator
-    and from $p K^\alpha$ . Red dots are Hill's scale estimates and
-    triangles are $p K^\alpha$ estimates.
-  }
-  \label{fig:scale_estimates}
-\end{figure}
-
 \subsection{Student's t-distributed equity return}
 It is a common practice to use Student's t-distribution to model the
 stationary distribution of equity returns. So it is of interest to
@@ -1384,13 +1339,6 @@ We can write $\mathcal U(F, \phi)$ as
   \label{eq:t1}
 \end{eqnarray}
 where $C(\cdot)$ is defined in \eqref{eq:xxie1}.
-
-\begin{lemma}
-  \label{lemma:II}
-  There exists $x_0 > 0$ such that ${\pd f \over \pd \nu}(x_0, \nu) = 0$ and
-  $\forall x \in (0, x_0), {\pd f \over \pd \nu}(x, \nu) > 0$ and
-  $\forall x \in (x_0, \infty), {\pd f \over \pd \nu}(x, \nu) < 0$.
-\end{lemma}
 
 \subsubsection{log-utility function}
 We first consider the case where the utility function is simply
@@ -1599,7 +1547,29 @@ scale parameters.
   \end{enumerate}
 \end{proof}
 
-\section{Proof of lemma \ref{lemma:II}}
+\section{A lemma on Student's t-distribution}
+\begin{lemma}
+  \label{lemma:II}
+  Let $f$ denotes the density function of the Student's
+  t-distribution, i.e.
+  \[
+  f(x; \nu) = c(\nu) \left(
+    1 + {x^2 \over \nu}
+  \right)^{-(\nu + 1)/2}
+  \]
+  where $\nu > 1$ and
+  \[
+  c(\nu) = {
+    \Gamma({\nu + 1 \over 2})
+    \over
+    \Gamma(\nu/2) \sqrt{\nu \pi}
+  }
+  \]
+  Then there exists $x_0 > 0$ such that ${\pd f \over
+    \pd \nu}(x_0, \nu) = 0$ and $\forall x \in (0, x_0), {\pd f \over
+    \pd \nu}(x, \nu) > 0$ and $\forall x \in (x_0, \infty), {\pd f
+    \over \pd \nu}(x, \nu) < 0$.
+\end{lemma}
 \begin{proof}
   Straightforward computation gives
   \begin{eqnarray}
