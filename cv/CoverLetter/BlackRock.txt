@@ -1,6 +1,6 @@
 Dear Sir/Madam,
 
-I see on your company's website that you are recruiting a algorithmic quantitative developer to join your Global Markets division for developing algorithmic trading strategies. To my understanding, you look for a candidate with extensive knowledge and skills in statistical analysis as well as strong C++ programming skills. These are indeed qualifications in which I find confidence and proud, so I would like to ask you for your consideration.
+I see on your company's website that you are recruiting a quantitative risk analyst to join your Risk and Quantitative Analysis group. To my understanding, you are interested in a candidate with extensive knowledge and skills in statistical analysis as well as strong programming skills in C++ and R. These are indeed qualifications in which I find confidence and proud, so I would like to ask you for your consideration.
 
 I am currently a PhD student at Copenhagen University, researching in Mathematical statistics and particularly in time series analysis, extreme value theory and random matrix theory. I will be available for full-time work at the beginning of July this year and expect to receive my degree on 30th September. So far I have co-authored and published two papers on eigen systems of sample covariance matrices, with a focus on heavy-tailed (e.g. power-law tail) time series. These results are applicable to principle component analysis, for example.
 
@@ -8,7 +8,7 @@ I am also finalizing two other papers. One of them is about how an investor's pr
 
 The fourth paper of mine is about estimation of the probability of very large losses posed by portfolios whose volatility dynamics are time series modeled by univariate GARCH(p,q) or multivariate GARCH processes. Because the stationary distribution of such a process is not known exactly, the aforementioned probability as well as the related risk measures Value at Risk and Expected Shortfall cannot be computed precisely. In the paper I propose an estimator based on importance sampling and Markov chain theory and naturally, would be more than happy to see it applied in practical risk management. I have implemented the estimator in C++, and in particular, have used the OpenMP directives to achieve high performance via parallel computing.
 
-I understand that as a Swedish national, working in the U.K. can be complicated by Brexit. If you are not too bothered by this, I look forward to discussing the position with you in more details. You can always call me at +46 76 060 6638 or email me at xie.xiaolei@gmail.com. It would be my pleasure to hear from you.
+BlackRock is a great investment bank and I know taking a role in this esteemed organisation presents many challenges and opportunities. Through constant endeavour towards ever greater excellence, I hope to develop a productive career that I will be proud of by contributing my part to the success of BlackRock.
 
 Best Regards,
 Xie Xiaolei
