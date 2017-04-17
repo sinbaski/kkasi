@@ -86,6 +86,121 @@ your own.
 \end{frontmatter}
 
 \section{Introduction}
+Ever since its proposition by Bollerslev~\cite{bollerslev:1986} and
+Taylor~\cite{taylor:2008} (cf. also
+\cite{andersen:davis:kreiss:mikosch:2009}), the GARCH
+({\em Generalized Autoregressive Conditional Heteroscedasticity}) model
+has seen wide-spread application in finance and economics, and has
+inspired numerous variants such as GJR-GARCH of Glosten et
+al~\cite{glosten:1993}, {\em Asymetric} GARCH of Engle and
+Ng~\cite{engle:Ng:1993} and the {\em Quadratic} GARCH of
+Sentana~\cite{sentana:1995}, among others. The basic GARCH model of
+Bollerslev~\cite{bollerslev:1986} and Taylor~\cite{taylor:2008}
+defines the conditional variance via the stochastic recurrence
+equation
+\begin{eqnarray}
+  R_t &=& \sigma_t Z_t \nonumber \\
+  \sigma_{t}^2 &=& \omega + \sum_{i=1}^p \alpha_i R_{t-i}^2 + \sum_{j=1}^q
+  \beta_j \sigma_{t-j}^2   \label{eq:garchpq}
+\end{eqnarray}
+where $\{R_t\}_{t \in \mathbb Z}$ is the return series in question;
+$\{Z_t\}_{t \in \mathbb Z}$ is an iid sequence of random variables
+with zero mean and unit variance.
+$\omega, \alpha_i, i \in \{1,\dots,p\}$ and
+$\beta_j, j \in \{1,\dots,q\}$
+are constant parameters. A process defined by
+\eqref{eq:garchpq} is called a GARCH($p,q$) process.
+Note that \eqref{eq:garchpq} can be written as a stochastic recurrence 
+equation. When $p = q = 1$,
+\[
+\sigma_t^2 = \omega + (\alpha_1 Z_{t-1}^2 + \beta_1) \sigma_{t-1}^2
+\]
+When $p > 1$ or $q > 1$, a matrix recurrence equation arises
+(cf. Davis and Mikosch~\cite{davis:mikosch:2001})
+\begin{small}
+  \begin{equation*}
+    \underbrace{
+      \begin{pmatrix}
+        \sigma_{t}^2 \\
+        \sigma_{t-1}^2 \\
+        \vdots \\
+        \sigma_{t-q+2}^2 \\
+        \sigma_{t-q+1}^2 \\
+        R_{t-1}^2 \\
+        R_{t-2}^2 \\
+        \vdots \\
+        R_{t-p+2}^2 \\
+        R_{t-p+1}^2
+      \end{pmatrix}}_{V_t} =
+    \underbrace{
+      \begin{pmatrix}
+        \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
+        \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_p & 0 \\
+        1 & 0 & \cdots & 
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots & 
+        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        0 & 0 & \cdots &
+        1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        Z_{t-1}^2 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        0 & 0 & \cdots &
+        0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots &
+        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
+      \end{pmatrix}
+    }_{A_t}
+    \underbrace{
+      \begin{pmatrix}
+        \sigma_{t-1}^2 \\
+        \sigma_{t-2}^2 \\
+        \vdots \\
+        \sigma_{t-q+1}^2 \\
+        \sigma_{t-q}^2 \\
+        R_{t-2}^2 \\
+        R_{t-3}^2 \\
+        \vdots \\
+        R_{t-p+1}^2 \\
+        R_{t-p}^2
+      \end{pmatrix}
+    }_{V_{t-1}} +
+    \underbrace{
+      \begin{pmatrix}
+        \omega \\
+        0 \\
+        \vdots \\
+        0 \\
+        0 \\
+        0 \\
+        0 \\
+        \vdots \\
+        0 \\
+        0 \\
+      \end{pmatrix}
+    }_{B_t}
+  \end{equation*}
+\end{small}
+For convenience, we shall write the above recurrence equation as
+\[
+V_t = A_t V_{t-1} + B_t
+\]
+with $V_t$, $A_t$ and $B_t$ defined as above. Using the Kesten and
+Goldie theorem \cite{kesten:1973}, Bollerslev showed that the
+equations \eqref{eq:garchpq} has a unique, strictly stationary
+solution if and only if
+\[
+\sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1
+\]
+Cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016}.
+
+\section{Statement of the Problem}
+
 We are interested in developing an estimator for the probability
 $\P(|V| > u)$ where the vector $V$ has the stationary
 distribution of the Markov chain $V_{n} = A_n V_{n-1} + B_n$. Here
@@ -139,7 +254,7 @@ $A_n$ and $A \sim \mu$.
 These are the same conditions that Collamore and
 Mentemeier~\cite{collamore2016large} assumed in their hypotheses
 $H_1, H_2, H_3$. One can compare them with conditions (M) and (A) of
-Kesten~\cite{Kesten1973}. Under these conditions, Collamore and
+Kesten~\cite{kesten:1973}. Under these conditions, Collamore and
 mentemeier \cite{collamore2016large} showed that the chain $V_n$ is an
 aperiodic, positive Harris chain on $\mathbb R_+^d$. Cf. their lemma
 3.4. Moreover, it follows from condition (v)
@@ -261,7 +376,7 @@ T_u &=& \inf\{n \geq 1: |V_n| > u\}
   \right.
   \]
   Because the top Lyapunov exponent is negative, it follows from a lemma
-  in Kesten \cite{Kesten1973} that there is a $s > 0$ such that
+  in Kesten \cite{kesten:1973} that there is a $s > 0$ such that
   $\lambda(s) < 0$.
 
   Thus we have obtained a consistent estimator
@@ -505,7 +620,7 @@ Now, to prove \eqref{eq:drift}, consider
   \limsup_{u \to \infty} {\E_{\mathcal D} \mathcal E_u^2 \over [\P(|V|
     > u)]^2} < \infty
   \]
-  By Kesten's theorem \cite{Kesten1973}, $\P(|V| > u) \sim C
+  By Kesten's theorem \cite{kesten:1973}, $\P(|V| > u) \sim C
   u^{-\xi}$. Hence, to prove the assertion, one needs to check
   $\limsup_{u \to \infty} u^{2\xi}\E_{\mathcal D} \mathcal E_u^2 <
   \infty$, i.e.
