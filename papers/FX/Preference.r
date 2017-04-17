@@ -75,7 +75,7 @@ t.preference <- function(phi, nu) {
 pareto.optimal.alloc <- function(alpha, alpha.r, K, K.r) {
     result <- optimize(
         function(phi, alpha, alpha.r, K, K.r) {
-            y <- preference(phi, alpha, alpha.r, K, K.r);
+            y <- pareto.preference(phi, alpha, alpha.r, K, K.r);
             return(y[1] + y[2] - y[3]);
         },
         interval=c(0, 1),
@@ -103,7 +103,7 @@ b <- 0.01;
 ## b <- 0;
 p <- 0.5;
 delta.v <- exp(r)*1.05;
-xi <- 0.5;
+xi <- 4;
 
 ## alpha.r <- 3.5;
 ## alpha <- 3;
@@ -113,34 +113,34 @@ xi <- 0.5;
 ## utility <- function(x) log(x);
 utility <- power.utility;
 
-## scales <- seq(from=0.01, to=1, length.out=50);
-## indices <- seq(from=2, to=5, length.out=40);
-## phi.hat <- matrix(NA, nrow=length(indices),
-##                   ncol=length(scales));
-## U <- matrix(NA, nrow=length(indices),
-##             ncol=length(scales));
-## for (i in 1:length(indices)) {
-##     for (j in 1 : length(scales)) {
-##         phi <- pareto.optimal.alloc(indices[i], indices[i],
-##                                scales[j], scales[j]);
-##         phi.hat[i, j] <- phi;
-##         y <- pareto.preference(phi, indices[i], indices[i],
-##                                scales[j], scales[j]);
-##         U[i, j] <- y[1];
-##     }
-## }
-
-nu <- seq(from=1.5, to=5, length.out=200);
-phi.hat <- matrix(NA, nrow=length(nu), ncol=4);
-U <- matrix(NA, nrow=length(nu), ncol=4);
-for (k in 1:4) {
-    b <- 0.5 * (k - 1);
-    for (i in 1:length(nu)) {
-        phi.hat[i, k] <- t.optimal.alloc(nu[i]);
-        y <- t.preference(phi.hat[i, k], nu[i]);
-        U[i, k] <- y[1] + y[2] - y[3];
+scales <- seq(from=0.01, to=1, length.out=50);
+indices <- seq(from=2, to=5, length.out=40);
+phi.hat <- matrix(NA, nrow=length(indices),
+                  ncol=length(scales));
+U <- matrix(NA, nrow=length(indices),
+            ncol=length(scales));
+for (i in 1:length(indices)) {
+    for (j in 1 : length(scales)) {
+        phi <- pareto.optimal.alloc(indices[i], indices[i],
+                               scales[j], scales[j]);
+        phi.hat[i, j] <- phi;
+        y <- pareto.preference(phi, indices[i], indices[i],
+                               scales[j], scales[j]);
+        U[i, j] <- y[1];
     }
 }
+
+## nu <- seq(from=1.5, to=5, length.out=200);
+## phi.hat <- matrix(NA, nrow=length(nu), ncol=4);
+## U <- matrix(NA, nrow=length(nu), ncol=4);
+## for (k in 1:4) {
+##     b <- 0.5 * (k - 1);
+##     for (i in 1:length(nu)) {
+##         phi.hat[i, k] <- t.optimal.alloc(nu[i]);
+##         y <- t.preference(phi.hat[i, k], nu[i]);
+##         U[i, k] <- y[1] + y[2] - y[3];
+##     }
+## }
 
 pdf("phi_hat_b_t_power.pdf");
 colors <- c("black", "green", "blue", "red");
@@ -181,19 +181,19 @@ dev.off();
 
 
 
-pdf("phi_hat_pareto5e-1.pdf")
+pdf("phi_hat_pareto4.pdf")
 filled.contour(indices, scales, phi.hat, nlevels=60,
                xlab=expression(alpha), ylab=expression(K),
                color=terrain.colors,
-               main=expression(u(C)==-frac(2, sqrt(C)))
+               main=expression(u(x)==-frac(1, 4*x^4))
                );
 dev.off();
 
-pdf("preference_pareto5e-1.pdf");
+pdf("preference_pareto4.pdf");
 filled.contour(indices, scales, U, nlevels=60,
                xlab=expression(alpha), ylab=expression(K),
                color=terrain.colors,
-               main=expression(u(C)==-frac(2, sqrt(C)))
+               main=expression(u(x)==-frac(1, 4*x^4))
                );
 dev.off();
 
