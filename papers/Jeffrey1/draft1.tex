@@ -28,10 +28,8 @@
 \begin{document}
 
 \begin{frontmatter}
-\title{An importance sampling estimator of probabilities of high
-  threshold exceedance by GARCH(p,q) processes\thanksref{T1}}
-\runtitle{An importance sampling estimator of probabilities of high
-  threshold exceedance by multivariate Markov Chains}
+\title{Rare event simulation for GARCH(p,q) processes\thanksref{T1}}
+\runtitle{Rare event simulation for GARCH(p,q) processes}
 \thankstext{T1}{Footnote to the title with the ``thankstext'' command.}
 
 \begin{aug}
@@ -187,17 +185,51 @@ When $p > 1$ or $q > 1$, a matrix recurrence equation arises
   \end{equation*}
 \end{small}
 For convenience, we shall write the above recurrence equation as
-\[
-V_t = A_t V_{t-1} + B_t
-\]
+\begin{equation}
+  \label{eq:garchpq_sre}
+  V_t = A_t V_{t-1} + B_t
+\end{equation}
 with $V_t$, $A_t$ and $B_t$ defined as above. Using the Kesten and
 Goldie theorem \cite{kesten:1973}, Bollerslev showed that the
 equations \eqref{eq:garchpq} has a unique, strictly stationary
 solution if and only if
+\begin{equation}
+  \sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1
+  \label{eq:bollerslev}
+\end{equation}
+Cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016}. In the
+rest of this paper, we always assume condition \eqref{eq:bollerslev}
+is satisfied. For convenience of narration, let $\pi$ denote the
+unique stationary distribution of $V_n$ and let $V \sim \pi$.
+It follows from the Kesten-Goldie theorem
 \[
-\sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1
+\lim_{x \to \infty} x^{\xi} \P(\tilde y' V > x) = e_\xi(\tilde y)
 \]
-Cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016}.
+for some $\xi > 0$, some function $e_\xi(\cdot) > 0$ on $\mathbb S^{d-1}$
+and all $\tilde y \in \mathbb S^{d-1}$. Here $d = p + q - 1$ and
+$\tilde y'$ is the transpose of $\tilde
+y$. Cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016}.
+
+Although the probability $\P(\tilde y' V > x)$ has been given
+aymptotically by the Kesten-Goldie theorem, one often wishes to know
+this probability more precisely, due to the importance of risk
+management. Now that more detailed analytic description of the
+probability is unknown, one has to resort to numerical methods. But
+the occurence of $\tilde y' V > x$ for a large $x$ is a rare event; a
+naive Monte-Carlo approach will be very inefficient. Cf. Asmussen and
+Glynn \cite{opac-b1123521}.
+One way to increase the efficiency of Monte-Carlo methods is
+importance sampling. To our best knowledge, no importance sampling
+estimator has been proposed in the literature for the computation of
+$\P(\tilde y' V > x)$ or for the more general problem when the
+defining recurrence equation of $V_n$ i.e. \eqref{eq:garchpq_sre} is 
+more general than that of GARCH($p, q$). We present a solution in this
+paper.
+
+When $p = q = 1$, $V_n$ reduces to a scalar. An importance sampling
+estimator was proposed and shown to be efficient in the sense of
+bounded relative error by Collamore et al \cite{collamore2014}. We
+consider our work as a multivariate extension to theirs.
 
 \section{Statement of the Problem}
 
