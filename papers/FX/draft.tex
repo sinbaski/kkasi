@@ -23,7 +23,7 @@
 %\usepackage{amsmath}
 %\usepackage{amsthm}
 %\usepackage{enumerate}
-% \usepackage[bookmarks=true]{hyperref}
+\usepackage[bookmarks=true]{hyperref}
 %% \usepackage{bookmark}
 \usepackage{graphicx}
 %\usepackage{multirow}
@@ -415,7 +415,7 @@ are typically found in the range $(2,4)$. For an illustration, see
 Figure~\ref{fig:1} where estimates $\hat \alpha_{\rm low}$ 
 in three sectors of the Standard \& Poors 500 index  are shown. The
 estimates are based on 1304 observations of daily return 
-data from 1 January 2010 to {\red why 1 January?} 1 January 2015.
+data from 4th Jan. 2010 to 31st Dec. 2014.
 \par
 When looking at Figure~\ref{fig:1} one might ask the following questions:
 \begin{itemize}
@@ -577,12 +577,12 @@ just show some benchmark which holds in the iid case and under additional condit
     \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
     {Information_Technology_lower.pdf}
   \end{minipage}
-  \caption{\small Hill estimates $\hat \alpha_{50}$ of the lower tail indices $\alpha$ of
-    daily return series in sectors of the S\&P 500
-    index. The data span
-    from 2010-01-01 to 2015-01-01 and comprise $n=1304$ observations.
-The graphs from top to bottom correspond to the ``Energy'',
-    ``Consumer Staples'' and ``Information Technology'' sectors.
+  \caption{\small Hill estimates $\hat \alpha_{50}$ of the lower tail
+    indices $\alpha$ of daily return series in sectors of the S\&P 500
+    index. The data span from 4th Jan. 2010 to 31st Dec. 2014 and
+    comprise $n=1304$ observations. The graphs from top to bottom
+    correspond to the ``Energy'', ``Consumer Staples'' and
+    ``Information Technology'' sectors.
     Each circle corresponds to a Hill estimate $\hat\alpha_k$; the grey
     triangles above and below it mark the 97.5\% and 2.5\% quantiles
     of its approximate normal distribution; see \eqref{eq:2} and the discussion following it for an 
@@ -696,7 +696,8 @@ instinct.
 Yet another indication from figure \ref{fig:sectors_parameters} is
 that, while the ``Energy'' and the ``Information Technology'' sectors
 are similar in riskiness, the correlation between $\alpha$ and $K$ is
-stronger in ``Energy''. As discussed in the last section, moving along
+stronger in ``Energy''. As discussed in section \ref{sec:pareto_tail},
+moving along
 a curve of equal preference in the direction of increasing $\alpha$, $K$ also
 increases. So the strong positive correlation seen in the ``Energy''
 sector suggests these stocks might have very similar investor
@@ -1821,5 +1822,5 @@ scale parameters.
 \end{proof}
 
 \bibliographystyle{unsrt}
-%% \bibliography{../../thesis/econophysics}
+\bibliography{../../thesis/econophysics}
 \end{document}
