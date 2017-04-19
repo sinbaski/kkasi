@@ -3,45 +3,45 @@ source("libxxie.r");
 library(parallel);
 library(doParallel);
 library(foreach);
-
+library(gplots);
 #Energy
-tables <- c (
-    "APA",
-    "APC",
-    "BHI",
-    "CHK",
-    "COG",
-    "COP",
-    "DO",
-    "DVN",
-    "EOG",
-    "EQT",
-    "FTI",
-    "HAL",
-    "HES",
-    "HP",
-    "KMI",
-    "MPC",
-    "MRO",
-    "MUR",
-    "NBL",
-    "NFX",
-    "NOV",
-    "OKE",
-    "OXY",
-    "PSX",
-    "PXD",
-    "RIG",
-    "RRC",
-    "SE",
-    "SLB",
-    "SWN",
-    "TSO",
-    "VLO",
-    "WMB",
-    "XEC",
-    "XOM"
-);
+## tables <- c (
+##     "APA",
+##     "APC",
+##     "BHI",
+##     "CHK",
+##     "COG",
+##     "COP",
+##     "DO",
+##     "DVN",
+##     "EOG",
+##     "EQT",
+##     "FTI",
+##     "HAL",
+##     "HES",
+##     "HP",
+##     "KMI",
+##     "MPC",
+##     "MRO",
+##     "MUR",
+##     "NBL",
+##     "NFX",
+##     "NOV",
+##     "OKE",
+##     "OXY",
+##     "PSX",
+##     "PXD",
+##     "RIG",
+##     "RRC",
+##     "SE",
+##     "SLB",
+##     "SWN",
+##     "TSO",
+##     "VLO",
+##     "WMB",
+##     "XEC",
+##     "XOM"
+## );
 
 ## Consumer staples
 ## tables <- c(
@@ -82,50 +82,50 @@ tables <- c (
 ## );
 
 ## Information Technology
-## tables <- c(
-##     "ADBE",
-##     "ADI",
-##     "ADP",
-##     "ADSK",
-##     "AKAM",
-##     "AMAT",
-##     "CA",
-##     "CSCO",
-##     "CTSH",
-##     "CTXS",
-##     "EA",
-##     "EBAY",
-##     "FFIV",
-##     "FISV",
-##     "HPQ",
-##     "HRS",
-##     "IBM",
-##     "INTC",
-##     "INTU",
-##     "JNPR",
-##     "KLAC",
-##     "LLTC",
-##     "LRCX",
-##     "MCHP",
-##     "MSFT",
-##     "MSI",
-##     "MU",
-##     "NTAP",
-##     "NVDA",
-##     "ORCL",
-##     "PAYX",
-##     "QCOM",
-##     "RHT",
-##     "SWKS",
-##     "SYMC",
-##     "TSS",
-##     "TXN",
-##     "VRSN",
-##     "WDC",
-##     "XLNX",
-##     "XRX",
-##     "YHOO"
-## );
+tables <- c(
+    "ADBE",
+    "ADI",
+    "ADP",
+    "ADSK",
+    "AKAM",
+    "AMAT",
+    "CA",
+    "CSCO",
+    "CTSH",
+    "CTXS",
+    "EA",
+    "EBAY",
+    "FFIV",
+    "FISV",
+    "HPQ",
+    "HRS",
+    "IBM",
+    "INTC",
+    "INTU",
+    "JNPR",
+    "KLAC",
+    "LLTC",
+    "LRCX",
+    "MCHP",
+    "MSFT",
+    "MSI",
+    "MU",
+    "NTAP",
+    "NVDA",
+    "ORCL",
+    "PAYX",
+    "QCOM",
+    "RHT",
+    "SWKS",
+    "SYMC",
+    "TSS",
+    "TXN",
+    "VRSN",
+    "WDC",
+    "XLNX",
+    "XRX",
+    "YHOO"
+);
 
 
 data <- getInterpolatedPrices(day1="2010-01-01",
@@ -151,22 +151,22 @@ params <- foreach (i=1:dim(X)[2], .combine=rbind) %dopar% {
     c(alpha, K)
 }
 
-pdf(file="../papers/FX/Consumer_Staples_K.pdf");
+pdf(file="../papers/FX/Energy_K.pdf");
 sd <- params[, 2]/params[, 1]/sqrt(k);
-plotCI(params[, 1], params[, 2],
+plotCI(params[, 1], log10(params[, 2]),
        uiw=0, liw=0,
-       ui=params[, 2] + 2*sd,
-       li=params[, 2] - 2*sd,
+       ui=log10(params[, 2] + 2*sd),
+       li=log10(params[, 2] - 2*sd),
        barcol="#000000",
-       main="Consumer Staples",
+       main="Energy",
        col="red",
 ##       pch=16,
        lwd=1,
        xlab=expression(alpha),
-       ylab=expression(K));
+       ylab=expression(log[10](K)));
 dev.off();
 
-pdf(file="../papers/FX/Consumer_Staples_scale.pdf");
+pdf(file="../papers/FX/IT_scale.pdf");
 values <- params[, 2]^params[, 1];
 sd <- values/sqrt(k);
 plotCI(1:dim(X)[2], log10(values),
@@ -174,13 +174,14 @@ plotCI(1:dim(X)[2], log10(values),
        ui=log10(values + 2*sd),
        li=log10(values - 2*sd),
        barcol="#000000",
-       main="Consumer Staples",
+       main="Information Technology",
        col="red",
        lwd=1,
        xlab="",
        xaxt="n",
-       ylab=expression(log10(K^alpha)));
-axis(side=1, at=1:dim(X)[2],
+       ylab=expression(log[10](K^alpha)));
+
+axis(side=1, at=1:dim(X)[2], cex.axis=0.7,
      labels=gsub("_series_", ".", gsub("_US", "", data$assets)),
      las=2);
 dev.off();
@@ -266,7 +267,7 @@ M <- tail.x[2, ] + tail.x[2, ]/sqrt(x.k) * q;
 m <- tail.x[2, ] - tail.x[2, ]/sqrt(x.k) * q;
 graphics.off();
 ## par(mfrow=c(1, 2));
-pdf(file="../papers/FX/Consumer_Staples_lower.pdf",
+pdf(file="../papers/FX/Energy_lower.pdf",
     width=7, height=3.5);
 plot(tail.x[2, ],
      main=expression(alpha[L]),
@@ -294,7 +295,7 @@ M <- pickands.x[1, ] + sigma * q;
 m <- pickands.x[1, ] - sigma * q;
 graphics.off();
 ## par(mfrow=c(1, 2));
-pdf(file="../papers/FX/Consumer_Staples_Pickands.pdf",
+pdf(file="../papers/FX/Energy_Pickands.pdf",
     width=7, height=3.5);
 plot(pickands.x[1, ],
      main=expression(alpha),
@@ -321,7 +322,7 @@ lx <- log10(A.x);
 ly <- log10(A.y);
 l.m <- min(c(lx, ly));
 l.M <- max(c(lx, ly));
-pdf("../papers/FX/Consumer_Staples_Hill_scales.pdf")
+pdf("../papers/FX/Energy_Hill_scales.pdf")
 plot(lx, pch=0, ylim=c(-9, 0), xaxt="n",
      xlab="", main=expression(log[10](A)),
      ylab="");
@@ -347,7 +348,7 @@ for (i in 1:dim(X)[2])
     params[i, 3] <- R[[i]]$shift;
 }
 
-## pdf("../papers/FX/Consumer_Staples_OLS_estimates.pdf");
+## pdf("../papers/FX/Energy_OLS_estimates.pdf");
 ## par(mfrow=c(3, 1));
 ## plot(params[-21, 1], xlab="", ylab=expression(alpha), xaxt="n");
 ## axis(side=1, at=1:length(tables),
@@ -370,7 +371,7 @@ for (i in 1:dim(X)[2])
 ## abline(v=1:(dim(X)[2]-1), lty=3);
 ## dev.off();
 
-pdf("../papers/FX/Consumer_Staples_OLS_estimates.pdf");
+pdf("../papers/FX/Energy_OLS_estimates.pdf");
 par(mfrow=c(3, 1));
 plot(params[, 1], xlab="", ylab=expression(alpha), xaxt="n");
 axis(side=1, at=1:length(tables),

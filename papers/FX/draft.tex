@@ -623,10 +623,10 @@ Using the asymptotic normality property of upper order statistics
 (cf. de Haan and Ferreira~\cite{haan:ferreira:2006}, theorem 2.2.1), one can show
 \begin{eqnarray*}
   \sqrt k (\hat K_k - K) &\overset{d}{\to}& N\left(
-    0, \left( {K \over \alpha}  \right)^2
+    0, {K^2 \over \alpha^2}
   \right) \\
   \sqrt k (\hat K_k^\alpha - K^\alpha) &\overset{d}{\to}& N\left(
-    0, \left( {K^{2\alpha}}  \right)^2
+    0, {K^{2\alpha}}
   \right)
 \end{eqnarray*}
 where the tail index $\alpha$ is regarded as known. From the above
@@ -644,11 +644,11 @@ Figure~\ref{fig:sectors_parameters}.
   \end{minipage}\hfill
   \begin{minipage}{0.33\linewidth}
     \includegraphics[width=\textwidth]
-    {Consumer_Staples_K.pdf}
+    {CS_K.pdf}
   \end{minipage}\hfill
   \begin{minipage}{0.33\linewidth}
     \includegraphics[width=\textwidth]
-    {Information_Technology_K.pdf}
+    {IT_K.pdf}
   \end{minipage}
   \begin{minipage}{0.33\linewidth}
     \includegraphics[width=\textwidth]
@@ -656,11 +656,11 @@ Figure~\ref{fig:sectors_parameters}.
   \end{minipage}\hfill
   \begin{minipage}{0.33\linewidth}
     \includegraphics[width=\textwidth]
-    {Consumer_Staples_scale.pdf}
+    {CS_scale.pdf}
   \end{minipage}\hfill
   \begin{minipage}{0.33\linewidth}
     \includegraphics[width=\textwidth]
-    {Information_Technology_scale.pdf}
+    {IT_scale.pdf}
   \end{minipage}
   \caption{\small Estimates of $K$ and $K^\alpha$ of stocks in sectors
     of the S\&P 500 index. The points are the estimated values; the bars are
@@ -676,7 +676,7 @@ more volatile sectors of ``Energy'' and ``Information Technology'',
 the average value of $K$ is around 0.01, while for the more stable
 sector of ``Consumer Staples'', the average value is around 0.005. Due
 to the smallness of $K$, mild variations of $\alpha$ would lead to
-huge variations of $K^\alpha$, as shown in the 2nd column of
+huge variations of $K^\alpha$, as shown in the 2nd row of
 figure~\ref{fig:sectors_parameters}.
 
 Secondly, one can see that the values of $\alpha$ and $K$ appear
@@ -743,8 +743,8 @@ theorem
 The weak convergence of \eqref{eq:x1} allows one to construct a test
 of the equality $\alpha_X = \alpha_Y$. As the null hypothesis, assume
 $\alpha_X = \alpha_Y$. Under this hypothesis, \eqref{eq:x1} means the
-test statistic $\hat \alpha_X - \hat \alpha_Y \overset{d}{\to} N(0,
-\alpha_X^2 + \alpha_Y^2)$. 
+test statistic $\sqrt k (\hat \alpha_X - \hat \alpha_Y)
+\overset{d}{\to} N(0, \alpha_X^2 + \alpha_Y^2)$.
 We apply this test to the equities in the ``Energy'',
 ``Consumder Staples'' and ``Information Technology''
 sectors of the S\&P 500 index. The results are shown in

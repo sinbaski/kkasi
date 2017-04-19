@@ -1,0 +1,175 @@
+Name: Xie Xiaolei
+citizenship: Sweden
+mobile: +46 76 060 6638
+email: xie.xiaolei@gmail.com
+Address: Kiviksgatan 7C, 21440, Malmö, Sweden
+
+Education:
+1. Ph.D. in Mathematical Statistics
+   Copenhagen University, Denmark
+   Oct. 2014 - Sep. 2017
+   * Time series analysis: ARIMA, GARCH, stochastic volatility models
+   * Asset allocation & risk management:
+     	   Principle component analysis;
+	   optimization of investor utility functions;
+	   extreme value theory
+   * Numerical methods:
+     	   Importance sampling
+	   numerical optimization
+	   estimation of GARCH(p,q) tail indices
+
+2. M.Sc. in Mathematical Physics
+   Lund University, Sweden
+   Sep. 2011 - June 2014
+   * Thesis project: Distribution of eigenvalues of large sample
+     covariance	matrices in the infinite dimensional limit with
+     a focus on the influence of autocorrelations and heavy tails. The
+     theoretical derivation is based on the free probability
+     theory and is checked against intraday tick-by-tick prices
+     of high-volume Swedish stocks.
+   * Course work:
+     Mathematical methods of Physics and Engineering
+     Statistical mechanics
+     Quantum mechanics
+     General relativity
+
+3. M.Sc. Computer Science and Engineering
+   Helsinki University of Technology, Finland
+   Sep. 2005 - June 2008
+   Major: Computing - Services and Security
+   Average grade: 4.17/5.
+
+4. B.Sc.Computer Science and Engineering
+   Beijing Institute of Technology, China
+   Sep. 2001 - June 2005
+
+Publications
+1. Tail-indices and scale parameters of returns series
+   Xie, X., Mikosch, T. and de Vries, C., 2017
+   Being finalized
+   
+    It is a stylized fact that equity return distributions are
+    heavy-tailed. We discuss how an investor's preference of an equity
+    varies with the parameters of the tail distribution of the return on
+    equity. These parameters can be seen as characteristics of the
+    market and provide a quantitative description of the status of the
+    market.
+    In addition, we also find optimal asset allocation schemes
+    corresponding to different investor preferences as captured by the
+    investors' utility functions. These results can be useful when
+    considering a problem of asset allocation. Real-world stock return
+    series, which have motivated our work, are analyzed and presented.
+
+2. An efficient estimator of the probability of very large losses posed by
+   GARCH(p,q) processes
+   Xie, X. and Collamore, J, 2017
+   Being finalized
+
+    We propose an efficient importance sampling estimator of the
+    probability of excursion over high thresholds (causing large
+    losses) by Multivariate Markov chains e.g. a GARCH(p,q) process or
+    a multivariate GARCH process.
+    Although stationary distributions of these processes are known
+    to have power-law tails, precise evaluation of the tail
+    probabilities is difficult because the exact distribution is
+    unknown. Moreover, naive simulation methods lead to erractic
+    estimates. Our importance sampling estimator presents a solution.
+
+3. The eigenvalues of the sample covariance matrix of a
+   multivariate heavy-tailed stochastic volatility model
+   Xie, X., Jansen, A., Mikosch, T. and Rezapour, M. 2016
+   To appear in the Bernoulli Journal
+
+    We derive multivariate alpha-stable limit distributions of the
+    sample covariance matrix when the sample size was large. We
+    consider two possibilities of heavy-tails: 1. the innovation
+    sequence is heavy tailed; and 2. the volatility sequence is
+    heavy-tailed. While the eigen system of the first case is shown to
+    resemble that of i.i.d data, the eigen system in the second case is
+    found to allow dependencies in their limiting distributions, which
+    are determined by the structure of the volatility sequence.
+
+4. Extreme value analysis for the sample autocovariance
+   matrices of heavy-tailed multivariate time series
+   Xie, X., Davis, R.A., Heiny, J. and Mikosch, T. 2016
+   Published in the Extremes
+
+    We provide, among others, a limit theory for the largest eigenvalues
+    of a sample covariance matrix of heavy-tailed, possibly linearly
+    dependent data with infinite dimensions. We prove weak convergence of
+    the point process of the largest eigenvalues to Poisson or cluster
+    Poisson processes and, based on this convergence result, derive limit
+    laws of functions of the ordered eigenvalues.
+
+Employment
+1. ST-Ericsson, Lund, Sweden
+   Audio, Multimedia, Development Engineer
+   Sep 2008 - Jan 2011
+
+   My responsibilities included developing audio low-level software,
+   typically device drivers, in the Linux OS. This involved designing and
+   implementing data structures and procedures so that the hardware
+   devices were used in the optimal way, in terms of parallelism,
+   power consumption, robustness, and ease of maintenance.
+
+   C, C++, Java, Linux
+
+2. Helsinki Institute of Information Technology, Helsinki
+   Research Assistant
+   Oct 2007 - May 2008
+
+   Funded by HIIT, I wrote my thesis ``A Mutual authentication and Key
+   Agreement Protocol for the UMTS Network''. The algorithm of my
+   protocol proposal was based on the Diffie-Hellman Exchange, but had
+   significant modifications and extensions so that the mutual
+   authentication between the mobile user and the network was delegated
+   to the serving instead of the home network. The protocol design
+   incorporated puzzle schemes that demanded unbalanced computing
+   resources on the two sides to mitigate Denial-of-Service attacks.
+
+   C, C++, Linux
+
+3. Goodmillsystems, Helsinki
+   Software Designer
+   May 2007 - Sep 2007
+
+   I developed a daemon program that ran on the company's smart router
+   product to collect statistical data about the router's network
+   traffic. The emphasis of the program was high performance in the
+   context of competing read and write accesses.
+
+   C, C++, Linux
+
+4. Cardinal Information Systems, Helsinki
+   Software Developer
+   Sep 2006 - April 2007
+
+   I implemented the FLUTE protocol for the company's DVB-H
+   mobile-end middleware. The implementation was multi-threaded and was
+   built on the pthread library. Good performance and robustness
+   were crucial requirements on the implementation.
+
+   C, C++, Linux
+
+5. Digital Chocolate, Helsinki, Finland
+   Game Engineer
+   Feb 2006 - Sep 2006
+
+   My responsibilities were porting and customizing mobile
+   phone games for various handsets.
+
+   Java, J2ME, Bash
+
+6. Beijing Holystone Ltd, Beijing
+   Software Engineer
+   April 2004 - June 2005
+
+   I developed JSP pages and database routines for
+   the company's information system.
+
+   Java, J2EE
+
+Other Interests:
+1. Algorithmic trading, alpha generation
+2. statistical inference, machine learning, neural network
+

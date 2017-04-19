@@ -103,13 +103,12 @@ equation
 \end{eqnarray}
 where $\{R_t\}_{t \in \mathbb Z}$ is the return series in question;
 $\{Z_t\}_{t \in \mathbb Z}$ is an iid sequence of random variables
-with zero mean and unit variance.
+with zero mean and unit variance; the distribution function of $Z_t$
+is assumed to have a density function.
 $\omega, \alpha_i, i \in \{1,\dots,p\}$ and
-$\beta_j, j \in \{1,\dots,q\}$
-are constant parameters. A process defined by
-\eqref{eq:garchpq} is called a GARCH($p,q$) process.
-Note that \eqref{eq:garchpq} can be written as a stochastic recurrence 
-equation. When $p = q = 1$,
+$\beta_j, j \in \{1,\dots,q\}$ are constant parameters. A process
+defined by \eqref{eq:garchpq} is called a GARCH($p,q$) process.
+When $p = q = 1$,
 \[
 \sigma_t^2 = \omega + (\alpha_1 Z_{t-1}^2 + \beta_1) \sigma_{t-1}^2
 \]
@@ -233,7 +232,30 @@ consider our work as a multivariate extension to theirs.
 
 \section{Statement of the Problem}
 We intend to find an estimator of bounded relative error for the
-probability $\P(\tilde y' V > u)$.  For this purpose, we use a
+probability $\P(\tilde y' V > u)$. But before we introduce the
+estimator we would like to point out a few properties of the
+GARCH($p,q$) process which will be essential for the estimator.
+\begin{enumerate}
+\item \eqref{eq:garchpq} immediately implies
+\[
+\sigma_t^2 \geq \omega \left(
+1 - \sum_{j=1}^q \beta_j
+\right)^{-1} = \sigma_{\m}^2
+\]
+Let $\chi = [\sigma_{\m}^2, \infty)^q \times [0, \infty)^{p-1}$, so
+    $V_n \in \chi$ for all $n \geq 0$. Since the random variable
+    $Z_{n-1}^2$ is assumed to have a continuously differentiable
+    distribution function,
+    $\P(Z_{n-1}^2 = x) = 0$ for all $x \in \text{supp}(Z_{n-1}^2)$.
+    Furthermore, $Z_{n-1}^2$ completely determines the matrix $A_n$,
+    so it follows $\P(A v + B = v) = 0$ for all $v \in \chi$.
+\item 
+\end{enumerate}
+
+
+
+
+For this purpose, we use a
 result of Collamore and Mentemeier \cite{collamore:mentemeier:2016},
 who showed that, under the following conditions, the chain $V_n = A_n
 V_{n-1} + B_n$, not necessarily a GARCH($p, q$) process, is an
