@@ -103,7 +103,7 @@ b <- 0.01;
 ## b <- 0;
 p <- 0.5;
 delta.v <- exp(r)*1.05;
-xi <- 4;
+xi <- 0.5;
 
 ## alpha.r <- 3.5;
 ## alpha <- 3;
@@ -113,19 +113,21 @@ xi <- 4;
 ## utility <- function(x) log(x);
 utility <- power.utility;
 
-scales <- seq(from=0.01, to=1, length.out=50);
+scales <- seq(from=0.001, to=0.02, length.out=50);
 indices <- seq(from=2, to=5, length.out=40);
 phi.hat <- matrix(NA, nrow=length(indices),
                   ncol=length(scales));
 U <- matrix(NA, nrow=length(indices),
             ncol=length(scales));
+K.r <- 0.01;
+alpha.r <- 2.0;
 for (i in 1:length(indices)) {
     for (j in 1 : length(scales)) {
-        phi <- pareto.optimal.alloc(indices[i], indices[i],
-                               scales[j], scales[j]);
+        phi <- pareto.optimal.alloc(indices[i], alpha.r,
+                               scales[j], K.r);
         phi.hat[i, j] <- phi;
-        y <- pareto.preference(phi, indices[i], indices[i],
-                               scales[j], scales[j]);
+        y <- pareto.preference(phi, indices[i], alpha.r,
+                               scales[j], K.r);
         U[i, j] <- y[1];
     }
 }
@@ -181,11 +183,11 @@ dev.off();
 
 
 
-pdf("phi_hat_pareto4.pdf")
+pdf("phi_hat_pareto5e-1.pdf")
 filled.contour(indices, scales, phi.hat, nlevels=60,
                xlab=expression(alpha), ylab=expression(K),
                color=terrain.colors,
-               main=expression(u(x)==-frac(1, 4*x^4))
+               main=expression(u(x)==-frac(2, sqrt(x)))
                );
 dev.off();
 
