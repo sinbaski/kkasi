@@ -409,13 +409,13 @@ of the tail-indices $\alpha_{\rm up}$ and $\alpha_{\rm low}$,
 respectively, typically have the tendency that $\hat \alpha_{\rm
   up}>\hat \alpha_{\rm low}$. 
 This observation is often explained by the fact that investors are
-more prone to negative than to positive news in te market. 
+more prone to negative than to positive news in the market. 
 Moreover, in the literature the {\em estimated} tail-indices $\hat \alpha$ (both in the left and right tails) 
 are typically found in the range $(2,4)$. For an illustration, see
 Figure~\ref{fig:1} where estimates $\hat \alpha_{\rm low}$ 
 in three sectors of the Standard \& Poors 500 index  are shown. The
 estimates are based on 1304 observations of daily return 
-data from 4th Jan. 2010 to 31st Dec. 2014.
+data from 1 January 2010 to 31 December 2014.
 \par
 When looking at Figure~\ref{fig:1} one might ask the following questions:
 \begin{itemize}
@@ -435,18 +435,18 @@ The estimator of the tail-index $\alpha>0$  in the model
 favored in the literature  is the {\em Hill estimator}; the graphs in 
 Figure~\ref{fig:1} are based on this estimator. We introduce this estimator in Section~\ref{sec:1} and discuss 
 some of its virtues and vices. In addition to tail-index estimation we also discuss the related problem of
-estimation of the scale parameters in the tail (these are the constants $c_+$ and $c_-$ in \eqref{eq:1}). It turns out 
+estimation of the scale parameters in the tail (these are the constants $c_+$ and $c_-$ in \eqref{eq:1}). {\red check} It turns out 
 that the simultaneous estimation of the tail-index and the scale parameter are strongly related.
 \par
 In Section~\ref{sec:2} we discuss the theoretical problem of appearance of power-law tails in models 
-for daily or, more generally, low \fre y 
+for daily or, more generally, low-\fre y 
 return data. In particular, in Section~\ref{subsec:garch} we address the power-law tails of univariate and multivariate GARCH models as potential models
 for a set of return data from distinct assets. As a matter of fact, under mild conditions, the aforementioned models
 have power-law tails due to their relation with so-called {\em \sre s}. Moreover, some of the {\em standard} multivariate 
-GARCH models as the CCC or BEKK ensure that the marginal \ds s have power-law tails with the same index.
+GARCH models as the CCC ensure that the component-wise marginal \ds s have power-law tails with the same index.
 \par
 In Section~\ref{sec:3} we discuss an economic argument for the fact that return data of similar assets
-(such as return series in a given sector of the S\&P 500 index) may have tail indices which are close to each other.
+(such as return series in a given sector of the S\&P 500 index) may have tail-indices which are close to each other.
 We argue based on a  utility \fct\ approach. We explicitly recognize the behavioral
 concern for downside risk in an investor's evaluation of a portfolio
 using the framework of Generalized Disappointment Aversion (GDA)
@@ -489,11 +489,11 @@ Haan and Ferreira \cite{haan:ferreira:2006}, Resnick
 \cite{resnick:2007}. The most popular among them was introduced  by
 Hill \cite{hill1975simple}.
 Given a sample $-X_1,\ldots,-X_n$ whose marginal \ds\ satisfies  \eqref{eq:1a}, calculate
-the order statistices $X_{(1)}\le \cdots\le X_{(n)}$  and construct the
+the order statistics $X_{(1)}\le \cdots\le X_{(n)}$  and construct the
 {\em Hill estimator}:
 \beao%\label{eq:Hill_index}
   \hat \alpha_k = \Big(
-    {1 \over k} \sum_{i=1}^k \ln {X_{(n-i+1)} \over X_{(n-k)}}
+    {1 \over k} \sum_{i=1}^k \log {X_{(n-i+1)} \over X_{(n-k)}}
     \Big)^{-1}\,.
 \eeao
 Here $k$  is the number of upper order statistics in the sample used
@@ -513,7 +513,7 @@ dependent \seq s and de Haan and Ferreira \cite{haan:ferreira:2006} provide
 a complete \asy\ theory in the iid case.
 \par
 A major problem for Hill estimation is the choice of the number $k$ of
-order statistics. As  matter of fact,
+order statistics. As  a matter of fact,
 if $k$ is too large the order statistics are too close to the center
 of the \ds\ of the $-X_t$, leading to a bias
 of the estimator. On the other hand, by construction, $\hat \alpha_k$ is an average of $k$ log-differences of the 
@@ -577,13 +577,13 @@ just show some benchmark which holds in the iid case and under additional condit
     \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
     {Information_Technology_lower.pdf}
   \end{minipage}
-  \caption{\small Hill estimates $\hat \alpha_{50}$ of the lower tail
-    indices $\alpha$ of daily return series in sectors of the S\&P 500
-    index. The data span from 4th Jan. 2010 to 31st Dec. 2014 and
-    comprise $n=1304$ observations. The graphs from top to bottom
-    correspond to the ``Energy'', ``Consumer Staples'' and
-    ``Information Technology'' sectors.
-    Each circle corresponds to a Hill estimate $\hat\alpha_k$; the grey
+  \caption{\small Hill estimates $\hat \alpha_{50}$ of the lower tail indices $\alpha$ of
+    daily return series in sectors of the S\&P 500
+    index. The data span
+    from 1 January 2010 to 31 December 2011 and comprise $n=1304$ observations.
+The graphs from top to bottom correspond to the ``Energy'',
+    ``Consumer Staples'' and ``Information Technology'' sectors.
+    Each circle corresponds to a Hill estimate $\hat\alpha_{50}$; the grey
     triangles above and below it mark the 97.5\% and 2.5\% quantiles
     of its approximate normal distribution; see \eqref{eq:2} and the discussion following it for an 
 interpretation.
@@ -616,23 +616,20 @@ derived from the joint \ds\ of $k$ upper order statistics in the sample; cf.
 Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997}, p.~334.
 It is given by
 \beao
-\hat K_k = \left({k \over n}\right)^{1/\hat\alpha} X_{(n-k)}\,.
+\hat K_k = \left({k \over n}\right)^{1/\hat\alpha_k} X_{(n-k)}\,.
 \eeao
-{\blue
 Using the asymptotic normality property of upper order statistics
-(cf. de Haan and Ferreira~\cite{haan:ferreira:2006}, theorem 2.2.1), one can show
-\begin{eqnarray*}
-  \sqrt k (\hat K_k - K) &\overset{d}{\to}& N\left(
-    0, {K^2 \over \alpha^2}
-  \right) \\
-  \sqrt k (\hat K_k^\alpha - K^\alpha) &\overset{d}{\to}& N\left(
-    0, {K^{2\alpha}}
-  \right)
+(cf. de Haan and Ferreira~\cite{haan:ferreira:2006}, Theorem 2.2.1), one can show
+\beao
+  \sqrt{k}\, (\hat K_k - K) &\std& N\big(
+    0, (K /\alpha)^2\big)\quad\mbox{and}\quad
+  \sqrt {k} \,(\hat K_k^\alpha - K^\alpha) \overset{d}{\to} N\big(
+    0, K^{2\alpha}  \big)\,,
 \end{eqnarray*}
-where the tail index $\alpha$ is regarded as known. From the above
-asymptotic normality property, confidence bands of the estimate of $K$
-and $K^\alpha$ can be constructed. 
-Estimates of $K$ of the ``Energy'', ``Consumer Staples'' and
+where the tail-index $\alpha$ is regarded as known. From the above
+asymptotic normality property, confidence bands of $\hat K_k$
+and $\hat K_k^{\hat\alpha}$ can be constructed.   
+Estimates $\hat K_k$ in the ``Energy'', ``Consumer Staples'' and
 ``Information Technology'' sectors of the S\&P 500 index are computed
 using this method. The results are shown in
 Figure~\ref{fig:sectors_parameters}.
@@ -662,12 +659,12 @@ Figure~\ref{fig:sectors_parameters}.
     \includegraphics[width=\textwidth]
     {IT_scale.pdf}
   \end{minipage}
-  \caption{\small Estimates of $K$ and $K^\alpha$ of stocks in sectors
-    of the S\&P 500 index. The points are the estimated values; the bars are
-    the $2\sigma$ confidence intervals. The confidence bands of the
-    corresponding Hill estimates $\hat \alpha$ of these sectors are
-    shown in figure~\ref{fig:1}. Note $\log_{10}(K^\alpha)$ is shown
-    instead of $K^\alpha$.
+  \caption{\small Estimates $\hat K_k$ and $\hat K_k^{\hat \alpha}$ on $\log_{10}$-scale 
+of stocks in sectors
+    of the S\&P 500 index. The points are the estimated values, the bars 
+    the \asy\ 95\%-confidence intervals; the confidence bands of the
+    corresponding Hill estimates $\hat \alpha_k$ of these sectors are
+    shown in Figure~\ref{fig:1}. 
   }
   \label{fig:sectors_parameters}
 \end{figure}
@@ -677,27 +674,27 @@ the average value of $K$ is around 0.01, while for the more stable
 sector of ``Consumer Staples'', the average value is around 0.005. Due
 to the smallness of $K$, mild variations of $\alpha$ would lead to
 huge variations of $K^\alpha$, as shown in the 2nd row of
-figure~\ref{fig:sectors_parameters}.
-
-Secondly, one can see that the values of $\alpha$ and $K$ appear
-positively correlated. This prompts Pareto tails of the return
-distributions. We expain more about this in
-section~\ref{sec:pareto_tail}.
-
-Thirdly, figure~\ref{fig:sectors_parameters} shows the values of $K$
-in the ``Energy'' and ``Information Technology'' sectors are on
-average larger than those in the ``Consumer Staples'' sector. A larger
-value of $K$ means, for a given value of $p$, i.e. a given probability
-of losses, large losses are more probable. Thus one can conclude that
-these two sectors are considerablly riskier than the ``Consumer
-Staples'' sector. This is of course a confirmation of one's economic
+Figure~\ref{fig:sectors_parameters}.
+\par
+Secondly, it appears that there is positive dependence between the  values of $\alpha$ and $K$. 
+This prompts Pareto tails of the return
+distributions. For more explanations, see
+Section~\ref{sec:pareto_tail}.
+\par
+Thirdly, Figure~\ref{fig:sectors_parameters} shows that, on
+average, the values of $K$
+in the ``Energy'' and ``Information Technology'' sectors are  larger than those in the ``Consumer Staples'' sector. 
+For a given loss \pro y, 
+a larger
+value of $K$ implies that large losses are more probable. Thus one can conclude that
+these two sectors are considerably riskier than the ``Consumer
+Staples'' sector. {\red Let Casper decide about this sentence.} This is of course a confirmation of one's economic
 instinct.
-
-Yet another indication from figure \ref{fig:sectors_parameters} is
+\par
+Yet another indication from Figure \ref{fig:sectors_parameters} is
 that, while the ``Energy'' and the ``Information Technology'' sectors
-are similar in riskiness, the correlation between $\alpha$ and $K$ is
-stronger in ``Energy''. As discussed in section \ref{sec:pareto_tail},
-moving along
+are similar in riskiness, the dependence  between $\alpha$ and $K$ is
+stronger in ``Energy''. As discussed in Section~\ref{sec:3} below, moving along
 a curve of equal preference in the direction of increasing $\alpha$, $K$ also
 increases. So the strong positive correlation seen in the ``Energy''
 sector suggests these stocks might have very similar investor
@@ -709,11 +706,10 @@ via relations of supplier and customer or otherwise to compete with each
 other if they are on the same link of the chain of energy production
 and distribution.
 
-\subsection{A test of equal tail indices based on Hill estimator}
-Suppose we have two weakly dependent series $X_1, \dots, X_n \sim F_X$ and
-$Y_1, \dots, Y_n \sim F_Y$. Both $F_X$ and $F_Y$ have power-law tails
-with indices $\alpha_X$ and $\alpha_Y$, respectively. Assume also
-$X_i$ is independent of $Y_j$ for all $1 \leq i \leq j \leq n$.
+\subsection{A test for equal tail-indices based on Hill estimation}
+Suppose we have two independent strictly stationary positive series $X_1, \dots, X_n $ and
+$Y_1, \dots, Y_n$ with corresponding \df s $F_X$ and $F_Y$ that have power-law tails
+with indices $\alpha_X$ and $\alpha_Y$, respectively. 
 From \eqref{eq:2} one can deduce
 \begin{equation}
   \label{eq:x3}
@@ -731,24 +727,21 @@ From \eqref{eq:2} one can deduce
     0, \text{diag}(\alpha_X^2, \alpha_Y^2)
   \right)
 \end{equation}
-where $\hat \alpha_X$ and $\hat \alpha_Y$ are Hill estimates of
-$\alpha_X$ and $\alpha_Y$. Then it follows from continuous mapping
+where $\hat \alpha_X$ and $\hat \alpha_Y$ are Hill estimators of
+$\alpha_X$ and $\alpha_Y$; we suppress their dependence on $k$. Then it follows from the continuous mapping
 theorem
 \begin{equation}
   \label{eq:x1}
   \sqrt k [(\hat \alpha_X -\alpha_X) - (\hat \alpha_Y - \alpha_Y)]
   \overset{d}{\to}
-  Z_X - Z_Y \sim N(0, \alpha_X^2 + \alpha_Y^2)
+  Z_X - Z_Y \sim N(0, \alpha_X^2 + \alpha_Y^2)\,.
 \end{equation}
-The weak convergence of \eqref{eq:x1} allows one to construct a test
-of the equality $\alpha_X = \alpha_Y$. As the null hypothesis, assume
-$\alpha_X = \alpha_Y$. Under this hypothesis, \eqref{eq:x1} means the
-test statistic $\sqrt k (\hat \alpha_X - \hat \alpha_Y)
-\overset{d}{\to} N(0, \alpha_X^2 + \alpha_Y^2)$.
+This relation allows one to construct an \asy\ test under 
+the null hypothesis $\alpha_X = \alpha_Y$ and with test statistic $\hat \alpha_X - \hat \alpha_Y$.
 We apply this test to the equities in the ``Energy'',
-``Consumder Staples'' and ``Information Technology''
-sectors of the S\&P 500 index. The results are shown in
-\ref{fig:PairTest}.
+``Consumer Staples'' and ``Information Technology''
+sectors of the S\&P 500 index. The results are shown in the top row of
+Figure~\ref{fig:PairTest}.
 \begin{figure}[htb!]
   \begin{minipage}{0.33\linewidth}
     \includegraphics[
@@ -786,46 +779,43 @@ sectors of the S\&P 500 index. The results are shown in
       trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
     ]{Hoga_IT_pair.pdf}
   \end{minipage}
-  \caption{
-    {\em 1st row}: Test for changing tail index using Hill estimator based on
-    concatenated series in the ``Energy'' and ``Consumer Staples''
-    sectors of S\&P 500. The green, blue and red colors represent,
-    respectively, the cases when the 85\%, 90\% and 95\% quantiles of
-    the limit distribution of the test statistic is exceeded. 
-    Grey points stand for pairs for which the test statistic is below
-    the 85\% \asy\ quantile;
-    {\em 2nd row:} Test for changing tail index or scale parameter
-    using Hoga's test based on the same concatenated series. black points represent
-    pairs for which the computation of $T_n$ fails for given precision
+  \caption{{\em Top row}: Test for pairwise equality of tail-indices in the 
+    ``Energy'', ``Consumer Staples'' and ``Information Technology'' 
+    sectors of S\&P 500. The test statistic in \eqref{eq:x1} is based on Hill estimates 
+    of $\alpha_X$ and $\alpha_Y$. 
+    The green, blue and red points correspond to pairs of stock in a sector
+    when the test statistic is outside the intervals $[q_{0.075},q_{0.925}]$,
+ $[q_{0.05},q_{0.95}]$,  $[q_{0.025},q_{0.975}]$, repectively, where $q_p$ is the $p$-quantile of the limiting
+$N(0,\alpha_X^2+\alpha_Y^2)$-\ds\ of the test statistic in \eqref{eq:x1}. 
+    Grey points stand for pairs for which the test statistic is inside $[q_{0.075},q_{0.925}]$. 
+    {\em Bottom row:} Test for changing tail index or scale parameter     
+    using Hoga's test based on concatenated series of pairs of stocks. The green, blue and red points 
+correspond to pairs of stock in a sector 
+    when the test statistic $T_n$ is exceeds the $85\%$-, $90\%$-, $95\%$-quantile of the limit \ds .  
+  Grey points stand for pairs for which the test statistic is below the \asy\ $85\%$-quantile. Black points represent
+    pairs for which the computation of $T_n$ fails for given precision  
     requirements and time limits.
-    The same number of upper-order statistics are used for both tests.
-  }
+    The same number of upper order statistics are used for both tests.}
   \label{fig:PairTest} 
 \end{figure}
-One can see from the figure that tail indices of equities in the
-``Energy'' or ``Information Technology'' sectors vary more than do
-their counterparts in the ``Consumer Staples'' sector, as the null
-hypothesis is rejected more often for members of these two sectors.
-Moreover, these figures suggest that the test based on Hill estimator
-is more powerful in distinguishing differences between tail indices,
-as it results in more rejections for the ``Energy'' and the
-``Information Technology'' sectors than does the other test. We
-argue this lack of power of the latter can be the result of slow
-convergence of the distribution of its test statistic to the
-asymptotic distribution. We elaborate on this in section~\ref{sec:Hoga}.
-
-Nevertheless, one should bear in mind that the weak convergence
-\eqref{eq:x3} is valid only on condition that both the $X_i$ and $Y_i$
-series are independent of each other, which is generally untrue for
+It indicates that tail indices of equities in the
+``Energy'' or ``Information Technology'' sectors are more variable 
+in the ``Consumer Staples'' sector, as the null
+hypothesis is rejected more often for members of these two former sectors.
+Moreover, these figures suggest that the test based on the Hill estimator
+is quite powerful in distinguishing between tail indices. In contrast to the test presented in Section~\ref{sec:Hoga}
+the present test results in  more rejections for the ``Energy'' and the
+``Information Technology'' sectors.
+\par
+As a caution, one should bear in mind that 
+\eqref{eq:x3} is valid on condition that the $X$- and $Y$-
+series are independent of each other (or weakly dependent on each other), which is generally untrue for
 two return series in the same market.
-}
 
 
-\subsection{Tests for a change in the extreme tail}\label{sec:Hoga}
-To the best of our knowledge, there do not exist published statistical
-tests for comparing the tail indices or scale parameters of two or
-more dependent \ts\ in a direct way. In addition to the test described
-in the previous section, we borrow a test from
+
+\subsection{A tests for a change in the extreme tail}\label{sec:Hoga}
+Here we apply a test from
 a recent paper by Hoga \cite{hoga:2016}. This test has been developed
 for a different kind of problem. Given a strictly stationary
 \ts\ $X_1,\ldots,X_n$ with a marginal \ds\ $F$ with right power-law
@@ -880,9 +870,9 @@ Alternatively, it may show that the power of the test is very low. A possible re
 of $(T_n)$ to its limit is very slow, i.e., the \asy\ \ds\ is not representative for the \ds\ of $T_n$ for the chosen $n$; for some
 simulation evidence, see below.
 \par
-To check whether any two series share the same tail index and scale parameter we concatenate
+To check whether any pair of stocks shares the same tail index and scale parameter we concatenate
 any two series and apply the aforementioned test on the concatenated series. For the ``Energy'' and the
-``Consumer Staples'' sector we summarize the results in Figure~\ref{fig:PairTest}.
+``Consumer Staples'' sector we summarize the results in the bottom row of Figure~\ref{fig:PairTest}.
 These graphs show that the ``null
 hypothesis'' of an equal tail index and scale parameter is rejected for more pairs in the
 ``Energy'' sector than it is for those in the ``Consumer Staples''
@@ -960,9 +950,9 @@ larger the minimum tail index in the concatenated pair.
     {\em Left}: Test  of concatenated $t$-samples with different
     degrees of freedom. Numbers on the axes are the degrees of freedom
     in the subsamples. For an interpretation of the colored bullets,
-    see Figure~\ref{fig:PairTest}. The graph shows the limited power
+    see the bottom row of Figure~\ref{fig:PairTest}. The graph shows the limited power
     of the test. In particular, if both degrees of freedom are
-    relatively large it loses the capablity of distinguishing the \ds\ .
+    relatively large it loses the capablity of distinguishing between the \ds s.
     {\em Right}: Comparison of the \asy\ distribution of the test statistic
     $T_n$ in \eqref{eq:4} under the null hypothesis and the \ds\ of
     $T_n$ for $n=1304$ iid $t$-distributed $X_t$ with 3 and 4 degrees
@@ -1029,9 +1019,9 @@ the strictly stationary  solution $(Y_t)$ to the \sre\
 \beam\label{eq:7}
 Y_t= A_t\,Y_{t-1}+B_t\,,\qquad t\in\bbz\,,
 \eeam
-for an iid \seq\ of pairs $(A_t,B_t)$, $t\in\bbz$, with non-negative components satisfying $\E [A_1^\alpha]=1$.  
-In the model \eqref{eq:5} we can choose $Y_t=\sigma_t^2$, $A_t=\alpha_1\,Z_{t-1}^2$ and $B_t=\alpha_0$ to achieve
-\eqref{eq:6}. In turn, by an application of Breiman's lemma (see \cite{buraczewski:damek:mikosch:2016})
+for an iid \seq\ of pairs $(A_t,B_t)$, $t\in\bbz$, with non-negative components satisfying $\E [A_1^{\alpha/2}]=1$.  
+In the model \eqref{eq:5} we can choose $Y_t=\sigma_t^2$, $A_t=\alpha_1\,Z_{t-1}^2+\beta_1$ and $B_t=\alpha_0$ to achieve
+\eqref{eq:6}. In turn, by an application of Breiman's lemma (see \cite{buraczewski:damek:mikosch:2016}, p.~275)
 it follows that
 \beao
 \P(\pm X_t>x)\sim \E[(Z_t)_\pm^\alpha]\,\P(\sigma_t>x)\,,\qquad \xto\,, 
@@ -1055,7 +1045,7 @@ X_{2,t}\earr\right)= \left(\barr{ll}\sigma_{1,t}& 0\\
 0&\sigma_{2,t}\earr\right)\,\left(\barr{l}Z_{1,t}\\Z_{2,t}\earr\right)=\Sigma_t\,\bfZ_t\,,\qquad t\in\bbz\,.
 \eeao
 Thus both return components $X_{i,t}$ have the form of a univariate \sv\ model $X_{i,t}=\sigma_{i,t}Z_{i,t}$ 
-with non-negative volatility $\sigma_{i,t}$ and an iid bivariate noise \seq\ $(\bfZ_t)$ with zero mean and unite variance components.
+with non-negative volatility $\sigma_{i,t}$ and an iid bivariate noise \seq\ $(\bfZ_t)$ with zero mean and unit variance components.
 We also have the specification
 \beam\label{eq:8}
 \bfY_t=\left(\barr{l}\sigma^2_{1,t}  \\  
@@ -1126,7 +1116,7 @@ with indices $\kappa_1$ and $\kappa_2$, respecticely,  given by the solutions to
 $\E [(\alpha_{ii} Z_{i,t}^2+\beta_{ii})^{\kappa_i}]=1$, $i=1,2$. In this model, one can introduce dependence between the two component series $(X_{1,t})$ and $(X_{2,t})$ by assuming dependence between the noise variables $Z_{1,t}$ and $Z_{2,t}$. Another situation when the Kesten theory fails
 appears when $\bfA_t$ is an upper or lower triangle matrix: then the products  $\bfA_1\cdots\bfA_n$ are always of the same triangular type.
 Similar remarks apply when one considers a CCC model in general dimension. Of course, one may argue that the latter models
-are not natural since they do not allow for a linear relationship between all squared volatilities
+are degenerate since they do not allow for a linear relationship between all squared volatilities
 on a given day. 
 
 \subsection{An utility based argument for equal tail indices}\label{sec:3}
@@ -1138,12 +1128,11 @@ Following Routledge and Zin \cite{routledge2010generalized},
 the utility of an agent with GDA preferences is given by
 \beao% \label{eq:xxie0}
   \wt u&=& \E [u(C)] - b\, \int_{0}^{\delta v}
-  \big[ u(\delta \,v) - u(x) \big] F_C(dx)\nonumber\\&=& \E u(C) - b \E\big[\big(u(\delta \,v) - u(C)\big)\1( C < \delta \,v)\big]\,,
+  \big[ u(\delta \,v) - u(x) \big] F_C(dx)\nonumber\\&=& \E u(C) - b \E\big[\big(u(\delta \,v) - u(C)\big)\1( C \le  \delta \,v)\big]\,,
 \eeao
 where $\delta $ and $v$ are positive constants, and $b\ge 0$.
-{\blue 
- Here $v$ can be thought of as the certainty payoff equivalent to the
- risky payoff $C$; $\delta$ tunes the threshold of {\em
+  Here $v$ can be thought of as the {\em certainty payoff} equivalent to the
+ risky payoff $C$; $\delta$ tunes the {\em threshold of 
    disappointment} in proportion to $v$; $b$ determines the extra
  weight given to the expected return of $C$ when $C$ is below the
  disappoinment threshold $\delta v$.
@@ -1151,20 +1140,15 @@ where $\delta $ and $v$ are positive constants, and $b\ge 0$.
  $\delta=1$ and $b>0$ preferences follow Gul's \cite{gul:1991} 
 disappointment aversion which were generalized by Routledge and Zin
 \cite{routledge2010generalized}.
-}
+\par
 An agent guided by the utility function $u$ will seek to maximize the
 \fct al $\wt u$.
 Routledge and Zin assumed a power-law utility function 
 \beam\label{eq:u}
-u(x)=\frac{1}{1 - \gamma}\,x^{1 - \gamma}\,,\quad \gamma>0\,. 
+u(x)=-\frac{1}{\xi}\,x^{-\xi}\,,\quad \xi>-1\,. 
 \eeam
-In practice it is more often to observe $\gamma > 1$ {\blue Let's
-consult Casper for references.} Therefore we adopt a more convenient
-notation in this case
-\beao
-u(x)=-\frac{1}{\xi}\,x^{-\xi}\,,\quad \xi>0\,. 
-\eeao
-  
+%In practice it is more often to observe $\gamma > 1$ {\blue Let's
+%consult Casper for references.} Therefore we adopt a more convenient
 For the sake of argument, we assume that an investor initially has one
 unit of wealth. He invests $1-\phi\in (0,1)$ units in a risk-free 
 bond with interest rate $r>0$ and $\phi$ units in a risky asset with
@@ -1174,11 +1158,11 @@ return $X$ over one time unit, i.e.,
 \eeam
 Then we have 
 \beao
-\wt u(\phi) &=& \E [u(C)] + b\, \E \big[u(C)\1(C < \delta v)\big] - b \,u(\delta\, v) F_X(q)\,, %\label{eq:functional}
+\wt u(\phi,F_X) &=& \E [u(C)] + b\, \E \big[u(C)\1(C \le  \delta v)\big] - b \,u(\delta\, v) F_X(q)\,, %\label{eq:functional}
 \eeao
 where $F_X$ is the \df\ of $X$ with density $f_X$, and
 \beao
-  q = %q(r, \phi) &:=& \ln \left( {
+  q = %q(r, \phi) &:=& \log \left( {
       %\delta v - (1 - \phi) e^r
       %\over
       %\phi
@@ -1187,23 +1171,23 @@ where $F_X$ is the \df\ of $X$ with density $f_X$, and
     \ex^r + {\delta \,v - \ex^r \over \phi}
   \Big)\,.
 \eeao
-Note that $C < \delta v$ \fif\ $X < q$. 
+Note that $C \le \delta v$ \fif\ $X \le  q$. 
 \par
 Naturally, if an agent invests in
 a risky asset instead of a riskless bond, he expects to obtain a
 higher (on average) return from the risky asset than he is guaranteed from the
 riskless bond. In our notation, this means $\delta \,v > \ex^r$ or
-$q > r $. For given $b,\delta,v$, $\wt u$ is a functional of $\phi$ and $F_X$,
-$
-\wt u=\wt u (F_X, \phi)\,,
-$
-and we assume that
+$q > r $. For given $b,\delta,v$, $\wt u$ is only a functional of $\phi$ and $F_X$,
+$\wt u=\wt u (F_X, \phi)$.
+We assume that
 \beao
 \wt u_{\rm max}=\wt u_{\rm max}(F_X) = \max_{0 \le  \phi \leq 1} \wt u (F_X,\phi)
 \eeao
 exists. 
 
 \subsection{Pareto-distributed returns}\label{sec:pareto_tail}
+Since we are interested in the influence of heavy-tailed losses on the preferences of an investor 
+we assume the following toy model. 
 We consider the case when $X$ has a two-sided Pareto \ds\ given by
 \beam\label{eq:pareto}
   F_X(x) = \left\{
@@ -1217,10 +1201,10 @@ We consider the case when $X$ has a two-sided Pareto \ds\ given by
   \end{array}
   \right.
 \eeam
-where 
+where {\red where needed?}
 $\alpha, \beta > 1$, $0 < p < 1$ and $K,K' > 0$. Then we have
 \beam\label{eq:xxie1.0}
- \wt u(F_X,\phi)\nonumber
+ \wt u(\phi,F_X)\nonumber
   &=&
   \alpha\, K^\alpha\,  p\,
   \int_{-\infty}^0
@@ -1230,23 +1214,18 @@ $\alpha, \beta > 1$, $0 < p < 1$ and $K,K' > 0$. Then we have
   \beta \,(K')^\beta\, (1 - p)
   \int_{0}^\infty
   u\big( (1 - \phi) \ex^r + \phi\, \ex^x \big)\,
-  {1 + b \1(x < q) \over (K' + x)^{\beta + 1}} \,dx 
+  {1 + b \1(x \le  q) \over (K' + x)^{\beta + 1}} \,dx 
   - b \,u(\delta v) \,F_X(q) \,.\label{eq:pp}
 \eeam
-{\blue
-\begin{remark}\label{thrm:I}
- Assume the two-sided Pareto model \eqref{eq:pp} and that the utility
+\par
+We observe the following property which also applies to \eqref{eq:xxie1.0}. 
+\ble\label{thrm:I}
+ Assume the two-sided Pareto model \eqref{eq:pareto} and that the utility
  \fct\ $u$ is increasing and differentiable. Then $\frac{\pd \wt
    u_{\rm max}}{\pd \alpha} > 0$ and $\frac{\pd \wt u_{\rm max}}{\pd
    K} < 0$.
-\end{remark}
-}
+\ele
 The proof is given in Appendix~\ref{sec:thrmI_proof}. 
-\par
-We illustrate the results of remark~\ref{thrm:I} in Figure~\ref{fig:preference_pareto} for the power-utility
-\fct\ \eqref{eq:u}.
-For this reason, we replace $\phi$ in the first integral in \eqref{eq:pp} by the optimal $\hat\phi$. The resulting
-quantity is denoted by $I(\alpha, K)$.
 \par
 We conclude that
 $\wt u_{\rm max}$ increases with $\alpha$ and decreases with $K$. Therefore there is a curve of
@@ -1256,24 +1235,29 @@ of $K$ to increase too, i.e., the estimated values of $\alpha$ and $K$
 should appear positively dependent. This is indeed the case for some
 real return data, e.g. the ``Energy'', ``Consumer Staples'' and
 ``Information Technology'' sectors of the S\&P 500 index; see 
-Figure \ref{fig:sectors_parameters}.
+Figure~\ref{fig:sectors_parameters}.
+\par
+We illustrate Lemma~\ref{thrm:I} in Figure~\ref{fig:preference_pareto} for the power-utility
+\fct\ \eqref{eq:u}.
+For this reason, we replace $\phi$ in the first integral in \eqref{eq:pp} by the optimal $\hat\phi$. The resulting
+quantity is denoted by $I(\alpha, K)$.
 \par
 The value of $\hat\phi$ can be calculated
 by numerical integration and optimization with respect to $\phi$ for given values of $K, K', \alpha, \beta$. 
 This is shown in 
-Figure \ref{fig:phi_hat_pareto} for the power utility \fct\ \eqref{eq:u}.
-\begin{figure}
+Figure~\ref{fig:phi_hat_pareto} for the power utility \fct\ \eqref{eq:u}.
+\begin{figure}[htb!]
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{phi_hat_pareto5e-1.pdf}    
   \end{minipage}\hfill
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{phi_hat_pareto4.pdf}
   \end{minipage}
-  \caption{The graphs show $\hat\phi$, the optimal equity allocation
+ \caption{The graphs show $\hat\phi$, the optimal equity allocation
     as a \fct\ of $\alpha$ and $K$ in the two-sided Pareto model
     \eqref{eq:pareto} with $K=K'$, $\alpha=\beta$. We choose
-    the utility $u$ from \eqref{eq:u}
-    function $u(x) = -x^{-\xi}/\xi$ for $\xi = 1/2$ (left) and $\xi = 4$
+    the utility \fct\ $u$ from \eqref{eq:u}
+    for $\xi = 1/2$ (left) and $\xi = 4$
     (right).
   }
   \label{fig:phi_hat_pareto}
@@ -1306,10 +1290,13 @@ The graphs clearly show that  $I(\alpha, K)$ increases with $\alpha$ and decreas
 \end{figure}
 
 \subsection{Student's t-distributed equity return}
+{\red This section is incomplete unless we can show results for $b>0$. Otherwise, we can do everything for $b=0$.} 
 It is a common practice to use Student's t-distribution to model the
 stationary distribution of equity returns. So it is of interest to
 find out what implications this distribution has when it is combined
-with the PDA preference. Formally we assume
+with the PDA preference. Formally we assume {\red instead of this function one can take a symmetric \ds\ with tails
+$\P(X>x)=0.5 (\kappa/(x+\kappa))^{\alpha}$. If the symmetry causes another behavior than in the previous section this would be interesting.}
+{\blue our tail index is always $\alpha$, not $\nu$.}
 \[
 f(x; \nu) = c(\nu) \left(
   1 + {x^2 \over \nu}
@@ -1342,13 +1329,13 @@ where $C(\cdot)$ is defined in \eqref{eq:xxie1}.
 
 \subsubsection{log-utility function}
 We first consider the case where the utility function is simply
-$u(\cdot) = \ln(\cdot)$. This corresponds to the limiting case of
+$u(\cdot) = \log(\cdot)$. This corresponds to the limiting case of
 \eqref{eq:u} as $\gamma \to 0$.
 
 First notice that when $b = 0$, $\wt u(F, \phi)$ reduces to
 $\E u(C(X, \phi))$. Only the first integral of \eqref{eq:t1} remains.
-Its integrand becomes $\ln[C(x, \phi) C(-x, \phi)]$.
-Now observe $\ln(C(x, \phi)C(-x, \phi))$ is an increasing function of
+Its integrand becomes $\log[C(x, \phi) C(-x, \phi)]$.
+Now observe $\log(C(x, \phi)C(-x, \phi))$ is an increasing function of
 $x$:
 \begin{eqnarray*}
   {\pd C(x, \phi) C(-x, \phi) \over \pd x}
@@ -1356,7 +1343,7 @@ $x$:
   \phi e^r (1 - \phi) (e^x - e^{-x}) > 0
 \end{eqnarray*}
 Thus when $b = 0$, by 1st case of remark \ref{remark:I} and lemma
-\ref{lemma:II},
+\ref{lemma:II}, {\red need to look at $\pd \wt u_{\rm max} \over \pd \alpha$?} 
 ${\pd \wt u(F, \phi)) \over \pd \nu} < 0$ for all $\phi$. Hence all
 investors guided by this utility function would be seeking the
 smallest $\nu$, i.e. the heaviest tail in the market. Here note that
@@ -1576,7 +1563,7 @@ scale parameters.
     {\pd f(x, \nu) \over \pd \nu} &=& {
       c(\nu) x^2 (\nu + 1) + (2 \nu x^2 + 2 \nu^2) c'(\nu)
       -
-      \nu c(\nu) (x^2 + \nu) \ln(1 + x^2/\nu)
+      \nu c(\nu) (x^2 + \nu) \log(1 + x^2/\nu)
       \over
       2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
     } \nonumber \\
@@ -1615,7 +1602,7 @@ scale parameters.
   \]
   where $\Psi(\cdot)$ is the digamma function:
   \[
-  \Psi(x) = {d \ln[\Gamma(x)] \over d x}
+  \Psi(x) = {d \log[\Gamma(x)] \over d x}
   \]
   \begin{minipage}{0.48\textwidth}
     $\Psi(x)$ \linebreak
@@ -1644,7 +1631,7 @@ scale parameters.
       &\geq& 1 \times \left[
         \Psi(1/2 + 1/2) - \Psi(1/2)
       \right] - 1 \\
-      &=& \ln(4) - \ln(e) \\
+      &=& \log(4) - \log(e) \\
       &>& 0
     \end{eqnarray*}
     Thus $c'(\nu) > 0$. Furthermore, we recall
@@ -1671,7 +1658,7 @@ scale parameters.
   \]
   Now notice
   \[
-  \ln(y e^{-y}) = \ln(y) - y
+  \log(y e^{-y}) = \log(y) - y
   \]
   is a decreasing function for $y > 1$. Thus $-y e^{-y}$ is an
   increasing function. Hence we have
@@ -1699,7 +1686,7 @@ scale parameters.
   So we want to investigate ${\pd P \over \pd x}(x, \nu)$:
   \begin{eqnarray}
     {\pd P \over \pd x}(x, \nu) &=&
-    2 \nu c'(\nu) + c(\nu) - \nu c(\nu) \ln\left(
+    2 \nu c'(\nu) + c(\nu) - \nu c(\nu) \log\left(
       1 + {x \over \nu}
     \right)
     \label{eq:xxie6}
@@ -1721,7 +1708,7 @@ scale parameters.
   where $x_0$ is the positive root of \eqref{eq:xxie5}.
 \end{proof}
 
-\section{Proof of Remark \ref{thrm:I}}
+\section{Proof of Lemma~\ref{thrm:I}}
 \label{sec:thrmI_proof}
 \begin{proof}
   Let
@@ -1767,7 +1754,7 @@ scale parameters.
     - {K^\alpha \over (K - x)^{\alpha + 1}}
     \left[
       \alpha
-      \ln\left(
+      \log\left(
         1 - {x \over K}
       \right) - 1
     \right]
