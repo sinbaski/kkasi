@@ -32,6 +32,7 @@ Education:
      Statistical mechanics
      Quantum mechanics
      General relativity
+   * Average grade: 87/100
 
 3. M.Sc. Computer Science and Engineering
    Helsinki University of Technology, Finland
@@ -42,6 +43,7 @@ Education:
 4. B.Sc.Computer Science and Engineering
    Beijing Institute of Technology, China
    Sep. 2001 - June 2005
+   Average grade: 89/100
 
 Publications
 1. Tail-indices and scale parameters of returns series
@@ -129,7 +131,7 @@ Employment
 
    C, C++, Linux
 
-3. Goodmillsystems, Helsinki
+3. Goodmill Systems, Helsinki
    Software Designer
    May 2007 - Sep 2007
 
