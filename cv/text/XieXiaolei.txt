@@ -74,7 +74,7 @@ Publications
     Although stationary distributions of these processes are known
     to have power-law tails, precise evaluation of the tail
     probabilities is difficult because the exact distribution is
-    unknown. Moreover, naive simulation methods lead to erractic
+    unknown. Moreover, naive simulation methods lead to erratic
     estimates. Our importance sampling estimator presents a solution.
 
 3. The eigenvalues of the sample covariance matrix of a
