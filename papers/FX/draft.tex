@@ -1237,8 +1237,37 @@ real return data, e.g. the ``Energy'', ``Consumer Staples'' and
 ``Information Technology'' sectors of the S\&P 500 index; see 
 Figure~\ref{fig:sectors_parameters}.
 \par
-We illustrate Lemma~\ref{thrm:I} in Figure~\ref{fig:preference_pareto} for the power-utility
-\fct\ \eqref{eq:u}.
+We illustrate Lemma~\ref{thrm:I} in Figure~\ref{fig:preference_pareto}
+for the power-utility \fct\ \eqref{eq:u}.
+A particularly interesting special case is when the left and the right
+tails have equal parameters, i.e. when $\alpha = \beta$ and $K =
+K'$. In this case \eqref{eq:pareto} becomes
+\begin{eqnarray*}
+  \wt u(\phi, F_X) &=& \alpha p K^\alpha (1 + b)
+  \int_{0}^\infty {
+    u(C(x)) \left[
+      1 - {b \over 1 + b}\1_{\{x > q\}}
+      \right]
+    + u(C(-x))
+    \over
+    (K + x)^{\alpha + 1}
+  } dx
+  - b u(\delta v) F_X(q)
+\end{eqnarray*}
+A detailed analysis of the montonicity of
+\[
+u(C(x)) \left[
+  1 - {b \over 1 + b}\1_{\{x > q\}}
+  \right]
++ u(C(-x))
+\]
+which comprises lemma \ref{lemma:III}, allows us to apply lemma
+\ref{lemma:I} and conclude the following
+\begin{itemize}
+\item I am a good guy
+\item So are you
+\end{itemize}
+
 For this reason, we replace $\phi$ in the first integral in \eqref{eq:pp} by the optimal $\hat\phi$. The resulting
 quantity is denoted by $I(\alpha, K)$.
 \par
@@ -1806,6 +1835,14 @@ scale parameters.
   \[
   {\pd \wt u(F, \phi) \over \pd K}(\alpha, K, \hat\phi) < 0  
   \]
+\end{proof}
+
+\section{Lemma~\ref{lemma:III}}
+\begin{lemma}\label{lemma:III}
+  
+\end{lemma}
+\begin{proof}
+  This is obvious.
 \end{proof}
 
 \bibliographystyle{unsrt}
