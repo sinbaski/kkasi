@@ -1839,10 +1839,181 @@ scale parameters.
 
 \section{Lemma~\ref{lemma:III}}
 \begin{lemma}\label{lemma:III}
-  
+Let $u(\cdot)$  and $C(\cdot)$ be defined as in \eqref{eq:u} and \eqref{eq:xxie1} respectively. Define
+\[
+U(x) =
+u(C(x)) \left[
+  1 - {b \over 1 + b}\1_{\{x > q\}}
+  \right]
++ u(C(-x))
+\quad
+x \geq 0
+\]
+\begin{enumerate}
+\item  Hello
+\end{enumerate}
 \end{lemma}
 \begin{proof}
-  This is obvious.
+  It is convenient to re-write $U(x)$ as
+  \[
+  U(x) = 
+  -{\hat\phi^{-\xi} \over \xi} \left\{
+    \underbrace{
+    \left(1 - {b \over 1 + b}\1_{\{x > q\}}\right)
+    \left[{(1 - \hat\phi) \over \hat\phi} e^r + e^x\right]^{-\xi}
+    +
+    \left[{(1 - \hat\phi) \over \hat\phi} e^r + e^{-x}\right]^{-\xi}
+  }_{U'(x)}
+\right\}
+\]
+  Thus the monotonicity of $U(x)$ is the opposite of $U'(x)$. For
+  convenience of writing, let $a = (1 - \hat\phi)e^r/\hat\phi$.
+  First of all, we find the conditions on which $U'(x)$ is monotonic.
+  Direct differentiation yields
+  \begin{eqnarray*}
+    {\pd U'(x) \over \pd x}
+    &=&
+    -{
+      (a + e^x)^{-\xi - 1} \xi e^x
+      \over
+      1 + b \1_{\{x > q\}}
+    } + (a + e^{-x})^{-\xi - 1} \xi e^{-x}
+    \quad
+    x \neq q
+  \end{eqnarray*}
+  ${\pd U'(x) \over \pd x} = 0$ is equivalent to
+  \begin{eqnarray*}
+    {a + y \over a y + 1} &=& 
+    \left( \1_{\{y \leq e^q\}} + c \1_{\{y > e^q\}} \right)
+    y^{1 -\xi \over 1+\xi} \\
+    \underbrace{\log(a + y) - \log(a y + 1)}_{f(y)} &=& \underbrace{{1
+        -\xi \over 1+\xi} \log(y)
+      + \log(c)\1_{\{y > e^q\}} }_{g(y)} 
+  \end{eqnarray*}
+  where we have defined $y = e^x$, $c = (1 + b)^{-1/(1 + \xi)}$ and
+  \begin{eqnarray*}
+    f(y) &=& \log(a + y) - \log(a y + 1) \\
+    g(y) &=& {1 -\xi \over 1+\xi} \log(y) + \log(c) \1_{\{y > e^q\}}
+  \end{eqnarray*}
+  Observe
+  \begin{eqnarray}
+    f(y) - g(y) &=& \log\left(
+      {a + y \over a y + 1}
+      y^{\xi - 1 \over \xi + 1}
+    \right) - \log(c)\1_{\{y > e^q\}} \label{eq:f-g}
+  \end{eqnarray}
+  and when $y \neq e^q$,
+  \begin{eqnarray}
+    {\pd f(y) \over \pd y} &=& {1 - a^2 \over (a + y) (a y + 1)}
+    \label{eq:fd}\\
+    {\pd g(y) \over \pd y} &=& {1 - \xi \over (1 + \xi) y}
+    \label{eq:gd}
+  \end{eqnarray}
+  Furthermore
+  \begin{equation}
+    \label{eq:f-g-der}
+    {\pd (f -g)(y) \over \pd y} = {
+      a (\xi - 1) y^2 + 2 (\xi - a^2) y + a(\xi - 1)
+      \over
+      (1 + \xi) (a + y) (a y + 1) y
+    }
+    \quad
+    y \neq e^q
+  \end{equation}
+  ${\pd (f -g)(y) \over \pd y} = 0$ has two roots
+  \begin{eqnarray*}
+    y_\pm &=& {
+      a^2 - \xi \pm \sqrt{(a^2 - 1) (a^2 - \xi^2)}
+      \over
+      a (\xi - 1)
+    }
+  \end{eqnarray*}
+  \begin{enumerate}
+  \item If $\min\{1, \xi\} < a < \max\{1, \xi\}$, $y_\pm$ are not
+    real, ${\pd (f -g)(y) \over \pd y} = 0$ has no solution on $(1,
+    \infty)\setminus \{e^q\}$; $(f -g)(y)$ is monotonic on both
+    $(1, e^q)$ and $(e^q, \infty)$.
+    \begin{enumerate}
+    \item If in addition $\xi > 1$, i.e. $1 < a < \xi$, $(f - g)(y)$
+      is monotonically increasing on both
+      $(1, e^q)$ and $(e^q, \infty)$, because the coefficient of the
+      $y^2$ term of the numerator of \eqref{eq:f-g-der}, i.e. $a (\xi
+      - 1)$ is positive.
+      \begin{itemize}
+      \item If $f(e^q) > g(e^q)$, then clearly $f(y) = g(y)$ has no
+        solution on $(e^q, \infty)$; we also note $f(1) = g(1) =
+        0$. Thus $f(y) = g(y)$ has no solution on $(1, e^q)$ either.
+        Now it can be concluded that $U'(\cdot)$ is monotonic on
+        $(1, q)$ and $(q, \infty)$. To determine the monotonicity of
+        $U'(\cdot)$, it remains to check the signs of
+        ${\pd U'(x) \over \pd x}$  on  $(0, q)$ and on $(q, \infty)$
+        as well as the values of $\lim_{x \uparrow q} U'(x)$ and
+        $\lim_{x \downarrow q} U'(x)$. Obviously
+        \begin{eqnarray*}
+          \left.{\pd U'(x) \over \pd x}\right|_{x=0} &=& 0 \\
+        \end{eqnarray*}
+        For a small $\epsilon > 0$, the sign of ${\pd U'(x) \over \pd
+          x}$ on $(0, \epsilon)$ is thus the same as
+        $\left.{\pd^2 U'(x) \over \pd x^2}\right|_{x=0}$:
+        \[
+        \left.{\pd^2 U'(x) \over \pd x^2}\right|_{x=0} =
+        2 (a + 1)^{-\xi - 2} (\xi - a) > 0
+        \]
+      \end{itemize}
+
+      % conversely, $f(e^q) < g(e^q)$ implies $f(y) = g(y)$ must have a
+      % solution on $(e^q, \infty)$, since \eqref{eq:f-g} tells us
+      % $(f-g)(y) \to \infty$ as $y \to \infty$.
+
+    \item If instead $\xi < 1$, i.e. $\xi < a < 1$, $(f - g)(y)$
+      is monotonically decreasing.
+    \end{enumerate}
+
+  % \item If $a < \min\{1, \xi\}$ or $a > \max\{1, \xi\})$, ${\pd (f
+  %     -g)(y) \over \pd y} = 0$ has 2 real solutions.
+  % \end{enumerate}
+
+  % \begin{enumerate}
+  % \item If $a < 1$ and $\xi > 1$
+  %   \begin{enumerate}
+  %   \item when $x > q$, $U'(x)$ being monotonic is equivalent to ${\pd U'(x)
+  %       \over \pd x}$ having no zero on $(q, \infty)$. 
+
+  %     \begin{enumerate}
+  %     \item If $f (e^q) > g(e^q)$ it is clear $f(y) = g(y)$
+  %       has no solution on $(e^q, \infty)$.
+  %     \item If $f (e^q) <  g(e^q)$ it is also clear $f(y) = g(y)$ must have
+  %       one solution on $(e^q, \infty)$.
+  %     \end{enumerate}
+  %   \end{enumerate}
+    
+  %   \item If $a > 1$ and $\xi < 1$
+  %     \begin{enumerate}
+  %     \item when $x > q$, the same calculation that leads to
+  %       \eqref{eq:fd} and \eqref{eq:gd} gives ${\pd f(y) \over \pd y}
+  %       < 0$ and ${\pd g(y) \over \pd y} > 0$. So
+  %     \begin{enumerate}
+  %     \item If $f (e^q) >  g(e^q)$, $f(y) = g(y)$ must have
+  %       one solution on $(e^q, \infty)$.
+  %     \item If $f (e^q) < g(e^q)$, $f(y) = g(y)$ has no solution on $(e^q, \infty)$.
+  %     \end{enumerate}
+  %     \end{enumerate}
+
+  %     \item If $a < 1$ and $\xi < 1$
+  %       \begin{enumerate}
+  %       \item when $x > q$
+  %         \begin{enumerate}
+  %         \item If $f (e^q) -  g(e^q) > 0$, we observe $f(y) - g(y)
+  %           \to -\infty$ as $y \to \infty$. So by continuity $f(y) -
+  %           g(y) = 0$ must have at least one solution on $(e^q, \infty)$.
+  %         \end{enumerate}
+  %       \end{enumerate}
+  %     \item If $a > 1$ and $\xi > 1$
+  %       \begin{enumerate}
+  %       \item when $x > q$, both $f(y)$ and $g(y)$ decreases. Observe
+  %         In this case, if $f(e^q) > g(e^q)$, there is no solution 
+  %       \end{enumerate}
+  \end{enumerate}
 \end{proof}
 
 \bibliographystyle{unsrt}
