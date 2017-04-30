@@ -1891,25 +1891,21 @@ x \geq 0
       + \log(c)\1_{\{y > q\}} }_{g(y)} 
   \end{eqnarray*}
   where we have defined $y = e^x$, $c = (1 + b)^{-1/(1 + \xi)}$ and
-  \begin{eqnarray*}
-    f(y) &=& \log(a + y) - \log(a y + 1) \\
-    g(y) &=& {1 -\xi \over 1+\xi} \log(y) + \log(c) \1_{\{y > q\}}
-  \end{eqnarray*}
-  Observe
-  \begin{eqnarray}
-    f(y) - g(y) &=& \log\left(
-      {a + y \over a y + 1}
-      y^{\xi - 1 \over \xi + 1}
-    \right) - \log(c)\1_{\{y > e^q\}} \label{eq:f-g}
-  \end{eqnarray}
-  and when $y \neq e^q$,
-  \begin{eqnarray}
-    {\pd f(y) \over \pd y} &=& {1 - a^2 \over (a + y) (a y + 1)}
-    \label{eq:fd}\\
-    {\pd g(y) \over \pd y} &=& {1 - \xi \over (1 + \xi) y}
-    \label{eq:gd}
-  \end{eqnarray}
-  Furthermore
+  $f(y)$, $g(y)$ as above. Observe
+  % \begin{eqnarray}
+  %   f(y) - g(y) &=& \log\left(
+  %     {a + y \over a y + 1}
+  %     y^{\xi - 1 \over \xi + 1}
+  %   \right) - \log(c)\1_{\{y > e^q\}} \label{eq:f-g}
+  % \end{eqnarray}
+  % and when $y \neq e^q$,
+  % \begin{eqnarray}
+  %   {\pd f(y) \over \pd y} &=& {1 - a^2 \over (a + y) (a y + 1)}
+  %   \label{eq:fd}\\
+  %   {\pd g(y) \over \pd y} &=& {1 - \xi \over (1 + \xi) y}
+  %   \label{eq:gd}
+  % \end{eqnarray}
+  % Furthermore
   \begin{equation}
     \label{eq:f-g-der}
     {\pd (f -g)(y) \over \pd y} = {
