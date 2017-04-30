@@ -1214,7 +1214,7 @@ $\alpha, \beta > 1$, $0 < p < 1$ and $K,K' > 0$. Then we have
   \beta \,(K')^\beta\, (1 - p)
   \int_{0}^\infty
   u\big( (1 - \phi) \ex^r + \phi\, \ex^x \big)\,
-  {1 + b \1(x \le  q) \over (K' + x)^{\beta + 1}} \,dx 
+  {1 + b \1(x <  q) \over (K' + x)^{\beta + 1}} \,dx 
   - b \,u(\delta v) \,F_X(q) \,.\label{eq:pp}
 \eeam
 \par
@@ -1246,7 +1246,7 @@ K'$. In this case \eqref{eq:pareto} becomes
   \wt u(\phi, F_X) &=& \alpha p K^\alpha (1 + b)
   \int_{0}^\infty {
     u(C(x)) \left[
-      1 - {b \over 1 + b}\1_{\{x > q\}}
+      1 - {b \over 1 + b}\1_{\{x \ge q\}}
       \right]
     + u(C(-x))
     \over
@@ -1257,7 +1257,7 @@ K'$. In this case \eqref{eq:pareto} becomes
 A detailed analysis of the montonicity of
 \[
 u(C(x)) \left[
-  1 - {b \over 1 + b}\1_{\{x > q\}}
+  1 - {b \over 1 + b}\1_{\{x \ge q\}}
   \right]
 + u(C(-x))
 \]
@@ -1843,7 +1843,7 @@ Let $u(\cdot)$  and $C(\cdot)$ be defined as in \eqref{eq:u} and \eqref{eq:xxie1
 \[
 U(x) =
 u(C(x)) \left[
-  1 - {b \over 1 + b}\1_{\{x > q\}}
+  1 - {b \over 1 + b}\1_{\{x \ge q\}}
   \right]
 + u(C(-x))
 \quad
@@ -1859,7 +1859,7 @@ x \geq 0
   U(x) = 
   -{\hat\phi^{-\xi} \over \xi} \left\{
     \underbrace{
-    \left(1 - {b \over 1 + b}\1_{\{x > q\}}\right)
+    \left(1 - {b \over 1 + b}\1_{\{x \ge q\}}\right)
     \left[{(1 - \hat\phi) \over \hat\phi} e^r + e^x\right]^{-\xi}
     +
     \left[{(1 - \hat\phi) \over \hat\phi} e^r + e^{-x}\right]^{-\xi}
@@ -1884,16 +1884,16 @@ x \geq 0
   ${\pd U'(x) \over \pd x} = 0$ is equivalent to
   \begin{eqnarray*}
     {a + y \over a y + 1} &=& 
-    \left( \1_{\{y \leq e^q\}} + c \1_{\{y > e^q\}} \right)
+    \left( \1_{\{y < e^q\}} + c \1_{\{y > q\}} \right)
     y^{1 -\xi \over 1+\xi} \\
     \underbrace{\log(a + y) - \log(a y + 1)}_{f(y)} &=& \underbrace{{1
         -\xi \over 1+\xi} \log(y)
-      + \log(c)\1_{\{y > e^q\}} }_{g(y)} 
+      + \log(c)\1_{\{y > q\}} }_{g(y)} 
   \end{eqnarray*}
   where we have defined $y = e^x$, $c = (1 + b)^{-1/(1 + \xi)}$ and
   \begin{eqnarray*}
     f(y) &=& \log(a + y) - \log(a y + 1) \\
-    g(y) &=& {1 -\xi \over 1+\xi} \log(y) + \log(c) \1_{\{y > e^q\}}
+    g(y) &=& {1 -\xi \over 1+\xi} \log(y) + \log(c) \1_{\{y > q\}}
   \end{eqnarray*}
   Observe
   \begin{eqnarray}
@@ -1920,7 +1920,7 @@ x \geq 0
     \quad
     y \neq e^q
   \end{equation}
-  ${\pd (f -g)(y) \over \pd y} = 0$ has two roots
+  ${\pd (f -g)(y) \over \pd y} = 0$ has two roots when $\xi \ne 1$
   \begin{eqnarray*}
     y_\pm &=& {
       a^2 - \xi \pm \sqrt{(a^2 - 1) (a^2 - \xi^2)}
@@ -1938,13 +1938,15 @@ x \geq 0
       is monotonically increasing on both
       $(1, e^q)$ and $(e^q, \infty)$, because the coefficient of the
       $y^2$ term of the numerator of \eqref{eq:f-g-der}, i.e. $a (\xi
-      - 1)$ is positive.
-      \begin{itemize}
-      \item If $f(e^q) > g(e^q)$, then clearly $f(y) = g(y)$ has no
-        solution on $(e^q, \infty)$; we also note $f(1) = g(1) =
-        0$. Thus $f(y) = g(y)$ has no solution on $(1, e^q)$ either.
+      - 1)$ is positive. We note $f(1) = g(1) = 0$; thus on $(1, e^q)$,
+      $f(y) > g(y)$ and hence there is no solution to $f(y) = g(y)$ on
+      this interval.
+      \begin{enumerate}
+      \item If $ \lim_{y \to e^q}f(x) \ge \lim_{y \downarrow e^q} g(y)$,
+        then clearly $f(y) = g(y)$ has no
+        solution on $(e^q, \infty)$ either.
         Now it can be concluded that $U'(\cdot)$ is monotonic on
-        $(1, q)$ and $(q, \infty)$. To determine the monotonicity of
+        $(0, q)$ and $(q, \infty)$. To determine the monotonicity of
         $U'(\cdot)$, it remains to check the signs of
         ${\pd U'(x) \over \pd x}$  on  $(0, q)$ and on $(q, \infty)$
         as well as the values of $\lim_{x \uparrow q} U'(x)$ and
@@ -1973,66 +1975,92 @@ x \geq 0
         \end{eqnarray*}
         Taylor-expanding the last expression at $x'=0$ gives
         \[
-        U'(x) = {x' \over a^{\xi + 1}} + o(x')
+          {1 \over \xi}
+          {\pd U'(x) \over \pd x}
+         = {x' \over a^{\xi + 1}} + o(x')
         \]
         From this expression we can see that
         ${\pd U'(x) \over \pd x} > 0$ for
         sufficiently large $x$; then by the proven monotonicity,
         ${\pd U'(x) \over \pd x} > 0$ for all $x \in (q, \infty)$.
+        It remains to compare $\lim_{x\uparrow q}U'(x)$ with
+        $\lim_{x\downarrow q}U'(x)$. Clearly
+        \[
+        \lim_{x\downarrow q}U'(x) - \lim_{x\uparrow q}U'(x) = - {
+          (a + e^q)^{-\xi} b
+          \over
+          1+ b
+        } < 0
+        \]
+        So $U'(x)$ and hence $U(x)$ as a whole is not monotonic on $(0, \infty)$.
+
+      \item If $ \lim_{y \to e^q}f(x) < \lim_{y \downarrow e^q} g(y)$,
+        $(f - g)(y)$ must have a solution on
+        $(e^q, \infty)$ since $(f-g)(y)$ is monotonically
+        increasing. So $U'(\cdot)$ is not monotonic in this case.
+      \end{enumerate}
+      
+    \item If instead $\xi < 1$, i.e. $\xi < a < 1$, by a similar argument as in the
+      previous case, $(f - g)(y)$ is monotonically decreasing on both
+      $(1, e^q)$ and $(e^q, \infty)$. From $f(1) = g(1) = 0$, it again
+      follows that $U'(x)$ is monotonic on $(0, q)$.
+      \begin{itemize}
+      \item
+        If $ \lim_{y \to e^q} f(y) > \lim_{y \downarrow e^q} g(y)$,
+        then there must be a solution to $f(y) = g(y)$ on $(e^q,
+        \infty)$. $U'(x)$ is not monotonic in this case.
+
+      \item
+        If $ \lim_{y \to e^q} f(y) \le \lim_{y \downarrow e^q} g(y)$,
+        there is no solution to $f(y) = g(y)$ on $(e^q,
+        \infty)$ either. $U'(x)$ is also monotonic on
+        $(e^q, \infty)$. By the calculation as before, it can be seen
+        ${\pd U'(x) \over \pd x} < 0$ for positive $x$ that is
+        sufficiently close to 0; and
+        ${\pd U'(x) \over \pd x} > 0$ for sufficiently large $x$.
+        So $U'(x)$ is not monotonic in this case.
       \end{itemize}
-
-      % conversely, $f(e^q) < g(e^q)$ implies $f(y) = g(y)$ must have a
-      % solution on $(e^q, \infty)$, since \eqref{eq:f-g} tells us
-      % $(f-g)(y) \to \infty$ as $y \to \infty$.
-
-    \item If instead $\xi < 1$, i.e. $\xi < a < 1$, $(f - g)(y)$
-      is monotonically decreasing.
     \end{enumerate}
+  \item If $a < \min\{1, \xi\}$ and $\xi > 1$, i.e. $a < 1 < \xi$, it
+    is clear
+    \[
+    y_- = {
+      a^2 - \xi - \sqrt{(a^2 - 1) (a^2 - \xi^2)}
+      \over
+      a (\xi - 1)
+    } < 0
+    \]
+    It remains to compare $y_+$ with $1$ to determine whether $f(y) =
+    g(y)$ has a solution. Assume $y_+ > 1$. Then
+    \begin{eqnarray*}
+      a^2 - \xi + \sqrt{(a^2 - 1) (a^2 - \xi^2)} &>& a (\xi - 1) \\
+      2 a (\xi - 1) (a + 1) (a - \xi) &>& 0
+    \end{eqnarray*}
+    This contradicts the assumption $a < \xi$ and $\xi > 1$. Hence
+    $y_+ < 1$. So we conclude $(f - g)(y)$ is monotonically increasing
+    on both $(1, e^q)$ and $(e^q, \infty)$. Following the same
+    analysis as in the case (1.a.i), one can see $U'(\cdot)$ is not
+    monotonic on $(0, \infty)$.
 
-  % \item If $a < \min\{1, \xi\}$ or $a > \max\{1, \xi\})$, ${\pd (f
-  %     -g)(y) \over \pd y} = 0$ has 2 real solutions.
-  % \end{enumerate}
+  \item If $a < \min\{1, \xi\}$ and $\xi < 1$, i.e. $a < \xi < 1$, it
+    is clear $y_- > 0$ and $y_+ < y_-$. Moreover, $y_- > 1$ is equivalent
+    to
+    \[
+    \sqrt{(a^2 - 1) (a^2 - \xi^2)} > a^2 - \xi a + a - \xi = (a + 1) (a - \xi)
+    \]
+    The last inequality is obviously true in this case. So $y_- >
+    1$. ${\pd (f-g)(y) \over \pd y}$ has a maximum at
+    $y_- \in (1, \infty)$. We know $(f - g)(y_-)$ is a maximum because
+    \eqref{eq:f-g-der} shows that, for $y > y_-$,
+    ${\pd (f-g)(y) \over \pd y} < 0$.
 
-  % \begin{enumerate}
-  % \item If $a < 1$ and $\xi > 1$
-  %   \begin{enumerate}
-  %   \item when $x > q$, $U'(x)$ being monotonic is equivalent to ${\pd U'(x)
-  %       \over \pd x}$ having no zero on $(q, \infty)$. 
+    If $(f-g)(y_-) < 0$, $(f-g)(y) = 0$ has no solution on $(1,
+    \infty)$. Hence $U'(\cdot)$ is monotonic on both $(0, q)$ and $(q,
+    \infty)$. The same analysis as in the case (1.a.i) shows $U'(\cdot)$
+    is not monotonic on $(0, \infty)$.
 
-  %     \begin{enumerate}
-  %     \item If $f (e^q) > g(e^q)$ it is clear $f(y) = g(y)$
-  %       has no solution on $(e^q, \infty)$.
-  %     \item If $f (e^q) <  g(e^q)$ it is also clear $f(y) = g(y)$ must have
-  %       one solution on $(e^q, \infty)$.
-  %     \end{enumerate}
-  %   \end{enumerate}
-    
-  %   \item If $a > 1$ and $\xi < 1$
-  %     \begin{enumerate}
-  %     \item when $x > q$, the same calculation that leads to
-  %       \eqref{eq:fd} and \eqref{eq:gd} gives ${\pd f(y) \over \pd y}
-  %       < 0$ and ${\pd g(y) \over \pd y} > 0$. So
-  %     \begin{enumerate}
-  %     \item If $f (e^q) >  g(e^q)$, $f(y) = g(y)$ must have
-  %       one solution on $(e^q, \infty)$.
-  %     \item If $f (e^q) < g(e^q)$, $f(y) = g(y)$ has no solution on $(e^q, \infty)$.
-  %     \end{enumerate}
-  %     \end{enumerate}
-
-  %     \item If $a < 1$ and $\xi < 1$
-  %       \begin{enumerate}
-  %       \item when $x > q$
-  %         \begin{enumerate}
-  %         \item If $f (e^q) -  g(e^q) > 0$, we observe $f(y) - g(y)
-  %           \to -\infty$ as $y \to \infty$. So by continuity $f(y) -
-  %           g(y) = 0$ must have at least one solution on $(e^q, \infty)$.
-  %         \end{enumerate}
-  %       \end{enumerate}
-  %     \item If $a > 1$ and $\xi > 1$
-  %       \begin{enumerate}
-  %       \item when $x > q$, both $f(y)$ and $g(y)$ decreases. Observe
-  %         In this case, if $f(e^q) > g(e^q)$, there is no solution 
-  %       \end{enumerate}
+    If $(f-g)(y_-) > 0$, $(f-g)(y) = 0$ must have a solution on $(y_-,
+    \infty)$. So $U'(\cdot)$ is not monotonic.
   \end{enumerate}
 \end{proof}
 
