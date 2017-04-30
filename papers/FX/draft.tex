@@ -1959,6 +1959,26 @@ x \geq 0
         \left.{\pd^2 U'(x) \over \pd x^2}\right|_{x=0} =
         2 (a + 1)^{-\xi - 2} (\xi - a) > 0
         \]
+        Thus ${\pd U'(x) \over \pd x} > 0$ for $x \in (0, q)$.
+        To find out the sign of
+        ${\pd U'(x) \over \pd x}$ on the interval $(q, \infty)$,
+        one can look into the sign of ${\pd U'(x) \over \pd x}$
+        as $x \to \infty$. For
+        this purpose, substitute $x'$ for $e^{-x}$ and re-write
+        ${\pd U'(x) \over \pd x}$ as
+        \begin{eqnarray*}
+          {1 \over \xi}
+          {\pd U'(x) \over \pd x} &=& {x' \over (a + x')^{\xi + 1}}
+          - {x'^\xi \over (a x' + 1)^{\xi + 1} (1 + b)}
+        \end{eqnarray*}
+        Taylor-expanding the last expression at $x'=0$ gives
+        \[
+        U'(x) = {x' \over a^{\xi + 1}} + o(x')
+        \]
+        From this expression we can see that
+        ${\pd U'(x) \over \pd x} > 0$ for
+        sufficiently large $x$; then by the proven monotonicity,
+        ${\pd U'(x) \over \pd x} > 0$ for all $x \in (q, \infty)$.
       \end{itemize}
 
       % conversely, $f(e^q) < g(e^q)$ implies $f(y) = g(y)$ must have a
