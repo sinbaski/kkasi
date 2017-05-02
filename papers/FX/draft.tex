@@ -1539,26 +1539,30 @@ scale parameters.
 \appendix
 \section{A monontonicity lemma}
 \begin{lemma} \label{lemma:I}
-  Assume distribution function $F(x; \theta)$ parameterized by
-  $\theta$ is defined on $x \in (a, b)$, $a, b \in \mathbb R \cup
-  \{-\infty, \infty\}$, and in addition $F(x; \theta)$ has density
-  function $f(x; \theta)$. Assume function $h(\cdot)$ is defined on
-  $(a, b)$, $X \sim F$, $\text{supp}(X) = (a,b)$,
-  $\E h(X) < \infty$ and
-  \begin{eqnarray*}
-    \left| \frac{\pd f(x, \theta)}{\pd \theta} \right| < \infty
-    \quad \forall x \in (a, b)
-  \end{eqnarray*}
+  Assume distribution function $F(x, \theta)$ parameterized by 
+  $\theta \in \Theta$ is defined on $x \in (a, b)$,
+  $a, b \in \mathbb R \cup \{-\infty, \infty\}$,
+  and in addition $F(x, \theta)$ has density
+  function $f(x, \theta)$ that is differentiable with respect to
+  $\theta$ for all $\theta \in \Theta$.
+  Moreover, $f(x, \theta)$ satisfies
+  \begin{equation}\label{eq:frt}
+  \int_a^b {\pd f(x, \theta) \over \pd \theta} dx
+  < \infty
+  \end{equation}
+  Assume function $h(\cdot)$ is defined on
+  $(a, b)$ and is monotonic throughout this interval;
+  $X \sim F$ and $\E h(X) < \infty$. Then
   \begin{enumerate}
   \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
-    $\frac{\pd f}{\pd \theta}(x_0; \theta) > 0$ on $(a, x_0)$ while
-    $\frac{\pd f}{\pd \theta}(x_0; \theta) < 0$ on $(x_0, b)$, then
+    $\frac{\pd f}{\pd \theta}(x_0, \theta) > 0$ on $(a, x_0)$ while
+    $\frac{\pd f}{\pd \theta}(x_0, \theta) < 0$ on $(x_0, b)$, then
     \[
     \frac{\pd \E h(X)}{\pd \theta} > 0
     \]
   \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
-    $\frac{\pd f}{\pd \theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
-    $\frac{\pd f}{\pd \theta}(x_0; \theta) > 0$ on $(x_0, b)$, then
+    $\frac{\pd f}{\pd \theta}(x_0, \theta) < 0$ on $(a, x_0)$  while
+    $\frac{\pd f}{\pd \theta}(x_0, \theta) > 0$ on $(x_0, b)$, then
     \[
     \frac{\pd \E h(X)}{\pd \theta} > 0
     \]
@@ -1580,59 +1584,117 @@ scale parameters.
 \end{remark}
 
 \begin{proof}
-  Clearly
+  Firstly we show
+  \[
+    {\pd \over \pd \theta} \int_a^b f(x, \theta) dx
+    =
+    \int_a^b {\pd \over \pd \theta} f(x, \theta) dx    
+  \]
+  Let
+  \[
+  f_{\Delta}(x, \theta) = {
+    f(x, \theta +  \Delta) - f(x, \theta)
+    \over
+    \Delta
+  }
+  \]
+  Since $f(x, \theta)$ is differentiable for all $\theta \in \Theta$,
+  \[
+  f_{\Delta}(x, \theta) \to {\pd f \over \pd \theta}(x, \theta)
+  \quad \Delta \to 0
+  \]
+  For any give $\epsilon > 0$ and sufficiently small
+  $\Delta$, we have
+  \[
+  |f_{\Delta}(x, \theta)| <
+  \left|
+      {\pd f \over \pd \theta}(x, \theta)
+  \right| (1 + \epsilon)
+  \]
+  Using \eqref{eq:frt} and dominated convergence theorem we obtain
+  \[
+  \lim_{\Delta \to 0} \int_a^b f_\Delta(x, \theta) dx
+  =
+  \int_a^b {\pd f \over \pd \theta}(x, \theta) dx
+  < \infty
+  \]
+  That is
+  \[
+    {\pd \over \pd \theta} \int_a^b f(x, \theta) dx
+    =
+    \lim_{\Delta \to 0} {
+      \int_a^b f(x, \theta + \Delta) dx
+      -
+      \int_a^b f(x, \theta) dx
+      \over
+      \Delta
+    }
+    =
+    \int_a^b {\pd f \over \pd \theta}(x, \theta) dx     
+  \]
+  From \eqref{eq:frt} it easily follows that the set on which
+  ${\pd f(x, \theta) \over \pd \theta} = \infty$ has Lesbegue
+  measure 0. Call this set $S_0$. We have
   \begin{eqnarray*}
     && {\pd \E h(X) \over \pd \theta} \\
-    &=& \int_a^b h(x) {\pd f \over \pd \theta}(x, \theta) dx \\
-    &=& \underbrace{\int_a^{x_0} h(x) {\pd f \over \pd \theta}(x,
-      \theta) dx}_{I_1}
-    + \underbrace{\int_{x_0}^b h(x) {\pd f \over \pd \theta}(x,
+    &=& \int_{(a,b) \setminus S_0} h(x)
+    {\pd f \over \pd \theta}(x, \theta) dx \\
+    &=& \underbrace{\int_{(a, x_0) \setminus S_0}
+      h(x) {\pd f \over \pd \theta}(x, \theta) dx}_{I_1}
+    + \underbrace{\int_{(x_0, b) \setminus S_0}
+      h(x) {\pd f \over \pd \theta}(x,
       \theta) dx}_{I_2}
   \end{eqnarray*}
+  Moreover, $x_0$ being located in the interior of $(a, b)$ and
+  $h(\cdot)$ being monotonic implies $h(x_0) < \infty$.
   \begin{enumerate}
   \item When $h(x)$ is decreasing on $(a, b)$ and ${\pd f \over \pd
     \theta}(x, \theta) > 0$ on $(a, x_0)$
     \[
-    I_1 > h(x_0) \int_a^{x_0} {\pd f \over \pd \theta}(x, \theta) dx
+    I_1 > h(x_0) \int_{(a, x_0) \setminus S_0}
+    {\pd f \over \pd \theta}(x, \theta) dx
     \]
     Similarly, because ${\pd f \over \pd \theta}(x, \theta) < 0$ for
     $x \in (x_0, b)$ and $h(x)$ is decreasing, we have
     \begin{eqnarray*}
-      I_2 &=& \int_{x_0}^b -h(x_0)
-      \left|{\pd f \over \pd \theta}(x, \theta) \right| dx \\
-      &>& -h(x_0)
-      \int_{x_0}^b \left| 
+      I_2 &=& \int_{(x_0, b) \setminus S_0} -h(x_0)
+      \left|{\pd f \over \pd \theta}(x, \theta) \right| dx
+      > -h(x_0)
+      \int_{(x_0, b) \setminus S_0} \left| 
         {\pd f \over \pd \theta}(x, \theta)
       \right| dx
     \end{eqnarray*}
     Finally we have
     \begin{eqnarray*}
       {\pd \E h(X) \over \pd \theta}
-      > h(x_0) \int_a^b {\pd f \over \pd \theta}(x, \theta) dx
-      = h(x_0) {\partial \over \partial \theta} \int_a^b f(x, \theta) dx
+      > h(x_0) \int_{(a, b) \setminus S_0}
+      {\pd f \over \pd \theta}(x, \theta) dx
+      = h(x_0) {\partial \over \partial \theta}
+      \int_{(a, b) \setminus S_0} f(x, \theta) dx
       = 0
     \end{eqnarray*}
   \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
-    ${\pd f \over \pd \theta}(x_0; \theta) < 0$ on $(a, x_0)$  while
-    ${\pd f \over \pd \theta}(x_0; \theta) > 0$ on $(x_0, b)$
+    ${\pd f \over \pd \theta}(x_0, \theta) < 0$ on $(a, x_0)$  while
+    ${\pd f \over \pd \theta}(x_0, \theta) > 0$ on $(x_0, b)$
     \begin{eqnarray*}
       I_1 &=&
-      \int_a^{x_0} -h(x)
-      \left| {\pd f \over \pd \theta}(x, \theta) \right| dx \\
-      &>&
-      -h(x_0) \int_a^{x_0}
+      \int_{(a, x_0) \setminus S_0} -h(x)
+      \left| {\pd f \over \pd \theta}(x, \theta) \right| dx
+      >
+      -h(x_0) \int_{(a, x_0) \setminus S_0}
       \left| {\pd f \over \pd \theta}(x, \theta) \right| dx
     \end{eqnarray*}
     and obviously
     \[
-    I_2 > h(x_0) \int_{x_0}^b
+    I_2 > h(x_0) \int_{(x_0, b) \setminus S_0}
     {\pd f \over \pd \theta}(x, \theta) dx
     \]
     So
     \[
     {\pd \E h(X) \over \pd \theta}
     = I_1 + I_2
-    > h(x_0) {\partial \over \partial \theta} \int_a^b f(x, \theta) dx = 0
+    > h(x_0) {\partial \over \partial \theta}
+    \int_{(a, b) \setminus S_0} f(x, \theta) dx = 0
     \]
   \end{enumerate}
 \end{proof}
