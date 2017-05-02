@@ -415,7 +415,7 @@ are typically found in the range $(2,4)$. For an illustration, see
 Figure~\ref{fig:1} where estimates $\hat \alpha_{\rm low}$ 
 in three sectors of the Standard \& Poors 500 index  are shown. The
 estimates are based on 1304 observations of daily return 
-data from 1 January 2010 to 31 December 2014.
+data from 4th January 2010 to 31 December 2014.
 \par
 When looking at Figure~\ref{fig:1} one might ask the following questions:
 \begin{itemize}
@@ -1145,8 +1145,15 @@ An agent guided by the utility function $u$ will seek to maximize the
 \fct al $\wt u$.
 Routledge and Zin assumed a power-law utility function 
 \beam\label{eq:u}
-u(x)=-\frac{1}{\xi}\,x^{-\xi}\,,\quad \xi>-1\,. 
+u(x)=\frac{1}{1 - \gamma}\,x^{1 - \gamma}\,,\quad \gamma>0\,. 
 \eeam
+In practice it is more often to observe $\gamma > 1$ {\blue Let's
+consult Casper for references.} Therefore we adopt a more convenient
+notation in this case
+\beao
+u(x)=-\frac{1}{\xi}\,x^{-\xi}\,,\quad \xi>0\,. 
+\eeao
+
 %In practice it is more often to observe $\gamma > 1$ {\blue Let's
 %consult Casper for references.} Therefore we adopt a more convenient
 For the sake of argument, we assume that an investor initially has one
@@ -1201,8 +1208,8 @@ We consider the case when $X$ has a two-sided Pareto \ds\ given by
   \end{array}
   \right.
 \eeam
-where {\red where needed?}
-$\alpha, \beta > 1$, $0 < p < 1$ and $K,K' > 0$. Then we have
+where
+$0 < p < 1$ and $K,K' > 0$. Then we have
 \beam\label{eq:xxie1.0}
  \wt u(\phi,F_X)\nonumber
   &=&
@@ -1242,7 +1249,7 @@ for the power-utility \fct\ \eqref{eq:u}.
 A particularly interesting special case is when the left and the right
 tails have equal parameters, i.e. when $\alpha = \beta$ and $K =
 K'$. In this case \eqref{eq:pareto} becomes
-\begin{eqnarray*}
+\begin{eqnarray}
   \wt u(\phi, F_X) &=& \alpha p K^\alpha (1 + b)
   \int_{0}^\infty {
     u(C(x)) \left[
@@ -1253,9 +1260,11 @@ K'$. In this case \eqref{eq:pareto} becomes
     (K + x)^{\alpha + 1}
   } dx
   - b u(\delta v) F_X(q)
-\end{eqnarray*}
+  \label{eq:ipf}
+\end{eqnarray}
 First of all we note that the function
 \[
+U_{\text{all}} =
 u(C(x)) \left[
   1 - {b \over 1 + b}\1_{\{x \ge q\}}
   \right]
@@ -1263,6 +1272,7 @@ u(C(x)) \left[
 \]
 is not monotonic. To see this we may re-write the above as
 \begin{equation}
+U_{\text{all}} =
   -{\phi^{-\xi} \over \xi} \left\{
   \underbrace{
     \left(1 - {b \over 1 + b}\1_{\{x \ge q\}}\right)
@@ -1301,27 +1311,25 @@ So we see that when $x$ is sufficiently large
 ${\pd U(x) \over \pd x} > 0$. On the other hand, at the discontinuity
 point $x = q$, we have
 \[
-\lim_{x\downarrow q}U(x) - \lim_{x\uparrow q}U(x) = - {
+\lim_{x \downarrow 0} \left(
+  U(q + x) - U(q - x)
+\right)
+= - {
   (a + e^q)^{-\xi} b
   \over
   1+ b
 } < 0
 \]
-So $U(x)$ and hence \eqref{eq:frg} is not monotonic.
-
-which comprises lemma \ref{lemma:III}, allows us to apply lemma
-\ref{lemma:I} and conclude the following
-\begin{itemize}
-\item I am a good guy
-\item So are you
-\end{itemize}
-
-For this reason, we replace $\phi$ in the first integral in \eqref{eq:pp} by the optimal $\hat\phi$. The resulting
-quantity is denoted by $I(\alpha, K)$.
+So $U(x)$ and hence \eqref{eq:frg} is not monotonic. we resort to
+numerical methods to gain some understanding of how $\tilde u(F_X,
+\phi)$ changes with $\alpha$.
+For this reason, we replace $\phi$ in the first integral in
+\eqref{eq:pp} by the optimal $\hat\phi$. The resulting quantity is
+denoted by $I(\alpha, K)$.
 \par
 The value of $\hat\phi$ can be calculated
-by numerical integration and optimization with respect to $\phi$ for given values of $K, K', \alpha, \beta$. 
-This is shown in 
+by numerical integration and optimization with respect to $\phi$ for
+given values of $K, K', \alpha, \beta$.  This is shown in 
 Figure~\ref{fig:phi_hat_pareto} for the power utility \fct\ \eqref{eq:u}.
 \begin{figure}[htb!]
   \begin{minipage}{0.5\linewidth}
@@ -1353,6 +1361,8 @@ Figure~\ref{fig:phi_hat_pareto} for the power utility \fct\ \eqref{eq:u}.
   equity, as shown in Figure~\ref{fig:phi_hat_pareto}.
 \end{minipage}
 
+The following graph (figure \ref{fig:preference_pareto}) shows how
+$\tilde u(\alpha, K, \wt\phi)$ changes with $\alpha$ and $K$.
 \begin{figure}[htb!]
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{preference_pareto5e-1.pdf}
@@ -1360,11 +1370,27 @@ Figure~\ref{fig:phi_hat_pareto} for the power utility \fct\ \eqref{eq:u}.
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{preference_pareto4.pdf}
   \end{minipage}
-  \caption{The quantities $I(\alpha, K)$ for the power-utility \fct\ with $\xi=1/2$ (left) and $\xi=4$ (right).
-The graphs clearly show that  $I(\alpha, K)$ increases with $\alpha$ and decreases with $K$.
+  \caption{The quantities $I(\alpha, K)$ for the power-utility \fct\
+    with $\xi=1/2$ (left) and $\xi=4$ (right). The graphs clearly show
+    that  $I(\alpha, K)$ increases with $\alpha$ and decreases with
+    $K$.
   }
   \label{fig:preference_pareto}
 \end{figure}
+
+When the parameter $b$ is very small, a GDA preference is closely
+approximated by a mean-utility preference, which GDA reduces to when
+$b = 0$. As shown in the proof of lemma \ref{lemma:III}, the function
+$U_{\text{all}}$ is monotonically increasing or decreasing when $\xi$
+and $(1 - \phi) e^r / \phi$ satisfy certain conditions. Moreover, it
+is also easily checked that, when $x \in (0, K(e^{1/\alpha} - 1)]$,
+the density function in the integral of \eqref{eq:ipf} is increasing
+with $\alpha$; when $x \in (K(e^{1/\alpha} - 1), \infty)$, it is
+decreasing with $\alpha$. So, following the same line of arguments
+using lemma \ref{lemma:I} as in the proof of lemma \ref{thrm:I},
+it can be seen $\tilde u_{\text{max}}(\alpha, K)$ is
+increasing/decreasing with $\alpha$ when $U_{\text{all}}$ is
+decreasing/increasing.
 
 \subsection{Student's t-distributed equity return}
 {\red This section is incomplete unless we can show results for $b>0$. Otherwise, we can do everything for $b=0$.} 
@@ -1887,73 +1913,69 @@ scale parameters.
 
 \section{Lemma~\ref{lemma:III}}
 \begin{lemma}\label{lemma:III}
-Let $u(\cdot)$  and $C(\cdot)$ be defined as in \eqref{eq:u} and \eqref{eq:xxie1} respectively. Define
-\[
-U(x) =
-u(C(x)) \left[
-  1 - {b \over 1 + b}\1_{\{x \ge q\}}
-  \right]
+Let $u(\cdot)$  and $C(\cdot)$ be defined as in \eqref{eq:u} and
+\eqref{eq:xxie1} respectively. Define
+\begin{eqnarray*}
+U_{\text{all}} &=& u(C(x))
 + u(C(-x))
 \quad
-x \geq 0
-\]
+x \geq 0 \\
+a &=& {
+  (1 - \phi) e^r
+  \over
+  \phi
+} \\
+y_\pm &=& {
+  a^2 - \xi \pm \sqrt{(a^2 - 1) (a^2 - \xi^2)}
+  \over
+  a (\xi - 1)
+}
+\end{eqnarray*}
+The following holds true:
 \begin{enumerate}
-\item  Hello
+\item If $\max\{a, 1\} < \xi$, $U_{\text{all}}(\cdot)$ is
+  monotonically decreasing.
+\item If $a < \xi < 1$ and $(a + y_-)/(a y_- + 1) <
+  y_-^{(1-\xi)/(1+\xi)}$, $U_{\text{all}}(\cdot)$ is monotonically
+  decreasing.
+\item If $\xi < a < 1$, $U_{\text{all}}(\cdot)$ is monotonically
+  increasing.
+\item If $1 < \xi < a$ and $(a + y_+)/(a y_+ + 1) >
+  y_+^{(1-\xi)/(1+\xi)}$, $U_{\text{all}}(\cdot)$ is monotonically
+  increasing.
+\item In other case, $U_{\text{all}}(\cdot)$ is not monotonic.
 \end{enumerate}
 \end{lemma}
 \begin{proof}
-  It is convenient to re-write $U(x)$ as
+  It is convenient to re-write $U_{\text{all}}$ as
   \[
-  U(x) = 
+  U_{\text{all}} =
   -{\phi^{-\xi} \over \xi} \left\{
     \underbrace{
-    \left(1 - {b \over 1 + b}\1_{\{x \ge q\}}\right)
-    \left[{(1 - \phi) \over \phi} e^r + e^x\right]^{-\xi}
-    +
-    \left[{(1 - \phi) \over \phi} e^r + e^{-x}\right]^{-\xi}
-  }_{U'(x)}
-\right\}
-\]
-  Thus the monotonicity of $U(x)$ is the opposite of $U'(x)$. For
+      \left[{(1 - \phi) \over \phi} e^r + e^x\right]^{-\xi}
+      +
+      \left[{(1 - \phi) \over \phi} e^r + e^{-x}\right]^{-\xi}
+    }_{U(x)}
+  \right\}
+  \]
+  Thus the monotonicity of $U_{\text{all}}(x)$ is the opposite of $U(x)$. For
   convenience of writing, let $a = (1 - \phi)e^r/\phi$.
-  First of all, we find the conditions on which $U'(x)$ is monotonic.
+  First of all, we find the conditions on which $U(x)$ is monotonic.
   Direct differentiation yields
   \begin{eqnarray*}
-    {\pd U'(x) \over \pd x}
+    {\pd U(x) \over \pd x}
     &=&
     -{
       (a + e^x)^{-\xi - 1} \xi e^x
-      \over
-      1 + b \1_{\{x > q\}}
     } + (a + e^{-x})^{-\xi - 1} \xi e^{-x}
-    \quad
-    x \neq q
   \end{eqnarray*}
-  ${\pd U'(x) \over \pd x} = 0$ is equivalent to
+  ${\pd U(x) \over \pd x} = 0$ is equivalent to
   \begin{eqnarray*}
-    {a + y \over a y + 1} &=& 
-    \left( \1_{\{y < e^q\}} + c \1_{\{y > q\}} \right)
-    y^{1 -\xi \over 1+\xi} \\
-    \underbrace{\log(a + y) - \log(a y + 1)}_{f(y)} &=& \underbrace{{1
-        -\xi \over 1+\xi} \log(y)
-      + \log(c)\1_{\{y > q\}} }_{g(y)} 
+    {a + y \over a y + 1} &=& y^{1 -\xi \over 1+\xi} \\
+    \underbrace{\log(a + y) - \log(a y + 1)}_{f(y)} &=&
+    {1 -\xi \over 1+\xi} \log(y)
   \end{eqnarray*}
-  where we have defined $y = e^x$, $c = (1 + b)^{-1/(1 + \xi)}$ and
-  $f(y)$, $g(y)$ as above. Observe
-  % \begin{eqnarray}
-  %   f(y) - g(y) &=& \log\left(
-  %     {a + y \over a y + 1}
-  %     y^{\xi - 1 \over \xi + 1}
-  %   \right) - \log(c)\1_{\{y > e^q\}} \label{eq:f-g}
-  % \end{eqnarray}
-  % and when $y \neq e^q$,
-  % \begin{eqnarray}
-  %   {\pd f(y) \over \pd y} &=& {1 - a^2 \over (a + y) (a y + 1)}
-  %   \label{eq:fd}\\
-  %   {\pd g(y) \over \pd y} &=& {1 - \xi \over (1 + \xi) y}
-  %   \label{eq:gd}
-  % \end{eqnarray}
-  % Furthermore
+  where we have defined $y = e^x$, and $f(y)$, $g(y)$ as above. Observe
   \begin{equation}
     \label{eq:f-g-der}
     {\pd (f -g)(y) \over \pd y} = {
@@ -1961,8 +1983,6 @@ x \geq 0
       \over
       (1 + \xi) (a + y) (a y + 1) y
     }
-    \quad
-    y \neq e^q
   \end{equation}
   ${\pd (f -g)(y) \over \pd y} = 0$ has two roots when $\xi \ne 1$
   \begin{eqnarray*}
@@ -1974,98 +1994,31 @@ x \geq 0
   \end{eqnarray*}
   \begin{enumerate}
   \item If $\min\{1, \xi\} < a < \max\{1, \xi\}$, $y_\pm$ are not
-    real, ${\pd (f -g)(y) \over \pd y} = 0$ has no solution on $(1,
-    \infty)\setminus \{e^q\}$; $(f -g)(y)$ is monotonic on both
-    $(1, e^q)$ and $(e^q, \infty)$.
+    real, ${\pd (f -g)(y) \over \pd y} = 0$ has no solution on
+    $(1, \infty)$; $(f -g)(y)$ is monotonic on $(1, \infty)$.
     \begin{enumerate}
     \item If in addition $\xi > 1$, i.e. $1 < a < \xi$, $(f - g)(y)$
-      is monotonically increasing on both
-      $(1, e^q)$ and $(e^q, \infty)$, because the coefficient of the
-      $y^2$ term of the numerator of \eqref{eq:f-g-der}, i.e. $a (\xi
-      - 1)$ is positive. We note $f(1) = g(1) = 0$; thus on $(1, e^q)$,
-      $f(y) > g(y)$ and hence there is no solution to $f(y) = g(y)$ on
-      this interval.
-      \begin{enumerate}
-      \item If $ \lim_{y \to e^q}f(x) \ge \lim_{y \downarrow e^q} g(y)$,
-        then clearly $f(y) = g(y)$ has no
-        solution on $(e^q, \infty)$ either.
-        Now it can be concluded that $U'(\cdot)$ is monotonic on
-        $(0, q)$ and $(q, \infty)$. To determine the monotonicity of
-        $U'(\cdot)$, it remains to check the signs of
-        ${\pd U'(x) \over \pd x}$  on  $(0, q)$ and on $(q, \infty)$
-        as well as the values of $\lim_{x \uparrow q} U'(x)$ and
-        $\lim_{x \downarrow q} U'(x)$. Obviously
+      is monotonically increasing on $(1, \infty)$, because the
+      coefficient of the $y^2$ term of the numerator of
+      \eqref{eq:f-g-der}, i.e. $a (\xi - 1)$ is positive. We note
+      $f(1) = g(1) = 0$; thus on $(1, \infty)$, there is no solution
+      to $f(y) = g(y)$. It can be concluded that $U(\cdot)$ is
+      monotonic on $(0, \infty)$. Furthermore
         \begin{eqnarray*}
-          \left.{\pd U'(x) \over \pd x}\right|_{x=0} &=& 0 \\
+          \left.{\pd U(x) \over \pd x}\right|_{x=0} &=& 0 \\
         \end{eqnarray*}
-        For a small $\epsilon > 0$, the sign of ${\pd U'(x) \over \pd
+        For a small $\epsilon > 0$, the sign of ${\pd U(x) \over \pd
           x}$ on $(0, \epsilon)$ is thus the same as
-        $\left.{\pd^2 U'(x) \over \pd x^2}\right|_{x=0}$:
+        $\left.{\pd^2 U(x) \over \pd x^2}\right|_{x=0}$:
         \[
-        \left.{\pd^2 U'(x) \over \pd x^2}\right|_{x=0} =
+        \left.{\pd^2 U(x) \over \pd x^2}\right|_{x=0} =
         2 (a + 1)^{-\xi - 2} (\xi - a) > 0
         \]
-        Thus ${\pd U'(x) \over \pd x} > 0$ for $x \in (0, q)$.
-        To find out the sign of
-        ${\pd U'(x) \over \pd x}$ on the interval $(q, \infty)$,
-        one can look into the sign of ${\pd U'(x) \over \pd x}$
-        as $x \to \infty$. For
-        this purpose, substitute $x'$ for $e^{-x}$ and re-write
-        ${\pd U'(x) \over \pd x}$ as
-        \begin{eqnarray*}
-          {1 \over \xi}
-          {\pd U'(x) \over \pd x} &=& {x' \over (a + x')^{\xi + 1}}
-          - {x'^\xi \over (a x' + 1)^{\xi + 1} (1 + b)}
-        \end{eqnarray*}
-        Taylor-expanding the last expression at $x'=0$ gives
-        \[
-          {1 \over \xi}
-          {\pd U'(x) \over \pd x}
-         = {x' \over a^{\xi + 1}} + o(x')
-        \]
-        From this expression we can see that
-        ${\pd U'(x) \over \pd x} > 0$ for
-        sufficiently large $x$; then by the proven monotonicity,
-        ${\pd U'(x) \over \pd x} > 0$ for all $x \in (q, \infty)$.
-        It remains to compare $\lim_{x\uparrow q}U'(x)$ with
-        $\lim_{x\downarrow q}U'(x)$. Clearly
-        \[
-        \lim_{x\downarrow q}U'(x) - \lim_{x\uparrow q}U'(x) = - {
-          (a + e^q)^{-\xi} b
-          \over
-          1+ b
-        } < 0
-        \]
-        So $U'(x)$ and hence $U(x)$ as a whole is not monotonic on
-        $(0, \infty)$.
-
-      \item If $ \lim_{y \to e^q}f(x) < \lim_{y \downarrow e^q} g(y)$,
-        $(f - g)(y)$ must have a solution on
-        $(e^q, \infty)$ since $(f-g)(y)$ is monotonically
-        increasing. So $U'(\cdot)$ is not monotonic in this case.
-      \end{enumerate}
-      
+        Thus ${\pd U(x) \over \pd x} > 0$ for $x \in (0, \infty)$;
+        $U_{\text{all}}$ is monotonically decreasing.
     \item If instead $\xi < 1$, i.e. $\xi < a < 1$, by a similar
-      argument as in the
-      previous case, $(f - g)(y)$ is monotonically decreasing on both
-      $(1, e^q)$ and $(e^q, \infty)$. From $f(1) = g(1) = 0$, it again
-      follows that $U'(x)$ is monotonic on $(0, q)$.
-      \begin{itemize}
-      \item
-        If $ \lim_{y \to e^q} f(y) > \lim_{y \downarrow e^q} g(y)$,
-        then there must be a solution to $f(y) = g(y)$ on $(e^q,
-        \infty)$. $U'(x)$ is not monotonic in this case.
-
-      \item
-        If $ \lim_{y \to e^q} f(y) \le \lim_{y \downarrow e^q} g(y)$,
-        there is no solution to $f(y) = g(y)$ on $(e^q,
-        \infty)$ either. $U'(x)$ is also monotonic on
-        $(e^q, \infty)$. By the calculation as before, it can be seen
-        ${\pd U'(x) \over \pd x} < 0$ for positive $x$ that is
-        sufficiently close to 0; and
-        ${\pd U'(x) \over \pd x} > 0$ for sufficiently large $x$.
-        So $U'(x)$ is not monotonic in this case.
-      \end{itemize}
+      argument as in the previous case, $U_{\text{all}}$ is monotonically
+      increasing on $(0, \infty)$.
     \end{enumerate}
   \item If $a < \min\{1, \xi\}$ and $\xi > 1$, i.e. $a < 1 < \xi$, it
     is clear
@@ -2086,9 +2039,8 @@ x \geq 0
     \end{eqnarray}
     This contradicts the assumption $a < \xi$ and $\xi > 1$. Hence
     $y_+ < 1$. So we conclude $(f - g)(y)$ is monotonically increasing
-    on both $(1, e^q)$ and $(e^q, \infty)$. Following the same
-    analysis as in the case (1.a.i), one can see $U'(\cdot)$ is not
-    monotonic on $(0, \infty)$.
+    on $(1, \infty)$. Following the same analysis as in the case
+    (1.a), one can see $U_{\text{all}}$ is monotonically decreasing.
 
   \item If $a < \min\{1, \xi\}$ and $\xi < 1$, i.e. $a < \xi < 1$, it
     is clear $y_- > 0$ and $y_+ < y_-$. Moreover, $y_- > 1$ is equivalent
@@ -2104,21 +2056,23 @@ x \geq 0
     ${\pd (f-g)(y) \over \pd y} < 0$.
 
     If $(f-g)(y_-) < 0$, $(f-g)(y) = 0$ has no solution on $(1,
-    \infty)$. Hence $U'(\cdot)$ is monotonic on both $(0, q)$ and $(q,
-    \infty)$. The same analysis as in the case (1.a.i) shows $U'(\cdot)$
-    is not monotonic on $(0, \infty)$.
+    \infty)$. Hence $U(\cdot)$ is monotonic on both $(0, \infty)$.
+    The same analysis as in the case (1.a) shows $U_{\text{all}}$
+    is monotonically decreasing on $(0, \infty)$.
 
     If $(f-g)(y_-) > 0$, $(f-g)(y) = 0$ must have a solution on $(y_-,
-    \infty)$. So $U'(\cdot)$ is not monotonic.
+    \infty)$. So $U(\cdot)$ is not monotonic.
 
     \item $a > \max\{1, \xi\}$ and $\xi > 1$, i.e. $1 < \xi < a$. By
       the same argument that leads to \eqref{eq:mi6}, we see
       $y_+ > 1$. From \eqref{eq:f-g-der} it is clear $(f-g)(y_+)$ is a
       minimum. If $(f-g)(y_+) > 0$, there is no solution to
-      $(f-g)(y) = 0$ on $(1, \infty)$; if $(f-g)(y_+) < 0$,
-      there must be a solution to $(f-g)(y) = 0$ on $(y_+, \infty)$.
+      $(f-g)(y) = 0$ on $(1, \infty)$; $U(x)$ is monotonic. By the
+      same analysis as in the case (1.a), we know $U(x)$ is
+      monotonically decreasing and $U_{\text{all}}$ is monotonically increasing.
       
-      
+      if $(f-g)(y_+) < 0$, there must be a solution to $(f-g)(y) = 0$
+      on $(y_+, \infty)$. $U_{\text{all}}$ is not monotonic.
   \end{enumerate}
 \end{proof}
 
