@@ -1254,13 +1254,61 @@ K'$. In this case \eqref{eq:pareto} becomes
   } dx
   - b u(\delta v) F_X(q)
 \end{eqnarray*}
-A detailed analysis of the montonicity of
+First of all we note that the function
 \[
 u(C(x)) \left[
   1 - {b \over 1 + b}\1_{\{x \ge q\}}
   \right]
 + u(C(-x))
 \]
+is not monotonic. To see this we may re-write the above as
+\begin{equation}
+  -{\phi^{-\xi} \over \xi} \left\{
+  \underbrace{
+    \left(1 - {b \over 1 + b}\1_{\{x \ge q\}}\right)
+    \left[{(1 - \phi) \over \phi} e^r + e^x\right]^{-\xi}
+    +
+    \left[{(1 - \phi) \over \phi} e^r + e^{-x}\right]^{-\xi}
+  }_{U(x)} \right\}
+  \label{eq:frg}
+\end{equation}
+Direct computation gives
+\begin{eqnarray*}
+  {\pd U(x) \over \pd x}
+  &=&
+  -{
+    (a + e^x)^{-\xi - 1} \xi e^x
+    \over
+    1 + b \1_{\{x > q\}}
+  } + (a + e^{-x})^{-\xi - 1} \xi e^{-x}
+  \quad x \neq q
+\end{eqnarray*}
+where $a = (1 - \phi) e^r/\phi$. For $x \ge q$, we have
+\begin{eqnarray*}
+  {1 \over \xi}
+  {\pd U(x) \over \pd x} &=& {x' \over (a + x')^{\xi + 1}}
+  - {x'^\xi \over (a x' + 1)^{\xi + 1} (1 + b)}
+\end{eqnarray*}
+where we have substituted $x'$ for $e^{-x}$. When $x$ is very large
+i.e. when $x'$ is very close to 0, it is useful to expand the last
+expression at $x' = 0$. This yields
+\[
+  {1 \over \xi}
+  {\pd U(x) \over \pd x}
+  = {x' \over a^{\xi + 1}} + o(x')
+\]
+So we see that when $x$ is sufficiently large
+${\pd U(x) \over \pd x} > 0$. On the other hand, at the discontinuity
+point $x = q$, we have
+\[
+\lim_{x\downarrow q}U(x) - \lim_{x\uparrow q}U(x) = - {
+  (a + e^q)^{-\xi} b
+  \over
+  1+ b
+} < 0
+\]
+So $U(x)$ and hence \eqref{eq:frg} is not monotonic.
+
 which comprises lemma \ref{lemma:III}, allows us to apply lemma
 \ref{lemma:I} and conclude the following
 \begin{itemize}
@@ -1857,17 +1905,17 @@ x \geq 0
   It is convenient to re-write $U(x)$ as
   \[
   U(x) = 
-  -{\hat\phi^{-\xi} \over \xi} \left\{
+  -{\phi^{-\xi} \over \xi} \left\{
     \underbrace{
     \left(1 - {b \over 1 + b}\1_{\{x \ge q\}}\right)
-    \left[{(1 - \hat\phi) \over \hat\phi} e^r + e^x\right]^{-\xi}
+    \left[{(1 - \phi) \over \phi} e^r + e^x\right]^{-\xi}
     +
-    \left[{(1 - \hat\phi) \over \hat\phi} e^r + e^{-x}\right]^{-\xi}
+    \left[{(1 - \phi) \over \phi} e^r + e^{-x}\right]^{-\xi}
   }_{U'(x)}
 \right\}
 \]
   Thus the monotonicity of $U(x)$ is the opposite of $U'(x)$. For
-  convenience of writing, let $a = (1 - \hat\phi)e^r/\hat\phi$.
+  convenience of writing, let $a = (1 - \phi)e^r/\phi$.
   First of all, we find the conditions on which $U'(x)$ is monotonic.
   Direct differentiation yields
   \begin{eqnarray*}
@@ -1988,7 +2036,8 @@ x \geq 0
           1+ b
         } < 0
         \]
-        So $U'(x)$ and hence $U(x)$ as a whole is not monotonic on $(0, \infty)$.
+        So $U'(x)$ and hence $U(x)$ as a whole is not monotonic on
+        $(0, \infty)$.
 
       \item If $ \lim_{y \to e^q}f(x) < \lim_{y \downarrow e^q} g(y)$,
         $(f - g)(y)$ must have a solution on
@@ -1996,7 +2045,8 @@ x \geq 0
         increasing. So $U'(\cdot)$ is not monotonic in this case.
       \end{enumerate}
       
-    \item If instead $\xi < 1$, i.e. $\xi < a < 1$, by a similar argument as in the
+    \item If instead $\xi < 1$, i.e. $\xi < a < 1$, by a similar
+      argument as in the
       previous case, $(f - g)(y)$ is monotonically decreasing on both
       $(1, e^q)$ and $(e^q, \infty)$. From $f(1) = g(1) = 0$, it again
       follows that $U'(x)$ is monotonic on $(0, q)$.
@@ -2026,12 +2076,14 @@ x \geq 0
       a (\xi - 1)
     } < 0
     \]
-    It remains to compare $y_+$ with $1$ to determine whether $f(y) =
-    g(y)$ has a solution. Assume $y_+ > 1$. Then
-    \begin{eqnarray*}
-      a^2 - \xi + \sqrt{(a^2 - 1) (a^2 - \xi^2)} &>& a (\xi - 1) \\
-      2 a (\xi - 1) (a + 1) (a - \xi) &>& 0
-    \end{eqnarray*}
+    It remains to compare $y_+$ with $1$ to determine whether
+    ${\pd (f -g)(y) \over \pd y} = 0$ has a solution on $(1, \infty)$.
+    Assume $y_+ > 1$. Then
+    \begin{eqnarray}
+      a^2 - \xi + \sqrt{(a^2 - 1) (a^2 - \xi^2)} &>& a (\xi - 1)
+      \nonumber \\
+      2 a (\xi - 1) (a + 1) (a - \xi) &>& 0 \label{eq:mi6}
+    \end{eqnarray}
     This contradicts the assumption $a < \xi$ and $\xi > 1$. Hence
     $y_+ < 1$. So we conclude $(f - g)(y)$ is monotonically increasing
     on both $(1, e^q)$ and $(e^q, \infty)$. Following the same
@@ -2042,7 +2094,8 @@ x \geq 0
     is clear $y_- > 0$ and $y_+ < y_-$. Moreover, $y_- > 1$ is equivalent
     to
     \[
-    \sqrt{(a^2 - 1) (a^2 - \xi^2)} > a^2 - \xi a + a - \xi = (a + 1) (a - \xi)
+    \sqrt{(a^2 - 1) (a^2 - \xi^2)} > a^2 - \xi a + a - \xi
+    = (a + 1) (a - \xi)
     \]
     The last inequality is obviously true in this case. So $y_- >
     1$. ${\pd (f-g)(y) \over \pd y}$ has a maximum at
@@ -2057,6 +2110,15 @@ x \geq 0
 
     If $(f-g)(y_-) > 0$, $(f-g)(y) = 0$ must have a solution on $(y_-,
     \infty)$. So $U'(\cdot)$ is not monotonic.
+
+    \item $a > \max\{1, \xi\}$ and $\xi > 1$, i.e. $1 < \xi < a$. By
+      the same argument that leads to \eqref{eq:mi6}, we see
+      $y_+ > 1$. From \eqref{eq:f-g-der} it is clear $(f-g)(y_+)$ is a
+      minimum. If $(f-g)(y_+) > 0$, there is no solution to
+      $(f-g)(y) = 0$ on $(1, \infty)$; if $(f-g)(y_+) < 0$,
+      there must be a solution to $(f-g)(y) = 0$ on $(y_+, \infty)$.
+      
+      
   \end{enumerate}
 \end{proof}
 
