@@ -1150,9 +1150,9 @@ u(x)=\frac{1}{1 - \gamma}\,x^{1 - \gamma}\,,\quad \gamma>0\,.
 In practice it is more often to observe $\gamma > 1$ {\blue Let's
 consult Casper for references.} Therefore we adopt a more convenient
 notation in this case
-\beao
+\beam\label{eq:hjyr}
 u(x)=-\frac{1}{\xi}\,x^{-\xi}\,,\quad \xi>0\,. 
-\eeao
+\eeam
 
 %In practice it is more often to observe $\gamma > 1$ {\blue Let's
 %consult Casper for references.} Therefore we adopt a more convenient
@@ -1401,34 +1401,46 @@ with the PDA preference. Formally we assume {\red instead of this function one c
 $\P(X>x)=0.5 (\kappa/(x+\kappa))^{\alpha}$. If the symmetry causes another behavior than in the previous section this would be interesting.}
 {\blue our tail index is always $\alpha$, not $\nu$.}
 \[
-f(x; \nu) = c(\nu) \left(
-  1 + {x^2 \over \nu}
-\right)^{-(\nu + 1)/2}
+f(x; \alpha) = c(\alpha) \left(
+  1 + {x^2 \over \alpha}
+\right)^{-(\alpha + 1)/2}
 \]
-where $\nu > 1$ and
+where $\alpha > 1$ and
 \[
-c(\nu) = {
-  \Gamma({\nu + 1 \over 2})
+c(\alpha) = {
+  \Gamma({\alpha + 1 \over 2})
   \over
-  \Gamma(\nu/2) \sqrt{\nu \pi}
+  \Gamma(\alpha/2) \sqrt{\alpha \pi}
 }
 \]
-We can write $\wt u(F, \phi)$ as
+In the same way as for \eqref{eq:ipf}, we can write $\wt u(F, \phi)$
+as
 \begin{eqnarray}
   && \wt u(F, \phi) \nonumber \\
   &=&
+  (1 + b)
   \int_{0}^{\infty}
-  \left[
-    u(C(x, \phi)) + (1 + b)u(C(-x, \phi))
-  \right]
-  f(x, \nu) dx \nonumber \\
-  &&
-  + b \int_{0}^{q}
-  u(C(x, \phi))
-  f(x, \nu) dx - b u(C(q, \phi)) F(q, \nu)
+  \underbrace{
+    {
+      u(C(x)) \left[
+        1 - {b \over 1 + b}\1_{\{x \ge q\}}
+        \right]
+      + u(C(-x))
+      \over
+      (K + x)^{\alpha + 1}
+    }
+  }_{U_{\text{all}}}
+  dx
+  - b u(\delta v) F_X(q)
   \label{eq:t1}
 \end{eqnarray}
-where $C(\cdot)$ is defined in \eqref{eq:xxie1}.
+where $C(\cdot)$ is defined in \eqref{eq:xxie1}. As shown in the last
+section, $U_{\text{all}}$ is not monotonic when $b > 0$ and $u(\cdot)$ 
+takes the power-form of \eqref{eq:hjyr}; when $b = 0$, however,
+$U_{\text{all}}$ is indeed monotonic depending on the values of $\xi$
+and $(1 - \phi) e^r / \phi$. In the first case, we have to resort to
+numerical methods; in the 2nd case, we can find some analytic results.
+
 
 \subsubsection{log-utility function}
 We first consider the case where the utility function is simply
@@ -1447,35 +1459,35 @@ $x$:
 \end{eqnarray*}
 Thus when $b = 0$, by 1st case of remark \ref{remark:I} and lemma
 \ref{lemma:II}, {\red need to look at $\pd \wt u_{\rm max} \over \pd \alpha$?} 
-${\pd \wt u(F, \phi)) \over \pd \nu} < 0$ for all $\phi$. Hence all
+${\pd \wt u(F, \phi)) \over \pd \alpha} < 0$ for all $\phi$. Hence all
 investors guided by this utility function would be seeking the
-smallest $\nu$, i.e. the heaviest tail in the market. Here note that
+smallest $\alpha$, i.e. the heaviest tail in the market. Here note that
 Student's t is a symmetric distribution; a heavier tail implies not
 only greater down-side risk but also greater up-side potential.
 
 In fact, even when $b > 0$, the same monotonicity property holds. This
 is revealed by numerically maximizing $\wt u(F, \phi)$ with
-respect to $\phi$ for a sequence of selected values of $\nu$. The
+respect to $\phi$ for a sequence of selected values of $\alpha$. The
 results are shown in figure~\ref{fig:phi_hat_U}.
 \begin{figure}[htb!]
   % \begin{subfigure}[b]{0.5\linewidth}
   %   \includegraphics[width=\textwidth]{phi_hat_b_t_log.pdf}
-  %   \caption{$\hat\phi(\nu)$ of log-utility function}
+  %   \caption{$\hat\phi(\alpha)$ of log-utility function}
   %   \label{fig:phi_hat_t_log}
   % \end{subfigure}
   % \begin{subfigure}[b]{0.5\linewidth}
   %   \includegraphics[width=\textwidth]{U_b_t_log.pdf}
-  %   \caption{$G(\nu)$ of log-utility function}
+  %   \caption{$G(\alpha)$ of log-utility function}
   %   \label{fig:U_b_t_log}
   % \end{subfigure}
   % \begin{subfigure}[b]{0.5\linewidth}
   %   \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
-  %   \caption{$\hat\phi(\nu)$ of power-utility function}
+  %   \caption{$\hat\phi(\alpha)$ of power-utility function}
   %   \label{fig:phi_hat_t_power}
   % \end{subfigure}
   % \begin{subfigure}[b]{0.5\linewidth}
   %   \includegraphics[width=\textwidth]{U_b_t_power.pdf}
-  %   \caption{$G(\nu)$ of power-utility function}
+  %   \caption{$G(\alpha)$ of power-utility function}
   %   \label{fig:U_b_t_power}
   % \end{subfigure}
   \begin{minipage}{0.5\linewidth}
@@ -1490,7 +1502,7 @@ results are shown in figure~\ref{fig:phi_hat_U}.
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{U_b_t_power.pdf}
   \end{minipage}
-  \caption{$\hat\phi$ and $G(\nu)$
+  \caption{$\hat\phi$ and $G(\alpha)$
     \label{fig:phi_hat_U}
   }
 \end{figure}
@@ -1501,11 +1513,11 @@ results are shown in figure~\ref{fig:phi_hat_U}.
 %% vanishingly low while the investor is more conservative than
 %% greedy. In this case we have
 %% \begin{eqnarray*}
-%%   \wt u(F, \phi) = \int_{0}^{\infty} e^{-b x} f(x, \nu) dx
+%%   \wt u(F, \phi) = \int_{0}^{\infty} e^{-b x} f(x, \alpha) dx
 %% \end{eqnarray*}
 %% Thus by the 1st case of lemma \ref{lemma:I} and lemma \ref{lemma:II},
-%% $\opd{\nu}\wt u(F, \phi) > 0$. In this extreme case, the investor
-%% would rather seek the largest $\nu$ or in other words, the lightest
+%% $\opd{\alpha}\wt u(F, \phi) > 0$. In this extreme case, the investor
+%% would rather seek the largest $\alpha$ or in other words, the lightest
 %% tail in the market.
 
 \subsubsection{power-utility function}
@@ -1515,7 +1527,7 @@ $u(\cdot)$ takes the form
 u(x) = -{1 \over \xi} x^{-\xi}
 \]
 One can see from figure \ref{fig:phi_hat_U_power} that both $\hat
-\phi$ and $G(\nu)$ are monotonically decreasing with $\nu$ as in the
+\phi$ and $G(\alpha)$ are monotonically decreasing with $\alpha$ as in the
 case of a log-utility function.
 \begin{figure}[htb!]
   \begin{minipage}{0.5\linewidth}
@@ -1524,7 +1536,7 @@ case of a log-utility function.
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{U_b_t_power.pdf}
   \end{minipage}
-  \caption{$\hat\phi$ and $G(\nu)$ when the utility
+  \caption{$\hat\phi$ and $G(\alpha)$ when the utility
     function is $u(C) = -{2 \over \sqrt{C}}$
   }
   \label{fig:phi_hat_U_power}
@@ -1556,14 +1568,14 @@ scale parameters.
   $X \sim F$ and $\E h(X) < \infty$. Then
   \begin{enumerate}
   \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
-    $\frac{\pd f}{\pd \theta}(x_0, \theta) > 0$ on $(a, x_0)$ while
-    $\frac{\pd f}{\pd \theta}(x_0, \theta) < 0$ on $(x_0, b)$, then
+    $\frac{\pd f}{\pd \theta}(x, \theta) > 0$ for $x \in (a, x_0)$ while
+    $\frac{\pd f}{\pd \theta}(x, \theta) < 0$ for $x \in (x_0, b)$, then
     \[
     \frac{\pd \E h(X)}{\pd \theta} > 0
     \]
   \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
-    $\frac{\pd f}{\pd \theta}(x_0, \theta) < 0$ on $(a, x_0)$  while
-    $\frac{\pd f}{\pd \theta}(x_0, \theta) > 0$ on $(x_0, b)$, then
+    $\frac{\pd f}{\pd \theta}(x, \theta) < 0$ for $x \in (a, x_0)$  while
+    $\frac{\pd f}{\pd \theta}(x, \theta) > 0$ for $x \in (x_0, b)$, then
     \[
     \frac{\pd \E h(X)}{\pd \theta} > 0
     \]
@@ -1707,64 +1719,64 @@ scale parameters.
   Let $f$ denotes the density function of the Student's
   t-distribution, i.e.
   \[
-  f(x; \nu) = c(\nu) \left(
-    1 + {x^2 \over \nu}
-  \right)^{-(\nu + 1)/2}
+  f(x; \alpha) = c(\alpha) \left(
+    1 + {x^2 \over \alpha}
+  \right)^{-(\alpha + 1)/2}
   \]
-  where $\nu > 1$ and
+  where $\alpha > 1$ and
   \[
-  c(\nu) = {
-    \Gamma({\nu + 1 \over 2})
+  c(\alpha) = {
+    \Gamma({\alpha + 1 \over 2})
     \over
-    \Gamma(\nu/2) \sqrt{\nu \pi}
+    \Gamma(\alpha/2) \sqrt{\alpha \pi}
   }
   \]
   Then there exists $x_0 > 0$ such that ${\pd f \over
-    \pd \nu}(x_0, \nu) = 0$ and $\forall x \in (0, x_0), {\pd f \over
-    \pd \nu}(x, \nu) > 0$ and $\forall x \in (x_0, \infty), {\pd f
-    \over \pd \nu}(x, \nu) < 0$.
+    \pd \alpha}(x_0, \alpha) = 0$ and $\forall x \in (0, x_0), {\pd f \over
+    \pd \alpha}(x, \alpha) > 0$ and $\forall x \in (x_0, \infty), {\pd f
+    \over \pd \alpha}(x, \alpha) < 0$.
 \end{lemma}
 \begin{proof}
   Straightforward computation gives
   \begin{eqnarray}
-    {\pd f(x, \nu) \over \pd \nu} &=& {
-      c(\nu) x^2 (\nu + 1) + (2 \nu x^2 + 2 \nu^2) c'(\nu)
+    {\pd f(x, \alpha) \over \pd \alpha} &=& {
+      c(\alpha) x^2 (\alpha + 1) + (2 \alpha x^2 + 2 \alpha^2) c'(\alpha)
       -
-      \nu c(\nu) (x^2 + \nu) \log(1 + x^2/\nu)
+      \alpha c(\alpha) (x^2 + \alpha) \log(1 + x^2/\alpha)
       \over
-      2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
+      2 \alpha (x^2 + \alpha) (1 + x^2 / \alpha)^{\alpha/2 + 1/2}
     } \nonumber \\
     &:=& {
-      P(x^2, \nu)
+      P(x^2, \alpha)
       \over
-      2 \nu (x^2 + \nu) (1 + x^2 / \nu)^{\nu/2 + 1/2}
+      2 \alpha (x^2 + \alpha) (1 + x^2 / \alpha)^{\alpha/2 + 1/2}
     }
     \label{eq:xxie4.1}
   \end{eqnarray}
 
-  While the denominator of the right side of ${\pd f(x, \nu) \over \pd \nu}$ is
-  always positive, its nummerator $P(x^2, \nu)$ has a single root:
+  While the denominator of the right side of ${\pd f(x, \alpha) \over \pd \alpha}$ is
+  always positive, its nummerator $P(x^2, \alpha)$ has a single root:
   \begin{equation}
     \label{eq:xxie5}
-    x_0^2 = \nu\exp\left\{
+    x_0^2 = \alpha\exp\left\{
       W\left[
-        -\left(1 + {1 \over \nu}\right)
-        e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+        -\left(1 + {1 \over \alpha}\right)
+        e^{-1 - 2 c'(\alpha)/c(\alpha) - 1/\alpha}
       \right]
-      + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
-    \right\} - \nu
+      + 1 + {1 \over \alpha} + {2 c'(\alpha) \over c(\alpha)}
+    \right\} - \alpha
   \end{equation}
   where $W(\cdot)$ is the principle branch of the Lambert $W$
   function. and $c'(\cdot)$ is the derivative of $c(\cdot)$. To check
   the right side of \eqref{eq:xxie5} for positivity, we first note
-  $c'(\nu) > 0$:
+  $c'(\alpha) > 0$:
   \[
-  c'(\nu) = {
-    \pi \Gamma(\nu/2 + 1/2) \left\{
-      \nu \left[ \Psi(\nu/2 + 1/2) - \Psi(\nu/2)\right] - 1
+  c'(\alpha) = {
+    \pi \Gamma(\alpha/2 + 1/2) \left\{
+      \alpha \left[ \Psi(\alpha/2 + 1/2) - \Psi(\alpha/2)\right] - 1
     \right\}
     \over
-    2 \Gamma(\nu/2) (\pi \nu)^{3/2}
+    2 \Gamma(\alpha/2) (\pi \alpha)^{3/2}
   }
   \]
   where $\Psi(\cdot)$ is the digamma function:
@@ -1789,11 +1801,11 @@ scale parameters.
     = \sum_{n=1}^\infty {1 \over (n + x)^2} > 0
     \]
     See Abramowitz and Stegun \cite{abramowitz1972handbook}, p.259,
-    formula 6.3.16. Therefore $\Psi(\nu/2 + 1/2) - \Psi(\nu/2) > 0$.
+    formula 6.3.16. Therefore $\Psi(\alpha/2 + 1/2) - \Psi(\alpha/2) > 0$.
     So we have
     \begin{eqnarray*}
-      && \nu \left[
-        \Psi(\nu/2 + 1/2) - \Psi(\nu/2)
+      && \alpha \left[
+        \Psi(\alpha/2 + 1/2) - \Psi(\alpha/2)
       \right] - 1 \\
       &\geq& 1 \times \left[
         \Psi(1/2 + 1/2) - \Psi(1/2)
@@ -1801,27 +1813,27 @@ scale parameters.
       &=& \log(4) - \log(e) \\
       &>& 0
     \end{eqnarray*}
-    Thus $c'(\nu) > 0$. Furthermore, we recall
+    Thus $c'(\alpha) > 0$. Furthermore, we recall
     $W(\cdot)$ is increasing on its principle branch. So
   \end{minipage}
   \begin{eqnarray*}
     &&
     W\left[
-      -\left( 1 + {1 \over \nu} \right)
-      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+      -\left( 1 + {1 \over \alpha} \right)
+      e^{-1 - 2 c'(\alpha)/c(\alpha) - 1/\alpha}
     \right]
-    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
+    + 1 + {1 \over \alpha} + {2 c'(\alpha) \over c(\alpha)} \\
     &>& 
     W\left[
-      -\left( 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \right)
-      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+      -\left( 1 + {1 \over \alpha} + {2 c'(\alpha) \over c(\alpha)} \right)
+      e^{-1 - 2 c'(\alpha)/c(\alpha) - 1/\alpha}
     \right]
-    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} \\
+    + 1 + {1 \over \alpha} + {2 c'(\alpha) \over c(\alpha)} \\
     &=& W(-y e^{-y}) + y
   \end{eqnarray*}
   where
   \[
-  y = 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)} > 1
+  y = 1 + {1 \over \alpha} + {2 c'(\alpha) \over c(\alpha)} > 1
   \]
   Now notice
   \[
@@ -1834,36 +1846,36 @@ scale parameters.
   \end{eqnarray*}
   Now it is clear
   \[
-  \nu\exp\left\{
+  \alpha\exp\left\{
     W\left[
-      -\left(1 + {1 \over \nu}\right)
-      e^{-1 - 2 c'(\nu)/c(\nu) - 1/\nu}
+      -\left(1 + {1 \over \alpha}\right)
+      e^{-1 - 2 c'(\alpha)/c(\alpha) - 1/\alpha}
     \right]
-    + 1 + {1 \over \nu} + {2 c'(\nu) \over c(\nu)}
-  \right\} - \nu > 0
+    + 1 + {1 \over \alpha} + {2 c'(\alpha) \over c(\alpha)}
+  \right\} - \alpha > 0
   \]
-  Now that we have established that ${\pd f \over \pd \nu}(x, \nu) = 0$ has a
-  single positive root, it remains to determine the sign of
-  ${\pd f \over \pd \nu}(x, \nu)$ on the two sides of the root. For this purpose
-  we observe
+  Now that we have established that ${\pd f \over \pd \alpha}(x,
+  \alpha) = 0$ has a single positive root, it remains to determine the
+  sign of ${\pd f \over \pd \alpha}(x, \alpha)$ on the two sides of
+  the root. For this purpose we observe
   \begin{equation}
     \label{eq:xxie5.1}
-    P(0, \nu) = 2 \nu^2 c'(\nu) > 0
+    P(0, \alpha) = 2 \alpha^2 c'(\alpha) > 0
   \end{equation}
-  So we want to investigate ${\pd P \over \pd x}(x, \nu)$:
+  So we want to investigate ${\pd P \over \pd x}(x, \alpha)$:
   \begin{eqnarray}
-    {\pd P \over \pd x}(x, \nu) &=&
-    2 \nu c'(\nu) + c(\nu) - \nu c(\nu) \log\left(
-      1 + {x \over \nu}
+    {\pd P \over \pd x}(x, \alpha) &=&
+    2 \alpha c'(\alpha) + c(\alpha) - \alpha c(\alpha) \log\left(
+      1 + {x \over \alpha}
     \right)
     \label{eq:xxie6}
   \end{eqnarray}
-  Clearly, $\frac{\pd P}{\pd x}(0, \nu) > 0$. Hence from
+  Clearly, $\frac{\pd P}{\pd x}(0, \alpha) > 0$. Hence from
   \eqref{eq:xxie5.1} and
   \eqref{eq:xxie6} it is clear
   \begin{equation*}
     \text{sign}\left[
-      {\pd f \over \pd\nu}(x, \nu)
+      {\pd f \over \pd\alpha}(x, \alpha)
     \right]
     = \left\{
     \begin{array}{rl}
