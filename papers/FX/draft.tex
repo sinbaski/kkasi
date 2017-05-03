@@ -1270,7 +1270,8 @@ u(C(x)) \left[
   \right]
 + u(C(-x))
 \]
-is not monotonic. To see this we may re-write the above as
+is not monotonic. To see this we may plug in \eqref{eq:hjyr} and
+re-write the above as
 \begin{equation}
 U_{\text{all}} =
   -{\phi^{-\xi} \over \xi} \left\{
@@ -1421,26 +1422,72 @@ as
   (1 + b)
   \int_{0}^{\infty}
   \underbrace{
-    {
+    \left\{
       u(C(x)) \left[
         1 - {b \over 1 + b}\1_{\{x \ge q\}}
         \right]
       + u(C(-x))
-      \over
-      (K + x)^{\alpha + 1}
-    }
+    \right\}
   }_{U_{\text{all}}}
-  dx
+  f(x, \alpha) dx
   - b u(\delta v) F_X(q)
   \label{eq:t1}
 \end{eqnarray}
-where $C(\cdot)$ is defined in \eqref{eq:xxie1}. As shown in the last
-section, $U_{\text{all}}$ is not monotonic when $b > 0$ and $u(\cdot)$ 
-takes the power-form of \eqref{eq:hjyr}; when $b = 0$, however,
-$U_{\text{all}}$ is indeed monotonic depending on the values of $\xi$
-and $(1 - \phi) e^r / \phi$. In the first case, we have to resort to
-numerical methods; in the 2nd case, we can find some analytic results.
+where $C(\cdot)$ is defined in \eqref{eq:xxie1}. As shown in lemma
+\ref{lemma:III}, when $b = 0$ and $u(\cdot)$
+takes the power-form of \eqref{eq:hjyr}, $U_{\text{all}}$ is monotonic
+depending on the values of $\xi$ and $(1 - \phi) e^r / \phi$. As given
+in lemma \ref{lemma:II}, there is a point $x_0 > 0$ such that
+${\pd f \over \pd \alpha}(x_0, \alpha) = 0$ and
+$\forall x \in (0, x_0),
+{\pd f \over  \pd \alpha}(x, \alpha) > 0$ and
+$\forall x \in (x_0, \infty), {\pd f \over \pd \alpha}(x, \alpha) <
+0$. Thus it remains to verify
+$\int_0^\infty {\pd f \over \pd \alpha}(x, \alpha) dx < \infty$
+if we are to apply lemma \ref{lemma:I}.
 
+As computed in the proof of lemma \ref{lemma:II}, ${\pd f \over \pd
+  \alpha}(x, \alpha)$ is given by \eqref{eq:xxie4.1}. It is also shown
+there ${d \over d \alpha} c(\alpha) > 0$. Thus for
+$\int_0^\infty {\pd f \over \pd \alpha}(x, \alpha) dx < \infty$
+it suffices to show
+\[
+\int_ 0^\infty {
+x^2
+\over
+(x^2 + \alpha) (1 + x^2 / \alpha)^{\alpha/2 + 1/2}
+} dx < \infty
+\]
+We may write
+\begin{eqnarray*}
+&& \int_ 0^\infty {
+x^2
+\over
+(x^2 + \alpha) (1 + x^2 / \alpha)^{\alpha/2 + 1/2}
+} dx \\
+&=& \left(\int_0^1 + \int_1^\infty \right) {
+x^2
+\over
+(x^2 + \alpha) (1 + x^2 / \alpha)^{\alpha/2 + 1/2}
+} dx \\
+&=& I_1 + I_2
+\end{eqnarray*}
+Clearly
+\[
+I_1 < \int_0^1 {1 \over \alpha} dx < \infty
+\]
+while
+\begin{eqnarray*}
+  I_2 &=& \int_1^\infty {1 \over 1 + \alpha/x^2}
+  {1 \over (1/x^2 + 1/\alpha)^{(\alpha+1) / 2}} {dx \over x^{\alpha +
+      1}} \\
+  &<& \int_1^\infty \alpha^{(\alpha+1) / 2} {dx \over x^{\alpha + 1}}
+  < \infty
+\end{eqnarray*}
+So we conclude $\int_0^\infty {\pd f \over \pd \alpha}(x, \alpha) dx <
+\infty$, and by lemma \ref{lemma:I}, $\wt u_{\text{max}}$ is monotonically
+increasing/decreasing with $\alpha$ when $U_{\text{all}}(\cdot)$ is
+monotonically decreasing/increasing.
 
 \subsubsection{log-utility function}
 We first consider the case where the utility function is simply
@@ -1507,41 +1554,6 @@ results are shown in figure~\ref{fig:phi_hat_U}.
   }
 \end{figure}
 
-%% However, this is not necessarily the case when $b > 0$. For example,
-%% consider the case when $q = 0$ and $\hat\phi = 1$. This may be
-%% viewed an approximation to the situation where the interest rate $r$ is
-%% vanishingly low while the investor is more conservative than
-%% greedy. In this case we have
-%% \begin{eqnarray*}
-%%   \wt u(F, \phi) = \int_{0}^{\infty} e^{-b x} f(x, \alpha) dx
-%% \end{eqnarray*}
-%% Thus by the 1st case of lemma \ref{lemma:I} and lemma \ref{lemma:II},
-%% $\opd{\alpha}\wt u(F, \phi) > 0$. In this extreme case, the investor
-%% would rather seek the largest $\alpha$ or in other words, the lightest
-%% tail in the market.
-
-\subsubsection{power-utility function}
-In this section we consider the case when the utility function
-$u(\cdot)$ takes the form
-\[
-u(x) = -{1 \over \xi} x^{-\xi}
-\]
-One can see from figure \ref{fig:phi_hat_U_power} that both $\hat
-\phi$ and $G(\alpha)$ are monotonically decreasing with $\alpha$ as in the
-case of a log-utility function.
-\begin{figure}[htb!]
-  \begin{minipage}{0.5\linewidth}
-    \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
-  \end{minipage}\hfill
-  \begin{minipage}{0.5\linewidth}
-    \includegraphics[width=\textwidth]{U_b_t_power.pdf}
-  \end{minipage}
-  \caption{$\hat\phi$ and $G(\alpha)$ when the utility
-    function is $u(C) = -{2 \over \sqrt{C}}$
-  }
-  \label{fig:phi_hat_U_power}
-\end{figure}
-
 \section{Conclusion}
 \label{sec:4}
 TODO: Summarize and conclude that all correlated series share the same
@@ -1553,19 +1565,22 @@ scale parameters.
 \setcounter{equation}{0}
 \begin{lemma} \label{lemma:I}
   Assume distribution function $F(x, \theta)$ parameterized by 
-  $\theta \in \Theta$ is defined on $x \in (a, b)$,
-  $a, b \in \mathbb R \cup \{-\infty, \infty\}$,
+  $\theta \in \Theta \subseteq \mathbb R$ has support
+  $(a, b) \subseteq \mathbb R$,
   and in addition $F(x, \theta)$ has density
   function $f(x, \theta)$ that is differentiable with respect to
   $\theta$ for all $\theta \in \Theta$.
-  Moreover, $f(x, \theta)$ satisfies
+  Let $X \sim F$ and assume function $h(\cdot)$ is defined on $(a, b)$
+  and is monotonic throughout this interval.
+  Moreover, we assume $h(x)$ and $f(x, \theta)$ satisfy
   \begin{equation}\label{eq:frt}
-  \int_a^b {\pd f(x, \theta) \over \pd \theta} dx
-  < \infty
+%    \E |h(X)| < \infty, \quad
+    \int_a^b \left| {\pd f(x, \theta) \over \pd \theta} \right| dx
+    < \infty \text { and }
+    \int_a^b \left| h(x) {\pd f(x, \theta) \over \pd \theta} \right| dx
+    < \infty
   \end{equation}
-  Assume function $h(\cdot)$ is defined on
-  $(a, b)$ and is monotonic throughout this interval;
-  $X \sim F$ and $\E h(X) < \infty$. Then
+  Then the following holds true:
   \begin{enumerate}
   \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
     $\frac{\pd f}{\pd \theta}(x, \theta) > 0$ for $x \in (a, x_0)$ while
@@ -1597,119 +1612,114 @@ scale parameters.
 \end{remark}
 
 \begin{proof}
-  Firstly we show
-  \[
-    {\pd \over \pd \theta} \int_a^b f(x, \theta) dx
-    =
-    \int_a^b {\pd \over \pd \theta} f(x, \theta) dx    
-  \]
-  Let
-  \[
-  f_{\Delta}(x, \theta) = {
-    f(x, \theta +  \Delta) - f(x, \theta)
-    \over
-    \Delta
-  }
-  \]
-  Since $f(x, \theta)$ is differentiable for all $\theta \in \Theta$,
-  \[
-  f_{\Delta}(x, \theta) \to {\pd f \over \pd \theta}(x, \theta)
-  \quad \Delta \to 0
-  \]
-  For any give $\epsilon > 0$ and sufficiently small
-  $\Delta$, we have
-  \[
-  |f_{\Delta}(x, \theta)| <
-  \left|
-      {\pd f \over \pd \theta}(x, \theta)
-  \right| (1 + \epsilon)
-  \]
-  Using \eqref{eq:frt} and dominated convergence theorem we obtain
-  \[
-  \lim_{\Delta \to 0} \int_a^b f_\Delta(x, \theta) dx
-  =
-  \int_a^b {\pd f \over \pd \theta}(x, \theta) dx
-  < \infty
-  \]
-  That is
-  \[
-    {\pd \over \pd \theta} \int_a^b f(x, \theta) dx
-    =
-    \lim_{\Delta \to 0} {
-      \int_a^b f(x, \theta + \Delta) dx
-      -
-      \int_a^b f(x, \theta) dx
-      \over
-      \Delta
-    }
-    =
-    \int_a^b {\pd f \over \pd \theta}(x, \theta) dx     
-  \]
-  From \eqref{eq:frt} it easily follows that the set on which
-  ${\pd f(x, \theta) \over \pd \theta} = \infty$ has Lesbegue
-  measure 0. Call this set $S_0$. We have
+  % Firstly we show, for any $S \subseteq (a, b)$,
+  % \[
+  %   {\pd \over \pd \theta} \int_S f(x, \theta) dx
+  %   =
+  %   \int_S {\pd \over \pd \theta} f(x, \theta) dx    
+  % \]
+  % Let
+  % \[
+  % f_{\Delta}(x, \theta) = {
+  %   f(x, \theta +  \Delta) - f(x, \theta)
+  %   \over
+  %   \Delta
+  % }
+  % \]
+  % Since $f(x, \theta)$ is differentiable for all $\theta \in \Theta$,
+  % \[
+  % f_{\Delta}(x, \theta) \to {\pd f \over \pd \theta}(x, \theta)
+  % \quad \Delta \to 0
+  % \]
+  % For any give $\epsilon > 0$ and sufficiently small
+  % $\Delta$, we have
+  % \[
+  % |f_{\Delta}(x, \theta)| <
+  % \left|
+  %     {\pd f \over \pd \theta}(x, \theta)
+  % \right| (1 + \epsilon)
+  % \]
+  % Using \eqref{eq:frt} and dominated convergence theorem we obtain
+  % \[
+  % \lim_{\Delta \to 0} \int_S f_\Delta(x, \theta) dx
+  % =
+  % \int_S {\pd f \over \pd \theta}(x, \theta) dx
+  % < \infty
+  % \]
+  % That is
+  % \[
+  %   {\pd \over \pd \theta} \int_S f(x, \theta) dx
+  %   =
+  %   \lim_{\Delta \to 0} {
+  %     \int_S f(x, \theta + \Delta) dx
+  %     -
+  %     \int_S f(x, \theta) dx
+  %     \over
+  %     \Delta
+  %   }
+  %   =
+  %   \int_S {\pd f \over \pd \theta}(x, \theta) dx     
+  % \]
+  % From \eqref{eq:frt} it easily follows that the set on which
+  % ${\pd f(x, \theta) \over \pd \theta} = \infty$ has Lesbegue
+  % measure 0. Call this set $S_0$.
+  Firstly, by dominated convergence theorem, conditions \eqref{eq:frt}
+  imply, for all $S \subseteq (a, b)$,
+  \begin{eqnarray*}
+    {\pd \over \pd \theta}\int_S f(x, \theta) dx
+    &=&
+    \int_S {\pd \over \pd \theta} f(x, \theta) dx \\
+    {\pd \over \pd \theta}\int_S h(x) f(x, \theta) dx
+    &=&
+    \int_S h(x) {\pd \over \pd \theta} f(x, \theta) dx \\
+  \end{eqnarray*}
+  Thus we have
   \begin{eqnarray*}
     && {\pd \E h(X) \over \pd \theta} \\
-    &=& \int_{(a,b) \setminus S_0} h(x)
+    &=& \int_a^b h(x)
     {\pd f \over \pd \theta}(x, \theta) dx \\
-    &=& \underbrace{\int_{(a, x_0) \setminus S_0}
+    &=& \underbrace{\int_a^{x_0}
       h(x) {\pd f \over \pd \theta}(x, \theta) dx}_{I_1}
-    + \underbrace{\int_{(x_0, b) \setminus S_0}
+    + \underbrace{\int_{x_0}^b
       h(x) {\pd f \over \pd \theta}(x,
       \theta) dx}_{I_2}
   \end{eqnarray*}
-  Moreover, $x_0$ being located in the interior of $(a, b)$ and
-  $h(\cdot)$ being monotonic implies $h(x_0) < \infty$.
+  $x_0$ being located in the interior of $(a, b)$ and
+  $h(\cdot)$ being monotonic imply $h(x_0) < \infty$.
   \begin{enumerate}
   \item When $h(x)$ is decreasing on $(a, b)$ and ${\pd f \over \pd
     \theta}(x, \theta) > 0$ on $(a, x_0)$
     \[
-    I_1 > h(x_0) \int_{(a, x_0) \setminus S_0}
+    I_1 > h(x_0) \int_a^{x_0}
     {\pd f \over \pd \theta}(x, \theta) dx
     \]
     Similarly, because ${\pd f \over \pd \theta}(x, \theta) < 0$ for
     $x \in (x_0, b)$ and $h(x)$ is decreasing, we have
     \begin{eqnarray*}
-      I_2 &=& \int_{(x_0, b) \setminus S_0} -h(x_0)
+      I_2 &=& \int_{x_0}^b -h(x_0)
       \left|{\pd f \over \pd \theta}(x, \theta) \right| dx
       > -h(x_0)
-      \int_{(x_0, b) \setminus S_0} \left| 
+      \int_{x_0}^b \left| 
         {\pd f \over \pd \theta}(x, \theta)
       \right| dx
     \end{eqnarray*}
     Finally we have
     \begin{eqnarray*}
       {\pd \E h(X) \over \pd \theta}
-      > h(x_0) \int_{(a, b) \setminus S_0}
+      > h(x_0) \int_a^b
       {\pd f \over \pd \theta}(x, \theta) dx
       = h(x_0) {\partial \over \partial \theta}
-      \int_{(a, b) \setminus S_0} f(x, \theta) dx
+      \int_a^b f(x, \theta) dx
       = 0
     \end{eqnarray*}
   \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
     ${\pd f \over \pd \theta}(x_0, \theta) < 0$ on $(a, x_0)$  while
-    ${\pd f \over \pd \theta}(x_0, \theta) > 0$ on $(x_0, b)$
-    \begin{eqnarray*}
-      I_1 &=&
-      \int_{(a, x_0) \setminus S_0} -h(x)
-      \left| {\pd f \over \pd \theta}(x, \theta) \right| dx
-      >
-      -h(x_0) \int_{(a, x_0) \setminus S_0}
-      \left| {\pd f \over \pd \theta}(x, \theta) \right| dx
-    \end{eqnarray*}
-    and obviously
+    ${\pd f \over \pd \theta}(x_0, \theta) > 0$ on $(x_0, b)$, 
+    by similar arguments, one can show
     \[
-    I_2 > h(x_0) \int_{(x_0, b) \setminus S_0}
-    {\pd f \over \pd \theta}(x, \theta) dx
+    {\pd \E h(X) \over \pd \theta}> 0
     \]
-    So
-    \[
-    {\pd \E h(X) \over \pd \theta}
-    = I_1 + I_2
-    > h(x_0) {\partial \over \partial \theta}
-    \int_{(a, b) \setminus S_0} f(x, \theta) dx = 0
-    \]
-  \end{enumerate}
+\end{enumerate}
 \end{proof}
 
 \section{A lemma on Student's t-distribution}
@@ -1895,40 +1905,41 @@ scale parameters.
   \begin{equation}
     \label{eq:xxie2}
     \hat \phi := \underset{0 < \phi \leq 1}{\text{argmax}}\,
-    \wt u(F, \phi)
+    \wt u(F_X, \phi)
   \end{equation}
   We have
   \[
-  G(F) = \wt u(F, \hat\phi)
+  \tilde u_{\text{max}}(F_X) = \wt u(F_X, \hat\phi)
   \]
   It follows
   \begin{eqnarray}
-    {\pd G(F) \over \pd \alpha}
+    {d \tilde u_{\text{max}}(F_X) \over d \alpha}
     &=&
-    {\pd \wt u(F, \phi) \over \pd \alpha}(\alpha, K, \hat\phi)
-    + {\pd \wt u(F, \phi) \over \pd \phi}(\alpha, K, \hat\phi)
-    {\pd \hat\phi \over \pd \alpha}(\alpha, K)
+    \left.{\pd \wt u(\alpha, \phi) \over \pd \alpha}\right|_{\phi = \hat\phi}
+    + \left.{\pd \wt u(\alpha, \phi) \over \pd \phi}\right|_{\phi = \hat\phi}
+    {\pd \hat\phi \over \pd \alpha}
     \label{eq:xxie3}
   \end{eqnarray}
-  The definition \eqref{eq:xxie2} implies $\forall \alpha > 1$
+  The definition \eqref{eq:xxie2} implies for all $\alpha$
   \begin{equation}
     \label{eq:xxie4}
-    {\pd \wt u(F, \phi) \over \pd \phi}(\alpha, K, \hat \phi) = 0
+    \left.{\pd \wt u(\alpha, \phi) \over \pd \phi}\right|_{\phi = \hat\phi} = 0
   \end{equation}
   So the second term of \eqref{eq:xxie3} vanishes. It remains to show
   \begin{eqnarray*}
-    {\pd \wt u(F, \phi) \over \pd \alpha}(\alpha, K, \hat \phi)
-    &>& 0
+    \left.{
+        \pd \wt u(\alpha, \phi) \over \pd \alpha}
+    \right|_{\phi = \hat\phi} &>& 0
   \end{eqnarray*}
   From \eqref{eq:xxie1.0}, it follows
   \begin{eqnarray*}
-    {\pd \wt u(F, \phi) \over \pd \alpha}(\alpha, K, \hat\phi)
-    = {\partial \over \partial \alpha}\E[u((1 - \hat\phi) e^r + \hat\phi e^X) \1_{\{X < 0\}}]
+    {\pd \wt u(\alpha, \phi) \over \pd \alpha}
+    = {\partial \over \partial \alpha}\E[u((1 - \phi) e^r + \phi e^x) \1_{\{X < 0\}}]
   \end{eqnarray*}
-  The function $u((1 - \hat\phi) e^r + \hat\phi e^X)$ is obviously
-  increasing with $X$. It follows
+  The function $u((1 - \phi) e^r + \phi e^x)$ is obviously
+  increasing with $x$. It follows
   \begin{eqnarray*}
-    && {\pd f(x; \alpha, K) \over \pd \alpha} \\
+    && {\pd f_X(x; \alpha, K) \over \pd \alpha} \\
     &=& {\partial \over \partial \alpha} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
     &=&
     - {K^\alpha \over (K - x)^{\alpha + 1}}
@@ -1949,23 +1960,23 @@ scale parameters.
   \]
   This is the second case of lemma \ref{lemma:I}. So we have
   \begin{eqnarray*}
-    {\pd \wt u(F, \phi) \over \pd \alpha}(\alpha, K, \hat\phi) &>& 0
+    {\pd \wt u(\alpha, \phi) \over \pd \alpha} &>& 0
   \end{eqnarray*}
-  As for ${\pd G(F) \over \pd K}$, by the same argument as for
-  ${\pd G(F) \over \pd \alpha}$, it suffices to show
+  As for ${\pd \tilde u_{\text{max}}(F_X) \over \pd K}$, by the same argument as for
+  ${\pd \tilde u_{\text{max}}(F_X) \over \pd \alpha}$, it suffices to show
   \[
-  {\pd \wt u(F, \phi) \over \pd K}(\alpha, K, \hat\phi) < 0
+  {\pd \wt u(K, \phi) \over \pd K} < 0
   \]
   We have
   \[
-  {\pd \wt u(F, \phi) \over \pd K}(\alpha, K, \hat\phi)
+  {\pd \wt u(K, \phi) \over \pd K}
   = {\partial \over \partial K} \E \left[
-    u((1 - \hat\phi) e^r + \hat\phi e^X) \1_{\{X < 0\}}
+    u((1 - \phi) e^r + \phi e^x) \1_{\{X < 0\}}
   \right] 
   \]
   and
   \begin{eqnarray*}
-    && {\pd f(x; \alpha, K) \over \pd K} \\
+    && {\pd f_X(x; \alpha, K) \over \pd K} \\
     &=& {\partial \over \partial K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} \\
     &=&
     -\alpha K^{\alpha - 1} {
@@ -1974,17 +1985,17 @@ scale parameters.
       (K - x)^{\alpha + 2}
     }
   \end{eqnarray*}
-  Clearly, when $x < -\alpha/K$
+  Clearly, when $x < -K/\alpha$
   \[
   {\partial \over \partial K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} > 0
   \]
-  and when $-\alpha/K < x < 0$
+  and when $-K/\alpha < x < 0$
   \[
   {\partial \over \partial K} {\alpha K^\alpha \over (K - x)^{\alpha + 1}} < 0
   \]
   So by the 1st case of remark \ref{remark:I} we conclude
   \[
-  {\pd \wt u(F, \phi) \over \pd K}(\alpha, K, \hat\phi) < 0  
+  {\pd \wt u(K, \phi) \over \pd K} < 0  
   \]
 \end{proof}
 
