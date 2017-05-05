@@ -351,16 +351,16 @@
 %we assume he recognizes the heavy tail feature of asset return
 %distributions. We argue that when a market is dominated by rational
 %investors of this kind, the return distributions of equities that are
-%actively traded in this market must have very similar tail indices. We
+%actively traded in this market must have very similar tail-indices. We
 %also show, in contrast, the scale parameters of the return
 %distributions may differ hugely from one another.
 %On the other hand, whether or not all equities in a multivariate model
-%have the same tail index is a dividing issue for multivariate GARCH
+%have the same tail-index is a dividing issue for multivariate GARCH
 %models proposed in the literature. Therefore, it is important to analyze
 %data of real equity returns and see how close to each other the
-%tail indices actually are.
+%tail-indices actually are.
 %In this work empirical results are also presented and they appear
-%to support the conclusion that the tail indices are very similar,
+%to support the conclusion that the tail-indices are very similar,
 %with respect to the confidence bands of estimation.
 \end{abstract}
 
@@ -423,7 +423,7 @@ When looking at Figure~\ref{fig:1} one might ask the following questions:
 In view of the wide \asy\ confidence bands of the estimators of tail-indices, 
 are the estimated tail-indices from different series really distinct?
 \item
-Are there some {\em theoretical} reasons in favor of the fact that the tail indices from different series are {\em not} 
+Are there some {\em theoretical} reasons in favor of the fact that the tail-indices from different series are {\em not} 
 distinct?
 \end{itemize}
 In this paper, we try to find some answers to these questions. 
@@ -451,20 +451,17 @@ We argue based on a  utility \fct\ approach. We explicitly recognize the behavio
 concern for downside risk in an investor's evaluation of a portfolio
 using the framework of Generalized Disappointment Aversion (GDA)
 introduced by Routledge and Zin \cite{routledge2010generalized}. GDA
-is an extension of the concept of Disappointment Aversion (DA) of Gul \cite{gul:1991}. The Gul paper derives the DA from first principles (axiomatic).
-\par 
+is an extension of the concept of Disappointment Aversion (DA) of Gul \cite{gul:1991}. Gul derives the DA from first principles (axiomatic).
+
 In Section~\ref{sec:4} we summarize the discussion of the previous
 sections. 
-
-
-
 
 \section{Power-law tails of return series: some empirical results}\label{sec:1}\setcounter{equation}{0}
 In this section, we assume the model \eqref{eq:1} for the tails of the marginal
 \ds\ of a univariate return series $(X_t)$. For the sake of argument, we assume
 that this series constitutes a strictly stationary \seq . In what follows, we focus
 on the left tail of the \ds , i.e., on the losses. 
-However, it is common to present the tail index estimators
+However, it is common to present the tail-index estimators
 for positive data. Therefore we will multiply the losses $X_t$ by
 minus one, swapping the negative with the positive values.
 For simplicity, we also suppress subscripts in the notation:
@@ -477,12 +474,12 @@ for asset allocation and risk management. These parameters are market characteri
 useful description of the risk. Alternatively, these parameters can be
 used for model building of the equities in the market such as the GARCH model; see Section~\ref{sec:2}.
 %With these motives in mind, we present a survey of the
-%tail indices and scale parameters of 3 sectors, namely ``Energy'',
+%tail-indices and scale parameters of 3 sectors, namely ``Energy'',
 %``Consumer Staples'' and ``Information Technology'', of the S\&P 500
 %index.
 
-\subsection{Hill estimates of lower tail indices}\label{sec:Hill}
-Various estimators of the tail index $\alpha$  in the model
+\subsection{Hill estimates of lower tail-indices}\label{sec:Hill}
+Various estimators of the tail-index $\alpha$  in the model
 \eqref{eq:1a} have been proposed in the literature;
 see Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997}, de
 Haan and Ferreira \cite{haan:ferreira:2006}, Resnick
@@ -529,7 +526,7 @@ some high  quantile $X_{(n-k)}$ of the data. Then $k$ is chosen from a
 region in the plot where $\hat \alpha_k$ is relatively
 stable. For example, in Figure~\ref{fig:1} we have chosen $k=50$ from
 a sample of size $n=1304$, corresponding to the 96\%-quantile of the
-data. In general, the estimation of the tail index is an art and
+data. In general, the estimation of the tail-index is an art and
 requires some expertise; for some guidance
 see Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997},
 Resnick \cite{resnick:2007} and Drees et al. 
@@ -577,10 +574,10 @@ just show some benchmark which holds in the iid case and under additional condit
     \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
     {Information_Technology_lower.pdf}
   \end{minipage}
-  \caption{\small Hill estimates $\hat \alpha_{50}$ of the lower tail indices $\alpha$ of
+  \caption{\small Hill estimates $\hat \alpha_{50}$ of the lower tail-indices $\alpha$ of
     daily return series in sectors of the S\&P 500
     index. The data span
-    from 1 January 2010 to 31 December 2011 and comprise $n=1304$ observations.
+    from 1 January 2010 to 31 December 2014 and comprise $n=1304$ observations.
 The graphs from top to bottom correspond to the ``Energy'',
     ``Consumer Staples'' and ``Information Technology'' sectors.
     Each circle corresponds to a Hill estimate $\hat\alpha_{50}$; the grey
@@ -599,11 +596,11 @@ estimates of the losses in the ``Energy'' and ``Consumer Staples''
 sectors of the S\&P 500 index, as well as those of a 
 large portion of losses in the ``Information Technology'' sector.
 This fact indicates that the returns in each sector may 
-have comparable tail indices.
+have comparable tail-indices.
 \par
 Hoga's \cite{hoga:2016} test about the change of extreme quantiles
-may provide some further insight about how similar these tail indices are.
-Different tail indices are likely to result in different
+may provide some further insight about how similar these tail-indices are.
+Different tail-indices are likely to result in different
 extreme quantiles. Nevertheless, changes in the extreme quantiles may also
 result from changing scale parameters in the tail. Therefore  we first investigate the scale
 parameters of daily stock returns in the same sectors of S\&P 500 before we apply the test.
@@ -659,8 +656,8 @@ Figure~\ref{fig:sectors_parameters}.
     \includegraphics[width=\textwidth]
     {IT_scale.pdf}
   \end{minipage}
-  \caption{\small Estimates $\hat K_k$ and $\hat K_k^{\hat \alpha}$ on $\log_{10}$-scale 
-of stocks in sectors
+  \caption{\small Estimates of $\hat K_k$ (top) and $\hat K_k^{\hat
+      \alpha}$ (bottom) on $\log_{10}$-scale of stocks in sectors
     of the S\&P 500 index. The points are the estimated values, the bars 
     the \asy\ 95\%-confidence intervals; the confidence bands of the
     corresponding Hill estimates $\hat \alpha_k$ of these sectors are
@@ -700,7 +697,7 @@ increases. So the strong positive correlation seen in the ``Energy''
 sector suggests these stocks might have very similar investor
 preferences. This in turn may be attributed to stronger business
 relations between the energy enterprises. While two IT companies
-may provide a variety of products and services and not depend on each
+may provide a variety of products and services and do not depend on each
 other, two energy companies are more likely to depend on each other
 via relations of supplier and customer or otherwise to compete with each
 other if they are on the same link of the chain of energy production
@@ -779,31 +776,39 @@ Figure~\ref{fig:PairTest}.
       trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
     ]{Hoga_IT_pair.pdf}
   \end{minipage}
-  \caption{{\em Top row}: Test for pairwise equality of tail-indices in the 
-    ``Energy'', ``Consumer Staples'' and ``Information Technology'' 
-    sectors of S\&P 500. The test statistic in \eqref{eq:x1} is based on Hill estimates 
+  \caption{{\em Top row}: Test for pairwise equality of tail-indices
+    of losses in the  ``Energy'', ``Consumer Staples'' and
+    ``Information Technology'' 
+    sectors of S\&P 500. The test statistic in \eqref{eq:x1} is based
+    on Hill estimates 
     of $\alpha_X$ and $\alpha_Y$. 
     The green, blue and red points correspond to pairs of stock in a sector
     when the test statistic is outside the intervals $[q_{0.075},q_{0.925}]$,
- $[q_{0.05},q_{0.95}]$,  $[q_{0.025},q_{0.975}]$, repectively, where $q_p$ is the $p$-quantile of the limiting
-$N(0,\alpha_X^2+\alpha_Y^2)$-\ds\ of the test statistic in \eqref{eq:x1}. 
-    Grey points stand for pairs for which the test statistic is inside $[q_{0.075},q_{0.925}]$. 
-    {\em Bottom row:} Test for changing tail index or scale parameter     
-    using Hoga's test based on concatenated series of pairs of stocks. The green, blue and red points 
-correspond to pairs of stock in a sector 
-    when the test statistic $T_n$ is exceeds the $85\%$-, $90\%$-, $95\%$-quantile of the limit \ds .  
-  Grey points stand for pairs for which the test statistic is below the \asy\ $85\%$-quantile. Black points represent
+    $[q_{0.05},q_{0.95}]$,  $[q_{0.025},q_{0.975}]$, repectively, where
+    $q_p$ is the $p$-quantile of the limiting 
+    $N(0,\alpha_X^2+\alpha_Y^2)$-\ds\ of the test statistic in
+    \eqref{eq:x1}. Grey points stand for pairs for which the test
+    statistic is inside $[q_{0.075},q_{0.925}]$. 
+    {\em Bottom row:} Test for changing tail-index or scale parameter
+    of losses
+    using Hoga's test based on concatenated series of pairs of
+    stocks. The green, blue and red points
+    correspond to pairs of stock in a sector 
+    when the test statistic $T_n$ is exceeds the $85\%$-, $90\%$-,
+    $95\%$-quantile of the limit \ds .
+  Grey points stand for pairs for which the test statistic is below
+  the \asy\ $85\%$-quantile. Black points represent 
     pairs for which the computation of $T_n$ fails for given precision  
     requirements and time limits.
     The same number of upper order statistics are used for both tests.}
   \label{fig:PairTest} 
 \end{figure}
-It indicates that tail indices of equities in the
+It indicates that tail-indices of equities in the
 ``Energy'' or ``Information Technology'' sectors are more variable 
-in the ``Consumer Staples'' sector, as the null
+than in the ``Consumer Staples'' sector, as the null
 hypothesis is rejected more often for members of these two former sectors.
 Moreover, these figures suggest that the test based on the Hill estimator
-is quite powerful in distinguishing between tail indices. In contrast to the test presented in Section~\ref{sec:Hoga}
+is quite powerful in distinguishing between tail-indices. In contrast to the test presented in Section~\ref{sec:Hoga}
 the present test results in  more rejections for the ``Energy'' and the
 ``Information Technology'' sectors.
 \par
@@ -814,14 +819,14 @@ two return series in the same market.
 
 
 
-\subsection{A tests for a change in the extreme tail}\label{sec:Hoga}
+\subsection{A test for a change in the extreme tail}\label{sec:Hoga}
 Here we apply a test from
 a recent paper by Hoga \cite{hoga:2016}. This test has been developed
 for a different kind of problem. Given a strictly stationary
 \ts\ $X_1,\ldots,X_n$ with a marginal \ds\ $F$ with right power-law
 tail, the goal is to test whether there is a structural break of the
 {\em extreme quantiles} $F^{-1}(1-p)$ for values $p$ very close to
-zero. If the tail index {\em or} the scale parameter in a \ds\ of type
+zero. If the tail-index {\em or} the scale parameter in a \ds\ of type
 \eqref{eq:3} change inside a sample, then it is likely that the
 extreme quantiles change as well. We will test for a change of tail
 index or scale parameter in this indirect way.
@@ -850,11 +855,11 @@ Under the null hypothesis, $(T_n)$ converges to a complicated \fct al of \BM\ on
 evaluated by simulation.  
 \par
 When applied to our problem we would like to test 
-whether there is a change of the tail index {\em or} scale parameter in \eqref{eq:3} in each of the S\&P 500 
-series in the distinct sectors. We also  want to get some indication about a possible change of tail index or
+whether there is a change of the tail-index {\em or} scale parameter in \eqref{eq:3} in each of the S\&P 500 
+series in the distinct sectors. We also  want to get some indication about a possible change of tail-index or
 scale parameter from one series to another within a given sector. For this reason, we choose any pair of series
 within a sector and concatenate each of the paired series. Then we run the test on the concatenated series.
-Of course, despite the fact that we test changes of tail index or scale parameter 
+Of course, despite the fact that we test changes of tail-index or scale parameter 
 {\em in a very indirect way} -- there may be many other reasons for the change of extreme quantiles in a sample -- 
 we also concatenate two rather distinct series. Even if we assume that the two series come from related models
 (such as GARCH), the parameters of these models will in general not be the same. Moreover, the concatenation
@@ -863,20 +868,20 @@ with interpretations of the results of the tests.
 \par 
 In Figure~\ref{fig:Hoga_Single} we show the values of the test statistic $T_n$ (horizontal bars)
 for $t_0=0.1$ and daily return series of stock in the ``Energy'' and ``Consumer Staples'' sectors of the S\&P
-500 index. The ``null hypothesis'' is that the tail index and scale parameter remain the
+500 index. The ``null hypothesis'' is that the tail-index and scale parameter remain the
 same througout the selected period of time. For most stocks, the hypothesis cannot be rejected even at the 85\% level.
 This fact may be an indication that the \ds\ inside a series is rather homogeneous.
 Alternatively, it may show that the power of the test is very low. A possible reason for this suspicion is that the \con\ rate
 of $(T_n)$ to its limit is very slow, i.e., the \asy\ \ds\ is not representative for the \ds\ of $T_n$ for the chosen $n$; for some
 simulation evidence, see below.
 \par
-To check whether any pair of stocks shares the same tail index and scale parameter we concatenate
+To check whether any pair of stocks shares the same tail-index and scale parameter we concatenate
 any two series and apply the aforementioned test on the concatenated series. For the ``Energy'' and the
 ``Consumer Staples'' sector we summarize the results in the bottom row of Figure~\ref{fig:PairTest}.
 These graphs show that the ``null
-hypothesis'' of an equal tail index and scale parameter is rejected for more pairs in the
+hypothesis'' of an equal tail-index and scale parameter is rejected for more pairs in the
 ``Energy'' sector than it is for those in the ``Consumer Staples''
-sector. This suggests that lower tail indices of stocks in the
+sector. This suggests that lower tail-indices of stocks in the
 ``Energy'' sector are more spread out than those of the ``Consumer
 Staples'' sector. Also observe that while 3 stocks, say A, B and C, test in favor of
 the relations $\alpha_A = \alpha_B, \alpha_A \neq \alpha_C$, it often
@@ -918,7 +923,7 @@ by simulations from the limit \ds .}
 %       trim={0.3cm, 1cm, 1cm, 1cm}, clip
 %     ]{Hoga_CS_pair.pdf}
 %   \end{minipage}
-%   \caption{{\red check the symbols on the axes. Some are too long.} Test for changing tail index or scale parameter based on concatenated series in the ``Energy'' and
+%   \caption{{\red check the symbols on the axes. Some are too long.} Test for changing tail-index or scale parameter based on concatenated series in the ``Energy'' and
 %     ``Consumer Staples'' sectors of
 %     S\&P 500. The green, blue and red colors represent, respectively, the cases when  
 %     the 85\%, 90\% and 95\% quantiles of the limit distribution of $T_n$ is exceeded.
@@ -938,7 +943,7 @@ sample concatenated from two independent iid samples of the same size
 $n=1304$ as the S\&P 500 series. Both pieces are $t$-distributed with
 distinct degrees of freedom. The results are shown in
 Figure~\ref{fig:t_sim_pair}: the power of the test is the smaller the
-larger the minimum tail index in the concatenated pair.
+larger the minimum tail-index in the concatenated pair.
 \begin{figure}[htb!]
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{t_sim_pair.pdf}
@@ -991,8 +996,8 @@ for the higher quantiles.
 \end{table}
 
 \newpage
-\section{Some theoretical arguments for equality of tail indices}\setcounter{equation}{0}\label{sec:2}
-\subsection{Multivariate GARCH models whose components have  equal tail indices}\label{subsec:garch}
+\section{Some theoretical arguments for equality of tail-indices}\setcounter{equation}{0}\label{sec:2}
+\subsection{Multivariate GARCH models whose components have  equal tail-indices}\label{subsec:garch}
 Among the models for returns the generalized autoregressive conditionally heteroscedastic (GARCH) model
 is certainly most popular because it is parsimonious, captures various of the stylized facts of real return data
 and can also be modified in various directions to capture specific behavior of \ts\ such a asymmetry, skewness, long memory; 
@@ -1010,7 +1015,7 @@ of the form
 \beam\label{eq:6}
 \P(\sigma_t>x)\sim c\,x^{-\alpha}\,,\qquad \xto\,,
 \eeam
-for some positive $c>0$ and a positive tail index $\alpha$ being the unique solution of the equation 
+for some positive $c>0$ and a positive tail-index $\alpha$ being the unique solution of the equation 
 $\E [(\alpha_1 Z_1^2+\beta_1)^{\alpha/2}]=1$
 provided the latter soluton exists and some mild assumptions on the \ds\ of $Z_t$ hold. This result
 follows by an application of the Kesten-Goldie theorem; see Kesten \cite{kesten:1973}, Goldie \cite{goldie:1991}, cf. 
@@ -1113,14 +1118,14 @@ Then $\bfA_t$ is diagonal and, hence, the condition that $\bfA_1\cdots\bfA_n$ ha
 cannot be satisfied. In the latter situation, both $(X_{1,t})$ and $(X_{2,t})$ are univariate \garch\ processes. Assuming the
 conditions of the univariate Kesten-Goldie theorem for each component process, $(X_{1,t})$ and $(X_{2,t})$ have power-law tails
 with indices $\kappa_1$ and $\kappa_2$, respecticely,  given by the solutions to the equations 
-$\E [(\alpha_{ii} Z_{i,t}^2+\beta_{ii})^{\kappa_i}]=1$, $i=1,2$. In this model, one can introduce dependence between the two component series $(X_{1,t})$ and $(X_{2,t})$ by assuming dependence between the noise variables $Z_{1,t}$ and $Z_{2,t}$. Another situation when the Kesten theory fails
+$\E [(\alpha_{ii} Z_{i,t}^2+\beta_{ii})^{\kappa_i/2}]=1$, $i=1,2$. In this model, one can introduce dependence between the two component series $(X_{1,t})$ and $(X_{2,t})$ by assuming dependence between the noise variables $Z_{1,t}$ and $Z_{2,t}$. Another situation when the Kesten theory fails
 appears when $\bfA_t$ is an upper or lower triangle matrix: then the products  $\bfA_1\cdots\bfA_n$ are always of the same triangular type.
 Similar remarks apply when one considers a CCC model in general dimension. Of course, one may argue that the latter models
 are degenerate since they do not allow for a linear relationship between all squared volatilities
 on a given day. 
 
-\subsection{An utility based argument for equal tail indices}\label{sec:3}
-In this section we give an argument based on economic theory which  favors equality of  tail indices for return series.
+\subsection{An utility based argument for equal tail-indices}\label{sec:3}
+In this section we give an argument based on economic theory which  favors equality of  tail-indices for return series.
 We follow an approach by Routledge and Zin \cite{routledge2010generalized} who introduced the notion of
 Generalized Disappointment Aversion (GDA). We consider the risky payoff $C$ of an investor and assume that
 it has a continuous \ds\ on $(0,\infty)$ with \df\ $F_C$. Let $u$ be a utility \fct\ assumed to be increasing and concave on $(0,\infty)$.
@@ -1209,7 +1214,8 @@ We consider the case when $X$ has a two-sided Pareto \ds\ given by
   \right.
 \eeam
 where
-$0 < p < 1$ and $K,K' > 0$. Then we have
+$\alpha, \beta > 0$, $K,K' > 0$, $0 < p < 1$ and
+$\alpha, \beta, K, K'$ are independent of each other. Then we have
 \beam\label{eq:xxie1.0}
  \wt u(\phi,F_X)\nonumber
   &=&
@@ -1400,7 +1406,7 @@ stationary distribution of equity returns. So it is of interest to
 find out what implications this distribution has when it is combined
 with the PDA preference. Formally we assume {\red instead of this function one can take a symmetric \ds\ with tails
 $\P(X>x)=0.5 (\kappa/(x+\kappa))^{\alpha}$. If the symmetry causes another behavior than in the previous section this would be interesting.}
-{\blue our tail index is always $\alpha$, not $\nu$.}
+{\blue our tail-index is always $\alpha$, not $\nu$.}
 \[
 f(x; \alpha) = c(\alpha) \left(
   1 + {x^2 \over \alpha}
@@ -1441,15 +1447,16 @@ in lemma \ref{lemma:II}, there is a point $x_0 > 0$ such that
 ${\pd f \over \pd \alpha}(x_0, \alpha) = 0$ and
 $\forall x \in (0, x_0),
 {\pd f \over  \pd \alpha}(x, \alpha) > 0$ and
-$\forall x \in (x_0, \infty), {\pd f \over \pd \alpha}(x, \alpha) <
-0$. Thus it remains to verify
-$\int_0^\infty {\pd f \over \pd \alpha}(x, \alpha) dx < \infty$
+$\forall x \in (x_0, \infty)$,
+${\pd f \over \pd \alpha}(x, \alpha) < 0$. Thus it remains to verify
+$\int_0^\infty |{\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$ and
+$\int_0^\infty |U_{\text{all}}(x){\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$
 if we are to apply lemma \ref{lemma:I}.
 
 As computed in the proof of lemma \ref{lemma:II}, ${\pd f \over \pd
   \alpha}(x, \alpha)$ is given by \eqref{eq:xxie4.1}. It is also shown
 there ${d \over d \alpha} c(\alpha) > 0$. Thus for
-$\int_0^\infty {\pd f \over \pd \alpha}(x, \alpha) dx < \infty$
+$\int_0^\infty |{\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$
 it suffices to show
 \[
 \int_ 0^\infty {
@@ -1484,8 +1491,18 @@ while
   &<& \int_1^\infty \alpha^{(\alpha+1) / 2} {dx \over x^{\alpha + 1}}
   < \infty
 \end{eqnarray*}
-So we conclude $\int_0^\infty {\pd f \over \pd \alpha}(x, \alpha) dx <
-\infty$, and by lemma \ref{lemma:I}, $\wt u_{\text{max}}$ is monotonically
+So we conclude
+$\int_0^\infty |{\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$.
+To see
+$\int_0^\infty |U_{\text{all}}(x){\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$, we note
+\begin{eqnarray*}
+  \xi |U_{\text{all}}(x)|
+  &<& [(1 - \phi) e^r + e^x]^{-\xi} + [(1 - \phi) e^r + e^{-x}]^{-\xi} \\
+  &<& 1 + (1 - \phi)^{-\xi} e^{-r \xi}
+\end{eqnarray*}
+Since $\int_0^\infty |{\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$,
+it follows from the above inequality $\int_0^\infty |U_{\text{all}}(x){\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$.
+Thus by lemma \ref{lemma:I}, $\wt u_{\text{max}}$ is monotonically
 increasing/decreasing with $\alpha$ when $U_{\text{all}}(\cdot)$ is
 monotonically decreasing/increasing.
 
@@ -1557,7 +1574,7 @@ results are shown in figure~\ref{fig:phi_hat_U}.
 \section{Conclusion}
 \label{sec:4}
 TODO: Summarize and conclude that all correlated series share the same
-tail index; their tail functions differ from each other via their
+tail-index; their tail functions differ from each other via their
 scale parameters.
 
 \appendix
