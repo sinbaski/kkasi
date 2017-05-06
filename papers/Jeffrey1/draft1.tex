@@ -188,18 +188,78 @@ For convenience, we shall write the above recurrence equation as
   \label{eq:garchpq_sre}
   V_t = A_t V_{t-1} + B_t
 \end{equation}
-with $V_t$, $A_t$ and $B_t$ defined as above. Bollerslev
-\cite{bollerslev:1986} showed that the
+with $V_t$, $A_t$ and $B_t$ defined as above.
+Bollerslev \cite{bollerslev:1986} showed that the
 equations \eqref{eq:garchpq} has a unique, strictly stationary
 solution if and only if
 \begin{equation}
   \sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1
   \label{eq:bollerslev}
 \end{equation}
-In the
-rest of this paper, we always assume condition \eqref{eq:bollerslev}
-is satisfied. For convenience of narration, let $\pi$ denote the
-unique stationary distribution of $V_n$ and let $V \sim \pi$.
+In the rest of this paper, we always assume condition
+\eqref{eq:bollerslev} is satisfied. For convenience of narration, let
+$\pi$ denote the unique stationary probability measure of
+$V \overset{d}{=}V_n$, and $P_Z$ the probability measure of
+$Z\overset{d}{=} Z_1$. Buraczewski et al
+\cite{buraczewski:damek:mikosch:2016} (proposition 4.3.1) showed that
+the support of $\pi$ is
+\[
+\chi = \overline{
+  \left\{
+  (I_{p+q-1} - a)^{-1} b:
+  \exists n \geq 1,
+  a = \prod_{i=1}^n A_i,
+  \|a\| < 1,
+  b = \left(\sum_{i=0}^{n-1} \prod_{j=1}^i A_{j}\right) B,
+  \right\}
+}
+\]
+where $\overline S$ denotes the closure of set $S$.
+In addition to \eqref{eq:bollerslev}, we assume the following about
+the recurrence equation \eqref{eq:garchpq_sre}:
+\begin{enumerate}[(I)]
+\item $\exists s > 0$ such that
+  $\E (\alpha_1 Z^2 + \beta_1)^s < \infty$
+\item If $p, q \geq 2$, there exists an non-empty open set $U \subset
+  \text{supp } P_Z$.
+\end{enumerate}
+Before proceeding any further, it is worthwhile pointing out a few
+implications of the above assumptions:
+\begin{enumerate}[(i)]
+\item \eqref{eq:garchpq} immediately implies
+  \[
+  \sigma_t^2 \geq \omega \left(
+    1 - \sum_{j=1}^q \beta_j
+  \right)^{-1} = \sigma_{\m}^2
+  \]
+  Then it follows
+  $\chi \subseteq [\sigma_{\m}^2, \infty)^q \times [0, \infty)^{p-1}$, so
+  $V_n \in \chi$ for all $n \geq 0$. Since the random variable
+  $Z_{n-1}^2$ is assumed to have a continuously differentiable
+  distribution function,
+  $\P(Z_{n-1}^2 = x) = 0$ for all $x \in \text{supp } P_{Z_{n-1}^2}$.
+  Furthermore, $Z_{n-1}^2$ uniquely determines the matrix $A_n$,
+  so it follows $\P(A v + B = v) = 0$ for all $v \in \chi$.
+
+\item \eqref{eq:bollerslev} implies the top Lyapunov exponent of $A_n$
+  \[
+  \gamma = \inf_{n \geq 1} \| A_n \cdots A_1 \|
+  \]
+  is negative and that the Markov chain $V_n$ has a
+  unique stationary distribution $\pi$ with finite
+  variance. Cf. Buraczewski et al
+  \cite{buraczewski:damek:mikosch:2016}, prop. 4.1.12.
+
+\item That $\vec 0 \notin \chi$ and $A_n$ has a Lebesgue density implies
+  the stationary distribution $\pi$ is absolutely continuous with
+  respect to Lebesgue measure. This immediately follows from lemma
+  4.2.2 of Buraczewski et al \cite{buraczewski:damek:mikosch:2016}.
+\end{enumerate}
+The implications (i), (ii), (iii) are in fact the conditions of
+proposition 4.2.1 of Buraczewski et al
+\cite{buraczewski:damek:mikosch:2016}, from which we conclude $V_n$ is
+an aperiodic, positive Harris chain that is $\pi$-irreducible on $\chi$.
+
 It follows from the Kesten-Goldie theorem
 \[
 \lim_{x \to \infty} x^{\xi} \P(\tilde y' V > u) = e_\xi(\tilde y)
@@ -230,112 +290,67 @@ estimator was proposed and shown to be efficient in the sense of
 bounded relative error by Collamore et al \cite{collamore2014}. We
 consider our work as a multivariate extension to theirs.
 
-\section{Statement of the Problem}
-We intend to find an estimator of bounded relative error for the
-probability $\P(\tilde y' V > u)$. But before we introduce the
-estimator we would like to point out a few properties of the
-GARCH($p,q$) process which will be essential for the estimator.
-For convenience of description, let $\chi$ denote the state space of
-the Markov chain $V_n$.
-\begin{enumerate}
-\item \eqref{eq:garchpq} immediately implies
-  \[
-  \sigma_t^2 \geq \omega \left(
-  1 - \sum_{j=1}^q \beta_j
-  \right)^{-1} = \sigma_{\m}^2
-  \]
-  Then
-  $\chi = [\sigma_{\m}^2, \infty)^q \times [0, \infty)^{p-1}$, so
-      $V_n \in \chi$ for all $n \geq 0$. Since the random variable
-      $Z_{n-1}^2$ is assumed to have a continuously differentiable
-      distribution function,
-      $\P(Z_{n-1}^2 = x) = 0$ for all $x \in \text{supp}(Z_{n-1}^2)$.
-      Furthermore, $Z_{n-1}^2$ uniquely determines the matrix $A_n$,
-      so it follows $\P(A v + B = v) = 0$ for all $v \in \chi$.
+% \section{Statement of the Problem}
+% We intend to find an estimator of bounded relative error for the
+% probability $\P(\tilde y' V > u)$. But before we introduce the
+% estimator we would like to point out a few properties of the
+% GARCH($p,q$) process which will be essential for the estimator.
+% For convenience of description, let $\chi$ denote the state space of
+% the Markov chain $V_n$.
 
-\item \eqref{eq:bollerslev} implies the top Lyapunov exponent of $A_n$
-  \[
-  \gamma = \inf_{n \geq 1} \| A_n \cdots A_1 \|
-  \]
-  is negative and that the Markov chain $V_n$ has a
-  unique stationary distribution $\pi$ with finite
-  variance. Cf. Buraczewski et al
-  \cite{buraczewski:damek:mikosch:2016}, prop. 4.1.12.
+% For this purpose, we use a
+% result of Collamore and Mentemeier \cite{collamore:mentemeier:2016},
+% who showed that, under the following conditions, the chain $V_n = A_n
+% V_{n-1} + B_n$, not necessarily a GARCH($p, q$) process, is an
+% aperiodic positive Harris chain on $\mathbb R_+^d = \{x \in \mathbb
+% R^d: \forall i  = 1,\dots, d,\; \inn{e_i, x} \geq 0\}$. Here
+% $\{e_1, \dots, e_d\}$ denote a orthonormal basis of $\mathbb R^d$ and
+% $\inn{\cdot, \cdot}$ denotes inner product (cf. lemma 3.4 of
+% \cite{collamore:mentemeier:2016})
+% \begin{enumerate}[(i)]
+% \item For each and every $n \geq 1$ and for all
+%   $1 \leq i \leq j \leq d$, $(A_n)_{i,j} \geq 0$.
+% \item With probability 1, the matrices $A_n$ have no all-zero rows or
+%   columns, i.e.
+%   \[
+%   \P \left\{
+%   \text{$\exists 1 \leq i \leq n$ such that
+%     $\forall 1 \leq j \leq n$, $(A_n)_{i,j} = 0$ or $(A_n)_{j,i} = 0$
+%   }
+%   \right\} = 0
+%   \]
+% \item The additive subgroup of $\mathbb R$ generated by
+%   \[
+%   \{\ln \rho(\Pi): \Pi = \prod_{i=1}^n A_i \quad \text{for some n
+%     and iid. } A_i\}.
+%   \]
+%   is dense in $\mathbb R$. Here $\rho(\Pi)$ denotes the largest
+%   singular value of $\Pi$.
+% \item $\exists \xi > 0$ such that $\lambda(\xi) = 1$, where
+%   \[
+%   \lambda(\xi) := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
+%    \]
+%   \end{eqnarray*}
+% \item Let $\pi$ denote the stationary distribution of $V_n$ and $P$
+%   denote the transition kernel of $V_n$. Assume that
+%   there exists a set $\mathcal C$ with $\pi(\mathcal C) > 0$
+%   such that $\forall x \in \mathcal C$, $P(x, \cdot)$ has an
+%   absolutely continuous component with respect to some $\sigma$-finite
+%   non-null measure $\phi$.
+% \end{enumerate}
 
-\item $\vec 0 \notin \chi$ and $A_n$ has a Lebesgue density implies
-  the stationary distribution $\pi$ is absolutely continuous with
-  respect to Lebesgue measure. This immediately follows from lemma
-  4.2.2 of Buraczewski et al \cite{buraczewski:damek:mikosch:2016}.
+% It is straightforward to verify these conditions for a GARCH($p, q$)
+% process. Conditions (i) and (ii) are obvious.
 
-      
-\end{enumerate}
-
-
-
-
-For this purpose, we use a
-result of Collamore and Mentemeier \cite{collamore:mentemeier:2016},
-who showed that, under the following conditions, the chain $V_n = A_n
-V_{n-1} + B_n$, not necessarily a GARCH($p, q$) process, is an
-aperiodic positive Harris chain on $\mathbb R_+^d = \{x \in \mathbb
-R^d: \forall i  = 1,\dots, d,\; \inn{e_i, x} \geq 0\}$. Here
-$\{e_1, \dots, e_d\}$ denote a orthonormal basis of $\mathbb R^d$ and
-$\inn{\cdot, \cdot}$ denotes inner product (cf. lemma 3.4 of
-\cite{collamore:mentemeier:2016})
-\begin{enumerate}[(i)]
-\item For each and every $n \geq 1$ and for all
-  $1 \leq i \leq j \leq d$, $(A_n)_{i,j} \geq 0$.
-\item With probability 1, the matrices $A_n$ have no all-zero rows or
-  columns, i.e.
-  \[
-  \P \left\{
-  \text{$\exists 1 \leq i \leq n$ such that
-    $\forall 1 \leq j \leq n$, $(A_n)_{i,j} = 0$ or $(A_n)_{j,i} = 0$
-  }
-  \right\} = 0
-  \]
-\item The additive subgroup of $\mathbb R$ generated by
-  \[
-  \{\ln \rho(\Pi): \Pi = \prod_{i=1}^n A_i \quad \text{for some n
-    and iid. } A_i\}.
-  \]
-  is dense in $\mathbb R$. Here $\rho(\Pi)$ denotes the largest
-  singular value of $\Pi$.
-\item $\exists \xi > 0$ such that $\lambda(\xi) = 1$, where
-  \[
-  \lambda(\xi) := \inf_{n \geq 1} (\E \|A_n \cdots A_1\|^\xi)^{1/n}
-   \]
-  In addition,
-  \begin{eqnarray*}
-    \E \left[
-      \|A\|^\xi \max\left\{
-      \left| \ln(\|A\|) \right|,
-      \left|
-      \ln\left(\inf_{x \in S^{d-1}} |A x|\right) \right|
-      \right\}
-      \right] &<& \infty,
-    \quad
-    \E(|B|^\xi) < \infty
-  \end{eqnarray*}
-\item Let $\pi$ denote the stationary distribution of $V_n$ and $P$
-  denote the transition kernel of $V_n$. Assume that
-  there exists a set $\mathcal C$ with $\pi(\mathcal C) > 0$
-  such that $\forall x \in \mathcal C$, $P(x, \cdot)$ has an
-  absolutely continuous component with respect to some $\sigma$-finite
-  non-null measure $\phi$.
-\end{enumerate}
-It is straightforward to verify these conditions for a GARCH($p, q$)
-process. Conditions (i) and (ii) are obvious.
-
-Moreover, it follows from condition (v)
-\[
-P(x, A) \geq \I_{\mathcal C}(x) \phi(A) \inf_{y \in A} f(y)
-\]
-where $f(\cdot)$ is the Radon-Nikodym derivative of $P(x, \cdot)$ with
-respect to $\phi$. This minorization condition gives rise to a
-regenerative structure of the path of $V_n$. Cf. Ney and Nummelin
-\cite{ney1987markov}, lemma 3.1. Let $\tau$ has the distribution of
-the length of a regeneration cycle in this structure.
+% Moreover, it follows from condition (v)
+% \[
+% P(x, A) \geq \I_{\mathcal C}(x) \phi(A) \inf_{y \in A} f(y)
+% \]
+% where $f(\cdot)$ is the Radon-Nikodym derivative of $P(x, \cdot)$ with
+% respect to $\phi$. This minorization condition gives rise to a
+% regenerative structure of the path of $V_n$. Cf. Ney and Nummelin
+% \cite{ney1987markov}, lemma 3.1. Let $\tau$ has the distribution of
+% the length of a regeneration cycle in this structure.
 
 For a general vector $x$, let $\tilde x$ denote ${x \over |x|}$. For
 convenience, we also use the following notations:
