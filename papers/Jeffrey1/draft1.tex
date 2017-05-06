@@ -188,15 +188,15 @@ For convenience, we shall write the above recurrence equation as
   \label{eq:garchpq_sre}
   V_t = A_t V_{t-1} + B_t
 \end{equation}
-with $V_t$, $A_t$ and $B_t$ defined as above. Using the Kesten and
-Goldie theorem \cite{kesten:1973}, Bollerslev showed that the
+with $V_t$, $A_t$ and $B_t$ defined as above. Bollerslev
+\cite{bollerslev:1986} showed that the
 equations \eqref{eq:garchpq} has a unique, strictly stationary
 solution if and only if
 \begin{equation}
   \sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1
   \label{eq:bollerslev}
 \end{equation}
-Cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016}. In the
+In the
 rest of this paper, we always assume condition \eqref{eq:bollerslev}
 is satisfied. For convenience of narration, let $\pi$ denote the
 unique stationary distribution of $V_n$ and let $V \sim \pi$.
@@ -235,21 +235,39 @@ We intend to find an estimator of bounded relative error for the
 probability $\P(\tilde y' V > u)$. But before we introduce the
 estimator we would like to point out a few properties of the
 GARCH($p,q$) process which will be essential for the estimator.
+For convenience of description, let $\chi$ denote the state space of
+the Markov chain $V_n$.
 \begin{enumerate}
 \item \eqref{eq:garchpq} immediately implies
-\[
-\sigma_t^2 \geq \omega \left(
-1 - \sum_{j=1}^q \beta_j
-\right)^{-1} = \sigma_{\m}^2
-\]
-Let $\chi = [\sigma_{\m}^2, \infty)^q \times [0, \infty)^{p-1}$, so
-    $V_n \in \chi$ for all $n \geq 0$. Since the random variable
-    $Z_{n-1}^2$ is assumed to have a continuously differentiable
-    distribution function,
-    $\P(Z_{n-1}^2 = x) = 0$ for all $x \in \text{supp}(Z_{n-1}^2)$.
-    Furthermore, $Z_{n-1}^2$ completely determines the matrix $A_n$,
-    so it follows $\P(A v + B = v) = 0$ for all $v \in \chi$.
-\item 
+  \[
+  \sigma_t^2 \geq \omega \left(
+  1 - \sum_{j=1}^q \beta_j
+  \right)^{-1} = \sigma_{\m}^2
+  \]
+  Then
+  $\chi = [\sigma_{\m}^2, \infty)^q \times [0, \infty)^{p-1}$, so
+      $V_n \in \chi$ for all $n \geq 0$. Since the random variable
+      $Z_{n-1}^2$ is assumed to have a continuously differentiable
+      distribution function,
+      $\P(Z_{n-1}^2 = x) = 0$ for all $x \in \text{supp}(Z_{n-1}^2)$.
+      Furthermore, $Z_{n-1}^2$ uniquely determines the matrix $A_n$,
+      so it follows $\P(A v + B = v) = 0$ for all $v \in \chi$.
+
+\item \eqref{eq:bollerslev} implies the top Lyapunov exponent of $A_n$
+  \[
+  \gamma = \inf_{n \geq 1} \| A_n \cdots A_1 \|
+  \]
+  is negative and that the Markov chain $V_n$ has a
+  unique stationary distribution $\pi$ with finite
+  variance. Cf. Buraczewski et al
+  \cite{buraczewski:damek:mikosch:2016}, prop. 4.1.12.
+
+\item $\vec 0 \notin \chi$ and $A_n$ has a Lebesgue density implies
+  the stationary distribution $\pi$ is absolutely continuous with
+  respect to Lebesgue measure. This immediately follows from lemma
+  4.2.2 of Buraczewski et al \cite{buraczewski:damek:mikosch:2016}.
+
+      
 \end{enumerate}
 
 
