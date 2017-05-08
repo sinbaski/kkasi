@@ -104,7 +104,7 @@ equation
 where $\{R_t\}_{t \in \mathbb Z}$ is the return series in question;
 $\{Z_t\}_{t \in \mathbb Z}$ is an iid sequence of random variables
 with zero mean and unit variance; the distribution function of $Z_t$
-is assumed to have a density function.
+is assumed to have a density.
 $\omega, \alpha_i, i \in \{1,\dots,p\}$ and
 $\beta_j, j \in \{1,\dots,q\}$ are constant parameters. A process
 defined by \eqref{eq:garchpq} is called a GARCH($p,q$) process.
@@ -180,16 +180,29 @@ When $p > 1$ or $q > 1$, a matrix recurrence equation arises
         0 \\
         0 \\
       \end{pmatrix}
-    }_{B_t}
+    }_{B}
   \end{equation*}
 \end{small}
-For convenience, we shall write the above recurrence equation as
+For convenience, define $d = p + q - 1$ and we shall write the above
+recurrence equation as
 \begin{equation}
   \label{eq:garchpq_sre}
   V_t = A_t V_{t-1} + B
 \end{equation}
-with $V_t$, $A_t$ and $B_t$ defined as above. Since $A_1, A_2, \dots$
-are iid, let $A \overset{d}{=} A_1$ and $Z \overset{d}{=} Z_1$.
+where $V_t$ and $B$ are $d$-dimensional vectors, $A_t$ are
+$d \times d$ matrices. Their definitions are obvious from the above
+equation. It is useful to note that, if given $V_t$ and $V_{t-1}$,
+$Z_{t-1}^2$ can be easily found:
+\[
+z_{t-1}^2 = {
+  \inn{\vec e_{q+1}, V_{t}}
+  \over
+  \inn{\vec e_1, V_{t-1}}
+}
+\]
+Since $Z_1, Z_2, \dots$
+are iid, so are $A_1, A_2, \dots$. Let $Z \overset{d}{=} Z_1$ and
+$A \overset{d}{=} A_1$.
 Bollerslev \cite{bollerslev:1986} showed that the fixed-point
 stochastic equation $X \overset{d}{=} A X + B$ has a unique, strictly
 stationary solution with finite variance if and only if
@@ -201,7 +214,7 @@ In the rest of this paper, we always assume condition
 \eqref{eq:bollerslev} is satisfied. For convenience of narration, let
 $\pi$ denote this unique stationary probability measure and let
 $V \sim \pi$, and $Z \sim P_Z$. According to Buraczewski et al
-\cite{buraczewski:damek:mikosch:2016}, proposition 4.3.1 the support
+\cite{buraczewski:damek:mikosch:2016}, proposition 4.3.1, the support
 of $\pi$ is
 \[
 \chi = \overline{
@@ -239,7 +252,7 @@ implications of the above assumptions:
   $V_n \in \chi$ for all $n \geq 0$. Since the random variable
   $Z_{n-1}^2$ is assumed to have a continuously differentiable
   distribution function,
-  $\P(Z_{n-1}^2 = x) = 0$ for all $x \in \text{supp } P_{Z_{n-1}^2}$.
+  $\P(Z_{n-1}^2 = x) = 0$ for all $x \in \text{supp } P_{Z^2}$.
   Furthermore, $Z_{n-1}^2$ uniquely determines the matrix $A_n$,
   so it follows $\P(A v + B = v) = 0$ for all $v \in \chi$.
 
@@ -258,7 +271,8 @@ implications of the above assumptions:
 The implications (i), (ii), (iii) are in fact the conditions of
 proposition 4.2.1 of Buraczewski et al
 \cite{buraczewski:damek:mikosch:2016}, from which we conclude $V_n$ is
-an aperiodic, positive Harris chain that is $\pi$-irreducible on $\chi$.
+an aperiodic, positive Harris chain that is in addition
+$\pi$-irreducible on $\chi$.
 Moreover, conditions (I) and (II) allow the application of
 Kesten-Goldie theorem (cf. Buraczewski et al
 \cite{buraczewski:damek:mikosch:2016}, example 4.4.13), which gives
@@ -364,11 +378,54 @@ X_n &=& {
         |A_n A_{n-1} \cdots A_1 \tilde V_0|
         } \\
 S_n &=& \ln |A_n \cdots A_1 \tilde V_0| \\
-\xi_n &=& S_n - S_{n-1} = \ln |A_n X_{n-1}|
+\l_n &=& S_n - S_{n-1} = \ln |A_n X_{n-1}|
 \end{eqnarray*}
-Clearly $(X_n, S_n)$ is a Markov additive process.
-
-
+Clearly $(X_n, S_n)$ is a Markov additive process. Let $P$ denote the
+kernel of this prcess. We have
+\begin{eqnarray*}
+  P(x, dy \times dl) &=& \P(X_n \in dy, l_n \in dl | X_{n-1} = x)  \\
+  &=&
+  \P\left[
+    {
+      Z_{n-1}^2 \in d\left( {
+          \inn{\vec e_{q+1}, e^l y}
+          \over
+          \inn{\vec e_{1}, x}
+        }\right)
+    }
+  \right]
+\end{eqnarray*}
+Define mapping
+\[
+g: (x, y, l) \in \tilde \chi \times \tilde \chi \times \mathbb R
+\to
+\mathbb R_+ \ni {
+  \inn{\vec e_{q+1}, e^l y}
+  \over
+  \inn{\vec e_{1}, x}
+}
+\]
+where $\tilde \chi$ denotes the set $\{V / |V|: V \in \chi\}$. So the
+above equation can be written as
+\[
+P(x, dy \times dl) = \P \left[ Z^2 \in g(x, dy, dl) \right]
+\]
+Note $Z_i$ are iid and $\forall n, Z \overset{d}{=} Z_{n-1}$.
+Also note
+$g(\tilde \chi, \tilde \chi, \mathbb R) = \supp Z^2$,
+where by the short-hand notation $\supp Z^2$ we mean the support of
+the probability measure of $Z^2$.
+Choose a set $\mathcal C \subset \tilde \chi$ such that
+\[
+\inf_{w \in g(\mathcal C, \tilde \chi, \mathbb R)} f_{Z^2}(w) > 0
+\]
+We have
+\begin{eqnarray*}
+  P(x, dy \times dl) \geq
+  \I_{\mathcal C}(x) \inf_{w \in g(\mathcal C, dy, dl)} g(w, dy, dl)
+  | g(\mathcal C, dy, dl)| 
+\end{eqnarray*}
+where $|\cdot|$ denotes the Lebesgue measure.
 
 Next we show that
 this process has a regenerative structure. In view of Ney and Nummelin
