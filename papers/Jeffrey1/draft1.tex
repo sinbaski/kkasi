@@ -186,23 +186,23 @@ When $p > 1$ or $q > 1$, a matrix recurrence equation arises
 For convenience, we shall write the above recurrence equation as
 \begin{equation}
   \label{eq:garchpq_sre}
-  V_t = A_t V_{t-1} + B_t
+  V_t = A_t V_{t-1} + B
 \end{equation}
-with $V_t$, $A_t$ and $B_t$ defined as above.
-Bollerslev \cite{bollerslev:1986} showed that the
-equations \eqref{eq:garchpq} has a unique, strictly stationary
-solution if and only if
+with $V_t$, $A_t$ and $B_t$ defined as above. Since $A_1, A_2, \dots$
+are iid, let $A \overset{d}{=} A_1$ and $Z \overset{d}{=} Z_1$.
+Bollerslev \cite{bollerslev:1986} showed that the fixed-point
+stochastic equation $X \overset{d}{=} A X + B$ has a unique, strictly
+stationary solution with finite variance if and only if
 \begin{equation}
   \sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1
   \label{eq:bollerslev}
 \end{equation}
 In the rest of this paper, we always assume condition
 \eqref{eq:bollerslev} is satisfied. For convenience of narration, let
-$\pi$ denote the unique stationary probability measure of
-$V \overset{d}{=}V_n$, and $P_Z$ the probability measure of
-$Z\overset{d}{=} Z_1$. Buraczewski et al
-\cite{buraczewski:damek:mikosch:2016} (proposition 4.3.1) showed that
-the support of $\pi$ is
+$\pi$ denote this unique stationary probability measure and let
+$V \sim \pi$, and $Z \sim P_Z$. According to Buraczewski et al
+\cite{buraczewski:damek:mikosch:2016}, proposition 4.3.1 the support
+of $\pi$ is
 \[
 \chi = \overline{
   \left\{
@@ -223,7 +223,9 @@ the recurrence equation \eqref{eq:garchpq_sre}:
 \item If $p, q \geq 2$, there exists an non-empty open set $U \subset
   \text{supp } P_Z$.
 \end{enumerate}
-Before proceeding any further, it is worthwhile pointing out a few
+Clearly, these conditions are satisfied when $Z$ has normal or $t$
+distributions.
+Before proceeding any further, it is worthwhile to point out a few
 implications of the above assumptions:
 \begin{enumerate}[(i)]
 \item \eqref{eq:garchpq} immediately implies
@@ -245,9 +247,7 @@ implications of the above assumptions:
   \[
   \gamma = \inf_{n \geq 1} \| A_n \cdots A_1 \|
   \]
-  is negative and that the Markov chain $V_n$ has a
-  unique stationary distribution $\pi$ with finite
-  variance. Cf. Buraczewski et al
+  is negative. Cf. Buraczewski et al
   \cite{buraczewski:damek:mikosch:2016}, prop. 4.1.12.
 
 \item That $\vec 0 \notin \chi$ and $A_n$ has a Lebesgue density implies
@@ -259,15 +259,18 @@ The implications (i), (ii), (iii) are in fact the conditions of
 proposition 4.2.1 of Buraczewski et al
 \cite{buraczewski:damek:mikosch:2016}, from which we conclude $V_n$ is
 an aperiodic, positive Harris chain that is $\pi$-irreducible on $\chi$.
-
-It follows from the Kesten-Goldie theorem
+Moreover, conditions (I) and (II) allow the application of
+Kesten-Goldie theorem (cf. Buraczewski et al
+\cite{buraczewski:damek:mikosch:2016}, example 4.4.13), which gives
 \[
 \lim_{x \to \infty} x^{\xi} \P(\tilde y' V > u) = e_\xi(\tilde y)
 \]
-for some $\xi > 0$, some function $e_\xi(\cdot) > 0$ on $\mathbb S^{d-1}$
-and all $\tilde y \in \mathbb S^{d-1}$. Here $d = p + q - 1$ and
-$\tilde y'$ is the transpose of $\tilde
-y$. Cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016}.
+for some $0 < \xi < s$, where $s$ is the $s$ as in assumption (I),
+some function $e_\xi(\cdot) > 0$ on
+$\mathbb S^{d-1}$ and all $\tilde y \in \mathbb S^{d-1}$.
+Here $d = p + q - 1$ and $\tilde y'$ is the transpose of $\tilde y$.
+Cf. Kesten \cite{kesten:1973} and Buraczewski et al
+\cite{buraczewski:damek:mikosch:2016}, section 4.4.4.
 
 Although the probability $\P(\tilde y' V > u)$ has been given
 asymptotically by the Kesten-Goldie theorem, one often wishes to know
@@ -349,7 +352,7 @@ consider our work as a multivariate extension to theirs.
 % where $f(\cdot)$ is the Radon-Nikodym derivative of $P(x, \cdot)$ with
 % respect to $\phi$. This minorization condition gives rise to a
 % regenerative structure of the path of $V_n$. Cf. Ney and Nummelin
-% \cite{ney1987markov}, lemma 3.1. Let $\tau$ has the distribution of
+% \cite{ney:nummelin:1987}, lemma 3.1. Let $\tau$ has the distribution of
 % the length of a regeneration cycle in this structure.
 
 For a general vector $x$, let $\tilde x$ denote ${x \over |x|}$. For
@@ -361,12 +364,17 @@ X_n &=& {
         |A_n A_{n-1} \cdots A_1 \tilde V_0|
         } \\
 S_n &=& \ln |A_n \cdots A_1 \tilde V_0| \\
-\xi_n &=& S_n - S_{n-1} \\
-&=& \frac{|A_n \cdots A_1 \tilde V_0|}{|A_{n-1} \cdots A_1 \tilde V_0|} \\
-&=& \ln\left| A_n \frac{A_{n-1} \cdots A_1 \tilde V_0}
-    {|A_{n-1} \cdots A_1 \tilde V_0|} \right|\\
-&=& \ln |A_n X_{n-1}|
+\xi_n &=& S_n - S_{n-1} = \ln |A_n X_{n-1}|
 \end{eqnarray*}
+Clearly $(X_n, S_n)$ is a Markov additive process.
+
+
+
+Next we show that
+this process has a regenerative structure. In view of Ney and Nummelin
+\cite{ney:nummelin:1987}, lemma 3.1, this reduces to showing that the
+transition kernel of $(X_n, S_n)$ satisfies a minorization condition.
+
 Furthermore, we define
 \begin{eqnarray*}
 R_n &:=& \inf\{0 \leq i \leq n: V_i \in \mathcal C\} \\
