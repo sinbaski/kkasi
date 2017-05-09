@@ -420,7 +420,7 @@ data from 4th January 2010 to 31 December 2014.
 When looking at Figure~\ref{fig:1} one might ask the following questions:
 \begin{itemize}
 \item
-In view of the wide \asy\ confidence bands of the estimators of tail-indices, 
+In view of the wide \asy\ confidence bands for the estimators of tail-indices, 
 are the estimated tail-indices from different series really distinct?
 \item
 Are there some {\em theoretical} reasons in favor of the fact that the tail-indices from different series are {\em not} 
@@ -502,7 +502,7 @@ we multiplied the data by minus one)
 \P(-X_t>x)= \dfrac{K^\alpha}{x^\alpha}\,,\qquad x>K\,,
 \eeam
 under the hypothesis that we do not know the (high) threshold value
-$K$. The estimator has ``good'' properties such as 
+$K$. The estimator has ``good'' theoretical properties such as 
 \asy\ consistency and \asy\ normality. These properties hold under
 strict stationarity assumptions on the data; Drees and Rootz\'en 
 \cite{drees:rootzen:2010} give perhaps most general conditions for
@@ -693,7 +693,7 @@ that, while the ``Energy'' and the ``Information Technology'' sectors
 are similar in riskiness, the dependence  between $\alpha$ and $K$ is
 stronger in ``Energy''. As discussed in Section~\ref{sec:3} below, moving along
 a curve of equal preference in the direction of increasing $\alpha$, $K$ also
-increases. So the strong positive correlation seen in the ``Energy''
+increases. So the strong positive dependence seen in the ``Energy''
 sector suggests these stocks might have very similar investor
 preferences. This in turn may be attributed to stronger business
 relations between the energy enterprises. While two IT companies
@@ -794,7 +794,7 @@ Figure~\ref{fig:PairTest}.
     using Hoga's test based on concatenated series of pairs of
     stocks. The green, blue and red points
     correspond to pairs of stock in a sector 
-    when the test statistic $T_n$ is exceeds the $85\%$-, $90\%$-,
+    when the test statistic $T_n$ exceeds the $85\%$-, $90\%$-,
     $95\%$-quantile of the limit \ds .
   Grey points stand for pairs for which the test statistic is below
   the \asy\ $85\%$-quantile. Black points represent 
@@ -953,7 +953,7 @@ larger the minimum tail-index in the concatenated pair.
   \end{minipage}
   \caption{
     {\em Left}: Test  of concatenated $t$-samples with different
-    degrees of freedom. Numbers on the axes are the degrees of freedom
+    degrees of freedom ($\alpha$). Numbers on the axes are the degrees of freedom
     in the subsamples. For an interpretation of the colored bullets,
     see the bottom row of Figure~\ref{fig:PairTest}. The graph shows the limited power
     of the test. In particular, if both degrees of freedom are
@@ -970,8 +970,9 @@ larger the minimum tail-index in the concatenated pair.
 A major problem in this test is the \asy\ distribution of the test statistic under the
 null hypothesis.  The rate at which the finite-sample distribution tends to its limit is not known.
 To find out about this problem we compared the \ds s of $T_n$ 
-with $n=1304$ for $t$-distributed $X_t$ with  3 and 4 degrees of freedom and the limit \ds\ of $T_n$.
-The estimated density functions are shown in on the right of Figure~\ref{fig:t_sim_pair}.
+with $n=1304$ for $t$-distributed $X_t$ with  3 and 4 degrees of freedom ($\alpha$) and
+the limit \ds\ of $T_n$.
+The estimated density functions are shown on the right of Figure~\ref{fig:t_sim_pair}.
 As seen in the graph, the asymptotic distribution assigns
 significantly more mass to the tail than the \ds s of $T_n$ do. For
 comparison, we list a few quantiles of these \ds s in
@@ -988,9 +989,11 @@ Table~\ref{tab:HogaAsymptotic}, showing major differences between the
     t(3)  & 23.30 & 28.27 & 35.04 & 46.75 \\
     t(4)  & 25.76 & 31.13 & 38.81 & 56.32\\[2mm]
   \end{tabular}
-  \caption{Quantiles of the test statistic $T_n$ for $n=1304$ $t$-distributed samples with 3 and 4 degrees of freedom as well
-as the corresponding quantiles for the limiting \ds\ of $T_n$. In particular, there are huge differences between the three \ds s  
-for the higher quantiles. 
+  \caption{Quantiles of the test statistic $T_n$ for $n=1304$
+    $t$-distributed samples with 3 and 4 degrees of freedom ($\alpha$)
+    as well as the corresponding quantiles for the limiting \ds\ of
+    $T_n$. In particular, there are huge differences between the three
+    \ds s  for the higher quantiles. 
     }
   \label{tab:HogaAsymptotic}
 \end{table}
@@ -1015,9 +1018,9 @@ of the form
 \beam\label{eq:6}
 \P(\sigma_t>x)\sim c\,x^{-\alpha}\,,\qquad \xto\,,
 \eeam
-for some positive $c>0$ and a positive tail-index $\alpha$ being the unique solution of the equation 
+for some positive $c>0$ and a positive tail-index $\alpha$ which is the unique solution of the equation 
 $\E [(\alpha_1 Z_1^2+\beta_1)^{\alpha/2}]=1$
-provided the latter soluton exists and some mild assumptions on the \ds\ of $Z_t$ hold. This result
+provided that the soluton exists and some mild assumptions on the \ds\ of $Z_t$ hold. This result
 follows by an application of the Kesten-Goldie theorem; see Kesten \cite{kesten:1973}, Goldie \cite{goldie:1991}, cf. 
 Buraczewski et al. \cite{buraczewski:damek:mikosch:2016}. The latter result ensures power-law tails  for
 the strictly stationary  solution $(Y_t)$ to the \sre\ 
@@ -1032,12 +1035,16 @@ it follows that
 \P(\pm X_t>x)\sim \E[(Z_t)_\pm^\alpha]\,\P(\sigma_t>x)\,,\qquad \xto\,, 
 \eeao
 implying power-laws for the right and left tails of $X_t$ caused by the power-law tail of $\sigma_t$.
-A GARCH process of the order $(p,q)$ can be embedded in a multivariate equation of the type \eqref{eq:7},
-where $(\bfA_t)$ are iid random matrices and $\bfB=\bfB_t$ is a constant vector. Again, the Kesten theory \cite{kesten:1973}
-applies, implying that the marginal and \fidi s of the GARCH process are \regvary\ with a positive index $\alpha$.
-We refrain from explaining the notion of multivariate \regvar\ which is needed in this context. For further details,
-see Buraczewski et al. \cite{buraczewski:damek:mikosch:2016} where the Kesten theorem and \regvar\ of GARCH processes
-are explained in detail.
+
+A GARCH process of the order $(p,q)$ can be embedded in a multivariate
+equation of the type \eqref{eq:7}, where $(\bfA_t)$ are iid random
+matrices and $\bfB=\bfB_t$ is a constant vector. Again, the Kesten
+theory \cite{kesten:1973} applies, implying that the marginal and
+\fidi s of the GARCH process are \regvary\ with a positive index
+$\alpha$. We refrain from explaining the notion of multivariate
+\regvar\ which is needed in this context. For further details, see
+Buraczewski et al. \cite{buraczewski:damek:mikosch:2016} where the
+Kesten theorem and \regvar\ of GARCH processes are explained in detail.
 \par
 There exist various extensions of the univariate GARCH
 model to the multivariate case. For the sake of argument, we stick here to the 
@@ -1124,16 +1131,22 @@ Similar remarks apply when one considers a CCC model in general dimension. Of co
 are degenerate since they do not allow for a linear relationship between all squared volatilities
 on a given day. 
 
-\subsection{An utility based argument for equal tail-indices}\label{sec:3}
-In this section we give an argument based on economic theory which  favors equality of  tail-indices for return series.
-We follow an approach by Routledge and Zin \cite{routledge2010generalized} who introduced the notion of
-Generalized Disappointment Aversion (GDA). We consider the risky payoff $C$ of an investor and assume that
-it has a continuous \ds\ on $(0,\infty)$ with \df\ $F_C$. Let $u$ be a utility \fct\ assumed to be increasing and concave on $(0,\infty)$.
-Following Routledge and Zin \cite{routledge2010generalized},
+\subsection{A utility based argument for equal tail-indices}\label{sec:3}
+In this section we give an argument based on economic theory that
+suggests equality of  tail-indices for equity return series.
+We follow an approach by Routledge and Zin
+\cite{routledge2010generalized} who introduced the notion of
+Generalized Disappointment Aversion (GDA). We consider the risky
+payoff $C$ of an investor and assume that it has a continuous \ds\ on
+$(0,\infty)$ with \df\ $F_C$. Let $u$ be a utility \fct\ assumed to be
+increasing and concave on $(0,\infty)$.  Following Routledge and Zin
+\cite{routledge2010generalized},
 the utility of an agent with GDA preferences is given by
 \beao% \label{eq:xxie0}
   \wt u&=& \E [u(C)] - b\, \int_{0}^{\delta v}
-  \big[ u(\delta \,v) - u(x) \big] F_C(dx)\nonumber\\&=& \E u(C) - b \E\big[\big(u(\delta \,v) - u(C)\big)\1( C \le  \delta \,v)\big]\,,
+  \big[ u(\delta \,v) - u(x) \big] F_C(dx)\nonumber\\
+  &=&
+  \E u(C) - b \E\big[\big(u(\delta \,v) - u(C)\big)\1( C \le  \delta \,v)\big]\,,
 \eeao
 where $\delta $ and $v$ are positive constants, and $b\ge 0$.
   Here $v$ can be thought of as the {\em certainty payoff} equivalent to the
@@ -1152,9 +1165,10 @@ Routledge and Zin assumed a power-law utility function
 \beam\label{eq:u}
 u(x)=\frac{1}{1 - \gamma}\,x^{1 - \gamma}\,,\quad \gamma>0\,. 
 \eeam
-In practice it is more often to observe $\gamma > 1$ {\blue Let's
-consult Casper for references.} Therefore we adopt a more convenient
-notation in this case
+% In practice it is more often to observe $\gamma > 1$ {\blue Let's
+% consult Casper for references.}
+We focus on the case $\gamma > 1$ and hence adopt a more convenient
+notation:
 \beam\label{eq:hjyr}
 u(x)=-\frac{1}{\xi}\,x^{-\xi}\,,\quad \xi>0\,. 
 \eeam
@@ -1166,11 +1180,11 @@ unit of wealth. He invests $1-\phi\in (0,1)$ units in a risk-free
 bond with interest rate $r>0$ and $\phi$ units in a risky asset with
 return $X$ over one time unit, i.e.,
 \beam\label{eq:xxie1}
-  C = (1 - \phi)\, \ex^{r} + \phi \,\ex^{X}\,.
+  C(x) = (1 - \phi)\, \ex^{r} + \phi \,\ex^{X}\,.
 \eeam
 Then we have 
 \beao
-\wt u(\phi,F_X) &=& \E [u(C)] + b\, \E \big[u(C)\1(C \le  \delta v)\big] - b \,u(\delta\, v) F_X(q)\,, %\label{eq:functional}
+\wt u(F_X, \phi) &=& \E [u(C)] + b\, \E \big[u(C)\1(C \le  \delta v)\big] - b \,u(\delta\, v) F_X(q)\,,
 \eeao
 where $F_X$ is the \df\ of $X$ with density $f_X$, and
 \beao
@@ -1195,7 +1209,7 @@ We assume that
 \beao
 \wt u_{\rm max}=\wt u_{\rm max}(F_X) = \max_{0 \le  \phi \leq 1} \wt u (F_X,\phi)
 \eeao
-exists. 
+exists and that the maximum is achieved at a unique $\hat\phi \in (0, 1)$.
 
 \subsection{Pareto-distributed returns}\label{sec:pareto_tail}
 Since we are interested in the influence of heavy-tailed losses on the preferences of an investor 
@@ -1215,9 +1229,12 @@ We consider the case when $X$ has a two-sided Pareto \ds\ given by
 \eeam
 where
 $\alpha, \beta > 0$, $K,K' > 0$, $0 < p < 1$ and
-$\alpha, \beta, K, K'$ are independent of each other. Then we have
+$\alpha, \beta, K, K'$ are independent of each other. We shall also
+use the density function of $X$, which we define as
+$f_X(x) = {\pd F_X(x) \over \pd x}$.
+Then we have
 \beam\label{eq:xxie1.0}
- \wt u(\phi,F_X)\nonumber
+ \wt u(F_X, \phi)\nonumber
   &=&
   \alpha\, K^\alpha\,  p\,
   \int_{-\infty}^0
@@ -1241,22 +1258,24 @@ We observe the following property which also applies to \eqref{eq:xxie1.0}.
 The proof is given in Appendix~\ref{sec:thrmI_proof}. 
 \par
 We conclude that
-$\wt u_{\rm max}$ increases with $\alpha$ and decreases with $K$. Therefore there is a curve of
-equal preference on the $(\alpha, K)$-plane. Moving along this
-curve in the direction of increasing $\alpha$, one expects the values
-of $K$ to increase too, i.e., the estimated values of $\alpha$ and $K$
-should appear positively dependent. This is indeed the case for some
+$\wt u_{\rm max}$ increases with $\alpha$ and decreases with
+$K$. Therefore there is a curve of  equal preference on the $(\alpha,
+K)$-plane. Moving along this curve in the direction of increasing
+$\alpha$, one expects the values of $K$ to increase too, i.e., the
+estimated values of $\alpha$ and $K$ 
+should appear positively dependent. Figure~\ref{fig:preference_pareto}
+illustrates this scenario for $\xi = 1/2, 4$ for the power-utility
+\fct\ \eqref{eq:u}.
+In fact, this positive dependence is indeed observed for some
 real return data, e.g. the ``Energy'', ``Consumer Staples'' and
 ``Information Technology'' sectors of the S\&P 500 index; see 
 Figure~\ref{fig:sectors_parameters}.
 \par
-We illustrate Lemma~\ref{thrm:I} in Figure~\ref{fig:preference_pareto}
-for the power-utility \fct\ \eqref{eq:u}.
 A particularly interesting special case is when the left and the right
 tails have equal parameters, i.e. when $\alpha = \beta$ and $K =
 K'$. In this case \eqref{eq:pareto} becomes
 \begin{eqnarray}
-  \wt u(\phi, F_X) &=& \alpha p K^\alpha (1 + b)
+  \wt u(F_X, \phi) &=& {\alpha \over 2} K^\alpha (1 + b)
   \int_{0}^\infty {
     u(C(x)) \left[
       1 - {b \over 1 + b}\1_{\{x \ge q\}}
@@ -1340,14 +1359,14 @@ given values of $K, K', \alpha, \beta$.  This is shown in
 Figure~\ref{fig:phi_hat_pareto} for the power utility \fct\ \eqref{eq:u}.
 \begin{figure}[htb!]
   \begin{minipage}{0.5\linewidth}
-    \includegraphics[width=\textwidth]{phi_hat_pareto5e-1.pdf}    
+    \includegraphics[width=\textwidth]{phi_hat_pareto5e-1_A.pdf}    
   \end{minipage}\hfill
   \begin{minipage}{0.5\linewidth}
-    \includegraphics[width=\textwidth]{phi_hat_pareto4.pdf}
+    \includegraphics[width=\textwidth]{phi_hat_pareto4_A.pdf}
   \end{minipage}
  \caption{The graphs show $\hat\phi$, the optimal equity allocation
     as a \fct\ of $\alpha$ and $K$ in the two-sided Pareto model
-    \eqref{eq:pareto} with $K=K'$, $\alpha=\beta$. We choose
+    \eqref{eq:pareto} with $K'=0.012$, $\beta = 1.4$. We choose
     the utility \fct\ $u$ from \eqref{eq:u}
     for $\xi = 1/2$ (left) and $\xi = 4$
     (right).
@@ -1372,15 +1391,15 @@ The following graph (figure \ref{fig:preference_pareto}) shows how
 $\tilde u(\alpha, K, \wt\phi)$ changes with $\alpha$ and $K$.
 \begin{figure}[htb!]
   \begin{minipage}{0.5\linewidth}
-    \includegraphics[width=\textwidth]{preference_pareto5e-1.pdf}
+    \includegraphics[width=\textwidth]{preference_pareto5e-1_A.pdf}
   \end{minipage}\hfill
   \begin{minipage}{0.5\linewidth}
-    \includegraphics[width=\textwidth]{preference_pareto4.pdf}
+    \includegraphics[width=\textwidth]{preference_pareto4_A.pdf}
   \end{minipage}
-  \caption{The quantities $I(\alpha, K)$ for the power-utility \fct\
+  \caption{$\tilde u_{\text{max}}(\alpha, K)$ for the power-utility \fct\
     with $\xi=1/2$ (left) and $\xi=4$ (right). The graphs clearly show
-    that  $I(\alpha, K)$ increases with $\alpha$ and decreases with
-    $K$.
+    that  $\tilde u_{\text{max}}(\alpha, K)$ increases with $\alpha$
+    and decreases with $K$. $K' = 0.012$ and $\beta = 1.4$ are fixed.
   }
   \label{fig:preference_pareto}
 \end{figure}
@@ -1692,7 +1711,11 @@ scale parameters.
   \end{eqnarray*}
   Thus we have
   \begin{eqnarray*}
-    && {\pd \E h(X) \over \pd \theta} \\
+    {\pd \E h(X) \over \pd \theta}
+    &=&
+    {\pd \over \pd \theta}
+    \int_a^b h(x)
+    f(x, \theta) dx \\
     &=& \int_a^b h(x)
     {\pd f \over \pd \theta}(x, \theta) dx \\
     &=& \underbrace{\int_a^{x_0}

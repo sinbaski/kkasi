@@ -26,22 +26,35 @@ pareto.preference <- function(phi, alpha, alpha.r, K, K.r) {
     }
 
     y1 <- integrate(function(x) {
-        U <- utility(consumption(x, phi, r)) *
-            alpha * K^alpha * p /(K - x)^(alpha + 1);
-        return(U * (1 + b));
+        U <- utility(consumption(x, phi, r))/(K - x)^(alpha + 1);
+        return(U);
     }, -Inf, 0)$value;
+    y1 <- y1 * alpha * K^alpha * p * (1 + b);
 
     y2 <- integrate(function(x) {
-        U <- utility(consumption(x, phi, r)) *
-            alpha.r * K.r^alpha.r * (1 - p) /(K.r + x)^(alpha.r + 1);
-        U[x < q] <- U[x < q] * (1 + b);
+        U <- utility(consumption(x, phi, r))/(K.r + x)^(alpha.r + 1);
         return(U);
-    }, 0, Inf)$value;
+    }, 0, q)$value;
+    y2 <- y2 * alpha.r * K.r^alpha.r * (1 - p) * (1 + b);
 
-    y3 <- b * Pareto(q, alpha, alpha.r, K, K.r) *
+    y3 <- integrate(function(x) {
+        U <- utility(consumption(x, phi, r))/(K.r + x)^(alpha.r + 1);
+        return(U);
+    }, q, Inf)$value;
+    y3 <- y3 * alpha.r * K.r^alpha.r * (1 - p);
+
+    ## y2 <- integrate(function(x) {
+    ##     U <- utility(consumption(x, phi, r)) *
+    ##         alpha.r * K.r^alpha.r * (1 - p) /(K.r + x)^(alpha.r + 1);
+    ##     U[x < q] <- U[x < q] * (1 + b);
+    ##     return(U);
+    ## }, 0, Inf)$value;
+
+    y4 <- b * Pareto(q, alpha, alpha.r, K, K.r) *
         utility(consumption(q, phi, r));
-
-    return(c(y1, y2, y3));
+    
+    ## return(c(y1, y2, y3));
+    return(y1 + y2 + y3 - y4);
 }
 
 t.preference <- function(phi, nu) {
@@ -74,10 +87,11 @@ t.preference <- function(phi, nu) {
 
 pareto.optimal.alloc <- function(alpha, alpha.r, K, K.r) {
     result <- optimize(
-        function(phi, alpha, alpha.r, K, K.r) {
-            y <- pareto.preference(phi, alpha, alpha.r, K, K.r);
-            return(y[1] + y[2] - y[3]);
-        },
+        ## function(phi, alpha, alpha.r, K, K.r) {
+        ##     y <- pareto.preference(phi, alpha, alpha.r, K, K.r);
+        ##     return(y);
+        ## },
+        pareto.preference,
         interval=c(0, 1),
         alpha=alpha, alpha.r=alpha.r,
         K=K, K.r=K.r, maximum=TRUE
@@ -103,7 +117,7 @@ b <- 0.01;
 ## b <- 0;
 p <- 0.5;
 delta.v <- exp(r)*1.05;
-xi <- 0.5;
+xi <- 4;
 
 ## alpha.r <- 3.5;
 ## alpha <- 3;
@@ -113,14 +127,15 @@ xi <- 0.5;
 ## utility <- function(x) log(x);
 utility <- power.utility;
 
-scales <- seq(from=0.001, to=0.02, length.out=50);
+scales <- seq(from=10^(-2.3), to=10^(-1.7), length.out=50);
+## scales <- seq(from=0.1, to=1, length.out=50);
 indices <- seq(from=2, to=5, length.out=40);
 phi.hat <- matrix(NA, nrow=length(indices),
                   ncol=length(scales));
 U <- matrix(NA, nrow=length(indices),
             ncol=length(scales));
-K.r <- 0.01;
-alpha.r <- 2.0;
+K.r <- mean(scales);
+alpha.r <- 1.4;
 for (i in 1:length(indices)) {
     for (j in 1 : length(scales)) {
         phi <- pareto.optimal.alloc(indices[i], alpha.r,
@@ -128,7 +143,7 @@ for (i in 1:length(indices)) {
         phi.hat[i, j] <- phi;
         y <- pareto.preference(phi, indices[i], alpha.r,
                                scales[j], K.r);
-        U[i, j] <- y[1];
+        U[i, j] <- y;
     }
 }
 
@@ -182,20 +197,24 @@ legend("topright", col=colors,
 dev.off();
 
 
-
-pdf("phi_hat_pareto5e-1.pdf")
+pdf("phi_hat_pareto4.pdf");
+## pdf("phi_hat_pareto5e-1.pdf")
 filled.contour(indices, scales, phi.hat, nlevels=60,
+##               zlim=c(0, 1),
+##               main=expression(u(x)==-frac(2, sqrt(x))
+               main=expression(u(x)==-frac(1, 4*x^4)),
                xlab=expression(alpha), ylab=expression(K),
-               color=terrain.colors,
-               main=expression(u(x)==-frac(2, sqrt(x)))
+               color=terrain.colors
                );
 dev.off();
 
 pdf("preference_pareto4.pdf");
+## pdf("preference_pareto5e-1.pdf");
 filled.contour(indices, scales, U, nlevels=60,
+               ## main=expression(u(x)==-frac(2, sqrt(x)),
+               main=expression(u(x)==-frac(1, 4*x^4)),
                xlab=expression(alpha), ylab=expression(K),
-               color=terrain.colors,
-               main=expression(u(x)==-frac(1, 4*x^4))
+               color=terrain.colors
                );
 dev.off();
 

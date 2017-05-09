@@ -276,9 +276,10 @@ $\pi$-irreducible on $\chi$.
 Moreover, conditions (I) and (II) allow the application of
 Kesten-Goldie theorem (cf. Buraczewski et al
 \cite{buraczewski:damek:mikosch:2016}, example 4.4.13), which gives
-\[
-\lim_{x \to \infty} x^{\xi} \P(\tilde y' V > u) = e_\xi(\tilde y)
-\]
+\begin{equation}
+  \label{eq:kesten}
+  \lim_{x \to \infty} x^{\xi} \P(\tilde y' V > u) = e_\xi(\tilde y)  
+\end{equation}
 for some $0 < \xi < s$, where $s$ is the $s$ as in assumption (I),
 some function $e_\xi(\cdot) > 0$ on
 $\mathbb S^{d-1}$ and all $\tilde y \in \mathbb S^{d-1}$.
@@ -412,9 +413,9 @@ P(x, dy \times dl) = \P \left[ Z^2 \in g(x, dy, dl) \right]
 \]
 Note $Z_i$ are iid and $\forall n, Z \overset{d}{=} Z_{n-1}$.
 Also note
-$g(\tilde \chi, \tilde \chi, \reals) = \supp Z^2$,
-where by the short-hand notation $\supp Z^2$ we mean the support of
-the probability measure of $Z^2$.
+$g(\tilde \chi, \tilde \chi, \reals) = \supp P_{Z^2}$,
+% where by the short-hand notation $\supp P_{Z^2}$ we mean the support of
+% the probability measure of $Z^2$.
 Choose a set $\mathcal C \subset \tilde \chi$ such that
 \[
 \inf_{w \in g(\mathcal C, \tilde \chi, \reals)} f_{Z^2}(w) > 0
@@ -443,7 +444,7 @@ Clearly
   &=&
   \int_{g(\mathcal C, \tilde \chi, \reals)} f_{Z^2}(w) dw \\
   &<&
-  \int_{\supp Z^2} f_{Z^2}(w) dw = 1
+  \int_{\supp P_{Z^2}} f_{Z^2}(w) dw = 1
 \end{eqnarray*}
 Let
 \[
@@ -466,7 +467,7 @@ probability measure. We have the minorization condition
 By Ney and Nummelin \cite{ney:nummelin:1987}, lemma 3.1,
 \eqref{eq:minorization} implies the MA-process $(X_n, S_n)$ has a
 regenerative structure:
-\begin{enumerate}
+\begin{enumerate}[(1)]
 \item There exist random variables $0 \leq K_0 < K_1 < \dots$,
   $i = 0, 1, 2, \dots$ such that $K_{i+1} - K_i$,  are iid.
 \item The blocks
@@ -488,11 +489,24 @@ regenerative structure:
 Before introducing our importance sampling estimator, we need
 the following definitions:
 \begin{eqnarray*}
-  %% R_n &:=& \inf\{0 \leq i \leq n: V_i \in \mathcal C\} \\
+  R_n &:=& \sup\{i \geq 0: K_i \leq n\} \\
   \tau &\overset{d}{=}& K_{i+1} - K_i\quad i = 0, 1, 2, \dots \\
   N_u &:=& \sum_{i=1}^\tau \1{V_i > u} \\
   T_u &=& \inf\{n \geq 1: |V_n| > u\}
 \end{eqnarray*}
+Naively one would estimate $\P(|V| > u)$ as
+$n^{-1} \sum_{i=1}^n \1{|V_i| > u}$, applying the law of large
+numbers. The difficulty with this naive method is that, when $u$ is
+large, $|V_i| > u$ happens very rarely, resulting in a large variance
+of the estimator. To tackle this problem, we use importance sampling
+and exponentially shift the transition kernel of the MA process
+$(X_n, S_n)$ i.e. the conditional probability $P(x, dy \times dl)$:
+Instead of $P(x, dy \times dl)$, we simulate $(X_n, S_n)$ according
+to
+\[
+P_\xi(x, dy \times dl) = {e^{\xi l} \over \lambda(\xi)^{\tau}}
+{r_\xi(y) \over r_\xi(x)} P(x, dy \times dl)
+\]
 
 % \begin{theorem}
 %   The pair $(X_n, S_n)$ is a Markov additive process with transition
