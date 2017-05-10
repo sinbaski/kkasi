@@ -43,13 +43,6 @@ pareto.preference <- function(phi, alpha, alpha.r, K, K.r) {
     }, q, Inf)$value;
     y3 <- y3 * alpha.r * K.r^alpha.r * (1 - p);
 
-    ## y2 <- integrate(function(x) {
-    ##     U <- utility(consumption(x, phi, r)) *
-    ##         alpha.r * K.r^alpha.r * (1 - p) /(K.r + x)^(alpha.r + 1);
-    ##     U[x < q] <- U[x < q] * (1 + b);
-    ##     return(U);
-    ## }, 0, Inf)$value;
-
     y4 <- b * Pareto(q, alpha, alpha.r, K, K.r) *
         utility(consumption(q, phi, r));
     
@@ -58,31 +51,53 @@ pareto.preference <- function(phi, alpha, alpha.r, K, K.r) {
 }
 
 t.preference <- function(phi, nu) {
+    ## q <- Inf;
+    ## if (phi > 0) {
+    ##     q <- log(exp(r) + (delta.v - exp(r))/phi);
+    ## }
+
+    ## y1 <- (1 + b) * integrate(function(x) {
+    ##     U <- utility(consumption(x, phi, r)) * dt(x, nu);
+    ##     return(U);
+    ## }, -Inf, 0)$value;
+
+    ## y2 <- (1 + b) * integrate(function(x) {
+    ##     U <- utility(consumption(x, phi, r)) * dt(x, nu);
+    ##     return(U);
+    ## }, 0, q)$value;
+    ## y2 <- y2 + integrate(function(x) {
+    ##     U <- utility(consumption(0, phi, r-x)) * dt(x, nu);
+    ##     return(U);
+    ## }, q, Inf)$value;
+    ## y2 <- y2 + integrate(function(x) {
+    ##     U <- (1/x^2 + 1/nu)^(-nu/2-1/2) * x^(-nu);
+    ##     return(U);
+    ## }, q, Inf)$value;
+    
+    ## y3 <- b * pt(q, nu) * utility(consumption(q, phi, r));
+    ## return(c(y1, y2, y3));
     q <- Inf;
     if (phi > 0) {
         q <- log(exp(r) + (delta.v - exp(r))/phi);
     }
 
-    y1 <- (1 + b) * integrate(function(x) {
+    y1 <- integrate(function(x) {
         U <- utility(consumption(x, phi, r)) * dt(x, nu);
         return(U);
     }, -Inf, 0)$value;
+    y1 <- y1 * (1 + b) * p;
 
-    y2 <- (1 + b) * integrate(function(x) {
+    y2 <- integrate(function(x) {
         U <- utility(consumption(x, phi, r)) * dt(x, nu);
         return(U);
     }, 0, q)$value;
-    y2 <- y2 + integrate(function(x) {
-        U <- utility(consumption(0, phi, r-x)) * dt(x, nu);
-        return(U);
-    }, q, Inf)$value;
-    y2 <- y2 + integrate(function(x) {
-        U <- (1/x^2 + 1/nu)^(-nu/2-1/2) * x^(-nu);
-        return(U);
-    }, q, Inf)$value;
+    y2 <- y2 * (1 + b) * (1 - p);
+
+    y4 <- b * Pareto(q, alpha, alpha.r, K, K.r) *
+        utility(consumption(q, phi, r));
     
-    y3 <- b * pt(q, nu) * utility(consumption(q, phi, r));
-    return(c(y1, y2, y3));
+    ## return(c(y1, y2, y3));
+    return(y1 + y2 + y3 - y4);
 }
 
 pareto.optimal.alloc <- function(alpha, alpha.r, K, K.r) {
@@ -129,7 +144,8 @@ utility <- power.utility;
 
 scales <- seq(from=10^(-2.3), to=10^(-1.7), length.out=50);
 ## scales <- seq(from=0.1, to=1, length.out=50);
-indices <- seq(from=2, to=5, length.out=40);
+## indices <- seq(from=2, to=5, length.out=40);
+indices <- seq(from=0.1, to=4, length.out=40);
 phi.hat <- matrix(NA, nrow=length(indices),
                   ncol=length(scales));
 U <- matrix(NA, nrow=length(indices),
@@ -138,11 +154,16 @@ K.r <- mean(scales);
 alpha.r <- 1.4;
 for (i in 1:length(indices)) {
     for (j in 1 : length(scales)) {
-        phi <- pareto.optimal.alloc(indices[i], alpha.r,
-                               scales[j], K.r);
+        ## phi <- pareto.optimal.alloc(indices[i], alpha.r,
+        ##                        scales[j], K.r);
+        ## phi.hat[i, j] <- phi;
+        ## y <- pareto.preference(phi, indices[i], alpha.r,
+        ##                        scales[j], K.r);
+        phi <- pareto.optimal.alloc(indices[i], indices[i],
+                                    scales[j], scales[j]);
         phi.hat[i, j] <- phi;
-        y <- pareto.preference(phi, indices[i], alpha.r,
-                               scales[j], K.r);
+        y <- pareto.preference(phi, indices[i], indices[i],
+                               scales[j], scales[j]);
         U[i, j] <- y;
     }
 }
@@ -201,7 +222,7 @@ pdf("phi_hat_pareto4.pdf");
 ## pdf("phi_hat_pareto5e-1.pdf")
 filled.contour(indices, scales, phi.hat, nlevels=60,
 ##               zlim=c(0, 1),
-##               main=expression(u(x)==-frac(2, sqrt(x))
+##               main=expression(u(x)==-frac(2, sqrt(x))),
                main=expression(u(x)==-frac(1, 4*x^4)),
                xlab=expression(alpha), ylab=expression(K),
                color=terrain.colors
@@ -211,7 +232,7 @@ dev.off();
 pdf("preference_pareto4.pdf");
 ## pdf("preference_pareto5e-1.pdf");
 filled.contour(indices, scales, U, nlevels=60,
-               ## main=expression(u(x)==-frac(2, sqrt(x)),
+##               main=expression(u(x)==-frac(2, sqrt(x))),
                main=expression(u(x)==-frac(1, 4*x^4)),
                xlab=expression(alpha), ylab=expression(K),
                color=terrain.colors

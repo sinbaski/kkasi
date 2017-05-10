@@ -580,7 +580,7 @@ just show some benchmark which holds in the iid case and under additional condit
     from 1 January 2010 to 31 December 2014 and comprise $n=1304$ observations.
 The graphs from top to bottom correspond to the ``Energy'',
     ``Consumer Staples'' and ``Information Technology'' sectors.
-    Each circle corresponds to a Hill estimate $\hat\alpha_{50}$; the grey
+    Each circle corresponds to a Hill estimate $\hat\alpha_{50}$; the gray
     triangles above and below it mark the 97.5\% and 2.5\% quantiles
     of its approximate normal distribution; see \eqref{eq:2} and the discussion following it for an 
 interpretation.
@@ -784,7 +784,7 @@ Figure~\ref{fig:PairTest}.
     of $\alpha_X$ and $\alpha_Y$. 
     The green, blue and red points correspond to pairs of stock in a sector
     when the test statistic is outside the intervals $[q_{0.075},q_{0.925}]$,
-    $[q_{0.05},q_{0.95}]$,  $[q_{0.025},q_{0.975}]$, repectively, where
+    $[q_{0.05},q_{0.95}]$,  $[q_{0.025},q_{0.975}]$, respectively, where
     $q_p$ is the $p$-quantile of the limiting 
     $N(0,\alpha_X^2+\alpha_Y^2)$-\ds\ of the test statistic in
     \eqref{eq:x1}. Grey points stand for pairs for which the test
@@ -869,7 +869,7 @@ with interpretations of the results of the tests.
 In Figure~\ref{fig:Hoga_Single} we show the values of the test statistic $T_n$ (horizontal bars)
 for $t_0=0.1$ and daily return series of stock in the ``Energy'' and ``Consumer Staples'' sectors of the S\&P
 500 index. The ``null hypothesis'' is that the tail-index and scale parameter remain the
-same througout the selected period of time. For most stocks, the hypothesis cannot be rejected even at the 85\% level.
+same throughout the selected period of time. For most stocks, the hypothesis cannot be rejected even at the 85\% level.
 This fact may be an indication that the \ds\ inside a series is rather homogeneous.
 Alternatively, it may show that the power of the test is very low. A possible reason for this suspicion is that the \con\ rate
 of $(T_n)$ to its limit is very slow, i.e., the \asy\ \ds\ is not representative for the \ds\ of $T_n$ for the chosen $n$; for some
@@ -957,7 +957,7 @@ larger the minimum tail-index in the concatenated pair.
     in the subsamples. For an interpretation of the colored bullets,
     see the bottom row of Figure~\ref{fig:PairTest}. The graph shows the limited power
     of the test. In particular, if both degrees of freedom are
-    relatively large it loses the capablity of distinguishing between the \ds s.
+    relatively large it loses the capability of distinguishing between the \ds s.
     {\em Right}: Comparison of the \asy\ distribution of the test statistic
     $T_n$ in \eqref{eq:4} under the null hypothesis and the \ds\ of
     $T_n$ for $n=1304$ iid $t$-distributed $X_t$ with 3 and 4 degrees
@@ -1020,7 +1020,7 @@ of the form
 \eeam
 for some positive $c>0$ and a positive tail-index $\alpha$ which is the unique solution of the equation 
 $\E [(\alpha_1 Z_1^2+\beta_1)^{\alpha/2}]=1$
-provided that the soluton exists and some mild assumptions on the \ds\ of $Z_t$ hold. This result
+provided that the solution exists and some mild assumptions on the \ds\ of $Z_t$ hold. This result
 follows by an application of the Kesten-Goldie theorem; see Kesten \cite{kesten:1973}, Goldie \cite{goldie:1991}, cf. 
 Buraczewski et al. \cite{buraczewski:damek:mikosch:2016}. The latter result ensures power-law tails  for
 the strictly stationary  solution $(Y_t)$ to the \sre\ 
@@ -1120,16 +1120,27 @@ combination of factors, and each of the factors is modeled as a GARCH
 process; see Silvennoinen and Ter\"asvirt\"a \cite{silventeras:2009}.
 \par
 Not all choices of $\alpha$- and $\beta$-parameters in the model \eqref{eq:8} allow for an
-application of the Kesten theory. For example, assume that only the diagonal elements $\alpha_{ii}$ and $\beta_{ii}$ are positive.
-Then $\bfA_t$ is diagonal and, hence, the condition that $\bfA_1\cdots\bfA_n$ have positive entries for sufficiently large $n$ 
-cannot be satisfied. In the latter situation, both $(X_{1,t})$ and $(X_{2,t})$ are univariate \garch\ processes. Assuming the
-conditions of the univariate Kesten-Goldie theorem for each component process, $(X_{1,t})$ and $(X_{2,t})$ have power-law tails
-with indices $\kappa_1$ and $\kappa_2$, respecticely,  given by the solutions to the equations 
-$\E [(\alpha_{ii} Z_{i,t}^2+\beta_{ii})^{\kappa_i/2}]=1$, $i=1,2$. In this model, one can introduce dependence between the two component series $(X_{1,t})$ and $(X_{2,t})$ by assuming dependence between the noise variables $Z_{1,t}$ and $Z_{2,t}$. Another situation when the Kesten theory fails
-appears when $\bfA_t$ is an upper or lower triangle matrix: then the products  $\bfA_1\cdots\bfA_n$ are always of the same triangular type.
-Similar remarks apply when one considers a CCC model in general dimension. Of course, one may argue that the latter models
-are degenerate since they do not allow for a linear relationship between all squared volatilities
-on a given day. 
+application of the Kesten theory. For example, assume that only the
+diagonal elements $\alpha_{ii}$ and $\beta_{ii}$ are positive.
+Then $\bfA_t$ is diagonal and, hence, the condition that
+$\bfA_1\cdots\bfA_n$ have positive entries for sufficiently large $n$ 
+cannot be satisfied. In the latter situation, both $(X_{1,t})$ and
+$(X_{2,t})$ are univariate \garch\ processes. Assuming the 
+conditions of the univariate Kesten-Goldie theorem for each component
+process, $(X_{1,t})$ and $(X_{2,t})$ have power-law tails 
+with indices $\kappa_1$ and $\kappa_2$, respectively,  given by the solutions to the equations 
+$\E [(\alpha_{ii} Z_{i,t}^2+\beta_{ii})^{\kappa_i/2}]=1$, $i=1,2$. In
+this model, one can introduce dependence between the two component
+series $(X_{1,t})$ and $(X_{2,t})$ by assuming dependence between the
+noise variables $Z_{1,t}$ and $Z_{2,t}$. Another situation when the
+Kesten theory fails 
+appears when $\bfA_t$ is an upper or lower triangle matrix: then the
+products  $\bfA_1\cdots\bfA_n$ are always of the same triangular
+type. 
+Similar remarks apply when one considers a CCC model in general
+dimension. Of course, one may argue that the latter models 
+are degenerate since they do not allow for a linear relationship
+between all squared volatilities on a given day. 
 
 \subsection{A utility based argument for equal tail-indices}\label{sec:3}
 In this section we give an argument based on economic theory that
@@ -1153,7 +1164,7 @@ where $\delta $ and $v$ are positive constants, and $b\ge 0$.
  risky payoff $C$; $\delta$ tunes the {\em threshold of 
    disappointment} in proportion to $v$; $b$ determines the extra
  weight given to the expected return of $C$ when $C$ is below the
- disappoinment threshold $\delta v$.
+ disappointment threshold $\delta v$.
  If $b=0$, preferences are the classical expected utility. If
  $\delta=1$ and $b>0$ preferences follow Gul's \cite{gul:1991} 
 disappointment aversion which were generalized by Routledge and Zin
@@ -1295,9 +1306,10 @@ u(C(x)) \left[
   \right]
 + u(C(-x))
 \]
-is not monotonic. To see this we may plug in \eqref{eq:hjyr} and
-re-write the above as
-\begin{equation}
+is not monotone.\footnote {
+To see this we may plug \eqref{eq:hjyr} in $U_{\text{all}}$ and
+re-write it as
+\[
 U_{\text{all}} =
   -{\phi^{-\xi} \over \xi} \left\{
   \underbrace{
@@ -1306,8 +1318,7 @@ U_{\text{all}} =
     +
     \left[{(1 - \phi) \over \phi} e^r + e^{-x}\right]^{-\xi}
   }_{U(x)} \right\}
-  \label{eq:frg}
-\end{equation}
+\]
 Direct computation gives
 \begin{eqnarray*}
   {\pd U(x) \over \pd x}
@@ -1328,15 +1339,11 @@ where $a = (1 - \phi) e^r/\phi$. For $x \ge q$, we have
 where we have substituted $x'$ for $e^{-x}$. When $x$ is very large
 i.e. when $x'$ is very close to 0, it is useful to expand the last
 expression at $x' = 0$. This yields
-\[
-  {1 \over \xi}
-  {\pd U(x) \over \pd x}
-  = {x' \over a^{\xi + 1}} + o(x')
-\]
+${1 \over \xi} {\pd U(x) \over \pd x} = {x' \over a^{\xi + 1}} + o(x')$
 So we see that when $x$ is sufficiently large
 ${\pd U(x) \over \pd x} > 0$. On the other hand, at the discontinuity
 point $x = q$, we have
-\[
+$
 \lim_{x \downarrow 0} \left(
   U(q + x) - U(q - x)
 \right)
@@ -1345,31 +1352,56 @@ point $x = q$, we have
   \over
   1+ b
 } < 0
-\]
-So $U(x)$ and hence \eqref{eq:frg} is not monotonic. we resort to
-numerical methods to gain some understanding of how $\tilde u(F_X,
-\phi)$ changes with $\alpha$.
-For this reason, we replace $\phi$ in the first integral in
-\eqref{eq:pp} by the optimal $\hat\phi$. The resulting quantity is
-denoted by $I(\alpha, K)$.
-\par
+$
+So $U(x)$ and hence $U_{\text{all}}$ is not monotone.}
+So, unlike the case when $\beta$ and $K'$
+are independent of $\alpha$ and $K$, we cannot use Lemma \ref{lemma:I}
+to determine the monotonicity of $\tilde u_{\rm max}(\alpha, K)$.
+Instead, we resort to numerical methods to gain some understanding of
+how $\tilde u(F_X, \phi)$ changes with $\alpha$.
+
 The value of $\hat\phi$ can be calculated
 by numerical integration and optimization with respect to $\phi$ for
 given values of $K, K', \alpha, \beta$.  This is shown in 
-Figure~\ref{fig:phi_hat_pareto} for the power utility \fct\ \eqref{eq:u}.
+Figure~\ref{fig:phi_hat_pareto} for the power utility \fct\
+\eqref{eq:u}.
+One can see that, when $K'$ and $\beta$ are fixed, $\tilde
+u_{\text{max}}(\alpha, K)$ and hence $\hat\phi$ increases 
+with $\alpha$ and decreases with $K$. This is a verification of Lemma
+\ref{lemma:I}; however, when $\beta$ and $K'$ are equal to $\alpha$
+and $K$, respectively, $\tilde u_{\text{max}}(\alpha, K)$ is not
+monotone with respect to $\alpha$ or $K$. Rather, there is a most
+preferred value of $\alpha$ for each value of $K$. Furthermore, this
+most preferred value changes only slightly when the value of $K$
+changes. Also notice that the value of $\xi$ does make a qualitative
+difference in the behavior of $\tilde u_{\text{max}}(\alpha, K)$ and
+$\hat\phi$, as is seen in the 3rd and the 4th plots of
+\ref{fig:phi_hat_pareto}. So the power-form of the utility function
+and the equality of the lower- and upper-tail-indices are
+responsible for the observed behavior. If this form of utility
+function is common among investors in a market, one can expect the 
+equity return series in the market to have very similar tail indices.
 \begin{figure}[htb!]
-  \begin{minipage}{0.5\linewidth}
+  \begin{minipage}{0.25\linewidth}
     \includegraphics[width=\textwidth]{phi_hat_pareto5e-1_A.pdf}    
   \end{minipage}\hfill
-  \begin{minipage}{0.5\linewidth}
+  \begin{minipage}{0.25\linewidth}
     \includegraphics[width=\textwidth]{phi_hat_pareto4_A.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.25\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_pareto5e-1.pdf}    
+  \end{minipage}\hfill
+  \begin{minipage}{0.25\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_pareto4.pdf}
   \end{minipage}
- \caption{The graphs show $\hat\phi$, the optimal equity allocation
-    as a \fct\ of $\alpha$ and $K$ in the two-sided Pareto model
-    \eqref{eq:pareto} with $K'=0.012$, $\beta = 1.4$. We choose
-    the utility \fct\ $u$ from \eqref{eq:u}
-    for $\xi = 1/2$ (left) and $\xi = 4$
-    (right).
+ \caption{
+   {\em The 1st and 2nd} graphs show $\hat\phi$, the optimal equity
+   allocation as a \fct\ of $\alpha$ and $K$ in the two-sided Pareto model
+   \eqref{eq:pareto} with $K'=0.012$, $\beta = 1.4$.
+   {\em The 3rd and 4th} graphs show $\hat\phi$ as a \fct\ of $\alpha$
+   and $K$ with $\beta = \alpha$ and $K' = K$.
+   We choose the utility \fct\ $u$ from \eqref{eq:u} for $\xi = 1/2$
+   and $\xi = 4$.
   }
   \label{fig:phi_hat_pareto}
 \end{figure}
@@ -1390,16 +1422,34 @@ Figure~\ref{fig:phi_hat_pareto} for the power utility \fct\ \eqref{eq:u}.
 The following graph (figure \ref{fig:preference_pareto}) shows how
 $\tilde u(\alpha, K, \wt\phi)$ changes with $\alpha$ and $K$.
 \begin{figure}[htb!]
-  \begin{minipage}{0.5\linewidth}
+  \begin{minipage}{0.25\linewidth}
     \includegraphics[width=\textwidth]{preference_pareto5e-1_A.pdf}
   \end{minipage}\hfill
-  \begin{minipage}{0.5\linewidth}
+  \begin{minipage}{0.25\linewidth}
     \includegraphics[width=\textwidth]{preference_pareto4_A.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.25\linewidth}
+    \includegraphics[width=\textwidth]{preference_pareto5e-1.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.25\linewidth}
+    \includegraphics[width=\textwidth]{preference_pareto4.pdf}
   \end{minipage}
-  \caption{$\tilde u_{\text{max}}(\alpha, K)$ for the power-utility \fct\
-    with $\xi=1/2$ (left) and $\xi=4$ (right). The graphs clearly show
-    that  $\tilde u_{\text{max}}(\alpha, K)$ increases with $\alpha$
-    and decreases with $K$. $K' = 0.012$ and $\beta = 1.4$ are fixed.
+  \caption{
+   {\em The 1st and 2nd} graphs show
+   $\tilde u_{\text{max}}(\alpha, K)$, as a \fct\ of $\alpha$ and $K$
+   in the two-sided Pareto model \eqref{eq:pareto} with $K'=0.012$,
+   $\beta = 1.4$.
+   Clearly, $\tilde u_{\text{max}}(\alpha, K)$ increases with $\alpha$
+   and decreases with $K$ when $K'$ and $\beta$ are fixed.
+   {\em The 3rd and 4th} graphs show
+   $\tilde u_{\text{max}}(\alpha, K)$ as a \fct\ of $\alpha$
+   and $K$ with $\beta = \alpha$ and $K' = K$.
+   We choose the utility \fct\ $u$ from \eqref{eq:u} for $\xi = 1/2$
+   and $\xi = 4$.
+% $\tilde u_{\text{max}}(\alpha, K)$ for the power-utility \fct\
+%     with $\xi=1/2$ (left) and $\xi=4$ (right). The graphs clearly show
+%     that  $\tilde u_{\text{max}}(\alpha, K)$ increases with $\alpha$
+%     and decreases with $K$. $K' = 0.012$ and $\beta = 1.4$ are fixed.
   }
   \label{fig:preference_pareto}
 \end{figure}
@@ -1407,7 +1457,7 @@ $\tilde u(\alpha, K, \wt\phi)$ changes with $\alpha$ and $K$.
 When the parameter $b$ is very small, a GDA preference is closely
 approximated by a mean-utility preference, which GDA reduces to when
 $b = 0$. As shown in the proof of lemma \ref{lemma:III}, the function
-$U_{\text{all}}$ is monotonically increasing or decreasing when $\xi$
+$U_{\text{all}}$ is monotone increasing or decreasing when $\xi$
 and $(1 - \phi) e^r / \phi$ satisfy certain conditions. Moreover, it
 is also easily checked that, when $x \in (0, K(e^{1/\alpha} - 1)]$,
 the density function in the integral of \eqref{eq:ipf} is increasing
@@ -1460,7 +1510,7 @@ as
 \end{eqnarray}
 where $C(\cdot)$ is defined in \eqref{eq:xxie1}. As shown in lemma
 \ref{lemma:III}, when $b = 0$ and $u(\cdot)$
-takes the power-form of \eqref{eq:hjyr}, $U_{\text{all}}$ is monotonic
+takes the power-form of \eqref{eq:hjyr}, $U_{\text{all}}$ is monotone
 depending on the values of $\xi$ and $(1 - \phi) e^r / \phi$. As given
 in lemma \ref{lemma:II}, there is a point $x_0 > 0$ such that
 ${\pd f \over \pd \alpha}(x_0, \alpha) = 0$ and
@@ -1521,9 +1571,9 @@ $\int_0^\infty |U_{\text{all}}(x){\pd f \over \pd \alpha}(x, \alpha)| dx < \inft
 \end{eqnarray*}
 Since $\int_0^\infty |{\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$,
 it follows from the above inequality $\int_0^\infty |U_{\text{all}}(x){\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$.
-Thus by lemma \ref{lemma:I}, $\wt u_{\text{max}}$ is monotonically
+Thus by lemma \ref{lemma:I}, $\wt u_{\text{max}}$ is monotone
 increasing/decreasing with $\alpha$ when $U_{\text{all}}(\cdot)$ is
-monotonically decreasing/increasing.
+monotone decreasing/increasing.
 
 \subsubsection{log-utility function}
 We first consider the case where the utility function is simply
@@ -1597,7 +1647,7 @@ tail-index; their tail functions differ from each other via their
 scale parameters.
 
 \appendix
-\section{A monontonicity lemma}
+\section{A monotonicity lemma}
 \setcounter{equation}{0}
 \begin{lemma} \label{lemma:I}
   Assume distribution function $F(x, \theta)$ parameterized by 
@@ -1607,7 +1657,7 @@ scale parameters.
   function $f(x, \theta)$ that is differentiable with respect to
   $\theta$ for all $\theta \in \Theta$.
   Let $X \sim F$ and assume function $h(\cdot)$ is defined on $(a, b)$
-  and is monotonic throughout this interval.
+  and is monotone throughout this interval.
   Moreover, we assume $h(x)$ and $f(x, \theta)$ satisfy
   \begin{equation}\label{eq:frt}
 %    \E |h(X)| < \infty, \quad
@@ -1725,7 +1775,7 @@ scale parameters.
       \theta) dx}_{I_2}
   \end{eqnarray*}
   $x_0$ being located in the interior of $(a, b)$ and
-  $h(\cdot)$ being monotonic imply $h(x_0) < \infty$.
+  $h(\cdot)$ being monotone imply $h(x_0) < \infty$.
   \begin{enumerate}
   \item When $h(x)$ is decreasing on $(a, b)$ and ${\pd f \over \pd
     \theta}(x, \theta) > 0$ on $(a, x_0)$
@@ -1805,7 +1855,7 @@ scale parameters.
   \end{eqnarray}
 
   While the denominator of the right side of ${\pd f(x, \alpha) \over \pd \alpha}$ is
-  always positive, its nummerator $P(x^2, \alpha)$ has a single root:
+  always positive, its numerator $P(x^2, \alpha)$ has a single root:
   \begin{equation}
     \label{eq:xxie5}
     x_0^2 = \alpha\exp\left\{
@@ -2063,16 +2113,16 @@ y_\pm &=& {
 The following holds true:
 \begin{enumerate}
 \item If $\max\{a, 1\} < \xi$, $U_{\text{all}}(\cdot)$ is
-  monotonically decreasing.
+  monotone decreasing.
 \item If $a < \xi < 1$ and $(a + y_-)/(a y_- + 1) <
-  y_-^{(1-\xi)/(1+\xi)}$, $U_{\text{all}}(\cdot)$ is monotonically
+  y_-^{(1-\xi)/(1+\xi)}$, $U_{\text{all}}(\cdot)$ is monotone
   decreasing.
-\item If $\xi < a < 1$, $U_{\text{all}}(\cdot)$ is monotonically
+\item If $\xi < a < 1$, $U_{\text{all}}(\cdot)$ is monotone
   increasing.
 \item If $1 < \xi < a$ and $(a + y_+)/(a y_+ + 1) >
-  y_+^{(1-\xi)/(1+\xi)}$, $U_{\text{all}}(\cdot)$ is monotonically
+  y_+^{(1-\xi)/(1+\xi)}$, $U_{\text{all}}(\cdot)$ is monotone
   increasing.
-\item In other case, $U_{\text{all}}(\cdot)$ is not monotonic.
+\item In other case, $U_{\text{all}}(\cdot)$ is not monotone.
 \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -2089,7 +2139,7 @@ The following holds true:
   \]
   Thus the monotonicity of $U_{\text{all}}(x)$ is the opposite of $U(x)$. For
   convenience of writing, let $a = (1 - \phi)e^r/\phi$.
-  First of all, we find the conditions on which $U(x)$ is monotonic.
+  First of all, we find the conditions on which $U(x)$ is monotone.
   Direct differentiation yields
   \begin{eqnarray*}
     {\pd U(x) \over \pd x}
@@ -2124,15 +2174,15 @@ The following holds true:
   \begin{enumerate}
   \item If $\min\{1, \xi\} < a < \max\{1, \xi\}$, $y_\pm$ are not
     real, ${\pd (f -g)(y) \over \pd y} = 0$ has no solution on
-    $(1, \infty)$; $(f -g)(y)$ is monotonic on $(1, \infty)$.
+    $(1, \infty)$; $(f -g)(y)$ is monotone on $(1, \infty)$.
     \begin{enumerate}
     \item If in addition $\xi > 1$, i.e. $1 < a < \xi$, $(f - g)(y)$
-      is monotonically increasing on $(1, \infty)$, because the
+      is monotone increasing on $(1, \infty)$, because the
       coefficient of the $y^2$ term of the numerator of
       \eqref{eq:f-g-der}, i.e. $a (\xi - 1)$ is positive. We note
       $f(1) = g(1) = 0$; thus on $(1, \infty)$, there is no solution
       to $f(y) = g(y)$. It can be concluded that $U(\cdot)$ is
-      monotonic on $(0, \infty)$. Furthermore
+      monotone on $(0, \infty)$. Furthermore
         \begin{eqnarray*}
           \left.{\pd U(x) \over \pd x}\right|_{x=0} &=& 0 \\
         \end{eqnarray*}
@@ -2144,9 +2194,9 @@ The following holds true:
         2 (a + 1)^{-\xi - 2} (\xi - a) > 0
         \]
         Thus ${\pd U(x) \over \pd x} > 0$ for $x \in (0, \infty)$;
-        $U_{\text{all}}$ is monotonically decreasing.
+        $U_{\text{all}}$ is monotone decreasing.
     \item If instead $\xi < 1$, i.e. $\xi < a < 1$, by a similar
-      argument as in the previous case, $U_{\text{all}}$ is monotonically
+      argument as in the previous case, $U_{\text{all}}$ is monotone
       increasing on $(0, \infty)$.
     \end{enumerate}
   \item If $a < \min\{1, \xi\}$ and $\xi > 1$, i.e. $a < 1 < \xi$, it
@@ -2167,9 +2217,9 @@ The following holds true:
       2 a (\xi - 1) (a + 1) (a - \xi) &>& 0 \label{eq:mi6}
     \end{eqnarray}
     This contradicts the assumption $a < \xi$ and $\xi > 1$. Hence
-    $y_+ < 1$. So we conclude $(f - g)(y)$ is monotonically increasing
+    $y_+ < 1$. So we conclude $(f - g)(y)$ is monotone increasing
     on $(1, \infty)$. Following the same analysis as in the case
-    (1.a), one can see $U_{\text{all}}$ is monotonically decreasing.
+    (1.a), one can see $U_{\text{all}}$ is monotone decreasing.
 
   \item If $a < \min\{1, \xi\}$ and $\xi < 1$, i.e. $a < \xi < 1$, it
     is clear $y_- > 0$ and $y_+ < y_-$. Moreover, $y_- > 1$ is equivalent
@@ -2185,23 +2235,23 @@ The following holds true:
     ${\pd (f-g)(y) \over \pd y} < 0$.
 
     If $(f-g)(y_-) < 0$, $(f-g)(y) = 0$ has no solution on $(1,
-    \infty)$. Hence $U(\cdot)$ is monotonic on both $(0, \infty)$.
+    \infty)$. Hence $U(\cdot)$ is monotone on both $(0, \infty)$.
     The same analysis as in the case (1.a) shows $U_{\text{all}}$
-    is monotonically decreasing on $(0, \infty)$.
+    is monotone decreasing on $(0, \infty)$.
 
     If $(f-g)(y_-) > 0$, $(f-g)(y) = 0$ must have a solution on $(y_-,
-    \infty)$. So $U(\cdot)$ is not monotonic.
+    \infty)$. So $U(\cdot)$ is not monotone.
 
     \item $a > \max\{1, \xi\}$ and $\xi > 1$, i.e. $1 < \xi < a$. By
       the same argument that leads to \eqref{eq:mi6}, we see
       $y_+ > 1$. From \eqref{eq:f-g-der} it is clear $(f-g)(y_+)$ is a
       minimum. If $(f-g)(y_+) > 0$, there is no solution to
-      $(f-g)(y) = 0$ on $(1, \infty)$; $U(x)$ is monotonic. By the
+      $(f-g)(y) = 0$ on $(1, \infty)$; $U(x)$ is monotone. By the
       same analysis as in the case (1.a), we know $U(x)$ is
-      monotonically decreasing and $U_{\text{all}}$ is monotonically increasing.
+      monotone decreasing and $U_{\text{all}}$ is monotone increasing.
       
       if $(f-g)(y_+) < 0$, there must be a solution to $(f-g)(y) = 0$
-      on $(y_+, \infty)$. $U_{\text{all}}$ is not monotonic.
+      on $(y_+, \infty)$. $U_{\text{all}}$ is not monotone.
   \end{enumerate}
 \end{proof}
 
