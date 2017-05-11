@@ -713,7 +713,7 @@ From \eqref{eq:2} one can deduce
   \sqrt k
   \begin{pmatrix}
     {\hat \alpha_X - \alpha_X} \\
-    {\hat \alpha_X - \alpha_X} \\
+    {\hat \alpha_Y - \alpha_Y} \\
   \end{pmatrix} \overset{d}{\to}
   \begin{pmatrix}
     Z_X \\
@@ -1364,23 +1364,22 @@ The value of $\hat\phi$ can be calculated
 by numerical integration and optimization with respect to $\phi$ for
 given values of $K, K', \alpha, \beta$.  This is shown in 
 Figure~\ref{fig:phi_hat_pareto} for the power utility \fct\
-\eqref{eq:u}.
+\eqref{eq:u}. The corresponding $\tilde u_{\rm max}(\alpha, K)$
+is shown in figure \ref{fig:preference_pareto}.
 One can see that, when $K'$ and $\beta$ are fixed, $\tilde
-u_{\text{max}}(\alpha, K)$ and hence $\hat\phi$ increases 
+u_{\rm max}(\alpha, K)$ and $\hat\phi$ increase 
 with $\alpha$ and decreases with $K$. This is a verification of Lemma
 \ref{lemma:I}; however, when $\beta$ and $K'$ are equal to $\alpha$
-and $K$, respectively, $\tilde u_{\text{max}}(\alpha, K)$ is not
-monotone with respect to $\alpha$ or $K$. Rather, there is a most
-preferred value of $\alpha$ for each value of $K$. Furthermore, this
-most preferred value changes only slightly when the value of $K$
-changes. Also notice that the value of $\xi$ does make a qualitative
-difference in the behavior of $\tilde u_{\text{max}}(\alpha, K)$ and
-$\hat\phi$, as is seen in the 3rd and the 4th plots of
-\ref{fig:phi_hat_pareto}. So the power-form of the utility function
-and the equality of the lower- and upper-tail-indices are
-responsible for the observed behavior. If this form of utility
-function is common among investors in a market, one can expect the 
-equity return series in the market to have very similar tail indices.
+and $K$, $\tilde u_{\rm max}(\alpha, K)$ is monotone
+decreasing with $\alpha$ but is rather insensitive to $K$. On the
+other hand, $\hat\phi$ is not monotone with respect to $\alpha$ or
+$K$. For each fixed $K$, it peaks at an $\alpha$ value somewhere below
+1. For typical realistic $\alpha$ values in $(2, 4)$, $\hat\phi$ is a
+small value below 5\%.
+Since $\tilde u_{\rm max}(\alpha, K)$ is monotone decreasing with
+$\alpha$, investors who seek to maximize it will prefer the smallest
+$\alpha$ in the market, resulting in similar values of $\alpha$ for
+different equities.
 \begin{figure}[htb!]
   \begin{minipage}{0.25\linewidth}
     \includegraphics[width=\textwidth]{phi_hat_pareto5e-1_A.pdf}    
@@ -1436,19 +1435,19 @@ $\tilde u(\alpha, K, \wt\phi)$ changes with $\alpha$ and $K$.
   \end{minipage}
   \caption{
    {\em The 1st and 2nd} graphs show
-   $\tilde u_{\text{max}}(\alpha, K)$, as a \fct\ of $\alpha$ and $K$
+   $\tilde u_{\rm max}(\alpha, K)$, as a \fct\ of $\alpha$ and $K$
    in the two-sided Pareto model \eqref{eq:pareto} with $K'=0.012$,
    $\beta = 1.4$.
-   Clearly, $\tilde u_{\text{max}}(\alpha, K)$ increases with $\alpha$
+   Clearly, $\tilde u_{\rm max}(\alpha, K)$ increases with $\alpha$
    and decreases with $K$ when $K'$ and $\beta$ are fixed.
    {\em The 3rd and 4th} graphs show
-   $\tilde u_{\text{max}}(\alpha, K)$ as a \fct\ of $\alpha$
+   $\tilde u_{\rm max}(\alpha, K)$ as a \fct\ of $\alpha$
    and $K$ with $\beta = \alpha$ and $K' = K$.
    We choose the utility \fct\ $u$ from \eqref{eq:u} for $\xi = 1/2$
    and $\xi = 4$.
-% $\tilde u_{\text{max}}(\alpha, K)$ for the power-utility \fct\
+% $\tilde u_{\rm max}(\alpha, K)$ for the power-utility \fct\
 %     with $\xi=1/2$ (left) and $\xi=4$ (right). The graphs clearly show
-%     that  $\tilde u_{\text{max}}(\alpha, K)$ increases with $\alpha$
+%     that  $\tilde u_{\rm max}(\alpha, K)$ increases with $\alpha$
 %     and decreases with $K$. $K' = 0.012$ and $\beta = 1.4$ are fixed.
   }
   \label{fig:preference_pareto}
@@ -1464,7 +1463,7 @@ the density function in the integral of \eqref{eq:ipf} is increasing
 with $\alpha$; when $x \in (K(e^{1/\alpha} - 1), \infty)$, it is
 decreasing with $\alpha$. So, following the same line of arguments
 using lemma \ref{lemma:I} as in the proof of lemma \ref{thrm:I},
-it can be seen $\tilde u_{\text{max}}(\alpha, K)$ is
+it can be seen $\tilde u_{\rm max}(\alpha, K)$ is
 increasing/decreasing with $\alpha$ when $U_{\text{all}}$ is
 decreasing/increasing.
 
@@ -1571,9 +1570,40 @@ $\int_0^\infty |U_{\text{all}}(x){\pd f \over \pd \alpha}(x, \alpha)| dx < \inft
 \end{eqnarray*}
 Since $\int_0^\infty |{\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$,
 it follows from the above inequality $\int_0^\infty |U_{\text{all}}(x){\pd f \over \pd \alpha}(x, \alpha)| dx < \infty$.
-Thus by lemma \ref{lemma:I}, $\wt u_{\text{max}}$ is monotone
+Thus by lemma \ref{lemma:I}, $\wt u_{\rm max}$ is monotone
 increasing/decreasing with $\alpha$ when $U_{\text{all}}(\cdot)$ is
-monotone decreasing/increasing.
+monotone decreasing/increasing. Accordingly, an investor guided by the
+utility function will seek the largest/smallest $\alpha$ observed in
+the market.
+
+If however $b > 0$, Lemma \ref{lemma:I} is not applicable
+anymore. Nonetheless, numerical analysis lends some insight.
+As shown in figure \ref{fig:htfg}, $\hat\phi$ is monotone increasing
+for all 4 values of $b$, while $\tilde u_{\rm max}(\alpha)$ is
+increasing with $\alpha$ when $b$ is relatively large, but
+decreasing when $b$ is small. We note that a sizable value of $b$
+indicates a conservative, risk-averse investor.
+
+\begin{figure}[htb!]
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{U_b_t_power.pdf}
+  \end{minipage}
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{phi_hat_b_t_power4.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\linewidth}
+    \includegraphics[width=\textwidth]{U_b_t_power4.pdf}
+  \end{minipage}
+  \caption{$\hat\phi$ (left) and ${\pd \tilde u_{\rm max} \over \pd
+      \alpha}$ (right). {\em top:} $\xi = 1/2$. {\em bottom:} $\xi =
+    4$.
+  }
+  \label{fig:htfg}
+\end{figure}
+  
 
 \subsubsection{log-utility function}
 We first consider the case where the utility function is simply
@@ -1629,13 +1659,7 @@ results are shown in figure~\ref{fig:phi_hat_U}.
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]{U_b_t_log.pdf}
   \end{minipage}
-  \begin{minipage}{0.5\linewidth}
-    \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
-  \end{minipage}\hfill
-  \begin{minipage}{0.5\linewidth}
-    \includegraphics[width=\textwidth]{U_b_t_power.pdf}
-  \end{minipage}
-  \caption{$\hat\phi$ and $G(\alpha)$
+  \caption{$\hat\phi$ and $\tilde u_{\rm max}(\alpha)$
     \label{fig:phi_hat_U}
   }
 \end{figure}
@@ -1999,11 +2023,11 @@ scale parameters.
   \end{equation}
   We have
   \[
-  \tilde u_{\text{max}}(F_X) = \wt u(F_X, \hat\phi)
+  \tilde u_{\rm max}(F_X) = \wt u(F_X, \hat\phi)
   \]
   It follows
   \begin{eqnarray}
-    {d \tilde u_{\text{max}}(F_X) \over d \alpha}
+    {d \tilde u_{\rm max}(F_X) \over d \alpha}
     &=&
     \left.{\pd \wt u(\alpha, \phi) \over \pd \alpha}\right|_{\phi = \hat\phi}
     + \left.{\pd \wt u(\alpha, \phi) \over \pd \phi}\right|_{\phi = \hat\phi}
@@ -2052,8 +2076,8 @@ scale parameters.
   \begin{eqnarray*}
     {\pd \wt u(\alpha, \phi) \over \pd \alpha} &>& 0
   \end{eqnarray*}
-  As for ${\pd \tilde u_{\text{max}}(F_X) \over \pd K}$, by the same argument as for
-  ${\pd \tilde u_{\text{max}}(F_X) \over \pd \alpha}$, it suffices to show
+  As for ${\pd \tilde u_{\rm max}(F_X) \over \pd K}$, by the same argument as for
+  ${\pd \tilde u_{\rm max}(F_X) \over \pd \alpha}$, it suffices to show
   \[
   {\pd \wt u(K, \phi) \over \pd K} < 0
   \]

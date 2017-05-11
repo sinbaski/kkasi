@@ -43,39 +43,12 @@ pareto.preference <- function(phi, alpha, alpha.r, K, K.r) {
     }, q, Inf)$value;
     y3 <- y3 * alpha.r * K.r^alpha.r * (1 - p);
 
-    y4 <- b * Pareto(q, alpha, alpha.r, K, K.r) *
-        utility(consumption(q, phi, r));
+    y4 <- b * utility(delta.v) * Pareto(q, alpha, alpha.r, K, K.r);
     
-    ## return(c(y1, y2, y3));
     return(y1 + y2 + y3 - y4);
 }
 
 t.preference <- function(phi, nu) {
-    ## q <- Inf;
-    ## if (phi > 0) {
-    ##     q <- log(exp(r) + (delta.v - exp(r))/phi);
-    ## }
-
-    ## y1 <- (1 + b) * integrate(function(x) {
-    ##     U <- utility(consumption(x, phi, r)) * dt(x, nu);
-    ##     return(U);
-    ## }, -Inf, 0)$value;
-
-    ## y2 <- (1 + b) * integrate(function(x) {
-    ##     U <- utility(consumption(x, phi, r)) * dt(x, nu);
-    ##     return(U);
-    ## }, 0, q)$value;
-    ## y2 <- y2 + integrate(function(x) {
-    ##     U <- utility(consumption(0, phi, r-x)) * dt(x, nu);
-    ##     return(U);
-    ## }, q, Inf)$value;
-    ## y2 <- y2 + integrate(function(x) {
-    ##     U <- (1/x^2 + 1/nu)^(-nu/2-1/2) * x^(-nu);
-    ##     return(U);
-    ## }, q, Inf)$value;
-    
-    ## y3 <- b * pt(q, nu) * utility(consumption(q, phi, r));
-    ## return(c(y1, y2, y3));
     q <- Inf;
     if (phi > 0) {
         q <- log(exp(r) + (delta.v - exp(r))/phi);
@@ -93,11 +66,9 @@ t.preference <- function(phi, nu) {
     }, 0, q)$value;
     y2 <- y2 * (1 + b) * (1 - p);
 
-    y4 <- b * Pareto(q, alpha, alpha.r, K, K.r) *
-        utility(consumption(q, phi, r));
+    y3 <- b * pt(q, nu) * utility(delta.v);
     
-    ## return(c(y1, y2, y3));
-    return(y1 + y2 + y3 - y4);
+    return(y1 + y2 - y3);
 }
 
 pareto.optimal.alloc <- function(alpha, alpha.r, K, K.r) {
@@ -116,10 +87,11 @@ pareto.optimal.alloc <- function(alpha, alpha.r, K, K.r) {
 
 t.optimal.alloc <- function(nu) {
     result <- optimize(
-        function(phi, nu) {
-            y <- t.preference(phi, nu);
-            return(y[1] + y[2] - y[3]);
-        },
+        ## function(phi, nu) {
+        ##     y <- t.preference(phi, nu);
+        ##     return(y[1] + y[2] - y[3]);
+        ## },
+        t.preference,
         interval=c(0, 1), nu=nu,
         maximum=TRUE
     );
@@ -156,57 +128,74 @@ for (i in 1:length(indices)) {
     for (j in 1 : length(scales)) {
         ## phi <- pareto.optimal.alloc(indices[i], alpha.r,
         ##                        scales[j], K.r);
-        ## phi.hat[i, j] <- phi;
         ## y <- pareto.preference(phi, indices[i], alpha.r,
         ##                        scales[j], K.r);
         phi <- pareto.optimal.alloc(indices[i], indices[i],
                                     scales[j], scales[j]);
-        phi.hat[i, j] <- phi;
         y <- pareto.preference(phi, indices[i], indices[i],
                                scales[j], scales[j]);
+        phi.hat[i, j] <- phi;
         U[i, j] <- y;
     }
 }
 
-## nu <- seq(from=1.5, to=5, length.out=200);
-## phi.hat <- matrix(NA, nrow=length(nu), ncol=4);
-## U <- matrix(NA, nrow=length(nu), ncol=4);
-## for (k in 1:4) {
-##     b <- 0.5 * (k - 1);
-##     for (i in 1:length(nu)) {
-##         phi.hat[i, k] <- t.optimal.alloc(nu[i]);
-##         y <- t.preference(phi.hat[i, k], nu[i]);
-##         U[i, k] <- y[1] + y[2] - y[3];
-##     }
-## }
+nu <- seq(from=0.5, to=5, length.out=200);
+phi.hat <- matrix(NA, nrow=length(nu), ncol=4);
+U <- matrix(NA, nrow=length(nu), ncol=4);
+for (k in 1:4) {
+    b <- 0.5 * (k - 1);
+    for (i in 1:length(nu)) {
+        phi.hat[i, k] <- t.optimal.alloc(nu[i]);
+        y <- t.preference(phi.hat[i, k], nu[i]);
+        U[i, k] <- y;
+    }
+}
 
-pdf("phi_hat_b_t_power.pdf");
+pdf("phi_hat_b_t_power4.pdf");
 colors <- c("black", "green", "blue", "red");
+## par(mfrow=c(4, 1));
 plot(nu, phi.hat[, 1], type="l", lwd=2,
      ## xlim=c(1.5, 6),
      ylim=c(min(phi.hat), max(phi.hat)),
-     xlab=expression(nu), col=colors[1],
+     ## ylim=c(min(phi.hat), max(phi.hat)),
+     xlab=expression(alpha), col=colors[1],
      ## main=expression(list(u(C)==ln(C))),
-     main=expression(list(u(C)==-frac(2, sqrt(C)))),
-     ylab=expression(hat(phi)));
+     main=expression(u(x)==-frac(1, 4*x^4)),
+##     main=expression(list(u(C)==-frac(2, sqrt(C)))),
+     ylab=expression(hat(phi)(alpha))
+     );
 for (k in 2:4) {
     lines(nu, phi.hat[, k], col=colors[k], lwd=2);
+    ##     plot(nu, phi.hat[, k], col=colors[k], lwd=2, type="l");
 }
+legend("topleft", col=colors,
+       lwd=rep(2, 4),
+       legend=c(
+           expression(b==0),
+           expression(b==0.5),
+           expression(b==1.0),
+           expression(b==1.5)
+       )
+       );
 dev.off();
 
-pdf("U_b_t_power.pdf");
+pdf("U_b_t_power4.pdf");
 colors <- c("black", "green", "blue", "red");
-plot(nu, U[, 1], type="l", lwd=2,
-     ## xlim=c(1.5, 6),
-     ylim=c(min(U), max(U)),
-     xlab=expression(nu), col=colors[1],
+delta.nu <- nu[2] - nu[1];
+delta.U <- diff(U);
+plot(nu[-1], delta.U[, 1]/delta.nu, type="l", lwd=2,
+     ylim=c(min(delta.U/delta.nu), max(delta.U/delta.nu)),
+     xlab=expression(alpha), col=colors[1],
+     main=expression(u(x)==-frac(1, 4*x^4)),
      ## main=expression(list(u(C)==ln(C))),
-     main=expression(list(u(C)==-frac(2, sqrt(C)))),
-     ylab=expression(G(nu)));
+     ## main=expression(list(u(C)==-frac(2, sqrt(C)))),
+     ylab=expression({Delta * tilde(u)[max]} / {Delta * alpha}));
 for (k in 2:4) {
-    lines(nu, U[, k], col=colors[k], lwd=2);
+    lines(nu[-1], delta.U[, k]/delta.nu, col=colors[k], lwd=2);
+##    plot(nu, exp(U[, k]), col=colors[k], lwd=2, type="l");
 }
-legend("topright", col=colors,
+abline(h=0, lty=2);
+legend("bottomright", col=colors,
        lwd=rep(2, 4),
        legend=c(
            expression(b==0),
