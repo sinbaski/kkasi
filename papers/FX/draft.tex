@@ -680,14 +680,14 @@ Section~\ref{sec:pareto_tail}.
 \par
 Thirdly, Figure~\ref{fig:sectors_parameters} shows that, on
 average, the values of $K$
-in the ``Energy'' and ``Information Technology'' sectors are  larger than those in the ``Consumer Staples'' sector. 
-For a given loss \pro y, 
-a larger
-value of $K$ implies that large losses are more probable. Thus one can conclude that
-these two sectors are considerably riskier than the ``Consumer
-Staples'' sector. {\red Let Casper decide about this sentence.} This is of course a confirmation of one's economic
-instinct.
-\par
+in the ``Energy'' and ``Information Technology'' sectors are  larger
+than those in the ``Consumer Staples'' sector.  For a given loss \pro y, 
+a larger value of $K$ implies that large losses are more
+probable. Thus one can conclude that these two sectors are
+considerably riskier than the ``Consumer Staples'' sector. {\red Let
+  Casper decide about this sentence.} This is of course a confirmation
+of one's economic instinct.
+
 Yet another indication from Figure \ref{fig:sectors_parameters} is
 that, while the ``Energy'' and the ``Information Technology'' sectors
 are similar in riskiness, the dependence  between $\alpha$ and $K$ is
@@ -817,8 +817,6 @@ As a caution, one should bear in mind that
 series are independent of each other (or weakly dependent on each other), which is generally untrue for
 two return series in the same market.
 
-
-
 \subsection{A test for a change in the extreme tail}\label{sec:Hoga}
 Here we apply a test from
 a recent paper by Hoga \cite{hoga:2016}. This test has been developed
@@ -890,9 +888,6 @@ this is due to the limited power of the test. Based
 on such results, one may guess that $\alpha_B$ lies between $\alpha_A$ and
 $\alpha_C$. The test is unable to recognize the smaller differences
 between $\alpha_A, \alpha_B$ on one hand and between $\alpha_B, \alpha_C$ on the other hand.
-
-
-
 \begin{figure}[htb!]
   \begin{minipage}{0.5\linewidth}
     \includegraphics[width=\textwidth]
@@ -908,8 +903,6 @@ between $\alpha_A, \alpha_B$ on one hand and between $\alpha_B, \alpha_C$ on the
 by simulations from the limit \ds .}
   \label{fig:Hoga_Single}
 \end{figure}
-
-
 % \begin{figure}[htb!]
 %   \begin{minipage}{0.5\linewidth}
 %     \includegraphics[
@@ -934,10 +927,6 @@ by simulations from the limit \ds .}
 %     requirements and time limits.}
 %   \label{fig:Hoga_pair}
 % \end{figure}
-
-
-
-\par
 To get an idea about the power of the test we run it on a
 sample concatenated from two independent iid samples of the same size
 $n=1304$ as the S\&P 500 series. Both pieces are $t$-distributed with
@@ -965,8 +954,6 @@ larger the minimum tail-index in the concatenated pair.
   }
   \label{fig:t_sim_pair}
 \end{figure}
-
-\par
 A major problem in this test is the \asy\ distribution of the test statistic under the
 null hypothesis.  The rate at which the finite-sample distribution tends to its limit is not known.
 To find out about this problem we compared the \ds s of $T_n$ 
@@ -997,6 +984,60 @@ Table~\ref{tab:HogaAsymptotic}, showing major differences between the
     }
   \label{tab:HogaAsymptotic}
 \end{table}
+We also acknowledge that there is yet another issue concerning the use
+of $T_n$ as a test for a change in the tail-index: It is designed as a
+test for a change in an extreme quantile and hence is not invariant
+under permutation of the observations. This is clear from
+\eqref{eq:4}. If the observations are iid, the null hypothesis is of
+course not rejected with or without permutation; If instead the
+observations are not iid but rather have small changes of the
+tail-index over time, the null hypothesis may be rejected with
+permutation but not rejected without. The latter may happen when the
+changes in the tail-index are small but just big enough for the
+accumulated change between two time points to exceed the given
+critical value. In other words, the test cannot detect slow changes.
+
+We illustrate this point in figure \ref{fig:PairTest:permuted} where
+we apply a random permutation of observations to each series before
+concatenating them and running the test.
+\begin{figure}[htb!]
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{Hoga_Energy_pair_permuted.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{Hoga_CS_pair_permuted.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{Hoga_IT_pair_permuted.pdf}
+  \end{minipage}
+  \caption{
+    Test for changing tail-index or scale parameter
+    of losses
+    using Hoga's test based on concatenated series of pairs of
+    stocks.
+    A random permutation is applied to the observations of each
+    series.
+    The green, blue and red points
+    correspond to pairs of stock in a sector 
+    when the test statistic $T_n$ exceeds the $85\%$-, $90\%$-,
+    $95\%$-quantile of the limit \ds .
+    Grey points stand for pairs for which the test statistic is below
+    the \asy\ $85\%$-quantile. Black points represent 
+    pairs for which the computation of $T_n$ fails for given precision  
+    requirements and time limits.
+  }
+  \label{fig:PairTest:permuted} 
+\end{figure}
+
 
 \newpage
 \section{Some theoretical arguments for equality of tail-indices}\setcounter{equation}{0}\label{sec:2}
@@ -1111,7 +1152,7 @@ the new process in all components has again power-law tails with the same index 
 Basrak et al.~\cite{basrak:davis:mikosch:2002}. 
 Models which are constructed in this way are
 the Orthogonal GARCH model of
-Alexander and Chibumba \cite{alexander1997multivariate}, its
+Alexander and Chibumba \cite{alexander:chibumba:1996}, its
 generalization GO-GARCH by van der Weide \cite{Weide2002},  the Full Factor GARCH model of Vrontos et al.
 \cite{vrontos2003full} and the Generalized Orthogonal Factor GARCH
 model of Lanne and Saikkonen  \cite{lanne2007modelling}. These
@@ -1400,7 +1441,7 @@ different equities.
    {\em The 3rd and 4th} graphs show $\hat\phi$ as a \fct\ of $\alpha$
    and $K$ with $\beta = \alpha$ and $K' = K$.
    We choose the utility \fct\ $u$ from \eqref{eq:u} for $\xi = 1/2$
-   and $\xi = 4$.
+   and $\xi = 4$. $b = 0.01$ in all cases.
   }
   \label{fig:phi_hat_pareto}
 \end{figure}
@@ -1444,11 +1485,7 @@ $\tilde u(\alpha, K, \wt\phi)$ changes with $\alpha$ and $K$.
    $\tilde u_{\rm max}(\alpha, K)$ as a \fct\ of $\alpha$
    and $K$ with $\beta = \alpha$ and $K' = K$.
    We choose the utility \fct\ $u$ from \eqref{eq:u} for $\xi = 1/2$
-   and $\xi = 4$.
-% $\tilde u_{\rm max}(\alpha, K)$ for the power-utility \fct\
-%     with $\xi=1/2$ (left) and $\xi=4$ (right). The graphs clearly show
-%     that  $\tilde u_{\rm max}(\alpha, K)$ increases with $\alpha$
-%     and decreases with $K$. $K' = 0.012$ and $\beta = 1.4$ are fixed.
+   and $\xi = 4$. $b = 0.01$ in all cases.
   }
   \label{fig:preference_pareto}
 \end{figure}

@@ -104,20 +104,21 @@ b <- 0.01;
 ## b <- 0;
 p <- 0.5;
 delta.v <- exp(r)*1.05;
-xi <- 4;
+xi <- 0.5;
+
 
 ## alpha.r <- 3.5;
 ## alpha <- 3;
 ## K.r <- 0.5;
 ## K <- 0.1;
 
-## utility <- function(x) log(x);
-utility <- power.utility;
+utility <- function(x) log(x);
+## utility <- power.utility;
 
 scales <- seq(from=10^(-2.3), to=10^(-1.7), length.out=50);
 ## scales <- seq(from=0.1, to=1, length.out=50);
 ## indices <- seq(from=2, to=5, length.out=40);
-indices <- seq(from=0.1, to=4, length.out=40);
+indices <- seq(from=1.5, to=4, length.out=40);
 phi.hat <- matrix(NA, nrow=length(indices),
                   ncol=length(scales));
 U <- matrix(NA, nrow=length(indices),

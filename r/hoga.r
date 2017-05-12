@@ -140,9 +140,9 @@ if (! file.exists("Fn.data")) {
 cl <- makeCluster(detectCores());
 registerDoParallel(cl);
 
-A <- foreach (i = 1:length(names), .combine=rbind) %dopar% {
-    HogaTest(-X[, i], p=0.02, 0.1)
-}
+## A <- foreach (i = 1:length(names), .combine=rbind) %dopar% {
+##     HogaTest(-X[, i], p=0.02, 0.1)
+## }
 
 ## Simulate from t-distributions
 ## X <- matrix(NA, nrow=dim(data$ret)[1], ncol=dim(data$ret)[2]);
@@ -150,27 +150,29 @@ A <- foreach (i = 1:length(names), .combine=rbind) %dopar% {
 ##     X[, i] <- rt(n=dim(X)[1], df=2+0.1*i);
 ## }
 
-## load("B.data");
-B <- matrix(NA, nrow=dim(X)[2], ncol=dim(X)[2]);
-for (i in 1:(length(names)-1)) {
-    myfun <- function(j) {
-        h <- NA;
-        tryCatch( {
-            h <- max(HogaTest(-c(X[, c(i, j)]), p=0.02, 0.1))
-        }, error=function(e) h <- NA
-        );
-        return(h);
-    }
-    ## B[i, (i+1):dim(X)[2]] <- unlist(lapply((i+1):length(names), myfun));
-    B[i, (i+1):dim(X)[2]] <- unlist(mclapply((i+1):length(names), myfun, mc.cores=detectCores()));
-    print(paste("Row ", i));
-}
+load(file="B.data");
+## save(X, file="X.data");
+## B <- matrix(NA, nrow=dim(X)[2], ncol=dim(X)[2]);
+## for (i in 1:(length(names)-1)) {
+##     myfun <- function(j) {
+##         h <- NA;
+##         tryCatch( {
+##             h <- max(HogaTest(-c(X[, c(i, j)]), p=0.02, 0.1))
+##         }, error=function(e) h <- NA
+##         );
+##         return(h);
+##     }
+##     ## B[i, (i+1):dim(X)[2]] <- unlist(lapply((i+1):length(names), myfun));
+##     B[i, (i+1):dim(X)[2]] <- unlist(mclapply((i+1):length(names), myfun, mc.cores=detectCores()));
+##     print(paste("Row ", i));
+## }
+## save(B, file="B.data");
 
-
-p <- 32;
+p <- dim(X)[2];
+n <- dim(X)[1];
 ## p <- dim(X)[2];
-## pdf("../papers/FX/Hoga_IT_pair.pdf")
-pdf("../papers/FX/t_sim_pair.pdf")
+pdf("../papers/FX/Hoga_CS_pair_permuted.pdf")
+## pdf("../papers/FX/t_sim_pair.pdf")
 plot(1, 1, type="n", xlim=c(1, p), ylim=c(1, p),
      xlab="", ylab="",
      xaxt="n", yaxt="n");
@@ -193,12 +195,12 @@ for (i in 1:(p-1)) {
     }
 }
 lines(1:p, 1:p, lwd=2);
-## labels <- gsub("_series_", ".", gsub("_US", "", names));
-## axis(side=1, at=1:p, labels=labels, las=2, cex.axis=0.8);
-## axis(side=2, at=1:p, labels=labels, las=1, cex.axis=0.8);
-df <- 2 + 0.1 * (1:p);
-axis(side=1, at=1:p, labels=df, las=2);
-axis(side=2, at=1:p, labels=df, las=1);
+labels <- gsub("_series_", ".", gsub("_US", "", names));
+axis(side=1, at=1:p, labels=labels, las=2, cex.axis=0.8);
+axis(side=2, at=1:p, labels=labels, las=1, cex.axis=0.8);
+## df <- 2 + 0.1 * (1:p);
+## axis(side=1, at=1:p, labels=df, las=2);
+## axis(side=2, at=1:p, labels=df, las=1);
 abline(h=1:p, lty=3, col="gray");
 abline(v=1:p, lty=3, col="gray");
 dev.off();
