@@ -233,8 +233,8 @@ the recurrence equation \eqref{eq:garchpq_sre}:
 \begin{enumerate}[(I)]
 \item $\exists s > 0$ such that
   $1 < \E (\alpha_1 Z^2 + \beta_1)^s < \infty$
-\item If $p, q \geq 2$, there exists an non-empty open set $U \subset
-  \text{supp } P_Z$.
+\item If $p, q \geq 2$, there exists an non-empty open set
+  $U \subset \text{supp } P_Z$.
 \end{enumerate}
 Clearly, these conditions are satisfied when $Z$ has normal or $t$
 distributions.
@@ -273,8 +273,18 @@ proposition 4.2.1 of Buraczewski et al
 \cite{buraczewski:damek:mikosch:2016}, from which we conclude $V_n$ is
 an aperiodic, positive Harris chain that is in addition
 $\pi$-irreducible on $\chi$.
-Moreover, (ii) and the assumptions (I) and (II) allow the application of
-Kesten-Goldie theorem (cf. Buraczewski et al
+Moreover, from (I) it follows $0 < \exists \xi < s$ such that
+\begin{equation}
+  \label{eq:hyt}
+  \lambda(\xi) = \lim_{n \to \infty} (\E \|A_n \cdots A_1\|^\xi)^{1/n} = 1
+\end{equation}
+and
+\begin{equation}
+  \label{eq:jui}
+  \E \|A\|^\xi < \infty
+\end{equation}
+The existence of $\xi$ together with Conditions (ii) and (II)
+allow the application of Kesten-Goldie theorem (cf. Buraczewski et al
 \cite{buraczewski:damek:mikosch:2016}, example 4.4.13), which gives
 \begin{equation}
   \label{eq:kesten}
@@ -486,19 +496,10 @@ regenerative structure:
   $(X_0, X_1, \dots, X_n, l_1, l_2, \dots, l_n)$
 \end{enumerate}
 There is yet another useful property of the iid matrices $A_n$. By
-Lemma 4.4.2 of Buraczewski et al \cite{buraczewski:damek:mikosch:2016}
-conditions (I) and (ii) imply that there exists $\xi > 0$ such that
-\[
-\lambda(\xi) =
-\lim_{n \to \infty}
-\left(\E \| A_n \cdots A_1\|^\xi\right)^{1/n}
-= 1
-\]
-
-Define operator
-\[
-\mathscr P
-\]
+Collamore and Mentemeier \cite{collamore:mentemeier:2016},
+\eqref{eq:jui} means there is a right eigenfunction $r_\xi(\cdot)$ and
+a left eigen-measure associated with the eigenvalue $\lambda(\xi)$ for
+the operator $\mathscr P$:
 
 Before introducing our importance sampling estimator, we need
 the following definitions:
