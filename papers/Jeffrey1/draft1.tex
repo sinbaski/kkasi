@@ -463,7 +463,7 @@ Let
 \[
 \delta = \int_{\tilde \chi \times \reals}
 \inf_{w \in g(\mathcal C, dy, dl)} f_{Z^2}(w)
-| g(\mathcal C, dy, dl)|
+| g(\mathcal C, dy, dl)| < 1
 \]
 and
 \[
@@ -481,7 +481,7 @@ By Ney and Nummelin \cite{ney:nummelin:1987}, lemma 3.1,
 \eqref{eq:minorization} implies the MA-process $(X_n, S_n)$ has a
 regenerative structure:
 \begin{enumerate}[(1)]
-\item There exist random variables $0 \leq K_0 < K_1 < \dots$,
+\item There exist random variables $0 < K_0 < K_1 < \dots$,
   $i = 0, 1, 2, \dots$ such that $K_{i+1} - K_i$,  are iid.
 \item The blocks
   \[
@@ -500,6 +500,18 @@ regenerative structure:
   the notation $\mathcal B(S)$ to denote the $\sigma$-field generated
   by the set $S$.
 \end{enumerate}
+Furthermore, \eqref{eq:minorization} means
+$P(x, dy \times dl)$ can be decomposed as
+\[
+P(x, dy \times dl) = P'(dx, dy \times dl)
++
+\delta \I_{\mathcal C}(x) \nu(dy \times dl)
+\]
+Thus the MA-process regenerates only when it is in $\mathcal C$ and in
+this case it regenerates with probability $\delta$. That is
+\[
+\P[(X_n, S_n) \text{ regenerates } | X_{n-1} = x] = \delta \I_{\mathcal C}(x)
+\]
 There is yet another useful property of the iid matrices $A_n$. Define
 mapping
 \[
@@ -523,7 +535,12 @@ there is a unique, strictly positive eigen function $r_\xi(\cdot)$
 associated with $\lambda(\xi)$ i.e.
 $\mathscr P_\xi r_\xi(x) = \lambda(\xi) r_\xi(x)$.
 Moreover, $r_\xi$ is $\max\{\xi, 1\}$-H\"older continuous, implying
-$r_\xi$ is bounded from above and below by positive constants.
+$r_\xi$ is bounded from above and below by positive constants. From
+now on, we use the notations
+\[
+\bar r_\xi = \sup_{x \in \tilde \chi} r_\xi(x),\quad
+\underline r_\xi = \inf_{x \in \tilde \chi} r_\xi(x)
+\]
 
 There is also an eigen measure $\ell_\xi$ on $\mathcal B(\tilde \chi)$
 associated with the operator
@@ -617,12 +634,13 @@ equation
 where $\P_\theta(\cdot | \cdot)$ denotes the shifted conditional
 probability measure.
 
-Once the threshold $u$ has been exceeded by $|V_t|$, we change the
-the distribution of $Z^2$ and hence the transition kernel of the
-MA-process back to their original, since the process is recurrent
-under the original kernel.
+% Once the threshold $u$ has been exceeded by $|V_t|$, we change the
+% the distribution of $Z^2$ and hence the transition kernel of the
+% MA-process back to their original, since the process is recurrent
+% under the original kernel.
+Now we are ready to introduce our importance sampling estimator.
+We start the process randomly, i.e. we simulate $V_0$ 
 
-Now we are ready to introduce our importance sampling estimator
 $\mathcal E_u$:
 \begin{equation}
   \label{eq:fbf}
@@ -771,7 +789,7 @@ efficient i.e. its relative error is bounded.
             |B|^\theta r_{\varphi,\theta}(\tilde B)
             \over
             M^\theta \lambda_\varphi(\theta)
-            \inf_{x \in \tilde \chi} r_{\varphi, \theta}(x)
+            \underline r_{\varphi, \theta}
           }
           \right]
       }_{b}
@@ -797,7 +815,7 @@ efficient i.e. its relative error is bounded.
     \left\{
      |B|^\theta r_{\varphi, \theta}(\tilde B)
     \over
-    [1 - \lambda_\varphi(\theta)] \inf_{x \in \tilde \chi} r_{\varphi, \theta}(x)
+    [1 - \lambda_\varphi(\theta)] \underline r_{\varphi, \theta}
     \right\}^{1/\theta}
     \]
     %% where
@@ -845,7 +863,7 @@ efficient i.e. its relative error is bounded.
           {
             r_{\varphi,\theta}(\tilde B) |B|^\theta
             \over
-            \inf_{x \in \tilde \chi} r_{\varphi, \theta}(x)
+            \underline r_{\varphi, \theta}
           }
         \right]^{1/\theta} {
           1 \over
@@ -856,30 +874,64 @@ efficient i.e. its relative error is bounded.
   \end{enumerate}    
 \end{proof}
 
-\section{Consistency}\label{sec:consistency}
+\begin{remark}
+  Suppose $|V_0| \leq M$. Iterating \eqref{eq:drift} yields
+  \[
+  \E_\varphi \left[
+    |V_n|^\theta r_{\varphi, \theta}(\tilde V_n)
+    \prod_{i=1}^{n-1}\1{|V_i| > M}\right]
+  \leq b^{n-1} |V_1|^\theta r_{\varphi, \theta}(\tilde V_1) \1{|V_1| > M}
+  \]
+  But $\{\tau > n\} \subseteq \bigcap_{i=1}^{n-1}\{|V_i| > M\}$, So
+  % $\{\tau > n\} \subseteq \{|V_n| > M\}$. So
+  \[
+  \E_\varphi \left[
+    |V_n|^\theta r_{\varphi, \theta}(\tilde V_n)
+    \1{\tau > n}
+  \right]
+  \leq
+  b^{n-1} |V_1|^\theta r_{\varphi, \theta}(\tilde V_1) \1{|V_1| > M}
+  \]
+  Since $|V_n|\1{\tau > n} > M \1{\tau > n}$, we have
+  \begin{eqnarray}
+    \E_\varphi \left[
+      M^\theta \underline r_{\varphi, \theta}
+      \1{\tau > n}\right]
+    &\leq&
+    b^{n-1} |V_1|^\varphi \bar r_{\varphi, \theta}
+    % \P_\varphi(\tau > n) &\leq& K b^{n-1} \nonumber \\
+    % &=& K [b \lambda_{\beta}(\alpha)]^{n-1} \label{eq:ret_time}
+  \end{eqnarray}
+  Moreover,
+  \[
+  |V_1|^\varphi \leq \|A_1\|^\varphi |V_0|^\varphi + |B|^\varphi
+  \]
+  for some constant $K$ and some $b > 1$.
+\end{remark}
+
+\section{The Estimator is Unbiased}\label{sec:consistency}
 \begin{theorem}
-  The estimator $\mathcal E_u$ is consistent, i.e. equation
+  The estimator $\mathcal E_u$ is unbiased, i.e. equation
   \eqref{eq:fbf} holds.
 \end{theorem}
 \begin{proof}
-  By the law of large numbers
+  By the {\em strong law of large numbers} for Markov chains,
   \begin{eqnarray*}
-    \P(|V| > u)
-    &=& \lim_{n \to \infty} {1 \over n} \sum_{i=0}^n \1{|V_i| > u}
+    {1 \over n} \sum_{i=0}^n \1{|V_i| > u} \overset{a.s.}{\to} \P(|V| > u)
   \end{eqnarray*}
   Define $R_n =\sup\{i \geq 0: K_i \leq n\}$. Then one can write
-  \begin{eqnarray*}
-    \lim_{n \to \infty} {1 \over n} \sum_{i=1}^n \1{|V_i| > u}
-    &=& \lim_{n \to \infty} {1 \over n} \left[
+  \begin{eqnarray}
+    {1 \over n} \sum_{i=1}^n \1{|V_i| > u}
+    &=& 
+    {1 \over n} \left[
       \sum_{i=0}^{K_{R_n}-1} \1{|V_i| > u} + \sum_{i=K_{R_n}}^n \1{|V_i| > u}
     \right]
-  \end{eqnarray*}
+    \label{eq:kioj}
+  \end{eqnarray}
   For the 2nd term, we show in the following
   \begin{equation}
     \label{eq:frf}
-  \lim_{n \to \infty} {1 \over n}\sum_{i=K_{R_n}}^n \1{|V_i| > u} = 0
-  \quad
-  a.s.
+    {1 \over n}\sum_{i=K_{R_n}}^n \1{|V_i| > u} \overset{a.s.}{\to} 0
   \end{equation}
   For the 1st term,
   \begin{eqnarray*}
@@ -946,43 +998,8 @@ efficient i.e. its relative error is bounded.
     \right]
   \end{eqnarray*}
 \end{proof}
-\begin{remark}
-  Iterating \eqref{eq:drift} yields
-  \[
-  \E_\beta \left[
-    |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha)
-    \prod_{i=1}^{n-1}\I_{{\mathcal C}^\complement}(V_i)\right]
-  \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I_{{\mathcal C}^\complement}(V_1)
-  \]
-  Then it follows
-  \[
-  \E_\beta \left[
-    |V_n|^\alpha r_\beta(|\tilde V_n|; \alpha) \prod_{i=1}^{n}\I_{{\mathcal C}^\complement}(V_i)\right]
-  \leq \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|; \alpha) \I_{{\mathcal C}^\complement}(V_1)
-  \]
-  But $\prod_{i=1}^{n}\I_{{\mathcal C}^\complement}(V_i) = 1$ implies $\tau > n$, and in this
-  case $|V_n| > M$, where
-  \[
-  M = \left[
-    \E_\beta (|B|^\alpha r_\beta(\tilde B; \alpha)) 
-    \over
-    (1 - \lambda(\alpha)) r_\beta(\tilde v; \alpha)
-  \right]^{1/\alpha}
-  \]
-  Hence
-  \begin{eqnarray}
-    \E_\beta \left[
-      M^\alpha \inf_{|\tilde V_n|} r_\beta(|\tilde V_n|; \alpha)
-      \1{\tau > n}\right]
-    &\leq& \rho_\beta(\alpha)^{n-1} |V_1|^\alpha r_\beta(|\tilde V_1|;
-    \alpha) \I_{{\mathcal C}^\complement}(V_1) \nonumber \\
-    \P_\beta(\tau > n) &\leq& K \rho_\beta(\alpha)^{n-1} \nonumber \\
-    &=& K [b \lambda_{\beta}(\alpha)]^{n-1} \label{eq:ret_time}
-  \end{eqnarray}
-  for some constant $K$ and some $b > 1$.
-\end{remark}
 
-\section{Efficiency}\label{sec:efficiency}
+\section{The Estimator Has Bounded Relative Error}\label{sec:efficiency}
 
 \begin{theorem}
   The estimator $\mathcal E_u$ has bounded relative error, i.e.
