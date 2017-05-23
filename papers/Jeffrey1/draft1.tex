@@ -302,9 +302,9 @@ The Kesten-Goldie theorem gives
   \lim_{x \to \infty} x^{\xi} \P(\tilde y' V > u) = e_\xi(\tilde y)  
 \end{equation}
 for some function $e_\xi: \tilde \chi \to \reals_+$ and
-all $\tilde y \in \tilde \chi$. Here $d = p + q - 1$ and $\tilde y'$
-is the transpose of $\tilde y$. Cf. Kesten \cite{kesten:1973} and
-Buraczewski et al \cite{buraczewski:damek:mikosch:2016},
+all $\tilde y \in \tilde \chi$. Here $d = p + q - 1$. Cf. Kesten
+\cite{kesten:1973} and  Buraczewski et al
+\cite{buraczewski:damek:mikosch:2016},
 section 4.4.4.
 
 Although the probability $\P(\tilde y' V > u)$ has been given
@@ -1086,7 +1086,7 @@ efficient i.e. its relative error is bounded.
   \]
   By Kesten's theorem \cite{kesten:1973}, $\P(|V| > u) \sim C
   u^{-\xi}$. Hence, to prove the assertion, one needs to check
-  $\limsup_{u \to \infty} u^{2\xi}\E_{\mathcal D} \mathcal E_u^2 <
+  $\limsup_{u \to \infty} u^{2\xi}\E_{\mathcal D} \mathcal E_u^2 < 
   \infty$, i.e.
   \[
   \limsup_{u \to \infty} \E_{\mathcal D}
@@ -1114,9 +1114,11 @@ efficient i.e. its relative error is bounded.
  \end{eqnarray}
   In the rest of the proof, we write $c, c_1, c_2, \dots$ for
   constants whose values have no importance and depend on the
-  context. If $\xi > 1$, Minkowski's inequality gives
-    \begin{eqnarray*}
-      f(\xi) &\leq& \limsup_{u \to \infty}
+  context. If $\xi > 1/2$, Minkowski's inequality gives
+    \begin{eqnarray}
+      f(\xi)
+      &\leq&
+      \limsup_{u \to \infty}
       \left\{
         \sum_{n=0}^{\infty}
         \left[
@@ -1146,24 +1148,29 @@ efficient i.e. its relative error is bounded.
           |A_n \cdots A_1 X_0|^{2\xi}
         }
         \right)^{1/2\xi}
-        \right\}^{2\xi}\\
+        \right\}^{2\xi} \nonumber\\
       &\leq&
       c \limsup_{u \to \infty}
+      \left\{
       \sum_{n=0}^\infty
       \left(
         \E_D |A_n \cdots A_1 X_0|^{-2\xi}
         N_u^2
         \1{n \leq T_u < K_1}        
-      \right)^{1/2\xi} \\
+      \right)^{1/2\xi}
+      \right\}^{2\xi} \nonumber \\
       &\leq&
       c \limsup_{u \to \infty}
+      \left\{
       \sum_{n=0}^\infty
-      \E \left(
+      \left(
+        \E
         |A_n \cdots A_1 X_0|^{-\xi}
         N_u^2
         \1{n \leq T_u < K_1}        
-      \right)^{1/2\xi} \label{eq:split_point}
-    \end{eqnarray*}
+      \right)^{1/2\xi}
+    \right\}^{2\xi} \label{eq:split_point}
+    \end{eqnarray}
     
   \begin{enumerate}
   \item If $\lambda(-\xi) < \infty$, we assume
