@@ -680,14 +680,9 @@ efficient i.e. its relative error is bounded.
   \begin{equation}
     \label{eq:drift_cond}
     \E \|A\|^\varphi < \infty,\quad\text{ and }
-    \inf_{\theta > 0} {\E \|A\|^{\theta + \varphi}
-      \over 
-      \E \|A\|^{\varphi}
-    } < 1
+    \inf_{\theta > 0} \lambda(\varphi + \theta) < 1
   \end{equation}
-  then there exist $\theta > 0$ such that
-  $\E_\varphi \|A\|^\theta < 1$ 
-  and $0 < b < 1, M > 0$ such that
+  then there exist $0 < b < 1, M > 0$ such that
   \begin{equation}
     \label{eq:drift}
     \E_\varphi \left[\left.
@@ -703,27 +698,18 @@ efficient i.e. its relative error is bounded.
 \end{lemma}
 
 \begin{proof}
-  By condition \eqref{eq:drift_cond}, there is a $\theta > 0$ such
-  that $\E_\varphi \|A\|^\theta < 1$, because
-  \[
-  \E_\varphi \|A\|^\theta
-  =
-  \int \|\mtx a\|^\theta {
-    \|\mtx a \|^\varphi \mu_A (d\mtx a)
-    \over
-    \E \|A\|^{\varphi}
-  }
-  = {
-    \E \|A\|^{\varphi + \theta}
-    \over
-    \E \|A\|^{\varphi}    
-  }
-  \]
-  Then, by lemma 2.2 of Collamore and Mentemeier
-  \cite{collamore:mentemeier:2016}, a unique eigen
-  function $r_{\varphi, \theta}(\cdot)$ and a unique eigen measure
-  $ \ell_{\varphi, \theta}(\cdot)$ exist for $\mathscr P_{\varphi,
-    \theta}$.
+  By Buraczewski et al \cite{buraczewski:damek:guivarch:mentemeier:2014} 
+  Proposition 3.1, the condition $\E \|A\|^\varphi < \infty$ guarrentees the existence
+  of an eigen function and an eigenmeasure for the operator
+  $\mathscr P_\varphi$.
+  %% By condition \eqref{eq:drift_cond}, there is a $\theta > 0$ such
+  %% that $\lambda(\varphi + \theta) < 1$. Hence
+  
+  %% Then, by lemma 2.2 of Collamore and Mentemeier
+  %% \cite{collamore:mentemeier:2016}, a unique eigen
+  %% function $r_{\varphi, \theta}(\cdot)$ and a unique eigen measure
+  %% $ \ell_{\varphi, \theta}(\cdot)$ exist for $\mathscr P_{\varphi,
+  %%   \theta}$.
   Thus, with the operator $\mathscr P^*_{\varphi, \theta}$ adjoint to
   $\mathscr P_{\varphi, \theta}$ defined analogously as in Collamore
   and Mentemeier, the right eigen function $r_{\varphi, \theta}(x)$
@@ -933,14 +919,20 @@ efficient i.e. its relative error is bounded.
   \[
   \P_\varphi (K_{j+1} - K_j> n)
   \leq
-  \left( \sup_{\theta \in \Theta(\varphi)} b(\varphi, \theta) \right)^n
-  \sup_{\theta \in \Theta(\varphi), b(\varphi, \theta) < 1}
-  \rho(\varphi, \theta)
-  = b_\varphi^n \rho_\varphi
+  \left[
+  \inf_{\theta \in \Theta(\varphi)}
+  b(\varphi, \theta)^n
+  \right]
+  \left[
+    \sup_{\theta \in \Theta} \rho(\varphi, \theta)
+  \right]
+  %% \left( \sup_{\theta \in \Theta(\varphi)} b(\varphi, \theta) \right)^n
+  %% \sup_{\theta \in \Theta(\varphi), b(\varphi, \theta) < 1}
+  %% \rho(\varphi, \theta)
+  %% = b_\varphi^n \rho_\varphi
   \]
   where
-  $\Theta(\varphi) = \{\theta: \E \|A\|^{\varphi + \theta} < \E \|A\|^\varphi\}$,
-  and $b_\varphi < 1$.
+  $\Theta(\varphi) = \{\theta: \E \|A\|^{\varphi + \theta} < \E \|A\|^\varphi, b(\varphi, \phi) < 1\}$.
 \end{remark}
 
 \section{The Estimator is Unbiased}\label{sec:consistency}
@@ -990,9 +982,9 @@ efficient i.e. its relative error is bounded.
   \]
   Clearly
   \begin{eqnarray*}
-    && \sum_{n=1}^\infty \P\left[
+    \sum_{n=1}^\infty \P\left[
       {1 \over n} \sum_{i=K_{R_n}}^{n} \1{|V_i| > u} > \epsilon
-    \right] \\
+    \right]
     &\leq&
     \sum_{n=1}^\infty \P\left[
       {1 \over n} \sum_{i=K_{R_n}}^{K_{R_n + 1} - 1} \1{|V_i| > u} > \epsilon
@@ -1100,7 +1092,7 @@ efficient i.e. its relative error is bounded.
  $|V_{T_u}| > u$. Moreover $r_\xi$ is bounded
  from above and below by positive constants. So it suffices to show
  \begin{eqnarray}
-   f(\xi) &=& \limsup_{u \to \infty} \E_{\mathcal D} \left[
+   \limsup_{u \to \infty} \E_{\mathcal D} \left(
      \left|
        \sum_{n=0}^{T_u}
        \frac{
@@ -1110,70 +1102,324 @@ efficient i.e. its relative error is bounded.
        }
        \1{T_u < K_1}
      \right|^{2 \xi}
-   \right] < \infty \label{eq:efficiency_target}
+   \right) &<& \infty \label{eq:efficiency_target}
  \end{eqnarray}
   In the rest of the proof, we write $c, c_1, c_2, \dots$ for
   constants whose values have no importance and depend on the
-  context. If $\xi > 1/2$, Minkowski's inequality gives
-    \begin{eqnarray}
-      f(\xi)
-      &\leq&
+  context. Moreover, we use the notation
+  \[
+  \Pi_{i,j} = \left\{
+  \begin{array}{ll}
+    A_i A_{i-1} \cdots A_j & i \geq j \\
+    1 & i < j
+  \end{array}
+  \right.
+  \]
+
+  If $2 \xi > 1$, by Minkowski's inequality it suffices to show
+    \begin{eqnarray*}
       \limsup_{u \to \infty}
-      \left\{
         \sum_{n=0}^{\infty}
-        \left[
+        \left(
           \E_{\mathcal D} \left|
             N_u^{1/\xi}
             \frac{
-              A_{T_u} \cdots A_{n+1} B 
+              \Pi_{T_u, n+1} B 
             }{
-              |A_{T_u} \cdots A_1 X_0|
+              |\Pi_{T_u, 1} X_0|
             }
             \1{n \leq T_u < K_1}
           \right|^{2 \xi}
-        \right]^{1/2\xi}
-      \right\}^{2\xi} \nonumber \\
-      f(\xi)
-      &\leq&
-      c \limsup_{u \to \infty}
-      \left\{
-      \sum_{n=0}^\infty
+        \right)
+        < \infty
+    \end{eqnarray*}
+    The sum on the left side is bounded by
+    \begin{eqnarray*}
+      && c \sum_{n=0}^\infty
+      \E_D
       \left(
-        \E_D {
-          \|A_{T_u} \cdots A_{n+1}\|^{2\xi}
-          \1{n \leq T_u < K_1}
+      {
+          |\Pi_{T_u, n+1} X_n|^{2\xi}
           N_u^2
+          \1{n \leq T_u < K_1}
           \over
-          |A_{T_u} \cdots A_{n+1} X_n|^{2\xi}
-          |A_n \cdots A_1 X_0|^{2\xi}
+          |\Pi_{T_u, n+1} X_n|^{2\xi}
+          |\Pi_{n,1} X_0|^{2\xi}
+      }
+      \right)\\
+      &\leq&
+      c \sum_{n=0}^\infty
+      \E
+      \left(
+      {
+      |\Pi_{T_u, n+1} X_n|^\xi
+      \over
+      |\Pi_{n,1} X_0|^{\xi}
+      }
+      N_u^2
+      \1{n \leq T_u < K_1}
+      \right)
+    \end{eqnarray*}
+    If $2\xi < 1$, due to subadditivity, the sum on the left side of
+    \eqref{eq:efficiency_target} is bounded by
+    \begin{eqnarray*}
+      && \sum_{n=0}^\infty
+      \E_D \left(
+        {
+          | \Pi_{T_u, n+1} B |^{2\xi}
+          \over
+          | \Pi_{T_u, 1} X_0 |^{2\xi}
         }
-        \right)^{1/2\xi}
-        \right\}^{2\xi} \nonumber\\
-      &\leq&
-      c \limsup_{u \to \infty}
-      \left\{
-      \sum_{n=0}^\infty
-      \left(
-        \E_D |A_n \cdots A_1 X_0|^{-2\xi}
         N_u^2
-        \1{n \leq T_u < K_1}        
-      \right)^{1/2\xi}
-      \right\}^{2\xi} \nonumber \\
+        \1{n \leq T_u < K_1}
+      \right) \\
       &\leq&
-      c \limsup_{u \to \infty}
-      \left\{
-      \sum_{n=0}^\infty
-      \left(
-        \E
-        |A_n \cdots A_1 X_0|^{-\xi}
+      c \sum_{n=0}^\infty
+      \E_D \left(
+        {
+          | \Pi_{T_u, n+1} X_n |^{2\xi}
+          \over
+          | \Pi_{T_u, 1} X_0 |^{2\xi}
+        }
         N_u^2
-        \1{n \leq T_u < K_1}        
-      \right)^{1/2\xi}
-    \right\}^{2\xi} \label{eq:split_point}
+        \1{n \leq T_u < K_1}
+        \right) \\
+        &\leq&
+      c \sum_{n=0}^\infty
+      \E \left(
+        {
+          | \Pi_{T_u, n+1} X_n |^{\xi}
+          \over
+          | \Pi_{n,1} X_0 |^{\xi}
+        }
+        N_u^2
+        \1{n \leq T_u < K_1}
+      \right)
+    \end{eqnarray*}
+    This is the same sum as in the previous case except for the
+    multiplicative constant. So in either case we need to show
+    \[
+    \limsup_{u \to \infty}
+    \sum_{n=0}^\infty
+      \E \left(
+        {
+          | \Pi_{T_u, n+1} X_n |^{\xi}
+          \over
+          | \Pi_{n,1} X_0 |^{\xi}
+        }
+        N_u^2
+        \1{n \leq T_u < K_1}
+      \right) < \infty
+    \]
+    When $\lambda(-\xi) < \infty$ we may rewrite the sum on the left
+    side as
+    \begin{eqnarray}
+      &&
+      \sum_{n=0}^\infty
+      \sum_{m=0}^\infty
+      \E \left(
+        {
+          | \Pi_{n+m,n+1} X_n |^{\xi}
+          \over
+          | \Pi_{n,1} X_0 |^{\xi}
+        }
+        N_u^2
+        \1{n+m = T_u < K_1}
+        \right) \label{eq:kpdf} \\
+      &\leq&
+      c
+      \sum_{n=0}^\infty
+      \sum_{m=0}^\infty
+      \lambda(-\xi)^{n+m}
+      \E_{X_0}^{-\xi} \left(
+          | \Pi_{n+m,n+1} X_n |^{2 \xi}
+        N_u^2
+        \1{n+m = T_u < K_1}
+        \right) \nonumber
     \end{eqnarray}
-    
-  \begin{enumerate}
-  \item If $\lambda(-\xi) < \infty$, we assume
+    By assumption (I), there exists $p > 1$ such that
+    $\E |A|^{(2p - 1)\xi} < \infty$. Let $1/p + 1/q = 1$. By
+    H\"older's inequality
+    \begin{eqnarray}
+      &&
+      \E_{X_0}^{-\xi} \left(
+      | \Pi_{n+m,n+1} X_n |^{2 \xi}
+      N_u^2
+      \1{n+m = T_u < K_1}
+      \right)  \label{eq:hyyu} \\
+      &\leq&
+      \left[
+        \E_{X_0}^{-\xi} \left(
+        | \Pi_{n+m,n+1} X_n|^{2 p\xi}
+        \1{n+m = T_u < K_1}
+        \right)
+        \right]^{1/p} \nonumber \times \\
+      &&
+      \left[
+        \E_{X_0}^{-\xi} \left(
+        N_u^{2q}
+        \1{n+m = T_u < K_1}
+        \right)
+        \right]^{1/q}
+      \nonumber
+    \end{eqnarray}
+    For the first factor
+    \begin{eqnarray}
+      &&
+        \E_{X_0}^{-\xi} \left(
+        | \Pi_{n+m,n+1} X_n|^{2 p\xi}
+        \1{n+m = T_u < K_1}
+        \right) \label{eq:hfry} \\
+        &\leq&
+          {c \over \lambda(-\xi)^{n+m}}
+         \E \left(
+         |\Pi_{n+m,n+1} X_n|^{2p\xi}
+         |\Pi_{n+m, 1} X_{0}|^{-\xi}
+         \1{n+m = T_u < K_1}
+         \right) \nonumber \\
+         &\leq&
+          {c \over \lambda(-\xi)^{n+m}}
+         \E \left(
+         |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
+         \right)
+         \E \left(
+         |\Pi_{n,1} X_0|^{-\xi}
+         \1{n < K_1}
+         \right) \nonumber
+    \end{eqnarray}
+    To reach the last line in the above, we have used the fact that
+    $A_i$ are independent in the original measure.
+    Since $\| \Pi_{n+m,n+1} \| \to 0$ a.s. as $m \to \infty$
+    (cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016},
+    theorem 4.1.3), we have for each $\epsilon > 0$
+    \[
+    \P(S_\epsilon)
+    =
+    \P(\exists N \geq 1, \text{ such that } \forall m \geq N,
+    \| \Pi_{n+m,n+1} \| < \epsilon) = 1
+    \]
+    Thus we have
+    \begin{eqnarray*}
+      &&
+      \E \left(
+      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
+      \right) \\
+      &=&
+      \E \left(
+      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
+      \I_{S_\epsilon} \1{m < N}
+      \right)
+      +
+      \E \left(
+      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
+      \I_{S_\epsilon} \1{m \geq N}
+      \right) \\
+      &\leq&
+      (\E \|A\|^{(2p - 1)\xi})^m \1{m < N}
+      + \epsilon^{(2p-1)\xi} \1{m \geq N} < \infty
+    \end{eqnarray*}
+    Plugging this into \eqref{eq:hfry} we have
+    \begin{eqnarray}
+      &&
+      \E_{X_0}^{-\xi} \left(
+      | \Pi_{n+m,n+1} X_n|^{2 p\xi}
+      \1{n+m = T_u < K_1}
+      \right)  \label{eq:dpad} \\
+      &\leq&
+            {c \over \lambda(-\xi)^m}
+            \E \left(
+            |\Pi_{n,1} X_0|^{-\xi}
+            \1{n + m < K_1}
+            \right) \nonumber \\
+      &\leq&
+            {c \over \lambda(-\xi)^m}
+            \P_{X_0}^{-\xi} \left(
+            n + m < K_1
+            \right) \nonumber \\
+      &\leq&
+            {c \over \lambda(-\xi)^m}
+            b_{-\xi}^{n+m} \nonumber 
+    \end{eqnarray}
+    where the last line follows from Remark \ref{remark:1} with
+    $\varphi = -\xi$.
+    Now we turn to the 2nd factor of \eqref{eq:hyyu}. Using Remark
+    \ref{remark:1} with $\varphi = -\xi$, we have
+    \begin{eqnarray}
+      &&
+      \E_{X_0}^{-\xi} \left(
+      N_u^{2q}
+      \1{n+m = T_u < K_1}
+      \right) \label{eq:lpd} \\ 
+      %% &\leq&
+      %% \E_{X_0}^{-\xi} \left(
+      %% K_1^{2q}
+      %% \1{n+m < K_1}
+      %% \right) \\
+      %% &=&
+      %% \sum_{i=n+m+1}
+      %% i^{2q}
+      %% \P_{X_0}^{-\xi} (K_1 = i) \\
+      &<&
+      \sum_{i=n+m+1}^\infty
+      i^{2q}
+      \P_{X_0}^{-\xi} (K_1 > i - 1)
+      \leq
+      \sum_{i=n+m+1}^\infty
+      i^{2q}
+      b_{-\xi}^{i-1}
+      < \infty \nonumber 
+    \end{eqnarray}
+    Combining \eqref{eq:hyyu}, \eqref{eq:dpad} and \eqref{eq:lpd} we
+    get
+    \[
+    \E_{X_0}^{-\xi} \left(
+    | \Pi_{n+m,n+1} X_n |^{2 \xi}
+    N_u^2
+    \1{n+m = T_u < K_1}
+    \right) 
+    \leq
+        {
+          c \over \lambda(-\xi)^{m/p}
+        }
+        b_{-\xi}^{n/p}
+    \]
+    Thus the right side of \eqref{eq:kpdf} is bounded by
+    \begin{eqnarray*}
+      c
+      \sum_{n=0}^\infty
+      \sum_{m=0}^\infty
+      \lambda(-\xi)^{n+m(1 - 1/p)}
+      b_{-\xi}^{(n+m)/p}
+    \end{eqnarray*}
+
+    %% By \eqref{eq:hyyu} this implies
+    %% \begin{eqnarray*}
+    %%   &&
+    %%   \E_{X_0}^{-\xi} \left(
+    %%   | \Pi_{n+m,n+1} X_n |^{2 \xi}
+    %%   N_u^2
+    %%   \1{n+m = T_u < K_1}
+    %%   \right) \\
+    %%   &\leq&
+    %%   c \left[
+    %%     \E_{X_0}^{-\xi} \left(
+    %%     N_u^{2q}
+    %%     \1{n+m = T_u < K_1}
+    %%     \right)
+    %%     \right]^{1/q} \\
+    %%   &\leq&
+    %%   c \left[
+    %%     \E_{X_0}^{-\xi} \left(
+    %%     K_1^{2q}
+    %%     \1{n+m < K_1}
+    %%     \right)
+    %%     \right]^{1/q} \\
+    %% \end{eqnarray*}
+
+
+
+    \begin{enumerate}
+    \item If $\lambda(-\xi) < \infty$, we assume
     \begin{equation}
       \label{eq:cond1}
       \lambda(-\xi)
@@ -1240,7 +1486,7 @@ efficient i.e. its relative error is bounded.
           \over
           \|A_n \cdots A_{1}\|
         } |B|
-      \right] \\
+      \right) \\
       &\leq& {1 \over M}
       \left[
         |B_0| + \sum_{i=1}^n {
