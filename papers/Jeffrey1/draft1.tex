@@ -9,6 +9,8 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
+\newtheorem{case}{case}
+
 \input{../../physics_common}
 
 % settings
@@ -510,20 +512,20 @@ A \cdotp x: (A, x) \in \img(A) \times \sphere^{d-1} \to
   A x \over |A x|
 }
 \]
-and operator $\mathscr P_\theta$ for $\theta \in \reals$,
+and operator $\mathscr P^\theta$ for $\theta \in \reals$,
 $f: \sphere^{d-1} \to \reals_+$:
 \[
-\mathscr P_\theta f(x) =
+\mathscr P^\theta f(x) =
 \E \left[
   |A x|^\theta f(A \cdotp x)
 \right]
 \]
 By Lemma 2.2 of Collamore and Mentemeier
 \cite{collamore:mentemeier:2016}, \eqref{eq:jui} means
-$\lambda(\xi) = 1$ is the spectral radius of $\mathscr P_\xi$ and
-there is a unique, strictly positive eigen function $r_\xi(\cdot)$
+$\lambda(\xi) = 1$ is the spectral radius of $\mathscr P^\xi$ and
+there is a unique, strictly positive eigenfunction $r_\xi(\cdot)$
 associated with $\lambda(\xi)$ i.e.
-$\mathscr P_\xi r_\xi(x) = \lambda(\xi) r_\xi(x)$.
+$\mathscr P^\xi r_\xi(x) = \lambda(\xi) r_\xi(x)$.
 Moreover, $r_\xi$ is $\max\{\xi, 1\}$-H\"older continuous, implying
 $r_\xi$ is bounded from above and below by positive constants. From
 now on, we use the notations
@@ -532,17 +534,17 @@ now on, we use the notations
 \underline r_\xi = \inf_{x \in \sphere^{d-1}} r_\xi(x)
 \]
 
-There is also an eigen measure $\ell_\xi$ on $\mathcal B(\sphere^{d-1})$
+There is also an eigenmeasure $\ell_\xi$ on $\mathcal B(\sphere^{d-1})$
 associated with the operator
-$\mathscr P_\xi$ that corresponds to the eigen value
-$\lambda(\xi) = 1$ and eigen function $r_\xi$:
+$\mathscr P^\xi$ that corresponds to the eigenvalue
+$\lambda(\xi) = 1$ and eigenfunction $r_\xi$:
 \[
 \E \left[ |A x|^\xi \ell(A \cdotp dx) \right]
-= \ell_\xi \mathscr P_\xi (dx)
+= \ell_\xi \mathscr P^\xi (dx)
 = \lambda(\xi) \ell_\xi(dx)
 \]
-The eigen function $r_\xi$ and eigen measure $\ell_\xi$ are called
-right eigen function and left eigen measure, respectively. They
+The eigenfunction $r_\xi$ and eigenmeasure $\ell_\xi$ are called
+right eigenfunction and left eigenmeasure, respectively. They
 satisfy the identity
 $\ell_\xi r_\xi = \int_{\sphere^{d-1}} r_\xi(x) \ell_\xi(dx) = 1$.
 Cf. Collamore and Mentemeier \cite{collamore:mentemeier:2016},
@@ -565,11 +567,11 @@ the expectation taken with respect to the original measure with the
 expectation taken with respect to the shifted measure, i.e. we
 define
 \[
-\mathscr P_{\varphi, \theta} f(x)
+\mathscr P^{\varphi, \theta} f(x)
 = \E_\varphi \left[
   |A x|^\theta f(A \cdotp x)
 \right], \quad
-\eta \mathscr P_{\varphi, \theta}(dx)
+\eta \mathscr P^{\varphi, \theta}(dx)
 =
 \E_\varphi \left[ |A x|^\theta \eta(A \cdotp dx) \right]
 \]
@@ -578,13 +580,13 @@ $\eta$ is a probability measure on $\mathcal B(\sphere^{d-1})$.
 By Lemma 2.2 of Collamore and Mentemeier
 \cite{collamore:mentemeier:2016}, when
 $\E_\varphi \| A \|^\theta < \infty$, the spectral radius of
-$\mathscr P_{\varphi, \theta}$ is
+$\mathscr P^{\varphi, \theta}$ is
 \[
 \lambda_\varphi(\theta) = \lim_{n \to \infty}
 \left(\E_\varphi \|A_n \cdots A_1 \|^\theta\right)^{1/n}
 \]
-and a unique pair of eigen function and eigen measure exists
-for $\mathscr P_{\varphi, \theta}$ corresponding to
+and a unique pair of eigenfunction and eigenmeasure exists
+for $\mathscr P^{\varphi, \theta}$ corresponding to
 $\lambda_\varphi(\theta)$. Call them
 $r_{\varphi, \theta}(\cdot)$ and $\ell_{\varphi, \theta}(\cdot)$,
 respectively.
@@ -674,7 +676,8 @@ Then in \S\ref{sec:consistency} we prove the relation \eqref{eq:fbf} and in
 \S\ref{sec:efficiency} we prove that the estimator $\mathcal E_u$ is
 efficient i.e. its relative error is bounded.
 
-\section[The Chain Drifts towards a Small Set]{$V_n$ Drifts towards a Small Set}\label{sec:drift}
+\section[The Chain Drifts towards a Small Set]{$V_n$ Drifts towards a Small Set}
+\label{sec:drift}
 \begin{lemma}
   Let $\varphi \in \reals$ satisfy
   \begin{equation}
@@ -684,71 +687,76 @@ efficient i.e. its relative error is bounded.
       {
         \bar r_\varphi  \bar r_\theta
         \over
-        \underline r_\varphi
+        \underline r_\varphi \underline r_\theta
       } {1 \over \lambda(\varphi)}
       \E \| A \|^{\varphi + \theta}
     \right] < 1
   \end{equation}
-  then there exist $0 < b(\varphi) < 1, M(\varphi) > 0$ such that
+  then there exist
+  $0 < b_{\varphi, \theta} < 1, M_{\varphi, \theta} > 0$
+  such that for all $X_{n-1} \in \sphere^{d-1}$
+  and for all $\theta$ satisfying the condition above, the following
+  inequality holds
   \begin{equation}
     \label{eq:drift}
     \E_{X_{n-1}}^\varphi \left[\left.
       |V_n|^\theta r_\theta(\tilde V_n)
-      \1{|V_{n-1}| > M} \right|
+      \1{|V_{n-1}| > M_{\varphi, \theta}} \right|
       \mathscr F_{n-1} \right]
     \leq
-    b |V_{n-1}|^\theta
+    b_{\varphi, \theta} |V_{n-1}|^\theta
     r_{\theta}(\tilde V_{n-1})
   \end{equation}
 \end{lemma}
 
 \begin{proof}
   By Buraczewski et al \cite{buraczewski:damek:guivarch:mentemeier:2014} 
-  Proposition 3.1, an eigen function $r_\theta(\cdot)$ and an
+  Proposition 3.1, an eigenfunction $r_\theta(\cdot)$ and an
   eigenmeasure $\ell_\theta(\cdot)$ exist for the operator
-  $\mathscr P_\theta$. 
-  In particular, the right eigen function can be represented as
+  $\mathscr P^\theta$. 
+  In particular, the right eigenfunction can be represented as
   \[
   r_{\theta}(x) = c(\theta) \int_{\sphere^{d-1}} \inn{x, y}^\theta
-  d\ell^*_{\theta}(y)
+  \ell^*_{\theta}(dy)
   \]
   Thus we have
   \begin{eqnarray}
     && \E_{X_{n-1}}^\varphi \left[ |V_n|^\theta r_{\theta}(\tilde V_n)
       \1{|V_{n-1}| > M} | \mathscr F_{n-1} \right]
-    \nonumber \\
+    \label{eq:drift_proof_1} \\
     &=&
     \1{|V_{n-1}| > M}
     \E_{X_{n-1}}^\varphi
     \left[
-      c(\theta)\int_{\sphere^{d-1}} \inn{V_n, y}^\theta d\ell^*_{\theta}(y)|
+      c(\theta)\int_{\sphere^{d-1}} \inn{V_n, y}^\theta \ell^*_{\theta}(dy)|
       \mathscr F_{n-1} \right]
     \nonumber \\
     &=&
     \1{|V_{n-1}| > M}
     \E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
-        y})^\theta d\ell^*_{\theta}(y) | \mathscr F_{n-1} \right]
-    \label{eq:drift_proof_1}
+        y})^\theta \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
+    \nonumber
   \end{eqnarray}
-  \begin{enumerate}
-  \item if $\theta \leq 1$, by subadditivity we have
-    \begin{eqnarray*}
-      &&\E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
-          y})^\theta d\ell^*_{\theta}(y) | \mathscr F_{n-1} \right]\\
-      &\leq& \E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} \inn{A_n V_{n-1}, y}^\theta
-        d\ell^*_{\theta}(y) | \mathscr F_{n-1} \right]
-      + \E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} \inn{B, y}^\theta d\ell^*_{\theta}(y) |
-        \mathscr F_{n-1} \right] \\
-      &=&
-      \E_{X_{n-1}}^\varphi\left[|V_{n-1}|^\theta |A_n \tilde V_{n-1}|^\theta
-        c(\theta)\int_{\sphere^{d-1}}
-        \inn{ A_n \cdotp \tilde V_{n-1}, y}^\theta
-        d\ell^*_{\theta}(y) | \mathscr F_{n-1} \right]
-      + |B|^\theta r_{\theta}(\tilde B)\\
-      &=&
-      |V_{n-1}|^\theta
-      \E \left[
-        \left.
+  \begin{case}
+    If $\theta \leq 1$, by subadditivity we have
+  \end{case}
+  \begin{eqnarray*}
+    &&\E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
+        y})^\theta \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]\\
+    &\leq& \E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} \inn{A_n V_{n-1}, y}^\theta
+      \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
+    + \E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} \inn{B, y}^\theta \ell^*_{\theta}(dy) |
+      \mathscr F_{n-1} \right] \\
+    &=&
+    \E_{X_{n-1}}^\varphi\left[|V_{n-1}|^\theta |A_n \tilde V_{n-1}|^\theta
+      c(\theta)\int_{\sphere^{d-1}}
+      \inn{ A_n \cdotp \tilde V_{n-1}, y}^\theta
+      \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
+    + |B|^\theta r_{\theta}(\tilde B)\\
+    &=&
+    |V_{n-1}|^\theta
+    \E \left[
+      \left.
         {1 \over \lambda(\varphi)}
         {
           r_\varphi(X_n)
@@ -758,119 +766,169 @@ efficient i.e. its relative error is bounded.
         | A_n X_{n-1} |^{\varphi}
         | A_n  \tilde V_{n-1} |^{\theta}
         r_\theta(A_n \cdotp \tilde V_{n-1})
-        \right|
-        \mathscr F_{n-1}
-        \right]
-      + |B|^\theta r_{\theta}(\tilde B) \\
-      %% |V_{n-1}|^\theta  \int |\mathbf a \tilde V_{n-1}|^\theta
-      %% r_{\theta}(\mathbf a \cdotp \tilde V_{n-1})
-      %% d\mu_A^\varphi (\mathbf a) + |B|^\theta r_{\theta}(\tilde B) \\
-      &=&
-      |V_{n-1}|^\theta (
-      \mathscr P_{\varphi, \theta}
-      r_{\theta})(\tilde V_{n-1}) + |B|^\theta r_{\theta}(\tilde B) \\
-      &=& |V_{n-1}|^\theta r_{\theta}(\tilde V_{n-1}) \lambda_\varphi(\theta)
-      \left\{
-        1 + 
-        {|B|^\theta r_{\theta}(\tilde B)
-          \over
-          |V_{n-1}|^\theta \lambda_\varphi(\theta) r_{\varphi,
-            \theta}(\tilde V_{n-1})
-        }
-        \right\} \\
-    \end{eqnarray*}
-    By lemma 2.2 of Collamore and Mentemeier
-    \cite{collamore:mentemeier:2016}, $r_{\theta}$ is bounded
-    from above and below. Therefore the last equation gives
-    \begin{eqnarray*}
-      && \E_{X_{n-1}}^\varphi \left[ \left.
-        |V_n|^\theta r_{\theta}(\tilde V_n) \1{|V_{n-1}| > M}
-        \right| \mathscr F_{n-1}
-        \right] \\
-      &<&
-      |V_{n-1}|^\theta r_{\theta}(\tilde V_{n-1})
-      \underbrace{
-        \lambda_\varphi(\theta)
-        \left[
-          1 + 
-          {
-            |B|^\theta r_{\theta}(\tilde B)
-            \over
-            M^\theta \lambda_\varphi(\theta)
-            \underline r_{\theta}
-          }
-          \right]
-      }_{b}
-      \1{|V_{n-1}| > M} \\
-      &\leq&
-      |V_{n-1}|^\theta r_{\theta}(\tilde V_{n-1}) b
-    \end{eqnarray*}
-    Note
-    \[
-    \lambda_\varphi(\theta)
-    =
-    \left(
-    \E_{X_{n-1}}^\varphi \| A_n \cdots A_1 \|^\theta
-    \right)^{1/n}
-    \leq
-    \left(
-    \E_{X_{n-1}}^\varphi (\| A_1 \|^\theta)^n
-    \right)^{1/n}
-    =
-    \E_{X_{n-1}}^\varphi \| A_1 \|^\theta  <  1
-    \]
-    If $M$ satisfies
-    \[
-    M >
+      \right|
+      \mathscr F_{n-1}
+    \right]
+    + |B|^\theta r_{\theta}(\tilde B) \\
+    &=&
+    |V_{n-1}|^\theta
+    r_\theta(\tilde V_{n-1})
+    {1 \over \lambda(\varphi)}
+    {\bar r_\varphi \over \underline r_\varphi}
+    {\bar r_\theta \over \underline r_\theta}
+    \E \| A \|^{\varphi + \theta}
+    + |B|^\theta r_{\theta}(\tilde B) \\
+    &=&
+    |V_{n-1}|^\theta
+    r_\theta(\tilde V_{n-1})
+    {1 \over \lambda(\varphi)}
+    {\bar r_\varphi \over \underline r_\varphi}
+    {\bar r_\theta \over \underline r_\theta}
+    \E \| A \|^{\varphi + \theta}
     \left\{
-     |B|^\theta r_{\theta}(\tilde B)
-    \over
-    [1 - \lambda_\varphi(\theta)] \underline r_{\theta}
-    \right\}^{1/\theta}
-    \]
-    we have $b < 1$ and \eqref{eq:drift} holds.
-
-  \item If $\theta > 1$, applying Minkowski's inequality to the RHS
-      of \eqref{eq:drift_proof_1} and using similar arguments as in
-      the previous case gives
-      \begin{eqnarray*}
-        && \E_{X_{n-1}}^\varphi \left[ \left.
-          |V_n|^\theta r_{\theta}(\tilde V_{n})
-          \1{|V_{n-1}| > M}
-          \right| \mathscr F_{n-1}
-        \right] \\
-        &\leq&
-        |V_{n-1}|^\theta r_{\theta}(\tilde V_{n-1})
-        \underbrace{
-        \lambda_\varphi(\theta) \left\{
-          1 + \left[
-            {
-              |B|^\theta r_{\theta}(\tilde B)
-              \over
-              M^\theta
-              \underline r_{\theta}
-              \lambda_\varphi(\theta)
-            }
-          \right]^{1/\theta}
-          \right\}^\theta
-          }_{b}
-          \1{|V_{n-1}| > M}
-      \end{eqnarray*}
-      and correspondingly, $M$ needs to satisfy
-      \begin{equation*}
-        M > \left[
-          {
-            r_{\theta}(\tilde B) |B|^\theta
-            \over
-            \underline r_{\theta}
-          }
-        \right]^{1/\theta} {
-          1 \over
-          1 - \lambda_\varphi(\theta)^{1/\theta}
+      1 + 
+      {|B|^\theta r_{\theta}(\tilde B) \lambda(\varphi) \underline r_\varphi \underline r_\theta
+        \over
+        |V_{n-1}|^\theta r_\theta(\tilde V_{n-1}) \bar r_\varphi \bar
+        r_\theta \E \| A \|^{\varphi + \theta}
+      }
+    \right\}
+  \end{eqnarray*}
+  Let
+  \[
+  b_{\varphi, \theta} = {1 \over \lambda(\varphi)}
+  {\bar r_\varphi \over \underline r_\varphi}
+  {\bar r_\theta \over \underline r_\theta}
+  \E \| A \|^{\varphi + \theta}
+  \left\{
+    1 + 
+    {|B|^\theta r_{\theta}(\tilde B) \lambda(\varphi) \underline r_\varphi \underline r_\theta
+      \over
+      M^\theta \underline r_\theta \bar r_\varphi \bar r_\theta 
+      \E \|A \|^{\varphi + \theta}
+    }
+  \right\}
+  \]
+  By the 2nd part of assumption \eqref{eq:drift_cond}, there exist
+  $\theta > 0$ and $M$ sufficiently large such that
+  $b_{\varphi, \theta} < 1$.
+  Thus we have
+  \[
+  \E_{X_{n-1}}^\varphi
+  \left[
+    |V_n|^\theta r_{\theta}(\tilde V_n)
+    \1{|V_{n-1}| > M} | \mathscr F_{n-1}
+  \right]
+  \leq
+  \1{|V_{n-1}| > M_{\varphi, \theta}}
+  b_{\varphi, \theta}
+  |V_{n-1}|^\theta
+  r_\theta(\tilde V_{n-1})
+  \]
+  where $M_{\varphi, \theta}$ denotes the value of $M$ chosen
+  according to $\varphi$ and $\theta$ such that
+  $b_{\varphi, \theta} < 1$.
+  \begin{case}
+    If $\theta > 1$,   applying Minkowski's inequality to the RHS
+  of \eqref{eq:drift_proof_1} gives
+  \end{case}
+  \begin{eqnarray*}
+    &&
+    \E_{X_{n-1}}^\varphi
+    \left[
+      c(\theta)\int_{\sphere^{d-1}} 
+      (\inn{A_n V_{n-1}, y} + \inn{B, y})^\theta
+      \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]\\
+    &\leq&
+    \left\{
+      \left[
+        \E_{X_{n-1}}^\varphi
+        \left(
+          c(\theta)\int_{\sphere^{d-1}} 
+          \inn{A_n V_{n-1}, y}^{\theta}
+          \ell^*_{\theta}(dy) | \mathscr F_{n-1}
+        \right)
+      \right]^{1/\theta}
+    \right. \\
+    &&
+    +
+    \left.
+      \left[
+        \E_{X_{n-1}}^\varphi
+        \left(
+          c(\theta)\int_{\sphere^{d-1}} 
+          \inn{B, y}^{\theta}
+          \ell^*_{\theta}(dy) | \mathscr F_{n-1}
+        \right)
+      \right]^{1/\theta} 
+    \right\}^\theta\\
+    &\leq&
+    \left\{
+      |V_{n-1}|
+      \left(
+        { \bar r_\varphi \bar r_\theta
+          \over
+          \lambda(\varphi) \underline r_\varphi \underline r_\theta
         }
-      \end{equation*}
-      so that $b < 1$. This proves \eqref{eq:drift}.
-  \end{enumerate}    
+        \E \|A\|^{\varphi + \theta} r_\theta(\tilde V_{n-1})
+      \right)^{1/\theta}
+      + |B| r_\theta(\tilde B)^{1/\theta}
+    \right\}^\theta \\
+    &\leq&
+    r_\theta(\tilde V_{n-1})
+    |V_{n-1}|^\theta
+    { \bar r_\varphi \bar r_\theta
+      \over
+      \lambda(\varphi) \underline r_\varphi \underline r_\theta
+    }
+    \E \|A\|^{\varphi + \theta} 
+    \left\{
+      1 +
+      {|B| \over |V_{n-1}|}
+      \left[
+        {
+          r_\theta(\tilde B) \lambda(\varphi) \underline r_\varphi \underline r_\theta
+          \over
+          \underline r_\theta \bar r_\varphi \bar r_\theta \E \|A\|^{\varphi + \theta} 
+        }
+      \right]^{1/\theta}
+    \right\}^\theta
+  \end{eqnarray*}
+  Thus, as in the previous case, we have
+  \[
+    \E_{X_{n-1}}^\varphi
+  \left[
+    |V_n|^\theta r_{\theta}(\tilde V_n)
+    \1{|V_{n-1}| > M} | \mathscr F_{n-1}
+  \right]
+  \leq
+  \1{|V_{n-1}| > M_{\varphi, \theta}}
+    b_{\varphi, \theta}
+  |V_{n-1}|^\theta
+  r_\theta(\tilde V_{n-1})
+  \]
+  where
+  \[
+  b_{\varphi, \theta} =
+  { \bar r_\varphi \bar r_\theta
+    \over
+    \lambda(\varphi) \underline r_\varphi \underline r_\theta
+  }
+  \E \|A\|^{\varphi + \theta} 
+  \left\{
+    1 +
+    {|B| \over M_{\varphi, \theta}}
+    \left[
+      {
+        r_\theta(\tilde B) \lambda(\varphi) \underline r_\varphi \underline r_\theta
+        \over
+        \underline r_\theta \bar r_\varphi \bar r_\theta \E \|A\|^{\varphi + \theta} 
+      }
+    \right]^{1/\theta}
+  \right\}^\theta
+  \]
+  with $M_{\varphi, \theta}$ chosen sufficiently large so that
+  $b_{\varphi, \theta} < 1$.
 \end{proof}
 
 \begin{remark}
