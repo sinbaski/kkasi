@@ -694,12 +694,11 @@ efficient i.e. its relative error is bounded.
   \end{equation}
   then there exist
   $0 < b_{\varphi, \theta} < 1, M_{\varphi, \theta} > 0$
-  such that for all $X_{n-1} \in \sphere^{d-1}$
-  and for all $\theta$ satisfying the condition above, the following
+  such that for all $\theta$ satisfying the condition above, the following
   inequality holds
   \begin{equation}
     \label{eq:drift}
-    \E_{X_{n-1}}^\varphi \left[\left.
+    \E^\varphi \left[\left.
       |V_n|^\theta r_\theta(\tilde V_n)
       \1{|V_{n-1}| > M_{\varphi, \theta}} \right|
       \mathscr F_{n-1} \right]
@@ -721,19 +720,19 @@ efficient i.e. its relative error is bounded.
   \]
   Thus we have
   \begin{eqnarray}
-    && \E_{X_{n-1}}^\varphi \left[ |V_n|^\theta r_{\theta}(\tilde V_n)
+    && \E^\varphi \left[ |V_n|^\theta r_{\theta}(\tilde V_n)
       \1{|V_{n-1}| > M} | \mathscr F_{n-1} \right]
     \label{eq:drift_proof_1} \\
     &=&
     \1{|V_{n-1}| > M}
-    \E_{X_{n-1}}^\varphi
+    \E^\varphi
     \left[
       c(\theta)\int_{\sphere^{d-1}} \inn{V_n, y}^\theta \ell^*_{\theta}(dy)|
       \mathscr F_{n-1} \right]
     \nonumber \\
     &=&
     \1{|V_{n-1}| > M}
-    \E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
+    \E^\varphi\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
         y})^\theta \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
     \nonumber
   \end{eqnarray}
@@ -741,14 +740,14 @@ efficient i.e. its relative error is bounded.
     If $\theta \leq 1$, by subadditivity we have
   \end{case}
   \begin{eqnarray*}
-    &&\E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
+    &&\E^\varphi\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
         y})^\theta \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]\\
-    &\leq& \E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} \inn{A_n V_{n-1}, y}^\theta
+    &\leq& \E^\varphi\left[c(\theta)\int_{\sphere^{d-1}} \inn{A_n V_{n-1}, y}^\theta
       \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
-    + \E_{X_{n-1}}^\varphi\left[c(\theta)\int_{\sphere^{d-1}} \inn{B, y}^\theta \ell^*_{\theta}(dy) |
+    + \E^\varphi\left[c(\theta)\int_{\sphere^{d-1}} \inn{B, y}^\theta \ell^*_{\theta}(dy) |
       \mathscr F_{n-1} \right] \\
     &=&
-    \E_{X_{n-1}}^\varphi\left[|V_{n-1}|^\theta |A_n \tilde V_{n-1}|^\theta
+    \E^\varphi\left[|V_{n-1}|^\theta |A_n \tilde V_{n-1}|^\theta
       c(\theta)\int_{\sphere^{d-1}}
       \inn{ A_n \cdotp \tilde V_{n-1}, y}^\theta
       \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
@@ -814,7 +813,7 @@ efficient i.e. its relative error is bounded.
   $b_{\varphi, \theta} < 1$.
   Thus we have
   \[
-  \E_{X_{n-1}}^\varphi
+  \E^\varphi
   \left[
     |V_n|^\theta r_{\theta}(\tilde V_n)
     \1{|V_{n-1}| > M} | \mathscr F_{n-1}
@@ -834,7 +833,7 @@ efficient i.e. its relative error is bounded.
   \end{case}
   \begin{eqnarray*}
     &&
-    \E_{X_{n-1}}^\varphi
+    \E^\varphi
     \left[
       c(\theta)\int_{\sphere^{d-1}} 
       (\inn{A_n V_{n-1}, y} + \inn{B, y})^\theta
@@ -842,7 +841,7 @@ efficient i.e. its relative error is bounded.
     &\leq&
     \left\{
       \left[
-        \E_{X_{n-1}}^\varphi
+        \E^\varphi
         \left(
           c(\theta)\int_{\sphere^{d-1}} 
           \inn{A_n V_{n-1}, y}^{\theta}
@@ -854,7 +853,7 @@ efficient i.e. its relative error is bounded.
     +
     \left.
       \left[
-        \E_{X_{n-1}}^\varphi
+        \E^\varphi
         \left(
           c(\theta)\int_{\sphere^{d-1}} 
           \inn{B, y}^{\theta}
@@ -896,7 +895,7 @@ efficient i.e. its relative error is bounded.
   \end{eqnarray*}
   Thus, as in the previous case, we have
   \[
-    \E_{X_{n-1}}^\varphi
+    \E^\varphi
   \left[
     |V_n|^\theta r_{\theta}(\tilde V_n)
     \1{|V_{n-1}| > M} | \mathscr F_{n-1}
@@ -935,44 +934,44 @@ efficient i.e. its relative error is bounded.
   \label{remark:1}
   Iterating \eqref{eq:drift} yields, for $j \geq 0, n > 1$
   \[
-  \E_{X_{n-1}}^\varphi \left[
+  \E^\varphi \left[
     \left.
     |V_{K_j + n}|^\theta r_{\theta}(\tilde V_{K_j + n})
-    \prod_{i=1}^{n-1}\1{|V_{K_j + i}| > M}
+    \prod_{i=1}^{n-1}\1{|V_{K_j + i}| > M_{\varphi, \theta}}
     \right| \mathscr F_{K_j + 1}
     \right]
-  \leq b^{n-1} |V_{K_j + 1}|^\theta r_{\theta}(\tilde V_{K_j+1})
+  \leq b_{\varphi, \theta}^{n-1} |V_{K_j + 1}|^\theta r_{\theta}(\tilde V_{K_j+1})
   \]
   Because
-  $\{K_{j+1} - K_j > n - 1\} \subseteq \bigcap_{i=K_j + 1}^{K_j + n-1}\{|V_i| > M\}$,
+  $\{K_{j+1} - K_j > n - 1\} \subseteq \bigcap_{i=K_j + 1}^{K_j + n-1}\{|V_i| > M_{\varphi, \theta}\}$,
   \begin{eqnarray*}
-  \E_{X_{n-1}}^\varphi \left[\left.
+  \E^\varphi \left[\left.
     |V_{K_j + n}|^\theta \underline r_{\theta}
     \1{K_{j+1} - K_j > n - 1}
     \right| \mathscr F_{K_j + 1}
     \right]
   &\leq&
-  b^{n-1} |V_{K_j + 1}|^\theta \bar r_{\theta} \\
-  \E_{X_{n-1}}^\varphi \left[
+  b_{\varphi, \theta}^{n-1} |V_{K_j + 1}|^\theta \bar r_{\theta} \\
+  \E^\varphi \left[
     |V_{K_j + n}|^\theta \underline r_{\theta}
     \1{K_{j+1} - K_j > n - 1}
     \right]
   &\leq&
-  b^{n-1} \E_{X_{n-1}}^\varphi |V_{K_j + 1}|^\theta \bar r_{\theta}
+  b_{\varphi, \theta}^{n-1} \E^\varphi |V_{K_j + 1}|^\theta \bar r_{\theta}
   \end{eqnarray*}
   Moreover,
   \[
-  \E_{X_{n-1}}^\varphi |V_{K_j + 1}|^\theta
+  \E^\varphi |V_{K_j + 1}|^\theta
   \leq
-  \E_{X_{n-1}}^\varphi \|A_{K_j + 1}\|^\theta |V_{K_j}|^\theta + |B|^\theta
+  \E^\varphi \|A_{K_j + 1}\|^\theta |V_{K_j}|^\theta + |B|^\theta
   \leq
-  M^\theta + |B|^\theta
+  M_{\varphi, \theta}^\theta + |B|^\theta
   \]
   So we have
   \[
   \P_\varphi(K_{j + 1} - K_j > n-1)
   \leq
-  b^{n-1} \rho(\varphi, \theta)
+  b_{\varphi, \theta}^{n-1} \rho(\varphi, \theta)
   \]
   for a constant
   \[
@@ -981,7 +980,7 @@ efficient i.e. its relative error is bounded.
     \over
     \underline r_{\theta}
   } {
-    M^\theta + |B|^\theta
+    M_{\varphi, \theta}^\theta + |B|^\theta
     \over
     \underline V^\theta
   }
@@ -995,7 +994,7 @@ efficient i.e. its relative error is bounded.
   \leq
   \left[
   \inf_{\theta \in \Theta(\varphi)}
-  b(\varphi, \theta)^n
+  b_{\varphi, \theta}^n
   \right]
   \left[
     \sup_{\theta \in \Theta} \rho(\varphi, \theta)
@@ -1040,13 +1039,13 @@ efficient i.e. its relative error is bounded.
       \left\{
         {1 \over n} \sum_{i=K_{R_n}}^{n} \1{|V_i| > u} \leq \epsilon
       \right\}
-    \right] &=& 1 \\
-    \P \left[
-      \bigcap_{N=1}^\infty \bigcup_{n=N}^\infty
-      \left\{
-        {1 \over n} \sum_{i=K_{R_n}}^{n} \1{|V_i| > u} > \epsilon
-      \right\}
-    \right] &=& 0 \\
+    \right] &=& 1
+    % \P \left[
+    %   \bigcap_{N=1}^\infty \bigcup_{n=N}^\infty
+    %   \left\{
+    %     {1 \over n} \sum_{i=K_{R_n}}^{n} \1{|V_i| > u} > \epsilon
+    %   \right\}
+    % \right] &=& 0 \\
   \end{eqnarray*}
   By Borel-Cantelli lemma, it suffices to show
   \[
