@@ -932,9 +932,10 @@ efficient i.e. its relative error is bounded.
 \begin{remark}
   \label{remark:1}
   From Lemma \ref{lemma:1}, it follows for each $\varphi$
-  that satisfies $\E \|A\|^\varphi < \infty$ and that makes
-  $\Theta(\varphi) \neq \emptyset$, there exist $0 < b_\varphi < 1$
-  and $\rho_\varphi > 0$ such that for $n \geq 1$,
+  that satisfies $\E \|A\|^\varphi < \infty$ and
+  $\Theta(\varphi) \neq \emptyset$,
+  there exist $0 < b_\varphi < 1$ and $\rho_\varphi > 0$ such that for
+  $n \geq 1$,
   \[
   \P^\varphi (K_{j+1} - K_j> n)
   \leq
@@ -1196,12 +1197,14 @@ efficient i.e. its relative error is bounded.
 \section{The Estimator Has Bounded Relative Error}\label{sec:efficiency}
 
 \begin{theorem}
-  The estimator $\mathcal E_u$ has bounded relative error, i.e.
+  If $-\xi$ satisfies the assumption of Remark \ref{remark:1}, and in
+  addition $b_{-\xi} \lambda(-\xi) < 1$, then the estimator
+  $\mathcal E_u$ has bounded relative error, i.e.
   \begin{equation*}
     \limsup_{u \to \infty} {\var(\mathcal E_u) \over [\P(|V| > u)]^2} < \infty
   \end{equation*}
 \end{theorem}
-\begin{proof}
+\begin{proof}\setcounter{case}{0}
   The assertion is equivalent to
   \[
   \limsup_{u \to \infty} {\E_{\mathcal D} \mathcal E_u^2 \over [\P(|V|
@@ -1218,687 +1221,621 @@ efficient i.e. its relative error is bounded.
     N_u^2 \1{T_u < K_1} e^{-2\xi S_{T_u}} {r_\xi^2(X_0)
       \over r_\xi^2(X_{T_u})}
   \right] < \infty
- \]
- We note $V_t = \sum_{n=0}^t A_{t} \cdots A_{n+1} B$ and
- $|V_{T_u}| > u$. Moreover $r_\xi$ is bounded
- from above and below by positive constants. So it suffices to show
- \begin{eqnarray}
-   \limsup_{u \to \infty} \E_{\mathcal D} \left(
-     \left|
-       \sum_{n=0}^{T_u}
-       \frac{
-         N_u^{1/\xi} A_{T_u} \cdots A_{n+1} B 
-       }{
-         |A_{T_u} \cdots A_1 X_0|
-       }
-       \1{T_u < K_1}
-     \right|^{2 \xi}
-   \right) &<& \infty \label{eq:efficiency_target}
- \end{eqnarray}
+  \]
+  We note $V_t = \sum_{n=0}^t A_{t} \cdots A_{n+1} B$ and
+  $|V_{T_u}| > u$. Moreover $r_\xi$ is bounded
+  from above and below by positive constants. So it suffices to show
+  \begin{eqnarray}
+    \limsup_{u \to \infty} \E_{\mathcal D} \left(
+      \left|
+        \sum_{n=0}^{T_u}
+        \frac{
+          N_u^{1/\xi} A_{T_u} \cdots A_{n+1} B 
+        }{
+          |A_{T_u} \cdots A_1 X_0|
+        }
+        \1{T_u < K_1}
+      \right|^{2 \xi}
+    \right) &<& \infty \label{eq:efficiency_target}
+  \end{eqnarray}
   In the rest of the proof, we write $c, c_1, c_2, \dots$ for
   constants whose values have no importance and depend on the
   context. Moreover, we use the notation
   \[
   \Pi_{i,j} = \left\{
-  \begin{array}{ll}
-    A_i A_{i-1} \cdots A_j & i \geq j \\
-    1 & i < j
-  \end{array}
+    \begin{array}{ll}
+      A_i A_{i-1} \cdots A_j & i \geq j \\
+      1 & i < j
+    \end{array}
   \right.
   \]
 
   If $2 \xi > 1$, by Minkowski's inequality it suffices to show
-    \begin{eqnarray*}
-      \limsup_{u \to \infty}
-        \sum_{n=0}^{\infty}
-        \left(
-          \E_{\mathcal D} \left|
-            N_u^{1/\xi}
-            \frac{
-              \Pi_{T_u, n+1} B 
-            }{
-              |\Pi_{T_u, 1} X_0|
-            }
-            \1{n \leq T_u < K_1}
-          \right|^{2 \xi}
-        \right)
-        < \infty
-    \end{eqnarray*}
-    The sum on the left side is bounded by
-    \begin{eqnarray*}
-      && c \sum_{n=0}^\infty
-      \E_D
-      \left(
+  \begin{eqnarray*}
+    \limsup_{u \to \infty}
+    \sum_{n=0}^{\infty}
+    \left(
+      \E_{\mathcal D} \left|
+        N_u^{1/\xi}
+        \frac{
+          \Pi_{T_u, n+1} B 
+        }{
+          |\Pi_{T_u, 1} X_0|
+        }
+        \1{n \leq T_u < K_1}
+      \right|^{2 \xi}
+    \right)
+    < \infty
+  \end{eqnarray*}
+  The sum on the left side is bounded by
+  \begin{eqnarray*}
+    && c \sum_{n=0}^\infty
+    \E_D
+    \left(
       {
-          |\Pi_{T_u, n+1} X_n|^{2\xi}
-          N_u^2
-          \1{n \leq T_u < K_1}
-          \over
-          |\Pi_{T_u, n+1} X_n|^{2\xi}
-          |\Pi_{n,1} X_0|^{2\xi}
+        |\Pi_{T_u, n+1} X_n|^{2\xi}
+        N_u^2
+        \1{n \leq T_u < K_1}
+        \over
+        |\Pi_{T_u, n+1} X_n|^{2\xi}
+        |\Pi_{n,1} X_0|^{2\xi}
       }
-      \right)\\
-      &\leq&
-      c \sum_{n=0}^\infty
-      \E
-      \left(
+    \right)\\
+    &\leq&
+    c \sum_{n=0}^\infty
+    \E
+    \left(
       {
-      |\Pi_{T_u, n+1} X_n|^\xi
-      \over
-      |\Pi_{n,1} X_0|^{\xi}
+        |\Pi_{T_u, n+1} X_n|^\xi
+        \over
+        |\Pi_{n,1} X_0|^{\xi}
       }
       N_u^2
       \1{n \leq T_u < K_1}
-      \right)
-    \end{eqnarray*}
-    If $2\xi < 1$, due to subadditivity, the sum on the left side of
-    \eqref{eq:efficiency_target} is bounded by
-    \begin{eqnarray*}
-      && \sum_{n=0}^\infty
-      \E_D \left(
-        {
-          | \Pi_{T_u, n+1} B |^{2\xi}
-          \over
-          | \Pi_{T_u, 1} X_0 |^{2\xi}
-        }
-        N_u^2
-        \1{n \leq T_u < K_1}
-      \right) \\
-      &\leq&
-      c \sum_{n=0}^\infty
-      \E_D \left(
-        {
-          | \Pi_{T_u, n+1} X_n |^{2\xi}
-          \over
-          | \Pi_{T_u, 1} X_0 |^{2\xi}
-        }
-        N_u^2
-        \1{n \leq T_u < K_1}
-        \right) \\
-        &\leq&
-      c \sum_{n=0}^\infty
-      \E \left(
-        {
-          | \Pi_{T_u, n+1} X_n |^{\xi}
-          \over
-          | \Pi_{n,1} X_0 |^{\xi}
-        }
-        N_u^2
-        \1{n \leq T_u < K_1}
-      \right)
-    \end{eqnarray*}
-    This is the same sum as in the previous case except for the
-    multiplicative constant. So in either case we need to show
-    \[
+    \right)
+  \end{eqnarray*}
+  If $2\xi < 1$, due to subadditivity, the sum on the left side of
+  \eqref{eq:efficiency_target} is bounded by
+  \begin{eqnarray*}
+    && \sum_{n=0}^\infty
+    \E_D \left(
+      {
+        | \Pi_{T_u, n+1} B |^{2\xi}
+        \over
+        | \Pi_{T_u, 1} X_0 |^{2\xi}
+      }
+      N_u^2
+      \1{n \leq T_u < K_1}
+    \right) \\
+    &\leq&
+    c \sum_{n=0}^\infty
+    \E_D \left(
+      {
+        | \Pi_{T_u, n+1} X_n |^{2\xi}
+        \over
+        | \Pi_{T_u, 1} X_0 |^{2\xi}
+      }
+      N_u^2
+      \1{n \leq T_u < K_1}
+    \right) \\
+    &\leq&
+    c \sum_{n=0}^\infty
+    \E \left(
+      {
+        | \Pi_{T_u, n+1} X_n |^{\xi}
+        \over
+        | \Pi_{n,1} X_0 |^{\xi}
+      }
+      N_u^2
+      \1{n \leq T_u < K_1}
+    \right)
+  \end{eqnarray*}
+  This is the same sum as in the previous case except for the
+  multiplicative constant. So in either case we need to show
+  \begin{equation}
+    \label{eq:rhjd}
     \limsup_{u \to \infty}
     \sum_{n=0}^\infty
-      \E \left(
-        {
-          | \Pi_{T_u, n+1} X_n |^{\xi}
-          \over
-          | \Pi_{n,1} X_0 |^{\xi}
-        }
-        N_u^2
-        \1{n \leq T_u < K_1}
-      \right) < \infty
-    \]
-    When $\lambda(-\xi) < \infty$ we may rewrite the sum on the left
-    side as
-    \begin{eqnarray}
-      &&
-      \sum_{n=0}^\infty
-      \sum_{m=0}^\infty
-      \E \left(
-        {
-          | \Pi_{n+m,n+1} X_n |^{\xi}
-          \over
-          | \Pi_{n,1} X_0 |^{\xi}
-        }
-        N_u^2
-        \1{n+m = T_u < K_1}
-        \right) \label{eq:kpdf} \\
-      &\leq&
-      c
-      \sum_{n=0}^\infty
-      \sum_{m=0}^\infty
-      \lambda(-\xi)^{n+m}
-      \E_{X_0}^{-\xi} \left(
-          | \Pi_{n+m,n+1} X_n |^{2 \xi}
-        N_u^2
-        \1{n+m = T_u < K_1}
-        \right) \nonumber
-    \end{eqnarray}
-    By assumption (I), there exists $p > 1$ such that
-    $\E |A|^{(2p - 1)\xi} < \infty$. Let $1/p + 1/q = 1$. By
-    H\"older's inequality
-    \begin{eqnarray}
-      &&
-      \E_{X_0}^{-\xi} \left(
+    \E \left(
+      {
+        | \Pi_{T_u, n+1} X_n |^{\xi}
+        \over
+        | \Pi_{n,1} X_0 |^{\xi}
+      }
+      N_u^2
+      \1{n \leq T_u < K_1}
+    \right) < \infty
+  \end{equation}
+  \begin{case}
+    $-\xi$ satisfies the assumption of Remark \ref{remark:1} and
+    $\lambda(-\xi) b_{-\xi} < 1$
+  \end{case}
+  By assumption $\lambda(-\xi) \leq E\|A\|^{-\xi} < \infty$, so
+  we may rewrite the sum on the left side of \eqref{eq:rhjd} as
+  \begin{eqnarray}
+    &&
+    \sum_{n=0}^\infty
+    \sum_{m=0}^\infty
+    \E \left(
+      {
+        | \Pi_{n+m,n+1} X_n |^{\xi}
+        \over
+        | \Pi_{n,1} X_0 |^{\xi}
+      }
+      N_u^2
+      \1{n+m = T_u < K_1}
+    \right) \label{eq:kpdf} \\
+    &\leq&
+    c
+    \sum_{n=0}^\infty
+    \sum_{m=0}^\infty
+    \lambda(-\xi)^{n+m}
+    \E_{X_0}^{-\xi} \left(
       | \Pi_{n+m,n+1} X_n |^{2 \xi}
       N_u^2
       \1{n+m = T_u < K_1}
-      \right)  \label{eq:hyyu} \\
-      &\leq&
-      \left[
-        \E_{X_0}^{-\xi} \left(
+    \right) \nonumber
+  \end{eqnarray}
+  By assumption (I), there exists $p > 1$ such that
+  $\E |A|^{(2p - 1)\xi} < \infty$. Let $1/p + 1/q = 1$. By
+  H\"older's inequality
+  \begin{eqnarray}
+    &&
+    \E_{X_0}^{-\xi} \left(
+      | \Pi_{n+m,n+1} X_n |^{2 \xi}
+      N_u^2
+      \1{n+m = T_u < K_1}
+    \right)  \label{eq:hyyu} \\
+    &\leq&
+    \left[
+      \E_{X_0}^{-\xi} \left(
         | \Pi_{n+m,n+1} X_n|^{2 p\xi}
         \1{n+m = T_u < K_1}
-        \right)
-        \right]^{1/p} \nonumber \times \\
-      &&
-      \left[
-        \E_{X_0}^{-\xi} \left(
+      \right)
+    \right]^{1/p} \nonumber \times \\
+    &&
+    \left[
+      \E_{X_0}^{-\xi} \left(
         N_u^{2q}
         \1{n+m = T_u < K_1}
-        \right)
-        \right]^{1/q}
-      \nonumber
-    \end{eqnarray}
-    For the first factor
-    \begin{eqnarray}
-      &&
-        \E_{X_0}^{-\xi} \left(
-        | \Pi_{n+m,n+1} X_n|^{2 p\xi}
-        \1{n+m = T_u < K_1}
-        \right) \label{eq:hfry} \\
-        &\leq&
-          {c \over \lambda(-\xi)^{n+m}}
-         \E \left(
-         |\Pi_{n+m,n+1} X_n|^{2p\xi}
-         |\Pi_{n+m, 1} X_{0}|^{-\xi}
-         \1{n+m = T_u < K_1}
-         \right) \nonumber \\
-         &\leq&
-          {c \over \lambda(-\xi)^{n+m}}
-         \E \left(
-         |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
-         \right)
-         \E \left(
-         |\Pi_{n,1} X_0|^{-\xi}
-         \1{n < K_1}
-         \right) \nonumber
-    \end{eqnarray}
-    To reach the last line in the above, we have used the fact that
-    $A_i$ are independent in the original measure.
-    Since $\| \Pi_{n+m,n+1} \| \to 0$ a.s. as $m \to \infty$
-    (cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016},
-    theorem 4.1.3), we have for each $\epsilon > 0$
-    \[
-    \P(S_\epsilon)
-    =
-    \P(\exists N \geq 1, \text{ such that } \forall m \geq N,
-    \| \Pi_{n+m,n+1} \| < \epsilon) = 1
-    \]
-    Thus we have
-    \begin{eqnarray*}
-      &&
-      \E \left(
-      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
-      \right) \\
-      &=&
-      \E \left(
-      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
-      \I_{S_\epsilon} \1{m < N}
       \right)
-      +
-      \E \left(
-      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
-      \I_{S_\epsilon} \1{m \geq N}
-      \right) \\
-      &\leq&
-      (\E \|A\|^{(2p - 1)\xi})^m \1{m < N}
-      + \epsilon^{(2p-1)\xi} \1{m \geq N} < \infty
-    \end{eqnarray*}
-    Plugging this into \eqref{eq:hfry} we have
-    \begin{eqnarray}
-      &&
-      \E_{X_0}^{-\xi} \left(
+    \right]^{1/q}
+    \nonumber
+  \end{eqnarray}
+  For the first factor
+  \begin{eqnarray}
+    &&
+    \E_{X_0}^{-\xi} \left(
       | \Pi_{n+m,n+1} X_n|^{2 p\xi}
       \1{n+m = T_u < K_1}
-      \right)  \label{eq:dpad} \\
-      &\leq&
-            {c \over \lambda(-\xi)^m}
-            \E \left(
-            |\Pi_{n,1} X_0|^{-\xi}
-            \1{n + m < K_1}
-            \right) \nonumber \\
-      &\leq&
-            {c \over \lambda(-\xi)^m}
-            \P_{X_0}^{-\xi} \left(
-            n + m < K_1
-            \right) \nonumber \\
-      &\leq&
-            {c \over \lambda(-\xi)^m}
-            b_{-\xi}^{n+m} \nonumber 
-    \end{eqnarray}
-    where the last line follows from Remark \ref{remark:1} with
-    $\varphi = -\xi$.
-    Now we turn to the 2nd factor of \eqref{eq:hyyu}. Using Remark
-    \ref{remark:1} with $\varphi = -\xi$, we have
-    \begin{eqnarray}
-      &&
-      \E_{X_0}^{-\xi} \left(
+    \right) \label{eq:hfry} \\
+    &\leq&
+    {c \over \lambda(-\xi)^{n+m}}
+    \E \left(
+      |\Pi_{n+m,n+1} X_n|^{2p\xi}
+      |\Pi_{n+m, 1} X_{0}|^{-\xi}
+      \1{n+m = T_u < K_1}
+    \right) \nonumber \\
+    &\leq&
+    {c \over \lambda(-\xi)^{n+m}}
+    \E \left(
+      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
+    \right)
+    \E \left(
+      |\Pi_{n,1} X_0|^{-\xi}
+      \1{n < K_1}
+    \right) \nonumber
+  \end{eqnarray}
+  To reach the last line in the above, we have used the fact that
+  $A_i$ are independent in the original measure.
+  Since $\| \Pi_{n+m,n+1} \| \to 0$ a.s. as $m \to \infty$
+  (cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016},
+  theorem 4.1.3), we have for each $\epsilon > 0$
+  \[
+  \P(S_\epsilon)
+  =
+  \P(\exists N \geq 1, \text{ such that } \forall m \geq N,
+  \| \Pi_{n+m,n+1} \| < \epsilon) = 1
+  \]
+  Thus we have
+  \begin{eqnarray*}
+    &&
+    \E \left(
+      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
+    \right) \\
+    &=&
+    \E \left(
+      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
+      \I_{S_\epsilon} \1{m < N}
+    \right)
+    +
+    \E \left(
+      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
+      \I_{S_\epsilon} \1{m \geq N}
+    \right) \\
+    &\leq&
+    (\E \|A\|^{(2p - 1)\xi})^m \1{m < N}
+    + \epsilon^{(2p-1)\xi} \1{m \geq N} < \infty
+  \end{eqnarray*}
+  Plugging this into \eqref{eq:hfry} we have
+  \begin{eqnarray}
+    &&
+    \E_{X_0}^{-\xi} \left(
+      | \Pi_{n+m,n+1} X_n|^{2 p\xi}
+      \1{n+m = T_u < K_1}
+    \right)  \label{eq:dpad} \\
+    &\leq&
+    {c \over \lambda(-\xi)^m}
+    \E \left(
+      |\Pi_{n,1} X_0|^{-\xi}
+      \1{n + m < K_1}
+    \right) \nonumber \\
+    &\leq&
+    {c \over \lambda(-\xi)^m}
+    \P_{X_0}^{-\xi} \left(
+      n + m < K_1
+    \right) \nonumber \\
+    &\leq&
+    {c \over \lambda(-\xi)^m}
+    b_{-\xi}^{n+m} \nonumber 
+  \end{eqnarray}
+  where the last line follows from Remark \ref{remark:1} with
+  $\varphi = -\xi$.
+  Now we turn to the 2nd factor of \eqref{eq:hyyu}. Using Remark
+  \ref{remark:1} with $\varphi = -\xi$, we have
+  \begin{eqnarray}
+    &&
+    \E_{X_0}^{-\xi} \left(
       N_u^{2q}
       \1{n+m = T_u < K_1}
-      \right) \label{eq:lpd} \\ 
-      %% &\leq&
-      %% \E_{X_0}^{-\xi} \left(
-      %% K_1^{2q}
-      %% \1{n+m < K_1}
-      %% \right) \\
-      %% &=&
-      %% \sum_{i=n+m+1}
-      %% i^{2q}
-      %% \P_{X_0}^{-\xi} (K_1 = i) \\
-      &<&
-      \sum_{i=n+m+1}^\infty
-      i^{2q}
-      \P_{X_0}^{-\xi} (K_1 > i - 1)
-      \leq
-      \sum_{i=n+m+1}^\infty
-      i^{2q}
-      b_{-\xi}^{i-1}
-      < \infty \nonumber 
-    \end{eqnarray}
-    Combining \eqref{eq:hyyu}, \eqref{eq:dpad} and \eqref{eq:lpd} we
-    get
-    \[
-    \E_{X_0}^{-\xi} \left(
+    \right) \label{eq:lpd} \\ 
+    %% &\leq&
+    %% \E_{X_0}^{-\xi} \left(
+    %%   K_1^{2q}
+    %%   \1{n+m < K_1}
+    %% \right) \\
+    %% &=&
+    %% \sum_{i=n+m+1}
+    %% i^{2q}
+    %% \P_{X_0}^{-\xi} (K_1 = i) \\
+    &<&
+    \sum_{i=n+m+1}^\infty
+    i^{2q}
+    \P_{X_0}^{-\xi} (K_1 > i - 1)
+    \leq
+    \sum_{i=n+m+1}^\infty
+    i^{2q}
+    b_{-\xi}^{i-1}
+    < \infty \nonumber 
+  \end{eqnarray}
+  Combining \eqref{eq:hyyu}, \eqref{eq:dpad} and \eqref{eq:lpd} we
+  get
+  \[
+  \E_{X_0}^{-\xi} \left(
     | \Pi_{n+m,n+1} X_n |^{2 \xi}
     N_u^2
     \1{n+m = T_u < K_1}
-    \right) 
+  \right) 
+  \leq
+  {
+    c \over \lambda(-\xi)^{m/p}
+  }
+  b_{-\xi}^{n/p}
+  \]
+  Thus the right side of \eqref{eq:kpdf} is bounded by
+  \begin{eqnarray*}
+    c
+    \sum_{n=0}^\infty
+    \left[ \lambda(-\xi) b_{-\xi}^{1/p} \right]^{n}
+    \sum_{m=0}^\infty
+    \left[ \lambda(-\xi)^{1-1/p} b_{-\xi}^{1/p} \right]^{m}
+  \end{eqnarray*}
+  When $\lambda(-\xi) b_{-\xi} < 1$, there is always $p > 1$
+  that is sufficiently close to 1 such that
+  $\lambda(-\xi)^{1-1/p} b_{-\xi}^{1/p} < \lambda(-\xi)
+  b_{-\xi}^{1/p} < 1$. Therefore the double sum in the above is
+  finite and hence \eqref{eq:rhjd} holds.
+  \begin{case}
+    If $\lambda(-\xi) = \infty$, we assume $\lambda(h\xi) <
+    \infty$ and $\E(|B|/\|A\|)^{h\xi} <  \infty$
+  \end{case}
+  Since
+  \[
+  V_n = \sum_{i=0}^n A_n \cdots A_{i+1} B
+  \]
+  it follows
+  \begin{eqnarray*}
+    |V_n|\1{K_1 > n} &\leq&
+    \sum_{i=0}^{n} \|A_n \cdots A_{i+1}\| |B| \\
+    \|A_n \cdots A_1\|^{-1} \1{K_1 > n}
+    &\leq& |V_n|^{-1} \1{K_1 > n}
+    \left[
+      |B_0| + \sum_{i=1}^n {
+        \|A_n \cdots A_{i+1}\|
+        \over
+        \|A_n \cdots A_{1}\|
+      } |B|
+    \right) \\
+    &\leq& {1 \over M}
+    \left[
+      |B_0| + \sum_{i=1}^n {
+        \|A_n \cdots A_{i+1}\|
+        \over
+        \|A_n \cdots A_{1}\|
+      } |B| \1{K_1 > n}
+    \right]
+  \end{eqnarray*}
+  Note
+  \[
+  \|A_n \dots A_{i+1} A_i \cdots A_1\| \geq
+  C^{-1} \|A_n \cdots A_{i+1}\|
+  \|A_i \cdots A_{1}\|
+  \]
+  for some $C > 1$. We have
+  \begin{equation}
+    \label{eq:lower_bound}
+    \|A_n \cdots A_1\|^{-1} \1{K_1 > n}
     \leq
-        {
-          c \over \lambda(-\xi)^{m/p}
-        }
-        b_{-\xi}^{n/p}
-    \]
-    Thus the right side of \eqref{eq:kpdf} is bounded by
-    \begin{eqnarray*}
-      c
-      \sum_{n=0}^\infty
-      \sum_{m=0}^\infty
-      \lambda(-\xi)^{n+m(1 - 1/p)}
-      b_{-\xi}^{(n+m)/p}
-    \end{eqnarray*}
-
-    %% By \eqref{eq:hyyu} this implies
-    %% \begin{eqnarray*}
-    %%   &&
-    %%   \E_{X_0}^{-\xi} \left(
-    %%   | \Pi_{n+m,n+1} X_n |^{2 \xi}
-    %%   N_u^2
-    %%   \1{n+m = T_u < K_1}
-    %%   \right) \\
-    %%   &\leq&
-    %%   c \left[
-    %%     \E_{X_0}^{-\xi} \left(
-    %%     N_u^{2q}
-    %%     \1{n+m = T_u < K_1}
-    %%     \right)
-    %%     \right]^{1/q} \\
-    %%   &\leq&
-    %%   c \left[
-    %%     \E_{X_0}^{-\xi} \left(
-    %%     K_1^{2q}
-    %%     \1{n+m < K_1}
-    %%     \right)
-    %%     \right]^{1/q} \\
-    %% \end{eqnarray*}
-
-
-
-    \begin{enumerate}
-    \item If $\lambda(-\xi) < \infty$, we assume
-    \begin{equation}
-      \label{eq:cond1}
-      \lambda(-\xi)
-      \inf_{\alpha \in \reals} \lambda_{-\xi}(\alpha) < 1
-    \end{equation}
-    Changing to the $-\xi$-shifted measure, we obtain
-    \begin{eqnarray*}
-      &&
-      c \sum_{n=0}^\infty
+    {1 \over M} \left[
+      |B_0| + \sum_{i=1}^n {
+        C |B|
+        \over
+        \|A_i \cdots A_1\|
+      }  \1{K_1 > n}
+    \right]
+  \end{equation}
+  Let
+  \[
+  J_k = \|A_k \cdots A_1\|^{-1} \1{K_1 > n}
+  \]
+  We obtain
+  \begin{eqnarray*}
+    \left(
+      \E J_n^\zeta
+    \right)^{1/\zeta} &\leq& \left[
       \E \left(
-        |A_n \cdots A_1 X_0|^{-\xi}
-        N_u^2
-        \1{n \leq T_u < K_1}        
-      \right)^{1/2\xi} \\
-      &\leq&
-      c \sum_{n=0}^\infty
-      \E_{-\xi} (N_u^2 \1{n \leq T_u < K_1})
-      \lambda(-\xi)^n \\
-      &\leq&
-      c \sum_{n=0}^\infty
-      \E_{-\xi} (K_1^2 \1{n < K_1})
-      \lambda(-\xi)^n \\
-      &\leq&
-      c \sum_{n=0}^\infty
-      \sum_{l=n+1}^\infty
-      l^2 \P_{-\xi}(K_1 > l-1)
-      \lambda(-\xi)^n
-    \end{eqnarray*}
-    Applying Remark \ref{remark:1} with $\varphi = -\xi$ gives, for some
-    $a > 0$, $\P_{-\xi}(K_1 > l-1) \leq a [\delta \lambda_{-\xi}(\alpha)]^{l-2}$
-    for all $\delta > 1$ and $\delta \lambda_{-\xi}(\alpha) < 1$
-    provided that $M$ is chosen sufficiently large. Thus the RHS of the
-    above inequality is bounded by
-    \begin{eqnarray*}
-      c \sum_{n=0}^\infty
-      \lambda(-\xi)^n
-      \sum_{l=n+1}^\infty
-      l^2 [\delta \lambda_{-\xi}(\alpha)]^{l-2}
-    \end{eqnarray*}
-    The second sum in the above evaluates to a finite sum of terms
-    each having the form $c n^k [\delta
-    \lambda_{-\xi}(\alpha)]^n$. Hence to show $f(\xi) < \infty$, it
-    suffices to show
-    \begin{equation*}
-      \sum_{n=0}^\infty
-      n^k [\delta \lambda(-\xi) \lambda_{-\xi}(\alpha)]^n < \infty
-    \end{equation*}
-    Under assumption \eqref{eq:cond1} the above inequality is
-    obviously true.
-  \item If $\lambda(-\xi) = \infty$, we assume $\lambda(h\xi) <
-    \infty$ and $\E(|B|/\|A\|)^{h\xi} <  \infty$. Since
-    \[
-    V_n = \sum_{i=0}^n A_n \cdots A_{i+1} B
-    \]
-    it follows
-    \begin{eqnarray*}
-      |V_n|\1{K_1 > n} &\leq&
-      \sum_{i=0}^{n} \|A_n \cdots A_{i+1}\| |B| \\
-      \|A_n \cdots A_1\|^{-1} \1{K_1 > n}
-      &\leq& |V_n|^{-1} \1{K_1 > n}
-      \left[
-        |B_0| + \sum_{i=1}^n {
-          \|A_n \cdots A_{i+1}\|
-          \over
-          \|A_n \cdots A_{1}\|
-        } |B|
-      \right) \\
-      &\leq& {1 \over M}
-      \left[
-        |B_0| + \sum_{i=1}^n {
-          \|A_n \cdots A_{i+1}\|
-          \over
-          \|A_n \cdots A_{1}\|
-        } |B| \1{K_1 > n}
-      \right]
-    \end{eqnarray*}
-    Note
-    \[
-    \|A_n \dots A_{i+1} A_i \cdots A_1\| \geq
-    C^{-1} \|A_n \cdots A_{i+1}\|
-    \|A_i \cdots A_{1}\|
-    \]
-    for some $C > 1$. We have
-    \begin{equation}
-      \label{eq:lower_bound}
-      \|A_n \cdots A_1\|^{-1} \1{K_1 > n}
-      \leq
-      {1 \over M} \left[
-        |B_0| + \sum_{i=1}^n {
-          C |B|
-          \over
-          \|A_i \cdots A_1\|
-        }  \1{K_1 > n}
-      \right]
-    \end{equation}
-    Let
-    \[
-    J_k = \|A_k \cdots A_1\|^{-1} \1{K_1 > n}
-    \]
-    We obtain
-    \begin{eqnarray*}
-      \left(
-        \E J_n^\zeta
-      \right)^{1/\zeta} &\leq& \left[
-        \E \left(
-          {|B_0| \over M}
-          + {C \over M} \sum_{i=1}^n |B| J_i
-        \right)^\zeta
-        \right]^{1/\zeta}
-    \end{eqnarray*}
-    Using Minkowski's inequality and the independence of $B$ and
-    $A_i, \dots, A_1$ the above yields
-    \begin{eqnarray}
-      (\E J_n^\zeta)^{1/\zeta} &\leq&
-      {|B_0| \over M} + {C \over M}
-      \sum_{i=1}^n
-      (\E |B|^\zeta)^{1/\zeta}
-      (\E J_i^\zeta)^{1/\zeta}
-      \label{eq:neg_pow_ub} \\
-      &=& h_1 + h_2 \sum_{i=1}^{n-1} (\E J_i^\zeta)^{1/\zeta}
-      \nonumber
-    \end{eqnarray}
-    where
-    \begin{eqnarray*}
-      h_1 &=& {|B_0| \over M} \\
-      h_2 &=& {C \over M} (\E |B_1|^\zeta)^{1/\zeta}
-    \end{eqnarray*}
-    Since
-    \begin{eqnarray*}
-      V_1 &=& A_1 V_0 + B_1 \\
-      |V_1| &\leq& \|A_1\| |V_0| + |B_1| \\
-      \end{eqnarray*}
-      and by assumption $\E (|B|/\|A\|)^\zeta < \infty$, we have
-      \begin{eqnarray}
-        (\E J_1^\zeta)^{1/\zeta} &=&
-        \left[
-        \E (\|A_1\|^{-\zeta}\1{K_1 > n})
-      \right]^{1/\zeta} \nonumber \\
-      &\leq&
-      {|V_0|\over M} \E \left[\left(
+        {|B_0| \over M}
+        + {C \over M} \sum_{i=1}^n |B| J_i
+      \right)^\zeta
+    \right]^{1/\zeta}
+  \end{eqnarray*}
+  Using Minkowski's inequality and the independence of $B$ and
+  $A_i, \dots, A_1$ the above yields
+  \begin{eqnarray}
+    (\E J_n^\zeta)^{1/\zeta} &\leq&
+    {|B_0| \over M} + {C \over M}
+    \sum_{i=1}^n
+    (\E |B|^\zeta)^{1/\zeta}
+    (\E J_i^\zeta)^{1/\zeta}
+    \label{eq:neg_pow_ub} \\
+    &=& h_1 + h_2 \sum_{i=1}^{n-1} (\E J_i^\zeta)^{1/\zeta}
+    \nonumber
+  \end{eqnarray}
+  where
+  \begin{eqnarray*}
+    h_1 &=& {|B_0| \over M} \\
+    h_2 &=& {C \over M} (\E |B_1|^\zeta)^{1/\zeta}
+  \end{eqnarray*}
+  Since
+  \begin{eqnarray*}
+    V_1 &=& A_1 V_0 + B_1 \\
+    |V_1| &\leq& \|A_1\| |V_0| + |B_1| \\
+  \end{eqnarray*}
+  and by assumption $\E (|B|/\|A\|)^\zeta < \infty$, we have
+  \begin{eqnarray}
+    (\E J_1^\zeta)^{1/\zeta} &=&
+    \left[
+      \E (\|A_1\|^{-\zeta}\1{K_1 > n})
+    \right]^{1/\zeta} \nonumber \\
+    &\leq&
+    {|V_0|\over M} \E \left[\left(
         1 + {|B_1| \over |V_0| \|A_1\|}
       \right)^\zeta
       \1{K_1 > n}\right]^{1/\zeta}< \infty
     \label{eq:J_1}
-    \end{eqnarray}
-    Let
-    \[
-    y_1(\zeta) = 
-    {|V_0|\over M} \E \left[\left(
-        1 + {|B_1| \over |V_0| \|A_1\|}
-      \right)^\zeta \1{K_1 > n}\right]^{1/\zeta}
-    \]
-    and
-    \begin{equation}
-      \label{eq:y_n}
-      y_n(\zeta) = h_1 + h_2 \sum_{i=1}^{n-1} y_i(\zeta)
-    \end{equation}
-    Then \eqref{eq:neg_pow_ub}, \eqref{eq:y_n} and \eqref{eq:J_1}
-    yield
-    \begin{equation}
-      \label{eq:J_n_2}
-      (\E J_n^\zeta)^{1/\zeta} \leq y_n(\zeta)
-    \end{equation}
-    Meanwhile \eqref{eq:y_n} gives, $\forall n \geq 1$,
-    \begin{equation}
-      \label{eq:y_n_2}
-      y_n(\zeta) = {y_1(\zeta) \over (1 - h_2)^{n-1}}
-    \end{equation}
+  \end{eqnarray}
+  Let
+  \[
+  y_1(\zeta) = 
+  {|V_0|\over M} \E \left[\left(
+      1 + {|B_1| \over |V_0| \|A_1\|}
+    \right)^\zeta \1{K_1 > n}\right]^{1/\zeta}
+  \]
+  and
+  \begin{equation}
+    \label{eq:y_n}
+    y_n(\zeta) = h_1 + h_2 \sum_{i=1}^{n-1} y_i(\zeta)
+  \end{equation}
+  Then \eqref{eq:neg_pow_ub}, \eqref{eq:y_n} and \eqref{eq:J_1}
+  yield
+  \begin{equation}
+    \label{eq:J_n_2}
+    (\E J_n^\zeta)^{1/\zeta} \leq y_n(\zeta)
+  \end{equation}
+  Meanwhile \eqref{eq:y_n} gives, $\forall n \geq 1$,
+  \begin{equation}
+    \label{eq:y_n_2}
+    y_n(\zeta) = {y_1(\zeta) \over (1 - h_2)^{n-1}}
+  \end{equation}
 
-    Now from \eqref{eq:split_point} it follows by H\"older's inequality
-    \begin{eqnarray*}
-      f(\xi)^{1/2\xi}
-      &\leq&
-      c \sum_{n=0}^\infty
-      (\E N_u^{2r})^{1/r}
-      (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s} \\
-      &\leq&
-      c \sum_{n=0}^\infty
-      (\E K_1^{2r})^{1/r}
-      (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s}
-    \end{eqnarray*}
-    where $1/r + 1/s = 1$. Obviously
-    \begin{eqnarray*}
-      \E K_1^{2r}
-      &\leq&
-      \sum_{l=2}^\infty l^{2r} \P(K_1 > l-1)
-    \end{eqnarray*}
-    Applying Remark \ref{remark:1} with $\beta = 0$ gives $\P(K_1 >
-    l-1) \leq a [\delta \lambda(\alpha)]^{l-2}$ for some $a > 0$ and
-    all $\delta > 1$ such that $\delta \lambda(\alpha) < 1$. So we
-    have
-    \begin{eqnarray*}
-      \sum_{l=2}^\infty l^{2r} \P(K_1 > l-1) < \infty
-    \end{eqnarray*}
-    for any finite $r$. Thus it remains to show
-    \begin{equation}
-      \label{eq:sum_neg_pow}
-      \sum_{n=0}^\infty
-      (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s}
-      < \infty
-    \end{equation}
-    Since for each $n$, it has been shown
-    \begin{equation*}
-      \E (\|A_n \cdots A_1\|^{-s\xi}\1{n \leq T_u < K_1})
-      < y_n(s\xi)^{s\xi} < \infty
-    \end{equation*}
-    We may choose $L_n > 0$ and $L_n \downarrow 0$ sufficiently fast that
-    \begin{equation*}
-      \E (
-      \|A_n \cdots A_1\|^{-s\xi}
-      \I_{F_n^\complement}
-      \1{K_1 > n} 
-      ) < {1 / n^{s+\epsilon}}
-    \end{equation*}
-    where $\epsilon > 0$ and
-    \begin{equation*}
-      F_n = \bigcap_{i=1}^n \{\|A_i\| \geq L_n\}
-    \end{equation*}
-    Thus
-    \begin{equation*}
-      \sum_{n=0}^\infty
-      (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1}
-      \I_{F_n^\complement})^{1/s}
-      \leq
-      1 + 
-      \sum_{n=1}^\infty {1 \over n^{(s + \epsilon)/s}} < \infty
-    \end{equation*}
-    To prove \eqref{eq:sum_neg_pow}, we still have to show
-    \begin{equation}
-      \label{eq:sum_on_F_n}
-      \sum_{n=0}^\infty
-      (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1}
-      \I_{F_n})^{1/s} < \infty
-    \end{equation}
-    For each matrix $A_n$, construct a matrix $\bar A_{n, k}$, whose
-    $(i,j)$-th entry is
-    \begin{equation*}
-      (\bar A_{n,k})_{i,j} = (A_n)_{i,j}\1{(A_n)_{ij} > L_k} +
-      L_n (1 + U_{i,j})\1{(A_n)_{i,j} \leq L_k}
-    \end{equation*}
-    where $L_k \downarrow 0$ as $k \to \infty$; $U_{i,j}$ are
-    iid. and uniformly distributed on $(0,1)$.
+  Now from \eqref{eq:split_point} it follows by H\"older's inequality
+  \begin{eqnarray*}
+    f(\xi)^{1/2\xi}
+    &\leq&
+    c \sum_{n=0}^\infty
+    (\E N_u^{2r})^{1/r}
+    (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s} \\
+    &\leq&
+    c \sum_{n=0}^\infty
+    (\E K_1^{2r})^{1/r}
+    (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s}
+  \end{eqnarray*}
+  where $1/r + 1/s = 1$. Obviously
+  \begin{eqnarray*}
+    \E K_1^{2r}
+    &\leq&
+    \sum_{l=2}^\infty l^{2r} \P(K_1 > l-1)
+  \end{eqnarray*}
+  Applying Remark \ref{remark:1} with $\beta = 0$ gives $\P(K_1 >
+  l-1) \leq a [\delta \lambda(\alpha)]^{l-2}$ for some $a > 0$ and
+  all $\delta > 1$ such that $\delta \lambda(\alpha) < 1$. So we
+  have
+  \begin{eqnarray*}
+    \sum_{l=2}^\infty l^{2r} \P(K_1 > l-1) < \infty
+  \end{eqnarray*}
+  for any finite $r$. Thus it remains to show
+  \begin{equation}
+    \label{eq:sum_neg_pow}
+    \sum_{n=0}^\infty
+    (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s}
+    < \infty
+  \end{equation}
+  Since for each $n$, it has been shown
+  \begin{equation*}
+    \E (\|A_n \cdots A_1\|^{-s\xi}\1{n \leq T_u < K_1})
+    < y_n(s\xi)^{s\xi} < \infty
+  \end{equation*}
+  We may choose $L_n > 0$ and $L_n \downarrow 0$ sufficiently fast that
+  \begin{equation*}
+    \E (
+    \|A_n \cdots A_1\|^{-s\xi}
+    \I_{F_n^\complement}
+    \1{K_1 > n} 
+    ) < {1 / n^{s+\epsilon}}
+  \end{equation*}
+  where $\epsilon > 0$ and
+  \begin{equation*}
+    F_n = \bigcap_{i=1}^n \{\|A_i\| \geq L_n\}
+  \end{equation*}
+  Thus
+  \begin{equation*}
+    \sum_{n=0}^\infty
+    (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1}
+    \I_{F_n^\complement})^{1/s}
+    \leq
+    1 + 
+    \sum_{n=1}^\infty {1 \over n^{(s + \epsilon)/s}} < \infty
+  \end{equation*}
+  To prove \eqref{eq:sum_neg_pow}, we still have to show
+  \begin{equation}
+    \label{eq:sum_on_F_n}
+    \sum_{n=0}^\infty
+    (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1}
+    \I_{F_n})^{1/s} < \infty
+  \end{equation}
+  For each matrix $A_n$, construct a matrix $\bar A_{n, k}$, whose
+  $(i,j)$-th entry is
+  \begin{equation*}
+    (\bar A_{n,k})_{i,j} = (A_n)_{i,j}\1{(A_n)_{ij} > L_k} +
+    L_n (1 + U_{i,j})\1{(A_n)_{i,j} \leq L_k}
+  \end{equation*}
+  where $L_k \downarrow 0$ as $k \to \infty$; $U_{i,j}$ are
+  iid. and uniformly distributed on $(0,1)$.
 
-    Observe
-    \begin{eqnarray*}
-      \|\bar A_{n,k}\|
-      &=&
-      \max_{|x| = 1} |\bar A_{n,k} x| \\
-      &\geq&
-      \max_{|x| = 1}
-      \left|
-        \sum_{i=1}^d \left(\sum_{j=1}^d L_k x_j \right)^2
-      \right|^{1/2} \\
-      &\geq& L_k d^{1/2}
-    \end{eqnarray*}
-    Hence for any $k < \infty$,
-    \begin{eqnarray*}
-      {1 \over n}
-      \log \E
-      \|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
-      &\leq&
-             {1 \over n} \log \E \left(
-             C^{-\alpha(n-1)} \prod_{i=1}^n \|\bar A_{i,k}\|^{-\alpha}
-             \right) \\
-      &=& {1 \over n} \left[
-          -\alpha(n-1) \log C
-          + \sum_{i=1}^n \log \E \|\bar A_{i,k}\|^{-\alpha}
-          \right] \\
-      &\leq&
-          -{n - 1 \over n} \alpha \log C
-          -\alpha \log (L_k d^{1/2})
-    \end{eqnarray*}
-    where $C < 1$ is some constant. Clearly the RHS tends to a constant
-    as $n \to \infty$. Define
-    \begin{equation*}
-      \bar \Lambda_{k}(-\alpha) = \sup_{n \geq 1} {1 \over n} \log
-      \E\|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
-    \end{equation*}
-    Since
-    \begin{equation*}
-      \|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
-      \geq
-      \|\bar A_{n,k} \cdots \bar A_{i,k}\|^{-\alpha}
-      \|\bar A_{n,i-1} \cdots \bar A_{1,k}\|^{-\alpha}
-    \end{equation*}
-    By Fekete's lemma
-    \begin{equation*}
-      {1 \over n} \log \E \|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
-      \to
-      \bar \Lambda_{k}(-\alpha)
-    \end{equation*}
-    Now consider
-    \begin{eqnarray*}
-      \bar g_k(\xi) = \sum_{n=0}^\infty
-      (\E |\bar A_{n,k} \cdots \bar A_{1,k} X_0|^{-s\xi}
-      \1{n \leq \bar T_u < \bar K_1}
-      \I_{F_n}
-      )^{1/s}
-    \end{eqnarray*}
-    where $\bar T_u$ and $\bar K_1$ are defined analogously. Changing
-    to the $-s\xi$-shifted measure, we obtain
-    \begin{eqnarray*}
-      \bar g_k(\xi) &=& \sum_{n=0}^\infty \bar \lambda_{k}(-s\xi)^{n/s}
-      (\E_{-s\xi} \1{n \leq \bar T_u < \bar K_1} \I_{F_n})^{1/s} \\
-      &\leq&
-      \sum_{n=0}^\infty \bar \lambda_{k}(-s\xi)^{n/s}
-      [\P_{-s\xi}(n \leq \bar T_u < \bar K_1)]^{1/s}
-    \end{eqnarray*}
-    Applying Remark \ref{remark:1} with $\beta = -s\xi$ gives
-    \begin{eqnarray*}
-      \P_{-s\xi}(\bar K_1 > n) \leq a [\delta \bar \lambda_{k, -s\xi}(\alpha)]^{n-1}
-    \end{eqnarray*}
-    for some $a > 0$ and all $\delta > 1$ such that
-    $\delta \lambda_k(\alpha - s\xi) < 1$. So we have
-    \begin{eqnarray*}
-      \bar g_k(\xi) &\leq& 1 + a \bar \lambda_k(-s\xi)\sum_{n=1}^\infty
-      [\delta \bar \lambda_{k, -s\xi}(\alpha) \bar \lambda_k(-s\xi)]^{n-1} 
-    \end{eqnarray*}
-    Note
-    \begin{eqnarray*}
-      \bar \lambda_{k, -s\xi}(\alpha)
-      \leq
-      \E_{-s\xi} \bar A_{1,k}^\alpha 
-      = {
-        \E \bar A_{1,k}^{\alpha - s\xi}
-        \over
-        \E \bar A_{1,k}^{-s\xi}
-      }
-      = {
-        \bar \lambda_k(\alpha - s\xi)
-        \over
-        \bar \lambda_k(-s\xi)
-      }
-    \end{eqnarray*}
-    It follows
-    \begin{eqnarray*}
-      \bar g_k(\xi) &\leq& 1 + \sum_{n=1}^\infty
-      [\delta \bar \lambda_k(\alpha - s\xi)]^{(n-1)/s}
-      < \infty
-    \end{eqnarray*}
-    As $k \to \infty$, $\bar g_k(\xi)$ tends to the LHS of
-    \eqref{eq:sum_on_F_n} and
-    \[
-    \delta \bar \lambda_k(\alpha - s\xi) \to \delta \lambda(\alpha - s\xi)
-    < 1
-    \]
-    Thus we conclude \eqref{eq:sum_on_F_n} holds.
-    \end{enumerate}
+  Observe
+  \begin{eqnarray*}
+    \|\bar A_{n,k}\|
+    &=&
+    \max_{|x| = 1} |\bar A_{n,k} x| \\
+    &\geq&
+    \max_{|x| = 1}
+    \left|
+      \sum_{i=1}^d \left(\sum_{j=1}^d L_k x_j \right)^2
+    \right|^{1/2} \\
+    &\geq& L_k d^{1/2}
+  \end{eqnarray*}
+  Hence for any $k < \infty$,
+  \begin{eqnarray*}
+    {1 \over n}
+    \log \E
+    \|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
+    &\leq&
+    {1 \over n} \log \E \left(
+      C^{-\alpha(n-1)} \prod_{i=1}^n \|\bar A_{i,k}\|^{-\alpha}
+    \right) \\
+    &=& {1 \over n} \left[
+      -\alpha(n-1) \log C
+      + \sum_{i=1}^n \log \E \|\bar A_{i,k}\|^{-\alpha}
+    \right] \\
+    &\leq&
+    -{n - 1 \over n} \alpha \log C
+    -\alpha \log (L_k d^{1/2})
+  \end{eqnarray*}
+  where $C < 1$ is some constant. Clearly the RHS tends to a constant
+  as $n \to \infty$. Define
+  \begin{equation*}
+    \bar \Lambda_{k}(-\alpha) = \sup_{n \geq 1} {1 \over n} \log
+    \E\|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
+  \end{equation*}
+  Since
+  \begin{equation*}
+    \|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
+    \geq
+    \|\bar A_{n,k} \cdots \bar A_{i,k}\|^{-\alpha}
+    \|\bar A_{n,i-1} \cdots \bar A_{1,k}\|^{-\alpha}
+  \end{equation*}
+  By Fekete's lemma
+  \begin{equation*}
+    {1 \over n} \log \E \|\bar A_{n,k} \cdots \bar A_{1,k}\|^{-\alpha}
+    \to
+    \bar \Lambda_{k}(-\alpha)
+  \end{equation*}
+  Now consider
+  \begin{eqnarray*}
+    \bar g_k(\xi) = \sum_{n=0}^\infty
+    (\E |\bar A_{n,k} \cdots \bar A_{1,k} X_0|^{-s\xi}
+    \1{n \leq \bar T_u < \bar K_1}
+    \I_{F_n}
+    )^{1/s}
+  \end{eqnarray*}
+  where $\bar T_u$ and $\bar K_1$ are defined analogously. Changing
+  to the $-s\xi$-shifted measure, we obtain
+  \begin{eqnarray*}
+    \bar g_k(\xi) &=& \sum_{n=0}^\infty \bar \lambda_{k}(-s\xi)^{n/s}
+    (\E_{-s\xi} \1{n \leq \bar T_u < \bar K_1} \I_{F_n})^{1/s} \\
+    &\leq&
+    \sum_{n=0}^\infty \bar \lambda_{k}(-s\xi)^{n/s}
+    [\P_{-s\xi}(n \leq \bar T_u < \bar K_1)]^{1/s}
+  \end{eqnarray*}
+  Applying Remark \ref{remark:1} with $\beta = -s\xi$ gives
+  \begin{eqnarray*}
+    \P_{-s\xi}(\bar K_1 > n) \leq a [\delta \bar \lambda_{k, -s\xi}(\alpha)]^{n-1}
+  \end{eqnarray*}
+  for some $a > 0$ and all $\delta > 1$ such that
+  $\delta \lambda_k(\alpha - s\xi) < 1$. So we have
+  \begin{eqnarray*}
+    \bar g_k(\xi) &\leq& 1 + a \bar \lambda_k(-s\xi)\sum_{n=1}^\infty
+    [\delta \bar \lambda_{k, -s\xi}(\alpha) \bar \lambda_k(-s\xi)]^{n-1} 
+  \end{eqnarray*}
+  Note
+  \begin{eqnarray*}
+    \bar \lambda_{k, -s\xi}(\alpha)
+    \leq
+    \E_{-s\xi} \bar A_{1,k}^\alpha 
+    = {
+      \E \bar A_{1,k}^{\alpha - s\xi}
+      \over
+      \E \bar A_{1,k}^{-s\xi}
+    }
+    = {
+      \bar \lambda_k(\alpha - s\xi)
+      \over
+      \bar \lambda_k(-s\xi)
+    }
+  \end{eqnarray*}
+  It follows
+  \begin{eqnarray*}
+    \bar g_k(\xi) &\leq& 1 + \sum_{n=1}^\infty
+    [\delta \bar \lambda_k(\alpha - s\xi)]^{(n-1)/s}
+    < \infty
+  \end{eqnarray*}
+  As $k \to \infty$, $\bar g_k(\xi)$ tends to the LHS of
+  \eqref{eq:sum_on_F_n} and
+  \[
+  \delta \bar \lambda_k(\alpha - s\xi) \to \delta \lambda(\alpha - s\xi)
+  < 1
+  \]
+  Thus we conclude \eqref{eq:sum_on_F_n} holds.
 \end{proof}
 
 \section[Estimation of xi]{Estimation of $\xi$}
