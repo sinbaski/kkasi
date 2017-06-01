@@ -679,23 +679,22 @@ efficient i.e. its relative error is bounded.
 \section[The Chain Drifts towards a Small Set]{$V_n$ Drifts towards a Small Set}
 \label{sec:drift}
 \begin{lemma}
-  Let $\varphi \in \reals$ satisfy
+  \label{lemma:1}
+  Assume $\varphi \in \reals, \theta > 0$ satisfy
   \begin{equation}
     \label{eq:drift_cond}
-    \E \|A\|^\varphi < \infty,\quad\text{ and }
-    \inf_{\theta > 0} \left[
-      {
-        \bar r_\varphi  \bar r_\theta
-        \over
-        \underline r_\varphi \underline r_\theta
-      } {1 \over \lambda(\varphi)}
-      \E \| A \|^{\varphi + \theta}
-    \right] < 1
+    \E \|A\|^\varphi < \infty,\quad
+       {
+         \bar r_\varphi  \bar r_\theta
+         \over
+         \underline r_\varphi \underline r_\theta
+       } {1 \over \lambda(\varphi)}
+       \E \| A \|^{\varphi + \theta}
+       < 1
   \end{equation}
   then there exist
   $0 < b_{\varphi, \theta} < 1, M_{\varphi, \theta} > 0$
-  such that for all $\theta$ satisfying the condition above, the following
-  inequality holds
+  such that the following inequality holds
   \begin{equation}
     \label{eq:drift}
     \E^\varphi \left[\left.
@@ -932,6 +931,30 @@ efficient i.e. its relative error is bounded.
 
 \begin{remark}
   \label{remark:1}
+  From Lemma \ref{lemma:1}, it follows for each $\varphi$
+  that satisfies $\E \|A\|^\varphi < \infty$ and that makes
+  $\Theta(\varphi) \neq \emptyset$, there exist $0 < b_\varphi < 1$
+  and $\rho_\varphi > 0$ such that for $n \geq 1$,
+  \[
+  \P^\varphi (K_{j+1} - K_j> n)
+  \leq
+  b_\varphi^n \rho_\varphi
+  \]
+  where
+  \[
+  \Theta(\varphi) = \left\{
+  \theta > 0:
+    {
+      \bar r_\varphi  \bar r_\theta
+      \over
+      \underline r_\varphi \underline r_\theta
+    } {1 \over \lambda(\varphi)}
+    \E \| A \|^{\varphi + \theta}
+    < 1
+  \right\}
+  \]
+\end{remark}
+\begin{proof}
   Iterating \eqref{eq:drift} yields, for $j \geq 0, n > 1$
   \[
   \E^\varphi \left[
@@ -944,69 +967,104 @@ efficient i.e. its relative error is bounded.
   \]
   Because
   $\{K_{j+1} - K_j > n - 1\} \subseteq \bigcap_{i=K_j + 1}^{K_j + n-1}\{|V_i| > M_{\varphi, \theta}\}$,
+  \begin{eqnarray}
+    \E^\varphi \left[\left.
+      |V_{K_j + n}|^\theta \underline r_{\theta}
+      \1{K_{j+1} - K_j > n - 1}
+      \right| \mathscr F_{K_j + 1}
+      \right]
+    &\leq&
+    b_{\varphi, \theta}^{n-1} |V_{K_j + 1}|^\theta \bar r_{\theta}
+    \nonumber \\
+    \E^\varphi \left[
+      |V_{K_j + n}|^\theta \underline r_{\theta}
+      \1{K_{j+1} - K_j > n - 1}
+      \right]
+    &\leq&
+    b_{\varphi, \theta}^{n-1} \E^\varphi |V_{K_j + 1}|^\theta \bar
+    r_{\theta}
+    \label{eq:psdv}
+  \end{eqnarray}
+  If $\theta < 1$, by subadditivity we have
   \begin{eqnarray*}
-  \E^\varphi \left[\left.
-    |V_{K_j + n}|^\theta \underline r_{\theta}
-    \1{K_{j+1} - K_j > n - 1}
-    \right| \mathscr F_{K_j + 1}
-    \right]
-  &\leq&
-  b_{\varphi, \theta}^{n-1} |V_{K_j + 1}|^\theta \bar r_{\theta} \\
-  \E^\varphi \left[
-    |V_{K_j + n}|^\theta \underline r_{\theta}
-    \1{K_{j+1} - K_j > n - 1}
-    \right]
-  &\leq&
-  b_{\varphi, \theta}^{n-1} \E^\varphi |V_{K_j + 1}|^\theta \bar r_{\theta}
+    &&
+    \E^\varphi |V_{K_j + 1}|^\theta \\
+    &\leq&
+    \E^\varphi \left(
+    |A_{K_j + 1} V_{K_j}|^\theta + |B|^\theta
+    \right) \\
+    &\leq&
+          {|V_{K_j}|^\theta \over \lambda(\varphi)}
+          {\bar r_\varphi \over \underline r_\varphi}
+          \E \|A\|^{\varphi + \theta} + |B|^\theta
+          \leq
+              {M_{\varphi, \theta}^\theta \over \lambda(\varphi)}
+              {\bar r_\varphi \over \underline r_\varphi}
+              \E \|A\|^{\varphi + \theta} + |B|^\theta
   \end{eqnarray*}
-  Moreover,
+  If $\theta \geq 1$, by Minkowski inequality and a similar argument
+  as in the previous case, we have
   \[
   \E^\varphi |V_{K_j + 1}|^\theta
   \leq
-  \E^\varphi \|A_{K_j + 1}\|^\theta |V_{K_j}|^\theta + |B|^\theta
-  \leq
-  M_{\varphi, \theta}^\theta + |B|^\theta
+  \left\{
+  \left[
+    {\bar r_\varphi} \over \underline r_\varphi \lambda(\varphi)
+    \E \|A\|^{\varphi + \theta}
+    \right]^{1/\theta}
+  + |B|
+  \right\}^\theta
   \]
-  So we have
-  \[
-  \P_\varphi(K_{j + 1} - K_j > n-1)
-  \leq
-  b_{\varphi, \theta}^{n-1} \rho(\varphi, \theta)
-  \]
+  Since $|V_{K_j + n}| > \underline V > 0$, \eqref{eq:psdv} gives us,
+  for $n \geq 1$,
+  \begin{equation}
+    \label{eq:frth}
+    \P^\varphi (K_{j+1} - K_j > n) < b_{\varphi, \theta}^n \rho_{\varphi, \theta}
+  \end{equation}
   for a constant
   \[
-  \rho(\varphi, \theta) = {
+  \rho_{\varphi, \theta} = {
     \bar r_{\theta}
     \over
-    \underline r_{\theta}
-  } {
-    M_{\varphi, \theta}^\theta + |B|^\theta
-    \over
-    \underline V^\theta
-  }
+    \underline r_{\theta} \underline V^\theta
+  } \times \left\{
+  \begin{array}{ll}
+    {M_{\varphi, \theta}^\theta \over \lambda(\varphi)}
+    {\bar r_\varphi \over \underline r_\varphi}
+    \E \|A\|^{\varphi + \theta} + |B|^\theta
+    &
+    \theta < 1
+    \\
+    \left[
+    \left(
+      {\bar r_\varphi} \over \underline r_\varphi \lambda(\varphi)
+      \E \|A\|^{\varphi + \theta}
+      \right)^{1/\theta}
+    + |B|
+    \right]^\theta
+    &
+    \theta \geq 1
+  \end{array}
+  \right.
   \]
-  Since for each $\varphi$ the inequality holds for all
-  $\theta$ satisfying
-  $\E \|A\|^{\varphi + \theta} < \E \|A\|^\varphi$,
+  Since for each $\varphi$ satisfying $\E \|A\|^\varphi < \infty$
+  the inequality \eqref{eq:frth} holds for all $\theta$ satisfying
+  the 2nd part of condition \eqref{eq:drift_cond},
   we have for $n \geq 1$,
   \[
-  \P_\varphi (K_{j+1} - K_j> n)
+  \P^\varphi (K_{j+1} - K_j> n)
   \leq
   \left[
-  \inf_{\theta \in \Theta(\varphi)}
-  b_{\varphi, \theta}^n
-  \right]
+    \inf_{\theta \in \Theta(\varphi)}
+    b_{\varphi, \theta}
+    \right]^n
   \left[
-    \sup_{\theta \in \Theta} \rho(\varphi, \theta)
-  \right]
-  %% \left( \sup_{\theta \in \Theta(\varphi)} b(\varphi, \theta) \right)^n
-  %% \sup_{\theta \in \Theta(\varphi), b(\varphi, \theta) < 1}
-  %% \rho(\varphi, \theta)
-  %% = b_\varphi^n \rho_\varphi
+    \sup_{\theta \in \Theta} \rho_{\varphi, \theta}
+    \right]
+  = b_\varphi^n \rho_\varphi
   \]
-  where
-  $\Theta(\varphi) = \{\theta: \E \|A\|^{\varphi + \theta} < \E \|A\|^\varphi, b(\varphi, \phi) < 1\}$.
-\end{remark}
+\end{proof}
+
 
 \section{The Estimator is Unbiased}\label{sec:consistency}
 \begin{theorem}
