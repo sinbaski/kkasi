@@ -1535,46 +1535,58 @@ efficient i.e. its relative error is bounded.
   $\lambda(-\xi)^{1-1/p} b_{-\xi}^{1/p} < \lambda(-\xi)
   b_{-\xi}^{1/p} < 1$. Therefore the double sum in the above is
   finite and hence \eqref{eq:rhjd} holds.
+
   \begin{case}
     If $\lambda(-\xi) = \infty$, we assume $\lambda(h\xi) <
     \infty$ and $\E(|B|/\|A\|)^{h\xi} <  \infty$
   \end{case}
   Since
   \[
-  V_n = \sum_{i=0}^n A_n \cdots A_{i+1} B
+  V_n = \sum_{i=0}^n \Pi_{n, i+1} B
   \]
   it follows
   \begin{eqnarray*}
-    |V_n|\1{K_1 > n} &\leq&
-    \sum_{i=0}^{n} \|A_n \cdots A_{i+1}\| |B| \\
-    \|A_n \cdots A_1\|^{-1} \1{K_1 > n}
+    |V_n|
+    &\leq&
+    \sum_{i=0}^{n} \|\Pi_{n, i+1}\| |B| \\
+    \1{K_1 > n}
+    &\leq&
+    \1{K_1 > n}
+    |V_n|^{-1}
+    \sum_{i=0}^{n} \|\Pi_{n, i+1}\| |B| \\
+  %% \end{eqnarray*}
+  %% Multiplying both sides with $\1{K_1 > n}$
+  %% \begin{eqnarray*}  
+    \|\Pi_{n, 1}\|^{-1} \1{K_1 > n}
     &\leq& |V_n|^{-1} \1{K_1 > n}
-    \left[
+    \left(
       |B_0| + \sum_{i=1}^n {
-        \|A_n \cdots A_{i+1}\|
+        \|\Pi_{n, i+1}\|
         \over
-        \|A_n \cdots A_{1}\|
+        \|\Pi_{n, 1}\|
       } |B|
     \right) \\
     &\leq& {1 \over M}
-    \left[
+    \left(
       |B_0| + \sum_{i=1}^n {
-        \|A_n \cdots A_{i+1}\|
+        \|\Pi_{n, i+1}\|
         \over
-        \|A_n \cdots A_{1}\|
+        \|\Pi_{n, 1}\|
       } |B| \1{K_1 > n}
-    \right]
+    \right)
   \end{eqnarray*}
-  Note
+  Since $A_i$ are non-negative matrices, we have, for a unit vector $x$,
   \[
-  \|A_n \dots A_{i+1} A_i \cdots A_1\| \geq
-  C^{-1} \|A_n \cdots A_{i+1}\|
-  \|A_i \cdots A_{1}\|
+  \|\Pi_{n, 1}\| \geq |\Pi_{n,1} x| = |\Pi_{n, i+1} X_i| |\Pi_{i, 1} x|
+  \geq
+  C^{-1}
+  \|\Pi_{n, i+1}\|
+  \|\Pi_{i, 1}\|
   \]
-  for some $C > 1$. We have
+  for some $C > 1$. It follows
   \begin{equation}
     \label{eq:lower_bound}
-    \|A_n \cdots A_1\|^{-1} \1{K_1 > n}
+    \|\Pi_{n, 1}\|^{-1} \1{K_1 > n}
     \leq
     {1 \over M} \left[
       |B_0| + \sum_{i=1}^n {
@@ -1588,7 +1600,7 @@ efficient i.e. its relative error is bounded.
   \[
   J_k = \|A_k \cdots A_1\|^{-1} \1{K_1 > n}
   \]
-  We obtain
+  We obtain, for $\zeta \geq 1$,
   \begin{eqnarray*}
     \left(
       \E J_n^\zeta
@@ -1608,7 +1620,7 @@ efficient i.e. its relative error is bounded.
     (\E |B|^\zeta)^{1/\zeta}
     (\E J_i^\zeta)^{1/\zeta}
     \label{eq:neg_pow_ub} \\
-    &=& h_1 + h_2 \sum_{i=1}^{n-1} (\E J_i^\zeta)^{1/\zeta}
+    &=& h_1 + h_2 \sum_{i=1}^{n} (\E J_i^\zeta)^{1/\zeta}
     \nonumber
   \end{eqnarray}
   where
@@ -1664,11 +1676,11 @@ efficient i.e. its relative error is bounded.
     &\leq&
     c \sum_{n=0}^\infty
     (\E N_u^{2r})^{1/r}
-    (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s} \\
+    (\E |\Pi_{n, 1} X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s} \\
     &\leq&
     c \sum_{n=0}^\infty
     (\E K_1^{2r})^{1/r}
-    (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s}
+    (\E |\Pi_{n, 1} X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s}
   \end{eqnarray*}
   where $1/r + 1/s = 1$. Obviously
   \begin{eqnarray*}
@@ -1687,18 +1699,18 @@ efficient i.e. its relative error is bounded.
   \begin{equation}
     \label{eq:sum_neg_pow}
     \sum_{n=0}^\infty
-    (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s}
+    (\E |\Pi_{n, 1} X_0|^{-s\xi}\1{n \leq T_u < K_1})^{1/s}
     < \infty
   \end{equation}
   Since for each $n$, it has been shown
   \begin{equation*}
-    \E (\|A_n \cdots A_1\|^{-s\xi}\1{n \leq T_u < K_1})
+    \E (\|\Pi_{n, 1}\|^{-s\xi}\1{n \leq T_u < K_1})
     < y_n(s\xi)^{s\xi} < \infty
   \end{equation*}
   We may choose $L_n > 0$ and $L_n \downarrow 0$ sufficiently fast that
   \begin{equation*}
     \E (
-    \|A_n \cdots A_1\|^{-s\xi}
+    \|\Pi_{n, 1}\|^{-s\xi}
     \I_{F_n^\complement}
     \1{K_1 > n} 
     ) < {1 / n^{s+\epsilon}}
@@ -1710,7 +1722,7 @@ efficient i.e. its relative error is bounded.
   Thus
   \begin{equation*}
     \sum_{n=0}^\infty
-    (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1}
+    (\E |\Pi_{n, 1} X_0|^{-s\xi}\1{n \leq T_u < K_1}
     \I_{F_n^\complement})^{1/s}
     \leq
     1 + 
@@ -1720,7 +1732,7 @@ efficient i.e. its relative error is bounded.
   \begin{equation}
     \label{eq:sum_on_F_n}
     \sum_{n=0}^\infty
-    (\E |A_n \cdots A_1 X_0|^{-s\xi}\1{n \leq T_u < K_1}
+    (\E |\Pi_{n, 1} X_0|^{-s\xi}\1{n \leq T_u < K_1}
     \I_{F_n})^{1/s} < \infty
   \end{equation}
   For each matrix $A_n$, construct a matrix $\bar A_{n, k}$, whose
@@ -1844,7 +1856,7 @@ The idea is to estimate $\Lambda(\alpha)$ according to
 \begin{equation}
   \label{eq:Lambda}
   \Lambda(\alpha) = \lim_{n \to \infty}{1 \over n} \log \left(
-    \E |A_n \cdots A_1 X_0|^\alpha
+    \E |\Pi_{n, 1} X_0|^\alpha
   \right)
 \end{equation}
 and then solve $\Lambda(\xi) = 0$ for $\xi$.
@@ -1857,14 +1869,14 @@ and then solve $\Lambda(\xi) = 0$ for $\xi$.
   \label{fig:AnandsEstimator}
 \end{figure}
 The difficulty with brute-force simulation and estimation is that,
-when $n$ is large, the variance of $|A_n \cdots A_1 X_0|^\alpha$
+when $n$ is large, the variance of $|\Pi_{n, 1} X_0|^\alpha$
 is very large too, resulting in uselessly inaccurate estimations. One
 approach of variance reduction is re-sampling. We divide the
 estimation of $\Lambda(\alpha)$ into $n$ steps and we are prepared to
 simulate $K$ realizations of $A_n, \dots, A_1$ and $X_0$. For
 convenience, let
 \begin{eqnarray*}
-  M_n &=& A_n \cdots A_1 X_0 \\
+  M_n &=& \Pi_{n, 1} X_0 \\
   X_n &=& {M_n \over |M_n|}
 \end{eqnarray*}
 We can write
@@ -1905,7 +1917,7 @@ where the random variable $w_{l, i-1}$ has conditional distribution
       {1 \over K}\sum_{l=1}^K |A_i^l X^{w_{l, i-1}}_{i-1}|^\alpha
     \right)
   \right\} = \log \left(
-    \E |A_n \cdots A_1 X_0|^\alpha
+    \E |\Pi_{n, 1} X_0|^\alpha
   \right)
   \]
 \end{theorem}
@@ -1918,7 +1930,7 @@ $d \times d$, where $d = p + q - 1$, and the $X_i$ are $d$-dimensional
 unit vectors. 
 \begin{algorithm}[H]
   \caption{Algorithm for estimating
-    $\Lambda(\alpha) = \lim_{n \to \infty} {1 \over n} \log\left(\E |A_n \cdots A_1|^\alpha \right)$}
+    $\Lambda(\alpha) = \lim_{n \to \infty} {1 \over n} \log\left(\E |\Pi_{n, 1}|^\alpha \right)$}
   \label{alg:Lambda_estimation}
   \begin{algorithmic}
     \Procedure{$\mathscr E_\alpha$}{$n, K$}
