@@ -1554,9 +1554,6 @@ efficient i.e. its relative error is bounded.
     \1{K_1 > n}
     |V_n|^{-1}
     \sum_{i=0}^{n} \|\Pi_{n, i+1}\| |B| \\
-  %% \end{eqnarray*}
-  %% Multiplying both sides with $\1{K_1 > n}$
-  %% \begin{eqnarray*}  
     \|\Pi_{n, 1}\|^{-1} \1{K_1 > n}
     &\leq& |V_n|^{-1} \1{K_1 > n}
     \left(
@@ -1565,7 +1562,10 @@ efficient i.e. its relative error is bounded.
         \over
         \|\Pi_{n, 1}\|
       } |B|
-    \right) \\
+    \right)
+  \end{eqnarray*}
+  
+  \begin{eqnarray*}
     &\leq& {1 \over M}
     \left(
       |B_0| + \sum_{i=1}^n {
@@ -1630,7 +1630,6 @@ efficient i.e. its relative error is bounded.
   \end{eqnarray*}
   Since
   \begin{eqnarray*}
-    V_1 &=& A_1 V_0 + B_1 \\
     |V_1| &\leq& \|A_1\| |V_0| + |B_1| \\
   \end{eqnarray*}
   and by assumption $\E (|B|/\|A\|)^\zeta < \infty$, we have

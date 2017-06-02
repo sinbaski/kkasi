@@ -340,7 +340,7 @@
 \allowdisplaybreaks
 \begin{document}
 \title{Do return series have power-law tails with the same index?}
-\author{Thomas Mikosch,  Casper de Vries, Xie Xiaolei}
+t\author{Thomas Mikosch,  Casper de Vries, Xie Xiaolei}
 \date{\today}
 
 \maketitle
@@ -415,15 +415,15 @@ are typically found in the range $(2,4)$. For an illustration, see
 Figure~\ref{fig:1} where estimates $\hat \alpha_{\rm low}$ 
 in three sectors of the Standard \& Poors 500 index  are shown. The
 estimates are based on 1304 observations of daily return 
-data from 4th January 2010 to 31 December 2014.
+data from 4 January 2010 to 31 December 2014.
 \par
 When looking at Figure~\ref{fig:1} one might ask the following questions:
 \begin{itemize}
 \item
 In view of the wide \asy\ confidence bands for the estimators of tail-indices, 
-are the estimated tail-indices from different series really distinct?
+are the tail-indices from different series really distinct?
 \item
-Are there some {\em theoretical} reasons in favor of the fact that the tail-indices from different series are {\em not} 
+Are there some {\em theoretical} reasons supporting the fact that the tail-indices from different series are {\em not} 
 distinct?
 \end{itemize}
 In this paper, we try to find some answers to these questions. 
@@ -435,8 +435,9 @@ The estimator of the tail-index $\alpha>0$  in the model
 favored in the literature  is the {\em Hill estimator}; the graphs in 
 Figure~\ref{fig:1} are based on this estimator. We introduce this estimator in Section~\ref{sec:1} and discuss 
 some of its virtues and vices. In addition to tail-index estimation we also discuss the related problem of
-estimation of the scale parameters in the tail (these are the constants $c_+$ and $c_-$ in \eqref{eq:1}). {\red check} It turns out 
-that the simultaneous estimation of the tail-index and the scale parameter are strongly related.
+estimation of the scale parameters in the tail (these are the constants $c_+$ and $c_-$ in \eqref{eq:1}). 
+%{\red check} It turns out 
+%that the simultaneous estimation of the tail-index and the scale parameter are strongly related.
 \par
 In Section~\ref{sec:2} we discuss the theoretical problem of appearance of power-law tails in models 
 for daily or, more generally, low-\fre y 
@@ -451,7 +452,7 @@ We argue based on a  utility \fct\ approach. We explicitly recognize the behavio
 concern for downside risk in an investor's evaluation of a portfolio
 using the framework of Generalized Disappointment Aversion (GDA)
 introduced by Routledge and Zin \cite{routledge2010generalized}. GDA
-is an extension of the concept of Disappointment Aversion (DA) of Gul \cite{gul:1991}. Gul derives the DA from first principles (axiomatic).
+is an extension of the concept of Disappointment Aversion (DA) of Gul \cite{gul:1991} who derived DA from first principles (axiomatic).
 
 In Section~\ref{sec:4} we summarize the discussion of the previous
 sections. 
@@ -471,7 +472,8 @@ For simplicity, we also suppress subscripts in the notation:
 where we assume that the two parameters -- the tail-index  $\alpha$ and the scale parameter
 $c$ -- are positive. They play crucial roles for the understanding of the risk hidden in the data, hence 
 for asset allocation and risk management. These parameters are market characteristics  and provide a simple but 
-useful description of the risk. Alternatively, these parameters can be
+useful description of the risk, for example in terms of high quantiles such as
+Value-at-Risk. Alternatively, these parameters can be
 used for model building of the equities in the market such as the GARCH model; see Section~\ref{sec:2}.
 %With these motives in mind, we present a survey of the
 %tail-indices and scale parameters of 3 sectors, namely ``Energy'',
@@ -510,7 +512,7 @@ dependent \seq s and de Haan and Ferreira \cite{haan:ferreira:2006} provide
 a complete \asy\ theory in the iid case.
 \par
 A major problem for Hill estimation is the choice of the number $k$ of
-order statistics. As  a matter of fact,
+upper order statistics. As  a matter of fact,
 if $k$ is too large the order statistics are too close to the center
 of the \ds\ of the $-X_t$, leading to a bias
 of the estimator. On the other hand, by construction, $\hat \alpha_k$ is an average of $k$ log-differences of the 
@@ -537,7 +539,7 @@ we exhibit 95\% \asy\ confidence bands derived from  the \clt
 \beam\label{eq:2}
 \sqrt k\, \big(\hat \alpha_k - \alpha\big) \std N(0, \alpha^2)\,,
 \eeam
-i.e., $\hat \alpha$ is \asy ally unbiased and has variance
+i.e., $\hat \alpha_k$ is \asy ally unbiased and has variance
 $\alpha^2/k$. Since $k/n\to 0$ this means that the 
 confidence bands are significantly larger than the classical
 $1/\sqrt{n}$-rates. This fact is one explanation for the fact that it is
@@ -548,7 +550,7 @@ Figure~\ref{fig:1}. Indeed, \eqref{eq:2}
 holds under rather subtle {\em second order conditions} on the tail
 $\P(X_t>x)$ which cannot be verified on data. However, 
 given a theoretical model such as the GARCH, these conditions can be
-verified based on the properties of the model. If they are not satisfied the 
+verified based on the theoretical properties of the model. If they are not satisfied the 
 Hill estimator may exhibit significant bias; see Embrechts et
 al. \cite{embrechts:klueppelberg:mikosch:1997} and Resnick \cite{resnick:1987} for illustrations 
 of this fact leading to so-called ``Hill horror plots''. Moreover, the
@@ -599,6 +601,7 @@ This fact indicates that the returns in each sector may
 have comparable tail-indices.
 \par
 Hoga's \cite{hoga:2016} test about the change of extreme quantiles
+in a sample
 may provide some further insight about how similar these tail-indices are.
 Different tail-indices are likely to result in different
 extreme quantiles. Nevertheless, changes in the extreme quantiles may also
@@ -658,7 +661,9 @@ Figure~\ref{fig:sectors_parameters}.
   \end{minipage}
   \caption{\small Estimates of $\hat K_k$ (top) and $\hat K_k^{\hat
       \alpha}$ (bottom) on $\log_{10}$-scale of stocks in sectors
-    of the S\&P 500 index. The points are the estimated values, the bars 
+    of the S\&P 500 index. The estimates are ordered according to the 
+    corresponding estimated $\alpha$-values.
+    The points are the estimated values, the bars 
     the \asy\ 95\%-confidence intervals; the confidence bands of the
     corresponding Hill estimates $\hat \alpha_k$ of these sectors are
     shown in Figure~\ref{fig:1}. 
@@ -673,10 +678,13 @@ to the smallness of $K$, mild variations of $\alpha$ would lead to
 huge variations of $K^\alpha$, as shown in the 2nd row of
 Figure~\ref{fig:sectors_parameters}.
 \par
-Secondly, it appears that there is positive dependence between the  values of $\alpha$ and $K$. 
-This prompts Pareto tails of the return
-distributions. For more explanations, see
-Section~\ref{sec:pareto_tail}.
+Secondly, it appears that there is positive dependence between the
+values of $\alpha$ and $K$.
+As argued in Section~\ref{sec:pareto_tail}, this is consistent with
+the assumption that the return series have Pareto tails on both sides
+with the tail parameters on each side independent of those on the
+other.
+
 \par
 Thirdly, Figure~\ref{fig:sectors_parameters} shows that, on
 average, the values of $K$
@@ -684,17 +692,17 @@ in the ``Energy'' and ``Information Technology'' sectors are  larger
 than those in the ``Consumer Staples'' sector.  For a given loss \pro y, 
 a larger value of $K$ implies that large losses are more
 probable. Thus one can conclude that these two sectors are
-considerably riskier than the ``Consumer Staples'' sector. {\red Let
-  Casper decide about this sentence.} This is of course a confirmation
-of one's economic instinct.
+considerably riskier than the ``Consumer Staples'' sector. {\red Casper:
+we leave this sentence to your discretion.} This is of course a
+confirmation of one's economic instinct.
 
 Yet another indication from Figure \ref{fig:sectors_parameters} is
 that, while the ``Energy'' and the ``Information Technology'' sectors
 are similar in riskiness, the dependence  between $\alpha$ and $K$ is
-stronger in ``Energy''. As discussed in Section~\ref{sec:3} below, moving along
-a curve of equal preference in the direction of increasing $\alpha$, $K$ also
+stronger in ``Energy''. As discussed in Section~\ref{sec:3} below, when moving along
+a curve of equal preference in the direction of increasing $\alpha$, the parameter $K$ also
 increases. So the strong positive dependence seen in the ``Energy''
-sector suggests these stocks might have very similar investor
+sector suggests that these stocks might have very similar investor
 preferences. This in turn may be attributed to stronger business
 relations between the energy enterprises. While two IT companies
 may provide a variety of products and services and do not depend on each
@@ -779,7 +787,7 @@ Figure~\ref{fig:PairTest}.
   \caption{{\em Top row}: Test for pairwise equality of tail-indices
     of losses in the  ``Energy'', ``Consumer Staples'' and
     ``Information Technology'' 
-    sectors of S\&P 500. The test statistic in \eqref{eq:x1} is based
+    sectors of S\&P 500. The test statistic in $\hat\alpha_X-\hat \alpha_Y$ is based
     on Hill estimates 
     of $\alpha_X$ and $\alpha_Y$. 
     The green, blue and red points correspond to pairs of stock in a sector
@@ -800,10 +808,10 @@ Figure~\ref{fig:PairTest}.
   the \asy\ $85\%$-quantile. Black points represent 
     pairs for which the computation of $T_n$ fails for given precision  
     requirements and time limits.
-    The same number of upper order statistics are used for both tests.}
+    The same number (50) of upper order statistics is used for both tests.}
   \label{fig:PairTest} 
 \end{figure}
-It indicates that tail-indices of equities in the
+They indicate that tail-indices of equities in the
 ``Energy'' or ``Information Technology'' sectors are more variable 
 than in the ``Consumer Staples'' sector, as the null
 hypothesis is rejected more often for members of these two former sectors.
@@ -826,8 +834,7 @@ tail, the goal is to test whether there is a structural break of the
 {\em extreme quantiles} $F^{-1}(1-p)$ for values $p$ very close to
 zero. If the tail-index {\em or} the scale parameter in a \ds\ of type
 \eqref{eq:3} change inside a sample, then it is likely that the
-extreme quantiles change as well. We will test for a change of tail
-index or scale parameter in this indirect way.
+extreme quantiles change as well. We will test for a change of tail-index or scale parameter in this indirect way.
 \par
 The null hypothesis of the test in \cite{hoga:2016} is that there is no change of the extreme quantiles $F^{-1}(1-p)$ 
 for $p=p_n\to 0$ in any subsample with indices
@@ -903,30 +910,6 @@ between $\alpha_A, \alpha_B$ on one hand and between $\alpha_B, \alpha_C$ on the
 by simulations from the limit \ds .}
   \label{fig:Hoga_Single}
 \end{figure}
-% \begin{figure}[htb!]
-%   \begin{minipage}{0.5\linewidth}
-%     \includegraphics[
-%       width=\textwidth,
-%       trim={0.3cm, 1cm, 1cm, 1cm}, clip
-%     ]{Hoga_Energy_pair.pdf}
-%   \end{minipage}\hfill
-%   \begin{minipage}{0.5\linewidth}
-%     \includegraphics[
-%       width=\textwidth,
-%       trim={0.3cm, 1cm, 1cm, 1cm}, clip
-%     ]{Hoga_CS_pair.pdf}
-%   \end{minipage}
-%   \caption{{\red check the symbols on the axes. Some are too long.} Test for changing tail-index or scale parameter based on concatenated series in the ``Energy'' and
-%     ``Consumer Staples'' sectors of
-%     S\&P 500. The green, blue and red colors represent, respectively, the cases when  
-%     the 85\%, 90\% and 95\% quantiles of the limit distribution of $T_n$ is exceeded.
-%     Grey points stand for pairs for which $T_n$ is below
-%     the 85\% \asy\ quantile;
-%     black points represent pairs for which
-%     the computation of $T_n$ fails for given precision
-%     requirements and time limits.}
-%   \label{fig:Hoga_pair}
-% \end{figure}
 
 To get an idea about the power of the test we run it on a
 sample concatenated from two independent iid samples of the same size
@@ -943,9 +926,9 @@ larger the minimum tail-index in the concatenated pair.
   \end{minipage}
   \caption{
     {\em Left}: Test  of concatenated $t$-samples with different
-    degrees of freedom ($\alpha$). Numbers on the axes are the degrees of freedom
+    degrees of freedom $\alpha$. Numbers on the axes are the degrees of freedom
     in the subsamples. For an interpretation of the colored bullets,
-    see the bottom row of Figure~\ref{fig:PairTest}. The graph shows the limited power
+    see the caption for the bottom row of Figure~\ref{fig:PairTest}. The graph shows the limited power
     of the test. In particular, if both degrees of freedom are
     relatively large it loses the capability of distinguishing between the \ds s.
     {\em Right}: Comparison of the \asy\ distribution of the test statistic
@@ -956,10 +939,10 @@ larger the minimum tail-index in the concatenated pair.
   \label{fig:t_sim_pair}
 \end{figure}
 
-A major problem in this test is the \asy\ distribution of the test statistic under the
+A major problem of this test is the \asy\ distribution of the test statistic under the
 null hypothesis.  The rate at which the finite-sample distribution tends to its limit is not known.
-To find out about this problem we compared the \ds s of $T_n$ 
-with $n=1304$ for $t$-distributed $X_t$ with  3 and 4 degrees of freedom ($\alpha$) and
+To find out about this problem we compared the \ds s of $T_{1304}$ 
+for $t$-distributed $X_t$ with  $\alpha=3$ and $\alpha=4$ degrees of freedom with
 the limit \ds\ of $T_n$.
 The estimated density functions are shown on the right of Figure~\ref{fig:t_sim_pair}.
 As seen in the graph, the asymptotic distribution assigns
@@ -979,7 +962,8 @@ Table~\ref{tab:HogaAsymptotic}, showing major differences between the
     t(4)  & 25.76 & 31.13 & 38.81 & 56.32\\[2mm]
   \end{tabular}
   \caption{Quantiles of the test statistic $T_n$ for $n=1304$
-    $t$-distributed samples with 3 and 4 degrees of freedom ($\alpha$)
+    $t$-distributed samples with $\alpha=3$ and $\alpha=4$ 
+degrees of freedom
     as well as the corresponding quantiles for the limiting \ds\ of
     $T_n$. In particular, there are huge differences between the three
     \ds s  for the higher quantiles. 
@@ -987,22 +971,18 @@ Table~\ref{tab:HogaAsymptotic}, showing major differences between the
   \label{tab:HogaAsymptotic}
 \end{table}
 
-We also acknowledge that the test is designed to detect a sudden big
-change and cannot detect changes that are small but accumulate over
-time. This is due to the fact that $T_n$ is not invariant under
-permutation of the observations ($X_t$).
-If the observations are iid, the null hypothesis is of 
-course not rejected with or without permutation; If instead the
-observations are not iid but rather have small changes of the
-tail-index over time, the null hypothesis may be rejected with
-permutation but not rejected without. The latter may happen when the
-changes in the tail-index are small but just big enough for the
-accumulated change between two time points to exceed the
-critical value. In other words, the test cannot detect slow changes.
+Figure~\ref{fig:PairTest:permuted} points at another shortcoming
+of the test: we show $T_n$ for an 
+arbitrarily chosen random permutation of the concatenated data from two 
+different stocks. In this case the null hypothesis that two series
+have the same tail-index is rejected much more often, as a comparison
+with the bottom graphs of
+Figure~\ref{fig:PairTest} shows. If the data in the concatenated 
+series were iid a random permutation would not change the 
+\ds\ of $T_n$. Thus the value of the test statistic $T_n$  
+strongly depends on the dependence structure of the underlying data
+and therefore a test based on $T_n$ may be misleading.
 
-We illustrate this point in figure \ref{fig:PairTest:permuted} where
-we apply a random permutation of observations to each series before
-concatenating them and running the test.
 \begin{figure}[htb!]
   \begin{minipage}{0.33\linewidth}
     \includegraphics[
@@ -1066,7 +1046,8 @@ for some positive $c>0$ and a positive tail-index $\alpha$ which is the unique s
 $\E [(\alpha_1 Z_1^2+\beta_1)^{\alpha/2}]=1$
 provided that the solution exists and some mild assumptions on the \ds\ of $Z_t$ hold. This result
 follows by an application of the Kesten-Goldie theorem; see Kesten \cite{kesten:1973}, Goldie \cite{goldie:1991}, cf. 
-Buraczewski et al. \cite{buraczewski:damek:mikosch:2016}. The latter result ensures power-law tails  for
+Buraczewski et al. \cite{buraczewski:damek:mikosch:2016} for a 
+recent textbook treatment. The latter result ensures power-law tails  for
 the strictly stationary  solution $(Y_t)$ to the \sre\ 
 \beam\label{eq:7}
 Y_t= A_t\,Y_{t-1}+B_t\,,\qquad t\in\bbz\,,
@@ -1120,8 +1101,10 @@ We also have the specification
 \beta_{12}\\
 \alpha_{21}Z_{1,t-1}^2+\beta_{21}& \alpha_{22}Z_{2,t-1}^2+\beta_{22}
 \earr\right)\,\left(\barr{l}\sigma_{1,t-1}^2\\\sigma_{2,t-1}^2\earr
-\right)\,.
+\right)\,,
 \eeam
+for positive $\alpha_{0i}$ and suitable non-negative 
+$\alpha_{ij},\beta_{ij}$, $i,j=1,2$.
 Writing
 \beao
 \bfB_t= \left(
@@ -1183,7 +1166,8 @@ products  $\bfA_1\cdots\bfA_n$ are always of the same triangular
 type. 
 Similar remarks apply when one considers a CCC model in general
 dimension. Of course, one may argue that the latter models 
-are degenerate since they do not allow for a linear relationship
+are not natural: they are degenerate since they do not allow 
+for a linear relationship
 between all squared volatilities on a given day. 
 
 \subsection{A utility based argument for equal tail-indices}\label{sec:3}
@@ -1199,9 +1183,9 @@ increasing and concave on $(0,\infty)$.  Following Routledge and Zin
 the utility of an agent with GDA preferences is given by
 \beao% \label{eq:xxie0}
   \wt u&=& \E [u(C)] - b\, \int_{0}^{\delta v}
-  \big[ u(\delta \,v) - u(x) \big] F_C(dx)\nonumber\\
-  &=&
-  \E u(C) - b \E\big[\big(u(\delta \,v) - u(C)\big)\1( C \le  \delta \,v)\big]\,,
+  \big[ u(\delta \,v) - u(x) \big] F_C(dx)\,,
+  %&=&
+  %\E u(C) - b \E\big[\big(u(\delta \,v) - u(C)\big)\1( C \le  \delta \,v)\big]\,,
 \eeao
 where $\delta $ and $v$ are positive constants, and $b\ge 0$.
   Here $v$ can be thought of as the {\em certainty payoff} equivalent to the
@@ -1217,13 +1201,13 @@ disappointment aversion which were generalized by Routledge and Zin
 An agent guided by the utility function $u$ will seek to maximize the
 \fct al $\wt u$.
 Routledge and Zin assumed a power-law utility function 
-\beam\label{eq:u}
-u(x)=\frac{1}{1 - \gamma}\,x^{1 - \gamma}\,,\quad \gamma>0\,. 
-\eeam
+%\beam\label{eq:u}
+%u(x)=\frac{1}{1 - \gamma}\,x^{1 - \gamma}\,,\quad \gamma>0\,. 
+%\eeam
 % In practice it is more often to observe $\gamma > 1$ {\blue Let's
 % consult Casper for references.}
-We focus on the case $\gamma > 1$ and hence adopt a more convenient
-notation:
+%We focus on the case $\gamma > 1$ and hence adopt a more convenient
+%notation:
 \beam\label{eq:hjyr}
 u(x)=-\frac{1}{\xi}\,x^{-\xi}\,,\quad \xi>0\,. 
 \eeam
@@ -1235,13 +1219,13 @@ unit of wealth. He invests $1-\phi\in (0,1)$ units in a risk-free
 bond with interest rate $r>0$ and $\phi$ units in a risky asset with
 return $X$ over one time unit, i.e.,
 \beam\label{eq:xxie1}
-  C(x) = (1 - \phi)\, \ex^{r} + \phi \,\ex^{X}\,.
+  C(X) = (1 - \phi)\, \ex^{r} + \phi \,\ex^{X}\,.
 \eeam
 Then we have 
 \beao
 \wt u(F_X, \phi) &=& \E [u(C)] + b\, \E \big[u(C)\1(C \le  \delta v)\big] - b \,u(\delta\, v) F_X(q)\,,
 \eeao
-where $F_X$ is the \df\ of $X$ with density $f_X$, and
+where $F_X$ is the \df\ of $X$  and
 \beao
   q = %q(r, \phi) &:=& \log \left( {
       %\delta v - (1 - \phi) e^r
@@ -1258,7 +1242,7 @@ Naturally, if an agent invests in
 a risky asset instead of a riskless bond, he expects to obtain a
 higher (on average) return from the risky asset than he is guaranteed from the
 riskless bond. In our notation, this means $\delta \,v > \ex^r$ or
-$q > r $. For given $b,\delta,v$, $\wt u$ is only a functional of $\phi$ and $F_X$,
+$q > r $. For given $b,\delta,v$, the \fct al $\wt u$  depends only on $\phi$ and $F_X$,
 $\wt u=\wt u (F_X, \phi)$.
 We assume that
 \beao
@@ -1283,11 +1267,10 @@ We consider the case when $X$ has a two-sided Pareto \ds\ given by
   \right.
 \eeam
 where
-$\alpha, \beta > 0$, $K,K' > 0$, $0 < p < 1$ and
-$\alpha, \beta, K, K'$ are independent of each other. We shall also
-use the density function of $X$, which we define as
-$f_X(x) = {\pd F_X(x) \over \pd x}$.
-Then we have
+$\alpha, \beta > 0$, $K,K' > 0$, $0 < p < 1$. 
+We also write $f_X$ for the density function of $F_X$.
+\par
+We have
 \beam\label{eq:xxie1.0}
  \wt u(F_X, \phi)\nonumber
   &=&
@@ -1303,15 +1286,17 @@ Then we have
   - b \,u(\delta v) \,F_X(q) \,.\label{eq:pp}
 \eeam
 \par
-We observe the following property which also applies to \eqref{eq:xxie1.0}. 
+We observe the following property 
+whose proof is given in Appendix~\ref{sec:thrmI_proof}. 
+% which also applies to the special case 
+%\eqref{eq:xxie1.0}. 
 \ble\label{thrm:I}
- Assume the two-sided Pareto model \eqref{eq:pareto} and that the utility
- \fct\ $u$ is increasing and differentiable. Then $\frac{\pd \wt
-   u_{\rm max}}{\pd \alpha} > 0$ and $\frac{\pd \wt u_{\rm max}}{\pd
-   K} < 0$.
+Assume the two-sided Pareto model \eqref{eq:pareto},
+that there is no \fct al relationship between $\alpha,K$ and $\beta,K'$
+and the utility \fct\ $u$ is increasing and differentiable. Then
+$\frac{\pd \wt u_{\rm max}}{\pd \alpha} > 0$ and
+$\frac{\pd \wt u_{\rm max}}{\pd K} < 0$.
 \ele
-The proof is given in Appendix~\ref{sec:thrmI_proof}. 
-\par
 We conclude that
 $\wt u_{\rm max}$ increases with $\alpha$ and decreases with
 $K$. Therefore there is a curve of  equal preference on the $(\alpha,
@@ -1320,15 +1305,15 @@ $\alpha$, one expects the values of $K$ to increase too, i.e., the
 estimated values of $\alpha$ and $K$ 
 should appear positively dependent. Figure~\ref{fig:preference_pareto}
 illustrates this scenario for $\xi = 1/2, 4$ for the power-utility
-\fct\ \eqref{eq:u}.
+\fct\ \eqref{eq:hjyr}.
 In fact, this positive dependence is indeed observed for some
 real return data, e.g. the ``Energy'', ``Consumer Staples'' and
 ``Information Technology'' sectors of the S\&P 500 index; see 
 Figure~\ref{fig:sectors_parameters}.
 \par
-A particularly interesting special case is when the left and the right
-tails have equal parameters, i.e. when $\alpha = \beta$ and $K =
-K'$. In this case \eqref{eq:pareto} becomes
+A particularly interesting case occurs  when 
+$F_X$ is symmetric, i.e., when $\alpha = \beta$, $K =K'$ and $p=0.5$.
+Then \eqref{eq:pareto} turns into 
 \begin{eqnarray}
   \wt u(F_X, \phi) &=& {\alpha \over 2} K^\alpha (1 + b)
   \int_{0}^\infty {
@@ -1339,91 +1324,69 @@ K'$. In this case \eqref{eq:pareto} becomes
     \over
     (K + x)^{\alpha + 1}
   } dx
-  - b u(\delta v) F_X(q)
+  - b u(\delta v) F_X(q)\,.\nonumber\\
   \label{eq:ipf}
-\end{eqnarray}
-First of all we note that the function
+\end{eqnarray} 
+This situation is not covered by Lemma~\ref{thrm:I}:
+for the proof of the latter result we used Lemma \ref{lemma:I} whose
+assumptions are not satisfied in the present situation.
+Indeed, the integrand 
 \[
-U_{\text{all}} =
+U_{\text{all}}(x) =
 u(C(x)) \left[
-  1 - {b \over 1 + b}\1_{\{x \ge q\}}
+  1 - {b \over 1 + b}\1(x \ge q)
   \right]
 + u(C(-x))
 \]
-is not monotone. \footnote{
-To see this we may plug \eqref{eq:hjyr} in $U_{\text{all}}$ and
-re-write it as
-\[
-U_{\text{all}} =
-  -{\phi^{-\xi} \over \xi} \left\{
+is not monotone.\footnote{To see this we may plug \eqref{eq:hjyr} 
+in $U_{\text{all}}$ and re-write it as
+\[U_{\text{all}}(x) =
+  -{\phi^{-\xi} \over \xi} \Big\{
   \underbrace{
-    \left(1 - {b \over 1 + b}\1_{\{x \ge q\}}\right)
-    \left[{(1 - \phi) \over \phi} e^r + e^x\right]^{-\xi}
+    \Big(1 - {b \over 1 + b}\1(x \ge q)\Big)
+    \big[a + e^x\big]^{-\xi}
     +
-    \left[{(1 - \phi) \over \phi} e^r + e^{-x}\right]^{-\xi}
-  }_{U(x)} \right\}
+    \Big[a + e^{-x}\Big]^{-\xi}
+  }_{U(x)} \Big\}\,,
 \]
+where $a = (1 - \phi) e^r/\phi$.
 Direct computation gives
 \begin{eqnarray*}
-  {\pd U(x) \over \pd x}
+  U'(x)
   &=&
-  -{
-    (a + e^x)^{-\xi - 1} \xi e^x
+  -{(a + e^x)^{-\xi - 1} \xi e^x
     \over
-    1 + b \1_{\{x > q\}}
-  } + (a + e^{-x})^{-\xi - 1} \xi e^{-x}
-  \quad x \neq q
-\end{eqnarray*}
-where $a = (1 - \phi) e^r/\phi$. For $x \ge q$, we have
-\begin{eqnarray*}
-  {1 \over \xi}
-  {\pd U(x) \over \pd x} &=& {x' \over (a + x')^{\xi + 1}}
-  - {x'^\xi \over (a x' + 1)^{\xi + 1} (1 + b)}
-\end{eqnarray*}
-where we have substituted $x'$ for $e^{-x}$. When $x$ is very large
-i.e. when $x'$ is very close to 0, it is useful to expand the last
-expression at $x' = 0$. This yields
-${1 \over \xi} {\pd U(x) \over \pd x} = {x' \over a^{\xi + 1}} + o(x')$
-So we see that when $x$ is sufficiently large
-${\pd U(x) \over \pd x} > 0$. On the other hand, at the discontinuity
-point $x = q$, we have
-$
-\lim_{x \downarrow 0} \left(
-  U(q + x) - U(q - x)
-\right)
-= - {
-  (a + e^q)^{-\xi} b
-  \over
-  1+ b
-} < 0
-$
-So $U(x)$ and hence $U_{\text{all}}$ is not monotone.}
-So, unlike the case when $\beta$ and $K'$
-are independent of $\alpha$ and $K$, we cannot use Lemma \ref{lemma:I}
-to determine the monotonicity of $\tilde u_{\rm max}(\alpha, K)$.
-Instead, we resort to numerical methods to gain some understanding of
+    1 + b \1(x \ge  q)
+  } + (a + e^{-x})^{-\xi - 1} \xi e^{-x}\,,
+  \qquad x \neq q
+\end{eqnarray*} 
+The \fct\ $U(x)$, hence $U_{\text{all}}$, 
+is not monotone because $U'(x)>0$ for all large $x$ while $U(x)$ decreases
+in a small neighborhood of $q$.}
+\par
+We resort to numerical methods to gain some understanding of
 how $\tilde u(F_X, \phi)$ changes with $\alpha$.
-
 The value of $\hat\phi$ can be calculated
 by numerical integration and optimization with respect to $\phi$ for
 given values of $K, K', \alpha, \beta$.  This is shown in 
 Figure~\ref{fig:phi_hat_pareto} for the power utility \fct\
-\eqref{eq:u}. The corresponding $\tilde u_{\rm max}(\alpha, K)$
-is shown in figure \ref{fig:preference_pareto}.
-One can see that, when $K'$ and $\beta$ are fixed, $\tilde
-u_{\rm max}(\alpha, K)$ and $\hat\phi$ increase 
-with $\alpha$ and decreases with $K$. This is a verification of Lemma
-\ref{lemma:I}; however, when $\beta$ and $K'$ are equal to $\alpha$
-and $K$, $\tilde u_{\rm max}(\alpha, K)$ is monotone
-decreasing with $\alpha$ but is rather insensitive to $K$. On the
+\eqref{eq:hjyr} both for fixed $K', \beta$ and for $K=K'$, $\alpha=\beta$.  
+The corresponding values $\tilde u_{\rm max}(\alpha, K)$
+are shown in Figure \ref{fig:preference_pareto}.
+If $K'$ and $\beta$ are fixed, both $\wt u_{\rm max}(\alpha, K)$ 
+and $\hat\phi$ increase  with $\alpha$ and decrease with $K$. 
+This is in agreement with Lemma~\ref{thrm:I}. 
+In contrast, when $K=K'$ are equal to $\alpha=\beta$
+$\wt u_{\rm max}(\alpha, K)$ decreases with $\alpha$ 
+but is rather insensitive with respect to $K$. On the
 other hand, $\hat\phi$ is not monotone with respect to $\alpha$ or
-$K$. For each fixed $K$, it peaks at an $\alpha$ value somewhere below
-1. For typical realistic $\alpha$ values in $(2, 4)$, $\hat\phi$ is a
+$K$. For each fixed $K$, it peaks at an $\alpha$-value somewhere below
+1. For realistic values $\alpha\in (2, 4)$, $\hat\phi$ is a
 small value below 5\%.
-Since $\tilde u_{\rm max}(\alpha, K)$ is monotone decreasing with
-$\alpha$, investors who seek to maximize it will prefer the smallest
-$\alpha$ in the market, resulting in similar values of $\alpha$ for
-different equities.
+Since $\wt u_{\rm max}(\alpha, K)$ decreases with
+$\alpha$, investors who seek to maximize $\wt u_{\rm max}(\alpha, K)$
+will prefer the smallest $\alpha$ in the market, resulting in similar
+values of $\alpha$ for different equities.
 \begin{figure}[htb!]
   \begin{minipage}{0.25\linewidth}
     \includegraphics[width=\textwidth]{phi_hat_pareto5e-1_A.pdf}    
@@ -1440,11 +1403,11 @@ different equities.
  \caption{
    {\em The 1st and 2nd} graphs show $\hat\phi$, the optimal equity
    allocation as a \fct\ of $\alpha$ and $K$ in the two-sided Pareto model
-   \eqref{eq:pareto} with $K'=0.012$, $\beta = 1.4$.
+   \eqref{eq:pareto} for fixed $K'=0.012$, $\beta = 1.4$.
    {\em The 3rd and 4th} graphs show $\hat\phi$ as a \fct\ of $\alpha$
    and $K$ with $\beta = \alpha$ and $K' = K$.
-   We choose the utility \fct\ $u$ from \eqref{eq:u} for $\xi = 1/2$
-   and $\xi = 4$. $b = 0.01$ in all cases.
+   We choose the utility \fct\ $u$ from \eqref{eq:hjyr} for $\xi = 1/2$
+   and $\xi = 4$, $b = 0.01$ in all cases.
   }
   \label{fig:phi_hat_pareto}
 \end{figure}
@@ -1459,11 +1422,14 @@ different equities.
   tolerant about low consumption and seeks wealth more
   aggressively. In other words, he is less risk-averse than one with a
   larger $\xi$. Such an agent will therefore invest more heavily in
-  equity, as shown in Figure~\ref{fig:phi_hat_pareto}.
-\end{minipage}
+  equity, as shown in Figure~\ref{fig:phi_hat_pareto}. Note that,
+  while $\hat \phi$ changes nearly in the same in both graphs, the
+  scales in the graphcs are very different.
 
-The following graph (figure \ref{fig:preference_pareto}) shows how
-$\tilde u(\alpha, K, \wt\phi)$ changes with $\alpha$ and $K$.
+
+\end{minipage}
+{\red Needed? The following graph (figure \ref{fig:preference_pareto}) shows how
+$\tilde u(\alpha, K, \wt\phi)$ changes with $\alpha$ and $K$.}
 \begin{figure}[htb!]
   \begin{minipage}{0.25\linewidth}
     \includegraphics[width=\textwidth]{preference_pareto5e-1_A.pdf}
@@ -1487,25 +1453,25 @@ $\tilde u(\alpha, K, \wt\phi)$ changes with $\alpha$ and $K$.
    {\em The 3rd and 4th} graphs show
    $\tilde u_{\rm max}(\alpha, K)$ as a \fct\ of $\alpha$
    and $K$ with $\beta = \alpha$ and $K' = K$.
-   We choose the utility \fct\ $u$ from \eqref{eq:u} for $\xi = 1/2$
+   We choose the utility \fct\ $u$ from \eqref{eq:hjyr} for $\xi = 1/2$
    and $\xi = 4$. $b = 0.01$ in all cases.
   }
   \label{fig:preference_pareto}
 \end{figure}
 
-When the parameter $b$ is very small, a GDA preference is closely
-approximated by a mean-utility preference, which GDA reduces to when
-$b = 0$. As shown in the proof of lemma \ref{lemma:III}, the function
-$U_{\text{all}}$ is monotone increasing or decreasing when $\xi$
-and $(1 - \phi) e^r / \phi$ satisfy certain conditions. Moreover, it
+If the parameter $b$ is very small the GDA preference is closely
+approximated by the mean-utility preference, corresponding to $b = 0$. 
+In this case, we show in the proof of Lemma \ref{lemma:III} that the function
+$U_{\text{all}}(x)$ may increase or decrease depending on particular conditions
+on the values of $\xi$ and $(1 - \phi) e^r / \phi$. {\red Conditions?} Moreover, it
 is also easily checked that, when $x \in (0, K(e^{1/\alpha} - 1)]$,
-the density function in the integral of \eqref{eq:ipf} is increasing
-with $\alpha$; when $x \in (K(e^{1/\alpha} - 1), \infty)$, it is
-decreasing with $\alpha$. So, following the same line of arguments
-using lemma \ref{lemma:I} as in the proof of lemma \ref{thrm:I},
-it can be seen $\tilde u_{\rm max}(\alpha, K)$ is
-increasing/decreasing with $\alpha$ when $U_{\text{all}}$ is
-decreasing/increasing.
+the {\red density?} function in the integral of \eqref{eq:ipf} increases
+with $\alpha$; when $x \in (K(e^{1/\alpha} - 1), \infty)$ it 
+decreases with $\alpha$. Following the arguments for Lemma~\ref{thrm:I},
+in particular  using Lemma \ref{lemma:I}, it can be seen that
+$\wt u_{\rm max}(\alpha, K)$ 
+increases/decreases with $\alpha$ when $U_{\text{all}}(x)$ 
+decreases/increases.
 
 \subsection{Student's t-distributed equity return}
 {\red This section is incomplete unless we can show results for $b>0$. Otherwise, we can do everything for $b=0$.} 
@@ -2142,7 +2108,7 @@ scale parameters.
 \section{Lemma~\ref{lemma:III}}
 \setcounter{equation}{0}
 \begin{lemma}\label{lemma:III}
-Let $u(\cdot)$  and $C(\cdot)$ be defined as in \eqref{eq:u} and
+Let $u(\cdot)$  and $C(\cdot)$ be defined as in \eqref{eq:hjyr} and
 \eqref{eq:xxie1} respectively. Define
 \begin{eqnarray*}
 U_{\text{all}} &=& u(C(x))

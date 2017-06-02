@@ -151,14 +151,15 @@ params <- foreach (i=1:dim(X)[2], .combine=rbind) %dopar% {
     c(alpha, K)
 }
 
-pdf(file="../papers/FX/Energy_K.pdf");
+pdf(file="../papers/FX/IT_K.pdf");
 sd <- params[, 2]/params[, 1]/sqrt(k);
 plotCI(params[, 1], log10(params[, 2]),
+       ylim=c(-2.5, -1.7),
        uiw=0, liw=0,
        ui=log10(params[, 2] + 2*sd),
        li=log10(params[, 2] - 2*sd),
        barcol="#000000",
-       main="Energy",
+       main="Information Technology",
        col="red",
 ##       pch=16,
        lwd=1,
@@ -166,24 +167,35 @@ plotCI(params[, 1], log10(params[, 2]),
        ylab=expression(log[10](K)));
 dev.off();
 
-pdf(file="../papers/FX/IT_scale.pdf");
+pdf(file="../papers/FX/CS_scale.pdf");
 values <- params[, 2]^params[, 1];
 sd <- values/sqrt(k);
-plotCI(1:dim(X)[2], log10(values),
+plotCI(params[, 1], log10(values),
        uiw=0, liw=0,
        ui=log10(values + 2*sd),
        li=log10(values - 2*sd),
        barcol="#000000",
-       main="Information Technology",
+       main="Consumer Staples",
        col="red",
+##       pch=16,
        lwd=1,
-       xlab="",
-       xaxt="n",
+       xlab=expression(alpha),
        ylab=expression(log[10](K^alpha)));
+## plotCI(1:dim(X)[2], log10(values),
+##        uiw=0, liw=0,
+##        ui=log10(values + 2*sd),
+##        li=log10(values - 2*sd),
+##        barcol="#000000",
+##        main="Information Technology",
+##        col="red",
+##        lwd=1,
+##        xlab="",
+##        xaxt="n",
+##        ylab=expression(log[10](K^alpha)));
 
-axis(side=1, at=1:dim(X)[2], cex.axis=0.7,
-     labels=gsub("_series_", ".", gsub("_US", "", data$assets)),
-     las=2);
+## axis(side=1, at=1:dim(X)[2], cex.axis=0.7,
+##      labels=gsub("_series_", ".", gsub("_US", "", data$assets)),
+##      las=2);
 dev.off();
 
 
