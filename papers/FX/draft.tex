@@ -1201,19 +1201,10 @@ disappointment aversion which were generalized by Routledge and Zin
 An agent guided by the utility function $u$ will seek to maximize the
 \fct al $\wt u$.
 Routledge and Zin assumed a power-law utility function 
-%\beam\label{eq:u}
-%u(x)=\frac{1}{1 - \gamma}\,x^{1 - \gamma}\,,\quad \gamma>0\,. 
-%\eeam
-% In practice it is more often to observe $\gamma > 1$ {\blue Let's
-% consult Casper for references.}
-%We focus on the case $\gamma > 1$ and hence adopt a more convenient
-%notation:
 \beam\label{eq:hjyr}
 u(x)=-\frac{1}{\xi}\,x^{-\xi}\,,\quad \xi>0\,. 
 \eeam
 
-%In practice it is more often to observe $\gamma > 1$ {\blue Let's
-%consult Casper for references.} Therefore we adopt a more convenient
 For the sake of argument, we assume that an investor initially has one
 unit of wealth. He invests $1-\phi\in (0,1)$ units in a risk-free 
 bond with interest rate $r>0$ and $\phi$ units in a risky asset with
@@ -1416,7 +1407,9 @@ values of $\alpha$ for different equities.
   \includegraphics[width=\textwidth]{power_utilities.png}
 \end{minipage}\hfill
 \begin{minipage}{0.42\textwidth}
-  In this graph we show two power-utility functions $u$. We see that
+  The economitrical differences between the two utility functions
+  are illustrated in the graph to the left.
+  We see that
   $u(x)$ grows slower and saturates later for small $\xi$ than for
   large $\xi$. The latter case represents an agent who is more
   tolerant about low consumption and seeks wealth more
@@ -1425,11 +1418,8 @@ values of $\alpha$ for different equities.
   equity, as shown in Figure~\ref{fig:phi_hat_pareto}. Note that,
   while $\hat \phi$ changes nearly in the same in both graphs, the
   scales in the graphcs are very different.
-
-
 \end{minipage}
-{\red Needed? The following graph (figure \ref{fig:preference_pareto}) shows how
-$\tilde u(\alpha, K, \wt\phi)$ changes with $\alpha$ and $K$.}
+
 \begin{figure}[htb!]
   \begin{minipage}{0.25\linewidth}
     \includegraphics[width=\textwidth]{preference_pareto5e-1_A.pdf}
@@ -1463,24 +1453,166 @@ If the parameter $b$ is very small the GDA preference is closely
 approximated by the mean-utility preference, corresponding to $b = 0$. 
 In this case, we show in the proof of Lemma \ref{lemma:III} that the function
 $U_{\text{all}}(x)$ may increase or decrease depending on particular conditions
-on the values of $\xi$ and $(1 - \phi) e^r / \phi$. {\red Conditions?} Moreover, it
-is also easily checked that, when $x \in (0, K(e^{1/\alpha} - 1)]$,
-the {\red density?} function in the integral of \eqref{eq:ipf} increases
+on the values of $\xi$ and $(1 - \phi) e^r / \phi$:
+\begin{enumerate}
+\item If $\max\{a, 1\} < \xi$, $U_{\text{all}}(\cdot)$ is
+  monotone decreasing.
+\item If $a < \xi < 1$ and $(a + y_-)/(a y_- + 1) <
+  y_-^{(1-\xi)/(1+\xi)}$, $U_{\text{all}}(\cdot)$ is monotone
+  decreasing.
+\item If $\xi < a < 1$, $U_{\text{all}}(\cdot)$ is monotone
+  increasing.
+\item If $1 < \xi < a$ and $(a + y_+)/(a y_+ + 1) >
+  y_+^{(1-\xi)/(1+\xi)}$, $U_{\text{all}}(\cdot)$ is monotone
+  increasing.
+\item In other case, $U_{\text{all}}(\cdot)$ is not monotone.
+\end{enumerate}
+where
+\begin{eqnarray*}
+a &=& {
+  (1 - \phi) e^r
+  \over
+  \phi
+} \\
+y_\pm &=& {
+  a^2 - \xi \pm \sqrt{(a^2 - 1) (a^2 - \xi^2)}
+  \over
+  a (\xi - 1)
+}
+\end{eqnarray*}
+Moreover, it is also easily checked that, when
+$x \in (0, K(e^{1/\alpha} - 1)]$,
+the density function in the integral of \eqref{eq:ipf} increases
 with $\alpha$; when $x \in (K(e^{1/\alpha} - 1), \infty)$ it 
 decreases with $\alpha$. Following the arguments for Lemma~\ref{thrm:I},
-in particular  using Lemma \ref{lemma:I}, it can be seen that
-$\wt u_{\rm max}(\alpha, K)$ 
-increases/decreases with $\alpha$ when $U_{\text{all}}(x)$ 
-decreases/increases.
+and applying Lemma \ref{lemma:I}, it can be seen that
+$\wt u_{\rm max}(\alpha, K)$ increases/decreases with $\alpha$ when
+$U_{\text{all}}(x)$  decreases/increases.
 
-\subsection{Student's t-distributed equity return}
-{\red This section is incomplete unless we can show results for $b>0$. Otherwise, we can do everything for $b=0$.} 
+\section{Conclusion}
+\label{sec:4}
+{\red Casper, we believe you are the most knowledgeable to conclude.}
+\appendix
+\section{A monotonicity lemma}
+\setcounter{equation}{0}
+\begin{lemma} \label{lemma:I}
+  Assume distribution function $F(x, \theta)$ parameterized by 
+  $\theta \in \Theta \subseteq \mathbb R$ has support
+  $(a, b) \subseteq \mathbb R$,
+  and in addition $F(x, \theta)$ has density
+  function $f(x, \theta)$ that is differentiable with respect to
+  $\theta$ for all $\theta \in \Theta$.
+  Let $X \sim F$ and assume function $h(\cdot)$ is defined on $(a, b)$
+  and is monotone throughout this interval.
+  Moreover, we assume $h(x)$ and $f(x, \theta)$ satisfy
+  \begin{equation}\label{eq:frt}
+%    \E |h(X)| < \infty, \quad
+    \int_a^b \left| {\pd f(x, \theta) \over \pd \theta} \right| dx
+    < \infty \text { and }
+    \int_a^b \left| h(x) {\pd f(x, \theta) \over \pd \theta} \right| dx
+    < \infty
+  \end{equation}
+  Then the following holds true:
+  \begin{enumerate}
+  \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
+    $\frac{\pd f}{\pd \theta}(x, \theta) > 0$ for $x \in (a, x_0)$ while
+    $\frac{\pd f}{\pd \theta}(x, \theta) < 0$ for $x \in (x_0, b)$, then
+    \[
+    \frac{\pd \E h(X)}{\pd \theta} > 0
+    \]
+  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
+    $\frac{\pd f}{\pd \theta}(x, \theta) < 0$ for $x \in (a, x_0)$  while
+    $\frac{\pd f}{\pd \theta}(x, \theta) > 0$ for $x \in (x_0, b)$, then
+    \[
+    \frac{\pd \E h(X)}{\pd \theta} > 0
+    \]
+  \end{enumerate}
+\end{lemma}
+\begin{remark}
+  \label{remark:I}
+  Two other cases follow trivially from lemma \ref{lemma:I}:
+  \begin{enumerate}
+  \item If $h(\cdot)$ is increasing and $\frac{\pd f}{\pd \theta}$
+    satisfies the
+    same conditions of the 1st case of lemma \ref{lemma:I},
+    $\frac{\pd \E h(X)}{\pd \theta} < 0$. This immediately follows
+    from applying 1st case of lemma \ref{lemma:I} to $-h(\cdot)$.
+  \item By the same argument, if $h(\cdot)$ is decreasing and
+    ${\pd f \over \pd \theta}$ satisfies the same conditions of the
+    2nd case of lemma \ref{lemma:I}, ${\pd \E h(X) \over \pd \theta} < 0$.
+  \end{enumerate}
+\end{remark}
+
+\begin{proof}
+  Firstly, by dominated convergence theorem, conditions \eqref{eq:frt}
+  imply, for all $S \subseteq (a, b)$,
+  \begin{eqnarray*}
+    {\pd \over \pd \theta}\int_S f(x, \theta) dx
+    &=&
+    \int_S {\pd \over \pd \theta} f(x, \theta) dx \\
+    {\pd \over \pd \theta}\int_S h(x) f(x, \theta) dx
+    &=&
+    \int_S h(x) {\pd \over \pd \theta} f(x, \theta) dx \\
+  \end{eqnarray*}
+  Thus we have
+  \begin{eqnarray*}
+    {\pd \E h(X) \over \pd \theta}
+    &=&
+    {\pd \over \pd \theta}
+    \int_a^b h(x)
+    f(x, \theta) dx \\
+    &=& \int_a^b h(x)
+    {\pd f \over \pd \theta}(x, \theta) dx \\
+    &=& \underbrace{\int_a^{x_0}
+      h(x) {\pd f \over \pd \theta}(x, \theta) dx}_{I_1}
+    + \underbrace{\int_{x_0}^b
+      h(x) {\pd f \over \pd \theta}(x,
+      \theta) dx}_{I_2}
+  \end{eqnarray*}
+  $x_0$ being located in the interior of $(a, b)$ and
+  $h(\cdot)$ being monotone imply $h(x_0) < \infty$.
+  \begin{enumerate}
+  \item When $h(x)$ is decreasing on $(a, b)$ and ${\pd f \over \pd
+    \theta}(x, \theta) > 0$ on $(a, x_0)$
+    \[
+    I_1 > h(x_0) \int_a^{x_0}
+    {\pd f \over \pd \theta}(x, \theta) dx
+    \]
+    Similarly, because ${\pd f \over \pd \theta}(x, \theta) < 0$ for
+    $x \in (x_0, b)$ and $h(x)$ is decreasing, we have
+    \begin{eqnarray*}
+      I_2 &=& \int_{x_0}^b -h(x_0)
+      \left|{\pd f \over \pd \theta}(x, \theta) \right| dx
+      > -h(x_0)
+      \int_{x_0}^b \left| 
+        {\pd f \over \pd \theta}(x, \theta)
+      \right| dx
+    \end{eqnarray*}
+    Finally we have
+    \begin{eqnarray*}
+      {\pd \E h(X) \over \pd \theta}
+      > h(x_0) \int_a^b
+      {\pd f \over \pd \theta}(x, \theta) dx
+      = h(x_0) {\partial \over \partial \theta}
+      \int_a^b f(x, \theta) dx
+      = 0
+    \end{eqnarray*}
+  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
+    ${\pd f \over \pd \theta}(x_0, \theta) < 0$ on $(a, x_0)$  while
+    ${\pd f \over \pd \theta}(x_0, \theta) > 0$ on $(x_0, b)$, 
+    by similar arguments, one can show
+    \[
+    {\pd \E h(X) \over \pd \theta}> 0
+    \]
+\end{enumerate}
+\end{proof}
+
+\section{When equity returns follow Student's t-distribution}
+\setcounter{equation}{0}
 It is a common practice to use Student's t-distribution to model the
 stationary distribution of equity returns. So it is of interest to
 find out what implications this distribution has when it is combined
-with the PDA preference. Formally we assume {\red instead of this function one can take a symmetric \ds\ with tails
-$\P(X>x)=0.5 (\kappa/(x+\kappa))^{\alpha}$. If the symmetry causes another behavior than in the previous section this would be interesting.}
-{\blue our tail-index is always $\alpha$, not $\nu$.}
+with the PDA preference. Formally we assume
 \[
 f(x; \alpha) = c(\alpha) \left(
   1 + {x^2 \over \alpha}
@@ -1496,23 +1628,24 @@ c(\alpha) = {
 \]
 In the same way as for \eqref{eq:ipf}, we can write $\wt u(F, \phi)$
 as
-\begin{eqnarray}
-  && \wt u(F, \phi) \nonumber \\
-  &=&
-  (1 + b)
-  \int_{0}^{\infty}
-  \underbrace{
-    \left\{
+\begin{small}
+  \begin{eqnarray}
+    \wt u(F, \phi)
+    &=&
+    (1 + b)
+    \int_{0}^{\infty}
+    \underbrace{
+      \left\{
       u(C(x)) \left[
         1 - {b \over 1 + b}\1_{\{x \ge q\}}
         \right]
       + u(C(-x))
-    \right\}
-  }_{U_{\text{all}}}
-  f(x, \alpha) dx
-  - b u(\delta v) F_X(q)
-  \label{eq:t1}
-\end{eqnarray}
+      \right\}
+    }_{U_{\text{all}}}
+    f(x, \alpha) dx - b u(\delta v) F_X(q)
+    \label{eq:t1}
+  \end{eqnarray}
+\end{small}
 where $C(\cdot)$ is defined in \eqref{eq:xxie1}. As shown in lemma
 \ref{lemma:III}, when $b = 0$ and $u(\cdot)$
 takes the power-form of \eqref{eq:hjyr}, $U_{\text{all}}$ is monotone
@@ -1609,220 +1742,6 @@ value of $b$ indicates a conservative, risk-averse investor.
   }
   \label{fig:htfg}
 \end{figure}
-
-% \subsubsection{log-utility function}
-% We first consider the case where the utility function is simply
-% $u(\cdot) = \log(\cdot)$. This corresponds to the limiting case of
-% \eqref{eq:u} as $\gamma \to 0$.
-
-% First notice that when $b = 0$, $\wt u(F, \phi)$ reduces to
-% $\E u(C(X, \phi))$. Only the first integral of \eqref{eq:t1} remains.
-% Its integrand becomes $\log[C(x, \phi) C(-x, \phi)]$.
-% Now observe $\log(C(x, \phi)C(-x, \phi))$ is an increasing function of
-% $x$:
-% \begin{eqnarray*}
-%   {\pd C(x, \phi) C(-x, \phi) \over \pd x}
-%   &=&
-%   \phi e^r (1 - \phi) (e^x - e^{-x}) > 0
-% \end{eqnarray*}
-% Thus when $b = 0$, by 1st case of remark \ref{remark:I} and lemma
-% \ref{lemma:II}, {\red need to look at $\pd \wt u_{\rm max} \over \pd \alpha$?} 
-% ${\pd \wt u(F, \phi)) \over \pd \alpha} < 0$ for all $\phi$. Hence all
-% investors guided by this utility function would be seeking the
-% smallest $\alpha$, i.e. the heaviest tail in the market. Here note that
-% Student's t is a symmetric distribution; a heavier tail implies not
-% only greater down-side risk but also greater up-side potential.
-
-% In fact, even when $b > 0$, the same monotonicity property holds. This
-% is revealed by numerically maximizing $\wt u(F, \phi)$ with
-% respect to $\phi$ for a sequence of selected values of $\alpha$. The
-% results are shown in figure~\ref{fig:phi_hat_U}.
-% \begin{figure}[htb!]
-%   \begin{minipage}{0.5\linewidth}
-%     \includegraphics[width=\textwidth]{phi_hat_b_t_log.pdf}
-%   \end{minipage}\hfill
-%   \begin{minipage}{0.5\linewidth}
-%     \includegraphics[width=\textwidth]{U_b_t_log.pdf}
-%   \end{minipage}
-%   \caption{$\hat\phi$ and $\tilde u_{\rm max}(\alpha)$
-%     \label{fig:phi_hat_U}
-%   }
-% \end{figure}
-
-\section{Conclusion}
-\label{sec:4}
-TODO: Summarize and conclude that all correlated series share the same
-tail-index; their tail functions differ from each other via their
-scale parameters.
-
-\appendix
-\section{A monotonicity lemma}
-\setcounter{equation}{0}
-\begin{lemma} \label{lemma:I}
-  Assume distribution function $F(x, \theta)$ parameterized by 
-  $\theta \in \Theta \subseteq \mathbb R$ has support
-  $(a, b) \subseteq \mathbb R$,
-  and in addition $F(x, \theta)$ has density
-  function $f(x, \theta)$ that is differentiable with respect to
-  $\theta$ for all $\theta \in \Theta$.
-  Let $X \sim F$ and assume function $h(\cdot)$ is defined on $(a, b)$
-  and is monotone throughout this interval.
-  Moreover, we assume $h(x)$ and $f(x, \theta)$ satisfy
-  \begin{equation}\label{eq:frt}
-%    \E |h(X)| < \infty, \quad
-    \int_a^b \left| {\pd f(x, \theta) \over \pd \theta} \right| dx
-    < \infty \text { and }
-    \int_a^b \left| h(x) {\pd f(x, \theta) \over \pd \theta} \right| dx
-    < \infty
-  \end{equation}
-  Then the following holds true:
-  \begin{enumerate}
-  \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
-    $\frac{\pd f}{\pd \theta}(x, \theta) > 0$ for $x \in (a, x_0)$ while
-    $\frac{\pd f}{\pd \theta}(x, \theta) < 0$ for $x \in (x_0, b)$, then
-    \[
-    \frac{\pd \E h(X)}{\pd \theta} > 0
-    \]
-  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
-    $\frac{\pd f}{\pd \theta}(x, \theta) < 0$ for $x \in (a, x_0)$  while
-    $\frac{\pd f}{\pd \theta}(x, \theta) > 0$ for $x \in (x_0, b)$, then
-    \[
-    \frac{\pd \E h(X)}{\pd \theta} > 0
-    \]
-  \end{enumerate}
-\end{lemma}
-\begin{remark}
-  \label{remark:I}
-  Two other cases follow trivially from lemma \ref{lemma:I}:
-  \begin{enumerate}
-  \item If $h(\cdot)$ is increasing and $\frac{\pd f}{\pd \theta}$
-    satisfies the
-    same conditions of the 1st case of lemma \ref{lemma:I},
-    $\frac{\pd \E h(X)}{\pd \theta} < 0$. This immediately follows
-    from applying 1st case of lemma \ref{lemma:I} to $-h(\cdot)$.
-  \item By the same argument, if $h(\cdot)$ is decreasing and
-    ${\pd f \over \pd \theta}$ satisfies the same conditions of the
-    2nd case of lemma \ref{lemma:I}, ${\pd \E h(X) \over \pd \theta} < 0$.
-  \end{enumerate}
-\end{remark}
-
-\begin{proof}
-  % Firstly we show, for any $S \subseteq (a, b)$,
-  % \[
-  %   {\pd \over \pd \theta} \int_S f(x, \theta) dx
-  %   =
-  %   \int_S {\pd \over \pd \theta} f(x, \theta) dx    
-  % \]
-  % Let
-  % \[
-  % f_{\Delta}(x, \theta) = {
-  %   f(x, \theta +  \Delta) - f(x, \theta)
-  %   \over
-  %   \Delta
-  % }
-  % \]
-  % Since $f(x, \theta)$ is differentiable for all $\theta \in \Theta$,
-  % \[
-  % f_{\Delta}(x, \theta) \to {\pd f \over \pd \theta}(x, \theta)
-  % \quad \Delta \to 0
-  % \]
-  % For any give $\epsilon > 0$ and sufficiently small
-  % $\Delta$, we have
-  % \[
-  % |f_{\Delta}(x, \theta)| <
-  % \left|
-  %     {\pd f \over \pd \theta}(x, \theta)
-  % \right| (1 + \epsilon)
-  % \]
-  % Using \eqref{eq:frt} and dominated convergence theorem we obtain
-  % \[
-  % \lim_{\Delta \to 0} \int_S f_\Delta(x, \theta) dx
-  % =
-  % \int_S {\pd f \over \pd \theta}(x, \theta) dx
-  % < \infty
-  % \]
-  % That is
-  % \[
-  %   {\pd \over \pd \theta} \int_S f(x, \theta) dx
-  %   =
-  %   \lim_{\Delta \to 0} {
-  %     \int_S f(x, \theta + \Delta) dx
-  %     -
-  %     \int_S f(x, \theta) dx
-  %     \over
-  %     \Delta
-  %   }
-  %   =
-  %   \int_S {\pd f \over \pd \theta}(x, \theta) dx     
-  % \]
-  % From \eqref{eq:frt} it easily follows that the set on which
-  % ${\pd f(x, \theta) \over \pd \theta} = \infty$ has Lesbegue
-  % measure 0. Call this set $S_0$.
-  Firstly, by dominated convergence theorem, conditions \eqref{eq:frt}
-  imply, for all $S \subseteq (a, b)$,
-  \begin{eqnarray*}
-    {\pd \over \pd \theta}\int_S f(x, \theta) dx
-    &=&
-    \int_S {\pd \over \pd \theta} f(x, \theta) dx \\
-    {\pd \over \pd \theta}\int_S h(x) f(x, \theta) dx
-    &=&
-    \int_S h(x) {\pd \over \pd \theta} f(x, \theta) dx \\
-  \end{eqnarray*}
-  Thus we have
-  \begin{eqnarray*}
-    {\pd \E h(X) \over \pd \theta}
-    &=&
-    {\pd \over \pd \theta}
-    \int_a^b h(x)
-    f(x, \theta) dx \\
-    &=& \int_a^b h(x)
-    {\pd f \over \pd \theta}(x, \theta) dx \\
-    &=& \underbrace{\int_a^{x_0}
-      h(x) {\pd f \over \pd \theta}(x, \theta) dx}_{I_1}
-    + \underbrace{\int_{x_0}^b
-      h(x) {\pd f \over \pd \theta}(x,
-      \theta) dx}_{I_2}
-  \end{eqnarray*}
-  $x_0$ being located in the interior of $(a, b)$ and
-  $h(\cdot)$ being monotone imply $h(x_0) < \infty$.
-  \begin{enumerate}
-  \item When $h(x)$ is decreasing on $(a, b)$ and ${\pd f \over \pd
-    \theta}(x, \theta) > 0$ on $(a, x_0)$
-    \[
-    I_1 > h(x_0) \int_a^{x_0}
-    {\pd f \over \pd \theta}(x, \theta) dx
-    \]
-    Similarly, because ${\pd f \over \pd \theta}(x, \theta) < 0$ for
-    $x \in (x_0, b)$ and $h(x)$ is decreasing, we have
-    \begin{eqnarray*}
-      I_2 &=& \int_{x_0}^b -h(x_0)
-      \left|{\pd f \over \pd \theta}(x, \theta) \right| dx
-      > -h(x_0)
-      \int_{x_0}^b \left| 
-        {\pd f \over \pd \theta}(x, \theta)
-      \right| dx
-    \end{eqnarray*}
-    Finally we have
-    \begin{eqnarray*}
-      {\pd \E h(X) \over \pd \theta}
-      > h(x_0) \int_a^b
-      {\pd f \over \pd \theta}(x, \theta) dx
-      = h(x_0) {\partial \over \partial \theta}
-      \int_a^b f(x, \theta) dx
-      = 0
-    \end{eqnarray*}
-  \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
-    ${\pd f \over \pd \theta}(x_0, \theta) < 0$ on $(a, x_0)$  while
-    ${\pd f \over \pd \theta}(x_0, \theta) > 0$ on $(x_0, b)$, 
-    by similar arguments, one can show
-    \[
-    {\pd \E h(X) \over \pd \theta}> 0
-    \]
-\end{enumerate}
-\end{proof}
-
-\section{A lemma on Student's t-distribution}
-\setcounter{equation}{0}
 \begin{lemma}
   \label{lemma:II}
   Let $f$ denotes the density function of the Student's

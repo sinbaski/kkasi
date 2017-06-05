@@ -630,8 +630,12 @@ probability measure.
 % MA-process back to their original, since the process is recurrent
 % under the original kernel.
 Now we are ready to introduce our importance sampling estimator.
-We start the process from within
-$\mathcal C = \{v \in \chi: |v| \leq M\}$ i.e.
+Let
+\begin{eqnarray*}
+  M &=& \sup_{\theta \in \Theta(0)} M_{0, \theta} \\
+  \mathcal C &=& \{v \in \chi: |v| \leq M\}
+\end{eqnarray*}
+We start the process from within $\mathcal C$ i.e.
 $V_0 \in \mathcal C$
 and let $V_0 \sim \gamma$, where the probability
 measure $\gamma$ is defined as
@@ -720,17 +724,17 @@ efficient i.e. its relative error is bounded.
   Thus we have
   \begin{eqnarray}
     && \E^\varphi \left[ |V_n|^\theta r_{\theta}(\tilde V_n)
-      \1{|V_{n-1}| > M} | \mathscr F_{n-1} \right]
+      \1{|V_{n-1}| > M_{\varphi, \theta}} | \mathscr F_{n-1} \right]
     \label{eq:drift_proof_1} \\
     &=&
-    \1{|V_{n-1}| > M}
+    \1{|V_{n-1}| > M_{\varphi, \theta}}
     \E^\varphi
     \left[
       c(\theta)\int_{\sphere^{d-1}} \inn{V_n, y}^\theta \ell^*_{\theta}(dy)|
       \mathscr F_{n-1} \right]
     \nonumber \\
     &=&
-    \1{|V_{n-1}| > M}
+    \1{|V_{n-1}| > M_{\varphi, \theta}}
     \E^\varphi\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
         y})^\theta \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
     \nonumber
@@ -802,20 +806,20 @@ efficient i.e. its relative error is bounded.
     1 + 
     {|B|^\theta r_{\theta}(\tilde B) \lambda(\varphi) \underline r_\varphi \underline r_\theta
       \over
-      M^\theta \underline r_\theta \bar r_\varphi \bar r_\theta 
+      M_{\varphi, \theta}^\theta \underline r_\theta \bar r_\varphi \bar r_\theta 
       \E \|A \|^{\varphi + \theta}
     }
   \right\}
   \]
-  By the 2nd part of assumption \eqref{eq:drift_cond}, there exist
-  $\theta > 0$ and $M$ sufficiently large such that
+  By the 2nd condition of assumption \eqref{eq:drift_cond}, one can
+  choose $M_{\varphi, \theta}$ sufficiently large such that
   $b_{\varphi, \theta} < 1$.
   Thus we have
   \[
   \E^\varphi
   \left[
     |V_n|^\theta r_{\theta}(\tilde V_n)
-    \1{|V_{n-1}| > M} | \mathscr F_{n-1}
+    \1{|V_{n-1}| > M_{\varphi, \theta}} | \mathscr F_{n-1}
   \right]
   \leq
   \1{|V_{n-1}| > M_{\varphi, \theta}}
@@ -823,9 +827,7 @@ efficient i.e. its relative error is bounded.
   |V_{n-1}|^\theta
   r_\theta(\tilde V_{n-1})
   \]
-  where $M_{\varphi, \theta}$ denotes the value of $M$ chosen
-  according to $\varphi$ and $\theta$ such that
-  $b_{\varphi, \theta} < 1$.
+
   \begin{case}
     If $\theta > 1$,   applying Minkowski's inequality to the RHS
   of \eqref{eq:drift_proof_1} gives
@@ -897,7 +899,7 @@ efficient i.e. its relative error is bounded.
     \E^\varphi
   \left[
     |V_n|^\theta r_{\theta}(\tilde V_n)
-    \1{|V_{n-1}| > M} | \mathscr F_{n-1}
+    \1{|V_{n-1}| > M_{\varphi, \theta}} | \mathscr F_{n-1}
   \right]
   \leq
   \1{|V_{n-1}| > M_{\varphi, \theta}}
@@ -1066,7 +1068,6 @@ efficient i.e. its relative error is bounded.
   \]
 \end{proof}
 
-
 \section{The Estimator is Unbiased}\label{sec:consistency}
 \begin{theorem}
   The estimator $\mathcal E_u$ is unbiased, i.e. equation
@@ -1195,7 +1196,6 @@ efficient i.e. its relative error is bounded.
 \end{proof}
 
 \section{The Estimator Has Bounded Relative Error}\label{sec:efficiency}
-
 \begin{theorem}
   If $-\xi$ satisfies the assumption of Remark \ref{remark:1}, and in
   addition $b_{-\xi} \lambda(-\xi) < 1$, then the estimator
@@ -1210,10 +1210,15 @@ efficient i.e. its relative error is bounded.
   \limsup_{u \to \infty} {\E_{\mathcal D} \mathcal E_u^2 \over [\P(|V|
     > u)]^2} < \infty
   \]
-  By Kesten's theorem \cite{kesten:1973}, $\P(|V| > u) \sim C
-  u^{-\xi}$. Hence, to prove the assertion, one needs to check
-  $\limsup_{u \to \infty} u^{2\xi}\E_{\mathcal D} \mathcal E_u^2 < 
-  \infty$, i.e.
+  By Kesten's theorem \cite{kesten:1973},
+  $\P(|V| > u) \sim C u^{-\xi}$.
+  Hence, to prove the assertion, one needs to check
+  \[
+  \limsup_{u \to \infty} u^{2\xi}\E_{\mathcal D} \mathcal E_u^2
+  <
+  \infty
+  \]
+That is,
   \[
   \limsup_{u \to \infty} \E_{\mathcal D}
   \left[
