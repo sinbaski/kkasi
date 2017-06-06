@@ -139,7 +139,9 @@ void case_iid(void)
 	for (unsigned s = 1; s <= s2; s++) {
 	    T += lindep.C(s);
 	}
-	double a_np = gsl_cdf_tdist_Pinv(1 - 1/(double)X.n_cols, lindep.alpha);
+	double a_np = gsl_cdf_tdist_Pinv(
+	    1 - 1/(double)(X.n_cols * X.n_rows),
+	    lindep.alpha);
 	double y = norm(T - C0)/a_np/a_np;
 	// cout << "matrix T" << endl;
 	// T.print();
