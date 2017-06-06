@@ -1594,29 +1594,36 @@ That is,
     |V_n|^{-1}
     \sum_{i=0}^{n} \|\Pi_{n, i+1}\| |B| \\
     \|\Pi_{n, 1}\|^{-1} \1{K_1 > n}
-    &\leq& |V_n|^{-1} \1{K_1 > n}
+    &\leq&
+    \1{K_1 > n}
+      {
+        |B| \over |V_n|
+      }
     \left(
-      |B| + \sum_{i=1}^n {
-        \|\Pi_{n, i+1}\|
+    1 + \sum_{i=1}^n {
+      \|\Pi_{n, i+1}\|
         \over
         \|\Pi_{n, 1}\|
-      } |B|
+      }
     \right)
   \end{eqnarray*}
   Since $|V_n| > M$ when $K_1 > n$, we have
   \begin{eqnarray*}
     \|\Pi_{n, 1}\|^{-1} \1{K_1 > n}
     &\leq&
-    {1 \over M}
+    \1{K_1 > n}
+      {
+        |B| \over M
+      }
     \left(
-      |B| + \sum_{i=1}^n {
-        \|\Pi_{n, i+1}\|
+    1 + \sum_{i=1}^n {
+      \|\Pi_{n, i+1}\|
         \over
         \|\Pi_{n, 1}\|
-      } |B| \1{K_1 > n}
+      }
     \right)
   \end{eqnarray*}
-  Since $A_i$ are non-negative matrices, we have, for a unit vector $x$,
+  Moreover, $A_i$ are non-negative matrices. So we have, for a unit vector $x$,
   \[
   \|\Pi_{n, 1}\| \geq |\Pi_{n,1} x| = |\Pi_{n, i+1} X_i| |\Pi_{i, 1} x|
   \geq
@@ -1629,17 +1636,18 @@ That is,
     \label{eq:lower_bound}
     \|\Pi_{n, 1}\|^{-1} \1{K_1 > n}
     \leq
-    {1 \over M} \left[
-      |B_0| + \sum_{i=1}^n {
-        C |B|
+     \1{K_1 > n}
+    {|B| \over M} \left(
+      1 + \sum_{i=1}^n {
+        C
         \over
-        \|A_i \cdots A_1\|
-      }  \1{K_1 > n}
-    \right]
+        \|\Pi_{i, 1}\|
+      }
+    \right)
   \end{equation}
   Let
   \[
-  J_k = \|A_k \cdots A_1\|^{-1} \1{K_1 > n}
+  J_k = \|\Pi_{k, 1}\|^{-1} \1{K_1 > n}
   \]
   We obtain, for $\zeta \geq 1$,
   \begin{eqnarray*}
@@ -1647,8 +1655,8 @@ That is,
       \E J_n^\zeta
     \right)^{1/\zeta} &\leq& \left[
       \E \left(
-        {|B_0| \over M}
-        + {C \over M} \sum_{i=1}^n |B| J_i
+        {|B| \1{K_1 > n} \over M}
+        + {C |B|\over M} \sum_{i=1}^n  J_i
       \right)^\zeta
     \right]^{1/\zeta}
   \end{eqnarray*}
@@ -1656,47 +1664,61 @@ That is,
   $A_i, \dots, A_1$ the above yields
   \begin{eqnarray}
     (\E J_n^\zeta)^{1/\zeta} &\leq&
-    {|B_0| \over M} + {C \over M}
+    {|B| \over M} \P(K_1 > n)
+    + {C |B|\over M}
     \sum_{i=1}^n
-    (\E |B|^\zeta)^{1/\zeta}
     (\E J_i^\zeta)^{1/\zeta}
     \label{eq:neg_pow_ub} \\
-    &=& h_1 + h_2 \sum_{i=1}^{n} (\E J_i^\zeta)^{1/\zeta}
+    &\leq&
+    h_1 + h_2 \sum_{i=1}^{n} (\E J_i^\zeta)^{1/\zeta}
     \nonumber
   \end{eqnarray}
-  where
-  \begin{eqnarray*}
-    h_1 &=& {|B_0| \over M} \\
-    h_2 &=& {C \over M} (\E |B_1|^\zeta)^{1/\zeta}
-  \end{eqnarray*}
-  Since
-  \begin{eqnarray*}
-    |V_1| &\leq& \|A_1\| |V_0| + |B_1| \\
-  \end{eqnarray*}
-  and by assumption $\E (|B|/\|A\|)^\zeta < \infty$, we have
-  \begin{eqnarray}
-    (\E J_1^\zeta)^{1/\zeta} &=&
-    \left[
-      \E (\|A_1\|^{-\zeta}\1{K_1 > n})
-    \right]^{1/\zeta} \nonumber \\
-    &\leq&
-    {|V_0|\over M} \E \left[\left(
-        1 + {|B_1| \over |V_0| \|A_1\|}
-      \right)^\zeta
-      \1{K_1 > n}\right]^{1/\zeta}< \infty
-    \label{eq:J_1}
-  \end{eqnarray}
-  Let
-  \[
-  y_1(\zeta) = 
-  {|V_0|\over M} \E \left[\left(
-      1 + {|B_1| \over |V_0| \|A_1\|}
-    \right)^\zeta \1{K_1 > n}\right]^{1/\zeta}
-  \]
+  where $h_1 = {|B| \over M}$,
+  $h_2 = {C \over M} (\E |B_1|^\zeta)^{1/\zeta}$.
+  %% Since
+  %% \begin{eqnarray*}
+  %%   |V_1| &\leq& \|A_1\| |V_0| + |B_1| \\
+  %% \end{eqnarray*}
+  %% it follows
+  %% \begin{eqnarray*}
+  %%      { |V_0| \over |V_1| }
+  %%      { \|A_1\| |V_0| + |B| \over \|A_1\| |V_0|}
+  %%      &\geq&
+  %%      \| A_1 \|^{-1}\\
+  %%      \| A_1 \|^{-1} \1{K_1 > n}
+  %%   &\leq&
+  %%      { |V_0| \over M} \left(
+  %%      1 + {|B| \over \|A_1\| |V_0|}
+  %%      \right)
+  %% \end{eqnarray*}
+  By assumption, $\E \|A\|^{-\zeta} < \infty$, so
+  $(\E J_1^\zeta)^{1/\zeta} < \infty$.
+  Let $y_1(\zeta) = (\E J_1^\zeta)^{1/\zeta}$.
+  %% \begin{eqnarray}
+  %%   (\E J_1^\zeta)^{1/\zeta} &=&
+  %%   \left[
+  %%     \E (\|A_1\|^{-\zeta}\1{K_1 > n})
+  %%   \right]^{1/\zeta} \nonumber \\
+  %%   &\leq&
+  %%   {|V_0|\over M} \E \left[\left(
+  %%       1 + {|B_1| \over |V_0| \|A_1\|}
+  %%     \right)^\zeta
+  %%     \1{K_1 > n}\right]^{1/\zeta}< \infty
+  %%   \label{eq:J_1}
+  %% \end{eqnarray}
+  %% Let
+  %% \[
+  %% y_1(\zeta) = 
+  %% {|V_0|\over M} \E \left[\left(
+  %%     1 + {|B_1| \over |V_0| \|A_1\|}
+  %%   \right)^\zeta \1{K_1 > n}\right]^{1/\zeta}
+  %% \]
   and
   \begin{equation}
     \label{eq:y_n}
     y_n(\zeta) = h_1 + h_2 \sum_{i=1}^{n-1} y_i(\zeta)
+    \quad
+    n > 1
   \end{equation}
   Then \eqref{eq:neg_pow_ub}, \eqref{eq:y_n} and \eqref{eq:J_1}
   yield
