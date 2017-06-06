@@ -560,7 +560,7 @@ measure $\mu_A^\theta$ on $\mathcal B(\text{dom}(A))$:
 }
 \]
 Accordingly, we denote the expectation taken with respect to
-$\mu_A^\theta$ as $\E_\theta$, in which we omit the marking of $A$
+$\mu_A^\theta$ as $\E^\theta$, in which we omit the marking of $A$
 whose involvement should be obvious from the context.
 Now we extend the definition of the operator $\mathscr P$ by replacing
 the expectation taken with respect to the original measure with the
@@ -568,22 +568,22 @@ expectation taken with respect to the shifted measure, i.e. we
 define
 \[
 \mathscr P^{\varphi, \theta} f(x)
-= \E_\varphi \left[
+= \E^\varphi \left[
   |A x|^\theta f(A \cdotp x)
 \right], \quad
 \eta \mathscr P^{\varphi, \theta}(dx)
 =
-\E_\varphi \left[ |A x|^\theta \eta(A \cdotp dx) \right]
+\E^\varphi \left[ |A x|^\theta \eta(A \cdotp dx) \right]
 \]
 where $f$ is a function $f: \sphere^{d-1} \to \reals$ and
 $\eta$ is a probability measure on $\mathcal B(\sphere^{d-1})$.
 By Lemma 2.2 of Collamore and Mentemeier
 \cite{collamore:mentemeier:2016}, when
-$\E_\varphi \| A \|^\theta < \infty$, the spectral radius of
+$\E^\varphi \| A \|^\theta < \infty$, the spectral radius of
 $\mathscr P^{\varphi, \theta}$ is
 \[
 \lambda_\varphi(\theta) = \lim_{n \to \infty}
-\left(\E_\varphi \|A_n \cdots A_1 \|^\theta\right)^{1/n}
+\left(\E^\varphi \|A_n \cdots A_1 \|^\theta\right)^{1/n}
 \]
 and a unique pair of eigenfunction and eigenmeasure exists
 for $\mathscr P^{\varphi, \theta}$ corresponding to
@@ -600,7 +600,7 @@ and exponentially shift the transition kernel of the MA process
 $(X_i, S_i)$, i.e. the conditional probability $P(x, dy \times dl)$,
 until $|V_t| > u$. Let
 \[
-P_\theta(x, dy \times dl)
+P^\theta(x, dy \times dl)
 =
 {e^{\theta l} \over \lambda(\theta)}
 {r_\theta(y) \over r_\theta(x)}
@@ -612,7 +612,7 @@ conditional distribution of $Z_{t-1}^2$. It follows from the above
 equation
 \[
 {
-  \P_\theta(Z_{t-1}^2 \in dw | X_{t-1} = x)
+  \P^\theta(Z_{t-1}^2 \in dw | X_{t-1} = x)
   \over
   \P(Z_{t-1}^2 \in dw | X_{t-1} = x)
 } = {|A(w) x|^\theta \over \lambda(\theta)}
@@ -622,7 +622,7 @@ equation
   r_\theta(x)
 }
 \]
-where $\P_\theta(\cdot | \cdot)$ denotes the shifted conditional
+where $\P^\theta(\cdot | \cdot)$ denotes the shifted conditional
 probability measure.
 
 % Once the threshold $u$ has been exceeded by $|V_t|$, we change the
@@ -797,24 +797,31 @@ efficient i.e. its relative error is bounded.
     \right\}
   \end{eqnarray*}
   Let
-  \[
-  b_{\varphi, \theta} = {1 \over \lambda(\varphi)}
-  {\bar r_\varphi \over \underline r_\varphi}
-  {\bar r_\theta \over \underline r_\theta}
-  \E \| A \|^{\varphi + \theta}
-  \left\{
+  \begin{eqnarray*}
+    G(\varphi, \theta, m)
+    &=&
+    {1 \over \lambda(\varphi)}
+    {\bar r_\varphi \over \underline r_\varphi}
+    {\bar r_\theta \over \underline r_\theta}
+    \E \| A \|^{\varphi + \theta}
+    \left\{
     1 + 
-    {|B|^\theta r_{\theta}(\tilde B) \lambda(\varphi) \underline r_\varphi \underline r_\theta
-      \over
-      M_{\varphi, \theta}^\theta \underline r_\theta \bar r_\varphi \bar r_\theta 
-      \E \|A \|^{\varphi + \theta}
+    {|B|^\theta r_{\theta}(\tilde B)
+     \lambda(\varphi) \underline r_\varphi \underline r_\theta
+     \over
+     m^\theta \underline r_\theta \bar r_\varphi \bar r_\theta 
+     \E \|A \|^{\varphi + \theta}
     }
-  \right\}
-  \]
-  By the 2nd condition of assumption \eqref{eq:drift_cond}, one can
-  choose $M_{\varphi, \theta}$ sufficiently large such that
-  $b_{\varphi, \theta} < 1$.
-  Thus we have
+    \right\} \\
+    M_{\varphi, \theta}
+    &=&
+    \epsilon + \inf\{m > 0: G(\varphi, \theta, m) < 1\},
+    \quad \epsilon > 0
+  \end{eqnarray*}
+  The 2nd condition of assumption \eqref{eq:drift_cond} ensures an
+  $M_{\varphi, \theta}$ exists for an arbitrary $\epsilon > 0$ such that
+  $b_{\varphi, \theta} = G(\varphi, \theta, M_{\varphi, \theta}) < 1$.
+  We have
   \[
   \E^\varphi
   \left[
@@ -887,55 +894,88 @@ efficient i.e. its relative error is bounded.
       {|B| \over |V_{n-1}|}
       \left[
         {
-          r_\theta(\tilde B) \lambda(\varphi) \underline r_\varphi \underline r_\theta
+          r_\theta(\tilde B)
+          \lambda(\varphi)
+          \underline r_\varphi \underline r_\theta
           \over
-          \underline r_\theta \bar r_\varphi \bar r_\theta \E \|A\|^{\varphi + \theta} 
+          \underline r_\theta
+          \bar r_\varphi \bar r_\theta
+          \E \|A\|^{\varphi + \theta} 
         }
       \right]^{1/\theta}
     \right\}^\theta
   \end{eqnarray*}
   Thus, as in the previous case, we have
+  \begin{eqnarray*}
+    G(\varphi, \theta, m)
+    &=&
+    { \bar r_\varphi \bar r_\theta
+      \over
+      \lambda(\varphi) \underline r_\varphi \underline r_\theta
+    }
+    \E \|A\|^{\varphi + \theta} 
+    \left\{
+      1 +
+      {|B| \over |V_{n-1}|}
+      \left[
+        {
+          r_\theta(\tilde B)
+          \lambda(\varphi)
+          \underline r_\varphi \underline r_\theta
+          \over
+          \underline r_\theta
+          \bar r_\varphi \bar r_\theta
+          \E \|A\|^{\varphi + \theta} 
+        }
+      \right]^{1/\theta}
+   \right\}^\theta \\
+   M_{\varphi, \theta}
+   &=&
+   \epsilon +
+   \inf\{m > 0: G(\varphi, \theta, m) < 1\},\quad \epsilon > 0 \\
+   b_{\varphi, \theta}
+   &=&
+   G(\varphi, \theta, M_{\varphi, \theta}) < 1
+  \end{eqnarray*}
+  We conclude
   \[
-    \E^\varphi
+  \E^\varphi
   \left[
     |V_n|^\theta r_{\theta}(\tilde V_n)
     \1{|V_{n-1}| > M_{\varphi, \theta}} | \mathscr F_{n-1}
-  \right]
+    \right]
   \leq
   \1{|V_{n-1}| > M_{\varphi, \theta}}
-    b_{\varphi, \theta}
+  b_{\varphi, \theta}
   |V_{n-1}|^\theta
   r_\theta(\tilde V_{n-1})
   \]
-  where
-  \[
-  b_{\varphi, \theta} =
-  { \bar r_\varphi \bar r_\theta
-    \over
-    \lambda(\varphi) \underline r_\varphi \underline r_\theta
-  }
-  \E \|A\|^{\varphi + \theta} 
-  \left\{
-    1 +
-    {|B| \over M_{\varphi, \theta}}
-    \left[
-      {
-        r_\theta(\tilde B) \lambda(\varphi) \underline r_\varphi \underline r_\theta
-        \over
-        \underline r_\theta \bar r_\varphi \bar r_\theta \E \|A\|^{\varphi + \theta} 
-      }
-    \right]^{1/\theta}
-  \right\}^\theta
-  \]
-  with $M_{\varphi, \theta}$ chosen sufficiently large so that
-  $b_{\varphi, \theta} < 1$.
+  We have proved the lemma.
 \end{proof}
 
-\begin{remark}
-  \label{remark:1}
-  From Lemma \ref{lemma:1}, it follows for each $\varphi$
-  that satisfies $\E \|A\|^\varphi < \infty$ and
-  $\Theta(\varphi) \neq \emptyset$,
+\begin{lemma}
+  \label{lemma:2}
+  For each $\varphi \in \reals$ define
+  \begin{eqnarray*}
+  \Theta(\varphi) &=& \left\{
+  \theta > 0:
+    {
+      \bar r_\varphi  \bar r_\theta
+      \over
+      \underline r_\varphi \underline r_\theta
+    } {1 \over \lambda(\varphi)}
+    \E \| A \|^{\varphi + \theta}
+    < 1
+    \right\} \\
+    M &=&
+    \sup_{\varphi: \E \|A\|^\varphi < \infty, \Theta(\varphi) \neq \emptyset}
+    \left[
+      \sup_{\theta \in \Theta(\varphi)} M_{\varphi, \theta}
+    \right]\\
+  K_0 &=& 0, \quad 
+  K_i = \inf\{n > K_{i-1}: |V_n| \leq M \},\quad i \geq 1
+  \end{eqnarray*}
+  
   there exist $0 < b_\varphi < 1$ and $\rho_\varphi > 0$ such that for
   $n \geq 1$,
   \[
@@ -945,18 +985,8 @@ efficient i.e. its relative error is bounded.
   \]
   where
   \[
-  \Theta(\varphi) = \left\{
-  \theta > 0:
-    {
-      \bar r_\varphi  \bar r_\theta
-      \over
-      \underline r_\varphi \underline r_\theta
-    } {1 \over \lambda(\varphi)}
-    \E \| A \|^{\varphi + \theta}
-    < 1
-  \right\}
   \]
-\end{remark}
+\end{lemma}
 \begin{proof}
   Iterating \eqref{eq:drift} yields, for $j \geq 0, n > 1$
   \[
@@ -1133,7 +1163,7 @@ efficient i.e. its relative error is bounded.
     {K_{R_n + 1} - K_{R_n}} > \floor{\epsilon n}
   \right) < \infty
   \]
-  By Remark \ref{remark:1} with $\varphi = 0$,
+  By Lemma \ref{lemma:2} with $\varphi = 0$,
   $\P(K_{j + 1} - K_j > k) < b_0^n \rho_0$ for $k \geq 1$.
   Thus
   \[
@@ -1197,9 +1227,13 @@ efficient i.e. its relative error is bounded.
 
 \section{The Estimator Has Bounded Relative Error}\label{sec:efficiency}
 \begin{theorem}
-  If $-\xi$ satisfies the assumption of Remark \ref{remark:1}, and in
-  addition $b_{-\xi} \lambda(-\xi) < 1$, then the estimator
-  $\mathcal E_u$ has bounded relative error, i.e.
+  Let $M$, $K_i, i=0, 1, 2, \dots$ be defined as in Lemma
+  \ref{lemma:2}. Assume one of the following conditions holds
+  \begin{enumerate}[1)]
+    \item $-\xi$ satisfies the assumption of Lemma \ref{lemma:2}, and in
+      addition $b_{-\xi} \lambda(-\xi) < 1$
+  \end{enumerate}
+  Then the estimator $\mathcal E_u$ has bounded relative error, i.e.
   \begin{equation*}
     \limsup_{u \to \infty} {\var(\mathcal E_u) \over [\P(|V| > u)]^2} < \infty
   \end{equation*}
@@ -1352,7 +1386,7 @@ That is,
     \right) < \infty
   \end{equation}
   \begin{case}
-    $-\xi$ satisfies the assumption of Remark \ref{remark:1} and
+    $-\xi$ satisfies the assumption of Lemma \ref{lemma:2} and
     $\lambda(-\xi) b_{-\xi} < 1$
   \end{case}
   By assumption $\lambda(-\xi) \leq E\|A\|^{-\xi} < \infty$, so
@@ -1484,10 +1518,10 @@ That is,
     {c \over \lambda(-\xi)^m}
     b_{-\xi}^{n+m} \nonumber 
   \end{eqnarray}
-  where the last line follows from Remark \ref{remark:1} with
+  where the last line follows from Lemma \ref{lemma:2} with
   $\varphi = -\xi$.
-  Now we turn to the 2nd factor of \eqref{eq:hyyu}. Using Remark
-  \ref{remark:1} with $\varphi = -\xi$, we have
+  Now we turn to the 2nd factor of \eqref{eq:hyyu}. Using Lemma
+  \ref{lemma:2} with $\varphi = -\xi$, we have
   \begin{eqnarray}
     &&
     \E_{X_0}^{-\xi} \left(
@@ -1562,18 +1596,20 @@ That is,
     \|\Pi_{n, 1}\|^{-1} \1{K_1 > n}
     &\leq& |V_n|^{-1} \1{K_1 > n}
     \left(
-      |B_0| + \sum_{i=1}^n {
+      |B| + \sum_{i=1}^n {
         \|\Pi_{n, i+1}\|
         \over
         \|\Pi_{n, 1}\|
       } |B|
     \right)
   \end{eqnarray*}
-  
+  Since $|V_n| > M$ when $K_1 > n$, we have
   \begin{eqnarray*}
-    &\leq& {1 \over M}
+    \|\Pi_{n, 1}\|^{-1} \1{K_1 > n}
+    &\leq&
+    {1 \over M}
     \left(
-      |B_0| + \sum_{i=1}^n {
+      |B| + \sum_{i=1}^n {
         \|\Pi_{n, i+1}\|
         \over
         \|\Pi_{n, 1}\|
@@ -1692,7 +1728,7 @@ That is,
     &\leq&
     \sum_{l=2}^\infty l^{2r} \P(K_1 > l-1)
   \end{eqnarray*}
-  Applying Remark \ref{remark:1} with $\beta = 0$ gives $\P(K_1 >
+  Applying Lemma \ref{lemma:2} with $\beta = 0$ gives $\P(K_1 >
   l-1) \leq a [\delta \lambda(\alpha)]^{l-2}$ for some $a > 0$ and
   all $\delta > 1$ such that $\delta \lambda(\alpha) < 1$. So we
   have
@@ -1813,7 +1849,7 @@ That is,
     \sum_{n=0}^\infty \bar \lambda_{k}(-s\xi)^{n/s}
     [\P_{-s\xi}(n \leq \bar T_u < \bar K_1)]^{1/s}
   \end{eqnarray*}
-  Applying Remark \ref{remark:1} with $\beta = -s\xi$ gives
+  Applying Lemma \ref{lemma:2} with $\beta = -s\xi$ gives
   \begin{eqnarray*}
     \P_{-s\xi}(\bar K_1 > n) \leq a [\delta \bar \lambda_{k, -s\xi}(\alpha)]^{n-1}
   \end{eqnarray*}
