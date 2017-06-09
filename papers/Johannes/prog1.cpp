@@ -30,6 +30,7 @@ public:
     virtual mat M(unsigned s, unsigned n_rows, unsigned n_cols);
     virtual mat K(unsigned s1, unsigned s2, unsigned n_rows, unsigned n_cols);
     virtual mat C(unsigned s);
+    virtual mat P(unsigned s1, unsigned s2);
     virtual mat& sim_X(mat &X);
 };
 
@@ -72,6 +73,18 @@ mat Lindep::K(unsigned s1, unsigned s2, unsigned n_rows, unsigned n_cols)
 mat Lindep::C(unsigned s)
 {
     return X->submat(0, 0, X->n_rows - 1, X->n_cols - s - 1) * X->submat(0, s, X->n_rows - 1, X->n_cols - 1).t();
+}
+
+mat Lindep::P(unsigned s1, unsigned s2)
+{
+    mat T = C(s1);
+    T *= T.t();
+    for (unsigned s = s1 + 1; s <= s2; s++) {
+	mat m = C(s);
+	m *= m.t();
+	T += m;
+    }
+    return T;
 }
 
 mat& Lindep::sim_X(mat &X)
@@ -121,6 +134,7 @@ void case_iid(void)
 {
     mat h({1});
     
+// The C matrices
 #pragma omp parallel for
     for (unsigned n = 1000; n < 40000; n+=1000) {
 	Lindep lindep(h);
@@ -131,26 +145,24 @@ void case_iid(void)
 
 	// cout << "matrix X" <<endl;
 	// X.submat(0, 0, 9, 12).print();
+	unsigned s2 = 5;
 
 	mat C0 = lindep.C(0);
 	mat T = C0;
 
-	unsigned s2 = 5;
+	mat P = lindep.P(0, s2);
+	mat P00 = lindep.P(0, 0);
+
 	for (unsigned s = 1; s <= s2; s++) {
 	    T += lindep.C(s);
 	}
-	double a_np = gsl_cdf_tdist_Pinv(
-	    1 - 1/(double)(X.n_cols * X.n_rows),
-	    lindep.alpha);
-	double y = norm(T - C0)/a_np/a_np;
-	// cout << "matrix T" << endl;
-	// T.print();
-
-	// cout << "matrix C0" << endl;
-	// C0.print();
-
+	// double a_np = gsl_cdf_tdist_Pinv(
+	//     1 - 1/(double)(X.n_cols * X.n_rows),
+	//     lindep.alpha);
+	double yC = norm(T - C0)/norm(C0);
+	double yP = norm(P - P00)/norm(P00);
 #pragma omp critical
-	printf("%5u\t%e\n", n, y);
+	printf("%5u\t%e\n", n, yC, yP);
     }
 }
 
