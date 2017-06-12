@@ -97,7 +97,7 @@
 % every slide, the full title is only
 % on the title page
 
-\author{Xie Xiaolei} % Your name
+\author{Thomas Mikosch, Casper de Vries, Xie Xiaolei} % Your name
 \institute[UCPH] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
 {
 University of Copenhagen \\ % Your institution for the title page
@@ -127,7 +127,7 @@ University of Copenhagen \\ % Your institution for the title page
   \textcolor[HTML]{990033}{\bf We know}
 
   If assumed stationary, equity return series are often seen to be
-  heavy-tailed -- a stylized fact of economitrics.
+  heavy-tailed -- a stylized fact of econometrics.
   
   \textcolor[HTML]{990033}{\bf But}
   \begin{itemize}
@@ -135,14 +135,15 @@ University of Copenhagen \\ % Your institution for the title page
       are they actually the same?
     \item Are tail parameters of different equity return series in the same
       market related to each other?
-    \item How are investors' preferences affected by tail parameters?
+    \item How are investors' preferences over an equity affected by
+      tail parameters?
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Motivation}
   \begin{itemize}
-  \item Curiocity and ...
+  \item Curiosity
     \item Many multivariate GARCH processes have a stationary
       distribution with power-law tails:
       \begin{enumerate}
@@ -160,8 +161,74 @@ University of Copenhagen \\ % Your institution for the title page
   \end{itemize}
 \end{frame}
 
+
 \begin{frame}
-  \frametitle{Heavy-tailedness of Equity Returns}
+  \frametitle{CCC-GARCH, Kesten's theorem \& power-law tail}
+  A 2D CCC-GARCH model reads
+  \begin{eqnarray*}
+    \begin{pmatrix}
+      \sigma_{1, t}^2 \\
+      \sigma_{2, t}^2
+    \end{pmatrix}
+    &=&
+    \begin{pmatrix}
+      \alpha_{1, 1} & \alpha_{1, 2} \\
+      \alpha_{2, 1} & \alpha_{2, 2} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+      X_{1, t-1}^2 \\
+      X_{2, t-1}^2
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+      \beta_{1, 1} & \beta_{1, 2} \\
+      \beta_{2, 1} & \beta_{2, 2} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+      \sigma_{1,t-1}^2 \\
+      \sigma_{2,t-1}^2 \\
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+      \omega_1 \\
+      \omega_2
+    \end{pmatrix} \\
+    &=&
+    \underbrace{
+      \begin{pmatrix}
+        \alpha_{1,1} Z_{1,t-1}^2 + \beta_{1,1} & \alpha_{1,2} Z_{2,t-1}^2 + \beta_{1,2} \\
+        \alpha_{2,1} Z_{1,t-1}^2 + \beta_{2,1} & \alpha_{2,2} Z_{2,t-1}^2 + \beta_{2,2}
+      \end{pmatrix}
+    }_{A_t}
+    \underbrace{
+      \begin{pmatrix}
+        \sigma_{1,t-1}^2 \\
+        \sigma_{2,t-1}^2
+      \end{pmatrix}
+    }_{Y_{t-1}}
+    +
+    \underbrace{
+      \begin{pmatrix}
+        \omega_1 \\
+        \omega_2
+      \end{pmatrix}
+    }_{B}
+  \end{eqnarray*}
+  where $X_{1, t}, X_{2, t}$ are return series, whose conditional
+  variances are $\sigma_{1, t}^2, \sigma_{2, t}^2$.
+  When $\forall i,j, \alpha_{i, j} > 0, \beta_{i,j} > 0$ and certain
+  conditions are satisfied, Kesten's theory \cite{kesten:1973} gives
+  \[
+  \lim_{u \to \infty} u^{\alpha}
+  \P(\inn{\vec v, Y} > u) = e_\alpha(\vec v)
+  \]
+  where $e_\alpha(\cdot): \sphere^{1} \to \reals_+$.
+  {\bf Each component of $Y_t$ shares the same tail index $\alpha$}.
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Heavy-tailedness of equity returns}
   \begin{minipage}[t]{0.5\linewidth}
     \begin{figure}[htb!]
       \begin{minipage}{1.0\linewidth}
@@ -185,7 +252,7 @@ University of Copenhagen \\ % Your institution for the title page
     \end{figure}
   \end{minipage}\hfill
   \begin{minipage}[t]{0.5\linewidth}
-    \underline{Interesting Observations}
+    \textcolor[HTML]{990033}{\bf Interesting observations}
     \begin{itemize}
       \item Hill estimates of equity tail indices are often found
         between 2.5 $\sim$ 4.5
@@ -220,9 +287,9 @@ University of Copenhagen \\ % Your institution for the title page
   \cite{hoga:2016} proposed a test for the hypothesis $H_0$:
   $1 < \exists k < n$ such that
   \begin{itemize}
-    \item $F_i^{-1}(1 - p) = F_j^{-1}(1 - p)$, for all $1 < i < j < k$
+    \item $F_i^{-1}(1 - p) = F_j^{-1}(1 - p)$, for all $1 \leq i < j < k$
     \item $F_{k-1}^{-1}(1 - p) \neq F_k^{-1}(1 - p)$ and
-      $F_i^{-1}(1-p) = F_k(1-p)$ for all $i \geq k$.
+      $F_i^{-1}(1-p) = F_k^{-1}(1-p)$ for all $i \geq k$.
   \end{itemize}
   The test statistic is
   \begin{tiny}
@@ -244,7 +311,7 @@ University of Copenhagen \\ % Your institution for the title page
   \]
   \end{tiny}
   The {\bf asymptotic distribution of $T_n$ under $H_0$ is not
-    available} expilicitly, but given as the distribution of a
+    available} explicitly, but given as the distribution of a
   function of a standard Brownian motion. We compute it by simulation.
 \end{frame}
 
@@ -315,26 +382,26 @@ University of Copenhagen \\ % Your institution for the title page
 \begin{frame}
   \frametitle{The scale parameter}
   Assume the equity return $X_t$ is stationary and follows Pareto
-  distribution when $X < 0$:
+  distribution when $X < -K$:
   \[
   \P(X_t < -x) = {
     K^\alpha
     \over
     x^\alpha
-  }, \quad x > 0
+  }, \quad x > K
   \]
-  Hill's \cite{hill1975simple} maximum liklihood estimator for $K$ is
+  Hill's \cite{hill1975simple} maximum likelihood estimator for $K$ is
   \[
   \hat K_k = \left(
   {k \over n}
-  \right)^{1/\hat \alpha_k} X_{(n - k)}
+  \right)^{1/\hat \alpha_k} X_{(k)}
   \]
   where
   \begin{itemize}
   \item $n$ is the sample size
   \item $\hat \alpha_k$ is Hill's estimator of the tail index of $k$
     upper order statistics.
-  \item $X_{(n - k)}$ is the $(n-k)$-th upper order statistic in the sample
+  \item $X_{(k)}$ is the $k$-th upper order statistic in the sample
   \end{itemize}
   By asymptotic normality of upper order statistics,
   \[
@@ -343,7 +410,14 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{Hill estimates of the scale parameter for S\&P 500 sectors}
+  \frametitle{Hill estimates of the scale parameter for S\&P 500
+    sectors}
+  {\scriptsize
+  S\&P 500: Standard \& Poor's stock index. A weighted average of
+  prices of 500 or so stocks listed on NYSE and NASDAQ. Stocks are
+  grouped into 10 sectors. The \textcolor[HTML]{990033}{\bf Energy,
+    Consumer Staples, IT} sectors are shown here.}
+  \begin{minipage}{0.65\linewidth}
   \begin{figure}[htb!]
     \centering
     \begin{minipage}{0.33\linewidth}
@@ -358,62 +432,93 @@ University of Copenhagen \\ % Your institution for the title page
       \includegraphics[width=\textwidth]
                       {IT_K.pdf}
     \end{minipage}
-    \caption{\scriptsize Estimates of $\hat K_k$ (top) on
-      $\log_{10}$-scale. The bars are the asymptotic 95\%-confidence
-      intervals.
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {Energy_scale.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {CS_scale.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {IT_scale.pdf}
+  \end{minipage}
+    \caption{\scriptsize Estimates of $\hat K_k$ (top) and
+      $\hat K_k^{\hat \alpha}$ (bottom) on $\log_{10}$-scale.
+      The bars are the asymptotic 95\%-confidence intervals.
     }
     \label{fig:sectors_parameters}
   \end{figure}
-    \begin{itemize}
-    \item Estimated tail indices ($\hat \alpha$) and scale parameters
-      $\hat K$ are positively correlated.
-    \item The positive correlation is stronger for energy stocks and
-      IT stocks than for consumer staples' stocks.
-  \end{itemize}
+  \end{minipage}\hfill
+  \begin{minipage}{0.35\linewidth}
+    \begin{footnotesize}
+      \begin{itemize}
+      \item Estimated tail indices ($\hat \alpha$) and scale parameters
+        $\hat K$ are positively dependent.
+      \item The positive dependence is stronger for energy and IT stocks
+        than for consumer staple's stocks.
+      \item The scale $\hat K^{\hat \alpha}$ varies much more across different
+        equities than does the tail index $\alpha$.
+      \end{itemize}
+    \end{footnotesize}
+  \end{minipage}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Our model of equity returns and rational investors}
-  \begin{itemize}
-    \item An investor may invest in
-      \begin{enumerate}
-      \item A riskless bond that pays $e^r$€ annually for each € invested;
-      \item A risky equity that pays $e^X$€ annually for each € invested.
-      \item $X$ has Pareto tails
-        \[
-        F_X(x) = \left\{
-        \begin{array}{ll}
-          p \left(
+  \frametitle{Model of the market \& equity returns}
+  \textcolor[HTML]{990033}{\bf The toy market consists of}
+  \begin{enumerate}
+  \item A riskless bond that pays $e^r$€ annually for each € invested;
+  \item A risky equity that pays $e^X$€ annually for each € invested.
+    $X$ has Pareto tails
+    \[
+    F_X(x) = \left\{
+      \begin{array}{ll}
+        p \left(
           {K \over K - x}
-          \right)^\alpha & x \leq 0 \,,\\
-          1 - (1 - p) \left(
+        \right)^\alpha & x \leq 0 \,,\\
+        1 - (1 - p) \left(
           {K' \over K' + x}
-          \right)^\beta & x > 0\,,
-        \end{array}
-        \right.
-        \]
-      \end{enumerate}
-    \item  The investor's utility function of consumption is
-      $u(C) = -C^{-\xi}/\xi, \quad \xi > 0$.
-      \item The investor's preference over an equity that gives annual return $X$
-        is given by {\em Generalized Disappointment Aversion}:
-        \[
-        \tilde u (F_X, \phi) = \E u(C) - b \E [u(v) - u(C); C < v]
-        \]
-        where
-        \begin{itemize}
-          \item $\phi$ is the portion of the investor's asset allocated
-            to the equity
-          \item $v$ is the level of consumption below which
-            the investor will be disappointed
-          \item $b$ captures how disappointed the investor will be in case his consumption
-            falls below $v$.
-        \end{itemize}
-  \end{itemize}
+        \right)^\beta & x > 0\,,
+      \end{array}
+    \right.
+    \]
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Conclusion: when $\alpha$ and  $\beta$ are independent}
+  \frametitle{Model of the investor}
+  \begin{enumerate}
+  \item He has 1 unit of currency for investment
+  \item His happiness is proportional to a utility function $u(C)$:
+    \begin{eqnarray*}
+      C &=& (1 - \phi)e^r + \phi e^X \\
+      u(C) &=& -C^{-\xi}/\xi, \quad \xi > 0 
+    \end{eqnarray*}
+    where
+    \begin{itemize}
+    \item $C$ is his monetary amount of consumption
+    \item $\phi$ is the portion of his asset allocated to the equity
+    \end{itemize}
+
+  \item His preference over the equity is given by {\em
+      Generalized Disappointment Aversion}:
+    \[
+    \tilde u (F_X, \phi) = \E u(C) - b \E [u(v) - u(C); C < v]
+    \]
+    where
+    \begin{itemize}
+    \item $v$ is the level of consumption below which
+      the investor will be disappointed
+    \item $b$ captures how disappointed the investor will be in case his consumption
+      falls below $v$.
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Analytic results: when $\alpha$ and  $\beta$ are independent}
   \begin{minipage}[t]{0.5\linewidth}
     \begin{figure}[htb!]
       \includegraphics[width=\textwidth]{preference_pareto5e-1_A.pdf}
@@ -431,45 +536,89 @@ University of Copenhagen \\ % Your institution for the title page
         decreases with $K$.
       \item Moving along a curve of equal preference, if $\alpha$
         increases then $K$ also increases.
-      \item At market equillibrium, all actively traded stocks should
+      \item At market equilibrium, all actively traded stocks should
         have nearly the same investor preference -- $\alpha$ and
-        $K$ values are expected to have positive correlation.
+        $K$ values are expected to have positive dependence.
+        % -- \textcolor[HTML]{990033}{\bf consistent with empirical results
+        %   shown in figure \ref{fig:sectors_parameters}}.
+        -- {\bf consistent with empirical results shown in figure
+          \ref{fig:sectors_parameters}}.
       \end{itemize}
     \end{small}
   \end{minipage}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Conclusion: when $\alpha = \beta$}
-  \begin{minipage}[t]{0.6\linewidth}
-    \begin{figure}[htb!]
-        \includegraphics[width=0.5\textwidth]{phi_hat_pareto5e-1.pdf}    
-        \includegraphics[width=0.5\textwidth]{preference_pareto5e-1.pdf}
-    \end{figure}
-    \begin{scriptsize}
-    Left: $\hat \phi$: optimal portion of allocation to the equity.
-
-    Right: $\tilde u_{\rm max}(\alpha, K)$: Investor preference  with
-    optimal equity allocation.
-    \end{scriptsize}
-  \end{minipage}\hfill
+  \frametitle{Analytic results: when $\alpha = \beta$}
   \begin{minipage}[t]{0.4\linewidth}
-    \begin{scriptsize}
+    \begin{figure}[htb!]
+      \begin{minipage}{\linewidth}
+        \includegraphics[width=1.0\textwidth, trim={0, 0, 0, 2cm}, clip]{phi_hat_pareto5e-1.pdf}    
+      \end{minipage}\hfill
+      \begin{minipage}{\linewidth}
+        \includegraphics[width=1.0\textwidth, trim={0, 0, 0, 2cm}, clip]{preference_pareto5e-1.pdf}        
+      \end{minipage}
+    \end{figure}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.6\linewidth}
+    \begin{small}
+      \textcolor[HTML]{990033}{\bf What's on the left?}
+      \begin{itemize}
+      \item Top: $\hat \phi(\alpha, K) = \argmax_{\phi} \tilde u(\alpha, K, \phi)$:
+        optimal portion of allocation to the equity.
+      \item Bottom: $\tilde u_{\rm max}(\alpha, K) = \max_{\phi} \tilde
+        u(\alpha, K, \phi)$:
+        Investor preference with optimal equity allocation.
+      \item utility function $u(x) = -\frac{2}{\sqrt x}$
+      \end{itemize}
+      
       \textcolor[HTML]{990033}{\bf What I see from the plots}
-    \begin{itemize}
-    \item $\hat \phi$ is not monotone w.r.t. $\alpha$ or $K$.
-    \item For a fixed $K$, $\hat \phi$ is decreasing with $\alpha$
-      when $\alpha$ is in the range 2.5 $\sim$ 4.5, typical for real
-      equity return series.
+      \begin{itemize}
+      \item $\hat \phi$ is not monotone w.r.t. $\alpha$ or $K$.
+      \item For a fixed $K$, $\hat \phi$ is decreasing with $\alpha$
+        when $\alpha$ is in the range 2.5 $\sim$ 4.5, typical for real
+        equity return series.
       \item $\tilde u_{\rm max}(\alpha, K)$ decreases with $\alpha$ 
         but is rather insensitive to $K$.
-    \end{itemize}
-    \end{scriptsize}
-    \end{minipage}
+      \end{itemize}
+    \end{small}
+  \end{minipage}
 \end{frame}
 
 \begin{frame}
-  \frametitle{What if equity returns have t-distribution?}
+  \frametitle{When equity returns have t-distribution \& $b = 0$}
+  The GDA preference reduces to {\em expected utility}. A few cases
+  arise depending on
+  \[
+  a = {
+    (1 - \phi) e^r
+    \over
+    \phi
+  }, \quad
+  y_\pm = {
+    a^2 - \xi \pm \sqrt{(a^2 - 1) (a^2 - \xi^2)}
+    \over
+    a (\xi - 1)
+  }
+  \]
+\begin{enumerate}
+\item If $\max\{a, 1\} < \xi$, $\tilde u_{\rm max}$ is
+  monotone increasing with $\alpha$.
+\item If $a < \xi < 1$ and $(a + y_-)/(a y_- + 1) <
+  y_-^{(1-\xi)/(1+\xi)}$, $\tilde u_{\rm max}$ is monotone
+  increasing with $\alpha$.
+\item If $\xi < a < 1$, $\tilde u_{\rm max}$ is monotone
+  decreasing with $\alpha$.
+\item If $1 < \xi < a$ and $(a + y_+)/(a y_+ + 1) >
+  y_+^{(1-\xi)/(1+\xi)}$, $\tilde u_{\rm max}$ is monotone
+  decreasing with $\alpha$.
+\item In other case, $\tilde u_{\rm max}$ is not monotone
+  w.r.t. $\alpha$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{When equity returns have t-distribution \& $b > 0$}
   \begin{minipage}[t]{0.5\linewidth}
     \begin{figure}[htb!]
       \begin{minipage}{0.5\linewidth}
@@ -504,109 +653,124 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{Main ingredients of the derivation}
-  \begin{lemma} \label{lemma:I}
-    \begin{scriptsize}
-      Assume distribution function $F(x, \theta)$ parameterized by 
-      $\theta \in \Theta \subseteq \mathbb R$ has support
-      $(a, b) \subseteq \mathbb R$,
-      and in addition $F(x, \theta)$ has density
-      function $f(x, \theta)$ that is differentiable with respect to
-      $\theta$ for all $\theta \in \Theta$.
-      Let $X \sim F$ and assume function $h(\cdot)$ is defined on $(a, b)$
-      and is monotone throughout this interval.
-      Moreover, we assume $h(x)$ and $f(x, \theta)$ satisfy
-      \begin{equation}\label{eq:frt}
-        %    \E |h(X)| < \infty, \quad
-        \int_a^b \left| {\partial f(x, \theta) \over \partial \theta} \right| dx
-        < \infty \text { and }
-        \int_a^b \left| h(x) {\partial f(x, \theta) \over \partial \theta} \right| dx
-        < \infty
-      \end{equation}
-      Then the following holds true:
-      \begin{enumerate}
-      \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
-        $\frac{\partial f}{\partial \theta}(x, \theta) > 0$ for $x \in (a, x_0)$ while
-        $\frac{\partial f}{\partial \theta}(x, \theta) < 0$ for $x \in (x_0, b)$, then
-        \[
-        \frac{\partial \E h(X)}{\partial \theta} > 0
-        \]
-      \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
-        $\frac{\partial f}{\partial \theta}(x, \theta) < 0$ for $x \in (a, x_0)$  while
-        $\frac{\partial f}{\partial \theta}(x, \theta) > 0$ for $x \in (x_0, b)$, then
-        \[
-        \frac{\partial \E h(X)}{\partial \theta} > 0
-        \]
-      \end{enumerate}
-    \end{scriptsize}
-  \end{lemma}
+  \frametitle{Summary}
+  \begin{itemize}
+  \item The tail index varies to different extent in different
+    sectors/markets.
+  \item The scale parameter is positively dependent on the tail index.
+  \item The scale $K^{\alpha}$ varies much more across different
+    equities than does the tail index $\alpha$.
+  \item An investor's preference over $\alpha$ is dependent on the
+    riskless rate of return, his own utility function and how
+    disappointed he will be if his investment falls below
+    expectation.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Proof}
-  \begin{scriptsize}
-    We prove it in the first case. The other case is similar.
-    By dominated convergence theorem, conditions \eqref{eq:frt}
-    imply, for all $S \subseteq (a, b)$,
-    \begin{eqnarray*}
-      {\partial \over \partial \theta}\int_S f(x, \theta) dx
-      &=&
-      \int_S {\partial \over \partial \theta} f(x, \theta) dx \\
-          {\partial \over \partial \theta}\int_S h(x) f(x, \theta) dx
-          &=&
-          \int_S h(x) {\partial \over \partial \theta} f(x, \theta) dx \\
-    \end{eqnarray*}
-    Thus we have
-    \begin{eqnarray*}
-      {\partial \E h(X) \over \partial \theta}
-      &=&
-      {\partial \over \partial \theta}
-      \int_a^b h(x)
-      f(x, \theta) dx \\
-      &=& \int_a^b h(x)
-      {\partial f \over \partial \theta}(x, \theta) dx \\
-      &=& \underbrace{\int_a^{x_0}
-        h(x) {\partial f \over \partial \theta}(x, \theta) dx}_{I_1}
-      + \underbrace{\int_{x_0}^b
-        h(x) {\partial f \over \partial \theta}(x,
-        \theta) dx}_{I_2}
-    \end{eqnarray*}
-  \end{scriptsize}
-\end{frame}
+% \begin{frame}
+%   \frametitle{Main ingredients of the derivation}
+%   \begin{lemma} \label{lemma:I}
+%     \begin{scriptsize}
+%       Assume distribution function $F(x, \theta)$ parameterized by 
+%       $\theta \in \Theta \subseteq \mathbb R$ has support
+%       $(a, b) \subseteq \mathbb R$,
+%       and in addition $F(x, \theta)$ has density
+%       function $f(x, \theta)$ that is differentiable with respect to
+%       $\theta$ for all $\theta \in \Theta$.
+%       Let $X \sim F$ and assume function $h(\cdot)$ is defined on $(a, b)$
+%       and is monotone throughout this interval.
+%       Moreover, we assume $h(x)$ and $f(x, \theta)$ satisfy
+%       \begin{equation}\label{eq:frt}
+%         %    \E |h(X)| < \infty, \quad
+%         \int_a^b \left| {\partial f(x, \theta) \over \partial \theta} \right| dx
+%         < \infty \text { and }
+%         \int_a^b \left| h(x) {\partial f(x, \theta) \over \partial \theta} \right| dx
+%         < \infty
+%       \end{equation}
+%       Then the following holds true:
+%       \begin{enumerate}
+%       \item If $h(\cdot)$ is decreasing and $\exists x_0 \in (a, b)$ such that
+%         $\frac{\partial f}{\partial \theta}(x, \theta) > 0$ for $x \in (a, x_0)$ while
+%         $\frac{\partial f}{\partial \theta}(x, \theta) < 0$ for $x \in (x_0, b)$, then
+%         \[
+%         \frac{\partial \E h(X)}{\partial \theta} > 0
+%         \]
+%       \item If $h(\cdot)$ is increasing and $\exists x_0 \in (a, b)$ such that 
+%         $\frac{\partial f}{\partial \theta}(x, \theta) < 0$ for $x \in (a, x_0)$  while
+%         $\frac{\partial f}{\partial \theta}(x, \theta) > 0$ for $x \in (x_0, b)$, then
+%         \[
+%         \frac{\partial \E h(X)}{\partial \theta} > 0
+%         \]
+%       \end{enumerate}
+%     \end{scriptsize}
+%   \end{lemma}
+% \end{frame}
 
-\begin{frame}
-  \frametitle{Proof cont'd}
-  \begin{scriptsize}
-    $x_0$ being located in the interior of $(a, b)$ and
-    $h(\cdot)$ being monotone imply $h(x_0) < \infty$.
-    When $h(x)$ is decreasing on $(a, b)$ and
-    ${\partial f \over \partial \theta}(x, \theta) > 0$ on $(a, x_0)$
-    \[
-    I_1 > h(x_0) \int_a^{x_0}
-    {\partial f \over \partial \theta}(x, \theta) dx
-    \]
-    Similarly, because
-    ${\partial f \over \partial \theta}(x, \theta) < 0$ for
-    $x \in (x_0, b)$ and $h(x)$ is decreasing, we have
-    \begin{eqnarray*}
-      I_2 &=& \int_{x_0}^b -h(x_0)
-      \left|{\partial f \over \partial \theta}(x, \theta) \right| dx
-      > -h(x_0)
-      \int_{x_0}^b \left| 
-          {\partial f \over \partial \theta}(x, \theta)
-          \right| dx
-    \end{eqnarray*}
-    Finally we have
-    \begin{eqnarray*}
-      {\partial \E h(X) \over \partial \theta}
-      > h(x_0) \int_a^b
-      {\partial f \over \partial \theta}(x, \theta) dx
-      = h(x_0) {\partial \over \partial \theta}
-      \int_a^b f(x, \theta) dx
-      = 0
-    \end{eqnarray*}
-  \end{scriptsize}
-\end{frame}
+% \begin{frame}
+%   \frametitle{Proof}
+%   \begin{scriptsize}
+%     We prove it in the first case. The other case is similar.
+%     By dominated convergence theorem, conditions \eqref{eq:frt}
+%     imply, for all $S \subseteq (a, b)$,
+%     \begin{eqnarray*}
+%       {\partial \over \partial \theta}\int_S f(x, \theta) dx
+%       &=&
+%       \int_S {\partial \over \partial \theta} f(x, \theta) dx \\
+%           {\partial \over \partial \theta}\int_S h(x) f(x, \theta) dx
+%           &=&
+%           \int_S h(x) {\partial \over \partial \theta} f(x, \theta) dx \\
+%     \end{eqnarray*}
+%     Thus we have
+%     \begin{eqnarray*}
+%       {\partial \E h(X) \over \partial \theta}
+%       &=&
+%       {\partial \over \partial \theta}
+%       \int_a^b h(x)
+%       f(x, \theta) dx \\
+%       &=& \int_a^b h(x)
+%       {\partial f \over \partial \theta}(x, \theta) dx \\
+%       &=& \underbrace{\int_a^{x_0}
+%         h(x) {\partial f \over \partial \theta}(x, \theta) dx}_{I_1}
+%       + \underbrace{\int_{x_0}^b
+%         h(x) {\partial f \over \partial \theta}(x,
+%         \theta) dx}_{I_2}
+%     \end{eqnarray*}
+%   \end{scriptsize}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Proof cont'd}
+%   \begin{scriptsize}
+%     $x_0$ being located in the interior of $(a, b)$ and
+%     $h(\cdot)$ being monotone imply $h(x_0) < \infty$.
+%     When $h(x)$ is decreasing on $(a, b)$ and
+%     ${\partial f \over \partial \theta}(x, \theta) > 0$ on $(a, x_0)$
+%     \[
+%     I_1 > h(x_0) \int_a^{x_0}
+%     {\partial f \over \partial \theta}(x, \theta) dx
+%     \]
+%     Similarly, because
+%     ${\partial f \over \partial \theta}(x, \theta) < 0$ for
+%     $x \in (x_0, b)$ and $h(x)$ is decreasing, we have
+%     \begin{eqnarray*}
+%       I_2 &=& \int_{x_0}^b -h(x_0)
+%       \left|{\partial f \over \partial \theta}(x, \theta) \right| dx
+%       > -h(x_0)
+%       \int_{x_0}^b \left| 
+%           {\partial f \over \partial \theta}(x, \theta)
+%           \right| dx
+%     \end{eqnarray*}
+%     Finally we have
+%     \begin{eqnarray*}
+%       {\partial \E h(X) \over \partial \theta}
+%       > h(x_0) \int_a^b
+%       {\partial f \over \partial \theta}(x, \theta) dx
+%       = h(x_0) {\partial \over \partial \theta}
+%       \int_a^b f(x, \theta) dx
+%       = 0
+%     \end{eqnarray*}
+%   \end{scriptsize}
+% \end{frame}
 
 \begin{frame}
    \frametitle{Thank you!}
