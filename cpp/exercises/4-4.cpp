@@ -25,44 +25,34 @@ int main(void)
 		 i.number = gen();
 		 i.color = gen() % 3;
 	     });
+    V.sort([](item &a, item &b) {
+	    return a.number < b.number;
+	});
     for_each(V.begin(), V.end(),
     	     [](item &i) {
     		 cout << "(" << i.number << ", " << i.color << ")" << endl;
     	     });
-    V.sort([](item &a, item &b) {
-	    return a.number < b.number;
-	});
-    // sort(V.begin(), V.end(),
-    // 	 [](item &a, item &b) {
-    // 	     return a.number < b.number;
-    // 	 });
     auto iter = V.begin();
     auto pos = V.begin();
     unsigned color = 0;
     do {
 	auto i =
 	    find_if(iter, V.end(),
-		    [=](item &i) {
-			return i.color == color;
+		    [=](item &k) {
+			return k.color == color;
 		    });
-	if (i != V.end()) {
+	if (i == pos) {
+	    iter = pos = next(pos);
+	} else if (i != V.end()) {
 	    item c = *i;
 	    iter = V.erase(i);
-	    pos = V.insert(pos, c);
-	    pos = next(pos);
+	    pos = next(V.insert(pos, c));
 	} else {
 	    if (++color == 2) break;
 	    iter = pos;
 	}
     } while (1);
-    // auto k = partition(V.begin(), V.end(),
-    // 		       [](item &i) {
-    // 			   return i.color == red;
-    // 		       });
-    // partition(k, V.end(),
-    // 	      [](item &i) {
-    // 		  return i.color == blue;
-    // 	      });
+    cout << endl;
     for_each(V.begin(), V.end(),
 	     [](item &i) {
 		 cout << "(" << i.number << ", " << i.color << ")" << endl;
