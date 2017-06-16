@@ -70,8 +70,9 @@ void find_didntpay(const myset &bills,
 		   myset &didntpay) 
 {
     vector<bill> U(bills.size());
-    auto i = unique_copy(bills.begin(), bills.end(), U.begin(), bill::equal_name());
-    U.resize(U.end() - i);
+    auto i = unique_copy(bills.begin(), bills.end(),
+			 U.begin(), bill::equal_name());
+    U.resize(i - U.begin());
     for (auto i = U.begin(); i != U.end(); i = next(i)) {
 	unsigned b = bills.count(*i);
 	unsigned c = checks.count(*i);
@@ -86,7 +87,9 @@ void find_didntpay(const myset &bills,
 	    	sort(VB.begin(), VB.end(), bill::smaller_id);
 	    	sort(VC.begin(), VC.end(), bill::smaller_id);
 	    	vector<bill> V(b - c);
-	    	set_difference(VC.begin(), VC.end(), VB.begin(), VB.end(), V.begin(), bill::smaller_id);
+	    	set_difference(VB.begin(), VB.end(),
+			       VC.begin(), VC.end(),
+			       V.begin(), bill::smaller_id);
 	    	didntpay.insert(V.begin(), V.end());
 	    }
 	}
@@ -111,6 +114,8 @@ int main(void)
     find_didntpay(bills, checks, didntpay);
     for_each(didntpay.begin(), didntpay.end(),
     	     [](const bill &b) {
-    		 cout << b.name << "did't pay his bill No." << b.id << endl;
+    		 cout << b.name
+		      << " did't pay his bill No."
+		      << b.id << endl;
     	     });
 }

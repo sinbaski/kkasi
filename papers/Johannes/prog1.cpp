@@ -28,7 +28,8 @@ public:
     mat &set_X(mat *X);
     virtual mat H(unsigned s, unsigned n_rows, unsigned n_cols);
     virtual mat M(unsigned s, unsigned n_rows, unsigned n_cols);
-    virtual mat K(unsigned s1, unsigned s2, unsigned n_rows, unsigned n_cols);
+    virtual mat K(unsigned s1, unsigned s2, unsigned n_rows,
+		  unsigned n_cols);
     virtual mat C(unsigned s);
     virtual mat P(unsigned s1, unsigned s2);
     virtual mat& sim_X(mat &X);
@@ -48,7 +49,8 @@ mat Lindep::H(unsigned s, unsigned n_rows, unsigned n_cols)
     for (unsigned i = 0; i < h.n_rows; i++) {
 	double *p = g.colptr(i);
 	double *q = T.colptr(i);
-    	copy(p + s, h.n_cols - s < T.n_cols ? p + h.n_cols : p + s + T.n_cols, q);
+    	copy(p + s, h.n_cols - s < T.n_cols ? p + h.n_cols :
+	     p + s + T.n_cols, q);
     }
     return T.t();
 }
@@ -118,7 +120,8 @@ mat& Lindep::sim_X(mat &X)
     for (unsigned i = 0; i < p; i++) {
 #pragma omp parallel for
 	for (unsigned j = 0; j < n; j++) {
-	    X(i, j) = sum(sum(Z.submat(i, j, i + h.n_rows - 1, j + h.n_cols - 1) % g));
+	    X(i, j) = sum(sum(Z.submat(i, j, i + h.n_rows - 1,
+				       j + h.n_cols - 1) % g));
 	}
     }
     return X;
