@@ -30,6 +30,13 @@ void merge_them(vector<vector<unsigned>*> &L, vector<unsigned> &V)
     make_heap(L.begin(), L.end(), comp_vec);
     pop_heap(L.begin(), L.end(), comp_vec);
     auto j = prev(L.end());
+    cout << "*j is " << endl;
+    for_each((*j)->begin(), (*j)->end(),
+	     [](unsigned x) {
+		 cout << x << ", ";
+	     });
+    cout << endl;
+
     auto k = V.begin();
     copy((*j)->begin(), (*j)->end(), k);
     k += (*j)->size();
@@ -75,15 +82,20 @@ int main(void)
 	vector<unsigned> *p = new vector<unsigned>(m);
 	generate(p->begin(), p->end(),
 		 [&](void) {
-		     return gen() % 10;
+		     unsigned i = gen() % 10;
+		     cout << i << ", ";
+		     return i;
 		 });
+	cout << endl;
 	n += m;
 	*i = p;
+	sort(p->begin(), p->end());
     }
+    
     vector<unsigned> V(n);
     merge_them(L, V);
     for_each(V.begin(), V.end(),
-	     [](int &x) {
+	     [](unsigned int &x) {
 		 cout << x << ", ";
 	     });
     cout << endl;
