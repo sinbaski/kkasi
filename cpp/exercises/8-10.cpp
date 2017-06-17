@@ -20,6 +20,7 @@ public:
 	S1.insert(first1, last1);
 	S2.insert(first2, last2);
     }
+
     SetPartition(T first1, T last1) {
 	S1.insert(first1, last1);
     }
@@ -43,31 +44,35 @@ public:
     }
 
     void print(void) {
-	cout << "Set 1:" << endl;
+	cout << "(";
 	for_each(S1.begin(), S1.end(),
 		 [](int x) {
 		     cout << x << ", ";
 		 });
-	cout << endl;
+	cout << ")" << " + ";
+	cout << "(";
 	for_each(S2.begin(), S2.end(),
 		 [](int x) {
 		     cout << x << ", ";
 		 });
-	cout << endl;
+	cout << ")" << endl << endl;
     }
 };
 
-bool operator< (SetPartition &P, SetPartition &Q)
+class comp_ppt
 {
-    return
-	lexicographical_compare(
-	    P.get_set(true).begin(),
-	    P.get_set(true).end(),
-	    Q.get_set(true).begin(),
-	    Q.get_set(true).end());
-}
+public:
+    bool operator() (SetPartition *P, SetPartition *Q) {
+	return
+	    lexicographical_compare(
+		P->get_set(true).begin(),
+		P->get_set(true).end(),
+		Q->get_set(true).begin(),
+		Q->get_set(true).end());
+    }
+};
 
-typedef set<SetPartition *> setpar;
+typedef set<SetPartition *, comp_ppt> setpar;
 
 template<class T>
 void find_partitions(T first, T last, setpar &partitions, int diff)
@@ -87,6 +92,11 @@ void find_partitions(T first, T last, setpar &partitions, int diff)
 	    SetPartition *sp =
 		new SetPartition(first, next(first),
 				 next(first), last);
+	    partitions.insert(sp);
+	}
+	if (abs(*first + *next(first)) == diff) {
+	    SetPartition *sp =
+		new SetPartition(first, last);
 	    partitions.insert(sp);
 	}
 	return;
@@ -129,14 +139,37 @@ void find_partitions(T first, T last, setpar &partitions, int diff)
 		     P->get_set(true).insert(z);
 		 });
     }
-    partitions.insert(P1.begin(), P1.end());
-    partitions.insert(P2.begin(), P2.end());
+    for_each(P1.begin(), P1.end(),
+	     [&](SetPartition *sp) {
+		 if (!partitions.insert(sp).second)
+		     delete sp;
+	     });
+    for_each(P2.begin(), P2.end(),
+	     [&](SetPartition *sp) {
+		 if (!partitions.insert(sp).second)
+		     delete sp;
+	     });
+    int s = accumulate(first, prev(last), 0);
+    if (abs(s - *prev(last)) == diff) {
+	SetPartition *sp =
+	    new SetPartition(first, prev(last), prev(last), last);
+	if (!partitions.insert(sp).second)
+	    delete sp;
+    }
+    if (abs(accumulate(first, last, 0)) == diff) {
+	SetPartition *sp =
+	    new SetPartition(first, last);
+	if (!partitions.insert(sp).second)
+	    delete sp;
+    }
+    
 }
 
 int main(int argc, char *argv[])
 {
     // vector<int> numbers(stoi(argv[1]));
-    vector<int> numbers({1, 5, 8, 11, 9});
+    // vector<int> numbers({1, 5, 8, 11, 9});
+    vector<int> numbers({-4, 8, 4, -7, 7, 7, 12, 3});
     setpar partitions;
     srand(stoi(argv[2]));
 
@@ -150,6 +183,10 @@ int main(int argc, char *argv[])
 	     });
     cout << endl;
     find_partitions(numbers.begin(), numbers.end(), partitions, 0);
+    if (partitions.empty()) {
+	cout << "No partition is found." << endl;
+	return 0;
+    }
     auto i = partitions.begin();
     unsigned c = 0;
     while (distance(i, partitions.end()) > 0) {
@@ -157,5 +194,6 @@ int main(int argc, char *argv[])
 	(*i)->print();
 	delete *i;
 	i = next(i);
+	cout << endl;
     }
 }
