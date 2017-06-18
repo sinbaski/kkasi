@@ -74,6 +74,12 @@ public:
 
 typedef set<SetPartition *, comp_ppt> setpar;
 
+void merge_setpar(setpar &S, setpar &P)
+{
+    for ( auto i = P.begin(); i != P.end(); advance(i, 1))
+    		 if (!S.insert(*i).second) delete *i;
+}
+
 template<class T>
 void find_partitions(T first, T last, setpar &partitions, int diff)
 {
@@ -102,67 +108,39 @@ void find_partitions(T first, T last, setpar &partitions, int diff)
 	return;
     }
     // when the set contains more than 2 elem.
-    setpar P1, P2;
+    setpar P;
     int d = diff;
     int z = *prev(last);
-    if (z <= -diff) {
-	find_partitions(first, prev(last), P1, -z-d);
-	for_each(P1.begin(), P1.end(),
-		 [z](SetPartition *P) {
-		     P->get_set(false).insert(z);
+    if (d >= z) {
+	find_partitions(first, prev(last), P, d - z);
+	for_each(P.begin(), P.end(),
+		 [z](SetPartition *sp) {
+		     sp->get_set(false).insert(z);
 		 });
-	find_partitions(first, prev(last), P2, d-z);
-	for_each(P2.begin(), P2.end(),
-		 [z](SetPartition *P) {
-		     P->get_set(false).insert(z);
+	merge_setpar(partitions, P);
+    } else {
+	find_partitions(first, prev(last), P, z - d);
+	for_each(P.begin(), P.end(),
+		 [z](SetPartition *sp) {
+		     sp->get_set(true).insert(z);
 		 });
-    } else if (z > -d && z < d) {
-	find_partitions(first, prev(last), P1, d-z);
-	for_each(P1.begin(), P1.end(),
-		 [z](SetPartition *P) {
-		     P->get_set(false).insert(z);
-		 });
-	find_partitions(first, prev(last), P2, d+z);
-	for_each(P2.begin(), P2.end(),
-		 [z](SetPartition *P) {
-		     P->get_set(true).insert(z);
-		 });
-    } else {// z >= d
-	find_partitions(first, prev(last), P1, d+z);
-	for_each(P1.begin(), P1.end(),
-		 [z](SetPartition *P) {
-		     P->get_set(true).insert(z);
-		 });
-	find_partitions(first, prev(last), P2, z - d);
-	for_each(P2.begin(), P2.end(),
-		 [z](SetPartition *P) {
-		     P->get_set(true).insert(z);
-		 });
+	merge_setpar(partitions, P);
     }
-    for_each(P1.begin(), P1.end(),
-	     [&](SetPartition *sp) {
-		 if (!partitions.insert(sp).second)
-		     delete sp;
-	     });
-    for_each(P2.begin(), P2.end(),
-	     [&](SetPartition *sp) {
-		 if (!partitions.insert(sp).second)
-		     delete sp;
-	     });
-    int s = accumulate(first, prev(last), 0);
-    if (abs(s - *prev(last)) == diff) {
-	SetPartition *sp =
-	    new SetPartition(first, prev(last), prev(last), last);
-	if (!partitions.insert(sp).second)
-	    delete sp;
+    if (d + z >= 0) {
+	find_partitions(first, prev(last), P, d + z);
+	for_each(P.begin(), P.end(),
+		 [z](SetPartition *sp) {
+		     sp->get_set(true).insert(z);
+		 });
+	merge_setpar(partitions, P);
+    } else {
+	find_partitions(first, prev(last), P, -d - z);
+	for_each(P.begin(), P.end(),
+		 [z](SetPartition *sp) {
+		     sp->get_set(false).insert(z);
+		 });
+	merge_setpar(partitions, P);
     }
-    if (abs(accumulate(first, last, 0)) == diff) {
-	SetPartition *sp =
-	    new SetPartition(first, last);
-	if (!partitions.insert(sp).second)
-	    delete sp;
-    }
-    
 }
 
 int main(int argc, char *argv[])
