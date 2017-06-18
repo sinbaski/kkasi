@@ -169,7 +169,9 @@ int main(int argc, char *argv[])
 {
     // vector<int> numbers(stoi(argv[1]));
     // vector<int> numbers({1, 5, 8, 11, 9});
-    vector<int> numbers({-4, 8, 4, -7, 7, 7, 12, 3});
+    // vector<int> numbers({-4, 8, 4, -7, 7, 7, 12, 3});
+    // vector<int> numbers({0, 7, 4, 9, 3, 3, 2, 5, 1});
+    vector<int> numbers({7, 4, 9, 3, 3, 2, 5, 1}); // sum to 17
     setpar partitions;
     srand(stoi(argv[2]));
 
