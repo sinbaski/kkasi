@@ -38,24 +38,23 @@ public:
 	else if (small_one && a > b)
 	    return S2;
 	else if (!small_one && a <= b)
-	    return S1;
-	else
 	    return S2;
+	else
+	    return S1;
     }
 
     void print(void) {
-	cout << "(";
+	printf("(");
 	for_each(S1.begin(), S1.end(),
 		 [](int x) {
-		     cout << x << ", ";
+		     printf("%d, ", x);
 		 });
-	cout << ")" << " + ";
-	cout << "(";
+	printf(") + (");
 	for_each(S2.begin(), S2.end(),
 		 [](int x) {
-		     cout << x << ", ";
+		     printf("%d, ", x);
 		 });
-	cout << ")" << endl << endl;
+	printf(")\n");
     }
 };
 
@@ -77,11 +76,12 @@ typedef set<SetPartition *, comp_ppt> setpar;
 void merge_setpar(setpar &S, setpar &P)
 {
     for ( auto i = P.begin(); i != P.end(); advance(i, 1))
-    		 if (!S.insert(*i).second) delete *i;
+	if (!S.insert(*i).second) delete *i;
 }
 
 template<class T>
-void find_partitions(T first, T last, setpar &partitions, int diff)
+void find_partitions(const T first, const T last,
+		     setpar &partitions, int diff)
 {
     assert(diff >= 0);
     if (first == last) return;
@@ -108,48 +108,75 @@ void find_partitions(T first, T last, setpar &partitions, int diff)
 	return;
     }
     // when the set contains more than 2 elem.
-    setpar P;
     int d = diff;
     int z = *prev(last);
+    auto iter = prev(last);
+    // printf("z = %d, d = %d:\n", z, d);
+    // printf("From previous round:\n");
     if (d >= z) {
-	find_partitions(first, prev(last), P, d - z);
+	setpar P;
+	find_partitions(first, iter, P, d - z);
+	printf("z=%d, d=%d:\n", z, d - z);
 	for_each(P.begin(), P.end(),
-		 [z](SetPartition *sp) {
-		     sp->get_set(false).insert(z);
+		 [](SetPartition *sp) {
+		     sp->print();
 		 });
+	for(auto i = P.begin(); i != P.end(); i++) {
+	    (*i)->get_set(false).insert(z);
+	}
 	merge_setpar(partitions, P);
     } else {
-	find_partitions(first, prev(last), P, z - d);
+	setpar P;
+	find_partitions(first, iter, P, z - d);
+	printf("z=%d, d=%d:\n", z, z - d);
 	for_each(P.begin(), P.end(),
-		 [z](SetPartition *sp) {
-		     sp->get_set(true).insert(z);
+		 [](SetPartition *sp) {
+		     sp->print();
 		 });
+	for(auto i = P.begin(); i != P.end(); i++) {
+	    (*i)->get_set(true).insert(z);
+	}
 	merge_setpar(partitions, P);
     }
     if (d + z >= 0) {
-	find_partitions(first, prev(last), P, d + z);
+	setpar P;
+	find_partitions(first, iter, P, d + z);
+	printf("z=%d, d=%d:\n", z, d + z);
 	for_each(P.begin(), P.end(),
-		 [z](SetPartition *sp) {
-		     sp->get_set(true).insert(z);
+		 [](SetPartition *sp) {
+		     sp->print();
 		 });
+	for(auto i = P.begin(); i != P.end(); i++) {
+	    (*i)->get_set(true).insert(z);
+	}
 	merge_setpar(partitions, P);
     } else {
-	find_partitions(first, prev(last), P, -d - z);
+	setpar P;
+	find_partitions(first, iter, P, -d - z);
+	printf("z=%d, d=%d:\n", z, -d - z);
 	for_each(P.begin(), P.end(),
-		 [z](SetPartition *sp) {
-		     sp->get_set(false).insert(z);
+		 [](SetPartition *sp) {
+		     sp->print();
 		 });
+	for(auto i = P.begin(); i != P.end(); i++) {
+	    (*i)->get_set(false).insert(z);
+	}
 	merge_setpar(partitions, P);
     }
+    // printf("current candidates:\n");
+    // for_each(partitions.begin(), partitions.end(),
+    // 	     [](SetPartition *sp) {
+    // 		 sp->print();
+    // 	     });
 }
 
 int main(int argc, char *argv[])
 {
     // vector<int> numbers(stoi(argv[1]));
     // vector<int> numbers({1, 5, 8, 11, 9});
-    // vector<int> numbers({-4, 8, 4, -7, 7, 7, 12, 3});
+    vector<int> numbers({-4, 8, 4, -7, 7, 7, 12, 3});
     // vector<int> numbers({0, 7, 4, 9, 3, 3, 2, 5, 1});
-    vector<int> numbers({7, 4, 9, 3, 3, 2, 5, 1}); // sum to 17
+    // vector<int> numbers({7, 4, 9, 3, 3, 2, 5, 1}); // sum to 17
     setpar partitions;
     srand(stoi(argv[2]));
 
@@ -173,7 +200,7 @@ int main(int argc, char *argv[])
 	cout << "Partition " << c++ << endl;
 	(*i)->print();
 	delete *i;
-	i = next(i);
-	cout << endl;
+	advance(i, 1);
+//	cout << endl;
     }
 }
