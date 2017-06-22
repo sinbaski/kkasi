@@ -134,25 +134,28 @@ When $p > 1$ or $q > 1$, a matrix recurrence equation arises
     \underbrace{
       \begin{pmatrix}
         \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
-        \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_p \\
+        \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 &
+        \cdots & \alpha_{p-1} & \alpha_p\\
         1 & 0 & \cdots & 
-        0 & 0 & 0 & 0 & \cdots & 0 & \\
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
         \vdots & \vdots & \ddots & 
-        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+        \vdots & \vdots & \vdots & \vdots &
+        \ddots & \vdots & \vdots \\
         0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & \\
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
         0 & 0 & \cdots &
-        1 & 0 & 0 & 0 & \cdots & 0 & \\
+        1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
         Z_{t-1}^2 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & \\
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
         0 & 0 & \cdots &
-        0 & 0 & 1 & 0 & \cdots & 0 \\
+        0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
         \vdots & \vdots & \ddots &
-        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+        \vdots & \vdots & \vdots & \vdots &
+        \ddots & \vdots & \vdots \\
         0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 \\    
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
         0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 1 \\    
+        0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
       \end{pmatrix}
     }_{A_t}
     \underbrace{
@@ -243,6 +246,9 @@ the recurrence equation \eqref{eq:garchpq_sre}:
   $1 < \E (\alpha_1 Z^2 + \beta_1)^s < \infty$
 \item If $p, q \geq 2$, there exists an non-empty open set
   $S \subset \supp \mu_Z$.
+\item %% At least one of
+  %% $\alpha_2, \dots, \alpha_p, \beta_1, \dots, \beta_q$ is positive.
+  $\alpha_p > 0$  and $\beta_q > 0$.
 \end{enumerate}
 Clearly, these conditions are satisfied when $Z$ has normal or $t$
 distributions.
@@ -267,15 +273,20 @@ implications of the above assumptions:
 \item \eqref{eq:bollerslev} implies the top Lyapunov exponent of $A_n$
   \begin{equation}
     \label{eq:Lyapunov}
-    \gamma = \inf_{n \geq 1} {1 \over n} \E \left(\log \| A_n \cdots A_1 \| \right)    
+    \gamma = \inf_{n \geq 1} {1 \over n}
+    \E \left(\log \| A_n \cdots A_1 \| \right)    
   \end{equation}
   is negative. Cf. Buraczewski et al
   \cite{buraczewski:damek:mikosch:2016}, prop. 4.1.12.
 
-\item That $\vec 0 \notin \chi$ and $A_n$ has a Lebesgue density implies
-  the stationary distribution $\pi$ is absolutely continuous with
+\item That $\vec 0 \notin \chi$ and $A_n$ has a Lebesgue density
+  implies the stationary distribution $\pi$ is absolutely continuous with
   respect to Lebesgue measure. This immediately follows from lemma
   4.2.2 of Buraczewski et al \cite{buraczewski:damek:mikosch:2016}.
+
+\item Condition (III) ensures that, with probability 1, every row and
+  column of the matrix $A_n$ has at least one postive component.
+
 \end{enumerate}
 The implications (i), (ii), (iii) are in fact the conditions of
 proposition 4.2.1 of Buraczewski et al
@@ -292,7 +303,7 @@ and
   \label{eq:jui}
   \E \|A\|^\xi < \infty
 \end{equation}
-The existence of $\xi$ together with Conditions (ii) and (II)
+The existence of $\xi$ together with Conditions (ii, iv) and (I, II)
 allow the application of Kesten-Goldie theorem (cf. Buraczewski et al
 \cite{buraczewski:damek:mikosch:2016}, example 4.4.13). Here and in
 the rest of this paper, we use $\tilde V$ to denote $V/|V|$, $V'$ to
@@ -1226,7 +1237,22 @@ efficient i.e. its relative error is bounded.
   Thus we have proved the theorem.
 \end{proof}
 
-\section{The Estimator Has Bounded Relative Error}\label{sec:efficiency}
+\section{The Estimator Has Bounded Relative
+  Error}\label{sec:efficiency}
+%% \begin{lemma}
+%%   Assume condition (III). Then $\|\Pi_{n, 1}\|$
+%%   is bounded below by a positive constant.
+%% \end{lemma}
+%% \begin{proof}
+%%   In the following we write $M(i, j)$ to denote the $(i,j)$-th
+%%   component of matrix $M$.
+
+%%   First suppose $\beta_1 > 0$. Obviously
+%%   $\|\Pi_{n, 1}\| \geq \Pi_{n, 1}(1, 1) > \beta_1^n > 0$
+%%   Now suppose $\beta_i > 0$ for $2 \leq i \leq q$. 
+  
+%% \end{proof}
+
 \begin{theorem}
   Let $M$, $K_i, i=0, 1, 2, \dots$ be defined as in Lemma
   \ref{lemma:2}. Assume one of the following conditions holds
@@ -1588,8 +1614,19 @@ That is,
     satisfying condition (I) and $\gamma$ is the top Lyapunov exponent
     defined by \eqref{eq:Lyapunov}.
   \end{case}
-  The sum of \eqref{eq:rhjd} can written as
-  \begin{eqnarray*}
+  First of all, we note conditions (I, II, III) and (ii) imply
+  \[
+  T = \min\{n \geq 1: \forall 1 \leq i,j \leq d, \Pi_{n, 1}(i, j) > 0\}
+  \]
+  is almost surely finite. Cf.   Buraczewski et al
+  \cite{buraczewski:damek:mikosch:2016}, example 4.4.13,
+  Kesten \cite{kesten:1973}, eq.(2.56) and Hennion
+  \cite{hennion:1997}, lemma 3.1. We note that this implication
+  certainly means, for any $n \geq 1$,
+  $\|\Pi_{n,1}\| \geq \max_{i,j} \Pi_{n,1}(i, j) > 0$.
+  
+  We write the sum of \eqref{eq:rhjd} as
+  \begin{eqnarray}
     &&
     \sum_{n=0}^\infty \sum_{m=n}^\infty
     \E \left[
@@ -1601,7 +1638,7 @@ That is,
       N_u^2
       \1{m < K_1}
       \1{T_u = m}
-    \right] \\
+    \right] \nonumber \\
     &=&
     \sum_{n=0}^\infty \sum_{m=n}^\infty
     \E \left[
@@ -1612,8 +1649,9 @@ That is,
       }
       N_u^2
       \1{m < K_1} \1{T_u = m} \1{S_1(\epsilon)}
-    \right]
-  \end{eqnarray*}
+      \right] \label{eq:pkce} \\
+    &=& \mathscr D \nonumber
+  \end{eqnarray}
   where $S_1(\epsilon)$ is the set defined in the previous case by
   \eqref{eq:S1}. Let's temporarily specialize the general norm to
   1-norm. In this case
@@ -1638,11 +1676,11 @@ That is,
   \begin{eqnarray*}
     &&
     \P \left(
-      T < \infty \text{ and } \exists N_2 > T \text{ such that }
+    \exists N_2 > T \text{ such that }
       \sup_{n \geq N_2}
       \left|
         {1 \over n} \log \left[
-          {|\Pi_{n, 1} X_0| \over d |X_0|}
+          {|\Pi_{n, 1} X_0|_1 \over d |X_0|_1}
         \right]
         - \gamma
         \right|
@@ -1652,7 +1690,7 @@ That is,
   which implies
   \[
     \P \left(
-      T < \infty \text{ and } \exists N_2 > T \text{ such that }
+    \exists N_2 > T \text{ such that }
       \forall n \geq N_2,\;
       |\Pi_{n, 1} X_0|_1 > d |X_0|_1 e^{(\gamma - \epsilon) n}
     \right) = 1
@@ -1664,14 +1702,275 @@ That is,
   $S_2(\epsilon)$:
   \[
   S_2(\epsilon) = \left\{
-    T < \infty \text{ and } \exists N_2 > T \text{ such that }
+  \exists N_2 > T \text{ such that }
     \forall n \geq N_2,\;
     |\Pi_{n, 1} X_0| > c \cdot d \cdot e^{(\gamma - \epsilon) n}
   \right\}
   \]
   where $c > 0$ is a constant. With $S_2(\epsilon)$ defined as such,
-  we have $\P(S_2(\epsilon)) = 1$.
-  
+  we have $\P(S_2(\epsilon)) = 1$. Now that we have
+  $\P(S_1(\epsilon)) = 1$ and $\P(S_2(\epsilon)) = 1$, we may
+  restrict the expectation in \eqref{eq:pkce} to the set
+  $S_1(\epsilon) \cap S_2(\epsilon)$, i.e.
+  \begin{eqnarray*}
+    \mathscr D
+    &=&
+    \sum_{n = 0}^\infty \sum_{m = n}^\infty
+    \E \left[
+            {
+        |\Pi_{m, n+1} X_n |^{\xi}
+        \over
+        |\Pi_{n, 1} X_0 |^{\xi}        
+      }
+      N_u^2
+      \1{m < K_1} \1{T_u = m} \1{S_1(\epsilon) \cap S_2(\epsilon)} 
+      \right] \\
+    &=&
+    \left(
+    \sum_{n = 0}^{N_2 - 1} \sum_{m = n}^{n + N_1 - 1}
+    +
+    \sum_{n = 0}^{N_2 - 1} \sum_{m = n + N_1}^\infty
+    +
+    \sum_{n = N_2}^{\infty} \sum_{m = n}^{n + N_1 - 1}
+    +
+    \sum_{n = N_2}^{\infty} \sum_{m = n + N_1}^\infty
+    \right) \nonumber \\
+    &&
+    \E \left[
+            {
+        |\Pi_{m, n+1} X_n |^{\xi}
+        \over
+        |\Pi_{n, 1} X_0 |^{\xi}        
+      }
+      N_u^2
+      \1{m < K_1} \1{T_u = m} \1{S_1(\epsilon) \cap S_2(\epsilon)} 
+      \right] \nonumber \\
+    &=& \mathscr D_1 + \mathscr D_2 + \mathscr D_3 + \mathscr D_4
+  \end{eqnarray*}
+  To show $\mathscr D < \infty$, it suffices to show
+  $\mathscr D_i < \infty$ for each $i = 1, 2, 3, 4$.
+  $\mathscr D_1$ sums only finitely many terms, so it
+  suffices to show for each $n$ and $m$,
+  \begin{equation}
+    \label{eq:ceh}
+    \E \left[
+      {
+        |\Pi_{m, n+1} X_n |^{\xi}
+        \over
+        |\Pi_{n, 1} X_0 |^{\xi}        
+      }
+      N_u^2
+      \1{m < K_1} \1{T_u = m} \1{S_1(\epsilon) \cap S_2(\epsilon)} 
+      \right] < \infty
+  \end{equation}
+  Firstly, we observe $|\Pi_{n, 1} X_0 |$ is bounded from below by a positive
+  constant for any $n < \infty$
+  \[
+  |\Pi_{n, 1} X_0|_2 > d^{-1/2} \min_l X_0(l) \|\Pi_{n,1}\|_2 > 0
+  \]
+  The first inequality is due to Kesten \cite{kesten:1973}.
+  Thus \eqref{eq:ceh} is implied by
+  \[
+    \E \left[
+        \|\Pi_{m, n+1}\|^{\xi}
+      N_u^2
+      \1{m < K_1}
+      \right] < \infty
+  \]
+By H\"older's inequality, the left side of the above inequality is
+bounded by
+\begin{eqnarray*}
+  &&
+  (\E \|\Pi_{m, n+1}\|^{p \xi}){1/p}
+  [\E (N_u^{2q} \1{m < K_1})]^{1/q} \\
+  &\leq&
+  (\E \|A\|^{p \xi})^{(m-n)/p}
+  [\E (K_1^{2q} \1{m < K_1})]^{1/q}
+\end{eqnarray*}
+where $p,q>1$ and $1/p + 1/q = 1$.
+Because $\E \|A\|^{s} < \infty$ for some $s > \xi$ as assumed in
+condition (I), $p$ can be chosen sufficiently close to 1 such that
+$\E \|A\|^{p \xi} < \infty$. Meanwhile
+\begin{eqnarray*}
+  &&
+  \E (K_1^{2q} \1{m < K_1}) \\
+  &\leq&
+  \sum_{i=m+1}^\infty i^{2q} \P(K_1 > i - 1) \\
+  &\leq&
+  \sum_{i=m+1}^\infty i^{2q} \rho_0 b_0^{i-1} < \infty
+\end{eqnarray*}
+where we have used lemma \ref{lemma:2} to reach the
+last line.
+
+As for $\mathscr D_2$, we note
+$\|\Pi_{m, n+1}\|\1{S_1(\epsilon)} < \epsilon$
+for $m \geq n + N_1$, and for $n < N_2$,
+$|\Pi_{n, 1} X_0| > 0$. So for $\mathscr D_2 < \infty$, it suffices to
+show
+\[
+\sum_{n=0}^{N_2 - 1} \sum_{m=n+N_1}^\infty
+\E (N_u^2 \1{K_1 > m}) < \infty
+\]
+The left side is bounded by
+\begin{eqnarray*}
+  &&
+  \sum_{n=0}^{N_2 - 1} \sum_{m=n+N_1}^\infty \sum_{i=m+1}
+  i^2 \P(K_1 > i - 1) \\
+  &=&
+  \sum_{n=0}^{N_2 - 1} \sum_{m=n+N_1}^\infty
+  (c_2 m^2 + c_1 m + c_0)b_0^m < \infty
+\end{eqnarray*}
+where $c_0, c_1, c_2$ are constants.
+
+For $\mathscr D_3$, we have for $n \geq N_2$,
+$|\Pi_{n, 1} X_0| \1{S_1(\epsilon)} > c \cdot d e^{(\gamma - \epsilon) n}$.
+Thus
+\begin{eqnarray*}
+  \mathscr D_3
+  &<&
+  \sum_{n=N_2}^\infty \sum_{m=n}^{n + N_1 - 1}
+  \E \left[
+    {
+      e^{(\epsilon - \gamma) n}
+      \over
+      cd
+    } \|\Pi_{m, n+1}\|^\xi
+    N_u^2
+    \1{K_1 > m}
+    \right] \\
+  &\leq&
+  \frac{1}{cd}
+  \sum_{n=N_2}^\infty
+  e^{(\epsilon - \gamma) n}
+  \sum_{m=n}^{n + N_1 - 1}
+  \sum_{i=m+1}^\infty
+  i^2
+  \E \left[
+    \|\Pi_{m, n+1}\|^\xi
+    \1{K_1 = i}
+    \right] \\
+  &\leq&
+  \frac{1}{cd}
+  \sum_{n=N_2}^\infty
+  e^{(\epsilon - \gamma) n}
+  \sum_{m=n}^{n + N_1 - 1}
+  \sum_{i=m+1}^\infty
+  i^2
+  [\E  \|\Pi_{m, n+1}\|^{p \xi}]^{1/p}
+  [\P(K_1 > i-1)]^{1/q} \\
+  &\leq&
+  \frac{1}{cd}
+  \sum_{n=N_2}^\infty
+  e^{(\epsilon - \gamma) n}
+  [\E \|A\|^{p \xi}]^{-n/p}
+  \sum_{m=n}^{n + N_1 - 1}
+   [\E  \|A\|^{p \xi}]^{m/p}
+  \sum_{i=m+1}^\infty
+  i^2 \rho_o^{1/q} b_0^{(i-1)/q}
+\end{eqnarray*}
+The last sum over $i$ evaluates to
+$(c_2 m^2 + c_1 m + c_0) b_0^{m/q}$. So, by Cauchy-Schwarz inequality
+we have
+\begin{eqnarray*}
+  \mathscr D_3
+  &\leq&
+  c_3 \rho_o^{1/q}
+  \sum_{n=N_2}^\infty
+  e^{(\epsilon - \gamma) n}
+  [\E \|A\|^{p \xi}]^{-n/p} \\
+  &&
+  \left(
+  \sum_{m=n}^{n + N_1 - 1}
+      [\E  \|A\|^{p \xi}]^{2m/p}
+      b_0^{2m/q}
+ \right)^{1/2}
+ \left(      
+ \sum_{m=n}^{n + N_1 - 1}
+ (c_2 m^2 + c_1 m + c_0)^2
+  \right)^{1/2}
+\end{eqnarray*}
+where $c_3$ is a positive constant. Since positive multiplicative
+constants play do not affect the finiteness, we shall no longer keep
+track of their values but recycle the symbols $c, c_0, c_1, c_2, \dots$
+to mean different constants at different places. In this notation, the
+last parenthesis around the sum over $i$ is bounded by
+$c_4 (n + N_1 -1)$. We have
+\begin{eqnarray*}
+  \mathscr D_3
+  &\leq&
+  c \sum_{n=N_2}^\infty
+  e^{(\epsilon - \gamma) n}
+  (n + N_1 - 1)
+  [\E \|A\|^{p \xi}]^{-n/p}
+  \left(
+  \sum_{m=n}^{n + N_1 - 1}
+      [\E  \|A\|^{p \xi}]^{2m/p}
+      b_0^{2m/q}
+ \right)^{1/2}
+\end{eqnarray*}
+To show $\mathscr D_3 < \infty$, it is sufficient to show
+\[
+\sum_{n=N_2}^\infty
+n e^{(\epsilon - \gamma) n}
+%% [\E \|A\|^{p \xi}]^{-n/p}
+%% [\E  \|A\|^{p \xi}]^{n/p}
+b_0^{n/q}
+< \infty
+\]
+Condition (I) gives $\E \|A\|^{s} < \infty$. So we may choose
+$p = s/\xi$, i.e. $q = (1 - \xi/s)^{-1}$. We have assumed
+$b_0^{1/q}  e^{-\gamma} < 1$, so there exists $\epsilon > 0$
+as small as to make $e^{(\epsilon - \gamma) n} b_0^{1/q} < 1$.
+Therefore the last inequality holds. We have shown
+$\mathscr D_3 < \infty$.
+
+To see $\mathscr D_4 < \infty$, we observe
+\[
+  {
+    |\Pi_{m, n+1} X_n |^{\xi}
+    \over
+    |\Pi_{n, 1} X_0 |^{\xi}        
+  } \1{S_1(\epsilon) \cap S_2(\epsilon)}
+  <
+  c e^{(\epsilon - \gamma) n} 
+\]
+using the previous convention about multiplicative constants. Thus, to
+show $\mathscr D_4 < \infty$, it suffices to show
+\[
+\sum_{n=N_2}^\infty
+e^{(\epsilon - \gamma) n} 
+\sum_{m=n+N_1}^\infty
+\E (N_u^2 \1{m < K_1}) < \infty
+\]
+The left side is bounded by
+\begin{eqnarray*}
+  &&
+  c \sum_{n=N_2}^\infty
+  e^{(\epsilon - \gamma) n} 
+  \sum_{m=n+N_1}^\infty
+  \sum_{i=m+1}^\infty
+  i^2 b_0^{i-1} \\
+  &\leq&
+  c \sum_{n=N_2}^\infty
+  e^{(\epsilon - \gamma) n}   
+  \sum_{m=n+N_1}^\infty
+  (c_2 m^2 + c_1 m + c_0) b_0^m \\
+  &\leq&
+  c \sum_{n=N_2}^\infty
+  e^{(\epsilon - \gamma) n} b_0^{n + N_1}
+  [c_2 (n + N_1)^2 + c_1 (n + N_1) + c_0]
+\end{eqnarray*}
+Since $b_0 < 1$, it is clear $b_0 < b_0^{1/q}$.
+As argued in the case of $\mathscr D_3$,
+$b_0^{1/q} e^{\epsilon - \gamma} < 1$. So the last sum is finite.
+Thus $\mathscr D_4 < \infty$ and
+\[
+\mathscr D
+=
+\mathscr D_1 + \mathscr D_2 + \mathscr D_3 + \mathscr D_4
+< \infty
+\]
+The proof is complete.
 \end{proof}
 
 \section[Estimation of xi]{Estimation of $\xi$}
