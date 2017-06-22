@@ -86,11 +86,11 @@ your own.
 \end{frontmatter}
 
 \section{Introduction}
-Ever since its proposition by Bollerslev~\cite{bollerslev:1986} and
+Since the seminal papers by Bollerslev~\cite{bollerslev:1986} and 
 Taylor~\cite{taylor:2008} (cf. also Andersen et al
 \cite{andersen:davis:kreiss:mikosch:2009}), the GARCH 
 ({\em Generalized Autoregressive Conditional Heteroscedasticity}) model
-has seen wide-spread application in finance and economics, and has
+has been widely used in finance and economics, and has
 inspired numerous variants such as GJR-GARCH of Glosten et
 al~\cite{glosten:1993}, {\em Asymmetric} GARCH of Engle and
 Ng~\cite{engle:Ng:1993} and the {\em Quadratic} GARCH of
@@ -100,8 +100,8 @@ defines the conditional variance via the stochastic recurrence
 equation
 \begin{eqnarray}
   R_t &=& \sigma_t Z_t \nonumber \\
-  \sigma_{t}^2 &=& \omega + \sum_{i=1}^p \alpha_i R_{t-i}^2 + \sum_{j=1}^q
-  \beta_j \sigma_{t-j}^2   \label{eq:garchpq}
+  \sigma_{t}^2 &=& \omega + \sum_{i=1}^p \alpha_i R_{t-i}^2 +
+  \sum_{j=1}^q \beta_j \sigma_{t-j}^2   \label{eq:garchpq}
 \end{eqnarray}
 where $\{R_t\}_{t \in \mathbb Z}$ is the return series in question;
 $\{Z_t\}_{t \in \mathbb Z}$ is an iid sequence of random variables
@@ -116,87 +116,86 @@ When $p = q = 1$,
 \]
 When $p > 1$ or $q > 1$, a matrix recurrence equation arises
 (cf. Davis and Mikosch~\cite{davis:mikosch:2001})
-\begin{small}
-  \begin{equation*}
-    \underbrace{
-      \begin{pmatrix}
-        \sigma_{t}^2 \\
-        \sigma_{t-1}^2 \\
-        \vdots \\
-        \sigma_{t-q+2}^2 \\
-        \sigma_{t-q+1}^2 \\
-        R_{t-1}^2 \\
-        R_{t-2}^2 \\
-        \vdots \\
-        R_{t-p+2}^2 \\
-        R_{t-p+1}^2
-      \end{pmatrix}}_{V_t} =
-    \underbrace{
-      \begin{pmatrix}
-        \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
-        \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 &
-        \cdots & \alpha_{p-1} & \alpha_p\\
-        1 & 0 & \cdots & 
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        \vdots & \vdots & \ddots & 
-        \vdots & \vdots & \vdots & \vdots &
-        \ddots & \vdots & \vdots \\
-        0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        0 & 0 & \cdots &
-        1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        Z_{t-1}^2 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        0 & 0 & \cdots &
-        0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
-        \vdots & \vdots & \ddots &
-        \vdots & \vdots & \vdots & \vdots &
-        \ddots & \vdots & \vdots \\
-        0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
-        0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
-      \end{pmatrix}
-    }_{A_t}
-    \underbrace{
-      \begin{pmatrix}
-        \sigma_{t-1}^2 \\
-        \sigma_{t-2}^2 \\
-        \vdots \\
-        \sigma_{t-q+1}^2 \\
-        \sigma_{t-q}^2 \\
-        R_{t-2}^2 \\
-        R_{t-3}^2 \\
-        \vdots \\
-        R_{t-p+1}^2 \\
-        R_{t-p}^2
-      \end{pmatrix}
-    }_{V_{t-1}} +
-    \underbrace{
-      \begin{pmatrix}
-        \omega \\
-        0 \\
-        \vdots \\
-        0 \\
-        0 \\
-        0 \\
-        0 \\
-        \vdots \\
-        0 \\
-        0 \\
-      \end{pmatrix}
-    }_{B}
-  \end{equation*}
-\end{small}
-For convenience, define $d = p + q - 1$ and we shall write the above
+%% \begin{tiny}
+%%   \begin{equation*}
+%%     \underbrace{
+%%       \begin{pmatrix}
+%%         \sigma_{t}^2 \\
+%%         \sigma_{t-1}^2 \\
+%%         \vdots \\
+%%         \sigma_{t-q+2}^2 \\
+%%         \sigma_{t-q+1}^2 \\
+%%         R_{t-1}^2 \\
+%%         R_{t-2}^2 \\
+%%         \vdots \\
+%%         R_{t-p+2}^2 \\
+%%         R_{t-p+1}^2
+%%       \end{pmatrix}}_{V_t} =
+%%     \underbrace{
+%%       \begin{pmatrix}
+%%         \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
+%%         \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 &
+%%         \cdots & \alpha_{p-1} & \alpha_p\\
+%%         1 & 0 & \cdots & 
+%%         0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+%%         \vdots & \vdots & \ddots & 
+%%         \vdots & \vdots & \vdots & \vdots &
+%%         \ddots & \vdots & \vdots \\
+%%         0 & 0 & \cdots &
+%%         0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+%%         0 & 0 & \cdots &
+%%         1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+%%         Z_{t-1}^2 & 0 & \cdots &
+%%         0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+%%         0 & 0 & \cdots &
+%%         0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
+%%         \vdots & \vdots & \ddots &
+%%         \vdots & \vdots & \vdots & \vdots &
+%%         \ddots & \vdots & \vdots \\
+%%         0 & 0 & \cdots &
+%%         0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
+%%         0 & 0 & \cdots &
+%%         0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
+%%       \end{pmatrix}
+%%     }_{A_t}
+%%     \underbrace{
+%%       \begin{pmatrix}
+%%         \sigma_{t-1}^2 \\
+%%         \sigma_{t-2}^2 \\
+%%         \vdots \\
+%%         \sigma_{t-q+1}^2 \\
+%%         \sigma_{t-q}^2 \\
+%%         R_{t-2}^2 \\
+%%         R_{t-3}^2 \\
+%%         \vdots \\
+%%         R_{t-p+1}^2 \\
+%%         R_{t-p}^2
+%%       \end{pmatrix}
+%%     }_{V_{t-1}} +
+%%     \underbrace{
+%%       \begin{pmatrix}
+%%         \omega \\
+%%         0 \\
+%%         \vdots \\
+%%         0 \\
+%%         0 \\
+%%         0 \\
+%%         0 \\
+%%         \vdots \\
+%%         0 \\
+%%         0 \\
+%%       \end{pmatrix}
+%%     }_{B}
+%%   \end{equation*}
+%% \end{tiny}
+For convenience, define $d = p + q - 1$ and we can write the
 recurrence equation as
 \begin{equation}
   \label{eq:garchpq_sre}
   V_t = A_t V_{t-1} + B
 \end{equation}
 where $V_t$ and $B$ are $d$-dimensional vectors, $A_t$ are
-$d \times d$ matrices. Their definitions are obvious from the above
-equation. Notice that for all $t$, $\vec 0 \neq V_t$. Let
+$d \times d$ matrices. Notice that for all $t$, $\vec 0 \neq V_t$. Let
 $\underline V = \inf_{t \geq 0} |V_t|$. Then $\underline V > 0$.
 
 It is also useful to note that, if given $V_t$ and $V_{t-1}$,
@@ -691,6 +690,9 @@ fact for the consistency and efficiency of $\mathcal E_u$.
 Then in \S\ref{sec:consistency} we prove the relation \eqref{eq:fbf} and in
 \S\ref{sec:efficiency} we prove that the estimator $\mathcal E_u$ is
 efficient i.e. its relative error is bounded.
+
+\section{Statement of Results}
+
 
 \section[The Chain Drifts towards a Small Set]{$V_n$ Drifts towards a Small Set}
 \label{sec:drift}
