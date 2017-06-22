@@ -114,90 +114,125 @@ When $p = q = 1$,
 \[
 \sigma_t^2 = \omega + (\alpha_1 Z_{t-1}^2 + \beta_1) \sigma_{t-1}^2
 \]
-When $p > 1$ or $q > 1$, a matrix recurrence equation arises
-(cf. Davis and Mikosch~\cite{davis:mikosch:2001})
-%% \begin{tiny}
-%%   \begin{equation*}
-%%     \underbrace{
-%%       \begin{pmatrix}
-%%         \sigma_{t}^2 \\
-%%         \sigma_{t-1}^2 \\
-%%         \vdots \\
-%%         \sigma_{t-q+2}^2 \\
-%%         \sigma_{t-q+1}^2 \\
-%%         R_{t-1}^2 \\
-%%         R_{t-2}^2 \\
-%%         \vdots \\
-%%         R_{t-p+2}^2 \\
-%%         R_{t-p+1}^2
-%%       \end{pmatrix}}_{V_t} =
-%%     \underbrace{
-%%       \begin{pmatrix}
-%%         \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
-%%         \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 &
-%%         \cdots & \alpha_{p-1} & \alpha_p\\
-%%         1 & 0 & \cdots & 
-%%         0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-%%         \vdots & \vdots & \ddots & 
-%%         \vdots & \vdots & \vdots & \vdots &
-%%         \ddots & \vdots & \vdots \\
-%%         0 & 0 & \cdots &
-%%         0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-%%         0 & 0 & \cdots &
-%%         1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-%%         Z_{t-1}^2 & 0 & \cdots &
-%%         0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-%%         0 & 0 & \cdots &
-%%         0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
-%%         \vdots & \vdots & \ddots &
-%%         \vdots & \vdots & \vdots & \vdots &
-%%         \ddots & \vdots & \vdots \\
-%%         0 & 0 & \cdots &
-%%         0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
-%%         0 & 0 & \cdots &
-%%         0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
-%%       \end{pmatrix}
-%%     }_{A_t}
-%%     \underbrace{
-%%       \begin{pmatrix}
-%%         \sigma_{t-1}^2 \\
-%%         \sigma_{t-2}^2 \\
-%%         \vdots \\
-%%         \sigma_{t-q+1}^2 \\
-%%         \sigma_{t-q}^2 \\
-%%         R_{t-2}^2 \\
-%%         R_{t-3}^2 \\
-%%         \vdots \\
-%%         R_{t-p+1}^2 \\
-%%         R_{t-p}^2
-%%       \end{pmatrix}
-%%     }_{V_{t-1}} +
-%%     \underbrace{
-%%       \begin{pmatrix}
-%%         \omega \\
-%%         0 \\
-%%         \vdots \\
-%%         0 \\
-%%         0 \\
-%%         0 \\
-%%         0 \\
-%%         \vdots \\
-%%         0 \\
-%%         0 \\
-%%       \end{pmatrix}
-%%     }_{B}
-%%   \end{equation*}
-%% \end{tiny}
-For convenience, define $d = p + q - 1$ and we can write the
-recurrence equation as
+When $p > 1$ or $q > 1$, the GARCH(p, q) process is given by
+a matrix recurrence equation (cf. Davis and
+Mikosch~\cite{davis:mikosch:2001}):
+\begin{tiny}
+  \begin{equation*}
+      \begin{pmatrix}
+        \sigma_{t}^2 \\
+        \sigma_{t-1}^2 \\
+        \vdots \\
+        \sigma_{t-q+2}^2 \\
+        \sigma_{t-q+1}^2 \\
+        R_{t-1}^2 \\
+        R_{t-2}^2 \\
+        \vdots \\
+        R_{t-p+2}^2 \\
+        R_{t-p+1}^2
+      \end{pmatrix}
+      =
+      \begin{pmatrix}
+        \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
+        \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 &
+        \cdots & \alpha_{p-1} & \alpha_p\\
+        1 & 0 & \cdots & 
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots & 
+        \vdots & \vdots & \vdots & \vdots &
+        \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        0 & 0 & \cdots &
+        1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        Z_{t-1}^2 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        0 & 0 & \cdots &
+        0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots &
+        \vdots & \vdots & \vdots & \vdots &
+        \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
+      \end{pmatrix}
+      \begin{pmatrix}
+        \sigma_{t-1}^2 \\
+        \sigma_{t-2}^2 \\
+        \vdots \\
+        \sigma_{t-q+1}^2 \\
+        \sigma_{t-q}^2 \\
+        R_{t-2}^2 \\
+        R_{t-3}^2 \\
+        \vdots \\
+        R_{t-p+1}^2 \\
+        R_{t-p}^2
+      \end{pmatrix}
+      +
+      \begin{pmatrix}
+        \omega \\
+        0 \\
+        \vdots \\
+        0 \\
+        0 \\
+        0 \\
+        0 \\
+        \vdots \\
+        0 \\
+        0 \\
+      \end{pmatrix}
+  \end{equation*}
+\end{tiny}
+Define $d = p + q - 1$ and we can write the recurrence equation as
 \begin{equation}
   \label{eq:garchpq_sre}
-  V_t = A_t V_{t-1} + B
+  V_t = A_t V_{t-1} + B_t
 \end{equation}
-where $V_t$ and $B$ are $d$-dimensional vectors, $A_t$ are
-$d \times d$ matrices. Notice that for all $t$, $\vec 0 \neq V_t$. Let
-$\underline V = \inf_{t \geq 0} |V_t|$. Then $\underline V > 0$.
+where $V_t$ and $B_t$ are $d$-dimensional vectors; $A_t$ are
+$d \times d$ matrices. The sequences $A_t$ and $B_t$ are both iid.
+Of course, $B_t$ are really constant vectors,
+but we postpone this specialization for now and generalize the
+equation \eqref{eq:garchpq_sre} to the broader context of matrix
+recursions.
+There is already a rich literature on this subject. Kesten
+\cite{kesten:1973} showed that, when $A_t$ and $B_t$ were almost
+surely non-negative, had no row or column of only zeros, and there was
+a positive probability that $B_t$ was strictly positive, the strictly
+stationary solution to the equation
+$V_t \overset{d}{=} A_t V_{t-1} + B_t$ has power-law tails
+for its marginal distributions, assuming the following conditions (M)
+and (A):
+\begin{itemize}
+\item Condition (M)
+  \begin{enumerate}
+  \item The top Lyapunov exponent
+    \[
+    \gamma = \inf_{n \geq 1} {1 \over n}\E \log \|A_n \cdots A_1\|
+    \]
+    is negative.
+  \item There exists $\xi > 0$ such that
+    \[
+    1 = \lambda(\xi) = \lim_{n \to \infty} {1 \over n} \log \E \|A_n \cdots A_1\|^\xi
+    \]
+  \item $\E (\|A_1\|^\xi \log^+\|A_1\|) < \infty$
+  \item $\E |B_1|^\xi < \infty$
+  \end{enumerate}
+\item Condition (A) : The group generated by
+  \[
+  \{\log\rho(s): s = A_n \cdots A_1 \text{ for some } n \geq 1\}
+  \]
+  is dense in $\reals$, where $\rho(s)$ denotes the spectral
+  radius of matrix $s$.
+\end{itemize}
+Upon these conditions, Kesten's theorem gives
+\[
+\lim_{u \to \infty} u^\xi \P(\inn{\tilde x, V} > u) = e_\xi(\tilde x)
+\]
+where $e_\xi(\cdot)$ is a function $e_\xi : \sphere^d \to \reals_+$
 
+Notice that for all $t$, $\vec 0 \neq V_t$. Let
+$\underline V = \inf_{t \geq 0} |V_t|$. Then $\underline V > 0$. 
 It is also useful to note that, if given $V_t$ and $V_{t-1}$,
 $Z_{t-1}^2$ can be easily found:
 \[
@@ -308,7 +343,6 @@ allow the application of Kesten-Goldie theorem (cf. Buraczewski et al
 the rest of this paper, we use $\tilde V$ to denote $V/|V|$, $V'$ to
 denote the transpose of $V$ for a vector $V$,
 and $\tilde S$ to denote $\{\tilde v: v \in S\}$ for a set $S$.
-
 The Kesten-Goldie theorem gives
 \begin{equation}
   \label{eq:kesten}
@@ -690,8 +724,6 @@ fact for the consistency and efficiency of $\mathcal E_u$.
 Then in \S\ref{sec:consistency} we prove the relation \eqref{eq:fbf} and in
 \S\ref{sec:efficiency} we prove that the estimator $\mathcal E_u$ is
 efficient i.e. its relative error is bounded.
-
-\section{Statement of Results}
 
 
 \section[The Chain Drifts towards a Small Set]{$V_n$ Drifts towards a Small Set}
