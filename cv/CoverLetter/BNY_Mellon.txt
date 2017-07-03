@@ -1,0 +1,16 @@
+Dear Sir/madam,
+
+I understand from BNY Mellon's website that you are recruiting a market quantitative analyst to work on FX products. I am a maths PhD graduate of Copenhagen university, specialized in economics and finance, and I have over 6 years' work experience in the software industry, so I am confident to take on the challenges as a quantitative analyst in your team.
+
+In the past 3 years of my PhD program, I have 2 papers published and 2 under peer review, all in the area of analysis of heavy-tailed time series, e.g. FX rates and equity returns. The two published are concerned about approximation of the eigen system of the sample co-variance matrix of such time series. While theoretical results in nature, they can be applied, for example, to principle component analysis to achieve better understanding of the risk factors.
+
+I have two other papers under peer review. One is about tail parameters of return distributions of FX rates and equity prices. I analysed the tail index and scale parameters of stocks in the Energy, consumer staples and IT sectors of the S&P 500 index and provided an argument explaining the similarities and variations of those parameters of the stocks. The fourth paper of mine is about importance sampling. In this paper, I estimate the probability that the norm of a GARCH(p,q) process exceeds a given large threshold. This is a result immediately relevant to the computation of risk measures like Value at Risk and Expected Shortfall.
+
+These research projects naturally involve numerical work, which translates to programming in C++, R and SQL. I actually also made BASH and Python scripts to download FX rates from the Swedish central bank and equity return series from Yahoo finance. I see such programming tasks as a pleasant change-of-mind from the mathematical derivations, and I find a lot of pleasure when the numerical computation confirms the theoretical results. These tasks also allow me to renew and sharpen the programming skills that I developed while working as a software engineer.
+
+BNY Mellon is a renowned investment bank and I have no doubt that working in this esteemed organization poses many challenges. I am not deterred because I think I have the passion, the drive, and the capability to contribute to its continued success. I look forward to further discussions with you on this regard.
+
+Yours sincerely,
+Xie Xiaolei
+
+
