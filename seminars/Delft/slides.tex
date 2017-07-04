@@ -310,9 +310,20 @@ University of Copenhagen \\ % Your institution for the title page
       \big]^2 dr}
   \]
   \end{tiny}
-  The {\bf asymptotic distribution of $T_n$ under $H_0$ is not
-    available} explicitly, but given as the distribution of a
-  function of a standard Brownian motion. We compute it by simulation.
+  where
+  \begin{small}
+  \[
+  \hat x_p(s, t) = X_{k, s, t}
+  \left({n p \over k}\right)^{-1/{\hat \alpha}}
+  \]
+  \begin{itemize}
+    \item $X_{k, s, t}$ is the $k$-th largest value among
+      $X_{\floor{n s} + 1}, \dots, X_{\floor{n t}}$.
+    \item   The {\bf asymptotic distribution of $T_n$ under $H_0$ is not
+      available} explicitly, but given as the distribution of a
+      function of a standard Brownian motion -- Computed by simulation.
+  \end{itemize}
+  \end{small}
 \end{frame}
 
 \begin{frame}
@@ -469,7 +480,8 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{Model of the market \& equity returns}
   \textcolor[HTML]{990033}{\bf The toy market consists of}
   \begin{enumerate}
-  \item A riskless bond that pays $e^r$€ annually for each € invested;
+  \item A riskless bond that pays $e^r$€ annually for each € invested,
+    $r$ is fixed.
   \item A risky equity that pays $e^X$€ annually for each € invested.
     $X$ has Pareto tails
     \[
