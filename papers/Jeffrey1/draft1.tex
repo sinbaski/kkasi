@@ -133,7 +133,7 @@ There is already a rich literature on this subject. Kesten
 surely non-negative, had no row or column of only zeros, and there was
 a positive probability that $B_t$ was strictly positive, the strictly
 stationary solution to the equation
-$V \overset{d}{=} A V + B$ has power-law tails
+$V \overset{d}{=} A V + B$ had power-law tails
 for its marginal distributions, assuming the following conditions (M)
 and (A):
 \begin{itemize}
@@ -164,21 +164,7 @@ Upon these conditions, Kesten's theorem gives
 \]
 where $e_\xi(\cdot)$ is a function $e_\xi : \sphere^d \to \reals_+$.
 
-% Notice that for all $t$, $\vec 0 \neq V_t$. Let
-% $\underline V = \inf_{t \geq 0} |V_t|$. Then $\underline V > 0$. 
-% It is also useful to note that, if given $V_t$ and $V_{t-1}$,
-% $Z_{t-1}^2$ can be easily found:
-% \[
-% z_{t-1}^2 = {
-%   \inn{\vec e_{q+1}, V_{t}}
-%   \over
-%   \inn{\vec e_1, V_{t-1}}
-% }
-% \]
-% where $\inn{\cdot, \cdot}$ denotes the inner product of two vectors.
-% Since $Z_1, Z_2, \dots$ are iid, so are $A_1, A_2, \dots$.
-% Let $Z \overset{d}{=} Z_1$ and $A \overset{d}{=} A_1$.
-
+%TODO: Add literature review for random matrices
 In the special case of GARCH($p, q$),
 Bollerslev \cite{bollerslev:1986} showed that the 
 equation $X \overset{d}{=} A X + B$ has a unique, strictly
@@ -296,7 +282,13 @@ the occurrence of $\inn{\tilde x, V} > u$ for a large $u$ is a rare event; a
 naive Monte-Carlo approach will be very inefficient. Cf. Asmussen and
 Glynn \cite{opac-b1123521}.
 One way to increase the efficiency of Monte-Carlo methods is
-importance sampling. To our best knowledge, no importance sampling
+importance sampling.
+
+%TODO: Add literature review of importance sampling%
+% Jose Blanchet & Peter Glynn: Annals of appl. prob. 2008
+
+
+To our best knowledge, no importance sampling
 estimator has been proposed in the literature for the computation of
 $\P(\inn{\tilde x, V} > u)$ or for the more general problem when the
 defining recurrence equation of $V_n$ i.e. \eqref{eq:garchpq_sre} is 
