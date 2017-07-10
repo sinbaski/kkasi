@@ -13,12 +13,6 @@
 
 \input{../../physics_common}
 
-% settings
-%\pubyear{2005}
-%\volume{0}
-%\issue{0}
-%\firstpage{1}
-%\lastpage{8}
 \arxiv{arXiv:0000.0000}
 
 \startlocaldefs
@@ -26,6 +20,9 @@
 \theoremstyle{plain}
 \newtheorem{thm}{Theorem}[section]
 \endlocaldefs
+
+\newif\ifestimation
+\estimationfalse
 
 \begin{document}
 
@@ -159,12 +156,122 @@ and (A):
   radius of matrix $s$.
 \end{itemize}
 Upon these conditions, Kesten's theorem gives
-\[
-\lim_{u \to \infty} u^\xi \P(\inn{\tilde x, V} > u) = e_\xi(\tilde x)
-\]
-where $e_\xi(\cdot)$ is a function $e_\xi : \sphere^d \to \reals_+$.
+\begin{equation}
+  \label{eq:kesten}
+  u^\xi \P(u^{-1} V \in \cdot) \overset{v}{\to} \mu_\xi(\cdot)
+\end{equation}
+where $\mu_\xi$ is a non-null Radon measure on
+$\reals^d_+ \setminus \{0\}$ with the property
+$\mu_\xi(a A) = a^{-\xi} \mu_\xi(A)$.
 
-%TODO: Add literature review for random matrices
+Recently, Collamore and Mentemeier \cite{collamore:mentemeier:2016}
+extended Kesten's result and gave an explicit expression for $\mu_\xi$:
+\begin{equation}
+  \label{eq:CollamoreMentemeier}
+  \lim_{u \to \infty} u^{\xi} \E \left[
+    f(u^{-1} V)
+    \right]
+  =
+  {C \over \lambda'(\xi)}  
+  \int_{\sphere^{d-1}_+ \times R} e^{-\xi s} f(e^s x) \ell_\xi(dx) ds
+\end{equation}
+where $C$ is a constant (cf. eq.(2.15) of Collamore and Mentemeier
+\cite{collamore:mentemeier:2016}), $f(\cdot)$ is any bounded
+continuous function on $\reals^{d}_+ \setminus \{0\}$  and
+$\ell_\xi$ is a probability measure on $\sphere_+^{d-1}$. Its definition
+is also found in \eqref{eq:eigenmeasure}.
+
+From \eqref{eq:CollamoreMentemeier} a representation for
+$\mu_\xi (\cdot)$ immediately follows 
+\[
+\mu_\xi (\cdot) = {C \over \lambda'(\xi)} \mathcal L_\xi(\cdot)
+\]
+Here $\mathcal L_\xi$ is a non-null Radon measure  on
+$\reals^d_+ \setminus \{0\}$ that satisfies, for all
+bounded continuous function $f(\cdot)$ on
+$\reals_+^{d} \setminus \{0\}$:
+\[
+\int_{\reals_+^d\setminus \{0\}} f(x) \mathcal L_\xi(dx)
+=
+\int_{\sphere^{d-1}_+ \times R} e^{-\xi s} f(e^s x) \ell_\xi(dx) ds
+\]
+A key ingredient of Collamore and Mentemeier's approach is Hennion's
+uniform convergence result on the product of iid random matrices
+\cite{hennion:1997}:
+\[
+\limsup_{n \to \infty}
+\left\{
+  {1 \over n} \1{n > T}
+  \left|
+  \log \inn{y, A_n \cdots A_1 x} - \gamma
+  \right|
+  :
+  x, y \geq 0, |x| = 1, |y| = 1
+  \right\} = 0
+\]
+where $T = \min\{n \geq 1, A_n \cdots A_1 > 0\}$. Assuming the
+conditions of Kesten, $T$ is almost surely finite. Here
+$x \geq 0$ means every component of $x$ is non-negative.
+
+In addition to non-negative matrices, two other classes of random
+matrices have been shown to lead to power-law tails via the recurrence
+relation \eqref{eq:garchpq_sre}. Alsmeyer and Mentemeier
+\cite{alsmeyer:mentemeier:2012} considered invertible matrices whose
+distribution has a density. Let $M(d, \reals)$ denote the space of
+$d \times d$ matrices with real entries that are invertible with
+probability 1. They replaced Kesten's condition
+$\E (\|A\|^\xi \log^+\|A\|) < \infty$ with a stronger
+counterpart
+$\E [\|A\|^\xi (\log^+\|A\| + \log \|A^{-1} \|)] < \infty$,
+and lifted the condition (A). In addition, they assumed
+\begin{enumerate}
+  \item The Markov chain $X_n$ on $\sphere^{d-1}$, namely
+    $X_n = A_n X_{n-1} / |A_n X_{n-1}|$, is irreducible, i.e. for any open
+    set $U \subset \sphere^{d-1}$ and any $u \in \sphere^{d-1}$, 
+    $\exists n \geq 1$ such that $\P(X_n u \in U) > 0$.
+  \item There exist $N \geq 1$, $c, \epsilon > 0$ and an invertible
+    matrix $\bar A \in M(d, \reals)$ such that for any set
+    $C \subset M(d, \reals)$, it holds true
+    $\P(A_N \cdots A_1 \in C) \geq c |B_\epsilon(\bar A) \cap C|$,
+    where $|\cdot|$ denotes the Lebesgue measure.
+\end{enumerate}
+These assumptions are termed conditions (id). Furthermore, they assumed
+that there was no point in $\reals^d$ such that the recurrence
+equation \eqref{eq:garchpq_sre} was stuck at this point with probability 1: 
+$\P(A X + B = X) < 1$ for all $X \in \reals^d$ and all $A \in M(d, \reals)$.
+With these assumptions, they showed
+\[
+\lim_{u \to \infty} u^\xi \P(\inn{x, V} > u) = e_\xi(x)
+\]
+where $x \in \sphere^{d - 1}$ and $e_\xi(\cdot)$ is a continuous
+function $\sphere^{d-1} \to \reals_+$.
+
+The second of the (id) conditions, which is satisfied when the
+distribution of $A$ has a Lebesgue density, can actually be lifted if
+stronger moment conditions are imposed on $A$ and $B$, and in
+addition, a proximity condition is satisfied by the support of
+$A$. This is the result of Guivarc'h and Le Page, et al
+\cite{guivarc:page:2016}. Let $G_A$ denote the semi-group generated
+by $\{\Pi_n: \Pi_n = A_n \cdots A_1, A_i \in M(d, \reals)\}$. The
+authors assumed
+\begin{enumerate}
+  \item There is no finite union $W$ of proper subspaces of $\reals^d$
+    that satisfies $\forall a \in G_A, a W = W$.
+  \item $G_A$ contains a proximal element, i.e. an element $a$ whose
+    largest singular value is an algebraically simple eigenvalue of $a$.
+\end{enumerate}
+These two assumptions are termed (ip) conditions. Replacing the (id)
+conditions of Alsmeyer and Mentemeier with (ip) and the moment
+conditions of the former with
+\[
+\E \|A\|^{\xi + \delta} < \infty, \quad
+\E (\|A\|^{\xi} \|A^{-1}\|^{\delta}) < \infty, \quad
+\E (|B|^{\xi + \delta} < \infty),\quad
+\text{ for some }\delta > 0
+\]
+Guivarc'h and Le Page et al proved the same vague convergence result
+of \eqref{eq:kesten}.
+
 In the special case of GARCH($p, q$),
 Bollerslev \cite{bollerslev:1986} showed that the 
 equation $X \overset{d}{=} A X + B$ has a unique, strictly
@@ -286,9 +393,25 @@ importance sampling.
 
 %TODO: Add literature review of importance sampling%
 % Jose Blanchet & Peter Glynn: Annals of appl. prob. 2008
+The idea of importance sampling with exponential shift dates back
+to Siegmund \cite{siegmund:1976}, who devised an algorithm for
+estimating the excursion probability of 1D random walk with iid
+increments. Following his work, various importance sampling algorithms
+have been proposed for rare event simulation in a variety of problems.
 
+Let $W_n = \sum_{i=1}^n X_n$ be a random walk. Blanchet and Glynn
+\cite{blanchet:glynn:2008}
+proposed a state-dependent importance sampling algorithm to estimate
+the tail of $\max\{W_n, n \geq 1\}$ and showed that their estimator
+had bounded relative error (cf. Asmussen and Glynn
+\cite{opac-b1123521}). In the case of light tailed increments, their
+estimator recovers that of Siegmund.
 
-To our best knowledge, no importance sampling
+In 2010, Blanchet and Liu \cite{blanchet:liu:2010} presented an
+importance sampling algorithm for the first passage time of a
+multidimensional random walk with heavy-tailed increments.
+
+However, to our best knowledge, no importance sampling
 estimator has been proposed in the literature for the computation of
 $\P(\inn{\tilde x, V} > u)$ or for the more general problem when the
 defining recurrence equation of $V_n$ i.e. \eqref{eq:garchpq_sre} is 
@@ -514,14 +637,14 @@ now on, we use the notations
 \]
 
 There is also an eigenmeasure $\ell_\xi$ on $\mathcal B(\sphere^{d-1})$
-associated with the operator
-$\mathscr P^\xi$ that corresponds to the eigenvalue
-$\lambda(\xi) = 1$ and eigenfunction $r_\xi$:
-\[
-\E \left[ |A x|^\xi \ell(A \cdotp dx) \right]
-= \ell_\xi \mathscr P^\xi (dx)
-= \lambda(\xi) \ell_\xi(dx)
-\]
+associated with the operator $\mathscr P^\xi$ that corresponds to the
+eigenvalue $\lambda(\xi) = 1$ and eigenfunction $r_\xi$:
+\begin{equation}
+  \label{eq:eigenmeasure}
+  \E \left[ |A x|^\xi \ell(A \cdotp dx) \right]
+  = \ell_\xi \mathscr P^\xi (dx)
+  = \lambda(\xi) \ell_\xi(dx)
+\end{equation}
 The eigenfunction $r_\xi$ and eigenmeasure $\ell_\xi$ are called
 right eigenfunction and left eigenmeasure, respectively. They
 satisfy the identity
@@ -2052,6 +2175,8 @@ unit vectors.
   \end{algorithmic}
 \end{algorithm}
 
+\ifestimation
+
 \subsection{GARCH(2,1) process}
 As examples of the algorithm described in the previous section, we
 consider GARCH(2,1) processes. In this particular case we have
@@ -2275,6 +2400,7 @@ Rmetrics} (https://www.rmetrics.org/).
 
 \section{Evaluation of the right eigenfunction}
 
+\fi
 \section*{Acknowledgements}
 
 % \begin{supplement}
