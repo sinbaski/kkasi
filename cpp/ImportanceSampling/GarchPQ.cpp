@@ -186,15 +186,21 @@ int main(int argc, char*argv[])
     // // madeup
     // vector<double> alpha({1.0e-7, 0.11, 0});
     // vector<double> beta({0.88});
+    // vector<double> alpha({1.0e-7, 0.2, 0});
+    // vector<double> beta({0.2});
     // DAX
-    vector<double> alpha({3.374294e-06, 2.074732e-02, 4.104949e-02});
-    vector<double> beta({9.102376e-01});
+    // vector<double> alpha({3.374294e-06, 2.074732e-02, 4.104949e-02});
+    // vector<double> beta({9.102376e-01});
     // FTSE100
     // vector<double> alpha({1.0e-7, 0.10623464, 0.02904907});
     // vector<double> beta({0.7829784});
     // // FTSE100 GARCH(1,1)
     // vector<double> alpha({1.0e-7, 1.268747e-01});
     // vector<double> beta({8.008847e-01});
+
+    // DJIA
+    vector<double> alpha({3.374294e-06, 0.061577928, 0.12795424});
+    vector<double> beta({0.6610499});
 
     // SP500
     // vector<double> alpha({9.376992e-06, 7.949678e-02, 8.765884e-02});

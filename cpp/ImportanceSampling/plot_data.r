@@ -13,13 +13,27 @@ graphics.off();
 ## old <- read.table(file="./lambda0.txt");
 ## new <- read.table(file="./lambda0_new.txt");
 ## data <- read.table("DAX_garch21_tailindex.dat");
-data <- read.table("test.dat");
+data <- read.table("DJIA_garch21_tailindex.dat");
+
+## Smooth it!
+k = 5;
+X <- data[, 2];
+for (i in k:dim(data)[1]) {
+    X[i] = mean(data[(i-(k-1)/2):(i+(k-1)/2), 2]);
+}
+
+
+
+
+## data <- read.table("temp.dat");
 ## pdf("../../papers/Jeffrey1/SP500_xi.pdf");
-plot(data[, 1], data[, 2],
+plot(data[, 1], X,
+     lwd=2,
      ##     main=expression(sigma[t]^2 == 0.11 * R[t-1]^2 + 0.88 * sigma[t-1]^2 + 10^{-7}
      type="l", xlab=expression(alpha),
      ylab=expression(Lambda(alpha))
      );
+lines(data[, 1], data[, 2], col="#FF0000");
 grid();
 ## lines(new$V1, new$V2, col="#00FF00");
 ## legend("topleft",
