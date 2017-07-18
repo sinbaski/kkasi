@@ -142,6 +142,9 @@ double func(double theta, void *p)
     return estimateLambda(par->a, par->b, theta, par->N, par->K, sd);
 }
 
+/*
+ * We add more and more estimation points until their 
+ */
 double find_root(const vector<double>& a,
 		 const vector<double>& b,
 		 unsigned long N,
@@ -168,7 +171,7 @@ double find_root(const vector<double>& a,
 	xi = gsl_root_fsolver_root (solver);
 	lb = gsl_root_fsolver_x_lower(solver);
 	ub = gsl_root_fsolver_x_upper(solver);
-	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-4);
+	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-2);
 	if (status == GSL_SUCCESS)
 	    cout << "Tail index found: xi = " << xi << endl;
     } while (status == GSL_CONTINUE && iter < max_iter);
@@ -186,8 +189,8 @@ int main(int argc, char*argv[])
     // // madeup
     // vector<double> alpha({1.0e-7, 0.11, 0});
     // vector<double> beta({0.88});
-    // vector<double> alpha({1.0e-7, 0.2, 0});
-    // vector<double> beta({0.2});
+    vector<double> alpha({1.0e-7, 0.2, 0.1});
+    vector<double> beta({0.2});
     // DAX
     // vector<double> alpha({3.374294e-06, 2.074732e-02, 4.104949e-02});
     // vector<double> beta({9.102376e-01});
@@ -199,8 +202,8 @@ int main(int argc, char*argv[])
     // vector<double> beta({8.008847e-01});
 
     // DJIA
-    vector<double> alpha({3.374294e-06, 0.061577928, 0.12795424});
-    vector<double> beta({0.6610499});
+    // vector<double> alpha({3.374294e-06, 0.061577928, 0.12795424});
+    // vector<double> beta({0.6610499});
 
     // SP500
     // vector<double> alpha({9.376992e-06, 7.949678e-02, 8.765884e-02});
@@ -225,8 +228,6 @@ int main(int argc, char*argv[])
 	// according to Anand
 	printf("%.4f    % .4f    %.4f    %.4f\n", nu, Lambda, sd, sd/abs(Lambda));
 
-	// according to me
-	// printf("%.4f    % .4f    %.4f    %.4f\n", nu, exp(Lambda), sd, sd/exp(Lambda));
 	if (!flag && Lambda > 0) {
 	    bounds[1] = nu;
 	    bounds[0] = nu - 0.1;

@@ -69,21 +69,23 @@ R <- getAssetReturns("2012-01-01", "2015-01-01", assets, 1, "closing", "localhos
 coef <- matrix(NA, nrow=length(assets), ncol=3);
 for (i in 1:length(assets)) {
     X <- getAssetReturns("2012-01-01", "2015-01-01", assets[i], 1, "closing", "localhost");
-    M <- garchFit(~garch(2, 1), data=X, trace=FALSE,
+    garch21 <- garchFit(~garch(2, 1), data=X, trace=FALSE,
                   include.mean=FALSE);
-    coef[i, ] <- M@fit$coef[-1];
+    garch11 <- garchFit(~garch(1, 1), data=X, trace=FALSE,
+                  include.mean=FALSE);
+    coef[i, ] <- garch21@fit$coef[-1];
 }
 
 X <- getAssetReturns("2012-01-01", "2015-01-01", "SP500", 1, "closing", "localhost");
 M <- garchFit(~garch(2, 1), data=X, trace=FALSE);
 
 
-##            [,1]       [,2]      [,3]
-## [1,] 0.02749864 0.04228535 0.8968533
-## [2,] 0.10623464 0.02904907 0.7829784
-## [3,] 0.08835834 0.09685783 0.6543018
-## [4,] 0.07490443 0.12812118 0.6543123
-## [5,] 0.01677130 0.03622593 0.9232396
+##           alpha1       alpha2     beta1   sum
+## DAX     0.02074733 0.04104947 0.9102376   0.97
+## FTSE100 0.08806776 0.04548650 0.7808275   0.91
+## SP500   0.07949678 0.08765884 0.6683833   0.84
+## DJIA    0.06157793 0.12795424 0.6610499   0.85
+## OMXS30  0.00924104 0.04309249 0.9246996   0.98
 
 
 
