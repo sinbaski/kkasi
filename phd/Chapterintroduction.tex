@@ -1,0 +1,639 @@
+\chapter{Introduction}\label{ch:intr}
+
+In this thesis we study the largest and smallest eigenvalues of high-dimensional sample covariance and correlation matrices of heavy-tailed time series. 
+
+\section{Random Matrix Theory}\label{sec:rmt}
+
+The field of Random Matrix Theory (RMT) is concerned with the spectral properties of high-dimensional random matrices. Its development was motivated by applications.
+In quantum mechanics, for example, the energy levels of particles in a large system can be characterized by the eigenvalues of a random infinite-dimensional Hermitean operator $\bfW$ on a Hilbert space. It is common to work with discretizations in a finite-dimensional space. In this case $\bfW$ turns into a high-dimensional Hermitean random matrix. Such matrices are called Wigner matrices named after Eugene Paul Wigner. He proved in the $1950$s that 
+if $\bfW$ has independent standard normal entries on and above the diagonal, then
+the expected empirical distribution of the eigenvalues of $\bfW$ tends to the so-called semi-circle law defined in \eqref{eq:semi-circle}, as the dimension of $\bfW$ goes to infinity; see for example \cite{wigner:1955,wigner:1957}. Since then a great variety of asymptotic results has been proved for various classes of random matrices under different assumptions on the distribution of the entries and their dependence structure. The discovery of many results was triggered by the enormous improvement of computation power which led to numerous conjectures. In the second half of the $20$th century, the research on asymptotic spectral properties of large-dimensional random matrices attracted considerable interest among physicists, computer scientists and mathematicians.  
+A breakthrough in the theory of spectral distributions of sample covariance matrices was achieved by Mar\v cenko and Pastur in $1967$. 
+%In $2010$, the most famous conjecture about the circular law was solved in \cite{tao:vu:krishnapur:2010}.
+
+For many years the main focus of research in RMT has been on limiting spectral distributions. More recently, the focus turned to linear spectral statistics, eigenvectors, limiting distributions of extreme eigenvalues and their spacings. This thesis addresses these four topics in the special setting of random matrices with  heavy-tailed entries.
+
+RMT is a versatile and useful tool in many fields of modern sciences that are faced with high-dimensional data sets. It  employs techniques from probability theory, multivariate statistics, number theory and combinatorics. Moreover, RMT finds applications in quantum physics, signal processing, wireless communications and finance; see Bai et al.~\cite{bai:fang:liang:2014} for more detailed examples. 
+%``Big data'' is a popular topic nowadays. To meet the demand for data analysis and dimension reduction techniques RMT brings together 
+
+
+\subsection{Limiting spectral distributions}
+
+For any random $p\times p$ matrix $\bfA$ with real eigenvalues $\lambda_1(\bfA),\ldots,\lambda_p(\bfA)$ the {\em empirical spectral distribution} is defined by 
+\begin{equation*}
+F_{\bfA}(x)= \frac{1}{p}\; \sum_{i=1}^p \1_{\{ \lambda_i(\bfA)\le x \}}, \qquad x\in  \R\,.
+\end{equation*}
+
+A major problem in random matrix theory is to find the weak limit of $(F_{\bfA_n})$, the so-called {\em limiting spectral distribution}, for suitable sequences of Hermitean $p\times p$ matrices $(\bfA_n)$. By weak convergence of a sequence of probability distributions $(F_{\bfA_n})$ 
+to a \pro y \ds\ $F$, we mean $\lim_{\nto} F_{\bfA_n}(x)=F(x) \,\as$ for all continuity points of $F$.
+Although the eigenvalues of $\bfA_n$ are continuous functions of the entries of $\bfA_n$ there are no closed-form expressions if the dimension is larger than $4$. Therefore methods to identify and characterize the limiting spectral distribution are needed. We will briefly discuss the two most common ones: the method of moments and Stieltjes transforms.
+\par
+
+By Lemma B.3 in \cite{bai:silverstein:2010}, a distribution function $F$ is uniquely characterized by its sequence of moments 
+\begin{equation*}
+\beta_k=\int_0^{\infty} x^k \dint F (x)\,, \quad k=1,2,\ldots
+\end{equation*}
+if Carleman's condition $\sum_{k=1}^{\infty} \beta_{2k}^{-1/(2k)}=\infty$ is satisfied. In this case, weak convergence of $(F_{\bfA_n})$ to $F$ is equivalent to the convergence of moments, that is
+\begin{equation}\label{eq:mmom}
+\beta_k(\bfA_n)= \int_0^{\infty} x^k \dint F_{\bfA_n} (x)=\frac{1}{p} \tr(\bfA_n^k) \to \beta_k\,,\quad \nto, \,k=1,2,\ldots
+\end{equation}
+In many cases the calculation of $\tr(\bfA_n^k)$ is very demanding. Often its mean and variance are estimated by combinatorial techniques.
+On the positive side, if $F$ has finite support, Carleman's condition holds automatically.
+\par
+
+Another useful tool is the {\em Stieltjes transform}
+of the empirical spectral distribution $F_{\bfA}$:
+\begin{equation*}
+s_{F_{\bfA}}(z)= \int_{\R} \frac{1}{x-z} \dint F_{\bfA}(x) = \frac{1}{p} \tr\big((\bfA -z \bfI)^{-1}\big)\,, \quad z\in \C^+\,,
+\end{equation*}
+where $\C^+$ denotes the complex numbers with positive imaginary part. 
+Weak convergence of $(F_{\bfA_n})$ to a distribution function $F$ is equivalent to $s_{F_{\bfA_n}}(z) \to s_F(z)$ a.s. for all $z\in \C^+$.
+Notice that the Stieltjes transform $s_F$ determines a distribution function $F$ at all continuity points $a,b$ of $F$ via
+\begin{equation*}
+F(b)-F(a)= \lim_{v\to 0^+} \frac{1}{\pi} \int_a^b \Im s_F(x+\mathrm{i} v) \dint x\,.
+\end{equation*}
+
+
+\section{Sample covariance matrices}
+For a sample of $n$ column vectors $\x_1,\ldots,\x_n$ of a $p$-dimensional time series the (non-normalized) {\em sample covariance matrix} is usually defined as
+\begin{equation*}
+\bfS=\sum_{i=1}^n (\x_i-\overline{\x})(\x_i-\overline{\x})'= \sum_{i=1}^n \x_i \x_i' - n\overline{\x}\,\overline{\x}'= \X\X' - n\overline{\x}\,\overline{\x}'\,,
+\end{equation*}  
+where $\overline{\x}=n^{-1}\sum_i \x_i$ is the sample mean and 
+\begin{equation*}
+\X=(\x_1, \ldots, \x_n) =(X_{it})_{i=1,\ldots,p;\,t=1,\ldots,n}
+\end{equation*}
+is the {\em data matrix}. The sample covariance matrix is of crucial importance in multivariate statistics, for instance in principal component analysis, canonical correlation analysis, multivariate regression, factor analysis, hypothesis testing and discriminant analysis. The case of multivariate normal observations has played a particular role in the development of statistical theory. Already in $1928$, Wishart \cite{wishart:1928} studied sample covariance matrices with normal entries. Through the $20$th century non-asymptotic procedures for Gaussian observations such as Fisher's test, Student's test, and the analysis of variance were developed. In practice, however, observations are often not normally distributed and asymptotic methods based on limit theorems for certain model parameters are employed instead of exact results which are difficult to obtain. 
+
+Most of the classical limit theorems are derived under the assumption that the dimension $p$ is fixed and the sample size $n$ goes to infinity. 
+If the assumptions of the law of large numbers are satisfied, then $n^{-1} \bfS$ converges \as~to the covariance matrix $\Sigma$ of $\x_1$.
+
+If $p$ is moderately large, it is known that $n^{-1} \bfS$ ceases to be a good estimate for $\Sigma$. This means that classical methods based on fixed dimension and large sample limits may lead to wrong conclusions when applied to high-dimensional data. One would need appropriate adjustments. RMT provides limit theory in the case of large $p$. New statistical methods can be built on these results. 
+
+In RMT one assumes that $p=p_n$ grows with $n$. The most common condition in the literature is
+\begin{equation}\label{Cp}
+\lim_{\nto} \frac{p_n}{n}\to \gamma\in (0,\infty)\,. %\tag{$G_{\gamma}$}
+\end{equation}
+The asymptotic spectral behaviors of two large matrices are the same if their difference is of finite rank. Therefore we will refer to $\X\X'$ as the {\em sample covariance matrix} from now on. Indeed, by the rank inequality (see Bai and Silverstein \cite[Theorem A.44]{bai:silverstein:2010}) we have for the supremum norm
+\begin{equation*}
+\| F_{n^{-1}\bfS}-F_{n^{-1}\X\X'} \| \le p^{-1} \mathrm{rank}((\overline{\x},\ldots,\overline{\x}))\,,
+\end{equation*}
+which means that the respective limiting spectral distributions coincide under \eqref{Cp}. For the same reason we can assume without loss of generality that the entries $(X_{it})$ are centered whenever the expectations exist. 
+\par 
+
+The limiting spectral distribution of normalized sample covariance matrices was found by Mar\v cenko and Pastur.
+
+\begin{theorem}[Debashis and Aue \cite{debashis:aue:2014}]\label{thm:mpch1}
+Suppose that $\X$ has iid entries with common mean and variance $1$. If \eqref{Cp} holds, then, with probability one, $(F_{n^{-1}\X \X'})$ converges weakly to a non-random distribution, the so-called  Mar\v cenko--Pastur law $F_\gamma$. If $\gamma \in (0,1]$,  $F_\gamma$  has density,
+\begin{eqnarray}\label{eq:MPch1}
+f_\gamma(x) =
+\left\{\begin{array}{ll}
+\frac{1}{2\pi x\gamma} \sqrt{(b-x)(x-a)} \,, & \mbox{if } a\le x \le b, \\
+ 0 \,, & \mbox{otherwise,}
+\end{array}\right.
+\end{eqnarray}\noindent
+where $a=(1-\sqrt{\gamma})^2$ and $b=(1+\sqrt{\gamma})^2$. If $\gamma>1$, the \MP law is a mixture of a point mass at $0$ and the density function $f_{1/\gamma}$ with weights $1-1/\gamma$ and $1/\gamma$, respectively.
+\end{theorem}
+
+The \MP law describes the global behavior of the eigenvalues of $\X \X'$. Theorem \ref{thm:mpch1} quantifies the spread of the eigenvalues around their mean $1$. Note that the range of the deviation increases when $\gamma$ increases from $0$ to $\infty$.
+ 
+If $p/n\to 0$, the limiting spectral distribution in Theorem \ref{thm:mpch1} is the Dirac measure at $1$. After an appropriate transformation of the sample covariance matrix one can obtain the semi-circle law defined in \eqref{eq:semi-circle} as a non-degenerate limiting spectral distribution in this case. 
+
+The crucial assumptions in Theorem \ref{thm:mpch1} are the finiteness of the variance and that $p$ and $n$ tend to infinity at the same rate. By Theorem 2.8 in Bai \cite{Bai:1999}, the conclusion still holds if the entries are independent, have common mean and satisfy the Lindeberg-type condition
+\begin{equation*}
+\lim_{\nto} \frac{1}{\delta^2 n p}\sum_{i,t} \E[X_{it}^2 \1_{\{|X_{it}|>\delta \sqrt{n}  \}}] =0\,,\quad \delta>0\,.
+\end{equation*}
+\par
+
+Many important test statistics in multivariate analysis are functions of the eigenvalues
+$\la_{(1)}\ge \cdots \ge \la_{(p)}$ of the sample covariance matrix and can be expressed by means of the empirical spectral distribution of $n^{-1}\X\X'$.
+
+\begin{example}{\em 
+Let $(X_{it})$ be iid standard normal and consider
+\begin{equation*}
+V_n:=\log(\det (n^{-1}\X\X'))=
+\log \prod_{i=1}^p \frac{\lambda_{(i)}}{n} =  p \int_{0}^{\infty} \log x \;\dint F_{n^{-1}\X\X'}(x)\,.
+\end{equation*}
+On the one hand, if $p$ is fixed we know from Example 1.1 in Yao et a.~\cite{yao:zheng:bai:2015} that 
+\begin{equation}\label{eq:srgdrgd}
+\sqrt{\frac{n}{p}}\, V_n \cid Y\sim N(0,2)\,,\quad \nto\,.
+\end{equation}
+On the other hand, if $p/n \to \gamma\in (0,1)$, one can use Theorem \ref{thm:mpch1} to obtain asymptotic values for $V_n$. On gets \as
+\begin{equation*}
+\frac{V_n}{p}\to \int_{0}^{\infty} \log x \;\dint F_{\gamma}(x)= \frac{\gamma-1}{\gamma} \log(1-\gamma)-1<0\,,
+\end{equation*}
+which implies $\sqrt{n/p}\, V_n \to -\infty$ \as~In view of \eqref{eq:srgdrgd} the asymptotic behavior of the test statistic $V_n$ crucially depends on the dimension $p$.}
+\end{example}
+ 
+A characterization of the limiting spectral distribution of sample covariance matrices with  general population covariance has been derived for many settings. As an example we state Theorem 1.1 in Bai and Zhou \cite{bai:zhou:2008}.
+%a result that we will use in Chapter \ref{ch:corr} to find the limiting spectral distribution of sample correlation matrices.
+\begin{theorem}\label{them:baizhou}
+Assume \eqref{Cp} and the following conditions.
+\begin{itemize}
+\item For all $k$, $\E[X_{jk}X_{lk}]=T_{lj}$, and for any non-random $p\times p$ matrix $\bfB$ with bounded norm, $\E[(\x_k'\bfB \x_k -\tr(\bfB \bfT))^2]=o(n^{-2})$, where $\bfT=\bfT_n=(T_{jl})$ and $\x_k$ are the columns of $\X$.
+\item The norm of $\bfT_n$ is uniformly bounded and $F_{\bfT_n}$ tends to a non-random probability distribution $H$.
+\end{itemize}
+Then, with probability $1$, $F_{n^{-1}\X\X'}$ tends to a probability distribution, whose Stieltjes transform $m(z)$ satisfies
+\begin{equation}\label{eq:mpequation}
+m(z)=\int_{\R} \frac{1}{t(1-\gamma-\gamma z m(z))-z} \dint H(t)\,.
+\end{equation}
+If $\underline{m}(z)=-(1-\gamma)/z+\gamma m(z)$, then \eqref{eq:mpequation} becomes
+\begin{equation}\label{eq:silversteineq}
+z=-\frac{1}{\underline{m}(z)}+\gamma \int_{\R} \frac{1}{1+\underline{m}(z) \,t} \dint H(t)\,.
+\end{equation}
+\end{theorem}
+For historical reasons, \eqref{eq:mpequation} is often called {\em \MP equation}. In practice, the inversion of such integral equations can be very difficult. Therefore, a characterization of the limiting spectral distribution via \eqref{eq:mpequation} is of limited use. For numerical procedures, the {\em Silverstein equation} \eqref{eq:silversteineq} is sometimes preferred. 
+Roughly speaking, the only known explicit examples of non-degenerate limiting spectral distributions are the \MP law, the circular law, the semi-circle law and the multivariate $F$-matrix. In contrast, the number of existence results is huge. 
+We refer to the discussion in Yao et al.~\cite{yao:zheng:bai:2015} for further details.
+\medskip
+
+In Theorem \ref{thm:mpch1} we have seen that the sequence $(F_{n^{-1}\X \X'})$ converges to the Mar\v cenko--Pastur law if the iid entries possess a finite second moment. Now we will discuss the situation when the entries are still iid, but have an infinite variance. Here we assume the entries to be regularly varying with index $\alpha \in (0,2)$; see \eqref{eq:regvarch1} on page \pageref{eq:regvarch1} for the definition of regular variation.
+Assuming \eqref{Cp} with $\gamma\in (0,1]$ in this infinite variance case, Belinschi et al.~\cite[Theorem~1.10]{belinschi:dembo:guionnet:2009} showed that the sequence $(F_{a_{n+p}^{-2}\X \X'})$ converges with probability one to a non-random probability measure with density $\rho_{\alpha}^\gamma$ satisfying
+\begin{equation}\label{eq:esd}
+\rho_{\alpha}^\gamma(x) x^{1+\alpha/2} \to \frac{\alpha \gamma}{2(1+\gamma)}, \quad x \to \infty\,;
+\end{equation}
+see also Ben Arous and Guionnet \cite[Theorem~1.6]{arous:guionnet:2008}.
+Here the normalization $(a_k)$ is defined \sth\ 
+\begin{equation}\label{eq:defanp}
+\P(|X|>a_k)\sim k^{-1}\,,\quad k\to\infty\,.
+\end{equation}
+An application of the Potter bounds (see Bingham et al. \cite[p.~25]{bingham:goldie:teugels:1987}) shows that $a_{n+p}^2/n \to \infty$. To the best of our knowledge, explicit expressions or computational methods for the limiting spectral distribution in the infinite variance case are not available at this moment.
+
+
+
+\section{Limits of extreme eigenvalues under finite fourth moment}
+
+After the limiting spectral distribution for sample covariance matrices had been found, the focus shifted to the asymptotic behavior of the largest and smallest eigenvalues $\la_{(1)}$ and $\la_{(p)}$, respectively, of $\X\X'$. 
+In this section, we assume that the entries of the data matrix $\X$ are iid with generic element $X$. Furthermore, suppose $p\le n$; otherwise $\la_{(p)}=0$ since $\X\X'$ has at most $\min(n,p)$ non-zero eigenvalues.
+We will discuss the setting $\E[X^4]<\infty$, while the case $\E[X^4]=\infty$ is treated in Section \ref{sec:contr}.
+
+Under condition \eqref{Cp} with $\gamma\le 1$, one can infer from Theorem \ref{thm:mpch1} that
+\begin{equation}\label{eq:conlcu}
+\liminf_{n\to \infty}\frac{\la_{(1)}}{n} \ge (1+\sqrt{\gamma})^2\quad \mbox{and}\quad
+\limsup_{n\to \infty}\frac{\la_{(p)}}{n} \le (1-\sqrt{\gamma})^2\quad \as 
+\end{equation}
+We follow Bai and Silverstein \cite{bai:silverstein:2010} and derive necessary conditions for the \as~convergence of $n^{-1}\la_{(1)}$. Since the largest diagonal entry of a matrix is bounded by its largest eigenvalue, we have
+\begin{equation}\label{eq:simplebo}
+\frac{\la_{(1)}}{n}\ge \max_{i=1,\ldots,p} \frac{1}{n} \sum_{t=1}^n X_{it}^2\,.
+\end{equation}
+If $\E[X^4]=\infty$, then by Lemma B.25 in \cite{bai:silverstein:2010}
+\begin{equation}\label{eq:sghdfgdfs}
+\limsup_{n\to \infty}\max_{i=1,\ldots,p} \frac{1}{n} \sum_{t=1}^n X_{it}^2 =\infty \quad \as
+\end{equation}
+%Next note that Theorem \ref{thm:mpch1} holds if $\E[X]=c\neq 0$. 
+If $\E[X^4]<\infty$ and $\E[X]=c\neq 0$, then
+\begin{equation*}
+\frac{1}{\sqrt{n}}\twonorm{\X}\ge \frac{1}{\sqrt{n}}\twonorm{\E[\X]}  -\frac{1}{\sqrt{n}}\twonorm{\X-\E[\X]}
+\ge \frac{|c| p}{\sqrt{n}}  - \frac{1}{\sqrt{n}}\twonorm{\X-\E[\X]} \to\infty \quad \as,
+\end{equation*}
+where for any matrix $\bfA$, $\twonorm{\bfA}$ denotes its spectral norm, i.e., its largest singular value. This and \eqref{eq:sghdfgdfs} show that $\E[X]=0$ and $\E[X^4]<\infty$ are necessary conditions for the \as~convergence of $n^{-1}\la_{(1)}$.
+
+{\em In what follows, we assume $\E[X]=0$ and $\E[X^2]=1$, whenever the respective moments exist.}
+
+\subsection{Sample covariance matrices}
+Extending work by Geman \cite{geman},
+Bai et al.~\cite{bai:yin:krishnaiah:1988} 
+showed under \eqref{Cp} that
+\beam\label{eq:gemanch1}
+\dfrac {\la_{(1)}}{n} \stas \big(1+\sqrt{\gamma}\big)^2\,,\qquad \nto\,,
+\eeam
+which is the optimal result in view of \eqref{eq:sghdfgdfs}. Later Bai and Yin \cite{bai:yin:1993} proved the following result under the additional assumption $\gamma\in (0,1)$:
+\beam\label{eq:jo45}
+\limsup_{n\to \infty} \twonorm{n^{-1} \X\X'-(1+\gamma) \bfI} \le 2 \sqrt{\gamma}\,\quad \as
+\eeam
+Because of 
+\begin{equation*}
+\twonorm{n^{-1} \X\X'-(1+\gamma) \bfI} = \max \{ \la_{(1)}/n- (1+\gamma), -\la_{(p)}/n+(1+\gamma)\}\,,
+\end{equation*}
+equations \eqref{eq:jo45} and \eqref{eq:conlcu} imply 
+\begin{equation}\label{eq:sdfgsdfdf}
+\lim_{n\to \infty}\frac{\la_{(1)}}{n} = (1+\sqrt{\gamma})^2\quad \mbox{and}\quad
+\lim_{n\to \infty}\frac{\la_{(p)}}{n} = (1-\sqrt{\gamma})^2\quad \as \,
+\end{equation}
+The approach based on \eqref{eq:jo45} provides a lower bound on the smallest eigenvalue. Unfortunately, one cannot gain any information about the minimal conditions for the existence of a limit of $\la_{(p)}/n$ since the method treats $\la_{(1)}$ and $\la_{(p)}$ simultaneously. Therefore it can (at best) only be applied under $\E[X^4]<\infty$. Consequently, one loses sharpness of the conditions for the limit of $\la_{(p)}/n$. It was finally discovered by Tikhomirov \cite{tikhomirov:2015} that the \as~limit of $ \la_{(p)}/n$ is given by \eqref{eq:sdfgsdfdf} if $\E[X^2]=1$, whereas higher moments can be infinite.
+\par
+
+Under suitable moment assumptions, $\la_{(1)}$ and $\la_{(p)}$ possess {\em Tracy--Widom} fluctuations around their almost sure limits. For instance, 
+Johnstone \cite{johnstone:2001} complemented \eqref{eq:sdfgsdfdf} by the corresponding \clt\ in the special case of iid standard normal 
+entries:
+\begin{equation*}%\label{eq:john}
+ n^{2/3}\,\dfrac{(\sqrt{\gamma})^{1/3}}{\big(1+\sqrt{\gamma}\big)^{4/3}}\Big(\dfrac {\la_{(1)}}{n} -
+\big(1+\sqrt{\tfrac pn }\big)^2\Big)
+\std \xi\,,
+\end{equation*}
+where the limiting \rv\ has a {\em Tracy--Widom \ds} of order~$1$.
+Its distribution function $G_1$ is given by
+\begin{equation*}
+G_1(s) = \exp\Big\{
+  -\frac{1}{2} \int_{s}^\infty [
+    q(x) + (x - s) q^2(x)
+ ] \dint x
+\Big\}\,,
+\end{equation*}
+where $q(x)$ is the unique solution to the Painlev\'e II differential
+equation
+\begin{equation*}
+  q''(x) = xq(x) + 2 q^3(x)\,,
+\end{equation*}
+where $ q(x)\sim {\rm Ai}(x)$ as $x \to \infty$ and Ai$(\cdot)$ is the Airy kernel; see Tracy and Widom~\cite{tracy:widom:2012} for details.
+
+\subsection{Sample correlation matrices}
+
+In comparison with the eigenvalues of $\X\X'$, much less is known about the ordered eigenvalues
+\begin{equation*}
+\mu_{(1)} \ge \cdots \ge\mu_{(p)}\,
+\end{equation*} 
+of the {\em sample correlation matrix} $\bfR=\Y\Y'$ with entries
+\begin{equation}\label{eq:corrRch1}
+R_{ij}=\sum_{t=1}^n \frac{X_{it}X_{jt}}{\sqrt{D_i} \sqrt{D_j}} = \sum_{t=1}^n Y_{it}Y_{jt}\,, \quad i,j=1,\ldots,p\,.
+\end{equation}
+In this thesis we will often make use of the notation $\Y=(Y_{it})=(X_{it}/\sqrt{D_i})$ and
+\begin{equation}\label{eq:Dch1}
+D_i=D_i^{(n)}=\sum_{t=1}^n X_{it}^2\,, \qquad
+i=1,\ldots,p;\;  n\ge 1\,.
+\end{equation} 
+
+With $\bfF= \diag (1/D_1,\ldots,1/D_p)$, we have $\bfR={\bfF}^{1/2} {\X}{\X}'{\bfF}^{1/2}$ which has the same eigenvalues as ${\X}{\X}'{\bfF}$. Weyl's inequality (see \cite{bhatia:1997}) yields
+\begin{equation}\label{eq:lamuch1}
+\begin{split}
+\max_{i=1,\ldots,p} |\mu_{(i)}- n^{-1} \la_{(i)}| &\le \twonorm{{\X}{\X}'{\bfF}-n^{-1}{\X}{\X}' }\\
+&\le n^{-1} \twonorm{{\X}{\X}'}  \twonorm{n \bfF- \bfI}\\
+&= n^{-1} \la_{(1)} \max_{i=1,\ldots,p} \Big| \frac{n}{D_i} -1 \Big|\,,
+\end{split}
+\end{equation}
+which converges \as~to $0$ if $\E[X^4]<\infty$; see Chapter~\ref{ch:corr} for details.
+Under \eqref{Cp} with $\gamma\in(0,1]$,  Jiang \cite{jiang:2004}, and Xiao and Zhou \cite{xiao:zhou:2010} used this approach to derive 
+\begin{equation*}
+\mu_{(1)} \to (1+\sqrt{\gamma})^2\, \quad \text{ and } \quad  \mu_{(p)} \to (1-\sqrt{\gamma})^2\, \quad \as
+\end{equation*}
+
+
+
+\section{Eigenvectors}
+
+Eigenvectors of large random matrices and graphs play an essential role in statistical analysis, physics and computer science. Many properties of a matrix or a graph can be deduced from its eigenvectors. Popular algorithms for data analysis such as spectral clustering, principal component analysis, PageRank and community detection are based on the eigenvector-eigenvalue decomposition of a matrix.
+
+If the data matrix $\X$ has iid standard normal entries, then $\X\X'$ is a {\em Wishart matrix}, whose eigenvectors are well studied; see for example Bai and Silverstein \cite[Ch.~10]{bai:silverstein:2010}. Due to the invariance of $\X\X'$ under orthogonal transformations, its matrix of properly normalized eigenvectors is Haar distributed, i.e., the distribution is uniform on the space of orthogonal $p\times p$ matrices. This result has been extended to different classes of matrices $\X$ by direct comparison with Wishart matrices. Such statements are called universality results and they often require that the new entry distribution is in some sense similar to the standard normal distribution. This is often achieved by moment conditions. Silverstin \cite{silverstein:1984} showed that the matrix of eigenvectors is asymptotically Haar distributed as $p/n\to \gamma\in(0,\infty)$ if the first four moments of the iid entries coincide with those of the standard normal distribution. On the one hand, this means that eigenvectors of $\X\X'$ are completely unstructured for light-tailed entry distributions.  On the other hand, the extreme eigenvalues converge to constants \as 
+\par
+
+Although eigenvectors play a minor role in this thesis, we summarize some results from the literature on the light-tailed case.  Consequently, our approximations of eigenvectors in the heavy-tailed case are put into context. The majority of studies on eigenvectors of large random matrices is conducted on Wigner matrices $\bfW=(W_{ij})$. They are symmetric, real-valued, $n\times n$ matrices with entries $W_{ij}, 1\le i \le j \le n$, that are iid, mean zero and unit variance random variables. 
+
+Roughly speaking, the spectral properties of the square of a Wigner matrix and a sample covariance matrix with $p=n$ are quite similar if they share the same sufficiently light-tailed entry distribution. For the purpose of exposition, we look at $\bfW^2=\bfW \bfW'$ instead of $\X\X'$. Indeed, apart from the additional symmetry restriction for $\bfW$ they have the same structure. 
+
+By Theorem 2.1 in \cite{bai:fang:liang:2014}, the limiting spectral distribution of $(\bfW /\sqrt{n})$ is the {\em semi-circle law} $G$ with density
+\begin{equation}\label{eq:semi-circle}
+g(x)=\frac{1}{2\pi} \sqrt{4-x^2}\, \1_{\{ |x|\le 2 \}}\,.
+\end{equation}
+The semi-circle law and the \MP law $F_{\gamma}$ with $\gamma=1$ are linked in the following way: if $Y\sim G$ then $Y^2\sim F_1$. 
+
+Since $\bfW^2$ and $\bfW$ have the same eigenvectors it will be sufficient to study the latter. In the remainder of this section we list some properties of $\bfv_1, \ldots, \bfv_n$, where $\bfv_i$ is an eigenvector associated to the $i$th largest eigenvalue of $\bfW$. In addition, we assume $\bfv_i$ are unit vectors, i.e. $\ltwonorm{\bfv_i}=1$, and that the first non-zero component of $\bfv_i$ is positive.
+
+Often the entries are assumed to be {\em sub-exponential}. We call a random variable $W$ {\em sub-exponential} with exponent $\alpha>0$ if there exists a constant $\beta>0$ such that 
+\begin{equation*}
+\P(|W|>x)\le \beta \exp(-x^\alpha /\beta)\,,\quad x>0\,.
+\end{equation*}
+
+Theorem 1.4 in O'Rourke et al.~\cite{orourke:vu:wang:2016} focuses on Wigner matrices with sub-exponential entries with exponent $\alpha$. There exists a constant $C_{\alpha}>0$ such that the probability that the spectrum of $\bfW$ is simple and that every coordinate of every $\bfv_i$ is non-zero is at least $1-C_{\alpha} n^{-\alpha}$. By our sign convention, the eigenvectors are unique with high probability. In particular, if $W_{11}$ is standard normal, $\bfv_i$ is uniformly distributed on 
+\begin{equation*}
+\mathcal{S}_+^{n-1}:=\{ \x=(x_1,\ldots,x_n)': \ltwonorm{\x}=1 \text{ and } x_1>0 \}\,.
+\end{equation*}
+An eigenvector of a Wigner matrix with light-tailed entry distribution (for instance sub-exponential) behaves like a random vector uniformly distributed on $\mathcal{S}_+^{n-1}$. More precise quantitative statements are difficult to obtain. For details we refer to \cite{orourke:vu:wang:2016}.
+
+If $\bfv=(v_1,\ldots,v_n)'$ is a random vector uniformly distributed on $\mathcal{S}_+^{n-1}$, probabilistic bounds on its coordinates are available. By Theorem 2.1 in \cite{orourke:vu:wang:2016}, we have 
+\begin{equation}\label{eq:coordinates}
+v_{\text{max}} := \max_{i=1,\ldots,n} |v_i| \le C\sqrt{\frac{\log n}{n}}\quad \text{ and } \quad v_{\text{min}} := \min_{i=1,\ldots,n} |v_i|\ge \frac{c}{n^{3/2}}
+\end{equation}
+with probability $1-o(1)$ for any $C>1$ and $c\in [0,1)$. 
+
+In RMT it is common to study the so-called {\em bulk} and {\em edge} spectra separately.
+For $\vep\in (0,1)$ one distinguishes between the {\em bulk} eigenvectors $\bfv_i, i\in \{1\le t\le n: \vep n \le t \le (1-\vep) n\} :=B_\vep$ and the {\em edge} eigenvectors $\bfv_i, i \in \{1,\ldots,n\} \backslash B_\vep$. The associated eigenvalues are usually referred to as bulk and edge spectrum, respectively. Roughly speaking, the limiting spectral distribution of a sequence of random matrices depends on the bulk spectrum, while the edge spectrum influences the behavior of functionals of the eigenvalues.
+\par
+
+The behavior of the largest coordinates of $\bfv_1,\ldots, \bfv_n$ was studied in the case of certain sub-exponential entries with exponent $\alpha=2$ whose first four moments match those of the standard normal distribution. 
+By Theorems 4.1 and 4.3 in \cite{orourke:vu:wang:2016}, one has for any bulk eigenvector $\bfv_i$ and appropriate constants $c_1,c_2>0$,
+\begin{equation*}
+c_1 \sqrt{\frac{\log n}{n}} \le \bfv_{i,\text{max}}\le c_2 \sqrt{\frac{\log n}{n}}
+\end{equation*}
+with probability $1-o(1)$. This result is astonishingly precise. Note that up to logarithmic corrections $\bfv_{i,\text{max}}$ is of the smallest possible magnitude $n^{-1/2}$. This property is called {\em complete delocalization}; see \cite{rudelson:vershynin:2015}.
+For edge eigenvectors, however, it is proved that for a constant $c_3>0$,
+\begin{equation*}
+\bfv_{i,\text{max}}\le c_3 \frac{\log n}{\sqrt{n}}\,
+\end{equation*}
+with probability $1-o(1)$.
+The optimal bound in the edge case remains an open problem. Additionally, by Corollary 5.4 in \cite{orourke:vu:wang:2016} the $\ell_p$-norms, $1\le p\le2$, of the $(\bfv_i)$ are of the same order of magnitude:
+\begin{equation}\label{eq:lpefgs}
+c_0 n^{1/p-1/2}\le \min_{i=1,\ldots,n} \| \bfv_i\|_{\ell_p} \le \max_{i=1,\ldots,n} \| \bfv_i\|_{\ell_p}  \le C_0 n^{1/p-1/2}
+\end{equation}
+with probability $1-o(1)$ for positive constants $c_0,C_0$.
+\par
+
+If the entry distribution of $\bfW$ has heavy tails, the behavior of its eigenvectors is completely different. In \cite{benaych:peche}, Benaych-Georges and P\'{e}ch\'{e} assumed $W_{11}$ to be regularly varying with index $\alpha\in (0,4)$; see \eqref{eq:regvarch1} on page \pageref{eq:regvarch1}, and provided an approximation of $\bfv_k$ for any fixed $k$. From their asymptotic result one can deduce that $\bfv_{k,\text{max}}$ converges to $1/\sqrt{2}$ in probability. Moreover, asymptotically there are only two coordinates of $\bfv_k$ with non-zero mass. Both are of magnitude $1/\sqrt{2}$. This is the opposite of complete delocalization: {\em complete localization}. The number of non-zero coordinates is bounded.
+
+Note that in the presence of heavy tails the eigenvectors of $\bfW$ and $\X\X'$ are very different; see \eqref{eq:eigenvec} in Section \ref{sec:contr}.
+
+
+
+
+
+
+\section{Contribution of this thesis}\label{sec:contr}
+
+In this section we summarize our contribution to the spectral theory of high-dimensional sample covariance and correlation matrices. We focus on the case where the entries of the $(p\times n)$-dimensional data matrix $\X$ have an infinite fourth moment. 
+
+\subsection{Sample covariance matrices: the iid case}
+
+While the finite second moment is the central assumption to obtain the Mar\v cenko--Pastur law as the limiting spectral distribution, the finite fourth moment plays a crucial role when studying the eigenvalues
+\beam\label{eq:orderch1}
+\la_{(1)}\ge \cdots \ge \la_{(p)}
+\eeam
+of the sample covariance matrix $\X\X'$. 
+Unless stated otherwise, the entries $(X_{it})$ are iid regularly varying random variables with index $\alpha\in (0,4)$ (see \eqref{eq:regvarch1}) and $X$ is a generic random variable with the same distribution. This implies $\E[X^4]=\infty$. Here and in what follows, we will refer to this setting as the heavy-tailed case, in contrast to the light-tailed case in which $\E[X^4]$ is finite. Moreover, we assume $\E[X]=0$ and $\E[X^2]=1$, whenever $\E[X^2]<\infty$. 
+
+We normalize the eigenvalues $(\la_{(i)})$ by $(a_{np}^2)$ where the \seq\
+$(a_k)$ is chosen \sth 
+\beao
+\P(|X|>a_k)\sim k^{-1}\,,\quad k\to\infty.
+\eeao
+Standard theory for \regvary\ \fct s (e.g. Bingham et al. \cite{bingham:goldie:teugels:1987}, Feller \cite{feller}) yields that $a_n=n^{1/\alpha} \ell(n)$ where $\ell$ is a slowly varying function.
+Assuming the usual growth condition \eqref{Cp} for $p$,
+the Potter bounds (see \cite[p.~25]{bingham:goldie:teugels:1987}) yield for $\alpha\in (0,4)$ that
+\begin{equation}\label{eq:toinfch1}
+ \frac{a_{np}^2}{n} \sim \frac{n^{4/\alpha} \gamma^{2/\alpha}\,\ell^2(n^2 \gamma)}{n} \to \infty, \qquad \nto\,,
+\end{equation}
+i.e., the normalization $a_{np}^2$ is stronger than $n$.
+
+By \eqref{eq:simplebo}, we have $\la_{(1)}\ge X_{(1),np}^2$, where $X_{(1),np}^2\ge \cdots \ge X_{(np),np}^2$
+denote the order statistics of $(X_{it}^2)_{i=1,\ldots,p;t=1,\ldots,n}$. Classical extreme value theory yields that $a_{np}^{-2} X_{(1),np}^2$ converges weakly to a  
+{\em \Frechet distribution} with parameter~$\alpha/2$:
+\beam\label{eq:frechetch1}
+\Phi_{\alpha/2}(x) =\ex^{-x^{-\alpha/2}}\,,\qquad x>0\,.
+\eeam
+\par
+
+The theory for the largest eigenvalues of sample covariance matrices with heavy tails is less developed than in the light-tailed case.
+Pioneering work for $\la_{(1)}$ under the growth condition \eqref{Cp} and $\alpha\in (0,2)$
+is due to Soshnikov~\cite{soshnikov:2004,soshnikov:2006}. For $k\ge 1$ fixed, he showed that
+\begin{equation}\label{eq:sosh}
+\frac{\la_{(m)}}{X_{(m),np}^2}\cip 1\,,\quad \nto\,, \,1\le m\le k\,,
+\end{equation}
+which reveals that the limiting distribution of $a_{np}^{-2} X_{(1),np}^2$ is the \Frechet distribution \eqref{eq:frechetch1}. Furthermore he proved the \pp\ \con\
+\beam\label{eq:nnch1}
+N_n=\sum_{i=1}^p \vep_{a_{np}^{-2}\la_i} \std N_{\Gamma}=\sum_{i=1}^\infty \vep_{\Gamma_i^{-2/\alpha}}\,,\qquad \nto\,.
+\eeam
+Here $\vep_y$ is the Dirac measure at $y$,
+\beam\label{eq:Gammach1}
+\Gamma_i=E_1+\cdots + E_i\,,\qquad i\ge 1\,,
+\eeam
+and $(E_i)$ is a sequence of iid standard exponential random variables. In other words, $N_{\Gamma}$ is a Poisson point process on $(0,\infty)$ with mean \ms\
+$\mu(x,\infty)= x^{-\alpha/2}$, \mbox{$x>0$}. Convergence in \ds\ of \pp es is understood in the sense of weak \con\
+in the space of point \ms s equipped with the vague topology; see Resnick \cite{resnick:2007,resnick:1987}.
+
+Later Auffinger et al.~\cite{auffinger:arous:peche:2009} established \eqref{eq:nnch1} also for $\alpha \in [2,4)$. In their proofs they used truncation techniques and a combinatorial approach.
+
+\subsubsection*{General growth rates for $p_n$}
+
+In many applications it is not realistic to assume
+that the dimension $p$ of the data and the sample size $n$ grow at the same rate.
+In the light-tailed case little is known when $p$ and $n$ grow at different rates, i.e., $\lim p/n \in\{ 0,\infty\}$. 
+Notable exceptions are El Karoui \cite{elkaroui:2003} who proved that Johnstone's result in \cite{johnstone:2001} (assuming iid standard normal entries)
+remains valid when $p/n\to 0$ or $n/p\to\infty$, and P{\'e}ch{\'e} \cite{peche:2009} who showed universality results for the largest eigenvalues of some sample covariance matrices with non-Gaussian entries.
+
+
+The aforementioned results of Soshnikov~\cite{soshnikov:2004,soshnikov:2006} and Auffinger et al. \cite{auffinger:arous:peche:2009} already indicate that the value $\gamma$ in the usual growth
+rate~\eqref{Cp} does not appear in the \ds al limits.
+In the heavy-tailed case, more general growth of $p$ than prescribed by \eqref{Cp} has been used in Davis et al.~\cite{davis:mikosch:pfaffel:2015,davis:pfaffel:stelzer:2014}.
+In Chapters \ref{ch:iid} and \ref{ch:extremes} we will consider power-law growth rates on the dimension $(p_n)$. To be precise, we assume an integer sequence
+\begin{equation}\label{eq:pch1}
+p=p_n=n^\beta l(n), \quad n\ge1\,,%\tag{$C_p(\beta)$}
+\end{equation}
+where $l$ is a slowly varying function and $\beta\ge 0$. If $\beta =0$, we also assume \mbox{$l(n) \to \infty$}.
+Our condition~\eqref{eq:pch1} is more general than the growth conditions in the literature; see
+\cite{auffinger:arous:peche:2009,davis:mikosch:pfaffel:2015,davis:pfaffel:stelzer:2014}.
+
+Note that the matrices $\X\X'$ and $\X'\X$ have the same non-zero eigenvalues. Therefore it is sufficient to consider $\beta\in [0,1]$. For details we refer to Chapters \ref{ch:iid} and \ref{ch:extremes}.
+
+
+
+
+\subsubsection*{Our contribution}
+
+%It is interesting to note that there is a phase change of the behavior of the extreme eigenvalues when going from finite to infinite fourth moment, while a similar phase change occurs for the empirical spectral distribution when going from finite to infinite variance.
+
+In the heavy-tailed case and under the growth condition \eqref{eq:pch1} with $\beta \in [0,1]$ we prove with considerable technical effort that  
+\begin{equation}\label{eq:offdiagonalch1}
+a_{np}^{-2} \twonorm{\X \X' - \diag(\X \X')}\stp 0\,,\qquad\nto\,,
+\end{equation}
+where $\diag(\X \X')$ denotes the diagonal of $\X\X'$; see Theorem \ref{prop:offdiagonal}.
+
+The employed techniques originate from extreme value analysis and large deviation theory. The $(i,j)$ entry of $\X\X'$ is 
+\begin{equation*}
+(\X\X')_{ij}=\sum_{t=1}^n X_{it}X_{jt}\,,\quad i,j=1\ldots,p\,.
+\end{equation*}
+From Embrechts and Veraverbeke \cite{embrechts:veraverbeke:1982} we know that  $X^2$ and $X_{11}X_{12}$  are \regvary\ with indices $\alpha/2$ and $\alpha$, respectively. By large deviation theory (see \eqref{eq:dfsdfjl}), the diagonal and off-diagonal entries of
+$\X\X'$ inherit the tails of $X_{it}^2$ and $X_{it}X_{jt}$, $i\ne j$, respectively, above some high threshold. Therefore the random variables in the diagonal of $\X\X'$ have the heaviest tail. They dominate the spectral behavior of $\X\X'$ and thus \eqref{eq:offdiagonalch1} is not unexpected.
+\par
+
+Equation \eqref{eq:offdiagonalch1} has some immediate con\seq s for the approximation of the eigenvalues
+of $\X\X'$ by those of ${\rm diag}(\X\X')$. Indeed, let $\bfC$ be a symmetric $p\times p$ matrix with
+eigenvalues 
+\beam \label{eq:weylch1}
+\la_{(1)}(\bfC)\ge \cdots \ge \la_{(p)}(\bfC)\,.
+\eeam
+Then for any symmetric $p\times p$ matrices $\bfA,\bfB$, by {\em Weyl's inequality} (see Bhatia \cite{bhatia:1997}),
+\beao
+\max_{i=1,\ldots,p}\big|\la_{(i)}(\bfA+\bfB)-\la_{(i)}(\bfA)\big|\le \|\bfB\|_2\,.
+\eeao
+If we now choose
+$\bfA+\bfB=\X\X'$ and $\bfA= \diag (\X\X')$ we obtain
+\begin{equation}\label{eq:appch1}
+a_{np}^{-2}\,\max_{i=1,\ldots,p}\big|\la_{(i)}-\la_{(i)}(\diag(\X\X'))\big|\stp 0\,,\quad\nto \,.
+\end{equation}
+
+Thus the problem of deriving limit theory for the order statistics of $\X\X'$ has been reduced to limit theory for the order
+statistics of the iid row-sums
+\beao
+D_i= (\X\X')_{ii}=\sum_{t=1}^n X_{it}^2\,,\qquad i=1,\ldots,p\,,
+\eeao
+which are the eigenvalues of $\diag(\X\X')$. 
+This theory is completely described by the \pp es constructed from the points $D_i/a_{np}^2$, $i=1,\ldots,p$. Necessary
+and sufficient conditions for the weak \con\ of these \pp es are provided by  Lemma~\ref{lem:pprch3}. In combination with the Nagaev-type \ld\ results of  Theorem~\ref{thm:nagaevch3} they yield the following result under \eqref{eq:pch1}:
+\begin{equation}\label{eq:ppdiagch1}
+\sum_{i=1}^p \vep_{a_{np}^{-2}(D_i-c_n)}\std N_{\Gamma}\,,\qquad \nto\,,
+\end{equation}
+where $N_{\Gamma}$ was defined in \eqref{eq:nnch1} and  $c_n=0$ if $\E[D]=\infty$ and $c_n=\E[D]=n \E[Z^2]$ otherwise.
+Note that the centering $c_n$ in the finite variance case can be avoided if $n/a_{np}^2\to 0$. The latter condition is satisfied if
+\begin{equation}\label{eq:b}
+\beta>\alpha/2-1\,.
+\end{equation}
+
+Combining \eqref{eq:offdiagonalch1}, \eqref{eq:appch1} and \eqref{eq:ppdiagch1}, we conclude that \eqref{eq:nnch1} holds under the general growth rate \eqref{eq:pch1} with $\beta\in [0,1]$, where for $\alpha\in [2,4)$ one needs to require \eqref{eq:b}.
+
+The limiting point process \eqref{eq:nnch1} yields a plethora of ancillary results. For example, one can easily derive the limiting distribution of $a_{np}^{-2} \lambda_{(k)}$ for fixed $k\ge 1$:
+\begin{equation*}
+\begin{split}
+\lim_{\nto}\P(a_{np}^{-2} \lambda_{(k)}\le x)&= \lim_{\nto}\P(N_n(x,\infty)<k)
+=  \P(N(x,\infty)<k)\\ &=\P(\Gamma_k^{-2/\alpha}\le x)= \sum_{s=0}^{k-1} \frac{\big(x^{-\alpha/2}\big)^s}{s!} \e^{-x^{-\alpha/2}}, \quad  x>0\,.
+\end{split}
+\end{equation*}
+Another immediate con\seq\ of \eqref{eq:nnch1} is
+\beam \label{eq:helpgamma1ch1}
+a_{np}^{-2}\big(\la_{(1)},\ldots,\la_{(k)}\big)\std \big(\Gamma_1^{-2/\alpha},\ldots,\Gamma_k^{-2/\alpha}\big)
+\eeam
+for any fixed $k\ge 1$ and $\alpha\in (0,2]$. In Chapter \ref{ch:extremes} we show for $\alpha \in (2,4)$
+\beam \label{eq:helpgamma2ch1}
+a_{np}^{-2}\big(\la_{(1)}-n \,\E[Z^2],\ldots,\la_{(k)}-n\, \E[Z^2]\big)\std \big(\Gamma_1^{-2/\alpha},\ldots,\Gamma_k^{-2/\alpha}\big)\,.
+\eeam
+Equations \eqref{eq:helpgamma1ch1} and \eqref{eq:helpgamma2ch1} yield that for $\alpha \in (0,4)$ and any fixed $k\ge 1$,
+\beam \label{eq:helpgamma3ch1}
+a_{np}^{-2}\big(\la_{(1)}\!-\! \la_{(2)},\ldots, \la_{(k)}\!- \!\la_{(k+1)}\big) \!\std \!\big(\Gamma_1^{-2/\alpha} \!- \! \Gamma_{2}^{-2/\alpha},\ldots,\Gamma_k^{-2/\alpha} \! - \! \Gamma_{k+1}^{-2/\alpha} \big).
+\eeam
+Related results were also derived for linear spectral statistics such as the trace $a_{np}^{-2}(\la_1+\cdots+\la_p)$. 
+We refer to Chapter \ref{ch:extremes} and Davis et al.~\cite{davis:mikosch:pfaffel:2015} for details on the proofs and more examples.
+\medskip
+
+In the case of  fixed $p$, Janssen et al.~\cite{janssen:mikosch:rezapour:xie:2016} related the limiting distribution of the eigenvalues $(\la_{(i)})$ to stable distributions. They also used \eqref{eq:offdiagonalch1} and \eqref{eq:appch1}. In this case it is clear that for example
+\begin{equation*}
+\frac{\la_{(2)}}{X_{(2),np}^2}\cip 1\,,\quad \nto\,, 
+\end{equation*}
+cannot hold. If $X_{(1),np}^2$ and $X_{(2),np}^2$ lie in the same row of $\X$, then they appear on the same spot on the diagonal of $\X\X'$. Then $X_{(2),np}^2$ cannot be used for the approxiamtion of $\la_{(2)}$ in view of \eqref{eq:appch1}.  Indeed, the probability that this happens is approximately $1/p$ which does not tend to $0$ if $p$ is fixed.  This is in contrast to \eqref{eq:sosh}. 
+
+Recall that if $p$ is fixed, one has to use the approximation of the eigenvalues provided by \eqref{eq:appch1}, while if $p/n \to \gamma$ one can use either \eqref{eq:appch1} or \eqref{eq:sosh}. There is a phase change of the behavior of $(\la_{(i)})$ when going from finite $p$ to $p$ proportional to $n$. In our condition \eqref{eq:pch1} the growth of $p$ is essentially described by the parameter $\beta$. 
+
+Under \eqref{eq:pch1} our Theorem \ref{thm:iidmain} asserts that 
+\beam\label{eq:eigch1}
+a_{np}^{-2}\,\max_{i=1,\ldots,p}\big|\la_{(i)}-X_{(i),np}^2\big|\stp 0\,,
+\eeam
+provided \eqref{eq:b} holds. Due to its simplicity, \eqref{eq:eigch1} is an elegant result. It reveals, for example, that the largest eigenvalue of a high-dimensional heavy-tailed matrix behaves like the maximum of its iid entries. 
+
+In view of Lemma \ref{thm:keyresult}, condition \eqref{eq:b} describes the precise $\beta$-region, up to the slowly varying function in the tail of $X$, where $\max_i a_{np}^{-2}|D_{L_i}-X_{(i),np}^2|$ is sufficiently small. 
+Here $L_i$ encodes the location of the $i$th largest diagonal element of $\X\X'$; see \eqref{eq:help6} for the formal definition of $L_i$.
+Therefore the critical value of $\beta$ at which the aforementioned phase change occurs is  $\max(0,\alpha/2-1)$.
+\medskip
+
+The study of eigenvectors of heavy-tailed sample covariance matrices is a fresh topic which has not been explored in the literature listed here.
+Our approximation of $\X\X'$ in \eqref{eq:offdiagonalch1} and the limiting distributions of the spacings \eqref{eq:helpgamma3ch1} can be applied to approximate the unit eigenvectors $(\bfv_j)$ of $\X\X'$, where $\bfv_{{j}}$ is associated to $\la_{(j)}$. As for the eigenvectors of Wigner matrices we use the convention that their first non-zero coordinate is positive.
+From \eqref{eq:offdiagonalch1} we know that $\X\X'$ is approximated in spectral norm by $\diag(\X\X')$. The unit eigenvectors of $\diag(\X\X')$ are the canonical basis vectors $\bfe_j\in\R^p$, $j=1,\dots,p$. 
+ 
+By Theorem \ref{thm:eigenvec}, $(\bfe_j)$ approximate the eigenvectors $(\bfv_j)$.
+For $\beta\in [0,1]$ and any fixed $k\ge 1$, we have
+\begin{equation}\label{eq:eigenvec}
+\ltwonorm{\bfv_k - \bfe_{L_k}} \cip 0\,, \quad \nto \,.
+\end{equation}
+
+
+
+
+
+
+
+\subsection{Sample covariance matrices: the non-iid case}
+
+Davis et al.~\cite{davis:pfaffel:stelzer:2014} extended the results of Soshnikov~\cite{soshnikov:2004,soshnikov:2006} and Auffinger et al. \cite{auffinger:arous:peche:2009}
+to the case where the rows of $\X$
+are iid linear processes with iid \regvary\ noise. After a multiplication of the mean measure $\mu$ by a constant the Poisson \pp\ \con\ result of \eqref{eq:nnch1} remains valid. Pfaffel and Schlemm \cite{pfaffel:schlemm:2011} described the Stieltjes transform of the limiting spectral distribution in this model.
+Different limit processes can only be expected if there is dependence in both directions:
+in Chapter~\ref{ch:extremes} we use a model for $(X_{it})$ which allows for linear dependence across the rows and through time (see also \cite{davis:mikosch:pfaffel:2015}): 
+\begin{equation}\label{eq:1ch1}
+X_{it}=\sum_{l\in \Z}\sum_{k\in \Z} h_{kl} Z_{i-k,t-l}\,,\qquad i,t\in\Z\,,
+\end{equation}
+where $(Z_{it})_{i,t\in \Z}$ is a field of iid regularly varying \rv s with index $\alpha\in (0,4)$ and $(h_{kl})_{k,l\in\Z}$ is an array of real numbers. Moreover, we require the summability condition
+\begin{equation}\label{eq:2ach1}
+\sum_{l \in \Z} \sum_{k\in \Z} |h_{kl}|^{\delta} <\infty
+\end{equation}
+for some $\delta\in (0,\min({\alpha/2},1))$ which ensures
+the a.s.~absolute convergence of the series in \eqref{eq:1ch1}. Under the condition \eqref{eq:2ach1}, the marginal and
+\fidi s of the field $(X_{it})$ are \regvary\ with index $\alpha$; see
+Embrechts et al. \cite{embrechts:kluppelberg:mikosch:1997}, Appendix A3.3.
+
+From the field $(X_{it})$ we construct the $p\times n$ matrices
+\begin{equation*}
+\X_n(s)= (X_{i,t+s})_{i=1,\ldots,p;t=1,\ldots,n}\,,\qquad s=0,1,2,\ldots\,,
+\end{equation*}
+As before, we will write $\X=\X_n(0)$.
+Now we can introduce the (non-normalized)
+{\em sample autocovariance matrices}
+\beao%\label{eq:samplech1}
+\X_n(0)\X_n(s)'\,,\qquad s=0,1,2,\ldots\,.
+\eeao
+We will refer to $s$ as the {\em lag}. For $s=0$, we obtain the {\em sample covariance matrix.}
+In \cite{heiny:mikosch:2016:noniid1} (see page \pageref{eq:regvarch1}) and Chapter \ref{ch:extremes}, we study the asymptotic behavior of the eigen- and singular values of the
+sample covariance and autocovariance matrices under the growth condition \eqref{eq:pch1}.
+
+Theorem~\ref{thm:mains} provides a general approximation result for the ordered singular values of $\X_n(0)\X_n(s)'$. Their behavior is determined by the sums $(\sum_{t=1}^n Z_{it}^2)$ and the singular values of the matrix $\M(s)$ given by
+\begin{equation*}
+(\M(s))_{ij}= \sum_{l\in \Z} h_{i,l} h_{j,l+s}, \qquad i,j \in \Z \,.
+\end{equation*}
+In Section \ref{sec:lkasfj} the limiting point process of the singular values of $\X_n(0)\X_n(s)'$ is derived. 
+Finally, we mention that our paper \cite{heiny:mikosch:2016:noniid1} deals with the eigenvectors of $\X_n(0)\X_n(s)'$; see also \eqref{eq:eigenvec}. One obtains more interesting structures than in the latter result. In fact, by choosing $(h_{kl})$ accordingly one can obtain arbitrary eigenvectors. This constitutes a valuable property in principal component analysis.
+
+
+
+
+\subsection{Sample correlation matrices}
+
+In Chapter \ref{ch:corr} we study the spectrum of the sample correlation matrix $\bfR$ defined in \eqref{eq:corrRch1}. We assume that the underlying data matrix $\X$ has iid centered entries and the usual growth condition \eqref{Cp} holds. Recall the notation $Y_{it}=X_{it}/\sqrt{D_i}$ from p.~\pageref{eq:corrRch1}. We will sometimes write $(Y_1, \ldots, Y_n)= (Y_{11}, \ldots, Y_{1n})$ and $Y=Y_1$.
+\par
+
+Consider the following domain of attraction type-condition for the Gaussian law:
+\beam\label{eq:condXch1}
+\E \big[ Y_{1}Y_{2} \big] = o(n^{-2}) \quad  \text{ and } \quad  \E \big[ Y^4 \big] = o(n^{-1})\,,\qquad \nto\,.
+\eeam
+By Gin{\'e} et al.~\cite{gine:goetze:mason:1997}, condition \eqref{eq:condXch1} holds if the \ds\ of 
+$X$ is in the domain of attraction of the normal law. We use Theorem \ref{them:baizhou} to  show that under \eqref{eq:condXch1} the sequence $(F_{\bfR})$ converges weakly to the \MP law $F_{\gamma}$ defined in \eqref{eq:MPch1}; see Theorem \ref{thm:mpcorrelation}. We prove that the condition \eqref{eq:condXch1} is necessary. When \eqref{eq:condXch1} is not valid, the limiting spectral distribution of $(F_{\bfR})$ (if it exists) must have mean $1$, by virtue of the method of moments (see \eqref{eq:mmom}). This follows from the fact that the diagonal elements of $\bfR$ are $1$.
+This together with our approximation of $\E [\beta_k(\bfR)]$ provides some information about this distribution; compare also with \eqref{eq:esd} for the sample covariance case.
+\par
+
+Our analysis of the almost sure convergence of the extreme eigenvalues $\mu_{(1)}$ and $\mu_{(p)}$ of $\bfR$ is carried out for symmetric $X$. Then condition \eqref{eq:condXch1} turns into 
+\beam\label{eq:condXb}
+n \, \E \big[ Y^4 \big] \to 0\,,\qquad \nto\,.
+\eeam
+Theorem \ref{thm:mu1convergence} asserts
+\begin{equation}\label{eq:drtgdrghdr1ch1}
+\mu_{(1)} \to (1+\sqrt{\gamma})^2\, \quad \text{ and } \quad  \mu_{(p)} \to (1-\sqrt{\gamma})^2\, \quad \as
+\end{equation}
+under some condition \eqref{eq:assumptionq} on p.~\pageref{eq:assumptionq} which is slightly more restrictive than \eqref{eq:condXb}. Condition \eqref{eq:assumptionq} essentially means that the convergence rate of $n \, \E \big[ Y^4 \big]$ is at least logarithmic. A detailed discussion is given in Section \ref{sec:2ch4}.
+\par
+
+Our proof requires an adequate bound on $\E[\mu_{(1)}^{k_n}]$, where $k_n\to \infty$. To this end, we use the inequality
+\begin{equation*}
+\E[\mu_{(1)}^{k_n}]\le \E[\tr \bfR^{k_n}] %=p \E\big[\int x^{k_n} F_{\bfR}(dx)\big]
+= \sum_{i_1,\ldots,i_{k_n}=1}^p \sum_{t_1,\ldots,t_{k_n}=1}^n \E[ Y_{i_1t_{k_n}} Y_{i_1t_1}  \cdots Y_{i_{k_n}t_{{k_n}-1}} Y_{i_{k_n}t_{k_n}}  ]
+\end{equation*}
+and determine those summands on the \rhs~which are largest when weighted by their multiplicities. Employing our {\em Path-Shortening Algorithm}, which is a novel technique that efficiently uses the inherent structure of sample correlation matrices, their contribution is calculated explicitly. The other summands can --with considerable technical effort-- be controlled by \eqref{eq:assumptionq}. 
+Note that because of the identity $\E[\tr \bfR^{k_n}] =p\, \E\big[\int x^{k_n} F_{\bfR}(dx)\big]$ the behavior of the moments of the empirical spectral distribution is closely linked to the above upper bound.
+
+Equation \eqref{eq:drtgdrghdr1ch1} indicates that the a.s. convergence of the extreme eigenvalues of $\bfR$
+does not depend on the finiteness of the fourth or even second moments. 
+This is in stark contrast to the a.s. behavior of $n^{-1}\lambda_{(1)}$, the largest eigenvalue of the sample covariance matrix 
+$n^{-1}\bfX\bfX'$. Note that there is a phase transition of the a.s. \asy\ behavior of the  
+extreme eigenvalues at the border between finite and infinite fourth moment of $X$, 
+while such a transition occurs for the empirical spectral distribution at the border between finite and infinite variance.
+\par
+
+The eigenvalues of sample correlation matrices exhibit a  ``more robust'' behavior than their sample covariance analogs. 
+This is perhaps not surprising in view of the {\em self-normalizing property} of sample correlations.
+Self-normalization also has the advantage that one does not have to worry about the correct normalization.
+This is a crucial problem in the study of sample covariance matrices in the case of an infinite fourth moment 
+where one needs a normalization stronger than the classical one; see \eqref{eq:toinfch1}.
+A simulation study in Section~\ref{sec:3} shows that the \asy\ results for $\mu_{(1)}, \mu_{(p)}, \la_{(1)}$ and $\la_{(p)}$ work nicely.
+They can be used to design new statistical tests; see for example~\eqref{eq:forch1}.
+
+
+\section{Outlook}
+
+The main objective of our work was to find explicit limiting distributions of the eigenvalues of large random matrices and functionals thereof. Thus our theory can be applied in a straightforward way. Sections \ref{sec:rmt}-\ref{sec:contr} listed fields where our results can be used. Another example is the analysis of high-frequency data which receives significant interest; see for example Podolskij and Heinrich \cite{heinrich:podolskij:2014}, and  Xia and Zheng \cite{xia:zheng:2014,xia:zheng:2016}.
+
+
+For practical purposes it is important to work with arbitrary population covariance matrices. Numerous generalizations and estimation techniques have been developed. For many models the limiting spectral distribution can only be characterized in terms of an integral equation (=\MP equation) for its Stieltjes transform. Explicit solutions are more involved; see the discussion after Theorem \ref{them:baizhou}. 
+In Dobriban \cite{dobriban:2015}, an algorithm for calculating the spectral distribution based on certain approximate integral equations for its Stieltjes transform was presented. Contributions like this one breathe life into abstract theoretical results. Research in this direction will attract major interest from the industry. 
+
+From a more theoretical point of view, it is interesting to study models with heavy tails in which the asymptotic behavior of the sample covariance matrix $\X\X'$ is not dominated by the squares of the entries of $\X$. Moreover, different tail indices of the rows of $\X$ could make the model more appealing to practitioners. In Chapter \ref{ch:extremes}, we will see that a simple transformation, such as the rank transform, does not entirely overcome this issue.
+
+As regards the sample correlation matrix our methods can be applied to more general models such as spiked covariance/correlation structures. Our technical results in Section~\ref{sec:5.3} are of independent interest. They provide a {\em Path-Shortening Algorithm} for the calculation of bounds for the very high moments of 
+$\mu_{(1)}$. This technique is novel and will be of further use for proving results
+in Random Matrix Theory.
+We also conjecture that \eqref{eq:drtgdrghdr1ch1} may be proved under \eqref{eq:condXch1} only.
+
+Finally, in our working papers \cite{heiny:mikosch:2016:noniid1} and \cite{heiny:mikosch:2016:stochvol1} (see page \pageref{eq:regvarch1}), we analyze  sample autocovariance matrices and provide limit theory for high-dimensional stochastic
+volatility matrices.
+Again, we utilize the large deviations approach propagated in Chapters \ref{ch:iid} and \ref{ch:extremes}, now for dependent heavy-tailed time series. The corresponding large deviations theory is available in Mikosch and Wintenberger \cite{mikosch:wintenberger:2016}.
