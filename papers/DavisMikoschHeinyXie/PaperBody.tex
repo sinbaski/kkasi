@@ -360,7 +360,7 @@ The primary objective of this overview  is to make a connection between extreme 
 %To our knowledge, the present paper is the first to consider bonafide dependence among the components in the time series which renders a multivariate analysis, such as PCA, meaningful.
 Convergence of the point process of extreme eigenvalues, properly normalized, plays a central role in establishing the main results.
 \par
-In Section~\ref{sec:2} we continue the study of the case when the data matrix $\X$ consists of iid heavy-tailed entries.  We will consider power-law growth rates on the dimension $(p_n)$ that is more general than prescribed by \eqref{eq:gamma}.
+In Section~\ref{sec:Davis2} we continue the study of the case when the data matrix $\X$ consists of iid heavy-tailed entries.  We will consider power-law growth rates on the dimension $(p_n)$ that is more general than prescribed by \eqref{eq:gamma}.
 In Section~\ref{sec:model} we introduce a model for $X_{it}$ which allows for linear dependence across the rows and through time.
 The point process convergence of normalized eigenvalues is presented in Section~\ref{sec:mainresult}.
 This result lays the foundation for new insight into the spectral behavior of the sample covariance matrix, which is the content of Section~\ref{sec:samplecov}.
@@ -372,7 +372,8 @@ Appendix~\ref{appendix:A} contains useful facts about regular variation and poin
 
 
 
-\section{General growth rates for $p_n$ in the iid heavy-tailed case}\label{sec:2}\setcounter{equation}{0}
+\section{General growth rates for $p_n$ in the iid heavy-tailed case}
+\label{sec:Davis2}\setcounter{equation}{0}
 This section is based on ideas in Heiny and Mikosch \cite{heiny:mikosch:2015:iid} where one can also find detailed proofs.
 \subsection*{Growth conditions on $(p_n)$}\label{subsec:pn}
 In many applications it is not realistic to assume
@@ -401,7 +402,7 @@ satisfying \ref{eq:p} with $\beta\ge 0$. In addition, we require
 \min(\beta,\beta^{-1})\in (\alpha/2-1,1] \qquad \mbox{ for } \alpha\in [2,4), \tag{$\widetilde{C}_\beta(\alpha)$}
 \end{equation}
 Then
-\beam\label{eq:2}
+\beam\label{eq:Davis2}
 \sum_{i=1}^p \vep_{a_{np}^{-2}\la_i}\std \sum_{i=1}^\infty \vep_{\Gamma_i^{-2/\alpha}}\,,\qquad \nto\,,
 \eeam
 where the \con\ holds in the space of point \ms s with state space $(0,\infty)$ equipped with the vague toplogy; see Resnick \cite{resnick:2007}.
@@ -491,7 +492,7 @@ In this result, centering is only needed for $\alpha\in [2,4)$ when $n/a_{np}^2\
 $n/a_{np}^2\to 0$ in view of the Potter bounds; see Bingham et al. \cite[p.~25]{bingham:goldie:teugels:1987}.
 Combining Lemma~\ref{lem:pp} and Corollary~\ref{cor:687}, we conclude that Theorem~\ref{thm:intro} holds for $\beta\in [0,1]$.
 
-%In  Davis et al. \cite{davis:mikosch:pfaffel;2015} relation \eqref{eq:2} was derived for $\alpha\in (0,1)$ even for \seq s
+%In  Davis et al. \cite{davis:mikosch:pfaffel;2015} relation \eqref{eq:Davis2} was derived for $\alpha\in (0,1)$ even for \seq s
 %$p_n\to\infty$ \st\ $p_n= O(\ex^{s_n/n})$, where $s_n=o(n)$ but with stronger limitations on the growth of $(p_n)$ for $[1,4]$.
 %In the case $\alpha\in (2,4]$ they proved \eqref{eq:center} with $(\la_i)$ replaced by $(\la_i(\X\X'-n\E[ \X\X']))$. It is surprising that
 %\eqref{eq:center} also holds since, in general, $\la_i(\X\X'-\E [\X\X'])\not = \la_i-n\,\E X$.
@@ -537,13 +538,13 @@ When dealing with covariance matrices of a multivariate \ts\ $(\X_n)$ it is rath
 between the entries $X_{it}$.
 In this section we introduce a model which allows for {\em linear dependence}
 between the rows and columns of $\X$:
-\begin{equation}\label{eq:1}
+\begin{equation}\label{eq:Davis1}
 X_{it}=\sum_{l\in \Z}\sum_{k\in \Z} h_{kl} Z_{i-k,t-l}\,,\qquad i,t\in\Z\,,
 \end{equation}
 where $(Z_{it})_{i,t\in \Z}$ is a field of iid \rv s and $(h_{kl})_{k,l\in\Z}$ is an array of real numbers.
 Of course, linear dependence is restrictive in some sense. However, the particular dependence structure allows one to
 determine those ingredients in the sample covariance matrix which contribute to its largest eigenvalues.
-If the series in \eqref{eq:1} converges a.s. $(X_{it})$ constitutes a strictly stationary random field.
+If the series in \eqref{eq:Davis1} converges a.s. $(X_{it})$ constitutes a strictly stationary random field.
 We denote generic elements of the $Z$- and $X$-fields by $Z$ and $X$, respectively. We assume that $Z$ is \regvary\ in the sense that
 \begin{equation}\label{eq:27}
 \P(Z>x)\sim p_+ \dfrac{L(x)}{x^{\alpha}}\quad\mbox{and}\quad  \P(Z\le -x)\sim p_-
@@ -555,12 +556,12 @@ Moreover, we require the summability condition
 \sum_{l \in \Z} \sum_{k\in \Z} |h_{kl}|^{\delta} <\infty
 \end{equation}
 for some $\delta\in (0,\min({\alpha/2},1))$ which ensures
-the a.s.~absolute convergence of the series in \eqref{eq:1}. Under the conditions \eqref{eq:27} and \eqref{eq:2a}, the marginal and
+the a.s.~absolute convergence of the series in \eqref{eq:Davis1}. Under the conditions \eqref{eq:27} and \eqref{eq:2a}, the marginal and
 \fidi s of the field $(X_{it})$ are \regvary\ with index $\alpha$; see
 Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997}, Appendix A3.3. Therefore we also refer to $(X_{it})$ and $(Z_{it})$
 as \regvary\ fields.
 \par
-The model \eqref{eq:1} was introduced by Davis et al. \cite{davis:pfaffel:stelzer:2014}, assuming the rows iid, and in the
+The model \eqref{eq:Davis1} was introduced by Davis et al. \cite{davis:pfaffel:stelzer:2014}, assuming the rows iid, and in the
 present form by Davis et al. \cite{davis:mikosch:pfaffel:2015}.
 \subsection{Sample covariance and autocovariance matrices}
 From the field $(X_{it})$ we construct the $p\times n$ matrices
@@ -589,7 +590,7 @@ the squares
 %(this matrix is  non-negative definite  and therefore it has non-negative eigenvalues).
 whose eigenvalues are the squares of the singular values of $\X_n(0)\X_n(s)'$.
 The idea of using the sample autocovariance matrices and \fct s of their squares \eqref{eq:squares}
-originates from a paper by Lam and Yao~\cite{lam:yao} who used a model different from \eqref{eq:1}.
+originates from a paper by Lam and Yao~\cite{lam:yao} who used a model different from \eqref{eq:Davis1}.
 This idea is quite natural in the context of \tsa .
 \par
 In Theorem~\ref{thm:mains} below, we provide a general approximation result for the ordered singular values of the sample
@@ -705,9 +706,9 @@ respectively.
 %\tfrac{1}{2}(\X_n(0)\X_n(s)'-\E[\X_n(0)\X_n(s)']+\X_n(s)\X_n(0)' -\E[\X_n(s)\X_n(0)'])
 %\end{equation*}
 In the following result we povide some useful approximations to the singular values of the sample autocovariance matrices of
-the linear model \eqref{eq:1}.
+the linear model \eqref{eq:Davis1}.
 \begin{theorem}\label{thm:mains}
-Consider the linear process \eqref{eq:1} under
+Consider the linear process \eqref{eq:Davis1} under
 \begin{itemize}
 \item
 the \regvar\ condition \eqref{eq:27}
@@ -767,7 +768,7 @@ Then $(N_n^{\lambda,s})$ converge weakly in the space of point measures
 with state space $(0,\infty)^{s+1}$ equipped with the vague topology.
 If either $\alpha \in (0,2]$, $\E[Z^2]=\infty$ and $\beta \ge 0$,
 or $\alpha \in [2,4)$, $\E[Z^2]<\infty$ and \ref{Cbeta} hold then
-\begin{equation}\label{eq:pp}
+\begin{equation}\label{eq:Davispp}
 N_n^{\lambda,s} \cid N= \sum_{i=1}^\infty
 \sum_{j=1}^{\infty} \vep_{\Gamma_i^{-2/\alpha} (v_j(0),\ldots,v_j(s))}, \qquad \nto.
 \end{equation}
@@ -950,7 +951,7 @@ In this case, the non-zero entries of $\H$ are
 h_{00}=1, h_{01}=1,h_{10}=-2 \quad \mbox{ and }\quad h_{11}=2.
 \end{equation*}
 Hence $\M=\H\H'$ has the positive eigenvalues
-$v_1=8$ and $v_2=2$. The limit point process in \eqref{eq:pp} is
+$v_1=8$ and $v_2=2$. The limit point process in \eqref{eq:Davispp} is
 \begin{equation*}
 N=\sum_{i=1}^\infty \vep_{8\Gamma_i^{-2/\alpha}}+ \sum_{i=1}^\infty \vep_{2\Gamma_i^{-2/\alpha}}\,,
 \end{equation*}
@@ -998,13 +999,13 @@ Along the same lines, we also have
 8\,\Gamma_1^{-2/\alpha},\frac{1}{4}\,\1_{\{U<2^{-\alpha}\}}+U^{2/\alpha}\,\1_{\{U\ge
   2^{-\alpha}\}})\,
 \end{equation*}
-and hence the limit distribution of $\lambda_{(2)}/\lambda_{(1)}$ is supported on $[1/4,1)$ with  mass of $2^{-\alpha}$ at $1/4$.  The histogram of the ratio $\left(\lambda_{(2)}/\lambda_{(1)}\right)^{2/\alpha}$ based on 1000 replications from the model \eqref{ex:4.6} with noise given by a $t$-distribution with $\alpha=1.5$ degrees of freedom, $n=1000$ and $p=200$ is displayed in Figure \ref{fig:1}.
+and hence the limit distribution of $\lambda_{(2)}/\lambda_{(1)}$ is supported on $[1/4,1)$ with  mass of $2^{-\alpha}$ at $1/4$.  The histogram of the ratio $\left(\lambda_{(2)}/\lambda_{(1)}\right)^{2/\alpha}$ based on 1000 replications from the model \eqref{ex:4.6} with noise given by a $t$-distribution with $\alpha=1.5$ degrees of freedom, $n=1000$ and $p=200$ is displayed in Figure \ref{fig:Davis1}.
 \begin{figure} [h]
 \begin{center}
 \includegraphics[scale=.35]{histogram.pdf}
 \end{center}
 \caption{Histogram based on 1000 replications of $\left(\lambda_{(2)}/\lambda_{(1)}\right)^{2/\alpha}$ from model \eqref{ex:4.6}.}
-\label{fig:1}
+\label{fig:Davis1}
 \end{figure} Observing that $2^{-\alpha}=0.3536\ldots$,
 the histogram is remarkably close to what one would expect from a sample from the truncated
 uniform \ds , $2^{-\alpha}\, \1_{\{U<2^{-\alpha}\}}+U\, \1_{\{U\ge 2^{-\alpha} \}}$.
@@ -1159,7 +1160,7 @@ of the squares of $\A_n(s)=\X_n(0)\X_n(s)'$ given by $\A_n(s)\A_n(s)'$ for $s=0,
 matrix $\A_n(s)\A_n(s)'$ has eigenvalues $(\la_i^2(s))_{i=1,\ldots,p}$.
 \par
 The following result is a corollary of Theorem~\ref{thm:mains}.
-\begin{proposition}\label{thm:mainstr} Consider the linear process \eqref{eq:1} under
+\begin{proposition}\label{thm:mainstr} Consider the linear process \eqref{eq:Davis1} under
 the conditions of Theorem~\ref{thm:mains}. Then the following statements hold for $s\ge 0$:
 \begin{enumerate}
 \item[$(1)$]

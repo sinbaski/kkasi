@@ -11,10 +11,14 @@ then we say $f(x)$ is regularly varying with index $\alpha$.
 Distribution functions, say $F(\cdot)$, whose survival function
 $\bar F(x) = 1 - F(x)$ satisfies the above scaling property, are
 observed in a variety of phenomena, for example, phase transition of
-matter, black body radiation, neuronal avalanches and stock returns.
-When expanded to multiple dimensions, the scaling property is better
-described in terms of weak convergence to a spectral measure: If a
-random vector $V$ satisfies
+matter and black body radiation as studied in physics, neuronal
+avalanches in biology, claim sizes of insurance mathematics and stock
+returns in finance. The last application is indeed the focus of this
+thesis.
+
+When expanded to multiple dimensions, the scaling property of regular
+variation is better described in terms of weak convergence to a
+spectral measure: If a random vector $V$ satisfies
 \[
 \lim_{x \to \infty}
 {
@@ -59,7 +63,55 @@ weakly dependent; and Resnick and St{\u a}ric{\u a}
 \cite{resnick:starica:1995, resnick:starica:1997} proved its
 consistency when $X_t$ was a linear process.
 
+When considered as the multiplicative inverse of the parameter of the
+{\em Generalized Extreme Value} distribution, there are other methods
+in the literature for estimating the tail index, e.g. Pickand's 
+estimator \cite{pickands1975statistical} $\hat \alpha_P$ and the
+Deckers-Einmahl-de Haan estimator $\hat \alpha_{\text{DEH}}$
+\begin{eqnarray*}
+{1 \over \hat \alpha_P}
+&=&
+{1 \over \log 2}
+\log {
+  X_{(k)} - X_{(2k)}
+  \over
+X_{(2k)} - X_{(4k)}  
+} \\
+{1 \over \hat \alpha_{\text{DEH}}}
+&=&
+1 + {1 \over \alpha_H} + {1 \over 2} \left(
+  {H \over \alpha_H^2} - 1
+\right)^{-1}
+\end{eqnarray*}
+where it is similarly assumed $k \to \infty$ and $k/n \to 0$ as $n \to
+\infty$. The Deckers-Einmahl-de Haan estimator makes use of Hill's
+estimator $\hat \alpha_H$ and computes
+\[
+H = \left[
+  {1 \over k} \sum_{i=1}^k \log \left(
+    { X_{(i)} \over X_{(k+1)} }
+  \right)^2
+\right]^{-1}
+\]
+Apparently $1/H$ can be interpreted as the 2nd empirical moment of
+$\log(X_{(i)}/X_{(k+1)})$ for $i \leq k$.
+A major drawback of Pickand's and Deckers-Einmahl-de Haan's estimators
+is that, when applied to estimating the tail index, they discard the
+information that the tail index is always positive, hence resulting in
+a larger confidence band compared with that obtained for Hill's
+estimator. Therefore we stick to Hill's estimator in the empirical
+work included in this thesis.
 
+One of the most important dynamical mechanisms that lead to regularly
+varying r.v. is stochastic recursion of the following form:
+\[
+X_t = A_t X_{t-1} + B_t
+\]
+where $X_t$ is a $d$-dimensional random vector, $A_t$ is a $d\times d$
+random matrix and $B_t$ is a $d$-dimensional vector, random or
+deterministic.
+
+\section{Stochastic Recurrence Equation}
 
 
 
