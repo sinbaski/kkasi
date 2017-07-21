@@ -1,8 +1,16 @@
 \input{Preamble}
+\usepackage[numbers,sort&compress]{natbib}
+
+%% \usepackage[toc,page]{appendix}
+\usepackage{appendix}
+\graphicspath{
+        {../papers/FX/}{../papers/Jeffrey1/}
+        {../papers/DavisMikoschHeinyXie/}
+}
 
 \begin{document}
 
-%\includepdf{delete}
+
 
 \frontmatter
 \include{Titlepage}
@@ -74,168 +82,55 @@ Assessment committee: &  Prof.~Catalin Starica\\
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
 
-This thesis is concerned with asymptotic properties of the eigenvalues of high-dimensional sample covariance and correlation matrices under an infinite fourth moment of the entries.
-
-In the first part, we study the joint distributional convergence of the largest eigenvalues of the sample covariance matrix of a $p$-dimensional heavy-tailed time series when $p$ converges to infinity together with the sample size $n$. We generalize the growth rates of $p$ existing in the literature. Assuming a regular variation condition with tail index $\alpha<4$, we employ a large deviations approach to show that the extreme eigenvalues are essentially determined by the extreme order statistics from an array of iid random variables.  The asymptotic behavior of the extreme eigenvalues is then derived routinely from classical extreme value theory. The resulting approximations are strikingly simple considering the high dimension of the problem at hand.
-
-We develop a theory for the point process of the normalized eigenvalues
-of the sample covariance matrix in the case where rows and columns of the data are linearly dependent. Based on the weak convergence of this point process we derive the limit laws of various functionals of the eigenvalues.
-
-In the second part, we show that the largest and smallest eigenvalues 
-of a high-dimensional sample correlation matrix possess almost sure non-random limits if the truncated variance of the entry distribution is ``almost slowly varying'', a condition we describe via moment properties of self-normalized sums. We compare the behavior of the eigenvalues of the sample covariance and sample correlation matrices and argue that the latter seems more robust, in particular in the case of infinite fourth moment.
-   
+This thesis is about vanity of life.
 
 
 \section*{Resum{\'e}}
-%\addcontentsline{toc}{section}{Resum{\'e}}
-
-%Fokus for afhandlingen ligger i / Afhandlingen fokuserer på 
-Denne afhandling beskæftiger sig med de asymptotiske egenskaber af egenværdierne for højdimensionale empiriske korrelations- og kovariansmatricer, under antagelse af at matrixindgangene har uendeligt fjerde moment.
-
-
-
-I første del undersøger vi konvergens i fordeling af de 
-%principiale? 
-største egenværdier for den observerede kovarians af en $p$-dimensional tunghalet tidsrække, når
-%/hvor 
-$p$ sammen med stikprøvestørrelsen går mod uendelig.  
-Vi generaliserer de eksisterende vækstrater 
-af $p$ 
-fra litteraturen.  Under antagelse af regulær variation med haleindeks $\alpha < 4$, bruger vi en 
-%"store afvigelser?"
-large deviations-tilgang for at vise at de ekstremale egenværdier er essentielt bestemt ud fra de største værdier i et array af iid. stokastiske variable.
-Herefter udleder vi rutinemæssigt de ekstremale egenværdiers asymptotiske egenskaber ved brug af klassisk 
-%ekstremal
-ekstremværditeori.
-
-Vi fremfører en teori
-%? 
-for punktprocesser af de normalisererde egenværdier af den empiriske kovariansmatrix i tilfældet, hvor dens rækker og søjler er afhængige. Med udgangspunkt i, at denne punktproces konverger svagt, udleder vi grænsemomenter af 
-%diverse?  
-forskellige funktionaler af egenværdierne.
-
-I den anden del af afhandlingen viser vi at de største og mindste egenværdier fra en højdimensional korrelationsmatrix har næsten sikre grænser, hvis den trunkerede varians af indgangsfordelingen er ,,næsten langsom varierende``, en betingelse som kan indentificeres ud fra momentegenskaber af selv-normaliserende summer. Vi sammenligner, hvordan egenværdierne for 
-%hhv.
-henholdsvis den empiriske korrelations- og den empiriske kovariansmatrix opfører sig, og argumenterer for at sidstnævnte tilfælde er mere robust, hvilket særligt gælder i tilfældet med uendeligt fjerde moment.
 
 \newpage
 \section*{Acknowledgments}
 \addcontentsline{toc}{section}{Acknowledgments}
 
-First and foremost, I would like to thank my supervisor Thomas Mikosch for many fascinating discussions, his guidance and experience. I could not have wished for a better person to work with and learn from.  Furthermore I am grateful for the support I received from my co-supervisor Olivier Wintenberger. 
-
-I want to thank Richard Davis and the Statistics Department of Columbia University in the City of New York, where I spent a research visit in $2016$, for their great hospitality. The group meetings on Wednesdays led to a vivid exchange of ideas.
-I would also like to thank Claudia Kl\"uppelberg. Her advice is highly appreciated.
-
-Next, I want to thank Gennady Samorodnitsky and Mark Podolskij for inspiring discussions. I am also grateful to Jeffrey Collamore, Jesper Lund Pedersen, Mogens Steffensen and Jostein Paulsen.
-
-It is my special pleasure to thank our lunch group at the University of Copenhagen which was an integral part of daily university life. I also want to thank my fellow PhD students at the University of Copenhagen and Columbia University for many fun hours. Special thanks go to all my office mates and in particular Xie Xiaolei.
-
-I acknowledge the support by Danish Research Council Grant DFF-4002-00435 ``Large random matrices with heavy tails and dependence''. 
-
-Last but not least, I want to thank my family for the unconditional love and the invaluable support I have received over the years.
-
+Thank you all for various things.
 \bigskip
 
 
-{\em Johannes Heiny \qquad \qquad \qquad \qquad \qquad Copenhagen, January $2017$.}
-
-
+{\em Xie Xiaolei\qquad \qquad \qquad \qquad \qquad Copenhagen, September $2017$.}
 
 
 \chapter*{Summary}
 \addcontentsline{toc}{section}{Summary}
+This PhD thesis provides results from analysis of heavy-tailed time
+series. Its main part consists of the following research papers
+written between October $2014$ and Augest $2017$.
 
-This PhD thesis provides asymptotic theory for the eigenvalues of the sample covariance matrix of a high-dimensional time series with infinite fourth moment. Its main part consists of the first three of the following research papers. They were written from March $2014$ until December $2016$. 
 
 \begin{enumerate}
-\bibitem[P1]{heiny:mikosch:2015:iid1}
-{\sc Heiny, J., and Mikosch, T.}
-\newblock Eigenvalues and eigenvectors of heavy-tailed sample covariance
-  matrices with general growth rates: the iid case.
-\newblock {\em Stochastic Process. Appl.\/} (2016), 29. \href{http://www.sciencedirect.com/science/article/pii/S0304414916301934}{\blue{[pdf]}}
-
 \bibitem[P2]{davis:mikosch:heiny:xie:20151}
 {\sc Davis, R.~A., Heiny, J., Mikosch, T., and Xie, X.}
 \newblock Extreme value analysis for the sample autocovariance matrices of
   heavy-tailed multivariate time series.
 \newblock {\em Extremes 19}, 3 (2016), 517--547. \href{http://link.springer.com/article/10.1007/s10687-016-0251-7}{\blue{[pdf]}}
-
-\bibitem[P3]{heiny:mikosch:2016:corr11}
-{\sc Heiny, J., and Mikosch, T.}
-\newblock Almost sure convergence of the largest and smallest eigenvalues of high-dimensional sample correlation matrices under infinite fourth moment.
-\newblock {\em Submitted for publication}.
-
-\bibitem[P4]{heiny:mikosch:2016:noniid1}
-{\sc Heiny, J., and Mikosch, T.}
-\newblock Limit theory for the singular values of the sample autocovariance
-  matrix function of multivariate time series.
-\newblock {\em In preparation}.
-
-\bibitem[P5]{heiny:mikosch:2016:stochvol1}
-{\sc Heiny, J., and Mikosch, T.}
-\newblock Asymptotic theory for high-dimensional stochastic volatility matrices.
-\newblock {\em In preparation}.
 \end{enumerate}
 
-The aforementioned infinite fourth moment is ensured by a {\em regular variation condition}. We say that a random variable $X$ and its distribution are {\em regularly varying with index} $\alpha>0$ if
-\begin{equation}\label{eq:regvarch1}
-\P(X>x)\sim p_+\,\dfrac{L(x)}{x^{\alpha}}\quad\mbox{and}\quad \P(X<-x) \sim p_-\,\dfrac{L(x)}{x^\alpha}\,,\qquad \xto\,,\tag{$RV_{\alpha}$}
-\end{equation}
-where $ p_\pm$ are non-negative constants \sth\ $p_++p_-=1$ and $L$ is a \slvary\ \fct . In particular, if $\alpha<4$ we have $\E [X^4]= \infty$. The \regvar\ condition is needed for proving \asy\ theory for the eigenvalues of the sample covariance matrix. Moreover, we will often use the concept of {\em heavy tails}.  A distribution is called {\em heavy-tailed} if certain moments are infinite. By construction, any regularly varying distribution is heavy-tailed.  
-\par
+Now we explain the structure of this thesis.
 
-Now we explain the structure of this thesis. In Chapter \ref{ch:intr} we provide an introduction to Random Matrix Theory and present the classical results in the light-tailed case. We give examples of high-dimensional statistical inference problems and indicate how the asymptotic theory applies. The empirical distribution of the eigenvalues of the widely used sample covariance matrix is studied. Furthermore the \as~limits of its largest and smallest eigenvalues are identified under finite fourth moment. Then we explain the typical behavior of its eigenvectors. 
-{\em Section \ref{sec:contr} constitutes the main part of Chapter~\ref{ch:intr}.} There we present the contribution of this thesis and the novelties of \cite{heiny:mikosch:2015:iid1, davis:mikosch:heiny:xie:20151, heiny:mikosch:2016:corr11}.
-
-Chapters \ref{ch:iid}-\ref{ch:corr} consist of these $3$ papers, respectively. Each chapter is self-contained with its own introduction and references. Chapter~\ref{ch:intr} can be used as a joint introduction to Chapters \ref{ch:iid}-\ref{ch:corr}. 
-\par
-In Chapter~\ref{ch:iid} we study the joint \ds al \con\ of the largest eigenvalues of the sample covariance matrix
-of a $p$-dimensional \ts\ with iid entries when $p$ converges to infinity together with the sample size $n$. We generalize the growth rates of $p$ in the literature. Assuming the regular variation condition with $\alpha<4$, we employ a large deviations approach to show
-that only the diagonal of the sample covariance matrix is relevant for the \asy\ behavior of the largest eigenvalues and the corresponding eigenvectors. The resulting approximations are strikingly simple considering the high dimension of the problem at hand.
-
-In Chapter~\ref{ch:extremes} we generalize the results from the iid case that were presented in the previous chapter. 
-We develop a theory for the \pp\ of the normalized eigenvalues
-of the sample covariance matrix in the case when rows and columns of the data are linearly dependent.
-We provide limit results for the weak \con\ of these \pp es to Poisson or cluster Poisson processes. Based on
-this \con\ we can also derive the limit laws of various \fct als of the ordered eigenvalues such as the
-joint \con\ of a finite number of the largest order statistics, the joint limit law of the largest eigenvalue and the trace,
-limit laws for successive ratios of ordered eigenvalues,
-etc. We also develop some
-limit theory for the singular values of the sample autocovariance matrices and their sums of squares. The theory is illustrated
-for simulated data and for the components of the S\&P 500 stock index. Further generalizations of the results of this chapter are made in \cite{heiny:mikosch:2016:noniid1} and \cite{heiny:mikosch:2016:stochvol1}, but are not part of this thesis.
-
-In Chapter~\ref{ch:corr}, we show that the largest and smallest eigenvalues 
-of a sample correlation matrix stemming from $n$ independent observations of a $p$-dimensional 
-time series with iid components converge almost surely to $(1+\sqrt{\gamma})^2$ and $(1-\sqrt{\gamma})^2$, 
-respectively, as $\nto$, if $p/n\to \gamma \in (0,1]$ and the truncated variance of the entry 
-distribution is ``almost slowly varying'', a condition we describe via moment 
-properties of self-normalized sums. We compare the behavior of the eigenvalues of the 
-sample covariance and sample correlation matrices and argue that the latter seems more robust, 
-in particular in the case of infinite fourth moment. We briefly address some practical issues 
-for the estimation of extreme eigenvalues in a simulation study.  
-
-Chapter~\ref{ch:corr} is the most technical one of this thesis. %In addition to the submitted version we added Section~\ref{sec:anexample} which contains an attempt to adapt the widely employed truncation techniques to self-normalized sums with the goal of verifying our crucial distributional assumption. 
-In our proofs we use the method of moments combined with a Path-Shortening Algorithm, 
-which efficiently uses the structure of sample correlation matrices, 
-to calculate precise bounds for matrix norms. We believe that this new approach could be of further use in Random Matrix Theory. 
-\bigskip
-
-
-{\em Johannes Heiny \qquad \qquad \qquad \qquad \qquad Copenhagen, January $2017$.}
+{\em Xie Xiaolei \qquad \qquad \qquad \qquad \qquad Copenhagen, January $2017$.}
 
 \newpage
 \tableofcontents
 
 \mainmatter
 
-\include{Chapterintroduction}
+\def\phdthesis{1}
+\input{Chapterintroduction}
 %------------------------------------------------------------------------------------
-\include{Chapteriidpaper}
-\include{Chapterextremes}
-\include{Chaptercorrelation}
+\input{ChapterTailParameters}
+%% \input{TailParameters}
+\input{Chapterextremes}
 
-\bibliography{libraryjohannes}
+% \bibliography{libraryjohannes}
+\bibliography{../thesis/econophysics}
 
 %for print version only
 \newpage

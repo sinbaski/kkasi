@@ -13,8 +13,9 @@ graphics.off();
 ## old <- read.table(file="./lambda0.txt");
 ## new <- read.table(file="./lambda0_new.txt");
 ## data <- read.table("DAX_garch21_tailindex.dat");
+## data <- read.table("temp.dat");
 data <- read.table("DJIA_garch21_tailindex.dat");
-
+## data <- read.table("SP500_garch21_tailindex.dat");
 ## Smooth it!
 k = 5;
 X <- data[, 2];
@@ -23,9 +24,6 @@ for (i in k:dim(data)[1]) {
 }
 
 
-
-
-## data <- read.table("temp.dat");
 ## pdf("../../papers/Jeffrey1/SP500_xi.pdf");
 plot(data[, 1], X,
      lwd=2,
