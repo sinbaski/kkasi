@@ -1,0 +1,1128 @@
+%last edited 10.11.2015
+\documentclass[11pt,reqno]{amsart}
+\usepackage{amsmath,epsfig,graphicx,color}
+%\usepackage[english,ngerman]{babel}
+%\usepackage[latin1]{inputenc}
+\usepackage{ifthen}
+%\usepackage{dsfont}
+%\usepackage{shadethm}
+%\usepackage{framed}
+%\usepackage{pstricks}
+%\usepackage{graphics}
+%\usepackage{tocbibind}
+%\usepackage{showkeys}
+%\usepackage{units}
+\usepackage{amssymb,latexsym}
+\usepackage{subfigure}
+%\usepackage{amsfonts}
+%\usepackage{makeidx,showidx}
+%\usepackage[sc]{mathpazo}
+%\linespread{1.05}
+%\usepackage[backref=page]{hyperref}
+\usepackage{hyperref}
+\hypersetup{
+urlcolor=black,
+  menucolor=black,
+  citecolor=black,
+  anchorcolor=black,
+  filecolor=black,
+  linkcolor=black,
+  colorlinks=true,
+}
+\newcommand{\rep}{representation}
+\newcommand{\ld}{large deviation}
+\renewcommand{\H}{{\mathbf H}}
+\newcommand{\bfA}{{\mathbf A}}
+\newcommand{\cmt}{continuous mapping theorem}
+\newcommand{\fct}{function}
+\newcommand{\slvary}{slowly varying}
+\newcommand{\regvar}{regular variation}
+\newcommand{\regvary}{regularly varying}
+\newcommand{\st}{such that}
+\newcommand{\stas}{\stackrel{\rm a.s.}{\rightarrow}}
+\newcommand{\std}{\stackrel{\rm d}{\rightarrow}}
+\newcommand{\stp}{\stackrel{\P}{\rightarrow}}
+\newcommand{\la}{\lambda}
+\newcommand{\ds}{distribution}
+\newcommand{\beao}{\begin{eqnarray*}}
+\newcommand{\eeao}{\end{eqnarray*}}
+\newcommand{\beam}{\begin{eqnarray}}
+\newcommand{\eeam}{\end{eqnarray}}
+\newcommand{\red}{\color{darkred}}
+\newcommand{\blue}{\color{darkblue}}
+\newcommand{\green}{\color{darkgreen}}
+\newcommand{\black}{\color{black}}
+\definecolor{darkblue}{rgb}{.1, 0.1,.8}
+\definecolor{darkgreen}{rgb}{0,0.8,0.2}
+\definecolor{darkred}{rgb}{.8, .1,.1}
+\textwidth 6.50in
+\topmargin -0.50in
+\oddsidemargin 0in
+\evensidemargin 0in
+\textheight 9.00in
+%\pagestyle{plain}
+
+\newcommand{\wt}{\widetilde}
+\newcommand{\bco}{\begin{corrolary}}
+\newcommand{\eco}{\end{corrolary}}
+\newcommand{\wrt}{with respect to}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\1}{\mathbf{1}}
+%\newcommand{\1}{\mathds{1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Fo}{\bar{F}}
+\renewcommand{\b}[1]{\boldsymbol{#1}}
+\newcommand{\Rq}{\mkern 1.5mu\overline{\mkern-1.5mu\R\mkern-3.0mu}\mkern 1.5mu}
+\newcommand{\Frechet}{Fr\'{e}chet }
+\renewcommand{\Finv}{F^{\gets}}
+\DeclareMathOperator{\e}{e}
+\newcommand{\inv}[1]{#1^{\gets}}
+\newcommand{\x}{{\mathbf x}}
+\newcommand{\y}{{\mathbf y}}
+\newcommand{\X}{{\mathbf X}}
+\newcommand{\Y}{{\mathbf Y}}
+\newcommand{\M}{{\mathbf M}}
+\newcommand{\bfZ}{{\mathbf Z}}
+\newcommand{\0}{\boldsymbol{0}}
+\newcommand{\dint}{\,\mathrm{d}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\twonorm}[1]{\|#1\|_2}
+\newcommand{\inftynorm}[1]{\|#1\|_\infty}
+\newcommand{\frobnorm}[1]{\|#1\|_F}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\nto}{n \to \infty}
+\newcommand{\xto}{x \to \infty}
+\newcommand{\lhs}{left-hand side}
+\newcommand{\rhs}{right-hand side}
+\newcommand{\ts}{time series}
+\newcommand{\tsa}{\ts\ analysis}
+\newcommand{\fidi}{finite-dimensional distribution}
+\newcommand{\rv}{random variable}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Zbar}{\overline{Z}}
+\newcommand{\diag}{\operatorname{diag}}
+%\renewcommand*{\backref}[1]{}
+%\renewcommand*{\backrefalt}[4]{%
+%    \ifcase #1 (Not cited.)%
+%    \or        (Cited on page~#2.)%
+%    \else      (Cited on pages~#2.)%
+%    \fi}
+
+\newcommand{\4}{\mathchoice{\mskip1.5mu}{\mskip1.5mu}{}{}}
+\newcommand{\5}{\mathchoice{\mskip-1.5mu}{\mskip-1.5mu}{}{}}
+\newcommand{\2}{\penalty250\mskip\thickmuskip\mskip-\thinmuskip} % after comma
+
+\newcommand{\levy}{L\'evy}
+\newcommand{\slln}{strong law of large numbers}
+\newcommand{\clt}{central limit theorem}
+\newcommand{\sde}{stochastic differential equation}
+\newcommand{\It}{It\^o}
+\newcommand{\sta}{St\u aric\u a}
+\newcommand{\ex}{{\rm e}\,}
+
+\def\theequation{\thesection.\arabic{equation}}
+\def\tag{\refstepcounter{equation}\leqno }
+\def\neqno{\refstepcounter{equation}\leqno(\thesection.\arabic{equation})}
+
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{figur}[lemma]{Figure}
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{corollary}[lemma]{Corollary}
+\newtheorem{example}[lemma]{Example}
+\newtheorem{exercise}[lemma]{Exercise}
+\newtheorem{remark}[lemma]{Remark}
+\newtheorem{fig}[lemma]{Figure}
+\newtheorem{tab}[lemma]{Table}
+\newtheorem{conjecture}[lemma]{Conjecture}
+
+\newcommand{\cid}{\stackrel{d}{\rightarrow}}
+\newcommand{\cip}{\stackrel{\P}{\rightarrow}}
+\newcommand{\civ}{\stackrel{v}{\rightarrow}}
+\newcommand{\cas}{\stackrel{\rm a.s.}{\rightarrow}}
+\newcommand{\simsl}{\stackrel{sl.}{\sim}}
+
+\newcommand{\A}{{\mathbf A}}
+\newcommand{\var}{{\rm var}}
+\newcommand{\med}{{\rm med}}
+\newcommand{\cov}{{\rm cov}}
+\newcommand{\corr}{{\rm corr}}
+\newcommand{\as}{{\rm a.s.}}
+\newcommand{\io}{{\rm i.o.}}
+\newcommand{\Holder}{H\"older}
+\newcommand{\evt}{extreme value theory}
+\newcommand{\cadlag}{c\`adl\`ag}
+\newcommand{\pp}{point process}
+\newcommand{\con}{convergence}
+\newcommand{\seq}{sequence}
+\newcommand{\ms}{measure}
+\newcommand{\asy}{asymptotic}
+%--------------------------------------------------------------------------------------------
+\begin{document}
+\today
+%\bibliographystyle{acm}
+\title[Extreme value analysis for the sample autocovariance matrices of time series]
+{Extreme value analysis for the sample autocovariance matrices of heavy-tailed multivariate time series}
+\thanks{Richard Davis
+was supported by ARO MURI grant W911NF-12-1-0385. Thomas Mikosch's and Johannes Heiny's research is partly supported by the Danish Research Council Grant DFF-4002-00435 ``Large random matrices with heavy tails and dependence''.}
+\author[Richard A. Davis]{Richard A. Davis}
+\author[Johannes Heiny]{Johannes Heiny}
+\author[Thomas Mikosch]{Thomas Mikosch}
+\author[Xiaolei Xie]{Xiaolei Xie}
+\address{Department of Statistics,
+Columbia University,
+1255 Amsterdam Ave.
+New York, NY 10027, U.S.A.}
+\email{rdavis@stat.columbia.edu\,, www.stat.columbia.edu/$\sim$rdavis}
+\address{Department  of Mathematics,
+University of Copenhagen,
+Universitetsparken 5,
+DK-2100 Copenhagen,
+Denmark}
+\email{johannes.heiny@math.ku.dk}
+\email{mikosch@math.ku.dk\,, www.math.ku.dk/$\sim$mikosch}
+\email{xie@math.ku.dk}
+
+\maketitle
+
+\input{PaperBody}
+
+\section*{Acknowledgments}\setcounter{equation}{0}
+
+We thank Olivier Wintenberger for reading the manuscript and fruitful discussions.
+
+%\bibliography{libraryjohannes}
+\begin{thebibliography}{10}
+
+\bibitem{anderson:1963}
+{\sc Anderson, T.~W.}
+\newblock Asymptotic theory for principal component analysis.
+\newblock {\em Ann. Math. Statist. 34\/} (1963), 122--148.
+
+\bibitem{auffinger:arous:peche:2009}
+{\sc Auffinger, A., Ben~Arous, G., and P{\'e}ch{\'e}, S.}
+\newblock Poisson convergence for the largest eigenvalues of heavy tailed
+  random matrices.
+\newblock {\em Ann. Inst. Henri Poincar\'e Probab. Stat. 45}, 3 (2009),
+  589--610.
+
+\bibitem{bai:silverstein:2010}
+{\sc Bai, Z., and Silverstein, J.~W.}
+\newblock {\em Spectral Analysis of Large Dimensional Random Matrices},
+  second~ed.
+\newblock Springer Series in Statistics. Springer, New York, 2010.
+
+\bibitem{baisilv}
+{\sc Bai, Z.~D., Silverstein, J.~W., and Yin, Y.~Q.}
+\newblock A note on the largest eigenvalue of a large-dimensional sample
+  covariance matrix.
+\newblock {\em J. Multivariate Anal. 26}, 2 (1988), 166--168.
+
+\bibitem{belinschi:dembo:guionnet:2009}
+{\sc Belinschi, S., Dembo, A., and Guionnet, A.}
+\newblock Spectral measure of heavy tailed band and covariance random matrices.
+\newblock {\em Comm. Math. Phys. 289}, 3 (2009), 1023--1055.
+
+\bibitem{belitski}
+{\sc Belitski{\u\i}, G.~R., and Lyubich, Y.~I.}
+\newblock {\em Matrix Norms and their Applications}, vol.~36 of {\em Operator
+  Theory: Advances and Applications}.
+\newblock Birkh\"auser Verlag, Basel, 1988.
+
+\bibitem{arous:guionnet:2008}
+{\sc Ben~Arous, G., and Guionnet, A.}
+\newblock The spectrum of heavy tailed random matrices.
+\newblock {\em Comm. Math. Phys. 278}, 3 (2008), 715--751.
+
+\bibitem{bhatia:1997}
+{\sc Bhatia, R.}
+\newblock {\em Matrix Analysis}, vol.~169 of {\em Graduate Texts in
+  Mathematics}.
+\newblock Springer-Verlag, New York, 1997.
+
+\bibitem{bingham:goldie:teugels:1987}
+{\sc Bingham, N.~H., Goldie, C.~M., and Teugels, J.~L.}
+\newblock {\em Regular Variation}, vol.~27 of {\em Encyclopedia of Mathematics
+  and its Applications}.
+\newblock Cambridge University Press, Cambridge, 1987.
+
+\bibitem{cline:hsing:1998}
+{\sc Cline, D. B.~H., and Hsing, T.}
+\newblock Large deviation probabilities for sums of random variables with heavy
+  or subexponential tails.
+\newblock {\em Technical report. Statistics Dept., Texas A\&M University.\/}
+  (1998).
+
+\bibitem{davis:mikosch:pfaffel:2015}
+{\sc Davis, R.~A., Mikosch, T., and Pfaffel, O.}
+\newblock Asymptotic theory for the sample covariance matrix of a heavy-tailed
+  multivariate time series.
+\newblock {\em Stochastic Process. Appl.\/} (2015).
+
+\bibitem{davis:pfaffel:stelzer:2014}
+{\sc Davis, R.~A., Pfaffel, O., and Stelzer, R.}
+\newblock Limit theory for the largest eigenvalues of sample covariance
+  matrices with heavy-tails.
+\newblock {\em Stochastic Process. Appl. 124}, 1 (2014), 18--50.
+
+\bibitem{dehaan:ferreira:2006}
+{\sc de~Haan, L., and Ferreira, A.}
+\newblock {\em Extreme Value Theory: An Introduction}.
+\newblock Springer Series in Operations Research and Financial Engineering.
+  Springer, New York, 2006.
+
+\bibitem{denisov:dieker:shneer:2008}
+{\sc Denisov, D., Dieker, A.~B., and Shneer, V.}
+\newblock Large deviations for random walks under subexponentiality: the
+  big-jump domain.
+\newblock {\em Ann. Probab. 36}, 5 (2008), 1946--1991.
+
+\bibitem{elkaroui:2003}
+{\sc El~Karoui, N.}
+\newblock On the largest eigenvalue of wishart matrices with identity
+  covariance when n,p and p/n tend to infinity.
+\newblock {\em Available at {\tt http://arxiv.org/abs/math/0309355}\/} (2003).
+
+\bibitem{embrechts:goldie:1980}
+{\sc Embrechts, P., and Goldie, C.~M.}
+\newblock On closure and factorization properties of subexponential and related
+  distributions.
+\newblock {\em J. Austral. Math. Soc. Ser. A 29}, 2 (1980), 243--256.
+
+\bibitem{embrechts:klueppelberg:mikosch:1997}
+{\sc Embrechts, P., Kl{\"u}ppelberg, C., and Mikosch, T.}
+\newblock {\em
+  \href{http://www.springer.com/mathematics/quantitative+finance/book/978-3-540-60931-5}{Modelling
+  Extremal Events for Insurance and Finance}}, vol.~33 of {\em Applications of
+  Mathematics (New York)}.
+\newblock Springer, Berlin, 1997.
+
+\bibitem{embrechts:veraverbeke:1982}
+{\sc Embrechts, P., and Veraverbeke, N.}
+\newblock Estimates for the probability of ruin with special emphasis on the
+  possibility of large claims.
+\newblock {\em Insurance Math. Econom. 1}, 1 (1982), 55--72.
+
+\bibitem{feller}
+{\sc Feller, W.}
+\newblock {\em An Introduction to Probability Theory and its Applications.
+  {V}ol. {II}}.
+\newblock John Wiley \& Sons, Inc., New York-London-Sydney, 1966.
+
+\bibitem{geman}
+{\sc Geman, S.}
+\newblock A limit theorem for the norm of random matrices.
+\newblock {\em Ann. Probab. 8}, 2 (1980), 252--261.
+
+\bibitem{heiny:mikosch:2015:iid}
+{\sc Heiny, J., and Mikosch, T.}
+\newblock Eigenvalues and eigenvectors of heavy-tailed sample covariance
+  matrices with general growth rates: the iid case.
+\newblock {\em Submitted\/} (2015).
+
+\bibitem{heiny:mikosch:2016:noniid}
+{\sc Heiny, J., Mikosch, T., and Davis, R.~A.}
+\newblock Limit theory for the singular values of the sample autocovariance
+  matrix function of multivariate time series.
+\newblock {\em Work in progress\/} (2015).
+
+\bibitem{horn}
+{\sc Horn, R.~A., and Johnson, C.~R.}
+\newblock {\em Matrix Analysis}, second~ed.
+\newblock Cambridge University Press, Cambridge, 2013.
+
+\bibitem{johansson}
+{\sc Johansson, K.}
+\newblock Universality of the local spacing distribution in certain ensembles
+  of {H}ermitian {W}igner matrices.
+\newblock {\em Comm. Math. Phys. 215}, 3 (2001), 683--705.
+
+\bibitem{johnstone:2001}
+{\sc Johnstone, I.~M.}
+\newblock On the distribution of the largest eigenvalue in principal components
+  analysis.
+\newblock {\em Ann. Statist. 29}, 2 (2001), 295--327.
+
+\bibitem{lam:yao}
+{\sc Lam, C., and Yao, Q.}
+\newblock Factor modeling for high-dimensional time series: inference for the
+  number of factors.
+\newblock {\em Ann. Statist. 40}, 2 (2012), 694--726.
+
+\bibitem{muirhead}
+{\sc Muirhead, R.~J.}
+\newblock {\em Aspects of Multivariate Statistical Theory}.
+\newblock John Wiley \& Sons, Inc., New York, 1982.
+\newblock Wiley Series in Probability and Mathematical Statistics.
+
+\bibitem{nagaev:1979}
+{\sc Nagaev, S.~V.}
+\newblock Large deviations of sums of independent random variables.
+\newblock {\em Ann. Probab. 7}, 5 (1979), 745--789.
+
+\bibitem{resnick:2007}
+{\sc Resnick, S.~I.}
+\newblock {\em Heavy-Tail Phenomena: Probabilistic and Statistical Modeling}.
+\newblock Springer Series in Operations Research and Financial Engineering.
+  Springer, New York, 2007.
+
+\bibitem{resnick:1987}
+{\sc Resnick, S.~I.}
+\newblock {\em Extreme Values, Regular Variation and Point Processes}.
+\newblock Springer Series in Operations Research and Financial Engineering.
+  Springer, New York, 2008.
+\newblock Reprint of the 1987 original.
+
+\bibitem{shores}
+{\sc Shores, T.~S.}
+\newblock {\em Applied Linear Algebra and Matrix Analysis}.
+\newblock Undergraduate Texts in Mathematics. Springer, New York, 2007.
+
+\bibitem{soshnikov:2004}
+{\sc Soshnikov, A.}
+\newblock Poisson statistics for the largest eigenvalues of {W}igner random
+  matrices with heavy tails.
+\newblock {\em Electron. Comm. Probab. 9\/} (2004), 82--91 (electronic).
+
+\bibitem{soshnikov:2006}
+{\sc Soshnikov, A.}
+\newblock Poisson statistics for the largest eigenvalues in random matrix
+  ensembles.
+\newblock In {\em Mathematical physics of quantum mechanics}, vol.~690 of {\em
+  Lecture Notes in Phys.} Springer, Berlin, 2006, pp.~351--364.
+
+\bibitem{tao09b}
+{\sc Tao, T., and Vu, V.}
+\newblock Random matrices: universality of local eigenvalue statistics up to
+  the edge.
+\newblock {\em Comm. Math. Phys. 298}, 2 (2010), 549--572.
+
+\bibitem{tracy:widom:2012}
+{\sc Tracy, C.~A., and Widom, H.}
+\newblock Distribution functions for largest eigenvalues and their
+  applications.
+\newblock In {\em Proceedings of the {I}nternational {C}ongress of
+  {M}athematicians, {V}ol. {I} ({B}eijing, 2002)\/} (2002), Higher Ed. Press,
+  Beijing, pp.~587--596.
+
+\end{thebibliography}
+\end{document}
+%Use this \end{document} to get the version without the proof after the bibliography
+
+
+
+\section{A result for the largest singular value in the iid case}\setcounter{equation}{0}
+
+Next we briefly state a rather general version of a result 
+in Heiny and Mikosch \cite{heiny:mikosch:2015:iid} which will be relevant when we consider dependent entries of $\X$.
+
+
+The singular values of a matrix $A$ are the positive roots of the eigenvalues of $AA'$. The spectral norm $\twonorm{\cdot}$ of $A$ is defined as its largest singular value.
+
+ We consider a double array $(X_{it})_{i,t \in \Z}$ 
+of iid random variables satisfying the \regvar\ condition \eqref{eq:regvar} for some  
+$\alpha \in (0,4)$. If $\E[|X|]<\infty$ we also suppose that $\E X=0$. In our proofs we will need all $p\times n$ blocks that appear in the $X$-array. For $u,s\in \Z$, write 
+\beao%\label{eq:Ygsrg}
+\X(u,s)=\X_n(u,s)&=&(X_{i-u,t-s})_{i=1,\ldots,p;t=1,\ldots,n}\,,\\
+(\X(0,0)\X(u,s)')_{ij}& =& \sum_{t=1}^n X_{i,t} \,X_{j-u,t-s},\qquad i,j=1,\ldots,p\,.
+\eeao
+
+\begin{theorem}\label{thm:iidjohannes}
+Assume $u,s\in \Z$. Let $\xi_{\alpha/2}$ be a $\Phi_{\alpha/2}$-distributed \rv .
+\begin{enumerate}
+\item Assume one of the following conditions:
+\begin{itemize}
+\item $\alpha \in (0,2)$ and \ref{eq:p} for $\beta\ge 0$, 
+\item $\alpha \in [2,4)$ and \ref{eq:p} for $\beta$ such that $\min(\beta,\beta^{-1})\in (\alpha/2-1,1]$.
+\end{itemize}
+Then 
+\begin{equation*}
+a_{np}^{-2} \twonorm{\X(0,0)\X(u,s)'} \cid 0 \,\1(s\ne 0)+ \xi_{\alpha/2}\,\1(s=0)\,.
+\end{equation*}
+For $\gamma<\alpha/2$,
+the \seq\ $(a_{np}^{-2\gamma} \twonorm{\X(0,0)\X(u,s)'}^\gamma)_{n\ge 1}$ is uniformly integrable.
+\item 
+Assume $\alpha \in (2,4)$ and \ref{eq:p} for $\beta\in [0,1]$. 
+Then 
+\begin{equation*}
+a_{np}^{-2} \twonorm{\X(0,0)\X(u,s)'-\E[\X(0,0)\X(u,s)']} \cid 0 \,\1(s\ne 0)+ \xi_{\alpha/2}\,\1(s=0)\,.
+\end{equation*}
+For $\gamma<\alpha/2$,
+the \seq\ $(a_{np}^{-2\gamma} \twonorm{\X(0,0)\X(u,s)'- \E[\X(0,0)\X(u,s)']}^\gamma)_{n\ge 1}$ is uniformly integrable.
+\end{enumerate}
+\end{theorem}
+
+\section{Further Karamata theory}\setcounter{equation}{0}
+
+\begin{proposition}
+Let $(c_n)$ be the threshold sequence in Theorem~\ref{thm:nagaev} for a
+given $\alpha>0$,  and let $(d_n)$ be such that
+$d_n/c_n\to\infty$ for $\alpha>2$ and $d_n=c_n$ for $\alpha\le 2$. Assume $\gamma>\alpha$. 
+Then we have  for $\delta \in (0,1)$ and a sequence $x_n\ge d_n$
+\begin{equation}\label{eq:equiv}
+\E[|x_n^{-1} S_n|^\gamma \1_{\{\delta x_n \le |S_n|\le x_n\}}] \sim \frac{\alpha}{\gamma -\alpha} (1- \delta^{\gamma-\alpha}) n \P(|Z|>x_n), \quad \nto.
+\end{equation}
+Moreover, 
+\begin{equation}\label{eq:iec}
+\E[|x_n^{-1}S_n|^\gamma \1_{\{d_n \le  |S_n|\le x_n
+  \}}]\le   \frac{\alpha}{\gamma-\alpha}\,n \,\P(|Z|>x_n)\,,
+\end{equation}
+and 
+\begin{equation}\label{eq:iec1}
+\E[|x_n^{-1}S_n|^\gamma \1_{\{|S_n|\le x_n
+  \}}] \le 	\frac{\alpha}{\gamma-\alpha}\,n \,\P(|Z|>x_n) + \Big(\frac{d_n}{x}\Big)^\gamma \,.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+We use the notation $Y_n:=|x_n^{-1} S_n|$. Since $Y_n^\gamma \1_{\{Y_n\le 1\}}$ is a positive random variable one can write 
+\begin{equation*}
+\E[Y_n^\gamma \1_{\{\delta \le Y_n \le 1\}}]=\int_0^\infty \P(Y_n^\gamma \1_{\{\delta \le Y_n \le 1\}}>y) \dint y.
+\end{equation*}
+The probability inside the integral is 
+\begin{equation*}
+\begin{split}
+\P(Y_n^\gamma \1_{\{\delta \le Y_n \le 1\}}>y) &= \P(Y_n > \max \{y^{1/\gamma},\delta \}, y\le 1)\\
+&= \begin{cases}
+0 & \text{if } y > 1,\\ 
+\P(Y_n>y^{1/\gamma}) - \P(Y_n>1) & \text{if } 1 \ge y \ge \delta^\gamma,\\
+\P(Y_n>\delta) - \P(Y_n>1) & \text{if } y \le \delta^\gamma.
+\end{cases}
+\end{split}
+\end{equation*}
+Therefore, using the uniform convergence result in Theorem~\ref{thm:nagaev}, we conclude that 
+\begin{equation*}
+\begin{split}
+\int_0^\infty \P(Y_n^\gamma \1_{\{\delta \le Y_n \le 1\}}>y) \dint y&=
+\delta^\gamma (\P(Y_n>\delta)- \P(Y_n>1))\\
+&\quad + \int_{\delta^\gamma}^1 \P(Y_n>y^{1/\gamma}) \, \dint y- (1-\delta^\gamma)  \P(Y_n>1)\\
+&=\delta^\gamma \P(|S_n/x_n|>\delta)- \P(|S_n/x_n|>1) \\
+&\quad + \int_{\delta^\gamma}^1 \frac{\P(|S_n/x_n|>y^{1/\gamma})}{n \P(|Z/x_n|> y^{1/\gamma})}\,
+\, [n \P(|Z/x_n|> y^{1/\gamma})]\, \dint y\\
+&\sim \delta^{\gamma-\alpha} n \P(|Z|>x_n) -n \P(|Z|>x_n) + \int_{\delta^\gamma}^1 y^{-\frac{\alpha}{\gamma}} \dint y \, n \P(|Z|>x_n)\\
+&= \frac{\alpha}{\gamma-\alpha} (1- \delta^{\gamma-\alpha}) n \P(|Z|>x_n)           \,,\quad \nto\,.
+\end{split}
+\end{equation*}
+The proof of \eqref{eq:iec} is analogous. For \eqref{eq:iec1} we find that
+\begin{equation*}
+\begin{split}
+\E[|x_n^{-1}S_n|^\gamma \1_{\{|S_n|\le x
+  \}}] &=  \E[|x^{-1}S_n|^\gamma \1_{\{d_n \le  |S_n|\le x_n
+  \}}] + \E[|x_n^{-1}S_n|^\gamma \1_{\{  |S_n| < d_n\}}]\\
+&\le 	\frac{\alpha}{\gamma-\alpha}\,n \,\P(|Z|>x_n) + \Big(\frac{d_n}{x_n}\Big)^\gamma.
+\end{split}
+\end{equation*}
+\end{proof}
+
+
+%\newpage
+\section{Proof of Theorem~\ref{thm:mains}}\label{sec:proof}\setcounter{equation}{0}
+
+To increase the readability of our arguments we will proof the results for $h_{kl}=0$ if $\min(k,l)<0$. The extension to general two-sided filters is straightforward.
+
+Let $s\in \N_0$. The $(i,j)$th entry of $\X_n(0)\X_n(s)'$ is
+\begin{equation*}
+\Big(\X_n(0)
+\X_n(s)'\Big)_{ij}= \sum_{l_1,l_2=0}^\infty
+\sum_{k_1, k_2=0}^{\infty} h_{k_1,l_1}  h_{k_2,l_2}\sum_{t=1}^n Z_{i-k_1,t-l_1} Z_{j-k_2,t+s-l_2}\,, \quad i,j=1, \ldots,p.
+\end{equation*}
+We approximate this matrix in three steps. 
+
+%-----------------------------------------------------------------------
+\subsection{Step 1}
+
+We show that it suffices to deal with
+the finite moving averages
+\begin{equation*}
+X_{it}^{(m)}(s)=\sum_{l=0}^m\sum_{k=0}^m h_{kl}
+Z_{i-k,t+s-l}\,,\quad m\ge 1\,.
+\end{equation*}
+and
+the corresponding matrices
+$\X_n^{(m)}(s)=(X_{i,t}^{(m)}(s))_{i=1,\ldots,p,t=1,\ldots,n}$.
+The $(i,j)$th element of\\ $\X_n^{(m)}(0) \X_n^{(m)}(s)'$ can be decomposed as follows:
+\begin{equation*}
+\begin{split}
+\sum_{t=1}^n X_{it}^{(m)}(0)X_{jt}^{(m)}(s)
+&= \sum_{l_1,l_2=0}^m
+\sum_{k_1,k_2=0}^m h_{k_1,l_1}h_{k_2,l_2}\sum_{t=1}^n
+Z_{i-k_1,t-l_1} Z_{j-k_2,t+s-l_2}\\
+&= \sum_{l=0}^m
+\sum_{k=0}^m h_{k,l}h_{k+j-i,l+s}\sum_{t=1}^n
+Z_{i-k,t-l}^2\\
+& + \Big( \sum_{l_1,l_2=0;l_2\neq l_1+s}^m
+\sum_{k_1,k_2=0}^m h_{k_1,l_1}h_{k_2,l_2}\sum_{t=1}^n
+Z_{i-k_1,t-l_1} Z_{j-k_2,t+s-l_2}\\
+& + \sum_{l=0}^m
+\sum_{k_1,k_2=0;i-k_1\neq j-k_2}^m h_{k_1,l}h_{k_2,l+s}\sum_{t=1}^n
+Z_{i-k_1,t-l} Z_{j-k_2,t-l} \Big)\\
+&= (\wt{X}^{(m)}_{n}(s))_{ij}+I_{ij}\,.
+\end{split}
+\end{equation*}
+
+\begin{lemma} \label{lem:0}
+Assume the conditions of Theorem~\ref{thm:mains} and let $\alpha\in (0,4)$. 
+\begin{itemize}
+\item[($a$)] If $\beta \in [0,1] \cap (\alpha/2-1,1]$,
+then
+\begin{equation*}
+\lim_{m\to\infty} \limsup_{\nto} \P(a_{np}^{-2}\|\X_n(0)
+\X_n(s)'-\wt{X}^{(m)}_{n}(s) \|_2>\vep)=0\,,\quad \vep>0\,.
+\end{equation*}
+\item[($b$)] If $\alpha\in (2,4)$ and $\beta \in [0,1]$,
+then for all $\vep>0$ 
+\begin{equation*}
+\begin{split}
+\lim_{m\to\infty} \limsup_{\nto} \P(a_{np}^{-2}\|\X_n(0)
+\X_n(s)'- \E[\X_n(0)\X_n(s)'] -\wt{X}^{(m)}_{n}(s)+\E[\wt{X}^{(m)}_{n}(s)] \|_2>\vep)=0\,.
+\end{split}
+\end{equation*}
+\end{itemize}
+\end{lemma}
+
+\begin{proof}[Proof of Lemma~\ref{lem:0}]
+Observe that
+\begin{equation*}
+\Big(\X_n(0)\X_n(s)'-\wt{X}^{(m)}_{n}(s)\Big)_{ij}= I_{ij}+
+\sum_{l_1\vee l_2 \vee k_1\vee k_2>m} h_{k_1,l_1}  h_{k_2,l_2}\sum_{t=1}^n Z_{i-k_1,t-l_1} Z_{j-k_2,t+s-l_2}.
+\end{equation*}
+We start with part ($a$). Let 
+\begin{equation*}
+Y(p,n,k,l)=(Z_{i-k,t-l})_{i=1,\ldots,p,t=1,\ldots,n}, \quad k,l \in \Z.
+\end{equation*}
+ We have
+\begin{equation*}
+\begin{split}
+\P( & \twonorm{\X_n(0)\X_n(s)'-\wt{X}^{(m)}_{n}(s)}>ca_{np}^{2}) \le \P(\twonorm{I}>ca_{np}^{2})\\
+&+ \P\Big( \sum_{l_1\vee l_2 \vee k_1\vee k_2>m}  |h_{k_1,l_1}h_{k_2,l_2}| \twonorm{Y(p,n,k_1,l_1)Y(p,n,k_2,l_2-s)'}>c a_{np}^2 \Big) = P_1+P_2
+\end{split}
+\end{equation*}
+ 
+If $\alpha \in (2,4)$, set $\gamma=1$. If $\alpha \in (0,2]$, choose $\gamma<\alpha/2$. Let $\beta \in [0,1] \cap (\alpha/2-1,1]$. By virtue of Theorem~\ref{thm:iidjohannes}
+\begin{equation}\label{eq:kjd}
+\lim_{\nto}\E[a_{np}^{-2\gamma}  \twonorm{Y(p,n,0,0)Y(p,n,k,l)'}^{\gamma}]\le \E[\Psi^\gamma]<\infty, \quad k,l \in \Z,
+\end{equation}
+for a \rv\ $\Psi$ which is \Frechet distributed with parameter $\alpha/2$.
+An application of Markov's inequality yields
+\begin{equation*}
+\begin{split}
+P_2 
+&\le c a_{np}^{-2\gamma}\E\Big[ \Big( \sum_{l_1\vee l_2 \vee k_1\vee k_2>m}  |h_{k_1,l_1}h_{k_2,l_2}| \twonorm{Y(p,n,k_1,l_1)Y(p,n,k_2,l_2-s)'}  \Big)^\gamma \Big]\\
+&\le c \sum_{l_1\vee l_2 \vee k_1\vee k_2>m}  |h_{k_1,l_1}h_{k_2,l_2}|^{\gamma} \E[a_{np}^{-2\gamma} \twonorm{Y(p,n,k_1,l_1)Y(p,n,k_2,l_2-s)'}^{ \gamma}]\to 0, \quad n,m\to \infty,
+\end{split}
+\end{equation*}
+%We also used that fact that for any $X,Y$ with the same distribution it holds $\E[XY]\le \E[X^2]$. 
+because of \eqref{eq:2a}. For $P_1$ the approach is similar. It is important to use Theorem~\ref{thm:iidjohannes}, namely that for $k,l\in \Z$, $k\neq 0$
+\begin{equation*}
+a_{np}^{-2}\twonorm{Y(p,n,0,0)Y(p,n,k,l)'} \cip 0 \quad \mbox{and} \quad
+\lim_{\nto}\E[a_{np}^{-2\gamma}  \twonorm{Y(p,n,0,0)Y(p,n,k,l)'}^{\gamma}]=0
+\end{equation*}
+
+For part ($b$) we have to additionally substract the expectation. Let $\alpha\in (2,4)$ and $\beta \in [0,1]$. Choose $\gamma$ as above. Theorem~\ref{thm:iidjohannes} tells us that 
+\begin{equation*}
+\lim_{\nto}\E[a_{np}^{-2\gamma}  \twonorm{Y(p,n,0,0)Y(p,n,k,l)'-\E[Y(p,n,0,0)Y(p,n,k,l)']}^{\gamma}]\le \E[\Psi^\gamma]<\infty, \quad k,l \in \Z.
+\end{equation*}
+The rest of the proof is completely analogous to part ($a$).
+\end{proof} 
+
+
+%-----------------------------------------------------------------------
+\subsection{Step 2}
+
+Let $M^{(m)}(s)$ be given as
+\begin{equation*}
+(M^{(m)}(s))_{ij} = \sum_{l=0}^m h_{il} h_{j,l+s}, \quad i,j=0, \ldots ,m
+\end{equation*}\noindent
+and $0$ otherwise. Denote the ordered singular values of ${M}^{(m)}(s)$ by
+\begin{equation*}
+v_1^{(m)}(s)\ge\cdots \ge v_{m+1}^{(m)}(s)\,,
+\end{equation*}\noindent
+and let $r_m(s)$ be the rank of $M^{(m)}(s)$.
+\par
+Next define the $p\times p$ matrices $M_a^{(m)}$, $a\in\Z$, via
+\begin{eqnarray}\label{eq:matrixm}
+(M_{a}^{(m)}(s))_{ij}= \left\{\begin{array}{ll}
+(M^{(m)}(s))_{i-a,j-a}\,,&i,j=a,\ldots,m+a\,,\\
+0\,,&\mbox{otherwise}
+\end{array}\right.\,, \quad i,j=1,\ldots,p\,.
+\end{eqnarray}\noindent
+For $a\ge 1$, $M_a^{(m)}(s)$ has rank $r_m(s)$ and has the same
+singular values $v_1^{(m)}(s),\ldots,v_{m+1}^{(m)}(s)$ as $M^{(m)}(s)$.
+
+\begin{lemma}\label{lem:1}
+Assume the conditions of Theorem~\ref{thm:mains} and let $\alpha\in (0,2)\cup (2,4)$. 
+\begin{itemize}
+\item[($a$)] If $\beta \in [0,1] \cap (\alpha/2-1,1]$,
+then
+\begin{equation*}
+a_{np}^{-2}\Big\| \wt{X}^{(m)}_{n}(s) -\sum_{a=1}^p
+  D_a M_a^{(m)}(s)\Big\|_2 \cip 0, \quad \nto.
+\end{equation*}
+\item[($b$)] If $\alpha\in (2,4)$ and $\beta \in [0,1]$,
+then
+\begin{equation*}
+a_{np}^{-2}\Big\| \wt{X}^{(m)}_{n}(s)- \E[\wt{X}^{(m)}_{n}(s)] -\sum_{a=1}^p
+  (D_a-\E[D]) M_a^{(m)}(s)\Big\|_2 \cip 0, \quad \nto.
+\end{equation*}
+\end{itemize}
+\end{lemma}
+
+\begin{proof}
+We start with $\alpha\in(0,2)$ and $\beta \in[0,1]$. For this aim we study
+\begin{equation}\label{eq:help1}
+\begin{split}
+a_{np}^{-2} \big\| \wt{X}^{(m)}_{n}(s) -\sum_{a=1}^p
+  D_a M_a^{(m)}(s) \big\|_2 &\le a_{np}^{-2}\big\|\wt{X}^{(m)}_{n}(s) -\sum_{a=-m}^p
+  D_a M_a^{(m)}(s)\big\|_2
+ +a_{np}^{-2} \big\|\sum_{a=-m}^0 D_a M_a^{(m)}(s)\big\|_2.
+\end{split}
+\end{equation}
+We have
+\begin{eqnarray}\label{eq:help2}
+a_{np}^{-2} \big\|\sum_{a=-m}^0 D_a M_a^{(m)}(s)\big\|_2\le a_{np}^{-2}\max_{i=-m,\ldots,0}D_i\;
+\sum_{a=-m}^0\|M_a^{(m)}(s)\|_2\cip 0\,.
+\end{eqnarray}\noindent
+This follows because $\|M_a^{(m)}(s)\|_2< \infty$ for each $a$ and since
+$a_{n}^{-2} D_i\cid \xi_{\alpha/2}$ for an $\alpha/2$-stable \rv\
+$\xi_{\alpha/2}$ as $\nto$, hence  $a_{np}^{-2} D_i\cip 0$ by virtue
+of $p_n\to\infty$. Observe
+\begin{equation}\label{eq:ghjgh}
+ \Big( \wt{X}^{(m)}_{n}(s) -\sum_{a=-m}^p
+  D_a M_a^{(m)}(s)\Big)_{ij}
+    = \sum_{t=1}^n \sum_{k=0}^m \sum_{l=0}^m h_{kl}h_{j-i+k,l}
+    Z_{i-k, t-l}^2 - \sum_{k=i-p}^{i+m} D_{i-k} (M_{i-k}^{(m)}(s))_{ij}
+\end{equation}
+  and note that $(M_{i-k}^{(m)}(s))_{ij}$ is non-zero only if $i-k \leq i \leq
+  i-k+m$, that is, if $0 \leq k \leq m$. This and \eqref{eq:matrixm} can be used to write the right-hand side of \eqref{eq:ghjgh} as
+\begin{equation}\label{eq:lgfh}
+\sum_{k=0}^m \sum_{l=0}^m h_{kl} h_{j-i+k, l+s}\left(
+      \sum_{t=1}^l Z_{i-k, t-l}^2 - \sum_{t=n-l+1}^n Z_{i-k, t}^2
+    \right) = I_{ij}^{(1)}-I_{ij}^{(2)}.
+\end{equation}
+For $a_{np}^{-2}\big\|\wt{X}^{(m)}_{n}(s) -\sum_{a=-m}^p
+  D_a M_a^{(m)}(s)\big\|_2 \cip 0$ it suffices to show that
+\begin{equation*}
+a_{np}^{-2} \|I^{(i)}\|_2\cip 0\,,\quad i=1,2.
+\end{equation*}\noindent
+We will show the limit relation for $i=1$; the case $i=2$ is
+analogous. In the sequel we interpret $h_{kl}$ as $0$ for $\max(k,l)>m$ or $\min(k,l)<0$. For the non-symmetric $I^{(1)}$, we have $\twonorm{I^{(1)}}\le \max(\inftynorm{I^{(1)}}, \|{I^{(1)}}\|_1)$, where
+\begin{equation*}
+\inftynorm{I^{(1)}}= \max_{i=1,\ldots,p} \sum_{j=1}^p |I^{(1)}_{ij}| \quad \mbox{ and } \|{I^{(1)}}\|_1 = \max_{j=1,\ldots,p} \sum_{i=1}^p |I^{(1)}_{ij}|
+\end{equation*}
+For $a_{np}^{-2} \twonorm{I^{(1)}}\cip 0$ it thus suffices to show that $a_{np}^{-2} \inftynorm{I^{(1)}},a_{np}^{-2}\|{I^{(1)}}\|_1$  both converge to zero in probability. We have
+\begin{equation*}
+\begin{split}
+\inftynorm{I^{(1)}}&= \max_{i=1,\ldots,p} \sum_{j=1}^p \Big|\sum_{k,l=0}^m h_{kl} h_{j-i+k, l+s} \sum_{t=1}^l Z_{i-k, t-l}^2\Big|\\
+&\le c \max_{i=1,\ldots,p}\sum_{k,l=0}^m  \sum_{t=1}^m Z_{i-k, t-l}^2
+\end{split}
+\end{equation*}
+Thus, for a sequence $(Z_t)$ of iid copies of $Z$, we get
+\begin{equation*}
+\begin{split}
+\P(\inftynorm{I^{(1)}}>c a_{np}^2) &\le p\P\Big(\sum_{t=1}^{(m+1)^3} Z_t^2>c a_{np}^2 \Big)\\
+&\sim p (m+1)^3 P(Z^2 >c a_{np}^2) \to 0, \quad \nto.
+\end{split}
+\end{equation*}
+Similarly one obtains
+\begin{equation*}
+\begin{split}
+\P(\|{I^{(1)}}\|_1>c a_{np}^2) &\le \P\Big(\sum_{i=1}^p\sum_{t=1}^{(m+1)^3} Z_{ti}^2>c a_{np}^2 \Big)\\
+&\sim p (m+1)^3 P(Z^2 >c a_{np}^2) \to 0, \quad \nto.
+\end{split}
+\end{equation*}
+This finishes the proof for $\alpha\in(0,2)$ and $\beta \in[0,1]$.
+\par
+
+If $\alpha\in(2,4)$ and $\beta \in[0,1]$, one has to rewrite \eqref{eq:lgfh}:
+\begin{equation}\label{eq:vovof}
+\sum_{k=0}^m \sum_{l=0}^m h_{kl} h_{j-i+k, l+s}\left(
+      \sum_{t=1}^l (Z_{i-k, t-l}^2-\E[Z^2]) - \sum_{t=n-l+1}^n (Z_{i-k, t}^2-\E[Z^2])
+    \right) = \wt{I}_{ij}^{(1)}-\wt{I}_{ij}^{(2)}.
+\end{equation}
+and then proceed as before, the only difference being that $Z^2$ is replaced by $|Z^2-\E[Z^2]|$.
+\par
+
+If $\alpha\in(2,4)$ and $\beta \in (\alpha/2-1,1]$, we have to additionally  justify why \eqref{eq:help2} still holds. In general, for $\alpha\in(2,4)$ we only know that $a_{np}^{-2} |D_1-\E[D]| \cip 0$. However,
+\begin{equation*}
+\frac{\E[D]}{a_{np}^2}  =\E[Z^2] \frac{n}{a_{np}^2} \le \E[Z^2]  n^{1-\frac{2(1+\beta)}{\alpha}+\delta}
+\end{equation*}
+converges to $0$ if $\beta>\alpha/2-1$, where $\delta >0$ can be chosen arbitrarily small. Therefore the centering is negligible and $a_{np}^{-2} D_1 \cip 0$.  The proof is complete.
+\end{proof}
+
+
+%-----------------------------------------------------------------------
+\subsection{Step 3}
+
+\noindent\textbf{The case $\alpha\in (0,2)$.} From \eqref{eq:help6} recall  the definition of the order statistics
+\begin{equation*}
+D_{(p)}=D_{L_p}<\cdots  <  D_{(1)}=D_{L_1}\quad \as
+\end{equation*}\noindent
+of the iid sequence $D_1,\ldots,D_p$. % defined in \eqref{eq:ll}.
+Here we assume without loss of generality that there are no ties in the
+sample.
+Otherwise, if two or more of the $D_i$'s are equal, randomize the
+corresponding $L_i$'s over the respective indices.
+
+We choose an integer sequence $k=k_p\to\infty$ such that $k_p^2=o(p)$ as $\nto$
+and define the event
+\begin{equation}\label{eq:an}
+A_n=\{|L_i-L_j|>m+1\,, i,j=1,\ldots,k\,, i\ne j\}\,.
+\end{equation}\noindent
+Since the $D_i$'s are iid, $L_1,\ldots,L_k$ have a uniform distribution
+on the set of
+distinct $k$-tuples from $(1,\ldots,p)$ and
+\begin{equation}\label{eq:31}
+\P(A_n^c)\le k(k-1) \dfrac{pm (p-2)\ldots (p-k+1)}{p(p-1)\ldots (p-k+1)}\le
+\dfrac{k^2 m}{p-1}\to 0\,,\quad \nto\,.
+\end{equation}\noindent
+On the event $A_n$, the matrix $\sum_{i=1}^k D_{L_i}  M_{L_i}^{(m)}(s)$ is
+block diagonal and has singular values in the set 
+$\{D_{(i)}v_j^{(m)}(s):i=1,\ldots,k,j=1,\ldots,m+1\} \cup\{0\}$.
+In this step of the proof we approximate $\sum_{i=1}^p D_i M_i^{(m)}(s)$
+by the matrix $\sum_{i=1}^k D_{L_i}  M_{L_i}(s)^{(m)}(s)$ which is block
+diagonal with high probability.\smallskip\\
+
+\noindent \textbf{The case $\alpha\in (2,4)$.} Recall that the order
+statistics of $\widetilde{D}_i=|D_i-\E[D]|$, $i=1,\ldots,p,$ are denoted by
+\begin{equation}\label{eq:ww}
+\widetilde{D}_{(p)}=\widetilde{D}_{\ell_p}\le \cdots \le \widetilde{D}_{(1)}=\widetilde{D}_{\ell_1}\quad \as ,
+\end{equation}
+where we again assume without loss of generality that there are no
+ties in the sample.
+We choose an integer sequence $k=k_p\to\infty$ such that $k^2_p=o(p)$ as
+$\nto$ and define the event
+\begin{equation}\label{eq:antilde}
+\widetilde{A}_n=\{|\ell_i-\ell_j|>m+1\,,i,j=1,\ldots,k\,,i\ne j\}\,.
+\end{equation}
+As for $A_n$, we have
+\begin{equation}\label{eq:antildec}
+P(\widetilde{A}_n^c)\le \dfrac{k^2 m}{p-1}\to 0\,,\quad \nto\,.
+\end{equation}
+On the event $\widetilde{A}_n$, the matrix
+$\sum_{i=1}^k (D_{\ell_i}-\E[D]) M_{\ell_i}^{(m)}(s)$ is block diagonal and its
+singular values are the $p$ largest values in the set $\{\widetilde{D}_{\ell_i} v_j^{(m)}(s): i=1,\ldots,k, j=1,\ldots,m+1\}\cup\{0\}$.
+
+
+\begin{lemma}\label{lem:2}
+Assume the conditions of Theorem~\ref{thm:mains} and let $\alpha\in (0,2)\cup (2,4)$. Consider an integer sequence  $(k_p)$ such that
+$k_p\to\infty$ and $k_p^2=o(p)$ as $\nto$.
+\begin{itemize}
+\item[($a$)] If $\beta \in [0,1] \cap (\alpha/2-1,1]$,
+then
+\begin{equation*}
+a_{np}^{-2}\Big\|\sum_{i=1}^p
+  D_i M_i^{(m)}(s) -\sum_{i=1}^k
+  D_{L_i} M_{L_i}^{(m)}(s)\Big\|_2\cip 0\,,
+\quad \nto \,.
+\end{equation*}
+\item[($b$)] If $\alpha\in (2,4)$ and $\beta \in [0,1]$,
+then
+\begin{equation*}
+a_{np}^{-2}\Big\| \sum_{i=1}^p (D_i-\E[D]) M_i^{(m)}(s)- \sum_{i=1}^k (D_{\ell_i}-\E[D]) M_{\ell_i}^{(m)}(s)\Big\|_2 \cip 0, \quad \nto.
+\end{equation*}
+\end{itemize}
+\end{lemma}
+
+\begin{proof}
+\textbf{The case $\alpha\in (0,2)$.} Let us start with $\alpha\in (0,2)$ and $\beta \in [0,1]$. We have
+\begin{equation*}
+a_{np}^{-2}\Big(\sum_{i=1}^p
+  D_i M_i^{(m)}(s) -\sum_{i=1}^k
+  D_{L_i} M_{L_i}^{(m)}(s)\Big)
+=a_{np}^{-2}\sum_{i=k+1}^p
+  D_{L_i} M_{L_i}^{(m)}(s)\,,
+\end{equation*}\noindent
+and therefore it suffices to show that the \rhs\ converges to zero in
+probability. Then for $\delta>0$,
+\begin{equation}\label{eq:98}
+\P\Big(a_{np}^{-2}\Big\|\sum_{i=k+1}^p D_{L_i}
+M_{L_i}^{(m)}(s)\Big\|_2>\delta\Big)
+\le \P\Big(c\, a_{np}^{-2}\sum_{i=k+1}^p D_{(i)}>\delta\Big)\,.
+\end{equation}\noindent
+We will show that the \rhs\ converges to zero as $\nto$.
+From Lemma~\ref{lem:ppr} we conclude that
+\begin{equation*}
+\sum_{i=1}^p \vep_{a_{np}^{-2} D_i}\cid \sum_{i=1}^
+\infty\vep_{\Gamma_i^{-2/\alpha}}\,,\quad \nto\,,
+\end{equation*}\noindent
+where $(\Gamma_i)$ is an increasing enumeration of the points of a homogeneous Poisson
+process on $(0,\infty)$. A continuous mapping
+argument
+(Resnick
+\cite{resnick:2007}, Theorem 7.1)
+shows that for every $\gamma>0$,
+\begin{equation*}
+a_{np}^{-2}
+\Big(\sum_{i=1}^p D_i  \1_{\{a_{np}^{-2}D_i>\gamma\}}\,,
+\sum_{i=1}^p D_i\Big)
+\cid
+\Big(\sum_{i=1}^\infty \Gamma_i^{-2/\alpha}
+\1_{\{\Gamma_i^{-2/\alpha}>\gamma\}}\,,
+\sum_{i=1}^\infty \Gamma_i^{-2/\alpha}\Big)
+\end{equation*}\noindent
+provided
+\begin{equation}\label{eq:35}
+\lim_{\xi \downarrow 0}\limsup_{\nto } p\, a_{np}^{-2}\,\E
+[D \1_{\{a_{np}^{-2}D\le \xi\}}] =0,\end{equation}\noindent
+and hence
+\begin{equation*}
+a_{np}^{-2}
+\sum_{i=1}^p D_i  \1_{\{a_{np}^{-2}D_i\le \gamma\}}
+\cid \sum_{i=1}^\infty \Gamma_i^{-2/\alpha}
+\1_{\{\Gamma_i^{-2/\alpha}\le \gamma\}}\,.
+\end{equation*}\noindent
+But we also have
+\begin{equation*}
+a_{np}^{-2}\sum_{i=k+1}^p D_{(i)}=a_{np}^{-2}\sum_{i=1}^p D_i
+\1_{\{a_{np}^{-2}D_i< a_{np}^{-2} D_{(k)}\}}\,,
+\end{equation*}\noindent
+and $ a_{np}^{-2} D_{(k)}\cip0$ as $\nto$.
+For $\gamma>0$, we write
+$B_n=\{a_{np}^{-2} D_{(k)}\le \gamma\}$. Then $\P(B_n^c)\to 0$ as
+$\nto$
+and
+\begin{equation*}
+\begin{split}
+\P\Big( c a_{np}^{-2}\sum_{i=k+1}^p D_{(i)}>\delta\Big)
+&\le
+\P\Big(B_n\cap \{c\, a_{np}^{-2}\sum_{i=1}^p D_i
+\1_{\{a_{np}^{-2}D_i\le  \gamma\}}>\delta\}\Big)+o(1)\\
+&\le \P\Big(c\,a_{np}^{-2}\sum_{i=1}^p D_i
+\1_{\{a_{np}^{-2}D_i\le  \gamma\}}>\delta\Big)+o(1)\\
+&\to \P\Big(c \,\sum_{i=1}^\infty \Gamma_i^{-2/\alpha}
+\1_{\{\Gamma_i^{-2/\alpha}\le \gamma\}}>\delta\Big)\,,\quad\nto\,,\\
+&\to 0\,,\quad \gamma \downarrow 0\,.
+\end{split}
+\end{equation*}\noindent
+Therefore the \rhs\ in \eqref{eq:98} converges to zero if
+\eqref{eq:35} holds.
+\par
+Thus it remains to show \eqref{eq:35}. By Karamata's theorem, as $\nto$,
+\begin{equation*}
+p\, a_{np}^{-2}\, \E[D\1_{\{ D\le \xi a_{np}^2
+  \}}]\le np\,a_{np}^{-2}\, \E[Z^2 \1_{\{Z^2\le a_{np}^2\xi \}}]
+\sim \xi\, np\, \P(Z^2>a_{np}^2 \xi)\sim \xi^{1-\alpha/2}\,,
+\end{equation*}\noindent
+and the \rhs\ converges to zero as $\xi\downarrow 0$.
+Then \eqref{eq:35} follows and the proof for $\alpha \in (0,2)$ is finished.\medskip\\
+
+\textbf{The case $\alpha\in (2,4)$.} Next, we will consider $\alpha\in (2,4)$ and $\beta \in [0,1]$.
+As a  first step in the proof we show the following relation for
+every $\delta>0$,
+\begin{equation}\label{eq:200a}
+\lim_{\gamma\downarrow 0}\limsup_{\nto}\P\Big(
+a_{np}^{-2}\Big\|\sum_{i=1}^p (D_i-\E[D]) \1_{\{a_{np}^{-2}|D_i-\E[D]|\le \gamma \}} M_{i}^{(m)}(s)\Big\|_2>\delta\Big)=0\,.%\nonumber\\
+\end{equation}
+We observe that we can divide the index set
+  $\{1,\ldots,p \}$ of the involved sums into disjoint subsets
+$I_1=\{1,m+2,2m+3,\ldots\}\cap\{1,\ldots,p\}$,
+$I_2=\{2,m+3,2m+4,\ldots\}\cap\{1,\ldots,p\}$, etc. For $\gamma>0$,
+due to the
+construction of the matrices $M_i^{(m)}(s)$ (see \eqref{eq:matrixm}), the sums
+\begin{equation*}
+T_j=a_{np}^{-2}\sum_{i\in I_j} (D_i-\E[D])\1_{\{a_{np}^{-2}|D_i-\E[D]|\le
+  \gamma\}}
+M_i^{(m)}(s)\,, \quad j=1,\ldots,m+1\,,
+\end{equation*}
+constitute block diagonal matrices with norm
+\begin{equation*}
+\|T_j\|_2=a_{np}^{-2}\max_{i \in I_j}  |D_i-\E[D]|\1_{\{a_{np}^{-2}|D_i-\E[D]|\le
+  \gamma\}} \;v_1^{(m)}(s)\,.
+\end{equation*}
+An application of Markov's inequality yields
+\begin{eqnarray}\label{eq:105}\lefteqn{
+\P\Big(
+a_{np}^{-2}\Big\|\sum_{i=1}^p
+(D_{i}-\E[D]) \1_{\{a_{np}^{-2}|D_i-\E[D]|\le \gamma \}}
+M_{i}^{(m)}(s)\Big\|_2>\delta\Big)}\nonumber\\
+&\le &
+\sum_{j=1}^{m+1} \P\Big(\|T_j\|_2>\delta/(m+1)\Big)\nonumber\\
+&\le & c\, a_{np}^{-4}\sum_{j=1}^{m+1} \E [\max_{i \in I_j}  |D_i-\E[D]|^2\1_{\{a_{np}^{-2}|D_i-\E[D]|\le
+  \gamma\}}]\nonumber\\
+&\le & c\, a_{np}^{-4}\sum_{i=1}^p \E [|D_i-\E[D]|^2\1_{\{a_{np}^{-2}|D_i-\E[D]|\le
+  \gamma\}}]\nonumber\\
+&=& c\,p  a_{np}^{-4}\E [|D-\E[D]|^2 \1_{\{a_{np}^{-2}|D-\E[D]|\le \gamma\}}]\,.
+\end{eqnarray}
+An application of \eqref{eq:iec} yields for $d_n=a_n^2 s_n$,
+  any sequence $(s_n)$ such that $s_n\to\infty$,
+\begin{equation*}
+p\,a_{np}^{-4}\E [|D-\E[D]|^2 \1_{\{d_n \le
+  |D-\E[D]|\le a_{np}^2 \gamma\}}] \le  c np\, \gamma^2 \P(Z^2>a_{np}^2
+\gamma) \sim c\gamma^{(4-\alpha)/2}\,,\quad \nto\,,
+\end{equation*}
+and the \rhs\ converges to zero as $\gamma\to 0$. On the other hand,
+for $\epsilon>0$ arbitrarily small and $s_n\to\infty$ sufficiently slowly,
+\begin{equation*}
+p\,a_{np}^{-4}\E [|D-\E[D]|^2 \1_{\{
+  |D-\E[D]|\le d_n \}}] \le   p s_n^2 (a_n/a_{np})^4\le c\,s_n^2 p^{1-
+  4/\alpha+\epsilon}\to 0\,,\quad \nto\,.
+\end{equation*}
+Thus we proved that \eqref{eq:105} converges to zero by first letting
+$\nto$ and then $\gamma\to 0$.
+This proves \eqref{eq:200a}.
+In view of \eqref{eq:200a}, the lemma is proven if we can show that
+for every $\delta>0$ and  $\gamma\in (0,\gamma_0(\delta))$ for a
+sufficiently small $\gamma_0(\delta)$,
+\begin{equation}\label{eq:201}
+\lim_{\nto}\P\Big(
+a_{np}^{-2}\Big\|\sum_{i=1}^p (D_i-\E[D]) M_i^{(m)}(s) \1_{\{|D_i-\E[D]|>\gamma a_{np}^2\}} -\sum_{i=1}^k
+(D_{\ell_i}-\E[D])  M_{\ell_i}^{(m)}(s)\Big\|_2>\delta\Big)=0\,.%\nonumber\\
+\end{equation}
+If
+\begin{equation*}
+\begin{split}
+0&\ne
+\sum_{i=1}^p (D_i-\E[D])
+ M_i^{(m)}(s) \1_{\{|D_i-\E[D]|>\gamma a_{np}^2\}}
+-\sum_{i=1}^k
+(D_{\ell_i}-\E[D]) \1_{\{|D_{\ell_i}-\E[D]|>\gamma a_{np}^2\}} M_{\ell_i}^{(m)}(s)\\
+&= \sum_{i=k+1}^p (D_{\ell_i}-\E[D]) M_{\ell_i}^{(m)}(s) \1_{\{|D_{\ell_i}-\E[D]|>\gamma
+  a_{np}^2\}}  \,,
+\end{split}
+\end{equation*}
+then $\widetilde{D}_{(k+1)}=|D_{\ell_{k+1}}-\E[D]|>\gamma a_{np}^2$ and therefore
+\begin{equation*}
+N_n(\gamma)=\#\{ i\le p : |D_i-\E[D]|>\gamma a_{np}^2\}>k\,.
+\end{equation*}
+However, for fixed $\gamma>0$, in view of Theorem~\ref{thm:nagaev}, as
+$\nto$,
+\begin{equation*}
+\P(N_n(\gamma)>k)\le k^{-1} \E[N_n(\gamma)]=k^{-1} p\, \P(|D-\E[D]|>\gamma
+a_{np}^2)
+\sim k^{-1}\gamma^{-\alpha/2} np \, \P(Z^2>a_{np}^2)\to 0\,.
+\end{equation*}
+Thus we have proven that
+\begin{equation*}
+\begin{split}
+\lim_{\nto} &\P\Big(
+a_{np}^{-2}\Big\|\sum_{i=1}^p (D_i-\E[D]) M_i^{(m)}(s) \1_{\{|D_i-\E[D]|>\gamma a_{np}^2\}}\\
+& -\sum_{i=1}^k (D_{\ell_i}-\E[D])  M_{\ell_i}^{(m)}(s) \1_{\{|D_{\ell_i}-\E[D]|>\gamma a_{np}^2\}} \Big\|_2>\delta\Big)=0\,.
+\end{split}
+\end{equation*}
+Relation \eqref{eq:201}
+is proven if we can show that for $\delta>0$,
+ \begin{equation}\label{eq:k2}
+\lim_{\nto}\P\Big(a_{np}^{-2}\Big\|\sum_{i=1}^k
+(D_{\ell_i}-\E[D]) \1_{\{|D_{\ell_i}-\E[D]|\le \gamma a_{np}^2\}} M_{\ell_i}^{(m)}(s)\Big\|_2>\delta
+\Big)\to 0\,,
+\end{equation}
+as $\gamma \downarrow 0$.
+On the event $\widetilde{A}_n$ defined in \eqref{eq:antilde},  $a_{np}^{-2}\sum_{i=1}^k
+(D_{\ell_i}-\E[D]) \1_{\{|D_{\ell_i}-\E[D]|\le \gamma a_{np}^2\}} M_{\ell_i}^{(m)}(s)$ is
+block diagonal and therefore its spectral norm is
+\begin{equation*}
+a_{np}^{-2} \, v_1^{(m)}(s)\,
+  \max_{i=1,\ldots,k}|D_{\ell_i}-\E[D]| \1_{\{|D_{\ell_i}-\E[D]|\le
+  \gamma a_{np}^2\}}\le  c \,\gamma\,.
+\end{equation*}
+We also observe that $\P(\widetilde{A}_n^c)\to 0$; see \eqref{eq:antildec}.
+Then \eqref{eq:k2} is immediate and the lemma is proven. \medskip\\
+
+\textbf{The case $\alpha\in (2,4)$ and $\beta\in (\alpha/2,1]$.} In this situation we need to prove that
+\begin{equation*}
+a_{np}^{-2}\Big\|\sum_{i=1}^p
+  D_i M_i^{(m)}(s) -\sum_{i=1}^k
+  D_{L_i} M_{L_i}^{(m)}(s)\Big\|_2\cip 0\,,
+\quad \nto \,.
+\end{equation*}
+We have 
+\begin{equation*}
+\begin{split}
+\Big\|\sum_{i=1}^p
+  D_i M_i^{(m)}(s) -\sum_{i=1}^k
+  D_{L_i} M_{L_i}^{(m)}(s)\Big\|_2 &\le \Big\|\sum_{i=1}^p
+  (D_i-\E[D]) M_i^{(m)}(s) -\sum_{i=1}^k
+  (D_{L_i}-\E[D]) M_{L_i}^{(m)}(s)\Big\|_2\\
+	&\quad + \E[D]\Big\| \sum_{i=k+1}^p M_{L_i}^{(m)}(s)  \Big\|_2.
+\end{split}
+\end{equation*}
+Since the $M_{i}^{(m)}(s), i=1,\ldots,p$, consist of block matrices of size $m$ shifted by $i$, at most $2m$ of them can overlap. By Cauchy's interlacing theorem, see \cite[Lemma~22]{tao:vu:2012},
+\begin{equation*}
+\frac{\E[D]}{a_{np}^2} \Big\| \sum_{i=k+1}^p M_{L_i}^{(m)}(s)  \Big\|_2 \le c m \frac{\E[D]}{a_{np}^2} \to 0, \quad \nto.
+\end{equation*}
+Now we can follow the lines of the proof in the case $\alpha \in (2,4)$ to show the desired result.
+\end{proof}
+\begin{remark}
+The case $\alpha =2$ in Lemma~\ref{lem:2}. Here one has to distinguish whether $E[Z^2]$ is infinite or finite. We omit the technical details.
+%If $E[Z^2]=\infty$, then the function
+%\begin{equation*}
+%f(x)=\E[Z^2 \1_{\{ |Z| \le x \}}]
+%\end{equation*}
+%is slowly varying. After follow the lines of the proof in the case $\alpha \in (2,4)$.
+\end{remark}
+
+%-----------------------------------------------------------------------
+\subsection{Final argument}
+
+\begin{proof}[Proof of Theorem~\ref{thm:mains}]
+\noindent {\bf The case $\alpha\in (0,2)$.} On $A_n$
+defined in \eqref{eq:an},
+the matrix $\sum_{i=1}^k
+  D_{L_i} M_{L_i}^{(m)}(s)$ is block diagonal
+and its
+singular values are the $p$ largest values in the set
+\begin{equation}\label{eq:drghrf}
+\{D_{L_i} v_j^{(m)}(s)=D_{(i)}v_j^{(m)}(s):  i=1,\ldots,k, j=1,\ldots,m+1\}\cup\{0\}
+\end{equation}
+Because of $a_{np}^{-2} D_{(k)}\cip 0$ we can write $i=1, \ldots, p$ in \eqref{eq:drghrf}.
+The corresponding largest $p$ ordered values of them are denoted by
+$\gamma_{(1)}^{(m)}(s)\ge \cdots\ge \gamma_{(p)}^{(m)}(s)$.
+Combining
+Lemmas~\ref{lem:0}--\ref{lem:2} with Weyl's inequality for
+singular values (see Bhatia \cite{bhatia:1997})
+and recalling that $\P(A_n^c)\to 0$ as $\nto$, we have
+\begin{equation}
+\lim_{m\to\infty}\limsup_{\nto}\P\Big(a_{np}^{-2}
+\max_{i\le p}\Big|
+\lambda_{(i)}(s)-\gamma_{(i)}^{(m)}(s)\Big|>\vep\Big)=0\,,\quad \vep>0\,.
+\end{equation}
+Finally, we observe that
+\begin{equation*}
+a_{np}^{-2}\max_{i\le p} \big|\gamma_{(i)}^{(m)}(s)-\gamma_{(i)}(s)\big|\le
+a_{np}^{-2}\max_{i\le p} D_i\; \max_{i\le p}\big|v_i^{(m)}(s)-v_i(s)\big|=o_\P(1) \,,
+\end{equation*}
+since $a_{np}^{-2}\max_{i\le p} D_i\cid \Gamma_1^{-\alpha/2}$
+and $v_i^{(m)}\to v_i$ uniformly in $i$ because both sequences are monotone.
+
+\noindent {\bf The case $\alpha\in (0,4)$ and $\beta \in (0,1] \cup (\alpha/2-1,1]$.}
+The additional step is to replace $D_{(i)}$ by $Z_{(i),np}^2$. We see that
+\begin{equation*}
+\max_{j\in \N} v_j\max_{i\le p} a_{np}^{-2}\big|D_{(i)}-Z_{(i),np}^2 \big|= c a_{np}^{-2}\big|D_{(i)}-Z_{(i),np}^2 \big| =o_\P(1),
+\end{equation*}
+as shown in \cite{heiny:mikosch:2015:iid}.
+
+\noindent {\bf The case $\alpha\in (2,4)$.} On $\widetilde{A}_n$ defined in  \eqref{eq:antilde},
+the matrix $\sum_{i=1}^k(D_{\ell_i}-\E[D])M_{\ell_i}^{(m)}(s)$ is block
+diagonal and 
+its
+singular values are the $p$ largest values in the set $\{|D_{\ell_i}-\E[D]| v_j^{(m)}(s): i=1,\ldots,k, j=1,\ldots,m+1\}\cup\{0\}$.
+The corresponding ordered values are denoted by
+$\widetilde{\gamma}_{(1)}^{(m)}(s)\ge
+\cdots \ge \widetilde{\gamma}_{(p)}^{(m)}(s)$.
+Combining Lemmas~\ref{lem:0}--\ref{lem:2} with Weyl's inequality
+and recalling that $\P(\widetilde{A}_n^c)\to 0$, we have
+\begin{equation*}
+\lim_{m\to\infty}\limsup_{\nto}\P\Big(
+a_{np}^{-2}
+\max_{i\le p}\Big| \widetilde{\lambda}_{(i)}(s)-\widetilde{\gamma}_{(i)}^{(m)}(s)\Big|
+>\vep\Big)=0\,,\quad\vep>0\,.
+\end{equation*}
+As before, one observes that
+\begin{equation*}
+a_{np}^{-2}\max_{i\le p} \big|\widetilde{\gamma}_{(i)}^{(m)}(s)-\widetilde{\gamma}_{(i)}(s)\big|\le
+a_{np}^{-2}\max_{i\le p} |D_i-\E[D]|\; \max_{i\le p}\big|v_i^{(m)}-v_i\big|=o_\P(1) \,,
+\end{equation*}
+
+\noindent {\bf When $\alpha=2$} the second moment of $Z$ can be infinite or finite. If $\E[Z^2]= \infty$ one proceeds as in the case $\alpha\in (0,2)$, otherwise as in the case $\alpha\in (2,4)$.
+This finishes the proof of Theorem~\ref{thm:mains}.
+\end{proof}
+
+%\end{document}
+% Use this end document to get the complete proof after the bibliography.
