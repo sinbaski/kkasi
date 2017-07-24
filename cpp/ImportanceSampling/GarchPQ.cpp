@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <time.h>
+#include <ctime>
 #include <cmath>
 #include <algorithm>
 #include <armadillo>
@@ -7,16 +7,18 @@
 #include <random>
 #include <gsl/gsl_roots.h>
 #include <gsl/gsl_errno.h>
+#include "GarchPQ.hpp"
 
 using namespace std;
 using namespace arma;
 
-random_device gen;
-unsigned long SEED;
+GarchPQ::GarchPQ(const vector<double> &alpha, const vector<double> &beta)
+    :alpha(alpha), beta(beta), gen(time(NULL))
+{
+}
 
-mat& gen_rand_matrix(const vector<double> &alpha,
-		     const vector<double> &beta,
-		     double z2, mat &M)
+
+mat& GarchPQ::gen_rand_matrix(double z2, mat &M) const
 {
     unsigned p = beta.size(), q = alpha.size() - 1;
     unsigned n = p + q - 1;
@@ -39,22 +41,21 @@ mat& gen_rand_matrix(const vector<double> &alpha,
     return M;
 }
 
-double estimateLambda(const vector<double>& a,
-		      const vector<double>& b,
-		      double theta,
-		      unsigned long N,
-		      unsigned long K,
-		      double &sd)
+/**
+ * DO NOT parallelize the code because parallel execution
+ * leads to different estimate for the same theta
+ */
+double GarchPQ::estimateLambda
+(double theta, double &sd, unsigned long N, unsigned long K) const
 {
-
+    gen.seed(floor(theta));
     vector<vec> E(K);
     vector<vec> E_prev(K);
     vector<double> alpha(K, 1);
-#pragma omp parallel for
+// #pragma omp parallel for
     for (unsigned i = 0; i < K; i++) {
 	uniform_real_distribution<double> unif;
-	// mt19937 gen(i + K + SEED);
-	E_prev[i].set_size(a.size() + b.size() - 2);
+	E_prev[i].set_size(this->alpha.size() + this->beta.size() - 2);
 	for_each(E_prev[i].begin(), E_prev[i].end(),
 		 [&](double &x)
 		 {
@@ -64,30 +65,24 @@ double estimateLambda(const vector<double>& a,
 	E_prev[i] /= n;
     }
     double Lambda = 0;
-    // According to me
-    // vector<double> Lambda_samples(K, 1);
     sd = 0;
     for (unsigned j = 0; j < N; j++) {
 	uniform_real_distribution<double> unif;
 	chi_squared_distribution<double> chi2;
-	// mt19937 gen(j + SEED);
-
 	vector<mat> A(K);
 	vector<double> Q(K);
 	partial_sum(alpha.begin(), alpha.end(), Q.begin());
 
-#pragma omp parallel for schedule(dynamic) shared(gen, chi2)
+// #pragma omp parallel for schedule(dynamic) shared(chi2)
 	for (unsigned k = 0; k < K; k++) {
 	    double z2;
-// #pragma omp critical
 	    z2 = chi2(gen);
-	    gen_rand_matrix(a, b, z2, A[k]);
+	    gen_rand_matrix(z2, A[k]);
 	}
 
-#pragma omp parallel for shared(gen, unif)
+// #pragma omp parallel for shared(unif)
 	for (unsigned k = 0; k < K; k++) {
 	    double U;
-// #pragma omp critical
 	    U = unif(gen) * Q.back();
 	    unsigned l = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
 	    E[k] = A[k] * E_prev[l];
@@ -95,8 +90,6 @@ double estimateLambda(const vector<double>& a,
 	    E[k] /= alpha[k];
 	    alpha[k] = pow(alpha[k], theta);
 
-	    // according to me
-	    // Lambda_samples[k] *= log(alpha[k]);
 	}
 	copy(E.begin(), E.end(), E_prev.begin());
 	// According to Anand
@@ -111,26 +104,13 @@ double estimateLambda(const vector<double>& a,
     sd = sqrt(sd - pow(Lambda, 2));
     return Lambda;
 
-    // according to me
-    // Lambda = 
-    // accumulate(Lambda_samples.begin(), Lambda_samples.end(), 0.0,
-    // 	       [=](double s, double x) {
-    // 		   return s + x/K;
-    // 	       });
-    // sd =
-    // accumulate(Lambda_samples.begin(), Lambda_samples.end(), 0.0,
-    // 	       [=](double s, double x) {
-    // 		   double t = exp(x) - Lambda;
-    // 		   return s + t * t/K;
-    // 	       });
-    // sd = sqrt(sd);
-    // return log(Lambda)/N;
 }
 
 struct func_par
 {
-    const vector<double>& a;
-    const vector<double>& b;
+    // const vector<double>& a;
+    // const vector<double>& b;
+    const GarchPQ *garch;
     unsigned long N;
     unsigned long K;
 };
@@ -138,18 +118,16 @@ struct func_par
 double func(double theta, void *p)
 {
     struct func_par* par = (struct func_par*) p;
+    const GarchPQ *garch = par->garch;
     double sd;
-    return estimateLambda(par->a, par->b, theta, par->N, par->K, sd);
+    return garch->estimateLambda(theta, sd, par->N, par->K);
 }
 
 /*
  * We add more and more estimation points until their 
  */
-double find_root(const vector<double>& a,
-		 const vector<double>& b,
-		 unsigned long N,
-		 unsigned long K,
-		 double bounds[2])
+double GarchPQ::find_tail_index
+(double bounds[2], unsigned long N, unsigned long K) const
 {
     gsl_root_fsolver *solver;
     gsl_function F;
@@ -159,7 +137,7 @@ double find_root(const vector<double>& a,
     double lb, ub;
     double xi;
     struct func_par par = {
-	a, b, N, K
+	this, N, K
     };
     F.function = func;
     F.params = &par;
@@ -184,13 +162,14 @@ double find_root(const vector<double>& a,
     return xi;
 }
 
+#ifndef MAIN_ALGO
 int main(int argc, char*argv[])
 {
     // // madeup
     // vector<double> alpha({1.0e-7, 0.11, 0});
     // vector<double> beta({0.88});
-    vector<double> alpha({1.0e-7, 0.2, 0.1});
-    vector<double> beta({0.2});
+    // vector<double> alpha({1.0e-7, 0.2, 0.1});
+    // vector<double> beta({0.2});
     // DAX
     // vector<double> alpha({3.374294e-06, 2.074732e-02, 4.104949e-02});
     // vector<double> beta({9.102376e-01});
@@ -202,13 +181,14 @@ int main(int argc, char*argv[])
     // vector<double> beta({8.008847e-01});
 
     // DJIA
-    // vector<double> alpha({3.374294e-06, 0.061577928, 0.12795424});
-    // vector<double> beta({0.6610499});
+    vector<double> alpha({3.374294e-06, 0.061577928, 0.12795424});
+    vector<double> beta({0.6610499});
 
     // SP500
     // vector<double> alpha({9.376992e-06, 7.949678e-02, 8.765884e-02});
     // vector<double> beta({6.683833e-01});
     
+    GarchPQ garch(alpha, beta);
     double Lambda;
     
     // cout << "alpha[0]= "  << alpha[0] << ", alpha[1]=" <<
@@ -224,9 +204,10 @@ int main(int argc, char*argv[])
     bool flag = false;
     for (double nu = stod(argv[1]); nu <= stod(argv[2]); nu += 0.1) {
 	double sd;
-	Lambda = estimateLambda(alpha, beta, nu, N, K, sd);
+	Lambda = garch.estimateLambda(nu, sd, N, K);
 	// according to Anand
-	printf("%.4f    % .4f    %.4f    %.4f\n", nu, Lambda, sd, sd/abs(Lambda));
+	printf("%.4f    % .4f    %.4f    %.4f\n",
+	       nu, Lambda, sd, sd/abs(Lambda));
 
 	if (!flag && Lambda > 0) {
 	    bounds[1] = nu;
@@ -234,9 +215,9 @@ int main(int argc, char*argv[])
 	    flag = true;
 	}
     }
-    double xi = find_root(alpha, beta, N, K, bounds);
+    double xi = garch.find_tail_index(bounds, N, K);
     cout << "Lambda(" << xi << ") = 0" << endl;
     return 0;
 }
-
+#endif
 

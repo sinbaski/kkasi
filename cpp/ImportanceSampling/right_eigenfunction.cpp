@@ -81,6 +81,7 @@ double right_eigenfunction(const struct garch21_param &param,
     return *p;
 }
 
+#ifndef MAIN_ALGO
 int main(int argc, char **argv)
 {
     // struct garch21_param param = {
@@ -125,3 +126,4 @@ int main(int argc, char **argv)
     
     return 0;
 }
+#endif

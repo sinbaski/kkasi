@@ -12,13 +12,18 @@ objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
 objs := $(addprefix $(objdir)/, $(objs))
 
 ifeq ($(debug),1)
-	CFLAGS := -std=c++11 -c -Wall -g3 -D DEBUG -D GARCH_PQ_ALONE
+	CFLAGS := -std=c++11 -c -Wall -g3 -D DEBUG
 	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas
 else
 	CFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -O3
-	CFLAGS += -fopenmp -D GARCH_PQ_ALONE
+	CFLAGS += -fopenmp
 	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas -fopenmp	
 endif
+
+ifeq ($(main), 1)
+	CFLAGS += -D MAIN_ALGO
+endif
+
 
 $(objdir)/%.o: $(srcdir)/%.cpp
 	@if [ ! -e $(objdir) ]; then mkdir $(objdir); fi
@@ -30,6 +35,10 @@ garch1d: $(objdir)/main.o $(objdir)/garch1D.o
 
 .PHONY: garchpq
 garchpq: obj/GarchPQ.o
+	$(CC) $^ $(LDFLAGS) -o $@
+
+.PHONY: garch21
+garch21: $(objdir)/GarchPQ.o $(objdir)/garch21.o
 	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: MyTailEst

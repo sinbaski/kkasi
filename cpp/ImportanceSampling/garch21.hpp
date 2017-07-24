@@ -1,58 +1,24 @@
 #ifndef XXIE_GARCH21_H
 #define XXIE_GARCH21_H
-#include <array>
-#include <queue>
-#include <random>
 
-#define URNG random_device
+#include "GarchPQ.hpp"
 
-using namespace std;
-
-class garch21
+class Garch21 : public GarchPQ
 {
-protected:
-    double tail_index;
-//    random_device dev;
 public:
-    class F_Set
-    {
-    public:
-	garch21 *markov;
-	double b;
-	double rho;
-	array<double, 2> x_interval;
-	array<double, 2> eta_interval;
-	F_Set(garch21 *markov);
-	bool includes(const array<double, 2> &arg) const;
-    };
+    Garch21(const vector<double> &alpha, const vector<double> &beta,
+	    double tail_index_sup = 5.0);
+    const double tail_index;
+    double r(double) const;
+    double draw_z(bool shift) const;
 
-    class nu_dist
-    {
-    public:
-	/* The nu measure of the F set */
-	double delta;
-	double c1, c2, c3;
-	garch21 *markov;
-	array<double, 2> draw(URNG& dev);
-	double density(const array<double, 2> &arg) const;
+protected:
+    vector<double> pool;
+    typedef array<double, 2> funval;
+    vector<funval> eigenfunction;
+    void right_eigenfunction(unsigned n);
 
-	double eta_draw(URNG& dev);
-	double eta_marginal_density(double eta);
-	double eta_proposal_draw(URNG& dev);
-	double eta_proposal_density(double eta);
-	nu_dist(garch21 *markov);
-    };
-
-    double a0, a1, a2, b1;
-    array<double, 2> C;
-    F_Set F;
-    nu_dist nu;
-    garch21(array<double, 4> &params);
-    inline bool C_includes(array<double, 2> arg) ;
-    double kernel_density(const array<double, 2> &arg, double x0) const;
-    array<double, 2> forward(URNG& dev, double x0, bool orig = true);
-    array<double, 2> simulate_path(void);
-    double compute_tail_index(size_t beg_line, size_t end_line);
+    double q_shifted
 };
 
 #endif

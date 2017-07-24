@@ -6,7 +6,8 @@
 \usepackage{amsmath,epsfig,graphicx,color}
 %\usepackage[english,ngerman]{babel}
 %\usepackage[latin1]{inputenc}
-\usepackage{ifthen}
+\usepackage{etoolbox}
+%\usepackage{ifthen}
 %\usepackage{dsfont}
 %\usepackage{shadethm}
 %\usepackage{framed}
@@ -22,16 +23,17 @@
 %\usepackage[sc]{mathpazo}
 %\linespread{1.05}
 %\usepackage[backref=page]{hyperref}
+% \usepackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage{hyperref}
 \usepackage{caption}
 %\usepackage{subcaption}
 \hypersetup{
 urlcolor=black, 
   menucolor=black, 
-  citecolor=black, 
-  anchorcolor=black, 
+  citecolor=blue, 
+  anchorcolor=darkgreen, 
   filecolor=black, 
-  linkcolor=black, 
+  linkcolor=violet, 
   colorlinks=true,
 }
 
@@ -104,6 +106,9 @@ urlcolor=black,
 \newcommand{\ethe}{\end{theorem}}
 \newcommand{\bre}{\begin{remark}\em }
 \newcommand{\ere}{\end{remark}}
+
+\newtoggle{theoremdefs}
+\togglefalse{theoremdefs}
 
 \input{../physics_common}
 

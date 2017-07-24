@@ -2,6 +2,7 @@
 \usepackage{mathrsfs}
 \usepackage{dsfont}
 \usepackage{enumerate}
+\usepackage{etoolbox}
 
 %% \newtheorem{mdef}{Definition}
 
@@ -146,24 +147,26 @@
   \mathbb S
 }
 
-
-%% \newtheorem{theorem}{Theorem}
-%% \newtheorem{acknowledgement}{Acknowledgement}
-%% \newtheorem{axiom}{Axiom}
-%% \newtheorem{claim}{Claim}
-%% \newtheorem{hypothesis}{Hypothesis}
-%% \newtheorem{conclusion}{Conclusion}
-%% \newtheorem{condition}{Condition}
-%% \newtheorem{conjecture}{Conjecture}
-%% \newtheorem{corollary}{Corollary}
-%% \newtheorem{criterion}{Criterion}
-%% \newtheorem{definition}{Definition}
-%% \newtheorem{example}{Example}
-%% \newtheorem{exercise}{Exercise}
-%% \newtheorem{lemma}{Lemma}
-%% \newtheorem{notation}{Notation}
-%% \newtheorem{problem}{Problem}
-%% \newtheorem{proposition}{Proposition}
-%% \newtheorem{remark}{Remark}
-%% \newtheorem{solution}{Solution}
-%% \newtheorem{summary}{Summary}
+\iftoggle{theoremdefs}{
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{axiom}{Axiom}
+\newtheorem{claim}{Claim}
+\newtheorem{hypothesis}{Hypothesis}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+}{
+}
