@@ -10,15 +10,15 @@ public:
 	    double tail_index_sup = 5.0);
     const double tail_index;
     double r(double) const;
-    double draw_z(bool shift) const;
+    double quantile(double u, double angle) const;
+    double draw_z2(void) const;
+    double draw_z2(double) const;
 
 protected:
     vector<double> pool;
     typedef array<double, 2> funval;
     vector<funval> eigenfunction;
     void right_eigenfunction(unsigned n);
-
-    double q_shifted
 };
 
 #endif
