@@ -39,7 +39,8 @@ double Garch21::quantile(double u, double angle) const
 	vec y = matrices[i] * x;
 	double len = norm(y);
 	double theta = acos(y[0]/len);
-	double inc = pow(len, tail_index) * r(theta) / r(angle) / pool.size();
+	double inc =
+	    pow(len, tail_index) * r(theta) / r(angle) / pool.size();
 	edf[i] = inc;
     }
     for (auto i = edf.begin() + 1; i != edf.end(); ++i) {
@@ -77,6 +78,12 @@ double Garch21::draw_z2(double angle) const
     return quantile(unif(randev), angle);
 }
 
+void Garch21::simulate_sample_path
+(double threshold, unsigned int n, vector<vec> path) const
+{
+    
+}
+
 double Garch21::r(double angle) const
 {
     funval val;
@@ -91,7 +98,8 @@ double Garch21::r(double angle) const
 	double slope =
 	    (eigenfunction[n-1][1] - eigenfunction[n-2][1])/
 	    (eigenfunction[n-1][0] - eigenfunction[n-2][0]);
-	return eigenfunction[n-1][1] + (angle - eigenfunction[n-1][0])*slope;
+	return eigenfunction[n-1][1] +
+	    (angle - eigenfunction[n-1][0])*slope;
     } else if (j == eigenfunction.cbegin()) {
 	double slope =
 	    (eigenfunction[1][1] - eigenfunction[0][1])/

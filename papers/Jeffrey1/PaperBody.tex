@@ -224,6 +224,12 @@ $\pi$ denote this unique stationary probability measure and let
 $V \sim \pi$, $Z \sim \mu_Z$. More generally we write $\mu_U$ for the
 probability measure of $U$, no matter what type of object $U$ may be.
 
+Buraczewski et al \cite{buraczewski:damek:mikosch:2016} derived the
+support of $\pi$ assuming the condition of Bollerslev
+\ref{eq:bollerslev}. We omit the formula here and refer to it as
+$\chi$ hereafter. For more details, see proposition 4.3.1 of
+\cite{buraczewski:damek:mikosch:2016}.
+
 %% According to Buraczewski et al 
 %% \cite{buraczewski:damek:mikosch:2016}, proposition 4.3.1, the support
 %% of $\pi$ is
@@ -670,27 +676,42 @@ probability measure.
 % the distribution of $Z^2$ and hence the transition kernel of the
 % MA-process back to their original, since the process is recurrent
 % under the original kernel.
-Now we are ready to introduce our importance sampling estimator.
-Let $M$ be defined as in lemma \ref{lemma:2} and
+Now we are ready to introduce our importance sampling estimator. For
+this estimator is be efficient, we need to hypothesize the following:
+\begin{hypothesis}
+  \label{hypo:1}
+  This hypothesis is true if at least one of the following is true:
+  \begin{enumerate}[(1)]
+    \item $-\xi$ satisfies the assumption of Lemma \ref{lemma:2}, and in
+      addition $b_{-\xi} \lambda(-\xi) < 1$
+    \item $b_0^{1- \xi/s} < e^\gamma$, where $s$ is the positive constant
+    satisfying condition (I), $\gamma$ is the top Lyapunov exponent
+    defined by \eqref{eq:Lyapunov} and $b_0$ is defined by
+    \eqref{eq:b_def}.
+  \end{enumerate}
+\end{hypothesis}
+Define $M_{-\xi}$ and $M_0$ by \eqref{eq:M_def}. 
+\begin{itemize}
+\item If condition (1) of hypothesis \ref{hypo:1} holds true, we define
 \begin{eqnarray*}
-  \mathcal C &=& \{v \in \chi: |v| \leq M\}
+  \mathcal C &=& \{v \in \chi: |v| \leq M_{-\xi}\};
 \end{eqnarray*}
-We start the process from within $\mathcal C$ i.e.
-$V_0 \in \mathcal C$
-and let $V_0 \sim \gamma$, where the probability
+\item if (1) is not true but (2) holds, we define
+\begin{eqnarray*}
+  \mathcal C &=& \{v \in \chi: |v| \leq M_{0}\}
+\end{eqnarray*}
+\end{itemize}
+Define $K_0 = 0$ and $K_i = \inf\{n > K_{i-1}: V_n \in \mathcal C\}$ for
+$i \geq 1$. We start the process from within $\mathcal C$ i.e.
+$V_0 \in \mathcal C$ and let $V_0 \sim \gamma$, where the probability
 measure $\gamma$ is defined as
 \[
 \gamma(S) = \pi(S) / \pi(\mathcal C)
 \quad \forall S \in \mathcal B(\mathcal C)
 \]
-Let $K_0 = 0$,
-$K_1 = \inf\{n > 0: |V_n| \leq M\}$ and
-$K_i = \inf\{n > K_{i-1}: |V_n| \leq M\}$.
-These are the times of the $V_n$ chain returning to the set
-$\mathcal C$. Define
+Let
 \begin{eqnarray*}
   R_n &:=& \sup\{i \geq 0: K_i \leq n\} \\
-%%  K &\overset{d}{=}& K_{i+1} - K_i\quad i = 0, 1, 2, \dots \\
   T_u &=& \inf\{n \geq 1: |V_n| > u\} \\
   N_u &:=& \sum_{i=0}^{K_1 - 1} \1{V_i > u} \\
   \mathcal E_u &=& \pi(\mathcal C)
@@ -1010,9 +1031,25 @@ Then in \S\ref{sec:consistency} we prove theorem
   We have proved the lemma.
 \end{proof}
 
+The conclusion of lemma \ref{lemma:1} allows us to bound the return
+time of $V_n$ to the set $\{v \in \chi, |V_n| < M_\varphi\}$, where
+$\M_\varphi$ is a postive constant dependent on $\varphi$. This is the
+next lemma:
 \begin{lemma}
   \label{lemma:2}
-  For each $\varphi \in \reals$ define
+  Assume that $\varphi \in \reals$ satisfies
+  \[
+  \E \|A\|^\varphi < \infty,\quad
+  \lambda(\varphi) < \infty, \quad
+    {
+      \bar r_\varphi  \bar r_\theta
+      \over
+      \underline r_\varphi \underline r_\theta
+    } {1 \over \lambda(\varphi)}
+    \E \| A \|^{\varphi + \theta}
+    < 1 \quad \text{for some } \theta > 0
+  \]
+  Under these conditions,
   \begin{eqnarray*}
   \Theta(\varphi) &=& \left\{
   \theta > 0:
@@ -1023,68 +1060,74 @@ Then in \S\ref{sec:consistency} we prove theorem
     } {1 \over \lambda(\varphi)}
     \E \| A \|^{\varphi + \theta}
     < 1
-    \right\} \\
-    M &=&
-    \sup_{\varphi: \E \|A\|^\varphi < \infty, \Theta(\varphi) \neq \emptyset}
-    \left[
-      \sup_{\theta \in \Theta(\varphi)} M_{\varphi, \theta}
-    \right]\\
-  K_0 &=& 0, \quad 
-  K_i = \inf\{n > K_{i-1}: |V_n| \leq M \},\quad i \geq 1
+    \right\}
   \end{eqnarray*}
-  
-  there exist $0 < b_\varphi < 1$ and $\rho_\varphi > 0$ such that for
+  is non-empty. Define in addition
+  \begin{eqnarray}
+    %% M &=&
+    %% \sup_{\varphi: \E \|A\|^\varphi < \infty, \Theta(\varphi) \neq \emptyset}
+    %% \left[
+    %%   \sup_{\theta \in \Theta(\varphi)} M_{\varphi, \theta}
+    %% \right]\\
+    M_\varphi
+    &=&
+    \sup_{\theta \in \Theta(\varphi)} M_{\varphi, \theta} \label{eq:M_def}\\
+    K_0(\varphi) &=& 0, \quad 
+    K_i(\varphi) =
+    \inf\{n > K_{i-1}(\varphi): |V_n| \leq M_\varphi \},\quad i \geq 1
+    \label{eq:K_def}
+  \end{eqnarray}
+  Then there exist $0 < b_\varphi < 1$ and $\rho_\varphi > 0$ such that for
   $n \geq 1$,
-  \[
-  \P^\varphi (K_{j+1} - K_j> n)
-  \leq
-  b_\varphi^n \rho_\varphi
-  \]
-  where
-  \[
-  \]
+  \begin{equation}
+    \label{eq:koef}
+    \P^\varphi (K_{j+1}(\varphi) - K_j(\varphi) > n)
+    \leq
+    b_\varphi^n \rho_\varphi
+  \end{equation}
 \end{lemma}
+% Add the proof here
 \begin{proof}
   Iterating \eqref{eq:drift} yields, for $j \geq 0, n > 1$
   \[
   \E^\varphi \left[
     \left.
-    |V_{K_j + n}|^\theta r_{\theta}(\tilde V_{K_j + n})
-    \prod_{i=1}^{n-1}\1{|V_{K_j + i}| > M_{\varphi, \theta}}
-    \right| \mathscr F_{K_j + 1}
+    |V_{K_j(\varphi) + n}|^\theta r_{\theta}(\tilde V_{K_j(\varphi) + n})
+    \prod_{i=1}^{n-1}\1{|V_{K_j(\varphi) + i}| > M_{\varphi, \theta}}
+    \right| \mathscr F_{K_j(\varphi) + 1}
     \right]
-  \leq b_{\varphi, \theta}^{n-1} |V_{K_j + 1}|^\theta r_{\theta}(\tilde V_{K_j+1})
+  \leq b_{\varphi, \theta}^{n-1} |V_{K_j(\varphi) + 1}|^\theta r_{\theta}(\tilde V_{K_j(\varphi)+1})
   \]
   Because
-  $\{K_{j+1} - K_j > n - 1\} \subseteq \bigcap_{i=K_j + 1}^{K_j + n-1}\{|V_i| > M_{\varphi, \theta}\}$,
+  $\{K_{j+1}(\varphi) - K_j(\varphi) > n - 1\} \subseteq \bigcap_{i=K_j(\varphi) + 1}^{K_j(\varphi) + n-1}\{|V_i| > M_{\varphi, \theta}\}$,
   \begin{eqnarray}
     \E^\varphi \left[\left.
-      |V_{K_j + n}|^\theta \underline r_{\theta}
-      \1{K_{j+1} - K_j > n - 1}
-      \right| \mathscr F_{K_j + 1}
+      |V_{K_j(\varphi) + n}|^\theta \underline r_{\theta}
+      \1{K_{j+1}(\varphi) - K_j(\varphi) > n - 1}
+      \right| \mathscr F_{K_j(\varphi) + 1}
       \right]
     &\leq&
-    b_{\varphi, \theta}^{n-1} |V_{K_j + 1}|^\theta \bar r_{\theta}
+    b_{\varphi, \theta}^{n-1} |V_{K_j(\varphi) + 1}|^\theta \bar r_{\theta}
     \nonumber \\
     \E^\varphi \left[
-      |V_{K_j + n}|^\theta \underline r_{\theta}
-      \1{K_{j+1} - K_j > n - 1}
+      |V_{K_j(\varphi) + n}|^\theta \underline r_{\theta}
+      \1{K_{j+1}(\varphi) - K_j(\varphi) > n - 1}
       \right]
     &\leq&
-    b_{\varphi, \theta}^{n-1} \E^\varphi |V_{K_j + 1}|^\theta \bar
+    b_{\varphi, \theta}^{n-1} \E^\varphi |V_{K_j(\varphi) + 1}|^\theta \bar
     r_{\theta}
     \label{eq:psdv}
   \end{eqnarray}
   If $\theta < 1$, by subadditivity we have
   \begin{eqnarray*}
     &&
-    \E^\varphi |V_{K_j + 1}|^\theta \\
+    \E^\varphi |V_{K_j(\varphi) + 1}|^\theta \\
     &\leq&
     \E^\varphi \left(
-    |A_{K_j + 1} V_{K_j}|^\theta + |B|^\theta
+    |A_{K_j(\varphi) + 1} V_{K_j(\varphi)}|^\theta + |B|^\theta
     \right) \\
     &\leq&
-          {|V_{K_j}|^\theta \over \lambda(\varphi)}
+          {|V_{K_j(\varphi)}|^\theta \over \lambda(\varphi)}
           {\bar r_\varphi \over \underline r_\varphi}
           \E \|A\|^{\varphi + \theta} + |B|^\theta
           \leq
@@ -1095,7 +1138,7 @@ Then in \S\ref{sec:consistency} we prove theorem
   If $\theta \geq 1$, by Minkowski inequality and a similar argument
   as in the previous case, we have
   \[
-  \E^\varphi |V_{K_j + 1}|^\theta
+  \E^\varphi |V_{K_j(\varphi) + 1}|^\theta
   \leq
   \left\{
   \left[
@@ -1105,11 +1148,11 @@ Then in \S\ref{sec:consistency} we prove theorem
   + |B|
   \right\}^\theta
   \]
-  Since $|V_{K_j + n}| > \underline V > 0$, \eqref{eq:psdv} gives us,
+  Since $|V_{K_j(\varphi) + n}| > \underline V > 0$, \eqref{eq:psdv} gives us,
   for $n \geq 1$,
   \begin{equation}
     \label{eq:frth}
-    \P^\varphi (K_{j+1} - K_j > n) < b_{\varphi, \theta}^n \rho_{\varphi, \theta}
+    \P^\varphi (K_{j+1}(\varphi) - K_j(\varphi) > n) < b_{\varphi, \theta}^n \rho_{\varphi, \theta}
   \end{equation}
   for a constant
   \[
@@ -1137,12 +1180,11 @@ Then in \S\ref{sec:consistency} we prove theorem
   \end{array}
   \right.
   \]
-  Since for each $\varphi$ satisfying $\E \|A\|^\varphi < \infty$
-  the inequality \eqref{eq:frth} holds for all $\theta$ satisfying
-  the 2nd part of condition \eqref{eq:drift_cond},
+  Since the inequality \eqref{eq:frth} holds for all $\theta$
+  satisfying the 2nd part of condition \eqref{eq:drift_cond},
   we have for $n \geq 1$,
   \[
-  \P^\varphi (K_{j+1} - K_j> n)
+  \P^\varphi (K_{j+1}(\varphi) - K_j(\varphi)> n)
   \leq
   \left[
     \inf_{\theta \in \Theta(\varphi)}
@@ -1153,6 +1195,11 @@ Then in \S\ref{sec:consistency} we prove theorem
     \right]
   = b_\varphi^n \rho_\varphi
   \]
+  Thus \eqref{eq:koef} holds with
+  \begin{equation}
+    \label{eq:b_def}
+    b_\varphi = \inf_{\theta \in \Theta(\varphi)} b_{\varphi, \theta}
+  \end{equation}
 \end{proof}
 
 \section{The Estimator is Unbiased}\label{sec:consistency}
@@ -1256,11 +1303,12 @@ In this section we prove theorem \ref{thrm:consistency}.
     \begin{eqnarray*}
       && \E_\gamma \left( N_u \1{T_u < K_1}\right) \\
       &=&
-      \underbrace{
-        \int_{\sphere^{d-1}} \int_{\reals}
-        \cdots
-        \int_{\sphere^{d-1}} \int_{\reals}
-      }_{K_1 - 1\text{ folds}}
+      %% \underbrace{
+      %%   \int_{\sphere^{d-1}} \int_{\reals}
+      %%   \cdots
+      %%   \int_{\sphere^{d-1}} \int_{\reals}
+      %% }_{K_1 - 1\text{ folds}}
+      \int_{(\sphere^{d-1} \times \reals)^{K_1 - 1}}
       N_u \1{T_u < \tau}
       \prod_{i=1}^{T_u} e^{-\xi l_i}
       {r_\xi(x_{i-1}) \over r_\xi(x_{i})}P_\xi(x_{i-1}, dx_i \times dl_i)
@@ -1432,7 +1480,8 @@ That is,
   \end{equation}
   \begin{case}
     $-\xi$ satisfies the assumption of Lemma \ref{lemma:2} and
-    $\lambda(-\xi) b_{-\xi} < 1$
+    $\lambda(-\xi) b_{-\xi} < 1$ where $b_{-\xi}$ is defined in
+    \eqref{eq:b_def}.
   \end{case}
   By assumption $\lambda(-\xi) \leq E\|A\|^{-\xi} < \infty$, so
   we may rewrite the sum on the left side of \eqref{eq:rhjd} as
@@ -1811,13 +1860,13 @@ condition (I), $p$ can be chosen sufficiently close to 1 such that
 $\E \|A\|^{p \xi} < \infty$. Meanwhile
 \begin{eqnarray*}
   &&
-  \E (K_1^{2q} \1{m < K_1}) \\
-  &\leq&
-  \sum_{i=m+1}^\infty i^{2q} \P(K_1 > i - 1) \\
-  &\leq&
+  \E (K_1^{2q} \1{m < K_1}) 
+  \leq
+  \sum_{i=m+1}^\infty i^{2q} \P(K_1 > i - 1)
+  \leq
   \sum_{i=m+1}^\infty i^{2q} \rho_0 b_0^{i-1} < \infty
 \end{eqnarray*}
-where we have used lemma \ref{lemma:2} to reach the
+where we have used lemma \ref{lemma:2} with $\varphi = 0$ to reach the
 last line.
 
 As for $\mathscr D_2$, we note
@@ -1908,18 +1957,17 @@ we have
   \right)^{1/2}
 \end{eqnarray*}
 where $c_3$ is a positive constant. Since positive multiplicative
-constants play do not affect the finiteness, we shall no longer keep
+constants do not affect the finiteness, we shall no longer keep
 track of their values but recycle the symbols $c, c_0, c_1, c_2, \dots$
-to mean different constants at different places. In this notation, the
-last parenthesis around the sum over $i$ is bounded by
-$c_4 (n + N_1 -1)$. We have
+to denote different constants in different contexts. In this notation,
+the second sum over $m$ is bounded by $c_4 (n + N_1 -1)$. We have
 \begin{eqnarray*}
   \mathscr D_3
   &\leq&
   c \sum_{n=N_2}^\infty
   e^{(\epsilon - \gamma) n}
-  (n + N_1 - 1)
   [\E \|A\|^{p \xi}]^{-n/p}
+  (n + N_1 - 1)
   \left(
   \sum_{m=n}^{n + N_1 - 1}
       [\E  \|A\|^{p \xi}]^{2m/p}

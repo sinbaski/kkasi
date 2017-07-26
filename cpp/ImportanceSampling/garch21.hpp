@@ -13,6 +13,8 @@ public:
     double quantile(double u, double angle) const;
     double draw_z2(void) const;
     double draw_z2(double) const;
+    void simulate_sample_path(double threshold, unsigned int n,
+			      vector<vec> &path) const;
 
 protected:
     vector<double> pool;

@@ -1,5 +1,6 @@
 %%%%%UDSEENDE%%%%%
-\documentclass[10.5pt,a4paper,twoside,final,oldfontcommands]{memoir}
+%% \documentclass[10.5pt,a4paper,twoside,final,oldfontcommands]{memoir}
+\documentclass[a4paper,twoside,final,oldfontcommands]{memoir}
 \usepackage[utf8]{inputenc}
 \usepackage[danish,english]{babel}
 \usepackage[T1]{fontenc}
@@ -107,10 +108,8 @@ urlcolor=black,
 \newcommand{\bre}{\begin{remark}\em }
 \newcommand{\ere}{\end{remark}}
 
-\newtoggle{theoremdefs}
-\togglefalse{theoremdefs}
-
-\input{../physics_common}
+%% \newtoggle{theoremdefs}
+%% \togglefalse{theoremdefs}
 
 %%%%%BIBTEX%%%%%
 %\usepackage{natbib}
@@ -167,17 +166,9 @@ urlcolor=black,
 \definecolor{darkblue}{rgb}{.1, 0.1,.8}
 \definecolor{darkgreen}{rgb}{0,0.8,0.2}
 \definecolor{darkred}{rgb}{.8, .1,.1}
-%\textwidth 6.50in
-%\topmargin -0.50in
-%\oddsidemargin 0in
-%\evensidemargin 0in
-%\textheight 9.00in
 \newcommand{\bco}{\begin{corrolary}}
 \newcommand{\eco}{\end{corrolary}}
 \newcommand{\wrt}{with respect to}
-%% \newcommand{\E}{\mathbb{E}}
-%% \renewcommand{\P}{\mathbb{P}}
-%% \newcommand{\1}{\mathbf{1}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\C}{\mathbb{C}}
@@ -196,7 +187,6 @@ urlcolor=black,
 \newcommand{\y}{{\mathbf y}}
 \newcommand{\X}{{\mathbf X}}
 \newcommand{\Y}{{\mathbf Y}}
-% \newcommand{\M}{{\mathbf M}}
 \newcommand{\A}{{\mathbf A}}
 \newcommand{\bfS}{{\mathbf S}}
 \newcommand{\bfZ}{{\mathbf Z}}
@@ -219,9 +209,7 @@ urlcolor=black,
 \newcommand{\tsa}{\ts\ analysis}
 \newcommand{\fidi}{finite-dimensional distribution}
 \newcommand{\rv}{random variable}
-% \newcommand{\tr}{\operatorname{tr}}
 \newcommand{\Zbar}{\overline{Z}}
-% \newcommand{\diag}{\operatorname{diag}}
 \newcommand{\Dr}{D^{\rightarrow}}
 \newcommand{\Dc}{D^{\downarrow}}
 \newcommand{\bfe}{{\mathbf e}}
@@ -244,9 +232,7 @@ urlcolor=black,
 \newcommand{\simsl}{\stackrel{sl.}{\sim}}
 \newcommand{\eid}{\stackrel{\rm d}{=}}
 
-% \newcommand{\var}{{\rm var}}
 \newcommand{\med}{{\rm med}}
-% \newcommand{\cov}{{\rm cov}}
 \newcommand{\corr}{{\rm corr}}
 \newcommand{\as}{{\rm a.s.}}
 \newcommand{\io}{{\rm i.o.}}

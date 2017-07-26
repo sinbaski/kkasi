@@ -85,9 +85,11 @@
 \newcommand{\1}[1]{
   \mathbf{1}_{\{#1\}}
 }
-\newcommand{\diag}{
-  \text{diag\,}
-}
+\newcommand{\diag}{\operatorname{diag}}
+% \newcommand{\limsup}{\operatorname{limsup}}
+%% \newcommand{\diag}{
+%%   \text{diag\,}
+%% }
 \newcommand{\pop}[1]{
 \varepsilon_{#1}
 }
@@ -147,26 +149,28 @@
   \mathbb S
 }
 
-\iftoggle{theoremdefs}{
-\newtheorem{theorem}{Theorem}
-\newtheorem{acknowledgement}{Acknowledgement}
-\newtheorem{axiom}{Axiom}
-\newtheorem{claim}{Claim}
-\newtheorem{hypothesis}{Hypothesis}
-\newtheorem{conclusion}{Conclusion}
-\newtheorem{condition}{Condition}
-\newtheorem{conjecture}{Conjecture}
-\newtheorem{corollary}{Corollary}
-\newtheorem{criterion}{Criterion}
-\newtheorem{definition}{Definition}
-\newtheorem{example}{Example}
-\newtheorem{exercise}{Exercise}
-\newtheorem{lemma}{Lemma}
-\newtheorem{notation}{Notation}
-\newtheorem{problem}{Problem}
-\newtheorem{proposition}{Proposition}
-\newtheorem{remark}{Remark}
-\newtheorem{solution}{Solution}
-\newtheorem{summary}{Summary}
-}{
-}
+\newtheorem{case}{case}
+
+%% \iftoggle{theoremdefs}{
+%% \newtheorem{theorem}{Theorem}
+%% \newtheorem{acknowledgement}{Acknowledgement}
+%% \newtheorem{axiom}{Axiom}
+%% \newtheorem{claim}{Claim}
+%% \newtheorem{hypothesis}{Hypothesis}
+%% \newtheorem{conclusion}{Conclusion}
+%% \newtheorem{condition}{Condition}
+%% \newtheorem{conjecture}{Conjecture}
+%% \newtheorem{corollary}{Corollary}
+%% \newtheorem{criterion}{Criterion}
+%% \newtheorem{definition}{Definition}
+%% \newtheorem{example}{Example}
+%% \newtheorem{exercise}{Exercise}
+%% \newtheorem{lemma}{Lemma}
+%% \newtheorem{notation}{Notation}
+%% \newtheorem{problem}{Problem}
+%% \newtheorem{proposition}{Proposition}
+%% \newtheorem{remark}{Remark}
+%% \newtheorem{solution}{Solution}
+%% \newtheorem{summary}{Summary}
+%% }{
+%% }
