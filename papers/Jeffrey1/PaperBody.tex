@@ -677,18 +677,18 @@ probability measure.
 % MA-process back to their original, since the process is recurrent
 % under the original kernel.
 Now we are ready to introduce our importance sampling estimator. For
-this estimator is be efficient, we need to hypothesize the following:
+this estimator is be efficient, we need the following hypothesis to be true:
 \begin{hypothesis}
   \label{hypo:1}
   This hypothesis is true if at least one of the following is true:
   \begin{enumerate}[(1)]
     \item $-\xi$ satisfies the assumption of Lemma \ref{lemma:2}, and in
-      addition $b_{-\xi} \lambda(-\xi) < 1$
+      addition $b_{-\xi} \lambda(-\xi) < 1$.
     \item $b_0^{1- \xi/s} < e^\gamma$, where $s$ is the positive constant
-    satisfying condition (I), $\gamma$ is the top Lyapunov exponent
-    defined by \eqref{eq:Lyapunov} and $b_0$ is defined by
-    \eqref{eq:b_def}.
+    satisfying condition (I) and $\gamma$ is the top Lyapunov exponent
+    defined by \eqref{eq:Lyapunov}.
   \end{enumerate}
+  In both cases, $b_\varphi$ is defined by \eqref{eq:b_def}.
 \end{hypothesis}
 Define $M_{-\xi}$ and $M_0$ by \eqref{eq:M_def}. 
 \begin{itemize}
@@ -1010,7 +1010,8 @@ Then in \S\ref{sec:consistency} we prove theorem
    M_{\varphi, \theta}
    &=&
    \epsilon +
-   \inf\{m > 0: G(\varphi, \theta, m) < 1\},\quad \epsilon > 0 \\
+   \inf\{m > 0: G(\varphi, \theta, m) < 1\},\quad
+   \text{ for some }\epsilon > 0 \\
    b_{\varphi, \theta}
    &=&
    G(\varphi, \theta, M_{\varphi, \theta}) < 1
