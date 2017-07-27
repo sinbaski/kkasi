@@ -59,10 +59,9 @@ Define $d = p + q - 1$ and we can write the recurrence equation as
 \end{equation}
 where $V_t$ and $B_t$ are $d$-dimensional vectors; $A_t$ are
 $d \times d$ matrices. The sequences $A_t$ and $B_t$ are both iid.
-Of course, $B_t$ are really constant vectors,
-but we postpone this specialization for now and generalize the
-equation \eqref{eq:garchpq_sre} to the broader context of matrix
-recursions.
+Of course, $B_t$ are really constant vectors, but we postpone this
+specialization for now and generalize the equation
+\eqref{eq:garchpq_sre} to the broader context of matrix recursions.
 There is already a rich literature on this subject. Kesten
 \cite{kesten:1973} showed that, when $A_t$ and $B_t$ were almost
 surely non-negative, had no row or column of only zeros, and there was
@@ -770,47 +769,37 @@ Then in \S\ref{sec:consistency} we prove theorem
 \label{sec:drift}
 \begin{lemma}
   \label{lemma:1}
-  Assume $\varphi \in \reals, \theta > 0$ satisfy
-  \begin{equation}
-    \label{eq:drift_cond}
-    \E \|A\|^\varphi < \infty,\quad
-    \lambda(\varphi) < \infty, \quad
-       {
-         \bar r_\varphi  \bar r_\theta
-         \over
-         \underline r_\varphi \underline r_\theta
-       } {1 \over \lambda(\varphi)}
-       \E \| A \|^{\varphi + \theta}
-       < 1
-  \end{equation}
-  then there exist
-  $0 < b_{\varphi, \theta} < 1, M_{\varphi, \theta} > 0$
-  such that the following inequality holds
+  Let $0 < \theta < \xi$. Then there exist
+  $0 < b_{\theta} < 1, M_{\theta} > 0$
+  such that
   \begin{equation}
     \label{eq:drift}
-    \E^\varphi \left[\left.
+    \E \left[\left.
       |V_n|^\theta r_\theta(\tilde V_n)
-      \1{|V_{n-1}| > M_{\varphi, \theta}} \right|
+      \1{|V_{n-1}| > M_{\theta}} \right|
       \mathscr F_{n-1} \right]
     \leq
-    b_{\varphi, \theta} |V_{n-1}|^\theta
+    b_{\theta} |V_{n-1}|^\theta
     r_{\theta}(\tilde V_{n-1})
   \end{equation}
 \end{lemma}
-A note about the condition \eqref{eq:drift_cond} is that, when
-$\varphi > 0$, $\E \|A\|^\varphi < \infty$ implies
-$\lambda(\varphi) < \infty$: 
-\begin{eqnarray*}
-  \lambda(\varphi) &=& \lim_{n \to \infty} \left(
-    \E \|A_n \cdots A_1\|^{\varphi}
-  \right)^{1/n} 
-  \leq \left(
-    \E \prod_{i=1}^n \|A_i\|^\varphi
-\right)^{1/n} = \E \|A\|^\varphi
-\end{eqnarray*}
-By the same argument, the inequality reverses when $\varphi < 0$. Now
-we prove the lemma.
+% A note about the condition \eqref{eq:drift_cond} is that, when
+% $\varphi > 0$, $\E \|A\| < \infty$ implies
+% $\lambda(\varphi) < \infty$: 
+% \begin{eqnarray*}
+%   \lambda(\varphi) &=& \lim_{n \to \infty} \left(
+%     \E \|A_n \cdots A_1\|^{\varphi}
+%   \right)^{1/n} 
+%   \leq \left(
+%     \E \prod_{i=1}^n \|A_i\|
+% \right)^{1/n} = \E \|A\|
+% \end{eqnarray*}
+% By the same argument, the inequality reverses when $\varphi < 0$. Now
+% we prove the lemma.
 \begin{proof}
+  $\lambda(\cdot)$ is a convex continuous function (cf. Buraczewski et
+  al \cite{buraczewski:damek:mikosch:2016}, §4.4.3), so
+  $\lambda(0) = 1 = \lambda(\xi)$ implies $\lambda(\theta) < 1$.
   By Buraczewski et al \cite{buraczewski:damek:guivarch:mentemeier:2014} 
   Proposition 3.1, an eigenfunction $r_\theta(\cdot)$ and an
   eigenmeasure $\ell_\theta(\cdot)$ exist for the operator
@@ -822,19 +811,19 @@ we prove the lemma.
   \]
   Thus we have
   \begin{eqnarray}
-    && \E^\varphi \left[ |V_n|^\theta r_{\theta}(\tilde V_n)
-      \1{|V_{n-1}| > M_{\varphi, \theta}} | \mathscr F_{n-1} \right]
+    && \E \left[ |V_n|^\theta r_{\theta}(\tilde V_n)
+      \1{|V_{n-1}| > M_{\theta}} | \mathscr F_{n-1} \right]
     \label{eq:drift_proof_1} \\
     &=&
     \1{|V_{n-1}| > M_{\varphi, \theta}}
-    \E^\varphi
+    \E
     \left[
       c(\theta)\int_{\sphere^{d-1}} \inn{V_n, y}^\theta \ell^*_{\theta}(dy)|
       \mathscr F_{n-1} \right]
     \nonumber \\
     &=&
     \1{|V_{n-1}| > M_{\varphi, \theta}}
-    \E^\varphi\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
+    \E\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
         y})^\theta \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
     \nonumber
   \end{eqnarray}
@@ -842,14 +831,14 @@ we prove the lemma.
     If $\theta \leq 1$, by subadditivity we have
   \end{case}
   \begin{eqnarray*}
-    &&\E^\varphi\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
+    &&\E\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
         y})^\theta \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]\\
-    &\leq& \E^\varphi\left[c(\theta)\int_{\sphere^{d-1}} \inn{A_n V_{n-1}, y}^\theta
+    &\leq& \E\left[c(\theta)\int_{\sphere^{d-1}} \inn{A_n V_{n-1}, y}^\theta
       \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
-    + \E^\varphi\left[c(\theta)\int_{\sphere^{d-1}} \inn{B, y}^\theta \ell^*_{\theta}(dy) |
+    + \E\left[c(\theta)\int_{\sphere^{d-1}} \inn{B, y}^\theta \ell^*_{\theta}(dy) |
       \mathscr F_{n-1} \right] \\
     &=&
-    \E^\varphi\left[|V_{n-1}|^\theta |A_n \tilde V_{n-1}|^\theta
+    \E\left[|V_{n-1}|^\theta |A_n \tilde V_{n-1}|^\theta
       c(\theta)\int_{\sphere^{d-1}}
       \inn{ A_n \cdotp \tilde V_{n-1}, y}^\theta
       \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
@@ -858,13 +847,6 @@ we prove the lemma.
     |V_{n-1}|^\theta
     \E \left[
       \left.
-        {1 \over \lambda(\varphi)}
-        {
-          r_\varphi(X_n)
-          \over
-          r_\varphi(X_{n-1})
-        }
-        | A_n X_{n-1} |^{\varphi}
         | A_n  \tilde V_{n-1} |^{\theta}
         r_\theta(A_n \cdotp \tilde V_{n-1})
       \right|
@@ -873,74 +855,80 @@ we prove the lemma.
     + |B|^\theta r_{\theta}(\tilde B) \\
     &=&
     |V_{n-1}|^\theta
+    \lambda(\theta)
     r_\theta(\tilde V_{n-1})
-    {1 \over \lambda(\varphi)}
-    {\bar r_\varphi \over \underline r_\varphi}
-    {\bar r_\theta \over \underline r_\theta}
-    \E \| A \|^{\varphi + \theta}
     + |B|^\theta r_{\theta}(\tilde B) \\
     &=&
     |V_{n-1}|^\theta
     r_\theta(\tilde V_{n-1})
-    {1 \over \lambda(\varphi)}
-    {\bar r_\varphi \over \underline r_\varphi}
-    {\bar r_\theta \over \underline r_\theta}
-    \E \| A \|^{\varphi + \theta}
-    \left\{
+    \lambda(\theta)
+    \left[
       1 + 
-      {|B|^\theta r_{\theta}(\tilde B) \lambda(\varphi) \underline r_\varphi \underline r_\theta
+      {|B|^\theta r_{\theta}(\tilde B) 
         \over
-        |V_{n-1}|^\theta r_\theta(\tilde V_{n-1}) \bar r_\varphi \bar
-        r_\theta \E \| A \|^{\varphi + \theta}
+        \lambda(\theta) |V_{n-1}|^\theta
       }
-    \right\}
+    \right]
   \end{eqnarray*}
-  Let
+  Then we have
   \begin{eqnarray*}
-    G(\varphi, \theta, m)
-    &=&
-    {1 \over \lambda(\varphi)}
-    {\bar r_\varphi \over \underline r_\varphi}
-    {\bar r_\theta \over \underline r_\theta}
-    \E \| A \|^{\varphi + \theta}
-    \left\{
-    1 + 
-    {|B|^\theta r_{\theta}(\tilde B)
-     \lambda(\varphi) \underline r_\varphi \underline r_\theta
-     \over
-     m^\theta \underline r_\theta \bar r_\varphi \bar r_\theta 
-     \E \|A \|^{\varphi + \theta}
-    }
-    \right\} \\
-    M_{\varphi, \theta}
-    &=&
-    \epsilon + \inf\{m > 0: G(\varphi, \theta, m) < 1\},
-    \quad \epsilon > 0
+    \E
+    \left[
+      |V_n|^\theta r_{\theta}(\tilde V_n)
+      \1{|V_{n-1}| > M_{\theta}} | \mathscr F_{n-1}
+    \right]
+    &\leq&
+    |V_{n-1}|^\theta
+    r_\theta(\tilde V_{n-1})
+    \lambda(\theta)
+    \left[
+      1 + 
+      {|B|^\theta r_{\theta}(\tilde B) 
+        \over
+        \lambda(\theta) |V_{n-1}|^\theta
+      }
+    \right]
+    \1{|V_{n-1}| > M_{\theta}} \\
+    &\leq&
+    |V_{n-1}|^\theta
+    r_\theta(\tilde V_{n-1})
+    \lambda(\theta)
+    \left[
+      1 + 
+      {|B|^\theta r_{\theta}(\tilde B) 
+        \over
+        \lambda(\theta) M_{\theta}
+      }
+    \right]
   \end{eqnarray*}
-  The 2nd condition of assumption \eqref{eq:drift_cond} ensures an
-  $M_{\varphi, \theta}$ exists for an arbitrary $\epsilon > 0$ such that
-  $b_{\varphi, \theta} = G(\varphi, \theta, M_{\varphi, \theta}) < 1$.
-  We have
+  Since $\lambda(\theta) < 1$, there exists
   \[
-  \E^\varphi
-  \left[
-    |V_n|^\theta r_{\theta}(\tilde V_n)
-    \1{|V_{n-1}| > M_{\varphi, \theta}} | \mathscr F_{n-1}
-  \right]
-  \leq
-  \1{|V_{n-1}| > M_{\varphi, \theta}}
-  b_{\varphi, \theta}
-  |V_{n-1}|^\theta
-  r_\theta(\tilde V_{n-1})
+  M_\theta ={
+    |B|^\theta r_\theta(\tilde B)
+    \over
+    1 - \lambda(\theta)
+  } + \epsilon
   \]
-
+  for an $\epsilon > 0$ such that
+  \[
+  b_\theta = 
+  \lambda(\theta)
+  \left[
+    1 + 
+    {|B|^\theta r_{\theta}(\tilde B) 
+      \over
+      \lambda(\theta) M_{\theta}
+    }
+  \right] < 1
+  \]
+  Thus \eqref{eq:drift} holds.
   \begin{case}
     If $\theta > 1$,   applying Minkowski's inequality to the RHS
   of \eqref{eq:drift_proof_1} gives
   \end{case}
   \begin{eqnarray*}
     &&
-    \E^\varphi
+    \E
     \left[
       c(\theta)\int_{\sphere^{d-1}} 
       (\inn{A_n V_{n-1}, y} + \inn{B, y})^\theta
@@ -948,7 +936,7 @@ we prove the lemma.
     &\leq&
     \left\{
       \left[
-        \E^\varphi
+        \E
         \left(
           c(\theta)\int_{\sphere^{d-1}} 
           \inn{A_n V_{n-1}, y}^{\theta}
@@ -960,7 +948,7 @@ we prove the lemma.
     +
     \left.
       \left[
-        \E^\varphi
+        \E
         \left(
           c(\theta)\int_{\sphere^{d-1}} 
           \inn{B, y}^{\theta}
@@ -971,38 +959,18 @@ we prove the lemma.
     &\leq&
     \left\{
       |V_{n-1}|
-      \left(
-        { \bar r_\varphi \bar r_\theta
-          \over
-          \lambda(\varphi) \underline r_\varphi \underline r_\theta
-        }
-        \E \|A\|^{\varphi + \theta} r_\theta(\tilde V_{n-1})
-      \right)^{1/\theta}
+      \lambda(\theta)^{1/\theta}
+      r_\theta(\tilde V_{n-1})^{1/\theta}
       + |B| r_\theta(\tilde B)^{1/\theta}
     \right\}^\theta \\
     &\leq&
-    r_\theta(\tilde V_{n-1})
     |V_{n-1}|^\theta
-    { \bar r_\varphi \bar r_\theta
-      \over
-      \lambda(\varphi) \underline r_\varphi \underline r_\theta
-    }
-    \E \|A\|^{\varphi + \theta} 
-    \left\{
-      1 +
+    r_\theta(\tilde V_{n-1})
+    \left[
+      \lambda(\theta)^{1/\theta} +
       {|B| \over |V_{n-1}|}
-      \left[
-        {
-          r_\theta(\tilde B)
-          \lambda(\varphi)
-          \underline r_\varphi \underline r_\theta
-          \over
-          \underline r_\theta
-          \bar r_\varphi \bar r_\theta
-          \E \|A\|^{\varphi + \theta} 
-        }
-      \right]^{1/\theta}
-    \right\}^\theta
+      r_\theta(\tilde B)^{1/\theta}
+    \right]^\theta
   \end{eqnarray*}
   Thus, as in the previous case, we have
   \begin{eqnarray*}
@@ -1028,7 +996,7 @@ we prove the lemma.
         }
       \right]^{1/\theta}
    \right\}^\theta \\
-   M_{\varphi, \theta}
+   M_{\theta}
    &=&
    \epsilon +
    \inf\{m > 0: G(\varphi, \theta, m) < 1\},\quad
@@ -1039,7 +1007,7 @@ we prove the lemma.
   \end{eqnarray*}
   We conclude
   \[
-  \E^\varphi
+  \E
   \left[
     |V_n|^\theta r_{\theta}(\tilde V_n)
     \1{|V_{n-1}| > M_{\varphi, \theta}} | \mathscr F_{n-1}
@@ -1061,7 +1029,7 @@ next lemma:
   \label{lemma:2}
   Assume that $\varphi \in \reals$ satisfies
   \[
-  \E \|A\|^\varphi < \infty,\quad
+  \E \|A\| < \infty,\quad
   \lambda(\varphi) < \infty, \quad
     {
       \bar r_\varphi  \bar r_\theta
@@ -1087,7 +1055,7 @@ next lemma:
   is non-empty. Define in addition
   \begin{eqnarray}
     %% M &=&
-    %% \sup_{\varphi: \E \|A\|^\varphi < \infty, \Theta(\varphi) \neq \emptyset}
+    %% \sup_{\varphi: \E \|A\| < \infty, \Theta(\varphi) \neq \emptyset}
     %% \left[
     %%   \sup_{\theta \in \Theta(\varphi)} M_{\varphi, \theta}
     %% \right]\\
@@ -1103,7 +1071,7 @@ next lemma:
   $n \geq 1$,
   \begin{equation}
     \label{eq:koef}
-    \P^\varphi (K_{j+1}(\varphi) - K_j(\varphi) > n)
+    \P (K_{j+1}(\varphi) - K_j(\varphi) > n)
     \leq
     b_\varphi^n \rho_\varphi
   \end{equation}
@@ -1112,7 +1080,7 @@ next lemma:
 \begin{proof}
   Iterating \eqref{eq:drift} yields, for $j \geq 0, n > 1$
   \[
-  \E^\varphi \left[
+  \E \left[
     \left.
     |V_{K_j(\varphi) + n}|^\theta r_{\theta}(\tilde V_{K_j(\varphi) + n})
     \prod_{i=1}^{n-1}\1{|V_{K_j(\varphi) + i}| > M_{\varphi, \theta}}
@@ -1123,7 +1091,7 @@ next lemma:
   Because
   $\{K_{j+1}(\varphi) - K_j(\varphi) > n - 1\} \subseteq \bigcap_{i=K_j(\varphi) + 1}^{K_j(\varphi) + n-1}\{|V_i| > M_{\varphi, \theta}\}$,
   \begin{eqnarray}
-    \E^\varphi \left[\left.
+    \E \left[\left.
       |V_{K_j(\varphi) + n}|^\theta \underline r_{\theta}
       \1{K_{j+1}(\varphi) - K_j(\varphi) > n - 1}
       \right| \mathscr F_{K_j(\varphi) + 1}
@@ -1131,21 +1099,21 @@ next lemma:
     &\leq&
     b_{\varphi, \theta}^{n-1} |V_{K_j(\varphi) + 1}|^\theta \bar r_{\theta}
     \nonumber \\
-    \E^\varphi \left[
+    \E \left[
       |V_{K_j(\varphi) + n}|^\theta \underline r_{\theta}
       \1{K_{j+1}(\varphi) - K_j(\varphi) > n - 1}
       \right]
     &\leq&
-    b_{\varphi, \theta}^{n-1} \E^\varphi |V_{K_j(\varphi) + 1}|^\theta \bar
+    b_{\varphi, \theta}^{n-1} \E |V_{K_j(\varphi) + 1}|^\theta \bar
     r_{\theta}
     \label{eq:psdv}
   \end{eqnarray}
   If $\theta < 1$, by subadditivity we have
   \begin{eqnarray*}
     &&
-    \E^\varphi |V_{K_j(\varphi) + 1}|^\theta \\
+    \E |V_{K_j(\varphi) + 1}|^\theta \\
     &\leq&
-    \E^\varphi \left(
+    \E \left(
     |A_{K_j(\varphi) + 1} V_{K_j(\varphi)}|^\theta + |B|^\theta
     \right) \\
     &\leq&
@@ -1160,7 +1128,7 @@ next lemma:
   If $\theta \geq 1$, by Minkowski inequality and a similar argument
   as in the previous case, we have
   \[
-  \E^\varphi |V_{K_j(\varphi) + 1}|^\theta
+  \E |V_{K_j(\varphi) + 1}|^\theta
   \leq
   \left\{
   \left[
@@ -1174,7 +1142,7 @@ next lemma:
   for $n \geq 1$,
   \begin{equation}
     \label{eq:frth}
-    \P^\varphi (K_{j+1}(\varphi) - K_j(\varphi) > n) < b_{\varphi, \theta}^n \rho_{\varphi, \theta}
+    \P (K_{j+1}(\varphi) - K_j(\varphi) > n) < b_{\varphi, \theta}^n \rho_{\varphi, \theta}
   \end{equation}
   for a constant
   \[
@@ -1206,7 +1174,7 @@ next lemma:
   satisfying the 2nd part of condition \eqref{eq:drift_cond},
   we have for $n \geq 1$,
   \[
-  \P^\varphi (K_{j+1}(\varphi) - K_j(\varphi)> n)
+  \P (K_{j+1}(\varphi) - K_j(\varphi)> n)
   \leq
   \left[
     \inf_{\theta \in \Theta(\varphi)}
