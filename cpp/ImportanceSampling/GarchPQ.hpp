@@ -43,4 +43,5 @@ protected:
     mutable mt19937_64 gen;
 };
 
+
 #endif

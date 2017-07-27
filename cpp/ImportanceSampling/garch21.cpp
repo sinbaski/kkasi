@@ -5,6 +5,35 @@
 #include <algorithm>
 #include <cassert>
 
+double interpolate_fun
+(double arg, const vector<funval> &fun)
+{
+    funval val;
+    val[0] = arg;
+    val[1] = 0;
+    auto j = upper_bound(fun.cbegin(), fun.cend(),
+			 val, [](const funval &x, const funval &y) {
+			     return x[0] < y[0];
+			 });
+    if (j == fun.cend()) {
+	size_t n = fun.size();
+	double slope =
+	    (fun[n-1][1] - fun[n-2][1])/
+	    (fun[n-1][0] - fun[n-2][0]);
+	return fun[n-1][1] +
+	    (arg - fun[n-1][0])*slope;
+    } else if (j == fun.cbegin()) {
+	double slope =
+	    (fun[1][1] - fun[0][1])/
+	    (fun[1][0] - fun[0][0]);
+	return fun[0][1] + (arg - fun[0][0])*slope;
+    } else {
+	size_t n = distance(fun.begin(), j);
+	double slope = (fun[n][1] - fun[n-1][1])/(fun[n][0] - fun[n-1][0]);
+	return fun[n-1][1] + (arg - fun[n-1][0]) * slope;
+    }
+}
+
 Garch21::Garch21(const vector<double> &alpha, const vector<double> &beta,
 		 double tail_index_sup)
     :GarchPQ(alpha, beta),
@@ -12,7 +41,6 @@ Garch21::Garch21(const vector<double> &alpha, const vector<double> &beta,
 {
     random_device randev;
     chi_squared_distribution<double> chi2;
-    right_eigenfunction(4000u);
     pool.resize(10000u);
     for (auto i = pool.begin(); i != pool.end(); ++i) {
 	*i = chi2(randev);
@@ -23,7 +51,7 @@ Garch21::Garch21(const vector<double> &alpha, const vector<double> &beta,
 double Garch21::quantile(double u, double angle) const
 {
     assert(u > 0 && u < 1);
-    vector<double> edf = pool;
+    vector<funval> equantile(pool.size());
     vec x = {cos(angle), sin(angle)};
     static vector<mat> matrices;
     
@@ -33,32 +61,39 @@ double Garch21::quantile(double u, double angle) const
 	    gen_rand_matrix(pool[i], matrices[i]);
 	}
     }
-    
+
+    vector<funval> r(pool.size());
+    right_eigenfunction(tail_index, r);
 #pragma omp parallel for
     for (unsigned int i = 0; i < pool.size(); ++i) {
 	vec y = matrices[i] * x;
 	double len = norm(y);
 	double theta = acos(y[0]/len);
 	double inc =
-	    pow(len, tail_index) * r(theta) / r(angle) / pool.size();
-	edf[i] = inc;
+	    pow(len, tail_index) *
+	    interpolate_fun(theta, r) /
+	    interpolate_fun(angle, r) /
+	    pool.size();
+	equantile[i][1] = pool[i];
+	equantile[i][0] = inc;
     }
-    for (auto i = edf.begin() + 1; i != edf.end(); ++i) {
-	*i = *i + *(i - 1);
+    for (auto i = equantile.begin() + 1; i != equantile.end(); ++i) {
+	i->at(0) = i->at(0) + (i - 1)->at(0);
     }
-    auto p = upper_bound(edf.begin(), edf.end(), u);
-    if (p == edf.end()) {
-	size_t n = pool.size();
-	double edf_slope = (edf[n-1] - edf[n-2])/(pool[n-1] - pool[n-2]);
-	return pool[n-1] + (u - edf[n-1])/edf_slope;
-    } else if (p == edf.begin()) {
-	double edf_slope = (edf[1] - edf[0])/(pool[1] - pool[0]);
-	return pool[0] + (u - edf[0])/edf_slope;
-    } else {
-	size_t n = distance(edf.begin(), p);
-	double edf_slope = (edf[n] - edf[n-1])/(pool[n] - pool[n-1]);
-	return pool[n-1] + (u - edf[n-1])/edf_slope;
-    }
+    return interpolate_fun(u, equantile);
+    // auto p = upper_bound(edf.begin(), edf.end(), u);
+    // if (p == edf.end()) {
+    // 	size_t n = pool.size();
+    // 	double edf_slope = (edf[n-1] - edf[n-2])/(pool[n-1] - pool[n-2]);
+    // 	return pool[n-1] + (u - edf[n-1])/edf_slope;
+    // } else if (p == edf.begin()) {
+    // 	double edf_slope = (edf[1] - edf[0])/(pool[1] - pool[0]);
+    // 	return pool[0] + (u - edf[0])/edf_slope;
+    // } else {
+    // 	size_t n = distance(edf.begin(), p);
+    // 	double edf_slope = (edf[n] - edf[n-1])/(pool[n] - pool[n-1]);
+    // 	return pool[n-1] + (u - edf[n-1])/edf_slope;
+    // }
 }
 
 double Garch21::draw_z2(void) const
@@ -79,44 +114,16 @@ double Garch21::draw_z2(double angle) const
 }
 
 void Garch21::simulate_sample_path
-(double threshold, unsigned int n, vector<vec> path) const
+(double threshold, unsigned int n, vector<vec> &path) const
 {
-    
 }
 
-double Garch21::r(double angle) const
-{
-    funval val;
-    val[0] = angle;
-    val[1] = 0;
-    auto j = upper_bound(eigenfunction.cbegin(), eigenfunction.cend(),
-			 val, [](const funval &x, const funval &y) {
-			     return x[0] < y[0];
-			 });
-    if (j == eigenfunction.cend()) {
-	size_t n = eigenfunction.size();
-	double slope =
-	    (eigenfunction[n-1][1] - eigenfunction[n-2][1])/
-	    (eigenfunction[n-1][0] - eigenfunction[n-2][0]);
-	return eigenfunction[n-1][1] +
-	    (angle - eigenfunction[n-1][0])*slope;
-    } else if (j == eigenfunction.cbegin()) {
-	double slope =
-	    (eigenfunction[1][1] - eigenfunction[0][1])/
-	    (eigenfunction[1][0] - eigenfunction[0][0]);
-	return eigenfunction[0][1] + (angle - eigenfunction[0][0])*slope;
-    } else {
-	auto i = eigenfunction.cbegin();
-	advance(i, distance(i, j) - 1);
-	double slope = (j->at(1) - i->at(1))/(j->at(0) - i->at(0));
-	return i->at(1) + slope * (angle - i->at(0));
-    }
-}
-
-void Garch21::right_eigenfunction(unsigned n)
+void Garch21::right_eigenfunction
+(double index, vector<funval> &eigenfunction) const
 {
     double ang_max = atan(1/alpha[1]);
     double flag;
+    size_t n = eigenfunction.size();
     vec angles(n);
     mat P(n, n);
     cx_vec eigenval(n);
@@ -147,10 +154,10 @@ void Garch21::right_eigenfunction(unsigned n)
 		t3 = exp(-t3);
 
 		double t5 = sqrt(2 * M_PI * tangents[j]);
-		double t6 = pow(cosines[j], tail_index + 2);
+		double t6 = pow(cosines[j], index + 2);
 		double t7 = pow(1 - tangents[j] * alpha[1],
-				tail_index + 1.5);
-		P(i, j) = pow(c1 * t1, tail_index) * t2 * t3 / t5 / t6 / t7;
+				index + 1.5);
+		P(i, j) = pow(c1 * t1, index) * t2 * t3 / t5 / t6 / t7;
 		P(i, j) *= d;
 	    }
 	}
@@ -167,16 +174,44 @@ void Garch21::right_eigenfunction(unsigned n)
     			return fabs(x - 1) < fabs(y - 1);
     		    });
     vec V = vectors.col(p - values.begin());
-    eigenfunction.resize(n);
     for (unsigned int i = 0; i < n; ++i) {
 	eigenfunction[i][0] = angles(i);
 	eigenfunction[i][1] = V(i);
     }
 }
 
-
+double Garch21::G_fun(double phi, double theta, double m)
+{
+    size_t n = 10000u;
+    vector<funval> r_phi(n);
+    vector<funval> r_theta(n);
+    right_eigenfunction(phi, r_phi);
+    right_eigenfunction(theta, r_theta);
+    double r_phi_sup =
+	max_element(r_phi.begin(), r_phi.end(),
+		    [](const funval &a, const funval &b) {
+			return a[1] < b[1];
+		    })->at(1);
+    double r_theta_sup =
+    	max_element(r_theta.begin(), r_theta.end(),
+    		    [](const funval &a, const funval &b) {
+    			return a[1] < b[1];
+    		    })->at(1);
+    // double r_phi_inf =
+    // 	min_element(r_phi.begin(), r_phi.end(),
+    // 		    [](const funval &a, const funval &b) {
+    // 			return a[1] < b[1];
+    // 		    })->at(1);
+    // double r_theta_inf =
+    // 	min_element(r_theta.begin(), r_theta.end(),
+    // 		    [](const funval &a, const funval &b) {
+    // 			return a[1] < b[1];
+    // 		    })->at(1);
+    return r_phi_sup + r_theta_sup;
+}
 
 int main(int argc, char *argv[])
 {
+    G_fun()
     return 0;
 }
