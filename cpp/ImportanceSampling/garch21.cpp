@@ -4,6 +4,7 @@
 #include <gsl/gsl_math.h>
 #include <algorithm>
 #include <cassert>
+#include "XMatrix.hpp"
 
 double interpolate_fun
 (double arg, const vector<funval> &fun)
@@ -180,6 +181,36 @@ void Garch21::right_eigenfunction
     }
 }
 
+double Garch21::Lyapunov(size_t n, size_t iterations)
+{
+    vector<XMatrix> matrices(n * iterations);
+    random_device randev;
+    chi_squared_distribution<double> chi2;
+    for (size_t i = 0; i < matrices.size(); i++) {
+	double z2 = chi2(randev);
+	mat M(2,2);
+	gen_rand_matrix(z2, M);
+	matrices[i] = XMatrix(M);
+    }
+    vector<double> samples(iterations);
+    cout << "Samples of top Lyapunov exponent:" << endl;
+    for (size_t i = 0; i < iterations; i++) {
+	XMatrix M = matrices[i * n];
+	for (size_t j = 1; j < n; j++) {
+	    M *= matrices[i * n + j];
+	}
+	long power;
+	mat Pi_n = M.comptify(&power);
+	samples[i] = log(norm(Pi_n)) + log(power);
+	cout<< samples[i] << endl;
+    }
+    double gamma = accumulate(samples.begin(), samples.end(), 0.0,
+			      [iterations](double s, double a) {
+				  return s + a/iterations;
+			      });
+    return gamma;
+}
+
 double Garch21::G_fun(double phi, double theta, double m)
 {
     size_t n = 10000u;
@@ -212,6 +243,10 @@ double Garch21::G_fun(double phi, double theta, double m)
 
 int main(int argc, char *argv[])
 {
-    G_fun()
+    // DJIA
+    vector<double> alpha({3.374294e-06, 0.061577928, 0.12795424});
+    vector<double> beta({0.6610499});
+
+    Garch21 model(alpha, beta);
     return 0;
 }

@@ -151,8 +151,13 @@ where
   \label{eq:hennion_T}
   T = \min\{n \geq 1, A_n \cdots A_1 > 0\}.
 \end{equation}
-Assuming the conditions of Kesten, $T$ is almost surely finite. Here
-$x \geq 0$ means every component of $x$ is non-negative.
+Conditions (I, II, III) of hypothesis \ref{hypo:1} and (ii) of remark
+\ref{remark:fhrtgh} imply $T$ as defined in \eqref{eq:hennion_T} is
+almost surely finite. Cf. Buraczewski et al
+\cite{buraczewski:damek:mikosch:2016}, example 
+  4.4.13, Kesten \cite{kesten:1973}, eq.(2.56) and Hennion
+  \cite{hennion:1997}, lemma 3.1., $T$ is almost surely finite.
+Here $x \geq 0$ means every component of $x$ is non-negative.
 
 In addition to non-negative matrices, two other classes of random
 matrices have been shown to lead to power-law tails via the recurrence
@@ -252,7 +257,7 @@ $\chi$ hereafter.
 In addition to \eqref{eq:bollerslev}, we assume:
 \begin{hypothesis}
   All the following conditions hold:
-  \label{hypo:erhyjn}
+  \label{hypo:1}
   \begin{enumerate}[(I)]
   \item $\exists s > 0$ such that
     $1 < \E (\alpha_1 Z^2 + \beta_1)^s < \infty$
@@ -265,7 +270,7 @@ Clearly, these conditions are satisfied when $Z$ has normal or $t$
 distributions.
 \begin{remark}
   \label{remark:fhrtgh}
-  From hypothesis \ref{hypo:erhyjn}, a few implications immediately follow
+  From hypothesis \ref{hypo:1}, a few implications immediately follow
   \begin{enumerate}[(i)]
   \item \eqref{eq:garchpq} implies
     \[
@@ -604,46 +609,46 @@ $\ell_\xi r_\xi = \int_{\sphere^{d-1}} r_\xi(x) \ell_\xi(dx) = 1$.
 Cf. Collamore and Mentemeier \cite{collamore:mentemeier:2016},
 Lemma 2.2.
 
-When $\E \|A\|^\theta < \infty$, we define a shifted probability
-measure $\mu_A^\theta$ on $\mathcal B(\text{dom}(A))$:
-\[
-\mu_A^\theta(S) = {
-  \E [ \| A \|^\theta \I_S(A)]
-  \over
-  \E \|A\|^\theta
-}
-\]
-Accordingly, we denote the expectation taken with respect to
-$\mu_A^\theta$ as $\E^\theta$, in which we omit the marking of $A$
-whose involvement should be obvious from the context.
-Now we extend the definition of the operator $\mathscr P$ by replacing
-the expectation taken with respect to the original measure with the
-expectation taken with respect to the shifted measure, i.e. we
-define
-\[
-\mathscr P^{\varphi, \theta} f(x)
-= \E^\varphi \left[
-  |A x|^\theta f(A \cdotp x)
-\right], \quad
-\eta \mathscr P^{\varphi, \theta}(dx)
-=
-\E^\varphi \left[ |A x|^\theta \eta(A \cdotp dx) \right]
-\]
-where $f$ is a function $f: \sphere^{d-1} \to \reals$ and
-$\eta$ is a probability measure on $\mathcal B(\sphere^{d-1})$.
-By Lemma 2.2 of Collamore and Mentemeier
-\cite{collamore:mentemeier:2016}, when
-$\E^\varphi \| A \|^\theta < \infty$, the spectral radius of
-$\mathscr P^{\varphi, \theta}$ is
-\[
-\lambda_\varphi(\theta) = \lim_{n \to \infty}
-\left(\E^\varphi \|A_n \cdots A_1 \|^\theta\right)^{1/n}
-\]
-and a unique pair of eigenfunction and eigenmeasure exists
-for $\mathscr P^{\varphi, \theta}$ corresponding to
-$\lambda_\varphi(\theta)$. Call them
-$r_{\varphi, \theta}(\cdot)$ and $\ell_{\varphi, \theta}(\cdot)$,
-respectively.
+%% When $\E \|A\|^\theta < \infty$, we define a shifted probability
+%% measure $\mu_A^\theta$ on $\mathcal B(\text{dom}(A))$:
+%% \[
+%% \mu_A^\theta(S) = {
+%%   \E [ \| A \|^\theta \I_S(A)]
+%%   \over
+%%   \E \|A\|^\theta
+%% }
+%% \]
+%% Accordingly, we denote the expectation taken with respect to
+%% $\mu_A^\theta$ as $\E^\theta$, in which we omit the marking of $A$
+%% whose involvement should be obvious from the context.
+%% Now we extend the definition of the operator $\mathscr P$ by replacing
+%% the expectation taken with respect to the original measure with the
+%% expectation taken with respect to the shifted measure, i.e. we
+%% define
+%% \[
+%% \mathscr P^{\varphi, \theta} f(x)
+%% = \E^\varphi \left[
+%%   |A x|^\theta f(A \cdotp x)
+%% \right], \quad
+%% \eta \mathscr P^{\varphi, \theta}(dx)
+%% =
+%% \E^\varphi \left[ |A x|^\theta \eta(A \cdotp dx) \right]
+%% \]
+%% where $f$ is a function $f: \sphere^{d-1} \to \reals$ and
+%% $\eta$ is a probability measure on $\mathcal B(\sphere^{d-1})$.
+%% By Lemma 2.2 of Collamore and Mentemeier
+%% \cite{collamore:mentemeier:2016}, when
+%% $\E^\varphi \| A \|^\theta < \infty$, the spectral radius of
+%% $\mathscr P^{\varphi, \theta}$ is
+%% \[
+%% \lambda_\varphi(\theta) = \lim_{n \to \infty}
+%% \left(\E^\varphi \|A_n \cdots A_1 \|^\theta\right)^{1/n}
+%% \]
+%% and a unique pair of eigenfunction and eigenmeasure exists
+%% for $\mathscr P^{\varphi, \theta}$ corresponding to
+%% $\lambda_\varphi(\theta)$. Call them
+%% $r_{\varphi, \theta}(\cdot)$ and $\ell_{\varphi, \theta}(\cdot)$,
+%% respectively.
 
 Naively one would estimate $\P(|V| > u)$ as
 $n^{-1} \sum_{i=1}^n \1{|V_i| > u}$, applying the law of large
@@ -683,37 +688,38 @@ probability measure.
 % the distribution of $Z^2$ and hence the transition kernel of the
 % MA-process back to their original, since the process is recurrent
 % under the original kernel.
-Now we are ready to introduce our importance sampling estimator. For
-this estimator is be efficient, we need the following hypothesis to be true:
-\begin{hypothesis}
-  \label{hypo:1}
-  This hypothesis is true if at least one of the following is true:
-  \begin{enumerate}[(1)]
-    \item $-\xi$ satisfies the assumption of Lemma \ref{lemma:2}, and in
-      addition $b_{-\xi} \lambda(-\xi) < 1$.
-    \item $b_0^{1- \xi/s} < e^\gamma$, where $s$ is the positive constant
-    satisfying condition (I) and $\gamma$ is the top Lyapunov exponent
-    defined by \eqref{eq:Lyapunov}.
-  \end{enumerate}
-  In both cases, $b_\varphi$ is defined by \eqref{eq:b_def}.
-\end{hypothesis}
-Define $M_{-\xi}$ and $M_0$ by \eqref{eq:M_def}. 
-\begin{itemize}
-\item If condition (1) of hypothesis \ref{hypo:1} holds true, we define
-\begin{eqnarray*}
-  \mathcal C &=& \{v \in \chi: |v| \leq M_{-\xi}\};
-\end{eqnarray*}
-\item if (1) is not true but (2) holds, we define
-\begin{eqnarray*}
-  \mathcal C &=& \{v \in \chi: |v| \leq M_{0}\}
-\end{eqnarray*}
-\end{itemize}
-Define $K_0 = 0$ and $K_i = \inf\{n > K_{i-1}: V_n \in \mathcal C\}$ for
-$i \geq 1$. We start the process from within $\mathcal C$ i.e.
-$V_0 \in \mathcal C$ and let $V_0 \sim \gamma$, where the probability
-measure $\gamma$ is defined as
+Now we are ready to introduce our importance sampling estimator.
+%% For this estimator is be efficient, we need the following hypothesis to be true:
+%% \begin{hypothesis}
+%%   \label{hypo:1}
+%%   This hypothesis is true if at least one of the following is true:
+%%   \begin{enumerate}[(1)]
+%%     \item $-\xi$ satisfies the assumption of Lemma \ref{lemma:2}, and in
+%%       addition $b_{-\xi} \lambda(-\xi) < 1$.
+%%     \item $b_0^{1- \xi/s} < e^\gamma$, where $s$ is the positive constant
+%%     satisfying condition (I) and $\gamma$ is the top Lyapunov exponent
+%%     defined by \eqref{eq:Lyapunov}.
+%%   \end{enumerate}
+%%   In both cases, $b_\varphi$ is defined by \eqref{eq:b_def}.
+%% \end{hypothesis}
+%% Define $M_{-\xi}$ and $M_0$ by \eqref{eq:M_def}. 
+%% \begin{itemize}
+%% \item If condition (1) of hypothesis \ref{hypo:1} holds true, we define
+%% \begin{eqnarray*}
+%%   \mathcal C &=& \{v \in \chi: |v| \leq M_{-\xi}\};
+%% \end{eqnarray*}
+%% \item if (1) is not true but (2) holds, we define
+%% \begin{eqnarray*}
+%%   \mathcal C &=& \{v \in \chi: |v| \leq M_{0}\}
+%% \end{eqnarray*}
+%% \end{itemize}
+Define $M$ and $\{K_i\}_ {i=0,1,\dots}$ as in lemma \ref{lemma:2}.
+We start the process $V_t$ from within
+$\mathcal C = \{v \in \chi: |v| < M\}$
+and let $V_0 \sim \eta$, where the probability
+measure $\eta$ is defined as
 \[
-\gamma(S) = \pi(S) / \pi(\mathcal C)
+\eta(S) = \pi(S) / \pi(\mathcal C)
 \quad \forall S \in \mathcal B(\mathcal C)
 \]
 Let
@@ -744,15 +750,13 @@ i.e. its relative error is bounded. Cf. Asmussen and Glynn
 \cite{opac-b1123521}. This constitutes the next theorem:
 \begin{theorem}
   \label{thrm:efficiency}
-  Let $M$, $K_i, i=0, 1, 2, \dots$ be defined as in Lemma
-  \ref{lemma:2}. Assume one of the following conditions holds
-  \begin{enumerate}[1)]
-    \item $-\xi$ satisfies the assumption of Lemma \ref{lemma:2}, and in
-      addition $b_{-\xi} \lambda(-\xi) < 1$
-    \item $b_0^{1- \xi/s} < e^\gamma$, where $s$ is the positive constant
-    satisfying condition (I) and $\gamma$ is the top Lyapunov exponent
-    defined by \eqref{eq:Lyapunov}.
-  \end{enumerate}
+  Let $M$ and $K_i, i=0, 1, 2, \dots$ be defined as in Lemma
+  \ref{lemma:2} and $0 < b <1$ be the constant shown to exist by lemma
+  \ref{lemma:2}.
+  Assume $b^{1- \xi/s} < e^\gamma$, where $s$ is the
+  positive constant satisfying condition (I) of hypothesis
+  \ref{hypo:1} and $\gamma$ is the top 
+  Lyapunov exponent defined by \eqref{eq:Lyapunov}.
   Then the estimator $\mathcal E_u$ has bounded relative error, i.e.
   \begin{equation*}
     \limsup_{u \to \infty} {\var(\mathcal E_u) \over [\P(|V| > u)]^2} < \infty
@@ -798,7 +802,7 @@ Then in \S\ref{sec:consistency} we prove theorem
 % we prove the lemma.
 \begin{proof}
   $\lambda(\cdot)$ is a convex continuous function (cf. Buraczewski et
-  al \cite{buraczewski:damek:mikosch:2016}, §4.4.3), so
+  al \cite{buraczewski:damek:mikosch:2016}, \S 4.4.3), so
   $\lambda(0) = 1 = \lambda(\xi)$ implies $\lambda(\theta) < 1$.
   By Buraczewski et al \cite{buraczewski:damek:guivarch:mentemeier:2014} 
   Proposition 3.1, an eigenfunction $r_\theta(\cdot)$ and an
@@ -866,7 +870,7 @@ Then in \S\ref{sec:consistency} we prove theorem
       1 + 
       {|B|^\theta r_{\theta}(\tilde B) 
         \over
-        \lambda(\theta) |V_{n-1}|^\theta
+        \lambda(\theta) |V_{n-1}|^\theta r_\theta(\tilde V_{n-1})
       }
     \right]
   \end{eqnarray*}
@@ -885,7 +889,7 @@ Then in \S\ref{sec:consistency} we prove theorem
       1 + 
       {|B|^\theta r_{\theta}(\tilde B) 
         \over
-        \lambda(\theta) |V_{n-1}|^\theta
+        \lambda(\theta) |V_{n-1}|^\theta r_\theta(\tilde V_{n-1})
       }
     \right]
     \1{|V_{n-1}| > M_{\theta}} \\
@@ -897,30 +901,32 @@ Then in \S\ref{sec:consistency} we prove theorem
       1 + 
       {|B|^\theta r_{\theta}(\tilde B) 
         \over
-        \lambda(\theta) M_{\theta}
+        \lambda(\theta) M_{\theta} \underline r_\theta
       }
     \right]
   \end{eqnarray*}
   Since $\lambda(\theta) < 1$, there exists
-  \[
-  M_\theta ={
-    |B|^\theta r_\theta(\tilde B)
-    \over
-    1 - \lambda(\theta)
-  } + \epsilon
-  \]
-  for an $\epsilon > 0$ such that
-  \[
-  b_\theta = 
-  \lambda(\theta)
-  \left[
-    1 + 
-    {|B|^\theta r_{\theta}(\tilde B) 
+  \begin{equation}
+    \label{eq:ergyh}
+    M_\theta ={
+      |B|^\theta r_\theta(\tilde B)
       \over
-      \lambda(\theta) M_{\theta}
-    }
-  \right] < 1
-  \]
+          [1 - \lambda(\theta)] \underline r_\theta
+    } + \epsilon
+  \end{equation}
+  for an $\epsilon > 0$ such that
+  \begin{equation}
+    \label{eq:kpofew}
+    b_\theta = 
+    \lambda(\theta)
+    \left[
+      1 + 
+      {|B|^\theta r_{\theta}(\tilde B) 
+        \over
+        \lambda(\theta) M_{\theta} \underline r_\theta
+      }
+      \right] < 1
+  \end{equation}
   Thus \eqref{eq:drift} holds.
   \begin{case}
     If $\theta > 1$,   applying Minkowski's inequality to the RHS
@@ -968,44 +974,62 @@ Then in \S\ref{sec:consistency} we prove theorem
     r_\theta(\tilde V_{n-1})
     \left[
       \lambda(\theta)^{1/\theta} +
-      {|B| \over |V_{n-1}|}
-      r_\theta(\tilde B)^{1/\theta}
+             {
+               |B| r_\theta(\tilde B)^{1/\theta}
+               \over
+               |V_{n-1}| r_\theta(\tilde V_{n-1})
+             }
     \right]^\theta
   \end{eqnarray*}
   Thus, as in the previous case, we have
   \begin{eqnarray*}
-    G(\varphi, \theta, m)
-    &=&
-    { \bar r_\varphi \bar r_\theta
-      \over
-      \lambda(\varphi) \underline r_\varphi \underline r_\theta
-    }
-    \E \|A\|^{\varphi + \theta} 
-    \left\{
-      1 +
-      {|B| \over m}
-      \left[
-        {
-          r_\theta(\tilde B)
-          \lambda(\varphi)
-          \underline r_\varphi \underline r_\theta
-          \over
-          \underline r_\theta
-          \bar r_\varphi \bar r_\theta
-          \E \|A\|^{\varphi + \theta} 
-        }
-      \right]^{1/\theta}
-   \right\}^\theta \\
-   M_{\theta}
-   &=&
-   \epsilon +
-   \inf\{m > 0: G(\varphi, \theta, m) < 1\},\quad
-   \text{ for some }\epsilon > 0 \\
-   b_{\varphi, \theta}
-   &=&
-   G(\varphi, \theta, M_{\varphi, \theta}) < 1
+    \E
+    \left[
+      |V_n|^\theta r_{\theta}(\tilde V_n)
+      \1{|V_{n-1}| > M_{\theta}} | \mathscr F_{n-1}
+      \right]
+    &\leq&
+    |V_{n-1}|^\theta
+    r_\theta(\tilde V_{n-1})
+    \left[
+      \lambda(\theta)^{1/\theta} +
+             {
+               |B| r_\theta(\tilde B)^{1/\theta}
+               \over
+               |V_{n-1}| r_\theta(\tilde V_{n-1})
+             }
+      \right]^\theta
+    \1{|V_{n-1}| > M_{\theta}} \\
+    &\leq&
+    |V_{n-1}|^\theta
+    r_\theta(\tilde V_{n-1})
+    \left[
+      \lambda(\theta)^{1/\theta} +
+             {
+               |B| r_\theta(\tilde B)^{1/\theta}
+               \over
+               M_\theta \underline r_\theta
+             }
+    \right]^\theta
   \end{eqnarray*}
-  We conclude
+  Choose
+  \begin{eqnarray*}
+    M_\theta &=& {
+      |B| r_\theta(\tilde B)^{1/\theta}
+      \over
+      (1 - \lambda(\theta)^{1/\theta}) \underline r_\theta
+    } + \epsilon \text{ for some } \epsilon > 0 \\
+    b_\theta &=&
+    \left[
+      \lambda(\theta)^{1/\theta} +
+             {
+               |B| r_\theta(\tilde B)^{1/\theta}
+               \over
+               M_\theta \underline r_\theta
+             }
+    \right]^\theta < 1
+  \end{eqnarray*}
+  Then we have
   \[
   \E
   \left[
@@ -1013,182 +1037,191 @@ Then in \S\ref{sec:consistency} we prove theorem
     \1{|V_{n-1}| > M_{\varphi, \theta}} | \mathscr F_{n-1}
     \right]
   \leq
-  \1{|V_{n-1}| > M_{\varphi, \theta}}
-  b_{\varphi, \theta}
+  b_{\theta}
   |V_{n-1}|^\theta
   r_\theta(\tilde V_{n-1})
   \]
   We have proved the lemma.
 \end{proof}
-
 The conclusion of lemma \ref{lemma:1} allows us to bound the return
-time of $V_n$ to the set $\{v \in \chi, |V_n| < M_\varphi\}$, where
-$\M_\varphi$ is a postive constant dependent on $\varphi$. This is the
-next lemma:
+time of $V_n$ to the set $\mathcal C = \{v \in \chi, |V_n| < M\}$, where
+$\M$ is a postive constant. This is the next lemma:
 \begin{lemma}
   \label{lemma:2}
-  Assume that $\varphi \in \reals$ satisfies
-  \[
-  \E \|A\| < \infty,\quad
-  \lambda(\varphi) < \infty, \quad
-    {
-      \bar r_\varphi  \bar r_\theta
-      \over
-      \underline r_\varphi \underline r_\theta
-    } {1 \over \lambda(\varphi)}
-    \E \| A \|^{\varphi + \theta}
-    < 1 \quad \text{for some } \theta > 0
-  \]
-  Under these conditions,
-  \begin{eqnarray*}
-  \Theta(\varphi) &=& \left\{
-  \theta > 0:
-    {
-      \bar r_\varphi  \bar r_\theta
-      \over
-      \underline r_\varphi \underline r_\theta
-    } {1 \over \lambda(\varphi)}
-    \E \| A \|^{\varphi + \theta}
-    < 1
-    \right\}
-  \end{eqnarray*}
-  is non-empty. Define in addition
+  %% Assume that $\varphi \in \reals$ satisfies
+  %% \[
+  %% \E \|A\| < \infty,\quad
+  %% \lambda(\varphi) < \infty, \quad
+  %%   {
+  %%     \bar r_\varphi  \bar r_\theta
+  %%     \over
+  %%     \underline r_\varphi \underline r_\theta
+  %%   } {1 \over \lambda(\varphi)}
+  %%   \E \| A \|^{\varphi + \theta}
+  %%   < 1 \quad \text{for some } \theta > 0
+  %% \]
+  %% Under these conditions,
+  %% \begin{eqnarray*}
+  %% \Theta(\varphi) &=& \left\{
+  %% \theta > 0:
+  %%   {
+  %%     \bar r_\varphi  \bar r_\theta
+  %%     \over
+  %%     \underline r_\varphi \underline r_\theta
+  %%   } {1 \over \lambda(\varphi)}
+  %%   \E \| A \|^{\varphi + \theta}
+  %%   < 1
+  %%   \right\}
+  %% \end{eqnarray*}
+  %% is non-empty.
+  Define
   \begin{eqnarray}
     %% M &=&
     %% \sup_{\varphi: \E \|A\| < \infty, \Theta(\varphi) \neq \emptyset}
     %% \left[
     %%   \sup_{\theta \in \Theta(\varphi)} M_{\varphi, \theta}
     %% \right]\\
-    M_\varphi
+    M
     &=&
-    \sup_{\theta \in \Theta(\varphi)} M_{\varphi, \theta} \label{eq:M_def}\\
-    K_0(\varphi) &=& 0, \quad 
-    K_i(\varphi) =
-    \inf\{n > K_{i-1}(\varphi): |V_n| \leq M_\varphi \},\quad i \geq 1
+    \sup_{0 < \theta < \xi} M_{\theta} \label{eq:M_def}\\
+    K_0 &=& 0, \quad 
+    K_i =
+    \inf\{n > K_{i-1}: |V_n| \leq M \},\quad i \geq 1
     \label{eq:K_def}
   \end{eqnarray}
-  Then there exist $0 < b_\varphi < 1$ and $\rho_\varphi > 0$ such that for
+  Then there exist $0 < b < 1$ and $\rho > 0$ such that for
   $n \geq 1$,
   \begin{equation}
     \label{eq:koef}
-    \P (K_{j+1}(\varphi) - K_j(\varphi) > n)
+    \P (K_{j+1} - K_j > n)
     \leq
-    b_\varphi^n \rho_\varphi
+    b^n \rho
   \end{equation}
 \end{lemma}
 % Add the proof here
 \begin{proof}
-  Iterating \eqref{eq:drift} yields, for $j \geq 0, n > 1$
+  Iterating \eqref{eq:drift} yields, for $j \geq 0, n > 1$ and $0 < \theta < \xi$,
   \[
   \E \left[
     \left.
-    |V_{K_j(\varphi) + n}|^\theta r_{\theta}(\tilde V_{K_j(\varphi) + n})
-    \prod_{i=1}^{n-1}\1{|V_{K_j(\varphi) + i}| > M_{\varphi, \theta}}
-    \right| \mathscr F_{K_j(\varphi) + 1}
+    |V_{K_j + n}|^\theta r_{\theta}(\tilde V_{K_j + n})
+    \prod_{i=1}^{n-1}\1{|V_{K_j + i}| > M_{\theta}}
+    \right| \mathscr F_{K_j + 1}
     \right]
-  \leq b_{\varphi, \theta}^{n-1} |V_{K_j(\varphi) + 1}|^\theta r_{\theta}(\tilde V_{K_j(\varphi)+1})
+  \leq b_{\theta}^{n-1} |V_{K_j + 1}|^\theta r_{\theta}(\tilde V_{K_j+1})
   \]
   Because
-  $\{K_{j+1}(\varphi) - K_j(\varphi) > n - 1\} \subseteq \bigcap_{i=K_j(\varphi) + 1}^{K_j(\varphi) + n-1}\{|V_i| > M_{\varphi, \theta}\}$,
+  $\{K_{j+1} - K_j > n - 1\} \subseteq \bigcap_{i=K_j + 1}^{K_j + n-1}\{|V_i| > M_{\theta}\}$,
   \begin{eqnarray}
     \E \left[\left.
-      |V_{K_j(\varphi) + n}|^\theta \underline r_{\theta}
-      \1{K_{j+1}(\varphi) - K_j(\varphi) > n - 1}
-      \right| \mathscr F_{K_j(\varphi) + 1}
+      |V_{K_j + n}|^\theta \underline r_{\theta}
+      \1{K_{j+1} - K_j > n - 1}
+      \right| \mathscr F_{K_j + 1}
       \right]
     &\leq&
-    b_{\varphi, \theta}^{n-1} |V_{K_j(\varphi) + 1}|^\theta \bar r_{\theta}
+    b_{\theta}^{n-1} |V_{K_j + 1}|^\theta \bar r_{\theta}
     \nonumber \\
     \E \left[
-      |V_{K_j(\varphi) + n}|^\theta \underline r_{\theta}
-      \1{K_{j+1}(\varphi) - K_j(\varphi) > n - 1}
+      |V_{K_j + n}|^\theta \underline r_{\theta}
+      \1{K_{j+1} - K_j > n - 1}
       \right]
     &\leq&
-    b_{\varphi, \theta}^{n-1} \E |V_{K_j(\varphi) + 1}|^\theta \bar
+    b_{\theta}^{n-1} \E |V_{K_j + 1}|^\theta \bar
     r_{\theta}
     \label{eq:psdv}
   \end{eqnarray}
   If $\theta < 1$, by subadditivity we have
   \begin{eqnarray*}
-    &&
-    \E |V_{K_j(\varphi) + 1}|^\theta \\
-    &\leq&
+    \E |V_{K_j + 1}|^\theta
+    \leq
     \E \left(
-    |A_{K_j(\varphi) + 1} V_{K_j(\varphi)}|^\theta + |B|^\theta
-    \right) \\
-    &\leq&
-          {|V_{K_j(\varphi)}|^\theta \over \lambda(\varphi)}
-          {\bar r_\varphi \over \underline r_\varphi}
-          \E \|A\|^{\varphi + \theta} + |B|^\theta
-          \leq
-              {M_{\varphi, \theta}^\theta \over \lambda(\varphi)}
-              {\bar r_\varphi \over \underline r_\varphi}
-              \E \|A\|^{\varphi + \theta} + |B|^\theta
+    |A_{K_j + 1} V_{K_j}|^\theta + |B|^\theta
+    \right)
+    =
+    \E \left(
+    |A_{K+1} \tilde V_{K}|^\theta |V_K|
+    \right)
+    \leq
+    M^\theta \E \|A_{K+1}\|^\theta
   \end{eqnarray*}
-  If $\theta \geq 1$, by Minkowski inequality and a similar argument
-  as in the previous case, we have
+  Since $0 < \theta < \xi$ and $\E \|A_{K+1} \|^0 = 1$, $\E \|A_{K+1} \|^\xi < \infty$,
+  it follows by continuity $\E \|A_{k+1}\|^\theta < \infty$. So
   \[
-  \E |V_{K_j(\varphi) + 1}|^\theta
-  \leq
-  \left\{
-  \left[
-    {\bar r_\varphi} \over \underline r_\varphi \lambda(\varphi)
-    \E \|A\|^{\varphi + \theta}
-    \right]^{1/\theta}
-  + |B|
-  \right\}^\theta
+  \E |V_{K_j + 1}|^\theta \leq M^\theta \E \|A\|^\theta + |B|^\theta
   \]
-  Since $|V_{K_j(\varphi) + n}| > \underline V > 0$, \eqref{eq:psdv} gives us,
-  for $n \geq 1$,
+  If $\theta \geq 1$, by Minkowski inequality we have
+  \begin{eqnarray*}
+    (\E |V_{K+1}|^\theta)^{1/\theta}
+    &\leq&
+    (\E |A_{K+1} V_K|^\theta)^{1/\theta} + |B|
+    \leq
+    M (\E |A_{K+1} \tilde V_{K}|^\theta)^{1/\theta} + |B|
+    \leq
+    M (\E \|A\|^\theta)^{1/\theta} + |B| \\
+    \E |V_{K+1}|^\theta
+    &\leq&
+    \left[
+      M (\E \|A\|^\theta)^{1/\theta} + |B|      
+    \right]^\theta < \infty
+  \end{eqnarray*}
+  Then it follows from \eqref{eq:psdv} for $n \geq 1$,
+  \[
+  \underline V^\theta \underline r_\theta
+  \P(K_{j+1} - K_j > n - 1)
+  \leq
+  \E \left[
+    |V_{K_j + n}|^\theta \underline r_{\theta}
+    \1{K_{j+1} - K_j > n - 1}
+    \right]
+  \leq
+  b_{\theta}^{n-1} \E |V_{K_j + 1}|^\theta \bar
+  r_{\theta}
+  \]
+  That is
   \begin{equation}
     \label{eq:frth}
-    \P (K_{j+1}(\varphi) - K_j(\varphi) > n) < b_{\varphi, \theta}^n \rho_{\varphi, \theta}
+    \P (K_{j+1} - K_j > n) < b_{\theta}^n \rho_{\theta}
   \end{equation}
-  for a constant
+  where
   \[
-  \rho_{\varphi, \theta} = {
+  \rho_{\theta} = {
     \bar r_{\theta}
     \over
     \underline r_{\theta} \underline V^\theta
   } \times \left\{
   \begin{array}{ll}
-    {M_{\varphi, \theta}^\theta \over \lambda(\varphi)}
-    {\bar r_\varphi \over \underline r_\varphi}
-    \E \|A\|^{\varphi + \theta} + |B|^\theta
+    M^\theta \E \|A\|^\theta + |B|^\theta
     &
     \theta < 1
     \\
     \left[
-    \left(
-      {\bar r_\varphi} \over \underline r_\varphi \lambda(\varphi)
-      \E \|A\|^{\varphi + \theta}
-      \right)^{1/\theta}
-    + |B|
+      M (\E \|A\|^\theta)^{1/\theta} + |B|      
     \right]^\theta
     &
     \theta \geq 1
   \end{array}
   \right.
   \]
-  Since the inequality \eqref{eq:frth} holds for all $\theta$
-  satisfying the 2nd part of condition \eqref{eq:drift_cond},
-  we have for $n \geq 1$,
+  Since the inequality \eqref{eq:frth} holds for all
+  $0 < \theta < \xi$, we have for $n \geq 1$,
   \[
-  \P (K_{j+1}(\varphi) - K_j(\varphi)> n)
+  \P (K_{j+1} - K_j> n)
+  \leq
+  \inf_{\theta \in (0, \xi)}
+  b_\theta^n \rho_\theta
   \leq
   \left[
-    \inf_{\theta \in \Theta(\varphi)}
-    b_{\varphi, \theta}
+    \inf_{\theta \in (0, \xi)}
+    b_{\theta}
     \right]^n
-  \left[
-    \sup_{\theta \in \Theta} \rho_{\varphi, \theta}
-    \right]
-  = b_\varphi^n \rho_\varphi
+  \sup_{\theta \in (0, \xi)} \rho_{\theta}
   \]
   Thus \eqref{eq:koef} holds with
   \begin{equation}
     \label{eq:b_def}
-    b_\varphi = \inf_{\theta \in \Theta(\varphi)} b_{\varphi, \theta}
+    b = \inf_{\theta \in \Theta} b_{\theta},
+    \quad
+    \rho = \sup_{\theta \in (0, \xi)} \rho_{\theta}
   \end{equation}
 \end{proof}
 
@@ -1255,8 +1288,7 @@ simplicity, we write $K_i$ for $K_i(0)$.
     {K_{R_n + 1} - K_{R_n}} > \floor{\epsilon n}
   \right) < \infty
   \]
-  By Lemma \ref{lemma:2} with $\varphi = 0$,
-  $\P(K_{j + 1} - K_j > k) < b_0^n \rho_0$ for $k \geq 1$.
+  By Lemma \ref{lemma:2}, $\P(K_{j + 1} - K_j > k) < b^n \rho$ for $k \geq 1$.
   Thus
   \[
     \sum_{n=\ceil{1/\epsilon}}^\infty \P\left(
@@ -1469,222 +1501,13 @@ That is,
       \1{n \leq T_u < K_1}
     \right) < \infty
   \end{equation}
-  \begin{case}
-    $-\xi$ satisfies the assumption of Lemma \ref{lemma:2} and
-    $\lambda(-\xi) b_{-\xi} < 1$ where $b_{-\xi}$ is defined in
-    \eqref{eq:b_def}.
-  \end{case}
-  By assumption $\lambda(-\xi) \leq E\|A\|^{-\xi} < \infty$, so
-  we may rewrite the sum on the left side of \eqref{eq:rhjd} as
-  \begin{eqnarray}
-    &&
-    \sum_{n=0}^\infty
-    \sum_{m=0}^\infty
-    \E \left(
-      {
-        | \Pi_{n+m,n+1} X_n |^{\xi}
-        \over
-        | \Pi_{n,1} X_0 |^{\xi}
-      }
-      N_u^2
-      \1{n+m = T_u < K_1}
-    \right) \label{eq:kpdf} \\
-    &\leq&
-    c
-    \sum_{n=0}^\infty
-    \sum_{m=0}^\infty
-    \lambda(-\xi)^{n+m}
-    \E_{X_0}^{-\xi} \left(
-      | \Pi_{n+m,n+1} X_n |^{2 \xi}
-      N_u^2
-      \1{n+m = T_u < K_1}
-    \right) \nonumber
-  \end{eqnarray}
-  By assumption (I), there exists $p > 1$ such that
-  $\E |A|^{(2p - 1)\xi} < \infty$. Let $1/p + 1/q = 1$. By
-  H\"older's inequality
-  \begin{eqnarray}
-    &&
-    \E_{X_0}^{-\xi} \left(
-      | \Pi_{n+m,n+1} X_n |^{2 \xi}
-      N_u^2
-      \1{n+m = T_u < K_1}
-    \right)  \label{eq:hyyu} \\
-    &\leq&
-    \left[
-      \E_{X_0}^{-\xi} \left(
-        | \Pi_{n+m,n+1} X_n|^{2 p\xi}
-        \1{n+m = T_u < K_1}
-      \right)
-    \right]^{1/p} \nonumber \times \\
-    &&
-    \left[
-      \E_{X_0}^{-\xi} \left(
-        N_u^{2q}
-        \1{n+m = T_u < K_1}
-      \right)
-    \right]^{1/q}
-    \nonumber
-  \end{eqnarray}
-  For the first factor
-  \begin{eqnarray}
-    &&
-    \E_{X_0}^{-\xi} \left(
-      | \Pi_{n+m,n+1} X_n|^{2 p\xi}
-      \1{n+m = T_u < K_1}
-    \right) \label{eq:hfry} \\
-    &\leq&
-    {c \over \lambda(-\xi)^{n+m}}
-    \E \left(
-      |\Pi_{n+m,n+1} X_n|^{2p\xi}
-      |\Pi_{n+m, 1} X_{0}|^{-\xi}
-      \1{n+m = T_u < K_1}
-    \right) \nonumber \\
-    &\leq&
-    {c \over \lambda(-\xi)^{n+m}}
-    \E \left(
-      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
-    \right)
-    \E \left(
-      |\Pi_{n,1} X_0|^{-\xi}
-      \1{n < K_1}
-    \right) \nonumber
-  \end{eqnarray}
-  To reach the last line in the above, we have used the fact that
-  $A_i$ are independent in the original measure.
-  Since $\| \Pi_{n+m,n+1} \| \to 0$ a.s. as $m \to \infty$
-  (cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016},
-  theorem 4.1.3), we can define set $S_1(\epsilon)$ for each
-  $\epsilon > 0$:
-  \begin{equation}
-    \label{eq:S1}
-    S_1(\epsilon) = \left\{
-      \exists N_1 \geq 1, \text{ such that } \forall m \geq N_1,
-      \| \Pi_{n+m,n+1} \| < \epsilon
-    \right\}
-  \end{equation}
-  such that
-  \[
-  \P(S_1(\epsilon)) = 1
-  \]
-  Thus we have
-  \begin{eqnarray*}
-    &&
-    \E \left(
-      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
-    \right) \\
-    &=&
-    \E \left(
-      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
-      \I_{S_1(\epsilon)} \1{m < N_1}
-    \right)
-    +
-    \E \left(
-      |\Pi_{n+m,n+1} X_n|^{(2p-1)\xi}
-      \I_{S_1(\epsilon)} \1{m \geq N_1}
-    \right) \\
-    &\leq&
-    (\E \|A\|^{(2p - 1)\xi})^m \1{m < N_1}
-    + \epsilon^{(2p-1)\xi} \1{m \geq N_1} < \infty
-  \end{eqnarray*}
-  Plugging this into \eqref{eq:hfry} we have
-  \begin{eqnarray}
-    &&
-    \E_{X_0}^{-\xi} \left(
-      | \Pi_{n+m,n+1} X_n|^{2 p\xi}
-      \1{n+m = T_u < K_1}
-    \right)  \label{eq:dpad} \\
-    &\leq&
-    {c \over \lambda(-\xi)^m}
-    \E \left(
-      |\Pi_{n,1} X_0|^{-\xi}
-      \1{n + m < K_1}
-    \right) \nonumber \\
-    &\leq&
-    {c \over \lambda(-\xi)^m}
-    \P_{X_0}^{-\xi} \left(
-      n + m < K_1
-    \right) \nonumber \\
-    &\leq&
-    {c \over \lambda(-\xi)^m}
-    b_{-\xi}^{n+m} \nonumber 
-  \end{eqnarray}
-  where the last line follows from Lemma \ref{lemma:2} with
-  $\varphi = -\xi$.
-  Now we turn to the 2nd factor of \eqref{eq:hyyu}. Using Lemma
-  \ref{lemma:2} with $\varphi = -\xi$, we have
-  \begin{eqnarray}
-    &&
-    \E_{X_0}^{-\xi} \left(
-      N_u^{2q}
-      \1{n+m = T_u < K_1}
-    \right) \label{eq:lpd} \\ 
-    %% &\leq&
-    %% \E_{X_0}^{-\xi} \left(
-    %%   K_1^{2q}
-    %%   \1{n+m < K_1}
-    %% \right) \\
-    %% &=&
-    %% \sum_{i=n+m+1}
-    %% i^{2q}
-    %% \P_{X_0}^{-\xi} (K_1 = i) \\
-    &<&
-    \sum_{i=n+m+1}^\infty
-    i^{2q}
-    \P_{X_0}^{-\xi} (K_1 > i - 1)
-    \leq
-    \sum_{i=n+m+1}^\infty
-    i^{2q}
-    b_{-\xi}^{i-1}
-    < \infty \nonumber 
-  \end{eqnarray}
-  Combining \eqref{eq:hyyu}, \eqref{eq:dpad} and \eqref{eq:lpd} we
-  get
-  \[
-  \E_{X_0}^{-\xi} \left(
-    | \Pi_{n+m,n+1} X_n |^{2 \xi}
-    N_u^2
-    \1{n+m = T_u < K_1}
-  \right) 
-  \leq
-  {
-    c \over \lambda(-\xi)^{m/p}
-  }
-  b_{-\xi}^{n/p}
-  \]
-  Thus the right side of \eqref{eq:kpdf} is bounded by
-  \begin{eqnarray*}
-    c
-    \sum_{n=0}^\infty
-    \left[ \lambda(-\xi) b_{-\xi}^{1/p} \right]^{n}
-    \sum_{m=0}^\infty
-    \left[ \lambda(-\xi)^{1-1/p} b_{-\xi}^{1/p} \right]^{m}
-  \end{eqnarray*}
-  When $\lambda(-\xi) b_{-\xi} < 1$, there is always $p > 1$
-  that is sufficiently close to 1 such that
-  $\lambda(-\xi)^{1-1/p} b_{-\xi}^{1/p} < \lambda(-\xi)
-  b_{-\xi}^{1/p} < 1$. Therefore the double sum in the above is
-  finite and hence \eqref{eq:rhjd} holds.
-
-  \begin{case}
-    If $\lambda(-\xi) = \infty$, we assume
-    $b_0^{1- \xi/s} < e^\gamma$, where $s$ is the positive constant
-    satisfying condition (I) and $\gamma$ is the top Lyapunov exponent
-    defined by \eqref{eq:Lyapunov}.
-  \end{case}
-  First of all, we note conditions (I, II, III) and (ii) imply
-  % \[
-  % T = \min\{n \geq 1: \forall 1 \leq i,j \leq d, \Pi_{n, 1}(i, j) > 0\}
-  % \]
-  $T$ as defined in \eqref{eq:hennion_T} is almost surely finite. Cf.
-  Buraczewski et al \cite{buraczewski:damek:mikosch:2016}, example
-  4.4.13, Kesten \cite{kesten:1973}, eq.(2.56) and Hennion
-  \cite{hennion:1997}, lemma 3.1. We note that this implication
-  certainly means, for any $n \geq 1$,
-  $\|\Pi_{n,1}\| \geq \max_{i,j} \Pi_{n,1}(i, j) > 0$.
+  %% Since $\Pi_{n,1}$ becomes positive for an almost surely finite $n$,
+  %% i.e. $T$ as defined in \eqref{eq:hennion_T} is almost surely finite, it
+  %% immediately follows, for any $n \geq T$,
+  %% $\|\Pi_{n,1}\| \geq \max_{i,j} \Pi_{n,1}(i, j) > 0$. 
   
   We write the sum of \eqref{eq:rhjd} as
-  \begin{eqnarray}
+  \begin{eqnarray*}
     &&
     \sum_{n=0}^\infty \sum_{m=n}^\infty
     \E \left[
@@ -1696,8 +1519,25 @@ That is,
       N_u^2
       \1{m < K_1}
       \1{T_u = m}
-    \right] \nonumber \\
-    &=&
+    \right]
+  \end{eqnarray*}
+Since $\| \Pi_{n+m,n+1} \| \to 0$ a.s. as $m \to \infty$
+(cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016},
+theorem 4.1.3), it is useful to consider the family of sets
+$S_1(\epsilon)$ for each $\epsilon > 0$:
+\begin{equation}
+  \label{eq:S1}
+  S_1(\epsilon) = \left\{
+    \exists N_1 \geq 1, \text{ such that } \forall m \geq N_1,
+    \| \Pi_{n+m,n+1} \| < \epsilon
+  \right\}
+\end{equation}
+Note
+\[
+\P(S_1(\epsilon)) = 1
+\]
+Thus we have  
+  \begin{eqnarray}
     \sum_{n=0}^\infty \sum_{m=n}^\infty
     \E \left[
       {
@@ -1707,11 +1547,11 @@ That is,
       }
       N_u^2
       \1{m < K_1} \1{T_u = m} \1{S_1(\epsilon)}
-      \right] \label{eq:pkce} \\
-    &=& \mathscr D \nonumber
+      \right]
+    &=& \mathscr D \label{eq:pkce}
   \end{eqnarray}
-  where $S_1(\epsilon)$ is the set defined in the previous case by
-  \eqref{eq:S1}. Let's temporarily specialize the general norm to
+  
+  Let's temporarily specialize the general norm to
   1-norm. In this case
   \begin{eqnarray*}
     &&
@@ -1756,7 +1596,7 @@ That is,
   By equivalence of vector norms on $R^d$,
   $|\Pi_{n, 1} X_0| \geq c_1 | \Pi_{n, 1} X_0|_1$ and
   $|X_0|_1 \geq c_2 |X_0| = c_2$
-  for some constants $c_1, c_2 > 0$. Thus we may define set
+  for some constants $c_1, c_2 > 0$. Thus we may define sets
   $S_2(\epsilon)$:
   \[
   S_2(\epsilon) = \left\{
@@ -1857,7 +1697,7 @@ $\E \|A\|^{p \xi} < \infty$. Meanwhile
   \leq
   \sum_{i=m+1}^\infty i^{2q} \rho_0 b_0^{i-1} < \infty
 \end{eqnarray*}
-where we have used lemma \ref{lemma:2} with $\varphi = 0$ to reach the
+where we have used lemma \ref{lemma:2} to reach the
 last line.
 
 As for $\mathscr D_2$, we note
@@ -2184,20 +2024,95 @@ Or in matrix forms
     \omega \\
     0
   \end{pmatrix}
-  \label{eq:garch21}
+  \label{eq:garch21} \\
+  V_t &=& A_t V_{t-1} + B \nonumber
 \end{eqnarray}
 where $R_t$ is the $t$-th observation of the sequence in question and
-$Z_t$ are i.i.d $N(0,1)$ random variables. As mentioned in remark
-\ref{remark:fhrtgh}, Bollerslev's assumption
+$Z_t$ are i.i.d $N(0,1)$ random variables. In the following we check
+the conditions of theorem \ref{thrm:efficiency} against this process. 
+
+As mentioned in remark \ref{remark:fhrtgh}, Bollerslev's assumption
 $\alpha_1 + \alpha_2 + \beta_1 < 1$ implies that the top Lyapunov
 exponent associated with the model \eqref{eq:garch21} is
-negative. Applying theorem 2 of Hennion \cite{hennion:1997} gives, for
-an arbitrary fixed $\epsilon > 0$, there exists $N > T$ such that for
-all $n > N$,
+negative. In the following we check the condition of theorem
+\ref{thrm:efficiency} with regard to this model.
+
+\begin{lemma}
+  \label{lemma:frth}
+  Assume $Z_t$ are i.i.d $N(0,1)$ random variables. Then
+  $b^{1 - \xi/s} < e^\gamma$, where $b$ is defined in lemma
+  \ref{lemma:2}, $\xi$ is the tail index of the stationary
+  distribution of the markov chain $V_t$ as defined by
+  \eqref{eq:garch21} and $\gamma$ is the top Lyapunov
+  exponent of the matrices $A_t$ in \eqref{eq:garch21}.
+\end{lemma}
+\begin{proof}
+First of all, we note $s$ of condition (I), hypothesis \ref{hypo:1}
+can be arbitrarily large since $Z_t$ are i.i.d $N(0,1)$ random
+variables. Therefore $b^{1 - \xi/s} < e^\gamma$ holds if $b <
+e^\gamma$. To show the latter inequality holds, it suffices to show
+there exists $\theta \in (0, \xi)$ such that $b_\theta < e^\gamma$,
+where $b_\theta$ is defined in lemma \ref{lemma:1}.
+
+If $\theta < 1$, $b_\theta$ is given by \eqref{eq:kpofew}:
 \[
-{1 \over n} \log \|\pi_{n,1}\| > \gamma - \epsilon
+b_\theta = 
+\lambda(\theta)
+\left[
+  1 + 
+  {|B|^\theta r_{\theta}(\tilde B) 
+    \over
+    \lambda(\theta) M_{\theta} \underline r_\theta
+  }
+  \right]
 \]
-where $T$ is defined by \eqref{eq:hennion_T}.
+Because $M_\theta$ can be chosen arbitrarily large,
+$b_\theta < e^\gamma$ holds if $\lambda(\theta) < e^\gamma$, or
+equivalently $\log(\lambda(\theta)) < \gamma$.
+Applying theorem 2 of Hennion \cite{hennion:1997} gives, for
+an arbitrary fixed $\epsilon > 0$, there exists $N > T$ such that for
+all $n > N$, ${1 \over n} \log \|\Pi_{n,1}\| < \gamma + \epsilon$.
+This implies
+\begin{equation*}
+  {1 \over n} \log\left(
+  \E \|\Pi_{n,1} \|^\theta
+  \right)
+  <
+  \theta (\gamma + \epsilon)
+  \]
+  Thus
+  \[
+  \log(\lambda(\theta))
+  =
+  \lim_{n \to \infty} {1 \over n} \log\left(
+  \E \|\Pi_{n,1} \|^\theta
+  \right)
+  <
+  \theta (\gamma + \epsilon)
+\end{equation*}
+Thus, if $\theta$ is chosen such that
+$0 < \theta < {\gamma \over \gamma + \epsilon} < 1$,
+we have $b_\theta < e^\gamma$. The proof is complete.
+\end{proof}
+%% Applying theorem 2 of Hennion \cite{hennion:1997} gives, for
+%% an arbitrary fixed $\epsilon > 0$, there exists $N > T$ such that for
+%% all $n > N$, ${1 \over n} \log \|\Pi_{n,1}\| > \gamma - \epsilon$,
+%% where $\gamma$ is the top Lyapunov exponent and $T$ is defined by
+%% \eqref{eq:hennion_T}. It then follows
+%% \[
+%% \left( \E \|\Pi_{n, 1} \|^{-\xi} \right)^{1/n}
+%% < e^{-\xi \gamma + \epsilon \xi} < \infty
+%% \text{ for all } n > N > T
+%% \]
+%% and
+%% \[
+%% \lambda(-\xi) = \lim_{n \to \infty} \left( \E \|\Pi_{n, 1} \|^{-\xi} \right)^{1/n}
+%% < \infty
+%% \]
+%% Using the same argument that leads to \eqref{eq:hyhtrh}, it is clear
+%% $\E \|A\|^{-\xi} < \lambda(-\xi) < \infty$.
+
+
 % To estimate the 
 % values of $\omega, \alpha_1, \alpha_2, \beta_1$, we use the ``fGarch''
 % package of the ``R'' language. Its ``garchFit'' function provides

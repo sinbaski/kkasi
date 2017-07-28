@@ -18,6 +18,7 @@ public:
 
     XMatrix(void);
     XMatrix(const XMatrix& M);
+    XMatrix(const mat& M);
     XMatrix(unsigned int m, unsigned int n);
     XMatrix(double** data, unsigned int m, unsigned int n);
     ExtremeNumber& operator() (unsigned i, unsigned j);

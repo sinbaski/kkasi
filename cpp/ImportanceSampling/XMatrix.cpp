@@ -33,6 +33,15 @@ XMatrix::XMatrix(const XMatrix& M)
     operator= (M);
 }
 
+XMatrix::XMatrix(const mat& M)
+{
+    for (size_t i = 0; i < M.n_rows; i++) {
+	for (size_t j = 0; j < M.n_cols; j++) {
+	    entry[i][j] = ExtremeNumber(M(i, j));
+	}
+    }
+}
+
 ExtremeNumber& XMatrix::operator() (unsigned i, unsigned j)
 {
     assert(entry.size() > i);

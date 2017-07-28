@@ -21,6 +21,8 @@ public:
     void simulate_sample_path(double threshold, unsigned int n,
 			      vector<vec> &path) const;
 
+    double Lyapunov(size_t n, size_t iterations);
+
     void right_eigenfunction
     (double index, vector<funval> &eigenfunction) const;
 

@@ -38,7 +38,7 @@ garchpq: obj/GarchPQ.o
 	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: garch21
-garch21: $(objdir)/GarchPQ.o $(objdir)/garch21.o
+garch21: $(objdir)/GarchPQ.o $(objdir)/garch21.o $(objdir)/XMatrix.o $(objdir)/ExtremeNumber2.o
 	$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: MyTailEst
