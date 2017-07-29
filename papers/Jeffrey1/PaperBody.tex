@@ -383,15 +383,15 @@ consider our work as a multivariate extension to theirs.
 \section{Statement of Results}
 Our solution involves associating a {\em Markov Additive} process
 $(X_n, S_n)$ to the Markov chain $V_n$:
-\begin{eqnarray*}
-X_n &=& {
-        A_n A_{n-1} \cdots A_1 \tilde V_0
+\begin{eqnarray}
+X_t &=& {
+        A_t A_{t-1} \cdots A_1 \tilde V_0
         \over
-        |A_n A_{n-1} \cdots A_1 \tilde V_0|
-      }, \quad X_0 = \tilde V_0\\
-S_n &=& \log |A_n \cdots A_1 \tilde V_0| \\
-\l_n &=& S_n - S_{n-1} = \log |A_n X_{n-1}|
-\end{eqnarray*}
+        |A_t A_{t-1} \cdots A_1 \tilde V_0|
+      }, \quad X_0 = \tilde V_0 \label{eq:X_def}\\
+S_t &=& \log |A_t \cdots A_1 \tilde V_0| \label{eq:S_def}\\
+\l_t &=& S_t - S_{t-1} = \log |A_t X_{t-1}| \label{l_def}
+\end{eqnarray}
 where $\tilde v = v/|v|$  for a vector $v$. From the GARCH($p, q$)
 recurrence relation
 \begin{tiny}
@@ -573,12 +573,13 @@ A \cdotp x: (A, x) \in \img(A) \times \sphere^{d-1} \to
 \]
 and operator $\mathscr P^\theta$ for $\theta \in \reals$,
 $f: \sphere^{d-1} \to \reals_+$:
-\[
-\mathscr P^\theta f(x) =
-\E \left[
-  |A x|^\theta f(A \cdotp x)
-\right]
-\]
+\begin{equation}
+  \label{eq:trhyh}
+  \mathscr P^\theta f(x) =
+  \E \left[
+    |A x|^\theta f(A \cdotp x)
+    \right]
+\end{equation}
 By Lemma 2.2 of Collamore and Mentemeier
 \cite{collamore:mentemeier:2016}, \eqref{eq:jui} means
 $\lambda(\xi) = 1$ is the spectral radius of $\mathscr P^\xi$ and
@@ -771,6 +772,8 @@ Then in \S\ref{sec:consistency} we prove theorem
 
 \section[The Chain Drifts towards a Small Set]{$V_n$ Drifts towards a Small Set}
 \label{sec:drift}
+
+\subsection{A drift condition}
 \begin{lemma}
   \label{lemma:1}
   Let $0 < \theta < \xi$. Then there exist
@@ -1045,7 +1048,11 @@ Then in \S\ref{sec:consistency} we prove theorem
 \end{proof}
 The conclusion of lemma \ref{lemma:1} allows us to bound the return
 time of $V_n$ to the set $\mathcal C = \{v \in \chi, |V_n| < M\}$, where
-$\M$ is a postive constant. This is the next lemma:
+$\M$ is a postive constant. This is the next lemma.
+
+\subsection[A bound on the return time to C]{
+  A bound on the return time to $\mathcal C$
+} \label{sec:bound_to_C}
 \begin{lemma}
   \label{lemma:2}
   %% Assume that $\varphi \in \reals$ satisfies
@@ -1074,16 +1081,10 @@ $\M$ is a postive constant. This is the next lemma:
   %%   \right\}
   %% \end{eqnarray*}
   %% is non-empty.
-  Define
+  Let $\Theta$ be a proper subset of $(0, \xi)$, i.e.
+  $\inf \Theta > 0$ and $\sup \Theta < \xi$. Define
   \begin{eqnarray}
-    %% M &=&
-    %% \sup_{\varphi: \E \|A\| < \infty, \Theta(\varphi) \neq \emptyset}
-    %% \left[
-    %%   \sup_{\theta \in \Theta(\varphi)} M_{\varphi, \theta}
-    %% \right]\\
-    M
-    &=&
-    \sup_{0 < \theta < \xi} M_{\theta} \label{eq:M_def}\\
+    M &=& \sup_{\theta \in \Theta} M_{\theta} \label{eq:M_def}\\
     K_0 &=& 0, \quad 
     K_i =
     \inf\{n > K_{i-1}: |V_n| \leq M \},\quad i \geq 1
@@ -1100,7 +1101,7 @@ $\M$ is a postive constant. This is the next lemma:
 \end{lemma}
 % Add the proof here
 \begin{proof}
-  Iterating \eqref{eq:drift} yields, for $j \geq 0, n > 1$ and $0 < \theta < \xi$,
+  Iterating \eqref{eq:drift} yields, for $j \geq 0, n > 1$ and $\theta \in \Theta$,
   \[
   \E \left[
     \left.
@@ -1203,25 +1204,25 @@ $\M$ is a postive constant. This is the next lemma:
   \right.
   \]
   Since the inequality \eqref{eq:frth} holds for all
-  $0 < \theta < \xi$, we have for $n \geq 1$,
+  $\theta \in \Theta$, we have for $n \geq 1$,
   \[
   \P (K_{j+1} - K_j> n)
   \leq
-  \inf_{\theta \in (0, \xi)}
+  \inf_{\theta \in \Theta}
   b_\theta^n \rho_\theta
   \leq
-  \left[
-    \inf_{\theta \in (0, \xi)}
+  \left(
+    \inf_{\theta \in \Theta}
     b_{\theta}
-    \right]^n
-  \sup_{\theta \in (0, \xi)} \rho_{\theta}
+    \right)^n
+  \sup_{\theta \in \Theta} \rho_{\theta}
   \]
   Thus \eqref{eq:koef} holds with
   \begin{equation}
     \label{eq:b_def}
     b = \inf_{\theta \in \Theta} b_{\theta},
     \quad
-    \rho = \sup_{\theta \in (0, \xi)} \rho_{\theta}
+    \rho = \sup_{\theta \in \Theta} \rho_{\theta}
   \end{equation}
 \end{proof}
 
@@ -1870,7 +1871,7 @@ Thus $\mathscr D_4 < \infty$ and
 The proof is complete.
 \end{proof}
 
-\section[Estimation of xi]{Estimation of $\xi$}
+\section[Estimation of tail index]{Estimation of $\xi$}
 \subsection{The algorithm}
 The idea is to estimate $\Lambda(\alpha)$ according to
 \begin{equation}
@@ -1995,8 +1996,6 @@ unit vectors.
 
 %% \ifestimation
 
-\section{Evaluation of the right eigenfunction}
-
 \section{An example: The GARCH(2,1) process}
 As an example of the algorithms described in the previous sections, we
 consider GARCH(2,1) processes. In this particular case we have
@@ -2094,23 +2093,122 @@ Thus, if $\theta$ is chosen such that
 $0 < \theta < {\gamma \over \gamma + \epsilon} < 1$,
 we have $b_\theta < e^\gamma$. The proof is complete.
 \end{proof}
-%% Applying theorem 2 of Hennion \cite{hennion:1997} gives, for
-%% an arbitrary fixed $\epsilon > 0$, there exists $N > T$ such that for
-%% all $n > N$, ${1 \over n} \log \|\Pi_{n,1}\| > \gamma - \epsilon$,
-%% where $\gamma$ is the top Lyapunov exponent and $T$ is defined by
-%% \eqref{eq:hennion_T}. It then follows
-%% \[
-%% \left( \E \|\Pi_{n, 1} \|^{-\xi} \right)^{1/n}
-%% < e^{-\xi \gamma + \epsilon \xi} < \infty
-%% \text{ for all } n > N > T
-%% \]
-%% and
-%% \[
-%% \lambda(-\xi) = \lim_{n \to \infty} \left( \E \|\Pi_{n, 1} \|^{-\xi} \right)^{1/n}
-%% < \infty
-%% \]
-%% Using the same argument that leads to \eqref{eq:hyhtrh}, it is clear
-%% $\E \|A\|^{-\xi} < \lambda(-\xi) < \infty$.
+
+\subsection{Evaluation of the right eigenfunction}
+Recall that, for $0 < \theta < \xi$, the right eigenfunction
+$r_\theta(\cdot)$ corresponding to eigenvalue $\lambda(\theta)$ of the
+operator $\mathscr P^\theta$ defined in \eqref{eq:trhyh} satisfies
+\begin{eqnarray}
+  \label{eq:trhj}
+  \E \left[
+    |A x|^\theta r_\theta(A \cdotp x)
+    \right]
+  &=&
+  \mathscr P^\theta r_\theta(x) = \lambda(\theta) r_\theta(x)
+\end{eqnarray}
+In the following we take $|\cdot|$ as the Euclidean norm. Then $x$
+can be written as $x = (\cos w, \sin w)^\top$, $w \in (0, \pi/2)$ and
+\begin{eqnarray*}
+  A x &=&
+  \begin{pmatrix}
+    \alpha_2 \sin w + (Z_t^2 \alpha_1 + \beta_1) \cos w \\
+    Z^2 \cos w
+  \end{pmatrix}
+\end{eqnarray*}
+Let $A \cdot x = (\cos \varphi, \sin\varphi)^\top$. Then
+\begin{eqnarray}
+  Z_t^2 &=&
+  {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
+    \over
+    \cos w (1- \alpha_1 \tan\varphi)
+  } \label{eq:rthy} \\
+  {d Z_{t}^2 \over d\varphi}
+  &=&
+  {
+    (\alpha_2 \sin w + \beta_1 \cos w) \sec^2\varphi
+    \over
+    \cos w (1 - \alpha_1 \tan\varphi)^2
+  } \nonumber
+\end{eqnarray}
+Using \eqref{eq:rthy} we can write
+\[
+|A x|^{\theta}
+=
+(\alpha_2^2 + \beta_1^2)^{\theta/2}
+{
+  \sin^\theta\left(
+  w + \arctan{\beta_1 \over \alpha_2}
+  \right)
+  \over
+  \cos^\theta\varphi (1 - \alpha_1 \tan\varphi)^\theta
+}
+\]
+It also becomes clear from \eqref{eq:rthy}
+\[
+x \in \left\{(\cos w, \sin w)^\top:
+w \in \Omega = \left[0, \arctan{1 \over \alpha_1}\right)
+\right\}
+\quad
+t = 0,1,2,\dots
+\]
+Define
+\[
+h_\theta(w): w \in \Omega \to (\underline r_\theta, \bar r_\theta)
+\ni r_\theta((\cos w, \sin w)^\top)
+\]
+Then \eqref{eq:trhj} can be rewritten as
+\begin{eqnarray}
+  \lambda(\theta) h(w)
+  &=&
+\int_\Omega (\alpha_2^2 + \beta_1^2)^{\theta/2} {
+  \sin^\theta\left(
+  w + \arctan{\beta_1 \over \alpha_2}
+  \right)
+  \over
+  \cos^\theta\varphi (1 - \alpha_1 \tan\varphi)^\theta
+}
+f_{\chi^2}\left[
+{\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
+  \over
+  \cos w (1- \alpha_1 \tan\varphi)
+} \right] \times \nonumber\\
+&&
+h(\varphi)
+{
+  (\alpha_2 \sin w + \beta_1 \cos w) \sec^2\varphi
+  \over
+  \cos w (1 - \alpha_1 \tan\varphi)^2
+}
+d\varphi \nonumber \\
+\lambda(\theta) h(w)
+&=&
+\int_\Omega H_\theta(w, \varphi) h(\varphi) d\varphi
+\end{eqnarray}
+where $f_{\chi^2}(\cdot)$ is the probability density function of the
+$\chi^2$ distribution; the function $H_\theta(w, \varphi)$ has been defined
+for convenience.
+We may approximate the last integral with a sum and the function
+$h(\cdot)$ with a vector:
+\[
+\lambda(\theta) h_\theta(i \Delta_n)
+\approx
+\Delta_n \sum_{j=0}^{n-1} H_\theta(i \Delta_n, j \Delta_n) h_\theta(j \Delta_n)
+\]
+where $\Delta_n = {\arctan(1/\alpha_1) \over n}$.
+Thus $\{h_\theta(i \Delta_n)\}_ {i=1,2,\dots, n}$ can be found as the eigenvector of
+matrix $\Delta_n H_\theta(i \Delta_n, j \Delta_n)$ and
+$\lambda(\theta)$ as the associated eigenvalue.
+
+\subsection{Simulaton and Results}
+In this section we describe the implementation of the estimator
+$\mathcal E_u$ when $V_t$ is a GARCH($2, 1$) process. In previous
+sections we have shown that $\mathcal E_u$ is efficient for
+GARCH($2, 1$) and described how the right eigenfunctions can be
+approximately evaluated. It remains to choose the set
+$\mathcal C = \{v \in \chi, |V_n| < M\}$.
+
+For convenience, we take $\Theta = [\xi/4, 3\xi/4]$
+(cf. \S\ref{sec:bound_to_C}).
 
 
 % To estimate the 
