@@ -167,6 +167,11 @@ void Garch21::right_eigenfunction
 
     eig_gen(eigenval, eigenmat, P);
 
+    cout << "eigenvalues: " << endl;
+    for (auto i = eigenval.begin(); i != eigenval.end(); ++i) {
+	cout << *i << endl;
+    }
+
     vec values = real(eigenval);
     mat vectors = real(eigenmat);
     auto p =
@@ -211,35 +216,25 @@ double Garch21::Lyapunov(size_t n, size_t iterations)
     return gamma;
 }
 
-double Garch21::G_fun(double phi, double theta, double m)
-{
-    size_t n = 10000u;
-    vector<funval> r_phi(n);
-    vector<funval> r_theta(n);
-    right_eigenfunction(phi, r_phi);
-    right_eigenfunction(theta, r_theta);
-    double r_phi_sup =
-	max_element(r_phi.begin(), r_phi.end(),
-		    [](const funval &a, const funval &b) {
-			return a[1] < b[1];
-		    })->at(1);
-    double r_theta_sup =
-    	max_element(r_theta.begin(), r_theta.end(),
-    		    [](const funval &a, const funval &b) {
-    			return a[1] < b[1];
-    		    })->at(1);
-    // double r_phi_inf =
-    // 	min_element(r_phi.begin(), r_phi.end(),
-    // 		    [](const funval &a, const funval &b) {
-    // 			return a[1] < b[1];
-    // 		    })->at(1);
-    // double r_theta_inf =
-    // 	min_element(r_theta.begin(), r_theta.end(),
-    // 		    [](const funval &a, const funval &b) {
-    // 			return a[1] < b[1];
-    // 		    })->at(1);
-    return r_phi_sup + r_theta_sup;
-}
+// double Garch21::G_fun(double phi, double theta, double m)
+// {
+//     size_t n = 10000u;
+//     vector<funval> r_phi(n);
+//     vector<funval> r_theta(n);
+//     right_eigenfunction(phi, r_phi);
+//     right_eigenfunction(theta, r_theta);
+//     double r_phi_sup =
+// 	max_element(r_phi.begin(), r_phi.end(),
+// 		    [](const funval &a, const funval &b) {
+// 			return a[1] < b[1];
+// 		    })->at(1);
+//     double r_theta_sup =
+//     	max_element(r_theta.begin(), r_theta.end(),
+//     		    [](const funval &a, const funval &b) {
+//     			return a[1] < b[1];
+//     		    })->at(1);
+//     return r_phi_sup + r_theta_sup;
+// }
 
 int main(int argc, char *argv[])
 {
@@ -248,5 +243,8 @@ int main(int argc, char *argv[])
     vector<double> beta({0.6610499});
 
     Garch21 model(alpha, beta);
+    double theta = 0.5;
+    vector<funval> r_theta(100);
+    model.right_eigenfunction(theta, r_theta);
     return 0;
 }

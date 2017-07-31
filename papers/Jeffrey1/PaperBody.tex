@@ -1227,8 +1227,7 @@ $\M$ is a postive constant. This is the next lemma.
 \end{proof}
 
 \section{The Estimator is Unbiased}\label{sec:consistency}
-In this section we prove theorem \ref{thrm:consistency}. For
-simplicity, we write $K_i$ for $K_i(0)$.
+In this section we prove theorem \ref{thrm:consistency}.
 \begin{proof}
   By the {\em strong law of large numbers} for Markov chains,
   \begin{eqnarray*}
@@ -2158,7 +2157,7 @@ h_\theta(w): w \in \Omega \to (\underline r_\theta, \bar r_\theta)
 \]
 Then \eqref{eq:trhj} can be rewritten as
 \begin{eqnarray}
-  \lambda(\theta) h(w)
+  \lambda(\theta) h_\theta(w)
   &=&
 \int_\Omega (\alpha_2^2 + \beta_1^2)^{\theta/2} {
   \sin^\theta\left(
@@ -2173,22 +2172,22 @@ f_{\chi^2}\left[
   \cos w (1- \alpha_1 \tan\varphi)
 } \right] \times \nonumber\\
 &&
-h(\varphi)
+h_\theta(\varphi)
 {
   (\alpha_2 \sin w + \beta_1 \cos w) \sec^2\varphi
   \over
   \cos w (1 - \alpha_1 \tan\varphi)^2
 }
 d\varphi \nonumber \\
-\lambda(\theta) h(w)
+\lambda(\theta) h_\theta(w)
 &=&
-\int_\Omega H_\theta(w, \varphi) h(\varphi) d\varphi
+\int_\Omega H_\theta(w, \varphi) h_\theta(\varphi) d\varphi
 \end{eqnarray}
 where $f_{\chi^2}(\cdot)$ is the probability density function of the
 $\chi^2$ distribution; the function $H_\theta(w, \varphi)$ has been defined
 for convenience.
 We may approximate the last integral with a sum and the function
-$h(\cdot)$ with a vector:
+$h_\theta(\cdot)$ with a vector:
 \[
 \lambda(\theta) h_\theta(i \Delta_n)
 \approx

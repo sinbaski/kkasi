@@ -26,12 +26,11 @@ public:
     void right_eigenfunction
     (double index, vector<funval> &eigenfunction) const;
 
-    double M_fun(double phi, double theta);
-    double b_fun(double phi, double theta);
+    double M_fun(double theta);
+    double b_fun(double theta);
     
 protected:
     vector<double> pool;
-    double G_fun(double phi, double theta, double m);
     // vector<funval> eigenfunction;
 
 };
