@@ -1295,7 +1295,7 @@ In this section we prove theorem \ref{thrm:consistency}.
     {K_{R_n + 1} - K_{R_n}} > \floor{\epsilon n}
   \right)
   <
-  \sum_{n=\ceil{1/\epsilon}}^\infty b_0^{\floor{\epsilon n}} \rho_0 < \infty
+  \sum_{n=\ceil{1/\epsilon}}^\infty b^{\floor{\epsilon n}} \rho < \infty
   \]
   This shows \eqref{eq:frf} holds.
   For the 1st term on the right side of \eqref{eq:kioj}, we have
@@ -2194,9 +2194,10 @@ $h_\theta(\cdot)$ with a vector:
 \Delta_n \sum_{j=0}^{n-1} H_\theta(i \Delta_n, j \Delta_n) h_\theta(j \Delta_n)
 \]
 where $\Delta_n = {\arctan(1/\alpha_1) \over n}$.
-Thus $\{h_\theta(i \Delta_n)\}_ {i=1,2,\dots, n}$ can be found as the eigenvector of
-matrix $\Delta_n H_\theta(i \Delta_n, j \Delta_n)$ and
-$\lambda(\theta)$ as the associated eigenvalue.
+Thus $\lambda(\theta)$ can be found as the spectral radius of 
+matrix $\Delta_n H_\theta(i \Delta_n, j \Delta_n)$ and 
+$\{h_\theta(i \Delta_n)\}_ {i=1,2,\dots, n}$ as the associated
+eigenvector (cf. \cite{collamore:mentemeier:2016}, lemma 2.2).
 
 \subsection{Simulaton and Results}
 In this section we describe the implementation of the estimator

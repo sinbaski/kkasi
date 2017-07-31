@@ -1,0 +1,614 @@
+\documentclass[leqno,10pt]{amsart}
+\usepackage{epsfig,latexsym,amssymb,amsmath,graphics,color,subcaption}
+\usepackage[foot]{amsaddr}
+\pdfoutput=1
+\addtolength{\oddsidemargin}{-.5in}
+\addtolength{\evensidemargin}{-.5in}
+\addtolength{\textwidth}{1in}
+\captionsetup[subfigure]{labelfont=rm}
+%----------------------------------------------------------------------
+\def\theequation{\thesection.\arabic{equation}}
+\def\tag{\refstepcounter{equation}\leqno }
+\def\neqno{\refstepcounter{equation}\leqno(\thesection.\arabic{equation})}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{figur}[lemma]{Figure}
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{corollary}[lemma]{Corollary}
+\newtheorem{example}[lemma]{Example}
+\newtheorem{exercise}[lemma]{Exercise}
+\newtheorem{remark}[lemma]{Remark}
+\newtheorem{fig}[lemma]{Figure}
+\newtheorem{tab}[lemma]{Table}
+
+\newcommand{\bth}{\begin{theorem}}
+\newcommand{\ethe}{\end{theorem}}
+\newcommand{\bre}{\begin{remark}\rm }
+\newcommand{\ere}{\end{remark}}
+\newcommand{\ble}{\begin{lemma}}
+\newcommand{\ele}{\end{lemma}}
+\newcommand{\bde}{\begin{definition}}
+\newcommand{\ede}{\end{definition}}
+\newcommand{\bco}{\begin{corollary}}
+\newcommand{\eco}{\end{corollary}}
+
+\newcommand{\bpr}{\begin{proposition}}
+\newcommand{\epr}{\end{proposition}}
+
+\newcommand{\bexer}{\begin{exercise}}
+\newcommand{\eexer}{\end{exercise}}
+
+\newcommand{\bexam}{\begin{example}\rm}
+\newcommand{\eexam}{\end{example}}
+
+\newcommand{\bfi}{\begin{fig}}
+\newcommand{\efi}{\end{fig}}
+
+\newcommand{\btab}{\begin{tab}}
+\newcommand{\etab}{\end{tab}}
+%\renewcommand{\thetab}{\arabic{section}.9.\arabic{tab}}
+
+
+\def\R{{\mathbb{R}}}
+\def\C{{\mathbb{C }}}
+\def\N{{\mathbb{N}}}
+\def\Z{{\mathbb{Z}}}
+\def\H{(H)}
+\def\J{{\mathcal{J}}}
+\def\A{{\mathcal{A}}}
+\def\F{{\mathcal{F}}}
+\def\G{{\mathcal{G}}}
+\def\NN{{\mathcal{N}}}
+\def\W{{\mathcal{W}}}
+\def\K{{\mathcal{K}}}
+\def\U{{\mathcal{U}}}
+\def\S{{\mathcal{S}}}
+\def\s{\sigma}
+\newcommand{\supp}{\mbox{supp}}
+\def\bm{\bar \mu}
+\def\B_e{B_{\eta}(e)}
+
+\renewcommand{\a}{\alpha }
+
+\renewcommand{\b}{\beta}
+\renewcommand{\c}{c_0}
+\renewcommand{\d}{\delta}
+\newcommand{\g}{\gamma}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\te}{\theta}
+\newcommand{\Te}{\Theta}
+\newcommand{\eb}{{\mathbb E}}
+\newcommand{\ed}{=_d}
+\newcommand{\pb}{{\mathbb P}}
+\renewcommand{\r}{{\mathbb R}}
+%\newcommand{\z}{{\mathbb Z}}
+\newcommand{\h}{{\mathbb H}}
+\newcommand{\n}{{\mathbb N}}
+\newcommand{\adi}{\frac{\a}{d_i}}
+\newcommand{\ua}{\underline{\bf a}}
+\newcommand{\ub}{\underline{\bf b}}
+\newcommand{\uc}{\underline{\bf c}}
+\newcommand{\ue}{\underline{\bf e}}
+\newcommand{\uf}{\underline{\bf f}}
+\newcommand{\pr}{\bf pr}
+\newcommand{\1}{{\bf 1}}
+\newcommand{\cab}{c_{\ua,\ub}}
+\newcommand{\cef}{c_{\ue,\uf}}
+\newcommand{\quo}{\frac{t^{\a }}{n}}
+\newcommand{\aquo}{\frac{n}{t^{\a }}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\bfW}{{\mathbf W}}
+\newcommand{\un}{\underline}
+\newcommand{\quoo}{\frac{t^{\a }}{n_1}}
+\newcommand{\fra}{\frac{1}{2}}
+\newcommand{\8}{\infty}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\twonorm}[1]{\|#1\|_2}
+\newcommand{\inftynorm}[1]{\|#1\|_\infty}
+\newcommand{\frobnorm}[1]{\|#1\|_F}
+\newcommand{\ltwonorm}[1]{\|#1\|_{\ell_2}}
+\renewcommand{\iff}{, if and only, if  }
+\renewcommand{\sp}[2]{\langle #1, #2\rangle}
+%\renewcommand{\spe}[1]{\langle #1\rangle}
+\newcommand{\ov}{\overline}
+\newcommand{\wt}{\widetilde}
+\newcommand{\red}{\color{red}}
+\newcommand{\blue}{\color{blue} }
+\definecolor{darkblue}{rgb}{.1, 0.1,.8}
+\definecolor{darkgreen}{rgb}{0,0.8,0.2}
+\definecolor{darkred}{rgb}{.8, .1,.1}
+
+\newcommand{\sv}{stochastic volatility}
+\newcommand{\green}{\color{darkgreen}}
+\newcommand{\black}{\color{black}}
+\newcommand{\levy}{L\'evy}
+\newcommand{\slln}{strong law of large numbers}
+\newcommand{\clt}{central limit theorem}
+\newcommand{\sde}{stochastic \de}
+\newcommand{\de}{differential equation}
+\newcommand{\mregvar}{multivariate \regvar}
+\newcommand{\garch}{{\rm GARCH}$(1,1)$}
+\newcommand{\spr}{stochastic process}
+\newcommand{\It}{It\^o}
+\newcommand{\sta}{St\u aric\u a}
+%\newcommand{\ex}{{\rm e}\,}
+\newcommand{\sas}{s$\alpha$s}
+\newcommand{\civ}{\stackrel{v}{\rightarrow}}
+\newcommand{\asy}{asymptotic}
+\newcommand {\hatt} {\hat{\theta}}
+\newcommand {\hattg} {\hat{\theta}_{MLE}}
+\newcommand {\hattz} {\hat{\theta}_0}
+\newcommand {\hatb} {\hat{\beta}}
+\newcommand {\hatbg} {\hat{\beta}_G}
+\newcommand {\spp} {^\prime}
+\newcommand{\ts}{time series}
+\newcommand{\tsa}{\ts\ analysis}
+\newcommand{\garchpq}{{\rm GARCH}$(p,q)$}
+\def\theequation{\thesection.\arabic{equation}}
+\def\tag{\refstepcounter{equation}\leqno }
+\def\neqno{\refstepcounter{equation}\leqno(\thesection.\arabic{equation})}
+%\newtheorem{theory}{\noindent T{\sc heorem}}[section]
+%\newtheorem{theory}{\noindent Theorem}[section]
+\newcommand{\Leb}{{\mathbb L}{\mathbb E}{\mathbb B}}
+\newcommand{\bbc}{{\mathbb C}}
+\newcommand{\SaS}{S$\alpha$S}
+\newcommand{\cid}{\stackrel{d}{\rightarrow}}
+\newcommand{\cip}{\stackrel{P}{\rightarrow}}
+\newcommand{\reference}{\hangindent=5pc\hangafter=1}
+\newcommand{\MC}{Markov chain}
+\newcommand{\bfQ}{{\bf Q}}
+\newcommand{\bfu}{{\bf u}}
+\newcommand{\bfv}{{\bf v}}
+\newcommand{\bfV}{{\bf V}}
+\newcommand{\bfU}{{\bf U}}
+\newcommand{\bfR}{{\bf R}}
+\newcommand{\bfC}{{\bf C}}
+\newcommand{\bfF}{{\bf F}}
+\newcommand{\RV}{{\rm RV}}
+\newcommand{\LN}{{\rm LN}}
+\newcommand{\WE}{{\rm WE}}
+
+
+\newcommand{\sre}{stochastic recurrence equation}
+\newcommand{\pp}{point process}
+
+
+\newcommand{\edf}{empirical distribution function}
+\newcommand{\epro}{empirical process}
+\newcommand{\per}{periodogram}
+\newcommand{\pf}{{\bf Proof.}}
+\newcommand{\lhs}{left-hand side}
+\newcommand{\fidi}{finite-dimensional distribution}
+\newcommand{\rv}{random variable}
+\newcommand{\DA}{{\rm DA}}
+\newcommand{\DNA}{{\rm DNA}}
+\newcommand{\MDA}{{\rm MDA}}
+\newcommand{\sign}{{\rm sign}}
+\newcommand{\PRM}{{\rm PRM}}
+\newcommand{\card}{{\rm card}}
+\newcommand{\var}{{\rm var}}
+\newcommand{\med}{{\rm med}}
+\newcommand{\cov}{{\rm cov}}
+\newcommand{\corr}{{\rm corr}}
+\newcommand{\as}{{\rm a.s.}}
+\newcommand{\io}{{\rm i.o.}}
+\newcommand{\Pois}{\rm Poisson}
+
+\newcommand{\bfth}{\mbox{\boldmath$\theta$}}
+\newcommand{\bfTh}{\mbox{\boldmath$\Theta$}}
+\newcommand{\bfmu}{\mbox{\boldmath$\mu$}}
+\newcommand{\bfrho}{\mbox{\boldmath$\rho$}}
+\newcommand{\bfvarphi}{\mbox{\boldmath$\varphi$}}
+\newcommand{\bfbeta}{\mbox{\boldmath$\beta$}}
+\newcommand{\bfalpha}{\mbox{\boldmath$\alpha$}}
+\newcommand{\bfeta}{\mbox{\boldmath$\eta$}}
+\newcommand{\bfsigma}{\mbox{\boldmath$\sigma$}}
+\newcommand{\bfzeta}{\mbox{\boldmath$\zeta$}}
+\newcommand{\bfxi}{\mbox{\boldmath$\xi$}}
+
+\newcommand{\bfvep}{\mbox{\boldmath$\vep$}}
+\newcommand{\rhs}{right-hand side}
+\newcommand{\df}{distribution function}
+\newcommand{\dsum}{\displaystyle\sum}
+%\newcommand{\dfrac}{\displaystyle\frac}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dlim}{\displaystyle\lim\limits}
+\newcommand{\dmax}{\displaystyle\max\limits}
+\newcommand{\dsup}{\displaystyle\sup\limits}
+\newcommand{\dmin}{\displaystyle\min\limits}
+\newcommand{\dprod}{\displaystyle\prod}
+
+\newcommand{\beao}{\begin{eqnarray*}}
+\newcommand{\eeao}{\end{eqnarray*}\noindent}
+
+\newcommand{\beam}{\begin{eqnarray}}
+\newcommand{\eeam}{\end{eqnarray}\noindent}
+
+\newcommand{\beqq}{\begin{equation}}
+\newcommand{\eeqq}{\end{equation}\noindent}
+
+\newcommand{\bce}{\begin{center}}
+\newcommand{\ece}{\end{center}}
+
+\newcommand{\barr}{\begin{array}}
+\newcommand{\earr}{\end{array}}
+\newcommand{\cadlag}{c\`adl\`ag}
+\newcommand{\tep}{\tilde\epsilon}
+\newcommand{\stp}{\stackrel{\P}{\rightarrow}}
+\newcommand{\std}{\stackrel{d}{\rightarrow}}
+\newcommand{\Dr}{D^{\rightarrow}}
+\newcommand{\stas}{\stackrel{\rm a.s.}{\rightarrow}}
+\newcommand{\stj}{\stackrel{J_1}{\rightarrow}}
+\newcommand{\stv}{\stackrel{v}{\rightarrow}}
+\newcommand{\stw}{\stackrel{w}{\rightarrow}}
+\newcommand{\stww}{\stackrel{\wh w}{\rightarrow}}
+\newcommand{\eqd}{\stackrel{d}{=}}
+
+\newcommand{\refbib}{\cite}
+\newcommand{\vague}{\stackrel{\lower0.2ex\hbox{$\scriptscriptstyle
+                    \it{v} $}}{\rightarrow}}
+\newcommand{\weak}{\stackrel{\lower0.2ex\hbox{$\scriptscriptstyle
+                    \it{w} $}}{\rightarrow}}
+\newcommand{\what}{\stackrel{\lower0.2ex\hbox{$\scriptscriptstyle
+                    \it{\hat{w}} $}}{\rightarrow}}
+
+\newcommand{\bdis}{\begin{displaymath}}
+\newcommand{\edis}{\end{displaymath}\noindent}
+
+\newcommand{\Thetabold}{{\boldsymbol{\Theta}}}
+\newcommand{\Prob}{\operatorname{P}}
+\newcommand{\Dspace}{\mathbb{D}}
+\newcommand{\Espace}{\mathbb{E}}
+%\newcommand{\N}{\mathbb{N}}
+%\newcommand{\R}{\mathbb{R}}
+\newcommand{\Xbold}{{\mathbf{X}}}
+\newcommand{\xbold}{{\mathbf{x}}}
+\newcommand{\Ybold}{{\mathbf{Y}}}
+\newcommand{\ybold}{{\mathbf{y}}}
+\newcommand{\zerobold}{{\mathbf{0}}}
+\newcommand{\Sphere}{\mathbb{S}}
+\newcommand{\Dbar}{\overline{\mathbb{D}}_{0}}
+\newcommand{\ind}{independent}
+\newcommand{\w}{\omega}
+%\newcommand{\W}{\Omega}
+\newcommand{\bw}{\bigwedge}
+\newcommand{\bv}{\bigvee}
+\newcommand{\nto}{n\to\infty}
+\newcommand{\mto}{m\to\infty}
+\newcommand{\kto}{k\to\infty}
+\newcommand{\xto}{x\to\infty}
+\newcommand{\Mto}{M\to\infty}
+\newcommand{\tto}{T\to\infty}
+\newcommand{\uto}{u\to\infty}
+%\newcommand{\ov}{\overline}
+%\newcommand{\wt}{\widetilde}
+\newcommand{\wh}{\widehat}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ep}{\epsilon}
+\newcommand{\vap}{\varphi}
+\newcommand{\la}{\lambda}
+\newcommand{\La}{\Lambda}
+
+\newcommand{\halmos}{\hfill \qed}
+\newcommand{\regvary}{regularly varying}
+\newcommand{\slvary}{slowly varying}
+\newcommand{\regvar}{regular variation}
+%\newcommand{\bbr}{{I\!\!R}}
+%\newcommand{\bbn}{{I\!\!N}}
+%\newcommand{\bbz}{{I\!\!\!Z}}
+
+\newcommand{\ka}{\kappa}
+\newcommand{\bba}{{\mathcal A}}
+\newcommand{\bbe}{{\ov \bbr^{d}_0}}
+\newcommand{\bfT}{{\bf T}}
+\newcommand{\bbr}{{\mathbb R}}
+\newcommand{\bbm}{{\mathcal M}}
+\newcommand{\bbb}{{\mathcal B}}
+\newcommand{\bbz}{{\mathbb Z}}
+\newcommand{\bbn}{{\mathbb N}}
+\newcommand{\bbd}{{\mathbb D}}
+\newcommand{\bbf}{{\mathcal F}}
+\newcommand{\bbs}{{\mathbb S}}
+\newcommand{\bbE}{{\mathcal E}}
+\renewcommand{\P}{{\mathbb P}}
+\newcommand{\E}{{\mathbb E}}
+\newcommand{\BM}{Brownian motion}
+\newcommand{\BB}{Brownian bridge}
+\newcommand{\con}{convergence}
+\newcommand{\ev}{extreme value}
+\newcommand{\evt}{extreme value theory}
+\newcommand{\evd}{extreme value distribution}
+\newcommand{\clp}{central limit problem}
+\newcommand{\nc}{norming constant}
+\newcommand{\st}{such that}
+\newcommand{\fif}{if and only if}
+\newcommand{\wrt}{with respect to}
+\newcommand{\chf}{characteristic function}
+\newcommand{\fct}{function}
+\newcommand{\mdoa}{maximum domain of attraction}
+\newcommand{\ds}{distribution}
+\newcommand{\gev}{generalized extreme value distribution}
+\newcommand{\gpd}{generalized Pareto distribution}
+\newcommand{\pwm}{probability-weighted moments}
+\newcommand{\mle}{maximum likelihood estimator}
+\newcommand{\mel}{mean excess function}
+\newcommand{\an}{asymptotically normal}
+\newcommand{\ac}{absolutely continuous}
+\newcommand{\rep}{representation}
+\newcommand{\cmt}{continuous mapping theorem}
+\newcommand{\seq}{sequence}
+%\newcommand{\pr} {{\bf Proof.}}
+\newcommand{\ins}{insurance}
+\newcommand{\mat}{mathematic}
+\newcommand{\pro}{probabilit}
+\newcommand{\pros}{probabilities}
+\newcommand{\ms}{measure}
+\newcommand{\mgf}{moment generating function}
+\newcommand{\ld}{large deviation}
+\newcommand{\bfx}{{\bf x}}
+\newcommand{\bfX}{{\bf X}}
+\newcommand{\bfB}{{\bf B}}
+\newcommand{\bfY}{{\mathbf Y}}
+\newcommand{\bfy}{{\bf y}}
+\newcommand{\bfA}{{\bf A}}
+\newcommand{\bfG}{{\bf G}}
+\newcommand{\bfO}{{\bf 0}}
+\newcommand{\bfZ}{{\bf Z}}
+\newcommand{\bfz}{{\bf z}}
+\newcommand{\bfS}{{\bf S}}
+\newcommand{\bfa}{{\bf a}}
+\newcommand{\bfb}{{\bf b}}
+\newcommand{\bfe}{{\bf e}}
+\newcommand{\bfc}{{\bf c}}
+\newcommand{\bft}{{\bf t}}
+\newcommand{\bfI}{{\bf I}}
+\newcommand{\bfs}{{\bf s}}
+\newcommand{\bfh}{{\bf s}}
+\newcommand{\bfunit}{{\bf h}}
+\newcommand{\ARCH}{{\rm ARCH}}
+\newcommand{\ex}{{\rm e}}
+%\newcommand{\rhs}{right-hand side}
+%\newcommand{\lhs}{left-hand side}
+\begin{document}
+\today
+\title[Eigenvalues of the sample covariance matrix of a   
+stochastic volatility model]{The eigenvalues of the sample covariance matrix of a multivariate heavy-tailed 
+stochastic volatility model}
+%\author[Johannes Heiny]{Johannes Heiny}
+\author{Anja Jan\ss en$^{1,\ast}$}
+\author{Thomas Mikosch$^1$} 
+\author{Mohsen Rezapour$^2$} 
+\author{Xiaolei Xie$^1$}
+\address{$^{1}$ Department  of Mathematical Sciences,
+University of Copenhagen,
+Universitetsparken 5,
+DK-2100 Copenhagen,
+Denmark}
+\address{$^2$
+Department of Statistics, Faculty of Mathematics and Computer, Shahid
+Bahonar University of Kerman, Kerman, Iran}
+\thanks{$^\ast$ Corresponding author}
+\email{anja@math.ku.dk}
+\email{mikosch@math.ku.dk\, (URL: www.math.ku.dk/$\sim$mikosch)}
+\email{mohsenrzp@gmail.com}
+\email{xie.xiaolei@gmail.com}
+
+
+\input{PaperBody}
+
+
+\begin{thebibliography}{99}
+\baselineskip12pt
+%AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+%\bibitem{adler:pakes:2016}
+%{\sc Adler, A. and Pakes, A.}\ (2016)
+%On relative stability and weighted laws 
+%of large numbers. Technical report.
+%\bibitem{Alouini:Abdi:Kaveh:2001} {\sc M.-S. Alouini,  A. Abdi,  and M. Kaveh }\ (2001) Sum of Gamma Variates and Performance of
+%Wireless Communication Systems Over Nakagami-Fading Channels, {\em IEEE Transactions on Vehicular Technology}, {\bf 50}, 6, 1471-1480.
+\bibitem{andersen:davis:kreiss:mikosch:2009}
+{\sc Andersen, T.G., Davis, R.A., Kreiss, J.-P. and Mikosch, T. (Eds.)}\ (2009)
+{\em Handbook of Financial Time Series.} Springer, Berlin.
+\bibitem{auffinger:arous:peche:2009} 
+{\sc Auffinger, A., Ben~Arous, G., and P{\'e}ch{\'e}, S.}\ (2009)
+\newblock Poisson convergence for the largest eigenvalues of heavy tailed
+  random matrices.
+\newblock {\em Ann. Inst. Henri Poincar\'e Probab. Stat.} \textbf{45} (3),
+  589--610.
+%BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+%\bibitem{Bartkiewicz:Jakubowski:Mikosch:Wintenberger:2011} {\sc K. Bartkiewicz, A. Jakubowski, T. Mikosch, O. Wintenberger}\ (2011) Stable limits for sums of
+%dependent infinite variance random variables Probab. {\em Th. Rel. Fields} {\bf 150}, 337-372.
+\bibitem{basrak:davis:mikosch:2002a}
+{\sc Basrak, B., Davis, R.A. and Mikosch, T.}\ (2002)
+A characterization of multivariate regular variation.
+{\em Ann. Appl. Probab.}  {\bf 12}, 908--920.
+
+\bibitem{basrak:segers:2009}  
+{\sc Basrak, B. and Segers, J.}\ (2009) Regularly varying multivariate time
+series. {\em Stoch. Proc. Appl.} {\bf 119}, 1055--1080.
+%\bibitem{Bingham:Goldie:Teugels:1987} {\sc N. H. Bingham, C. M. Goldie, and J. L. Teugels,}\ (1987) {\em Regular Variation,} vol. 27 of Encyclopedia of Mathematics
+%and its Applications. Cambridge University Press, Cambridge, 1987.
+\bibitem{benarous:guionnet:2007}
+{\sc Ben Arous, G. and Guionnet, A.}\ (2007) The spectrum of heavy tailed random matrices. {\em Comm. Math. Phys.} {\bf 278} (3), 715--751.
+\bibitem{benaych:peche:2014}
+{\sc Benaych-Georges, F., and P{\'e}ch{\'e}, S.}\ (2014)
+\newblock Localization and delocalization for heavy tailed band matrices.
+\newblock {\em Ann. Inst. Henri Poincar\'e Probab. Stat.} \textbf{50} (4),
+  1385--1403.
+\bibitem{bhatia:1997}
+{\sc Bhatia, R.}\ (1997)
+{\em Matrix Analysis}, vol.~169 of {\em Graduate Texts in
+  Mathematics}. Springer-Verlag, New York.
+%\bibitem{Boman:lindskog:2009}
+%{\sc J. Boman and F. Lindskog}\ (2009)
+% Support theorems for the Radon transform and Cram\`{e}r-Wold theorems
+%{\em J. Theor. Probab.} {\bf 22}, 683-710.
+\bibitem{breiman:1965}
+{\sc Breiman, L.}\ (1965)
+On some limit theorems similar to the arc-sin law. {\em Theory
+Probab. Appl.} {\bf 10}, 323--331.
+%CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+\bibitem{campbell:lo:macKinlay:1997}
+{\sc Campbell, J., Lo, A.W. and MacKinlay, A.C.}\ (1997)
+{\em The Econometrics of Financial Markets.} Princeton University Press, Princ-
+eton.
+
+\bibitem{chover:ney:wainger:1973}
+{\sc Chover, J., Ney, P. and Wainger, S.}\ (1973)
+Functions of probability measures. {\em J. Analyse Math.} {\bf 26}, 255--302.
+
+\bibitem{cline:1986}
+{\sc Cline, D.B.H.}\ (1986)
+Convolution tails, product tails and domains of attraction. {\em Probab. Th. Rel. Fields} {\bf 72}, 529--557.
+
+%DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+\bibitem{davis:mikosch:heiny:xie:2015}
+{\sc Davis, R.A., Heiny, J., Mikosch, T. and Xie, X.}\ (2016+)
+Extreme value analysis for the sample autocovariance matrices of heavy-tailed multivariate time series. {\em Extremes}, to appear. 
+\bibitem{davis:hsing:1995}
+{\sc Davis, R.A. and Hsing, T.}\ (1995) 
+Point process and partial sum convergence for weakly dependent random variables with infinite variance. {\em Ann. Prob.} {\bf 23}, 879--917.
+\bibitem{davis:mikosch:1999}
+{\sc Davis, R.A. and Mikosch, T.}\ (1999)
+The sample autocorrelations of financial time series models.
+In: {\sc Fitzgerald, W.J., Smith, R.L., Walden, A.T.  and Young, P.C. (Eds.)}
+{\em Nonlinear and Nonstationary Signal Processing.}
+Cambridge University Press, Cambridge, pp. 247--274.
+\bibitem{davis:mikosch:2001}
+{\sc Davis, R.A. and Mikosch, T.}\ (2001)
+Point process convergence of stochastic volatility processes
+with application to sample autocorrelations. 
+{\em J. Appl. Probab.} {\em Special Volume: A Festschrift for 
+David Vere-Jones} {\bf 38A}, 93--104.
+\bibitem{davis:mikosch:2009}
+{\sc Davis, R.A. and Mikosch, T.}\ (2009)
+Probabilistic properties of \sv\ models. In: {\sc Andersen, T.G., Davis, R.A., Kreiss, J.-P. and Mikosch, T. (Eds.)}\ (2009)
+{\em Handbook of Financial Time Series.} Springer, Berlin, pp. 255--268.
+\bibitem{davis:mikosch:2009b}
+{\sc Davis, R.A. and Mikosch, T.}\ (2009)
+The extremogram: A correlogram for extreme events. 
+{\em Bernoulli} {\bf 15} (4), 977--1009.
+\bibitem{davis:mikosch:pfaffel:2016}
+{\sc Davis, R.A., Mikosch, T. and Pfaffel, O.}\ (2016)
+Asymptotic theory for the sample covariance matrix of a heavy-tailed multivariate time series. {\em Stoch. Proc. Appl.} {\bf 126}, 767--799.
+\bibitem{davis:pfaffel:stelzer:2014}
+{\sc Davis, R.A., Pfaffel, O. and Stelzer, R.}\ (2014)
+Limit theory for the largest eigenvalues of sample covariance matrices with heavy-tails. {\em Stoch. Proc. Appl.} {\bf 124}, 18--50.
+\bibitem{davis:resnick:1985}
+{\sc Davis, R.A. and Resnick, S.I.}\ (1985)
+More limit theory for the sample correlation \fct\ of moving averages.
+{\em Stoch. Proc. Appl.} {\bf 20}, 257--279.
+\bibitem{davis:resnick:1986}
+{\sc Davis, R.A. and Resnick, S.I.}\ (1986)
+Limit theory for the sample covariance and correlation \fct s of moving averages. {\em Ann. Statist.} {\bf 14}, 533--558.
+\bibitem{doukhan:1994}
+{\sc Doukhan, P.}\ (1994)
+{\em Mixing: Properties and Examples.} Springer, Berlin.
+\bibitem{drees:2003}
+{\sc Drees, H.}\ (2003)
+Extreme quantile estimation for dependent data, with applications to finance. {\em Bernoulli} {\bf 9} (1), 617--657.
+%EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+%\bibitem{embrechts:kluppelberg:mikosch:1997}
+%{\sc Embrechts, P.,  Kl\"{u}ppelberg, C. and Mikosch, T.}\ (1997) 
+%{\em Modelling Extremal Events for Insurance and Finance}, Springer-Verlag, Berlin.
+
+\bibitem{embrechts:goldie:1980}
+ {\sc Embrechts, P. and Goldie, C.M.}\ (1980) On closure and factorization theorems for subexponential
+ and related distributions. {\em J. Austral. Math. Soc. Ser. A } {\bf29}, 243--256.
+ 
+ \bibitem{embrechts:goldie:1982}
+ {\sc Embrechts, P. and Goldie, C.M.}\ (1982) On convolution tails. {\em Stoch. Proc. Appl.} {\bf 13}, 263-278.
+
+%\bibitem{Embrechts:Goldie:1982}
+% {\sc P. Embrechts, and C. M. Goldie,}\ (1982) On convolution tails, {\em Stoch. Proc. Appl.} {\bf 13 }, 263-278.
+%FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+\bibitem{feller:1971}
+{\sc Feller, W.}\ (1971)
+{\em An Introduction to Probability Theory and Its Applications.}
+Vol. II. Second edition. Wiley, New York.
+%HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+\bibitem{heiny:mikosch:2016}
+{\sc Heiny, J. and Mikosch, T.}\ (2016)
+Eigenvalues and eigenvectors of heavy-tailed sample covariance matrices with general growth rates: the iid case.
+Technical report.
+\bibitem{hult:lindskog:2005}
+{\sc Hult, H. and Lindskog, F.}\ (2005)
+Extremal behavior of regularly varying stochastic processes.  
+{\em Stoch. Proc. Appl.} {\bf  115}, 249--274.
+\bibitem{hult:lindskog:2006}
+{\sc Hult, H. and Lindskog, F.}\ (2006)
+Regular variation for \ms s on metric space.
+{\em Publ. de l'Inst. Math.}                                           ́
+Nouvelle s\'erie. {\bf 80} (94), 121--140.
+%JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ
+\bibitem{janssen:drees:2016}
+{\sc Jan\ss en, A. and Drees, H.}\ (2016)
+A stochastic volatility model with flexible extremal dependence structure. {\em Bernoulli}, {\bf 22} (3), 1448--1490.
+
+\bibitem{jessen:mikosch:2006}
+{\sc Jessen, A.H. and Mikosch, T.}\ (2006)
+Regularly varying \fct s. {\em Publ. Inst. Math.} {Nouvelle s\'erie}
+{\bf 80} (94), 171--192.
+%KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
+\bibitem{kulik:soulier:2015}
+{\sc Kulik, R. and Soulier, P.}\ (2015) 
+Heavy tailed time series with extremal independence. {\em Extremes} {\bf 18} (2), 273--299.
+%LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+\bibitem{lam:yao:2012}
+{\sc Lam, C. and Yao, Q.}\ (2012)
+Factor modeling for high-dimensional time series: inference
+              for the number of factors. {\em Ann. Statist.} {\bf 40}, 694--726.
+%MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+\bibitem{mikosch:rezapour:2013}
+{\sc Mikosch, T. and Rezapour, M.}\ (2013) Stochastic volatility models with possible
+extremal clustering. {\em Bernoulli} {\bf 19} (5A), 1688--1713.
+\bibitem{mikosch:wintenberger:2016}
+{\sc Mikosch, T. and Wintenberger, O.}\ (2016)
+A large deviations approach to limit theory for heavy-tailed time series. {\em Probab. Th. Rel. Fields}, to appear.
+
+
+%PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+\bibitem{petrov:1995}
+{\sc Petrov, V.V.}\ (1995)
+{\em Limit Theorems of Probability Theory.} Oxford University Press, Oxford (UK).
+\bibitem{plerou:et:al:2002}
+{\sc Plerou, V., Gopikrishnan, P., Rosenow, B., Amaral, L.A.N., Guhr, T. and Stanley, H.E}\ (2002)
+Random matrix approach to cross correlations in financial data. {\em Phys. Rev. E} {\bf 65} (6) 066126. 
+
+%RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+\bibitem{resnick:1987}
+{\sc Resnick, S.I.}\ (1987) {\em Extreme Values, Regular Variation,
+and Point Processes.} Sprin\-ger, New York.
+\bibitem{resnick:2007}
+{\sc Resnick, S.I.}\ (2007)
+{\em Heavy-Tail Phenomena: Probabilistic and Statistical Modeling.}
+Springer, New York.
+\bibitem{rootzen:1986}
+{\sc Rootz\'{e}n, H.}\ (1986) Extreme value theory for moving average processes. {\em Ann. Prob.} {\bf 14} (2),  612--652.
+%SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+\bibitem{soshnikov:2004}
+{\sc Soshnikov, A.}\ (2004)
+\newblock Poisson statistics for the largest eigenvalues of {W}igner random
+  matrices with heavy tails.
+\newblock {\em Electron. Comm. Probab.} \textbf{9}, 82--91 (electronic).
+
+\bibitem{soshnikov:2006}
+{\sc Soshnikov, A.}\ (2006)
+\newblock Poisson statistics for the largest eigenvalues in random matrix
+  ensembles.
+\newblock In {\em Mathematical physics of quantum mechanics}, vol.~690 of {\em
+  Lecture Notes in Phys.} Springer, Berlin, pp.~351--364.
+
+%TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+\bibitem{tao:vu:2012}
+{\sc Tao, T. and Vu. V.}\ (2012)
+Random covariance matrices: Universality of local statistics of eigenvalues.
+{\em Ann. Probab.} {\bf 40} (3), 1285--1315.
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+\bibitem{bahr:esseen:1965}
+{\sc von Bahr, B. and Esseen, C.-G.}\ (1965) Inequalities for the $r$-th absolute moment of a sum of random variables, $1\leq r \leq 2$. {\em Ann. Math. Statist.} {\bf 36} (1),  299--303.
+
+\end{thebibliography}
+
+\end{document}

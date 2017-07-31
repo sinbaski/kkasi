@@ -23,7 +23,7 @@ public:
 
     double Lyapunov(size_t n, size_t iterations);
 
-    void right_eigenfunction
+    double right_eigenfunction
     (double index, vector<funval> &eigenfunction) const;
 
     double M_fun(double theta);

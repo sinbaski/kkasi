@@ -38,7 +38,7 @@ double interpolate_fun
 Garch21::Garch21(const vector<double> &alpha, const vector<double> &beta,
 		 double tail_index_sup)
     :GarchPQ(alpha, beta),
-     tail_index(find_tail_index(vector<double>({0, tail_index_sup}).data()))
+     tail_index(find_tail_index(vector<double>({1, tail_index_sup}).data()))
 {
     random_device randev;
     chi_squared_distribution<double> chi2;
@@ -119,11 +119,10 @@ void Garch21::simulate_sample_path
 {
 }
 
-void Garch21::right_eigenfunction
+double Garch21::right_eigenfunction
 (double index, vector<funval> &eigenfunction) const
 {
     double ang_max = atan(1/alpha[1]);
-    double flag;
     size_t n = eigenfunction.size();
     vec angles(n);
     mat P(n, n);
@@ -132,58 +131,45 @@ void Garch21::right_eigenfunction
     double c1 = pow(pow(alpha[2], 2) + pow(beta[0], 2), 0.5);
     double ang1 = atan(beta[0] / alpha[2]);
     
-    do {
-	vec eigenfun(n);
-	vec tangents(n);
-	vec cosines(n);
+    vec eigenfun(n);
+    vec tangents(n);
+    vec cosines(n);
 
-	double d = ang_max/(n + 1);
-	P.set_size(n, n);
-	angles.set_size(n);
-	for (unsigned i = 0; i < n; i++) {
-	    angles[i] = d * (i + 1);
-	    tangents[i] = tan(angles[i]);
-	    cosines[i] = cos(angles[i]);
+    double d = ang_max/(n + 1);
+    P.set_size(n, n);
+    angles.set_size(n);
+    for (unsigned i = 0; i < n; i++) {
+	angles[i] = d * (i + 1);
+	tangents[i] = tan(angles[i]);
+	cosines[i] = cos(angles[i]);
+    }
+
+    for (unsigned i = 0; i < n; i++) {
+	for (unsigned j = 0; j < n; j++) {
+	    double t1 = sin(angles[i] + ang1);
+	    double t2 = sqrt(tangents[i] * alpha[2] + beta[0]);
+	    double t3 = (alpha[2] * tangents[i] + beta[0]);
+	    t3 *= tangents[j] / (1 - tangents[j] * alpha[1]) / 2;
+	    t3 = exp(-t3);
+
+	    double t5 = sqrt(2 * M_PI * tangents[j]);
+	    double t6 = pow(cosines[j], index + 2);
+	    double t7 = pow(1 - tangents[j] * alpha[1],
+			    index + 1.5);
+	    P(i, j) = pow(c1 * t1, index) * t2 * t3 / t5 / t6 / t7;
+	    P(i, j) *= d;
 	}
-
-	for (unsigned i = 0; i < n; i++) {
-	    for (unsigned j = 0; j < n; j++) {
-		double t1 = sin(angles[i] + ang1);
-		double t2 = sqrt(tangents[i] * alpha[2] + beta[0]);
-		double t3 = (alpha[2] * tangents[i] + beta[0]);
-		t3 *= tangents[j] / (1 - tangents[j] * alpha[1]) / 2;
-		t3 = exp(-t3);
-
-		double t5 = sqrt(2 * M_PI * tangents[j]);
-		double t6 = pow(cosines[j], index + 2);
-		double t7 = pow(1 - tangents[j] * alpha[1],
-				index + 1.5);
-		P(i, j) = pow(c1 * t1, index) * t2 * t3 / t5 / t6 / t7;
-		P(i, j) *= d;
-	    }
-	}
-	flag = det(P - eye(n, n));
-    } while (flag > 5.0e-3 && (n *= 2));
+    }
 
     eig_gen(eigenval, eigenmat, P);
 
-    cout << "eigenvalues: " << endl;
-    for (auto i = eigenval.begin(); i != eigenval.end(); ++i) {
-	cout << *i << endl;
-    }
-
     vec values = real(eigenval);
     mat vectors = real(eigenmat);
-    auto p =
-    	min_element(values.begin(), values.end(),
-    		    [](double x, double y) {
-    			return fabs(x - 1) < fabs(y - 1);
-    		    });
-    vec V = vectors.col(p - values.begin());
     for (unsigned int i = 0; i < n; ++i) {
 	eigenfunction[i][0] = angles(i);
-	eigenfunction[i][1] = V(i);
+	eigenfunction[i][1] = vectors(i, 0);
     }
+    return values(0);
 }
 
 double Garch21::Lyapunov(size_t n, size_t iterations)
@@ -216,25 +202,10 @@ double Garch21::Lyapunov(size_t n, size_t iterations)
     return gamma;
 }
 
-// double Garch21::G_fun(double phi, double theta, double m)
-// {
-//     size_t n = 10000u;
-//     vector<funval> r_phi(n);
-//     vector<funval> r_theta(n);
-//     right_eigenfunction(phi, r_phi);
-//     right_eigenfunction(theta, r_theta);
-//     double r_phi_sup =
-// 	max_element(r_phi.begin(), r_phi.end(),
-// 		    [](const funval &a, const funval &b) {
-// 			return a[1] < b[1];
-// 		    })->at(1);
-//     double r_theta_sup =
-//     	max_element(r_theta.begin(), r_theta.end(),
-//     		    [](const funval &a, const funval &b) {
-//     			return a[1] < b[1];
-//     		    })->at(1);
-//     return r_phi_sup + r_theta_sup;
-// }
+double Garch21::M_fun(double theta)
+{
+    double omega = 
+}
 
 int main(int argc, char *argv[])
 {

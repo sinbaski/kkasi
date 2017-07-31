@@ -77,7 +77,8 @@ for (i in 1:length(assets)) {
 }
 
 X <- getAssetReturns("2012-01-01", "2015-01-01", "SP500", 1, "closing", "localhost");
-M <- garchFit(~garch(2, 1), data=X, trace=FALSE);
+M21 <- garchFit(~garch(2, 1), data=X, trace=FALSE);
+M11 <- garchFit(~garch(1, 1), data=X, trace=FALSE);
 
 
 ##           alpha1       alpha2     beta1   sum
