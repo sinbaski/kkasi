@@ -35,39 +35,75 @@ double interpolate_fun
     }
 }
 
-Garch21::Garch21(const vector<double> &alpha, const vector<double> &beta,
-		 double tail_index_sup)
-    :GarchPQ(alpha, beta),
-     tail_index(find_tail_index(vector<double>({1, tail_index_sup}).data()))
+void Garch21::compute_eigenfunctions(void)
 {
-    random_device randev;
-    chi_squared_distribution<double> chi2;
-    // Estimate the tail index
-    pool.resize(10000u);
-    for (auto i = pool.begin(); i != pool.end(); ++i) {
-	*i = chi2(randev);
-    }
-    sort(pool.begin(), pool.end());
-    // compute right eigenfunctions
-    eigenfunctions.resize(400);
+    eigenfunctions.resize(nbr_eigenfunctions);
     double dx = (tail_index - 0.1)/eigenfunctions.size();
 #pragma omp parallel for
     for (unsigned i = 0; i < eigenfunctions.size(); i++) {
-	double kappa, lambda_kapp;
-	eigenfunctions[i].r_kappa = new vector<funval>(500);
+	double kappa, lambda_kappa;
+	eigenfunctions[i].r_kappa = new vector<funval>(nbr_eigenfunction_points);
 	kappa = i * dx + 0.1;
 	lambda_kappa = right_eigenfunction(
-	    kappa, eigenfunctions[i]->r_kappa
+	    kappa, *eigenfunctions[i].r_kappa
 	    );
+	assert(lambda_kappa > 0 && lambda_kappa < 1);
 	eigenfunctions[i].kappa = kappa;
 	eigenfunctions[i].lambda_kappa = lambda_kappa;
     }
 }
 
+double Garch21::compute_M(void)
+{
+    double m = 0;
+    double omega = alpha[0];
+    compute_eigenfunctions();
+    int i = 0;
+    for (auto func = eigenfunctions.begin(); func != eigenfunctions.end(); ++func, i++) {
+	double r_min = min_element(func->r_kappa->begin(), func->r_kappa->end(),
+				   [](const funval &f1, const funval &f2) {
+				       return f1[1] < f2[1];
+				   })->at(1);
+	double x;
+	if (func->kappa < 1) {
+	    x = pow(omega, func->kappa) * (*func->r_kappa)[0][1];
+	    x /= (1 - func->lambda_kappa);
+	    x /= r_min;
+	} else {
+	    double t = 1/func->kappa;
+	    x = omega * pow((*func->r_kappa)[0][1], t);
+	    x /= 1 - pow(func->lambda_kappa, t);
+	    x /= r_min;
+	}
+	if (x > m) m = x;
+    }
+    m *= 1.05;
+    return m;
+}
+
 Garch21::~Garch21(void)
 {
-    // for (auto p = eigenfunctions.begin();
-    // 	 p != )
+    for (auto p = eigenfunctions.begin(); p != eigenfunctions.end(); ++p) {
+	delete p->r_kappa;
+    }
+}
+
+Garch21::Garch21(const vector<double> &alpha, const vector<double> &beta,
+		 double tail_index_sup)
+    :GarchPQ(alpha, beta),
+     nbr_eigenfunctions(100),
+     nbr_eigenfunction_points(100),
+     tail_index(find_tail_index(vector<double>({1, tail_index_sup}).data())),
+     M(compute_M())
+{
+    random_device randev;
+    chi_squared_distribution<double> chi2;
+    // Prepare the ppol
+    pool.resize(10000u);
+    for (auto i = pool.begin(); i != pool.end(); ++i) {
+	*i = chi2(randev);
+    }
+    sort(pool.begin(), pool.end());
 }
 
 double Garch21::quantile(double u, double angle) const
@@ -179,6 +215,7 @@ double Garch21::right_eigenfunction
 			    index + 1.5);
 	    P(i, j) = pow(c1 * t1, index) * t2 * t3 / t5 / t6 / t7;
 	    P(i, j) *= d;
+	    assert(P(i, j) > 0);
 	}
     }
 
@@ -186,10 +223,14 @@ double Garch21::right_eigenfunction
 
     vec values = real(eigenval);
     mat vectors = real(eigenmat);
+    double vmax = max(vectors.col(0));
+    double vmin = min(vectors.col(0));
+    assert(vmax * vmin > 0);
     for (unsigned int i = 0; i < n; ++i) {
 	eigenfunction[i][0] = angles(i);
-	eigenfunction[i][1] = vectors(i, 0);
+	eigenfunction[i][1] = vectors(i, 0) * (vmax > 0 ? 1 : -1);
     }
+    
     return values(0);
 }
 
@@ -223,33 +264,33 @@ double Garch21::Lyapunov(size_t n, size_t iterations)
     return gamma;
 }
 
-double Garch21::b_fun(double theta)
-{
-    auto p = find_if(
-	eigenfunctions.begin(), eigenfunctions.end(),
-	[theta](const eigenfunction &fun) {
-	    return fun.kappa == theta;
-	});
+// double Garch21::b_fun(double theta)
+// {
+//     auto p = find_if(
+// 	eigenfunctions.begin(), eigenfunctions.end(),
+// 	[theta](const eigenfunction &fun) {
+// 	    return fun.kappa == theta;
+// 	});
 
-    if (!eigenfunctions.size() || p == eigenfunctions.end()) {
-	double omega = alpha[0];
-	vector<funval> *r_theta = new vector<funval>(400);
-	double lambda_theta =
-	    right_eigenfunction(theta, r_theta);
-	eigenfunctions.push_back(
-	    {theta, lambda_theta, r_theta}
-	    );
-	assert(lambda_theta < 1);
-	return (1 + lambda_theta)/2;
-    } else {
-	return (1 + p->lambda_kappa)/2;
-    }
-}
+//     if (!eigenfunctions.size() || p == eigenfunctions.end()) {
+// 	double omega = alpha[0];
+// 	vector<funval> *r_theta = new vector<funval>(400);
+// 	double lambda_theta =
+// 	    right_eigenfunction(theta, r_theta);
+// 	eigenfunctions.push_back(
+// 	    {theta, lambda_theta, r_theta}
+// 	    );
+// 	assert(lambda_theta < 1);
+// 	return (1 + lambda_theta)/2;
+//     } else {
+// 	return (1 + p->lambda_kappa)/2;
+//     }
+// }
 
-double Garch21::M_fun(double theta)
-{
-    return 0;
-}
+// double Garch21::M_fun(double theta)
+// {
+//     return 0;
+// }
 
 int main(int argc, char *argv[])
 {

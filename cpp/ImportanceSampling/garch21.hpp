@@ -10,12 +10,26 @@ double interpolate_fun
 
 class Garch21 : public GarchPQ
 {
+protected:
+    const size_t nbr_eigenfunctions;
+    const size_t nbr_eigenfunction_points;
+    vector<double> pool;
+    struct eigenfunction {
+	double kappa;
+	double lambda_kappa;
+	vector<funval> *r_kappa;
+    };
+    vector<eigenfunction> eigenfunctions;
+    void compute_eigenfunctions(void);
+    double compute_M(void);
+
 public:
     Garch21(const vector<double> &alpha, const vector<double> &beta,
 	    double tail_index_sup = 5.0);
-
     ~Garch21(void);
+
     const double tail_index;
+    const double M;
     
     double quantile(double u, double angle) const;
     double draw_z2(void) const;
@@ -28,17 +42,7 @@ public:
     double right_eigenfunction
     (double index, vector<funval> &eigenfunction) const;
 
-    // double M_fun(double theta);
-    double b_fun(double theta);
-    
-protected:
-    vector<double> pool;
-    struct eigenfunction {
-	double kappa;
-	double lambda_kappa;
-	vector<funval> *r_kappa;
-    };
-    vector<struct eigenfunction> eigenfunctions;
+
 };
 
 
