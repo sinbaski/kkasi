@@ -670,18 +670,19 @@ Since the matrix $A_t$ depends only on $Z_{t-1}^2$, shifting the
 transition kernel of $(X_t, S_t)$ is equivalent to shifting the
 conditional distribution of $Z_{t-1}^2$. It follows from the above
 equation
-\[
-{
-  \P^\theta(Z_{t-1}^2 \in dw | X_{t-1} = x)
-  \over
-  \P(Z_{t-1}^2 \in dw | X_{t-1} = x)
-} = {|A(w) x|^\theta \over \lambda(\theta)}
-{
-  r_\theta (A(w) \cdotp x)
-  \over
-  r_\theta(x)
-}
-\]
+\begin{equation}
+  \label{eq:sampling}
+  {
+    \P^\theta(Z_{t-1}^2 \in dw | X_{t-1} = x)
+    \over
+    \P(Z_{t-1}^2 \in dw | X_{t-1} = x)
+  } = {|A(w) x|^\theta \over \lambda(\theta)}
+  {
+    r_\theta (A(w) \cdotp x)
+    \over
+    r_\theta(x)
+  }
+\end{equation}
 where $\P^\theta(\cdot | \cdot)$ denotes the shifted conditional
 probability measure.
 
@@ -1994,6 +1995,13 @@ unit vectors.
 \end{algorithm}
 
 %% \ifestimation
+\section{Sampling from the shifted conditional distribution}
+While the Radon-Nikodime derivative of the shifted conditional
+probability measure with respect to the original measure is given by
+\eqref{eq:sampling}, the procedure of sampling from the shifted
+conditional distribution is not trivial. For this purpose, we first
+sample from the original distribution, and obtain an iid sample
+$Z_1, Z_2, \dots, Z_n$.
 
 \section{An example: The GARCH(2,1) process}
 As an example of the algorithms described in the previous sections, we

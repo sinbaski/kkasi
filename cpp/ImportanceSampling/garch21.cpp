@@ -42,11 +42,32 @@ Garch21::Garch21(const vector<double> &alpha, const vector<double> &beta,
 {
     random_device randev;
     chi_squared_distribution<double> chi2;
+    // Estimate the tail index
     pool.resize(10000u);
     for (auto i = pool.begin(); i != pool.end(); ++i) {
 	*i = chi2(randev);
     }
     sort(pool.begin(), pool.end());
+    // compute right eigenfunctions
+    eigenfunctions.resize(400);
+    double dx = (tail_index - 0.1)/eigenfunctions.size();
+#pragma omp parallel for
+    for (unsigned i = 0; i < eigenfunctions.size(); i++) {
+	double kappa, lambda_kapp;
+	eigenfunctions[i].r_kappa = new vector<funval>(500);
+	kappa = i * dx + 0.1;
+	lambda_kappa = right_eigenfunction(
+	    kappa, eigenfunctions[i]->r_kappa
+	    );
+	eigenfunctions[i].kappa = kappa;
+	eigenfunctions[i].lambda_kappa = lambda_kappa;
+    }
+}
+
+Garch21::~Garch21(void)
+{
+    // for (auto p = eigenfunctions.begin();
+    // 	 p != )
 }
 
 double Garch21::quantile(double u, double angle) const
@@ -202,9 +223,32 @@ double Garch21::Lyapunov(size_t n, size_t iterations)
     return gamma;
 }
 
+double Garch21::b_fun(double theta)
+{
+    auto p = find_if(
+	eigenfunctions.begin(), eigenfunctions.end(),
+	[theta](const eigenfunction &fun) {
+	    return fun.kappa == theta;
+	});
+
+    if (!eigenfunctions.size() || p == eigenfunctions.end()) {
+	double omega = alpha[0];
+	vector<funval> *r_theta = new vector<funval>(400);
+	double lambda_theta =
+	    right_eigenfunction(theta, r_theta);
+	eigenfunctions.push_back(
+	    {theta, lambda_theta, r_theta}
+	    );
+	assert(lambda_theta < 1);
+	return (1 + lambda_theta)/2;
+    } else {
+	return (1 + p->lambda_kappa)/2;
+    }
+}
+
 double Garch21::M_fun(double theta)
 {
-    double omega = 
+    return 0;
 }
 
 int main(int argc, char *argv[])

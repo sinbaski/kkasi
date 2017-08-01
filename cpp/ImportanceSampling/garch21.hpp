@@ -2,7 +2,6 @@
 #define XXIE_GARCH21_H
 
 #include "GarchPQ.hpp"
-
 typedef array<double, 2> funval;
 // typedef vector<funval> emp_fun;
 
@@ -14,7 +13,10 @@ class Garch21 : public GarchPQ
 public:
     Garch21(const vector<double> &alpha, const vector<double> &beta,
 	    double tail_index_sup = 5.0);
+
+    ~Garch21(void);
     const double tail_index;
+    
     double quantile(double u, double angle) const;
     double draw_z2(void) const;
     double draw_z2(double) const;
@@ -26,13 +28,17 @@ public:
     double right_eigenfunction
     (double index, vector<funval> &eigenfunction) const;
 
-    double M_fun(double theta);
+    // double M_fun(double theta);
     double b_fun(double theta);
     
 protected:
     vector<double> pool;
-    // vector<funval> eigenfunction;
-
+    struct eigenfunction {
+	double kappa;
+	double lambda_kappa;
+	vector<funval> *r_kappa;
+    };
+    vector<struct eigenfunction> eigenfunctions;
 };
 
 
