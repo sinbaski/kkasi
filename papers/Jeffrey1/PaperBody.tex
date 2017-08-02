@@ -739,13 +739,14 @@ $\mathcal E_u$ is our estimator. We have
   The estimator $\mathcal E_u$ is unbiased, i.e.
   \begin{equation}
     \label{eq:fbf}
-    \P(|V| > u) = \E_{\mathcal D} \mathcal E_u
+    \P(|V| > u) = \E_\eta^{\mathcal D} \mathcal E_u
   \end{equation}
 \end{theorem}
-The subscript $\mathcal D$, short for ``dual'', is to remind us
+The superscript $\mathcal D$, short for ``dual'', is to remind us
 that the expectation is taken with respect to the shifted kernel
 $P_\xi$ before the threshold is exceeded, and with respect to the
-original kernel $P$ thereafter.
+original kernel $P$ thereafter. The subscript $\eta$ means that
+$V_0$ is drawn from the distribution $\eta$.
 
 While unbiased, the estimator $\mathcal E_u$ is also efficient,
 i.e. its relative error is bounded. Cf. Asmussen and Glynn
@@ -823,14 +824,14 @@ Then in \S\ref{sec:consistency} we prove theorem
       \1{|V_{n-1}| > M_{\theta}} | \mathscr F_{n-1} \right]
     \label{eq:drift_proof_1} \\
     &=&
-    \1{|V_{n-1}| > M_{\varphi, \theta}}
+    \1{|V_{n-1}| > M_{\theta}}
     \E
     \left[
       c(\theta)\int_{\sphere^{d-1}} \inn{V_n, y}^\theta \ell^*_{\theta}(dy)|
       \mathscr F_{n-1} \right]
     \nonumber \\
     &=&
-    \1{|V_{n-1}| > M_{\varphi, \theta}}
+    \1{|V_{n-1}| > M_{\theta}}
     \E\left[c(\theta)\int_{\sphere^{d-1}} (\inn{A_n V_{n-1}, y} + \inn{B,
         y})^\theta \ell^*_{\theta}(dy) | \mathscr F_{n-1} \right]
     \nonumber
@@ -1038,7 +1039,7 @@ Then in \S\ref{sec:consistency} we prove theorem
   \E
   \left[
     |V_n|^\theta r_{\theta}(\tilde V_n)
-    \1{|V_{n-1}| > M_{\varphi, \theta}} | \mathscr F_{n-1}
+    \1{|V_{n-1}| > M_{\theta}} | \mathscr F_{n-1}
     \right]
   \leq
   b_{\theta}
@@ -1319,13 +1320,13 @@ In this section we prove theorem \ref{thrm:consistency}.
   \begin{eqnarray*}
     {R_n \over n} {1 \over R_n} \sum_{i=1}^{R_n}
     \sum_{j=K_{i-1}}^{K_i-1}\1{|V_i| > u}
-    &\overset{a.s.}{\to}& \pi(\mathcal C) \E_\gamma N_u
+    &\overset{a.s.}{\to}& \pi(\mathcal C) \E_\eta N_u
   \end{eqnarray*}
   On the other hand, by the very definition of $N_u$,
-  $\E_\gamma N_u = \E_\gamma \left( N_u \1{T_u < K_1}\right)$. We have
+  $\E_\eta N_u = \E_\eta \left( N_u \1{T_u < K_1}\right)$. We have
   \begin{small}
     \begin{eqnarray*}
-      && \E_\gamma \left( N_u \1{T_u < K_1}\right) \\
+      && \E_\eta \left( N_u \1{T_u < K_1}\right) \\
       &=&
       %% \underbrace{
       %%   \int_{\sphere^{d-1}} \int_{\reals}
@@ -1338,7 +1339,7 @@ In this section we prove theorem \ref{thrm:consistency}.
       {r_\xi(x_{i-1}) \over r_\xi(x_{i})}P_\xi(x_{i-1}, dx_i \times dl_i)
       \prod_{i=T_u+1}^{K_1 - 1} P(x_{i-1}, dx_i \times d l_i) \\
       &=&
-      \E_{\mathcal D}
+      \E^{\mathcal D}_\eta
       \left[
         N_u \1{T_u < K_1} e^{-\xi S_{T_u}}
         {r_\xi(X_0)
@@ -1356,22 +1357,24 @@ In this section we prove theorem \ref{thrm:consistency}.
 In this section we prove that the estimator $\mathcal E_u$ is
 efficient, i.e. theorem \ref{thrm:efficiency}.
 \begin{proof}\setcounter{case}{0}
-  The assertion is equivalent to
+  The assertion is implied by, for all $X_0 \in \mathcal C$,
   \[
-  \limsup_{u \to \infty} {\E_{\mathcal D} \mathcal E_u^2 \over [\P(|V|
+  \limsup_{u \to \infty} {\E^{\mathcal D}_{X_0} \mathcal E_u^2 \over [\P(|V|
     > u)]^2} < \infty
   \]
+  For notational simplicity, we omit the subscript $X_0$ and write
+  $\E^{\mathcal D}$ for $\E^{\mathcal D}_{X_0}$ in the rest of the proof.
   By Kesten's theorem \cite{kesten:1973},
   $\P(|V| > u) \sim C u^{-\xi}$.
   Hence, to prove the assertion, one needs to check
   \[
-  \limsup_{u \to \infty} u^{2\xi}\E_{\mathcal D} \mathcal E_u^2
+  \limsup_{u \to \infty} u^{2\xi}\E^{\mathcal D} \mathcal E_u^2
   <
   \infty
   \]
 That is,
   \[
-  \limsup_{u \to \infty} \E_{\mathcal D}
+  \limsup_{u \to \infty} \E^{\mathcal D}
   \left[
     u^{2\xi}
     N_u^2 \1{T_u < K_1} e^{-2\xi S_{T_u}} {r_\xi^2(X_0)
@@ -1382,7 +1385,7 @@ That is,
   $|V_{T_u}| > u$. Moreover $r_\xi$ is bounded
   from above and below by positive constants. So it suffices to show
   \begin{eqnarray}
-    \limsup_{u \to \infty} \E_{\mathcal D} \left(
+    \limsup_{u \to \infty} \E^{\mathcal D} \left(
       \left|
         \sum_{n=0}^{T_u}
         \frac{
@@ -1411,7 +1414,7 @@ That is,
     \limsup_{u \to \infty}
     \sum_{n=0}^{\infty}
     \left(
-      \E_{\mathcal D} \left|
+      \E^{\mathcal D} \left|
         N_u^{1/\xi}
         \frac{
           \Pi_{T_u, n+1} B 
@@ -1426,7 +1429,7 @@ That is,
   The sum on the left side is bounded by
   \begin{eqnarray*}
     && c \sum_{n=0}^\infty
-    \E_D
+    \E^{\mathcal D}
     \left(
       {
         |\Pi_{T_u, n+1} X_n|^{2\xi}
@@ -1454,7 +1457,7 @@ That is,
   \eqref{eq:efficiency_target} is bounded by
   \begin{eqnarray*}
     && \sum_{n=0}^\infty
-    \E_D \left(
+    \E^{\mathcal D} \left(
       {
         | \Pi_{T_u, n+1} B |^{2\xi}
         \over
@@ -1465,7 +1468,7 @@ That is,
     \right) \\
     &\leq&
     c \sum_{n=0}^\infty
-    \E_D \left(
+    \E^{\mathcal D} \left(
       {
         | \Pi_{T_u, n+1} X_n |^{2\xi}
         \over
@@ -1649,7 +1652,7 @@ Thus we have
   To show $\mathscr D < \infty$, it suffices to show
   $\mathscr D_i < \infty$ for each $i = 1, 2, 3, 4$.
   $\mathscr D_1$ sums only finitely many terms, so it
-  suffices to show for each $n$ and $m$,
+  suffices to show for each fixed $n$ and $m$,
   \begin{equation}
     \label{eq:ceh}
     \E \left[

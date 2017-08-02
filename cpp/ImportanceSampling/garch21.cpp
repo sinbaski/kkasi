@@ -42,7 +42,8 @@ void Garch21::compute_eigenfunctions(void)
 #pragma omp parallel for
     for (unsigned i = 0; i < eigenfunctions.size(); i++) {
 	double kappa, lambda_kappa;
-	eigenfunctions[i].r_kappa = new vector<funval>(nbr_eigenfunction_points);
+	eigenfunctions[i].r_kappa =
+	    new vector<funval>(nbr_eigenfunction_points);
 	kappa = i * dx + 0.1;
 	lambda_kappa = right_eigenfunction(
 	    kappa, *eigenfunctions[i].r_kappa
@@ -59,8 +60,11 @@ double Garch21::compute_M(void)
     double omega = alpha[0];
     compute_eigenfunctions();
     int i = 0;
-    for (auto func = eigenfunctions.begin(); func != eigenfunctions.end(); ++func, i++) {
-	double r_min = min_element(func->r_kappa->begin(), func->r_kappa->end(),
+#pragma omp parallel for    
+    for (auto func = eigenfunctions.begin();
+	 func != eigenfunctions.end(); ++func, i++) {
+	double r_min = min_element(func->r_kappa->begin(),
+				   func->r_kappa->end(),
 				   [](const funval &f1, const funval &f2) {
 				       return f1[1] < f2[1];
 				   })->at(1);
@@ -88,12 +92,15 @@ Garch21::~Garch21(void)
     }
 }
 
-Garch21::Garch21(const vector<double> &alpha, const vector<double> &beta,
+Garch21::Garch21(const vector<double> &alpha,
+		 const vector<double> &beta,
 		 double tail_index_sup)
     :GarchPQ(alpha, beta),
      nbr_eigenfunctions(100),
      nbr_eigenfunction_points(100),
-     tail_index(find_tail_index(vector<double>({1, tail_index_sup}).data())),
+     tail_index(find_tail_index(
+		    vector<double>({1, tail_index_sup}).data()
+		    )),
      M(compute_M())
 {
     random_device randev;
@@ -171,9 +178,34 @@ double Garch21::draw_z2(double angle) const
     return quantile(unif(randev), angle);
 }
 
-void Garch21::simulate_sample_path
-(double threshold, unsigned int n, vector<vec> &path) const
+void Garch21::simulate_path(vector<vec> &path) const
 {
+    double sigma_min = alpha[0]/(1 - beta[0]);
+    random_device randev;
+    chi_squared_distribution<double> chi2;
+    size_t n = path.size();
+    mat A(2, 2);
+    vec V({sigma_min, 0});
+    vec B({alpha[0], 0});
+    path[0] = V;
+    for (size_t i = 1; i < n; i++) {
+	double z2 = chi2(randev);
+	gen_rand_matrix(z2, &A);
+	path[i] = A * path[i-1] + B;
+    }
+}
+
+double Garch21::estimate_prob(double u)
+{
+    vector<vec> path(1000);
+    simulate_path(&path);
+    // discard the first 20% of the path.
+    path.erase(path.begin(),
+	       next(path.begin(),
+		    ceil(path.size() * 0.2)
+		   ));
+    typedef vector<chain_state> twisted_path;
+    vector<twisted_path> ensemble;
 }
 
 double Garch21::right_eigenfunction
@@ -299,8 +331,7 @@ int main(int argc, char *argv[])
     vector<double> beta({0.6610499});
 
     Garch21 model(alpha, beta);
-    double theta = 0.5;
-    vector<funval> r_theta(100);
-    model.right_eigenfunction(theta, r_theta);
+    vector<funval> r_xi(1000);
+    model.right_eigenfunction(model.tail_index, r_xi);
     return 0;
 }

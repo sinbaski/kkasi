@@ -19,6 +19,10 @@ protected:
 	double lambda_kappa;
 	vector<funval> *r_kappa;
     };
+    struct chain_state {
+	double angle; // X = (cos(angle), sin(angle))
+	double addive; // V = X*exp(l)
+    };
     vector<eigenfunction> eigenfunctions;
     void compute_eigenfunctions(void);
     double compute_M(void);
@@ -34,8 +38,8 @@ public:
     double quantile(double u, double angle) const;
     double draw_z2(void) const;
     double draw_z2(double) const;
-    void simulate_sample_path(double threshold, unsigned int n,
-			      vector<vec> &path) const;
+    void simulate_path(vector<vec> &path) const;
+    double estimate_prob(double u);
 
     double Lyapunov(size_t n, size_t iterations);
 
