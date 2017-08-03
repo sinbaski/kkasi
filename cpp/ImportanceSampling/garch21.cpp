@@ -35,12 +35,6 @@ double interpolate_fun
     }
 }
 
-// Garch21::chain_state::chain_state(const vec &v)
-//     :angle(atan(v(1)/v(0))), additive(log(norm(v)))
-// {
-//     copy(v.begin(), v.end(), V.begin());
-// }
-
 void Garch21::compute_eigenfunctions(void)
 {
     eigenfunctions.resize(nbr_eigenfunctions);
@@ -111,32 +105,29 @@ Garch21::Garch21(const vector<double> &alpha,
     chi_squared_distribution<double> chi2;
     // Prepare the ppol
     pool.resize(10000u);
+    A_matrices.resize(pool.size());
+    
 #pragma omp parallel for
-    for (auto i = pool.begin(); i != pool.end(); ++i) {
-	*i = chi2(randev);
+    for (size_t i = 0; i < pool.size(); ++i) {
+	pool[i] = chi2(randev);
+	A_matrices[i].resize(2, 2);
+	gen_rand_matrix(pool[i], A_matrices[i]);
     }
     sort(pool.begin(), pool.end());
-    r_xi.resize(1000);
+
+    r_xi.resize(100);
     right_eigenfunction(tail_index, r_xi);
 }
 
 double Garch21::quantile(double u, double angle) const
 {
     assert(u > 0 && u < 1);
-    vector<funval> equantile(pool.size());
+    vector<double> ecdf(pool.size());
     vec x = {cos(angle), sin(angle)};
-    static vector<mat> matrices;
     
-    if (matrices.empty()) {
-#pragma omp parallel for
-	for (unsigned int i = 0; i < pool.size(); ++i) {
-	    gen_rand_matrix(pool[i], matrices[i]);
-	}
-    }
-
 #pragma omp parallel for
     for (unsigned int i = 0; i < pool.size(); ++i) {
-	vec y = matrices[i] * x;
+	vec y = A_matrices[i] * x;
 	double len = norm(y);
 	double theta = acos(y[0]/len);
 	double inc =
@@ -144,26 +135,27 @@ double Garch21::quantile(double u, double angle) const
 	    interpolate_fun(theta, r_xi) /
 	    interpolate_fun(angle, r_xi) /
 	    pool.size();
-	equantile[i][1] = pool[i];
-	equantile[i][0] = inc;
+	ecdf[i] = inc;
     }
-    for (auto i = equantile.begin() + 1; i != equantile.end(); ++i) {
-	i->at(0) = i->at(0) + (i - 1)->at(0);
+    for (auto i = ecdf.begin() + 1; i != ecdf.end(); ++i) {
+	*i = *i + *(i - 1);
     }
-    return interpolate_fun(u, equantile);
-    // auto p = upper_bound(edf.begin(), edf.end(), u);
-    // if (p == edf.end()) {
-    // 	size_t n = pool.size();
-    // 	double edf_slope = (edf[n-1] - edf[n-2])/(pool[n-1] - pool[n-2]);
-    // 	return pool[n-1] + (u - edf[n-1])/edf_slope;
-    // } else if (p == edf.begin()) {
-    // 	double edf_slope = (edf[1] - edf[0])/(pool[1] - pool[0]);
-    // 	return pool[0] + (u - edf[0])/edf_slope;
-    // } else {
-    // 	size_t n = distance(edf.begin(), p);
-    // 	double edf_slope = (edf[n] - edf[n-1])/(pool[n] - pool[n-1]);
-    // 	return pool[n-1] + (u - edf[n-1])/edf_slope;
-    // }
+    
+    auto p = upper_bound(ecdf.begin(), ecdf.end(), u);
+    size_t k = distance(ecdf.begin(), p);
+    double result;
+    size_t n = ecdf.size();
+    if (k == 0) {
+	result = pool[0] +
+	    (u - ecdf[0]) * (pool[1] - pool[0])/(ecdf[1] - ecdf[0]);
+    } else if (k < ecdf.size()) {
+	result = pool[k-1] +
+	    (u - ecdf[k-1]) * (pool[k] - pool[k-1])/(ecdf[k] - ecdf[k-1]);
+    } else { //k = ecdf.end()
+	result = pool[n-1] +
+	    (u - ecdf[n-1]) * (pool[n-1] - pool[n-2])/(ecdf[n-1] - ecdf[n-2]);
+    }
+    return result;
 }
 
 double Garch21::draw_z2(void) const
@@ -218,9 +210,9 @@ pair<double, size_t> Garch21::sample_estimator(const vec &V0, double u)
 	double z2 = !u_exceeded ? draw_z2(atan(X[1]/X[0])) : draw_z2();
 	mat A(2, 2);
 	gen_rand_matrix(z2, A);
-	vec V = A * V + B;
+	V = A * V + B;
 	if (!u_exceeded) {
-	    vec X = A * X;
+	    X = A * X;
 	    double l = norm(X);
 	    X /= l;
 	    S += log(l);
@@ -272,9 +264,8 @@ double Garch21::estimate_prob(double u)
 	else break;
     } while (true);
     
-    vector<double> ensemble(2000);
+    vector<double> ensemble(200);
     size_t n = 0;
-#pragma omp parallel for
     for (size_t i = 0; i < ensemble.size(); i++) {
 	uniform_real_distribution<double>
 	    unif(0, eta_samples.size());
@@ -418,10 +409,9 @@ int main(int argc, char *argv[])
     vector<double> beta({0.6610499});
 
     Garch21 model(alpha, beta);
-    double u = model.M * 3;
+    double u;
+    sscanf(argv[1], "%lf", &u);
     double prob = model.estimate_prob(u);
     printf("Prob(|V| > %.2f) = %e\n", u, prob);
-    // vector<funval> r_xi(1000);
-    // model.right_eigenfunction(model.tail_index, r_xi);
     return 0;
 }

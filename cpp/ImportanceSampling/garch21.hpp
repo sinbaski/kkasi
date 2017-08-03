@@ -15,6 +15,7 @@ protected:
     const size_t nbr_eigenfunction_points;
 
     vector<double> pool;
+    vector<mat> A_matrices;
 
     struct eigenfunction {
 	double kappa;

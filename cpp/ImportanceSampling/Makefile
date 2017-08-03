@@ -13,7 +13,9 @@ objs := $(addprefix $(objdir)/, $(objs))
 
 ifeq ($(debug),1)
 	CFLAGS := -std=c++11 -c -Wall -g3 -D DEBUG
+	CFLAGS += -fopenmp
 	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas
+	LDFLAGS += -fopenmp
 else
 	CFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -O3
 	CFLAGS += -fopenmp

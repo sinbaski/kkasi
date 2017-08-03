@@ -1999,12 +1999,82 @@ unit vectors.
 
 %% \ifestimation
 \section{Sampling from the shifted conditional distribution}
-While the Radon-Nikodime derivative of the shifted conditional
+While the Radon-Nikodym derivative of the shifted conditional
 probability measure with respect to the original measure is given by
 \eqref{eq:sampling}, the procedure of sampling from the shifted
 conditional distribution is not trivial. For this purpose, we first
 sample from the original distribution, and obtain an iid sample
-$Z_1, Z_2, \dots, Z_n$.
+$\hat Z_1^2, \hat Z_2^2, \dots, \hat Z_n^2$. This allows us to
+compute, empirically, the shifted conditional distribution function
+and its inverse:
+\begin{eqnarray*}
+  F_\xi(a, x) =
+  \P^\xi(Z_t^2 \leq a | X_{t-1} = x) 
+  &=&
+  \int_0^a {
+    |A(w)|^\xi r_\xi(A(w) \cdot x)
+    \over
+    r_\xi(x)
+  } f_{Z^2}(w) dw \\
+  \hat F_\xi(a, x)
+  &=&
+  \sum_{i=1}^n {
+    |A(\hat Z_i^2)|^\xi r_\xi(A(\hat Z_i^2) \cdot x)
+    \over
+    r_\xi(x)
+  } \1{\hat Z_i^2 \leq a } f_{Z^2}(\hat Z_i^2)
+\end{eqnarray*}
+where $f_{Z^2}$ denotes the original distribution of
+$Z^2 \sim Z_i^2, i=1,2,\dots$ and  $\hat F_\xi(a, x)$ denotes the
+empirical conditional distribution function. Now that $\hat F_\xi(a,
+x)$ can be computed, one can also compute $\hat F_\xi^{-1}(p, x)$. Let
+\[
+k = \left\{
+  \begin{array}{ll}
+    \max\{1 \leq i \leq n: F_\xi(\hat Z_{(i)}^2, x) \leq p\} &
+    \hat F_\xi(\hat Z_{(1)}, x) \leq p \\
+    0 & \text{ otherwise }
+  \end{array}
+\right.
+\]
+where $\hat Z_{(1)}^2 < \cdots < \hat Z_{(i-1)}^2 < \hat Z_{(i)}^2 < \cdots <
+\hat Z_{(n)}^2$ denote the order statistics of the sample $\{\hat
+Z_{i}^2\}_{i=1}^n$. Then we assign
+\[
+\hat F_\xi^{-1}(p, x)
+= \left\{
+  \begin{array}{ll}
+    \hat Z_{(1)}^2 + \left[p - \hat F_\xi(\hat Z_{(1)}^2, x)\right] {
+      \hat Z_{(2)}^2 - \hat Z_{(1)}^2
+      \over
+      \hat F_\xi(\hat Z_{(2)}^2, x) - \hat F_\xi(\hat Z_{(1)}^2, x)
+    } & k = 0 \\
+    \hat Z_{(k)}^2 + \left[p - \hat F_\xi(\hat Z_{(k)}^2, x)\right] \cdot {
+      \hat Z_{(k+1)} - \hat Z_{(k)}
+      \over
+      \hat F_\xi(Z_{(k+1)}, x) - \hat F_\xi(Z_{(k)}, x)
+    } & 1 \leq k < n \\
+    \hat Z_{(n)}^2 + \left[p - \hat F_\xi(\hat Z_{(n)}^2, x)\right] {
+      \hat Z_{(n)}^2 - \hat Z_{(n-1)}^2
+      \over
+      \hat F_\xi(\hat Z_{(n)}^2, x) - F_\xi(\hat Z_{(n-1)}^2, x)
+    } & k = n
+  \end{array}
+\right.
+\]
+In plain words, if $\hat F_\xi(\hat Z_{(1)}^2, x) < p < \hat F_\xi(\hat
+Z_{(n)}^2, x)$, we interpolate the empirical quantile function; if
+$p < \hat F_\xi(\hat Z_{(1)}^2, x)$, we compute $\hat F_\xi^{-1}(p,
+x)$ by approximating the probability density function between
+$\hat F_\xi^{-1}(p, x)$ and $\hat Z_{(1)}^2$ with ${\hat Z_{(2)}^2 - \hat
+  Z_{(1)}^2 \over \hat F_\xi(\hat Z_{(2)}^2, x) - \hat F_\xi(\hat
+  Z_{(1)}^2, x)}$; if $p > \hat F_\xi(\hat Z_{(n)}^2, x)$, $\hat F_\xi^{-1}(p,
+x)$ is similarly approximated as in the previous case.
+
+With a procedure to compute $\hat F^{-1}_\xi(p, x)$, we can sample
+from the conditional distribution $\hat F_\xi(\cdot, x)$ by first
+generating a $U(0, 1)$ random variable $U$ and giving
+$\hat F^{-1}_\xi(U, x)$ as the desired random variable.
 
 \section{An example: The GARCH(2,1) process}
 As an example of the algorithms described in the previous sections, we
