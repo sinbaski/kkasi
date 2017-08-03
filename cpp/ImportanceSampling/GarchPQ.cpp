@@ -150,8 +150,8 @@ double GarchPQ::find_tail_index
 	lb = gsl_root_fsolver_x_lower(solver);
 	ub = gsl_root_fsolver_x_upper(solver);
 	status = gsl_root_test_interval(lb, ub, 0.0, 1.0e-2);
-	if (status == GSL_SUCCESS)
-	    cout << "Tail index found: xi = " << xi << endl;
+	// if (status == GSL_SUCCESS)
+	//     cout << "Tail index found: xi = " << xi << endl;
     } while (status == GSL_CONTINUE && iter < max_iter);
     gsl_root_fsolver_free(solver);
     if (status != GSL_SUCCESS) {

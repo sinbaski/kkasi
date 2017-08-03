@@ -35,6 +35,12 @@ double interpolate_fun
     }
 }
 
+// Garch21::chain_state::chain_state(const vec &v)
+//     :angle(atan(v(1)/v(0))), additive(log(norm(v)))
+// {
+//     copy(v.begin(), v.end(), V.begin());
+// }
+
 void Garch21::compute_eigenfunctions(void)
 {
     eigenfunctions.resize(nbr_eigenfunctions);
@@ -59,24 +65,22 @@ double Garch21::compute_M(void)
     double m = 0;
     double omega = alpha[0];
     compute_eigenfunctions();
-    int i = 0;
-#pragma omp parallel for    
-    for (auto func = eigenfunctions.begin();
-	 func != eigenfunctions.end(); ++func, i++) {
-	double r_min = min_element(func->r_kappa->begin(),
-				   func->r_kappa->end(),
+    for (size_t i = 0; i < eigenfunctions.size(); i++) {
+	eigenfunction func = eigenfunctions[i];
+	double r_min = min_element(func.r_kappa->begin(),
+				   func.r_kappa->end(),
 				   [](const funval &f1, const funval &f2) {
 				       return f1[1] < f2[1];
 				   })->at(1);
 	double x;
-	if (func->kappa < 1) {
-	    x = pow(omega, func->kappa) * (*func->r_kappa)[0][1];
-	    x /= (1 - func->lambda_kappa);
+	if (func.kappa < 1) {
+	    x = pow(omega, func.kappa) * (*func.r_kappa)[0][1];
+	    x /= (1 - func.lambda_kappa);
 	    x /= r_min;
 	} else {
-	    double t = 1/func->kappa;
-	    x = omega * pow((*func->r_kappa)[0][1], t);
-	    x /= 1 - pow(func->lambda_kappa, t);
+	    double t = 1/func.kappa;
+	    x = omega * pow((*func.r_kappa)[0][1], t);
+	    x /= 1 - pow(func.lambda_kappa, t);
 	    x /= r_min;
 	}
 	if (x > m) m = x;
@@ -107,10 +111,13 @@ Garch21::Garch21(const vector<double> &alpha,
     chi_squared_distribution<double> chi2;
     // Prepare the ppol
     pool.resize(10000u);
+#pragma omp parallel for
     for (auto i = pool.begin(); i != pool.end(); ++i) {
 	*i = chi2(randev);
     }
     sort(pool.begin(), pool.end());
+    r_xi.resize(1000);
+    right_eigenfunction(tail_index, r_xi);
 }
 
 double Garch21::quantile(double u, double angle) const
@@ -127,8 +134,6 @@ double Garch21::quantile(double u, double angle) const
 	}
     }
 
-    vector<funval> r(pool.size());
-    right_eigenfunction(tail_index, r);
 #pragma omp parallel for
     for (unsigned int i = 0; i < pool.size(); ++i) {
 	vec y = matrices[i] * x;
@@ -136,8 +141,8 @@ double Garch21::quantile(double u, double angle) const
 	double theta = acos(y[0]/len);
 	double inc =
 	    pow(len, tail_index) *
-	    interpolate_fun(theta, r) /
-	    interpolate_fun(angle, r) /
+	    interpolate_fun(theta, r_xi) /
+	    interpolate_fun(angle, r_xi) /
 	    pool.size();
 	equantile[i][1] = pool[i];
 	equantile[i][0] = inc;
@@ -190,22 +195,103 @@ void Garch21::simulate_path(vector<vec> &path) const
     path[0] = V;
     for (size_t i = 1; i < n; i++) {
 	double z2 = chi2(randev);
-	gen_rand_matrix(z2, &A);
+	gen_rand_matrix(z2, A);
 	path[i] = A * path[i-1] + B;
     }
+}
+
+pair<double, size_t> Garch21::sample_estimator(const vec &V0, double u)
+{
+    double lv = norm(V0);
+    assert(lv <= M);
+    assert(u > M);
+    size_t Nu = 0;
+    vec X = V0 / lv;
+    double ang0 = atan(X[1]/X[0]);
+    vec V = V0;
+    vec B({alpha[0], 0});
+    double S = 0;
+    bool u_exceeded = false;
+    size_t n = 0;
+    size_t nbr_null_path = 0;
+    do {
+	double z2 = !u_exceeded ? draw_z2(atan(X[1]/X[0])) : draw_z2();
+	mat A(2, 2);
+	gen_rand_matrix(z2, A);
+	vec V = A * V + B;
+	if (!u_exceeded) {
+	    vec X = A * X;
+	    double l = norm(X);
+	    X /= l;
+	    S += log(l);
+	}
+	n++;
+	double normv = norm(V);
+	if (!u_exceeded && normv <= M) {
+	    n = 0;
+	    Nu = 0;
+	    S = 0;
+	    nbr_null_path++;
+	} else if (!u_exceeded && normv > M) {
+	    if (normv > u) {
+		Nu++;
+		u_exceeded = true;
+	    }
+	} else if (u_exceeded && normv <= M) {
+	    break;
+	} else if (u_exceeded && normv > u) {
+	    Nu++;
+	}
+    } while(true);
+    pair<double, size_t> results;
+    results.first = 
+	((double)Nu) * exp(-S * tail_index) *
+	interpolate_fun(ang0, r_xi) /
+	interpolate_fun(atan(X[1]/X[0]), r_xi);
+    results.second = nbr_null_path + 1;
+    return results;
 }
 
 double Garch21::estimate_prob(double u)
 {
     vector<vec> path(1000);
-    simulate_path(&path);
+    simulate_path(path);
     // discard the first 20% of the path.
     path.erase(path.begin(),
 	       next(path.begin(),
 		    ceil(path.size() * 0.2)
 		   ));
-    typedef vector<chain_state> twisted_path;
-    vector<twisted_path> ensemble;
+    vector<vec> eta_samples;
+    auto i = path.begin();
+    do {
+	i = find_if(i, path.end(),
+		    [this](const vec &v) {
+			return norm(v) <= M;
+		    });
+	if (i != path.end()) eta_samples.push_back(*i++);
+	else break;
+    } while (true);
+    
+    vector<double> ensemble(2000);
+    size_t n = 0;
+#pragma omp parallel for
+    for (size_t i = 0; i < ensemble.size(); i++) {
+	uniform_real_distribution<double>
+	    unif(0, eta_samples.size());
+	random_device randev;
+	size_t k = (size_t)floor(unif(randev));
+	pair<double, size_t> twisted = 
+	    sample_estimator(eta_samples[k], u);
+	ensemble[i] = twisted.first;
+	n += twisted.second;
+    }
+    double estimate = ((double)eta_samples.size())/path.size();
+    estimate *=
+	accumulate(ensemble.begin(), ensemble.end(), 0.0,
+		   [n](double s, double e) {
+		       return s + e/n;
+		   });
+    return estimate;
 }
 
 double Garch21::right_eigenfunction
@@ -234,6 +320,7 @@ double Garch21::right_eigenfunction
     }
 
     for (unsigned i = 0; i < n; i++) {
+#pragma omp parallel for
 	for (unsigned j = 0; j < n; j++) {
 	    double t1 = sin(angles[i] + ang1);
 	    double t2 = sqrt(tangents[i] * alpha[2] + beta[0]);
@@ -247,7 +334,7 @@ double Garch21::right_eigenfunction
 			    index + 1.5);
 	    P(i, j) = pow(c1 * t1, index) * t2 * t3 / t5 / t6 / t7;
 	    P(i, j) *= d;
-	    assert(P(i, j) > 0);
+	    assert(P(i, j) >= 0);
 	}
     }
 
@@ -331,7 +418,10 @@ int main(int argc, char *argv[])
     vector<double> beta({0.6610499});
 
     Garch21 model(alpha, beta);
-    vector<funval> r_xi(1000);
-    model.right_eigenfunction(model.tail_index, r_xi);
+    double u = model.M * 3;
+    double prob = model.estimate_prob(u);
+    printf("Prob(|V| > %.2f) = %e\n", u, prob);
+    // vector<funval> r_xi(1000);
+    // model.right_eigenfunction(model.tail_index, r_xi);
     return 0;
 }
