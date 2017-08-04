@@ -113,11 +113,11 @@ random matrix and $B_t$ is a $d$-dimensional vector, random or
 deterministic. The sequence $\{A_i\}_{i=1,2,\dots}$ and
 $\{B_i\}_{i=1,2,\dots}$  are iid and independent of each other.
 
-Kesten \cite{kesten:1973} showed that, when $A_t$ and $B_t$ were almost
-surely non-negative, had no row or column of only zeros, and there was
-a positive probability that $B_t$ was strictly positive, the strictly
-stationary solution to the equation
-$V \overset{d}{=} A V + B$ had power-law tails
+Kesten \cite{kesten:1973} showed that, when $A_t$ are almost
+surely non-negative, has no row or column of only zeros, and
+$B_t$ is almost surely non-negative and is not equal to the null
+vector with probability 1, then the strictly stationary solution to
+the equation $V \overset{d}{=} A V + B$ has power-law tails
 for its marginal distributions, assuming the following conditions (M)
 and (A):
 \begin{itemize}
@@ -161,7 +161,7 @@ extended Kesten's result and gave an explicit expression for $\mu_\xi$:
   {C \over \lambda'(\xi)}  
   \int_{\sphere^{d-1}_+ \times R} e^{-\xi s} f(e^s x) \ell_\xi(dx) ds
 \end{equation}
-where $C$ is a constant (cf. eq.(2.15) of Collamore and Mentemeier
+where $C$ is a constant (cf. (2.15) of Collamore and Mentemeier
 \cite{collamore:mentemeier:2016}), $f(\cdot)$ is any bounded
 continuous function on $\reals^{d}_+ \setminus \{0\}$  and
 $\ell_\xi$ is a probability measure on $\sphere_+^{d-1}$. Its definition
