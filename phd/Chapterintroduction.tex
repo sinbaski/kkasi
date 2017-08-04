@@ -1,45 +1,49 @@
 \chapter{Introduction}\label{ch:intr}
-
+The phenomena of heavy-tailedness is widely observed in many
+disciplins of science, for example, phase transition of matter and
+black body radiation as studied in physics, neuronal avalanches in
+biology, claim sizes of insurance mathematics and stock returns in
+finance. The last application is indeed the focus of this thesis. To
+discuss the phenomena in precise terms, we introduce the concept of
+regular variation.
 
 \section{Regular Variation}
 The concept of regular variation is defined by the following scaling
-property: If a function $f(\cdot)$ satisfies
+property: if a function $f(\cdot)$ satisfies
 \[
 \lim_{x \to \infty} {f(c x) \over f(x)} = c^\alpha
+\quad
+\forall c > 0
 \]
 then we say $f(x)$ is regularly varying with index $\alpha$.
-Distribution functions, say $F(\cdot)$, whose survival function
-$\bar F(x) = 1 - F(x)$ satisfies the above scaling property, are
-observed in a variety of phenomena, for example, phase transition of
-matter and black body radiation as studied in physics, neuronal
-avalanches in biology, claim sizes of insurance mathematics and stock
-returns in finance. The last application is indeed the focus of this
-thesis.
-
+% Distribution functions, say $F(\cdot)$, whose survival function
+% $\bar F(x) = 1 - F(x)$ satisfies the above scaling property, are
+% observed in a variety of phenomena, 
 When expanded to multiple dimensions, the scaling property of regular
-variation is better described in terms of weak convergence to a
-spectral measure: If a random vector $V$ satisfies
+variation is better described in terms of vague convergence to a
+spectral measure $\mu_\alpha$: if a random vector $V$ satisfies
 \[
-\lim_{x \to \infty}
 {
   \P(V/|V| \in \cdot, |V| > c x)
   \over
   \P(|V| > x)
-}
-\overset{w}{\to} c^{-\alpha} \mu_\alpha(\cdot)
+},
+\overset{v}{\to} c^{-\alpha} \mu_\alpha(\cdot)
+\quad
+x \to \infty, \forall c > 0
 \]
-then we say the components of $V$ is jointly regularly varying with
-index $\alpha$. Here $\mu_\alpha(\cdot)$ is a probability measure on
-the unit sphere \cite{buraczewski:damek:mikosch:2016}. Clearly, if $V$
-is jointly regularly varying with index $\alpha$, then each component
+then we say the $V$ is regularly varying with index $\alpha$. Here
+$\mu_\alpha(\cdot)$ is a probability measure on the unit sphere
+\cite{buraczewski:damek:mikosch:2016}. Clearly, if $V$
+is regularly varying with index $\alpha$, then each component
 of it and each linear combination of its components are regularly
 varying with the same index $\alpha$. This follows from Feller
 \cite{feller}, p. 278. Cf. also Jessen and Mikosch
-\cite{JessenMikosch2006}, lemma 3.1, and Embrechts et al
+\cite{JessenMikosch2006}, lemma 3.1, and Embrechts et. al.
 \cite{embrechts:klueppelberg:mikosch:1997}, lemma 1.3.1.
 
-Thus estimating the tail index $\alpha$ is particularly important for
-understanding the behaviour of a heavy-tailed series. The earliest
+Clearly, estimating the tail index $\alpha$ is particularly important
+for understanding the behaviour of a heavy-tailed series. A standard
 method proposed for this purpose is due to Hill \cite{hill1975simple}:
 \[
 \hat \alpha_H = \left[
@@ -63,44 +67,44 @@ weakly dependent; and Resnick and St{\u a}ric{\u a}
 \cite{resnick:starica:1995, resnick:starica:1997} proved its
 consistency when $X_t$ was a linear process.
 
-When considered as the multiplicative inverse of the parameter of the
-{\em Generalized Extreme Value} distribution, there are other methods
-in the literature for estimating the tail index, e.g. Pickand's 
-estimator \cite{pickands1975statistical} $\hat \alpha_P$ and the
-Deckers-Einmahl-de Haan estimator $\hat \alpha_{\text{DEH}}$
-\begin{eqnarray*}
-{1 \over \hat \alpha_P}
-&=&
-{1 \over \log 2}
-\log {
-  X_{(k)} - X_{(2k)}
-  \over
-X_{(2k)} - X_{(4k)}  
-} \\
-{1 \over \hat \alpha_{\text{DEH}}}
-&=&
-1 + {1 \over \alpha_H} + {1 \over 2} \left(
-  {H \over \alpha_H^2} - 1
-\right)^{-1}
-\end{eqnarray*}
-where it is similarly assumed $k \to \infty$ and $k/n \to 0$ as $n \to
-\infty$. The Deckers-Einmahl-de Haan estimator makes use of Hill's
-estimator $\hat \alpha_H$ and computes
-\[
-H = \left[
-  {1 \over k} \sum_{i=1}^k \log \left(
-    { X_{(i)} \over X_{(k+1)} }
-  \right)^2
-\right]^{-1}
-\]
-Apparently $1/H$ can be interpreted as the 2nd empirical moment of
-$\log(X_{(i)}/X_{(k+1)})$ for $i \leq k$.
-A major drawback of Pickand's and Deckers-Einmahl-de Haan's estimators
-is that, when applied to estimating the tail index, they discard the
-information that the tail index is always positive, hence resulting in
-a larger confidence band compared with that obtained for Hill's
-estimator. Therefore we stick to Hill's estimator in the empirical
-work included in this thesis.
+% When considered as the multiplicative inverse of the parameter of the
+% {\em Generalized Extreme Value} distribution, there are other methods
+% in the literature for estimating the tail index, e.g. Pickand's 
+% estimator \cite{pickands1975statistical} $\hat \alpha_P$ and the
+% Deckers-Einmahl-de Haan estimator $\hat \alpha_{\text{DEH}}$
+% \begin{eqnarray*}
+% {1 \over \hat \alpha_P}
+% &=&
+% {1 \over \log 2}
+% \log {
+%   X_{(k)} - X_{(2k)}
+%   \over
+% X_{(2k)} - X_{(4k)}  
+% } \\
+% {1 \over \hat \alpha_{\text{DEH}}}
+% &=&
+% 1 + {1 \over \alpha_H} + {1 \over 2} \left(
+%   {H \over \alpha_H^2} - 1
+% \right)^{-1}
+% \end{eqnarray*}
+% where it is similarly assumed $k \to \infty$ and $k/n \to 0$ as $n \to
+% \infty$. The Deckers-Einmahl-de Haan estimator makes use of Hill's
+% estimator $\hat \alpha_H$ and computes
+% \[
+% H = \left[
+%   {1 \over k} \sum_{i=1}^k \log \left(
+%     { X_{(i)} \over X_{(k+1)} }
+%   \right)^2
+% \right]^{-1}
+% \]
+% Apparently $1/H$ can be interpreted as the 2nd empirical moment of
+% $\log(X_{(i)}/X_{(k+1)})$ for $i \leq k$.
+% A major drawback of Pickand's and Deckers-Einmahl-de Haan's estimators
+% is that, when applied to estimating the tail index, they discard the
+% information that the tail index is always positive, hence resulting in
+% a larger confidence band compared with that obtained for Hill's
+% estimator. Therefore we stick to Hill's estimator in the empirical
+% work included in this thesis.
 
 \section{Stochastic Recurrence Equation}
 One of the most important dynamical mechanisms that lead to regularly
