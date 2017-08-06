@@ -1018,12 +1018,12 @@ Then in \S\ref{sec:consistency} we prove theorem
     \right]^\theta
   \end{eqnarray*}
   Choose
-  \begin{eqnarray*}
+  \begin{eqnarray}
     M_\theta &=& {
       |B| r_\theta(\tilde B)^{1/\theta}
       \over
       (1 - \lambda(\theta)^{1/\theta}) \underline r_\theta
-    } + \epsilon \text{ for some } \epsilon > 0 \\
+    } + \epsilon \text{ for some } \epsilon > 0 \label{eq:fdtyt} \\
     b_\theta &=&
     \left[
       \lambda(\theta)^{1/\theta} +
@@ -1032,8 +1032,8 @@ Then in \S\ref{sec:consistency} we prove theorem
                \over
                M_\theta \underline r_\theta
              }
-    \right]^\theta < 1
-  \end{eqnarray*}
+    \right]^\theta < 1 \nonumber 
+  \end{eqnarray}
   Then we have
   \[
   \E
@@ -1057,32 +1057,6 @@ $\M$ is a postive constant. This is the next lemma.
 } \label{sec:bound_to_C}
 \begin{lemma}
   \label{lemma:2}
-  %% Assume that $\varphi \in \reals$ satisfies
-  %% \[
-  %% \E \|A\| < \infty,\quad
-  %% \lambda(\varphi) < \infty, \quad
-  %%   {
-  %%     \bar r_\varphi  \bar r_\theta
-  %%     \over
-  %%     \underline r_\varphi \underline r_\theta
-  %%   } {1 \over \lambda(\varphi)}
-  %%   \E \| A \|^{\varphi + \theta}
-  %%   < 1 \quad \text{for some } \theta > 0
-  %% \]
-  %% Under these conditions,
-  %% \begin{eqnarray*}
-  %% \Theta(\varphi) &=& \left\{
-  %% \theta > 0:
-  %%   {
-  %%     \bar r_\varphi  \bar r_\theta
-  %%     \over
-  %%     \underline r_\varphi \underline r_\theta
-  %%   } {1 \over \lambda(\varphi)}
-  %%   \E \| A \|^{\varphi + \theta}
-  %%   < 1
-  %%   \right\}
-  %% \end{eqnarray*}
-  %% is non-empty.
   Let $\Theta$ be a proper subset of $(0, \xi)$, i.e.
   $\inf \Theta > 0$ and $\sup \Theta < \xi$. Define
   \begin{eqnarray}
@@ -2287,10 +2261,18 @@ $\mathcal E_u$ when $V_t$ is a GARCH($2, 1$) process. In previous
 sections we have shown that $\mathcal E_u$ is efficient for
 GARCH($2, 1$) and described how the right eigenfunctions can be
 approximately evaluated. It remains to choose the set
-$\mathcal C = \{v \in \chi, |V_n| < M\}$.
+$\mathcal C = \{v \in \chi, |V_n| < M\}$. As given in
+\eqref{eq:M_def},
+$M = \sup_{\theta \in \Theta} M_{\theta}$ while $M_\theta$ is in turn
+given by \eqref{eq:ergyh} or \eqref{eq:fdtyt}.
 
-For convenience, we take $\Theta = [\xi/4, 3\xi/4]$
-(cf. \S\ref{sec:bound_to_C}).
+One viable option is to choose $M_\theta$ such that
+$b_\theta = {1 + \lambda_\theta \over 2} < 1$. For the range of
+$\theta$, which is denoted $\Theta$, we take
+$\Theta = [0.1, 0.1 + 0.99 \times (\xi - 0.1)]$, where $\xi$ is the
+tail index.
+
+
 
 
 % To estimate the 
