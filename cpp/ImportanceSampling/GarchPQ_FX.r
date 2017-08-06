@@ -63,22 +63,24 @@ source("../../r/libxxie.r");
 ##     "USD"
 ##     );
 
-assets = c("DAX", "FTSE100", "SP500", "DJIA", "OMXS30");
-R <- getAssetReturns("2012-01-01", "2015-01-01", assets, 1, "closing", "localhost");
+## assets = c("DAX", "FTSE100", "SP500", "DJIA", "OMXS30");
+## R <- getAssetReturns("2012-01-01", "2015-01-01", assets, 1, "closing", "localhost");
 
-coef <- matrix(NA, nrow=length(assets), ncol=3);
-for (i in 1:length(assets)) {
-    X <- getAssetReturns("2012-01-01", "2015-01-01", assets[i], 1, "closing", "localhost");
-    garch21 <- garchFit(~garch(2, 1), data=X, trace=FALSE,
-                  include.mean=FALSE);
-    garch11 <- garchFit(~garch(1, 1), data=X, trace=FALSE,
-                  include.mean=FALSE);
-    coef[i, ] <- garch21@fit$coef[-1];
-}
+## coef <- matrix(NA, nrow=length(assets), ncol=3);
+## for (i in 1:length(assets)) {
+##     X <- getAssetReturns("2012-01-01", "2015-01-01", assets[i], 1, "closing", "localhost");
+##     garch21 <- garchFit(~garch(2, 1), data=X, trace=FALSE,
+##                   include.mean=FALSE);
+##     garch11 <- garchFit(~garch(1, 1), data=X, trace=FALSE,
+##                   include.mean=FALSE);
+##     coef[i, ] <- garch21@fit$coef[-1];
+## }
 
-X <- getAssetReturns("2012-01-01", "2015-01-01", "SP500", 1, "closing", "localhost");
+X <- getAssetReturns("2012-01-01", "2015-01-01", "DJIA", 1, "closing", "localhost");
 M21 <- garchFit(~garch(2, 1), data=X, trace=FALSE);
 M11 <- garchFit(~garch(1, 1), data=X, trace=FALSE);
+sum(M21@fit$coef[c(3,4,5)])
+ics = matrix(c(M11@fit$ics, M21@fit$ics), byrow=T, nrow=2, ncol=4)
 
 
 ##           alpha1       alpha2     beta1   sum

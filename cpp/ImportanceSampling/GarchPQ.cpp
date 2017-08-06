@@ -61,8 +61,8 @@ double GarchPQ::estimateLambda
 		 {
 		     x = unif(gen);
 		 });
-	auto n = norm(E_prev[i], "Inf");
-	E_prev[i] /= n;
+	// auto n = norm(E_prev[i], "Inf");
+	E_prev[i] /= norm(E_prev[i]);
     }
     double Lambda = 0;
     sd = 0;
@@ -86,7 +86,7 @@ double GarchPQ::estimateLambda
 	    U = unif(gen) * Q.back();
 	    unsigned l = upper_bound(Q.begin(), Q.end(), U) - Q.begin();
 	    E[k] = A[k] * E_prev[l];
-	    alpha[k] = norm(E[k], "inf");
+	    alpha[k] = norm(E[k]);
 	    E[k] /= alpha[k];
 	    alpha[k] = pow(alpha[k], theta);
 
@@ -181,8 +181,10 @@ int main(int argc, char*argv[])
     // vector<double> beta({8.008847e-01});
 
     // DJIA
-    vector<double> alpha({3.374294e-06, 0.061577928, 0.12795424});
-    vector<double> beta({0.6610499});
+    // vector<double> alpha({3.374294e-06, 0.061577928, 0.12795424});
+    // vector<double> beta({0.6610499});
+    vector<double> alpha({7.269426e-06, 7.490443e-02, 1.281212e-01});
+    vector<double> beta({6.543123e-01});
 
     // SP500
     // vector<double> alpha({9.376992e-06, 7.949678e-02, 8.765884e-02});
