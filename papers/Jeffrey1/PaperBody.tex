@@ -1950,28 +1950,29 @@ k = \left\{
 where $\hat Z_{(1)}^2 < \cdots < \hat Z_{(i-1)}^2 < \hat Z_{(i)}^2 < \cdots <
 \hat Z_{(n)}^2$ denote the order statistics of the sample $\{\hat
 Z_{i}^2\}_{i=1}^n$. Then we assign
-\[
-\hat F_\xi^{-1}(p, x)
-= \left\{
-  \begin{array}{ll}
-    \hat Z_{(1)}^2 + \left[p - \hat F_\xi(\hat Z_{(1)}^2, x)\right] {
-      \hat Z_{(2)}^2 - \hat Z_{(1)}^2
-      \over
-      \hat F_\xi(\hat Z_{(2)}^2, x) - \hat F_\xi(\hat Z_{(1)}^2, x)
-    } & k = 0 \\
-    \hat Z_{(k)}^2 + \left[p - \hat F_\xi(\hat Z_{(k)}^2, x)\right] \cdot {
-      \hat Z_{(k+1)} - \hat Z_{(k)}
-      \over
-      \hat F_\xi(Z_{(k+1)}, x) - \hat F_\xi(Z_{(k)}, x)
-    } & 1 \leq k < n \\
-    \hat Z_{(n)}^2 + \left[p - \hat F_\xi(\hat Z_{(n)}^2, x)\right] {
-      \hat Z_{(n)}^2 - \hat Z_{(n-1)}^2
-      \over
-      \hat F_\xi(\hat Z_{(n)}^2, x) - F_\xi(\hat Z_{(n-1)}^2, x)
-    } & k = n
-  \end{array}
-\right.
-\]
+\begin{equation}
+  \label{eq:rtghgh}
+  \hat F_\xi^{-1}(p, x)
+  = \left\{
+    \begin{array}{ll}
+      \hat Z_{(1)}^2 + \left[p - \hat F_\xi(\hat Z_{(1)}^2, x)\right] {
+        \hat Z_{(2)}^2 - \hat Z_{(1)}^2
+        \over
+        \hat F_\xi(\hat Z_{(2)}^2, x) - \hat F_\xi(\hat Z_{(1)}^2, x)
+      } & k = 0 \\
+      \hat Z_{(k)}^2 + \left[p - \hat F_\xi(\hat Z_{(k)}^2, x)\right] \cdot {
+        \hat Z_{(k+1)} - \hat Z_{(k)}
+        \over
+        \hat F_\xi(Z_{(k+1)}, x) - \hat F_\xi(Z_{(k)}, x)
+      } & 1 \leq k < n \\
+      \hat Z_{(n)}^2 + \left[p - \hat F_\xi(\hat Z_{(n)}^2, x)\right] {
+        \hat Z_{(n)}^2 - \hat Z_{(n-1)}^2
+        \over
+        \hat F_\xi(\hat Z_{(n)}^2, x) - F_\xi(\hat Z_{(n-1)}^2, x)
+      } & k = n
+    \end{array}
+  \right.
+\end{equation}
 In plain words, if $\hat F_\xi(\hat Z_{(1)}^2, x) < p < \hat F_\xi(\hat
 Z_{(n)}^2, x)$, we interpolate the empirical quantile function; if
 $p < \hat F_\xi(\hat Z_{(1)}^2, x)$, we compute $\hat F_\xi^{-1}(p,
@@ -2192,30 +2193,12 @@ $\{h_\theta(i \Delta_n)\}_ {i=1,2,\dots, n}$ as the associated
 eigenvector (cf. Collamore and Mentemeier
 \cite{collamore:mentemeier:2016}, lemma 2.2).
 
-\subsection{The algorithm}
+\subsection{The algorithm} \label{sec:main_algorithm}
 In this section we describe the implementation of the proposed
-estimator $\mathcal E_u$:
-\begin{algorithm}
-  \caption{Algorithm for estimating $\P(|V| > u)$}
-  \label{alg:main_algo}
-  \begin{algorithmic}
-    \Procedure{$\mathcal E_u$}{$u, K$}
-    \State Simulate a sample path of GARCH($2, 1$) with initial value
-    $({\omega \over 1 - \beta_1}, 0)$.
-    \Comment{Create a sample of $\eta: \eta(S) = \pi(S)/\pi(\mathcal
-      C), S \subseteq \mathcal C$}
-    \State $X \gets Y$
-    \EndProcedure
-  \end{algorithmic}
-\end{algorithm}
-
-\subsection{Simulaton and Results}
-In this section we describe the implementation of the estimator
-$\mathcal E_u$ when $V_t$ is a GARCH($2, 1$) process. In previous
-sections we have shown that $\mathcal E_u$ is efficient for
-GARCH($2, 1$) and described how the right eigenfunctions can be
-approximately evaluated. It remains to choose the set
-$\mathcal C = \{v \in \chi, |V_n| < M\}$. As given in
+estimator $\mathcal E_u$. In previous sections we have shown that
+$\mathcal E_u$ is efficient for  GARCH($2, 1$) and described how the
+right eigenfunctions can be approximately evaluated. It remains to
+choose the set $\mathcal C = \{v \in \chi, |V_n| < M\}$. As given in
 \eqref{eq:M_def}, $M = \sup_{\theta \in \Theta} M_{\theta}$ while
 $M_\theta$ is in turn given by \eqref{eq:ergyh} or \eqref{eq:fdtyt}.
 One viable option is to choose $M_\theta$ such that
@@ -2224,12 +2207,115 @@ $\theta$, which is denoted $\Theta$, we take
 $\Theta = [0.1, 0.1 + 0.99 \times (\xi - 0.1)]$, where $\xi$ is the
 tail index.
 
-In the following we show the estimation results of a few real-world
-GARCH($2,1$) time series. Table \ref{tab:tgjuy} lists the estimated
-parameters of the S\& P 500 index and the Dow Jones Industrial Average
-index. Judging by the {\em Akaike Information Criterior}, the two
-series are indeed better described by GARCH($2, 1$) models than by
-the simpler GARCH($1,1$) models.
+Before coding the algorithm of estimating $\P(|V| > u)$, we first need
+a procedure for simulating a sample path under the dual transition
+kernel of the MA-process $(X_t, S_t)$. For convenience, let $\hat
+F_\xi^{-1}(p, x)$ be defined as in \eqref{eq:rtghgh} and $Q^{-1}$
+denote the quantile function of $\chi^2(1)$ distribution. $A(W)$
+denotes the matrix $A_t$ that appears in \eqref{eq:garch21} with
+$Z_{t-1}^2 = W$. We describe the procedure in algorithm
+\ref{alg:dual_transition}.
+\begin{algorithm}[htb!]
+  \caption{Algorithm for simulating a sample path under the dual
+    kernel}
+  \label{alg:dual_transition}
+  \begin{algorithmic}
+    \Procedure{\text{sim}}{$u, V_0$}
+    \Comment{Simulate a path under the dual kernel}
+    \State $V \gets V_0$
+    \State $X \gets V_0 / |V_0|$
+    \State $B \gets (\omega, 0)^\top$
+    \State $(N_u, S, I, m) \gets (0, 0, 0, 0)$
+    \Loop
+    \State Generate $U(0,1)$ r.v. $U$
+    \If{$I = 0$}
+    \Comment $u$ is not exceeded. Sample from the shifted distribution
+    \State $W \gets \hat F_\xi^{-1}(U, X)$
+    \Else
+    \Comment $u$  is exceeded. Sample from the original distribution
+    \State $W \gets Q^{-1}(U)$
+    \EndIf
+    \State $V \gets A(W) V + B$
+    \If {$I = 0$}
+    \Comment Once $u$ is exceeded, $X, S$ don't need to be computed.
+    \State $S \gets \log |A(W) X|$
+    \State $X \gets {A(W) X \over |A(W) X|}$
+    \EndIf
+    \If {$I = 0$ and $|V| \leq M$}
+    \Comment The chain returns to $\mathcal C$ before exceeding $u$.
+    \State $(N_u, S) \gets (0, 0)$
+    \State $m \gets m + 1$
+    \ElsIf {$I = 0$ and $|V| > M$}
+    \If {$|V| > u$}
+    \Comment $u$ is exceeded for the 1st time
+    \State $N_u \gets N_u + 1$
+    \State $I \gets 1$
+    \EndIf
+    \ElsIf{$I = 1$ and $|V| \leq M$}
+    \State break
+    \ElsIf{$I = 1$ and $|V| > u$}
+    \State $N_u \gets N_u + 1$
+    \EndIf
+    \EndLoop
+    \State $p \gets N_u \exp(-\xi S) r_\xi(V_0/|V_0|) / r_\xi(X)$
+    \State $q \gets m + 1$
+    \State \Return $(p, q)$
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+With a procedure established for simulating a sample path under the
+dual transition kernel, we are at a position to describe the procedure
+for estimating $\P(|V| > u)$. We present it as algorithm
+\ref{alg:main_algo}.
+\begin{algorithm}[htb!]
+  \caption{Algorithm for estimating $\P(|V| > u)$}
+  \label{alg:main_algo}
+  \begin{algorithmic}
+    \Procedure{$\mathcal E_u$}{$u, K$}
+    \State Define $W_0 = ({\omega \over 1 - \beta_1}, 0)^\top$
+    \Comment{Create a sample of $\eta: \eta(S) = \pi(S)/\pi(\mathcal
+      C), S \subseteq \mathcal C$}
+    \State Define $B = (\omega, 0)^\top$.
+    \For {$i$ from 1 to 1000}
+    \State Generate $\chi^2(1)$ random variable $Z_i^2$ 
+    \State generate random matrix $A_i(Z_i^2)$.
+    \State $W_i \gets A_i W_{i-1} + B$
+    \EndFor
+    \For {$i$ from 1 to 800}
+    \Comment{Discard the first 20\% of the sample}.
+    \State $W_i \gets W_{i + 200}$
+    \EndFor
+    \State Discard all $W_ i$ for which $|W_i| > M$.
+    \State $N \gets \text{number of remaining } W_i$
+    \State Define a vector $E$ of length $K$.
+    \State $n \gets 0$
+    \For {$i$ from 1 to $K$}
+    \Comment Simulate $K$ sample paths according to the dual
+    transition kernel
+    \State Generate $U(0, N)$ random variable $U$
+    \State $k \gets \ceil{U}$
+    \State $(p, q) \gets \text{sim}(u, W_k)$
+    \Comment Simulate a sample path
+    \State $E_i \gets p$
+    \State $n \gets n + q$;
+    \EndFor
+    \State $\pi(\mathcal C) \gets N/1000$
+    \State $\hat{\mathcal E_u} \gets {\pi(\mathcal C) \over n} \sum_{i=1}^K E_i$
+    \Comment $\hat{\mathcal E_u}$ is our estimate of $\P(|V| > u)$
+    \State \Return $\hat{\mathcal E_u}$
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{Simulaton and Results}
+In this section we present estimation results of the algorithm
+outlined in \S\ref{sec:main_algorithm} when applied to a few
+real-world GARCH($2,1$) time series. Table \ref{tab:tgjuy} lists the
+estimated parameters of the S\& P 500 index and the Dow Jones
+Industrial Average index. Judging by the {\em Akaike Information
+  Criterior}, the two series are indeed better described by GARCH($2,
+1$) models than by the simpler GARCH($1,1$) models.
 \begin{table}[htb!]
   \centering
   \begin{tabular}{c|c|c|c|c|c|c}
@@ -2251,6 +2337,6 @@ the simpler GARCH($1,1$) models.
   }
   \label{tab:tgjuy}
 \end{table}
-In the following we tabulate the values of $u$, $M$, and $\P(|V| > u)$
-for the SP500 and DJIA series described in table \ref{tab:tgjuy}.
+% In the following we tabulate the values of $u$, $M$, and $\P(|V| > u)$
+% for the SP500 and DJIA series described in table \ref{tab:tgjuy}.
 

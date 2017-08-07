@@ -190,8 +190,7 @@ varying r.v. is stochastic recursion of the following form:
 \end{equation}
 where $X_t$ is a $d$-dimensional random vector, $A_t$ is a $d\times d$
 random matrix and $B_t$ is a $d$-dimensional vector, random or
-deterministic. The sequence $\{A_i\}_{i=1,2,\dots}$ and
-$\{B_i\}_{i=1,2,\dots}$  are iid and independent of each other.
+deterministic.
 
 Kesten \cite{kesten:1973} showed that, when $A_t$ are almost
 surely non-negative, has no row or column of only zeros, and
@@ -277,7 +276,7 @@ distribution of $R_t$ conditional on $\{(R_i,
 \sigma_i^2)\}_{i=0}^{t-1}$. $\omega, \{\alpha_i\}_{i=1}^p,
 \{\beta_i\}_{i=1}^q$ are constant parameters of the model. Clearly,
 the GARCH($p,q$) recurrence equation is of the form of
-\eqref{eq:rhjyu}. So, with appropriate conditions, including
+\eqref{eq:rhjyu}. So, with appropriate conditions including
 $\sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1$, $\sigma_t^2$ is
 shown to be a positive Harris Markov chain (cf. Bollerslev
 \cite{bollerslev:1986} and Buraczewski et al
@@ -314,18 +313,6 @@ A_i =
   0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
   0 & 0 & \cdots &
   0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
-\end{pmatrix}
-\begin{pmatrix}
-  \sigma_{t-1}^2 \\
-  \sigma_{t-2}^2 \\
-  \vdots \\
-  \sigma_{t-q+1}^2 \\
-  \sigma_{t-q}^2 \\
-  R_{t-2}^2 \\
-  R_{t-3}^2 \\
-  \vdots \\
-  R_{t-p+1}^2 \\
-  R_{t-p}^2
 \end{pmatrix}
 \]
 

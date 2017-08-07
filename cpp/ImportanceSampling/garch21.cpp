@@ -205,7 +205,7 @@ pair<double, size_t> Garch21::sample_estimator(const vec &V0, double u)
     vec B({alpha[0], 0});
     double S = 0;
     bool u_exceeded = false;
-    size_t n = 0;
+//    size_t n = 0;
     size_t nbr_null_path = 0;
     do {
 	double z2 = !u_exceeded ? draw_z2(atan(X[1]/X[0])) : draw_z2();
@@ -221,7 +221,7 @@ pair<double, size_t> Garch21::sample_estimator(const vec &V0, double u)
 	n++;
 	double normv = norm(V);
 	if (!u_exceeded && normv <= M) {
-	    n = 0;
+//	    n = 0;
 	    Nu = 0;
 	    S = 0;
 	    nbr_null_path++;
