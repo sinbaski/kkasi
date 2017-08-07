@@ -381,6 +381,7 @@ bounded relative error by Collamore et al \cite{collamore2014}. We
 consider our work as a multivariate extension to theirs.
 
 \section{Statement of Results}
+\label{sec:IS_Results}
 Our solution involves associating a {\em Markov Additive} process
 $(X_n, S_n)$ to the Markov chain $V_n$:
 \begin{eqnarray}
@@ -2191,6 +2192,23 @@ $\{h_\theta(i \Delta_n)\}_ {i=1,2,\dots, n}$ as the associated
 eigenvector (cf. Collamore and Mentemeier
 \cite{collamore:mentemeier:2016}, lemma 2.2).
 
+\subsection{The algorithm}
+In this section we describe the implementation of the proposed
+estimator $\mathcal E_u$:
+\begin{algorithm}
+  \caption{Algorithm for estimating $\P(|V| > u)$}
+  \label{alg:main_algo}
+  \begin{algorithmic}
+    \Procedure{$\mathcal E_u$}{$u, K$}
+    \State Simulate a sample path of GARCH($2, 1$) with initial value
+    $({\omega \over 1 - \beta_1}, 0)$.
+    \Comment{Create a sample of $\eta: \eta(S) = \pi(S)/\pi(\mathcal
+      C), S \subseteq \mathcal C$}
+    \State $X \gets Y$
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
 \subsection{Simulaton and Results}
 In this section we describe the implementation of the estimator
 $\mathcal E_u$ when $V_t$ is a GARCH($2, 1$) process. In previous
@@ -2219,7 +2237,7 @@ the simpler GARCH($1,1$) models.
     \hline
     SP500 GARCH($1, 1$) & 7.4e-6 & 0.15 &  & 0.72 & NA & -7.0270 \\
     SP500 GARCH($2, 1$) & 9.2e-6 & 0.088 & 0.097 & 0.65 & NA& -7.0274 \\
-    DJIA GARCH($1, 1$) & 5.6e-6 & 0.16 &  & 0.73 & NA& -7.1720\\
+    DJIA GARCH($1, 1$) & 5.6e-6 & 0.16 &  & 0.73 & 3.76 & -7.1720\\
     DJIA GARCH($2, 1$) & 7.3e-6 & 0.075 & 0.13 & 0.65 & 4.65 & -7.1752 \\
     \hline
   \end{tabular}
@@ -2233,6 +2251,6 @@ the simpler GARCH($1,1$) models.
   }
   \label{tab:tgjuy}
 \end{table}
-
-
+In the following we tabulate the values of $u$, $M$, and $\P(|V| > u)$
+for the SP500 and DJIA series described in table \ref{tab:tgjuy}.
 

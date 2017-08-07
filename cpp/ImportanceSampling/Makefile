@@ -12,24 +12,24 @@ objs := $(notdir $(patsubst %.cpp, %.o, $(srcs)))
 objs := $(addprefix $(objdir)/, $(objs))
 
 ifeq ($(debug),1)
-	CFLAGS := -std=c++11 -c -Wall -g3 -D DEBUG
-	CFLAGS += -fopenmp
+	CPPFLAGS := -std=c++11 -c -Wall -g3 -D DEBUG
+	CPPFLAGS += -fopenmp
 	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas
 	LDFLAGS += -fopenmp
 else
-	CFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -O3
-	CFLAGS += -fopenmp
+	CPPFLAGS := -std=c++11 -c -Wall -Wno-unused-variable -O3
+	CPPFLAGS += -fopenmp
 	LDFLAGS := -lm -larmadillo -lgsl -lgslcblas -fopenmp	
 endif
 
 ifeq ($(main), 1)
-	CFLAGS += -D MAIN_ALGO
+	CPPFLAGS += -D MAIN_ALGO
 endif
 
 
 $(objdir)/%.o: $(srcdir)/%.cpp
 	@if [ ! -e $(objdir) ]; then mkdir $(objdir); fi
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CPPFLAGS) $^ -o $@
 
 .PHONY: garch1d
 garch1d: $(objdir)/main.o $(objdir)/garch1D.o

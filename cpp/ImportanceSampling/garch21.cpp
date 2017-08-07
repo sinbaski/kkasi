@@ -104,7 +104,7 @@ Garch21::Garch21(const vector<double> &alpha,
     random_device randev;
     chi_squared_distribution<double> chi2;
     // Prepare the ppol
-    pool.resize(10000u);
+    pool.resize(1000u);
     A_matrices.resize(pool.size());
     
 #pragma omp parallel for
@@ -153,7 +153,8 @@ double Garch21::quantile(double u, double angle) const
 	    (u - ecdf[k-1]) * (pool[k] - pool[k-1])/(ecdf[k] - ecdf[k-1]);
     } else { //k = ecdf.end()
 	result = pool[n-1] +
-	    (u - ecdf[n-1]) * (pool[n-1] - pool[n-2])/(ecdf[n-1] - ecdf[n-2]);
+	    (u - ecdf[n-1]) * (pool[n-1] - pool[n-2])/
+	    (ecdf[n-1] - ecdf[n-2]);
     }
     return result;
 }
@@ -244,7 +245,7 @@ pair<double, size_t> Garch21::sample_estimator(const vec &V0, double u)
     return results;
 }
 
-double Garch21::estimate_prob(double u)
+array<double, 2> Garch21::estimate_prob(double u, size_t nbr_paths)
 {
     vector<vec> path(1000);
     simulate_path(path);
@@ -264,7 +265,7 @@ double Garch21::estimate_prob(double u)
 	else break;
     } while (true);
     
-    vector<double> ensemble(200);
+    vector<double> ensemble(nbr_paths);
     size_t n = 0;
     for (size_t i = 0; i < ensemble.size(); i++) {
 	uniform_real_distribution<double>
@@ -276,13 +277,15 @@ double Garch21::estimate_prob(double u)
 	ensemble[i] = twisted.first;
 	n += twisted.second;
     }
-    double estimate = ((double)eta_samples.size())/path.size();
-    estimate *=
-	accumulate(ensemble.begin(), ensemble.end(), 0.0,
-		   [n](double s, double e) {
-		       return s + e/n;
-		   });
-    return estimate;
+    double c_size = ((double)eta_samples.size())/path.size();
+    double mean = 0;
+    double var = 0;
+    for (unsigned i = 0; i < ensemble.size(); i++) {
+	mean += ensemble[i]/n;
+	var += ensemble[i] * ensemble[i] /n;
+    }
+    var = var - mean * mean;
+    return array<double, 2>({mean * c_size, sqrt(var)/mean});
 }
 
 double Garch21::right_eigenfunction
@@ -410,8 +413,10 @@ int main(int argc, char *argv[])
 
     Garch21 model(alpha, beta);
     double u;
+    size_t nbr_paths;
     sscanf(argv[1], "%lf", &u);
-    double prob = model.estimate_prob(u);
-    printf("Prob(|V| > %.2f) = %e\n", u, prob);
+    sscanf(argv[2], "%lu", &nbr_paths);
+    array<double, 2> result = model.estimate_prob(u, nbr_paths);
+    printf("Prob(|V| > %.2f) = %e (%e)\n", u, result[0], result[1]);
     return 0;
 }
