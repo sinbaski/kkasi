@@ -58,13 +58,14 @@ $X_1, X_2, \dots$ of regularly varying variables is particularly
 important for understanding the behaviour of a heavy-tailed series. A
 standard method proposed for this purpose is due to Hill
 \cite{hill1975simple}:
-\[
-\hat \alpha_H = \left[
-  {1 \over k} \sum_{i=1}^k \log \left(
-  X_{(i)} \over X_{(k+1)}
-  \right)
+\begin{equation}
+  \label{eq:fhhty}
+  \hat \alpha_H = \left[
+    {1 \over k} \sum_{i=1}^k \log \left(
+      X_{(i)} \over X_{(k+1)}
+    \right)
   \right]^{-1}
-\]
+\end{equation}
 where $X_1, X_2, \dots, X_n$ is a sample whose tail index is the
 subject of estimation, and $X_{(i)}$ is the $i$-th upper order
 statistic of the sample. Several authors have contributed to showing
@@ -125,28 +126,33 @@ economical arguments. We explore this topic in chapter
 Random variables with regularly varying tails have some very nice
 features: if $X_1$ and $X_2$ are both regularly varying with indices
 $\alpha_1$ and $\alpha_2$, respectively, then $a_1 X_1 + a_2 X_2$ is
-regularly varying with index $\min\{\alpha_1, \alpha_2\}$. Moreover
-if $X_1, X_2$ are iid,
+regularly varying with index $\min\{\alpha_1,
+\alpha_2\}$ (cf. Mikosch and Jessen
+\cite{JessenMikosch2006}). Moreover, if $X_1, X_2$ are iid,
 $\P(a_1 X_1 + a_2 X_2 > u) \sim \P(a_1 X_1 > u) + \P(a_2 X_2 > u)$.
 
-Now consider $p$ return series $X_{i,t}$, $i=1,2,\dots, p$. Suppose
-each of these series is a linear combination of $K$ factors $Y_{j,t}$,
-$j=1,2,\dots,K$, the $j$-th of which is regularly varying with index
-$\alpha_i$. Then by the summation property, each and every $X_i$ is
-regularly varying with index $\min_{1 \leq i \leq K} \alpha_i$.
-Since in practice a factor $Y_{i,t}$ is found as a linear combination
-of $X_{i,t}$, the observed time series, following an eigenvector of
-the sample covariance matrix of $X_{i,t}$, it is important to
-understand the eigensystem of this matrix. This topic indeed
-constitutes chapters \ref{ch:bernoulli} and \ref{ch:extremes} of this
-thesis.
+Now consider $p$ return series
+$X_{i,t}$, $i=1,2,\dots, p; t=1,\dots,n$.
+Suppose each of these series is a linear combination of $K$ factors
+$Y_{j,t}$, $j=1,2,\dots,K$, the $j$-th of which is regularly varying
+with index $\alpha_j$. Then by the summation property, each and every
+$X_i$ is regularly varying with index $\min_{1 \leq j \leq K} \alpha_j$.
+In practice a factor $Y_{i,t}$ is estimated as
+$\hat Y_{j,t} = \sum_{i=1}^p a_{j, i} X_{i,t}$, where
+$(a_{j, 1}, a_{j, 2}, \dots, a_{j, p})^\top$ is the $j$-th eigenvector
+of the sample covariance matrix of
+$\{X_{i,t}\}, i=1,\dots,p; t=1,\dots,n$, i.e. the eigenvector
+associated with the $j$-th largest eigenvalue. 
+For this reason, it is important to understand the eigensystem of the
+sample covariance matrix of $\{X_{i,t}\}$. This topic is addressed in
+chapters \ref{ch:bernoulli} and \ref{ch:extremes} of this thesis.
 
-When a product of random variables, say $X_1 X_2$, involves a random
-variable with regularly varying tails, a useful result is that of
-Breiman: assume $X_1$ is regularly varying with index $\alpha$ and
-there exists $\epsilon > 0$ such that
-$\E |X_2|^{\alpha + \epsilon} < \infty$.
-Then $\P(X_1 X_2 > x) \sim \E|X_2|^{\alpha} \P(X_1 > x)$.
+When a product of positive random variables, say $X_1 X_2$, involves
+one with regularly varying tails, a useful result is that of
+Breiman \cite{breiman:1965}: assume $X_1$ is regularly varying with
+index $\alpha$ and there exists $\epsilon > 0$ such that
+$\E X_2^{\alpha + \epsilon} < \infty$.
+Then $\P(X_1 X_2 > x) \sim \E X_2^{\alpha} \P(X_1 > x)$.
 More generally, if $X_1, X_2$ are regularly varying with the same tail
 index $\alpha$ or if $\P(X_2 > x) = o(\P(X_1 > x))$, then $X_1 X_2$ is
 regularly varying with index $\alpha$.
@@ -199,19 +205,22 @@ One of the most important dynamical mechanisms that lead to regularly
 varying r.v. is stochastic recursion of the following form:
 \begin{equation}
   \label{eq:rhjyu}
-  X_t = A_t X_{t-1} + B_t
+  X_t = A_t X_{t-1} + B_t, \quad t \in \mathbb Z
 \end{equation}
 where $X_t$ is a $d$-dimensional random vector, $A_t$ is a $d\times d$
 random matrix and $B_t$ is a $d$-dimensional vector, random or
-deterministic.
+deterministic. The sequence $\{(A_t, B_t)\}_{t \in \mathbb Z}$ are
+iid. The stationary solution to \eqref{eq:rhjyu} satisfies the fixed-point
+equation $X \overset{d}{=} A X + B$, where $X$ and $(A, B)$ are
+generic elements of the $\{X_t\}_{t \in \mathbb Z}$ and
+$(A_t, B_t)_{t \in \mathbb Z}$ sequences.
 
 Kesten \cite{kesten:1973} showed that, when $A_t$ are almost
 surely non-negative, has no row or column of only zeros, and
 $B_t$ is almost surely non-negative and is not equal to the null
-vector with probability 1, then the strictly stationary solution to
-the equation $V \overset{d}{=} A V + B$ has power-law tails
-for its marginal distributions, assuming the following conditions (M)
-and (A):
+vector with probability 1, then the solution $X$ to the equation
+$X \overset{d}{=} A X + B$ is regularly varying with a positive index
+$\alpha$, assuming the following conditions (M) and (A):
 \begin{itemize}
 \item Condition (M)
   \begin{enumerate}
@@ -220,12 +229,12 @@ and (A):
     \gamma = \inf_{n \geq 1} {1 \over n}\E \log \|A_n \cdots A_1\|
     \]
     is negative.
-  \item There exists $\xi > 0$ such that
+  \item There exists $\alpha > 0$ such that
     \[
-    1 = \lambda(\xi) = \lim_{n \to \infty} {1 \over n} \log \E \|A_n \cdots A_1\|^\xi
+    1 = \lambda(\alpha) = \lim_{n \to \infty} {1 \over n} \log \E \|A_n \cdots A_1\|^\alpha
     \]
-  \item $\E (\|A_1\|^\xi \log^+\|A_1\|) < \infty$
-  \item $\E |B_1|^\xi < \infty$
+  \item $\E (\|A_1\|^\alpha \log^+\|A_1\|) < \infty$
+  \item $\E |B_1|^\alpha < \infty$
   \end{enumerate}
 \item Condition (A) : The group generated by
   \[
@@ -236,70 +245,43 @@ and (A):
 \end{itemize}
 Upon these conditions, Kesten's theorem gives
 \begin{equation*}
-  u^\xi \P(u^{-1} V \in \cdot) \overset{v}{\to} \mu_\xi(\cdot)
+  u^\alpha \P(u^{-1} V \in \cdot) \overset{v}{\to} \nu_\alpha(\cdot)
 \end{equation*}
-where $\mu_\xi$ is a non-null Radon measure on
+where $\nu_\alpha$ is a non-null Radon measure on
 $\reals^d_+ \setminus \{0\}$ with the property
-$\mu_\xi(a A) = a^{-\xi} \mu_\xi(A)$.
-
-%% Recently, Collamore and Mentemeier \cite{collamore:mentemeier:2016}
-%% extended Kesten's result and gave an explicit expression for $\mu_\xi$:
-%% \begin{equation}
-%%   \label{eq:CollamoreMentemeierIntro}
-%%   \lim_{u \to \infty} u^{\xi} \E \left[
-%%     f(u^{-1} V)
-%%     \right]
-%%   =
-%%   {C \over \lambda'(\xi)}  
-%%   \int_{\sphere^{d-1}_+ \times R} e^{-\xi s} f(e^s x) \ell_\xi(dx) ds
-%% \end{equation}
-%% where $C$ is a constant (cf. (2.15) of Collamore and Mentemeier
-%% \cite{collamore:mentemeier:2016}), $f(\cdot)$ is any bounded
-%% continuous function on $\reals^{d}_+ \setminus \{0\}$  and
-%% $\ell_\xi$ is a probability measure on $\sphere_+^{d-1}$. Its definition
-%% is also found in \eqref{eq:eigenmeasure}.
-
-%% From \eqref{eq:CollamoreMentemeierIntro} a representation for $\mu_\xi
-%% (\cdot)$ immediately follows  
-%% \[
-%% \mu_\xi (\cdot) = {C \over \lambda'(\xi)} \mathcal L_\xi(\cdot)
-%% \]
-%% Here $\mathcal L_\xi$ is a non-null Radon measure  on
-%% $\reals^d_+ \setminus \{0\}$ that satisfies, for all
-%% bounded continuous function $f(\cdot)$ on
-%% $\reals_+^{d} \setminus \{0\}$:
-%% \[
-%% \int_{\reals_+^d\setminus \{0\}} f(x) \mathcal L_\xi(dx)
-%% =
-%% \int_{\sphere^{d-1}_+ \times R} e^{-\xi s} f(e^s x) \ell_\xi(dx) ds
-%% \]
+$\nu_\alpha(a A) = a^{-\alpha} \nu_\alpha(A)$.
 
 \section{GARCH models}
-Introduced by Bollerslev in 1986, GARCH models have been hugely
-popular in modelling volatility of financial time series and have
-inspired numerous variants. Its original form is the following the
-recurrence equation:
-\[
-\sigma_t^2 = \omega + \sum_{i=1}^p \alpha_i R_{t-i}^2 +
-\sum_{j=1}^q \beta_j \sigma_{t-j}^2
-\]
-where $\R_t$ is a return series, e.g. stock returns, foreign exchange
-rates, interest rates, etc; $\sigma_t^2$ is the variance of the
-distribution of $R_t$ conditional on $\{(R_i,
-\sigma_i^2)\}_{i=0}^{t-1}$. $\omega, \{\alpha_i\}_{i=1}^p,
-\{\beta_i\}_{i=1}^q$ are constant parameters of the model. Clearly,
-the GARCH($p,q$) recurrence equation is of the form of
-\eqref{eq:rhjyu}. So, with appropriate conditions including
-$\sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1$, $\sigma_t^2$ is
-shown to be a positive Harris Markov chain (cf. Bollerslev
-\cite{bollerslev:1986} and Buraczewski et al
+Introduced by Bollerslev \cite{bollerslev:1986} in 1986,
+{\em Generalized Autoregressive Conditional Heteroscedasticity}
+(GARCH) models have been hugely popular for modelling volatility of
+financial time series and have inspired numerous variants.
+A GARCH($p, q$) model is a stationary process
+$\{X_t\}_{t \in \mathbb Z}$satisfying
+\begin{eqnarray*}
+  X_t &=& \sigma_t Z_t \\
+  \sigma_t^2 &=& \omega + \sum_{i=1}^p \alpha_i X_{t-i}^2 +
+  \sum_{j=1}^q \beta_j \sigma_{t-j}^2
+\end{eqnarray*}
+where $\{X_t\}$ is a return series, e.g. stock returns, foreign exchange
+rates, interest rates, etc; $\{Z_t\}$ is a iid, mean 0, unit-variance
+sequence; and $\sigma_t^2$ is the variance of the
+distribution of $X_t$ conditional on $\{(X_i,
+\sigma_i^2)\}_{i=0}^{t-1}$; $\omega, \{\alpha_i\}_{i=1}^p,
+\{\beta_i\}_{i=1}^q$ are non-negative parameters of the
+model. The GARCH($p,q$) recurrence equation is of the form of
+\eqref{eq:rhjyu}. With appropriate conditions, $\sigma_t^2$ is
+shown to be a positive Harris recurrent Markov chain (cf. Bollerslev
+\cite{bollerslev:1986} and Buraczewski et al.
 \cite{buraczewski:damek:mikosch:2016}), whose stationary distribution
-has regularly varying tails. The tail index, call it $\xi$, is given by
-\[
-\lim_{n \to \infty} {1 \over n}\log\E\|A_n \cdots A_1\|^\xi = 0
-\]
-where $A_1, A_2, \dots, A_n$ are iid matrices whose entries are
-functions of $\{\alpha_i\}_{i=1}^p$ and $\{\beta_i\}_{i=1}^q$:
+has regularly varying tails. The tail index $\alpha$, is given by
+\begin{equation}
+  \label{eq:grgbg}
+  \lim_{n \to \infty} {1 \over n}\log\E\|A_n \cdots A_1\|^\alpha = 0,
+\end{equation}
+where $\{A_i\}_{i \in \mathbb Z}$ are iid matrices whose entries are
+functions of $\{\alpha_i\}_{i=1}^p$, $\{\beta_i\}_{i=1}^q$ and
+$\{Z_t^2\}$:
 \[
 A_i =
 \begin{pmatrix}
@@ -328,6 +310,126 @@ A_i =
   0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
 \end{pmatrix}
 \]
+While GARCH models have been very successful for modelling financial
+time series, it does have its drawbacks. For example, the tail
+index is very sensitive to the model parameters $\{\alpha_i\}_{i=1}^p$ and
+$\{\beta_i\}_{i=1}^q$. In applications, these parameters need to be
+estimated from a sample and are all ways uncertain to an extent, there
+can be a significant discrepancy between the tail index implied by
+\eqref{eq:grgbg} and the Hill estimate \eqref{eq:fhhty}.
+
+There exist various extensions of the univariate GARCH
+model to the multivariate case. The most notable one is perhaps the
+{\em constant conditional correlation} (CCC) model of Bollerslev
+\cite{bollerslev:1990} and Jeantheau \cite{jeantheau:1998}. In the
+bivariate case, CCC is the model 
+\beao\bfX_t=
+\left(\barr{l}X_{1,t}\\
+X_{2,t}\earr\right)= \left(\barr{ll}\sigma_{1,t}& 0\\
+0&\sigma_{2,t}\earr\right)\,\left(\barr{l}Z_{1,t}\\Z_{2,t}\earr\right)=\Sigma_t\,\bfZ_t\,,\qquad
+t\in\bbz\,.
+\eeao
+Thus both return components $X_{i,t}$ have the form of a univariate
+stochastic volatility model $X_{i,t}=\sigma_{i,t}Z_{i,t}$ 
+with non-negative volatility $\sigma_{i,t}$ and an iid bivariate noise
+\seq\ $(\bfZ_t)$ with zero mean and unit variance components.
+We also have the specification
+\begin{small}
+\beam\label{eq:8:mikosch}
+\bfY_t=\left(\barr{l}\sigma^2_{1,t}  \\  
+\sigma^2_{2,t}\earr
+\right)
+&=& \left(
+\barr{l}\alpha_{01}  \\\alpha_{02}   \earr\right)
++\left(\barr{cc}\alpha_{11} & \alpha_{12}  \\
+      \alpha_{21} & \alpha_{22}\earr \right)\, 
+\left(\barr{l}X_{1,t-1}^2  \\X_{2,t-1}^2   \earr\right)
+ + \left(\barr{cc}\beta_{11} & \beta_{12}  \\\beta_{21} & \beta_{22} \earr
+ \right)\,\left(\barr{c}\sigma^2_{1,t-1}  \\\sigma^2_{2,t-1}\earr
+  \right)\nonumber\\
+&=& \left(
+\barr{l}\alpha_{01}  \\\alpha_{02}
+\earr\right)+\left(\barr{cc}\alpha_{11}Z_{1,t-1}^2+\beta_{11}&\alpha_{12}Z_{2,t-1}^2+
+\beta_{12}\\
+\alpha_{21}Z_{1,t-1}^2+\beta_{21}& \alpha_{22}Z_{2,t-1}^2+\beta_{22}
+\earr\right)\,\left(\barr{l}\sigma_{1,t-1}^2\\\sigma_{2,t-1}^2\earr
+\right)\,,
+\eeam
+for positive $\alpha_{0i}$ and suitable non-negative 
+$\alpha_{ij},\beta_{ij}$, $i,j=1,2$.
+Writing
+\beao
+\bfB_t= \left(
+\barr{l}\alpha_{01}  \\\alpha_{02}   \earr\right)\quad\mbox{and}\quad
+\bfA_t=\left(\barr{cc}\alpha_{11}Z_{1,t-1}^2+\beta_{11}&\alpha_{12}Z_{2,t-1}^2+
+\beta_{12}\\
+\alpha_{21}Z_{1,t-1}^2+\beta_{21}& \alpha_{22}Z_{2,t-1}^2+\beta_{22}
+\earr\right)\,,
+\eeao
+\end{small}
+we see that we are again in the framework of a stochastic recurrence equation\ 
+but this time for vector-valued $\bfB_t$ and matrix-valued $\bfA_t$:
+\beam\label{eq:jan6b:mikosch}
+\bfY_t=\bfA_t\,\bfY_{t-1}+\bfB_t\,,\qquad t\in\bbz\,.
+\eeam
+Kesten \cite{kesten:1973} also provided the corresponding theory  
+for stationarity and tails in this case. \sta\ \cite{starica:1999}
+dealt with the corresponding problems for CCC-GARCH processes,
+making use of the theory in Kesten \cite{kesten:1973},
+Bougerol and Picard \cite{bougerol:picard:1992}
+and its
+specification to the tails of GARCH models 
+in Basrak et al.~\cite{basrak:davis:mikosch:2002}. \sta\ \cite{starica:1999} assumed the 
+Kesten conditions for the matrices $\bfA_t$. These conditions ensure
+that the product matrices $\bfA_1\cdots\bfA_n$ have positive entries
+for sufficiently large $n$. Then Kesten's theory implies that all
+components of the vector $\bfX_t$ have power-law tails with the same
+index $\alpha$ and also that the \fidi s of the process $(\bfX_t)$ are
+\regvary\ with index $\alpha$.
+\par
+Various GARCH modifications are derived by considering linear
+combinations of CCC-GARCH models. The property of multivariate
+\regvar\ of multivariate GARCH ensures that, after linear
+transformations,  the new process in all components has again
+power-law tails with the same index as the original GARCH process; see
+Basrak et al.~\cite{basrak:davis:mikosch:2002}.
+Models which are constructed in this way are
+the Orthogonal GARCH model of
+Alexander and Chibumba \cite{alexander:chibumba:1996}, its
+generalization GO-GARCH by van der Weide \cite{Weide2002},  the Full
+Factor GARCH model of Vrontos et al. \cite{vrontos2003full} and the
+Generalized Orthogonal Factor GARCH model of Lanne and Saikkonen
+\cite{lanne2007modelling}. These models are characterized by their
+treatment of each series as a linear combination of factors, and each
+of the factors is modeled as a GARCH process; see Silvennoinen and
+Ter\"asvirt\"a \cite{silventeras:2009}.
+\par
+Not all choices of $\alpha$- and $\beta$-parameters in the model
+\eqref{eq:8:mikosch} allow for an application of the Kesten theory. For
+example, assume that only the diagonal elements $\alpha_{ii}$ and
+$\beta_{ii}$ are positive. Then $\bfA_t$ is diagonal and, hence, the
+condition that $\bfA_1\cdots\bfA_n$ have positive entries for
+sufficiently large $n$  cannot be satisfied. In the latter situation,
+both $(X_{1,t})$ and $(X_{2,t})$ are univariate GARCH
+processes. Assuming the  conditions of the univariate Kesten-Goldie
+theorem for each component process, $(X_{1,t})$ and $(X_{2,t})$ have
+power-law tails  with indices $\alpha_1$ and $\alpha_2$, respectively,
+given by the solutions to the equations  $\E [(\alpha_{ii}
+Z_{i,t}^2+\beta_{ii})^{\alpha_i/2}]=1$, $i=1,2$. In this model, one
+can introduce dependence between the two component series $(X_{1,t})$
+and $(X_{2,t})$ by assuming dependence between the noise variables
+$Z_{1,t}$ and $Z_{2,t}$. Another situation when the Kesten theory fails 
+appears when $\bfA_t$ is an upper or lower triangle matrix: then the
+products  $\bfA_1\cdots\bfA_n$ are always of the same triangular
+type. 
+Similar remarks apply when one considers a CCC model in general
+dimension. Of course, one may argue that the latter models 
+are not natural: they are degenerate since they do not allow 
+for a linear relationship between all squared volatilities on a given
+day.
+
+\section{Stochastic Volatility models}
+
 
 \section{Contribution of this thesis}\label{sec:contr}
 
