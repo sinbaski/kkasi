@@ -9,13 +9,24 @@ regular variation.
 
 \section{Regular Variation}
 The concept of regular variation is defined by the following scaling
-property: if a function $f(\cdot)$ satisfies
+property: if a function $f$ on $(0, \infty)$ satisfies
 \[
 \lim_{x \to \infty} {f(c x) \over f(x)} = c^\alpha
 \quad
 \forall c > 0
 \]
-then we say $f(x)$ is regularly varying with index $\alpha$.
+then we say $f$ is regularly varying with index $\alpha$.
+$f$ can be written in the form $f(x) = {L(x) \over x^\alpha}$, where
+$L(x)$ is a slowly varying function, i.e.
+$\lim_{x \to \infty} {L(c x) \over L(x)} = 1$, $\forall c > 0$.
+We call a random variable $X$ regularly varying with index
+$\alpha \geq 0$ if it satisfies the tail balance condition
+\[
+\P(X > x) \sim p_+ {L(x) \over x^\alpha},\quad
+\P(X < -x) \sim p_- {L(x) \over x^\alpha}, \quad
+\text{for some } p_+, p_- > 0,\; p_+ + p_- = 1
+\]
+
 % Distribution functions, say $F(\cdot)$, whose survival function
 % $\bar F(x) = 1 - F(x)$ satisfies the above scaling property, are
 % observed in a variety of phenomena, 
@@ -27,24 +38,26 @@ spectral measure $\mu_\alpha$: if a random vector $V$ satisfies
   \P(V/|V| \in \cdot, |V| > c x)
   \over
   \P(|V| > x)
-},
+}
 \overset{v}{\to} c^{-\alpha} \mu_\alpha(\cdot)
 \quad
-x \to \infty, \forall c > 0
+x \to \infty, \forall c > 0,
 \]
-then we say the $V$ is regularly varying with index $\alpha$. Here
-$\mu_\alpha(\cdot)$ is a probability measure on the unit sphere
+then we say $V$ is regularly varying with index $\alpha$. Here
+$\mu_\alpha$ is a probability measure on the unit sphere
 \cite{buraczewski:damek:mikosch:2016}. Clearly, if $V$
 is regularly varying with index $\alpha$, then each component
-of it and each linear combination of its components are regularly
+and each linear combination of its components are regularly
 varying with the same index $\alpha$. This follows from Feller
 \cite{feller}, p. 278. Cf. also Jessen and Mikosch
 \cite{JessenMikosch2006}, lemma 3.1, and Embrechts et. al.
 \cite{embrechts:klueppelberg:mikosch:1997}, lemma 1.3.1.
 
-Clearly, estimating the tail index $\alpha$ is particularly important
-for understanding the behaviour of a heavy-tailed series. A standard
-method proposed for this purpose is due to Hill \cite{hill1975simple}:
+Clearly, estimating the tail index $\alpha$ of a sequence
+$X_1, X_2, \dots$ of regularly varying variables is particularly
+important for understanding the behaviour of a heavy-tailed series. A
+standard method proposed for this purpose is due to Hill
+\cite{hill1975simple}:
 \[
 \hat \alpha_H = \left[
   {1 \over k} \sum_{i=1}^k \log \left(
@@ -52,20 +65,20 @@ method proposed for this purpose is due to Hill \cite{hill1975simple}:
   \right)
   \right]^{-1}
 \]
-where $X_1, X_2, \dots$ is the series whose tail index is the subject
-of estimation, and $X_{(i)}$ is the $i$-th upper order statistics of
-this series. Several authors have contributed to showing the
-weak consistency of the estimator $\hat \alpha_H$,
-i.e. if $k \to \infty, k/n \to 0$ as $n \to \infty$, then
-$\hat \alpha_H \overset{P}{\to} \alpha$.
+where $X_1, X_2, \dots, X_n$ is a sample whose tail index is the
+subject of estimation, and $X_{(i)}$ is the $i$-th upper order
+statistic of the sample. Several authors have contributed to showing
+the weak consistency and asymptotic normality of the estimator
+$\hat \alpha_H$, under the assumptions $k \to \infty, k/n \to 0$
+as $n \to \infty$.
 
-Mason \cite{mason:1982} first proved that the estimator
-was consistent when $X_1, X_2, \dots$ were iid; later Rootz\'en,
-Leadbetter and de Haan \cite{rootzen:leadbetter:dehaan1992} and Hsing
-\cite{hsing:1991} proved its consistency when $X_1, X_2, \dots$ were
-weakly dependent; and Resnick and St{\u a}ric{\u a}
-\cite{resnick:starica:1995, resnick:starica:1997} proved its
-consistency when $X_t$ was a linear process.
+%% Mason \cite{mason:1982} first proved that the estimator
+%% was consistent when $X_1, X_2, \dots$ were iid; later Rootz\'en,
+%% Leadbetter and de Haan \cite{rootzen:leadbetter:dehaan1992} and Hsing
+%% \cite{hsing:1991} proved its consistency when $X_1, X_2, \dots$ were
+%% weakly dependent; and Resnick and St{\u a}ric{\u a}
+%% \cite{resnick:starica:1995, resnick:starica:1997} proved its
+%% consistency when $X_t$ was a linear process.
 
 Figure \ref{fig:thjyuj} shows the Hill estimates of the tail indices
 of daily stock return series from 3 sectors of the
@@ -116,9 +129,9 @@ regularly varying with index $\min\{\alpha_1, \alpha_2\}$. Moreover
 if $X_1, X_2$ are iid,
 $\P(a_1 X_1 + a_2 X_2 > u) \sim \P(a_1 X_1 > u) + \P(a_2 X_2 > u)$.
 
-Now consider $N$ return series $X_{i,t}$, $i=1,2,\dots, p$. Suppose
-each of these series is a linear combination of $K$ factors $Y_{i,t}$,
-$i=1,2,\dots,K$, the $i$-th of which is regularly varying with index
+Now consider $p$ return series $X_{i,t}$, $i=1,2,\dots, p$. Suppose
+each of these series is a linear combination of $K$ factors $Y_{j,t}$,
+$j=1,2,\dots,K$, the $j$-th of which is regularly varying with index
 $\alpha_i$. Then by the summation property, each and every $X_i$ is
 regularly varying with index $\min_{1 \leq i \leq K} \alpha_i$.
 Since in practice a factor $Y_{i,t}$ is found as a linear combination
