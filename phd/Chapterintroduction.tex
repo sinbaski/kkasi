@@ -244,12 +244,82 @@ $\alpha$, assuming the following conditions (M) and (A):
   radius of matrix $s$.
 \end{itemize}
 Upon these conditions, Kesten's theorem gives
-\begin{equation*}
+\begin{equation}
+  \label{eq:jorg}
   u^\alpha \P(u^{-1} V \in \cdot) \overset{v}{\to} \nu_\alpha(\cdot)
-\end{equation*}
+\end{equation}
 where $\nu_\alpha$ is a non-null Radon measure on
 $\reals^d_+ \setminus \{0\}$ with the property
 $\nu_\alpha(a A) = a^{-\alpha} \nu_\alpha(A)$.
+
+In addition to non-negative matrices, two other classes of random
+matrices have been shown to lead to power-law tails via the recurrence
+relation \eqref{eq:garchpq_sre}. Alsmeyer and Mentemeier
+\cite{alsmeyer:mentemeier:2012} considered invertible matrices whose
+distribution has a density. Let $M(d, \reals)$ denote the space of
+$d \times d$ matrices with real entries that are invertible with
+probability 1. They replaced Kesten's condition
+$\E (\|A\|^\xi \log^+\|A\|) < \infty$ with a stronger
+counterpart
+$\E [\|A\|^\xi (\log^+\|A\| + \log \|A^{-1} \|)] < \infty$,
+and lifted the condition (A). In addition, they assumed
+\begin{enumerate}
+  \item The Markov chain $X_n$ on $\sphere^{d-1}$, namely
+    $X_n = A_n X_{n-1} / |A_n X_{n-1}|$, is irreducible, i.e. for any open
+    set $U \subset \sphere^{d-1}$ and any $u \in \sphere^{d-1}$, 
+    $\exists n \geq 1$ such that $\P(X_n u \in U) > 0$.
+  \item There exist $N \geq 1$, $c, \epsilon > 0$ and an invertible
+    matrix $\bar A \in M(d, \reals)$ such that for any set
+    $C \subset M(d, \reals)$, it holds true
+    $\P(A_N \cdots A_1 \in C) \geq c |B_\epsilon(\bar A) \cap C|$,
+    where $|\cdot|$ denotes the Lebesgue measure.
+\end{enumerate}
+These assumptions are termed conditions (id). Furthermore, they assumed
+that there was no point in $\reals^d$ such that the recurrence
+equation \eqref{eq:garchpq_sre} was stuck at this point with probability 1: 
+$\P(A X + B = X) < 1$ for all $X \in \reals^d$ and all $A \in M(d, \reals)$.
+With these assumptions, they showed
+\[
+\lim_{u \to \infty} u^\xi \P(\inn{x, V} > u) = e_\xi(x)
+\]
+where $x \in \sphere^{d - 1}$ and $e_\xi(\cdot)$ is a continuous
+function $\sphere^{d-1} \to \reals_+$.
+
+The second of the (id) conditions, which is satisfied when the
+distribution of $A$ has a Lebesgue density, can actually be lifted if
+stronger moment conditions are imposed on $A$ and $B$, and in
+addition, a proximity condition is satisfied by the support of
+$A$. This is the result of Guivarc'h and Le Page, et al.
+\cite{guivarc:page:2016}. Let $G_A$ denote the semi-group generated
+by $\{\Pi_n: \Pi_n = A_n \cdots A_1, A_i \in M(d, \reals)\}$. The
+authors assumed
+\begin{enumerate}
+  \item There is no finite union $W$ of proper subspaces of $\reals^d$
+    that satisfies $\forall a \in G_A, a W = W$.
+  \item $G_A$ contains a proximal element, i.e. an element $a$ whose
+    largest singular value is an algebraically simple eigenvalue of $a$.
+\end{enumerate}
+These two assumptions are termed (ip) conditions. Replacing the (id)
+conditions of Alsmeyer and Mentemeier with (ip) and the moment
+conditions of the former with
+\[
+\E \|A\|^{\xi + \delta} < \infty, \quad
+\E (\|A\|^{\xi} \|A^{-1}\|^{\delta}) < \infty, \quad
+\E (|B|^{\xi + \delta} < \infty),\quad
+\text{ for some }\delta > 0
+\]
+Guivarc'h and Le Page et al. proved the same vague convergence result
+of \eqref{eq:jorg}.
+
+In the special case of GARCH($p, q$) processes, which are discussed in
+more details in the next section, Bollerslev \cite{bollerslev:1986}
+showed that the fixed-point equation $X \overset{d}{=} A X + B$ has a
+unique, strictly stationary solution $X$ with finite variance if and
+only if
+\begin{equation}
+  \sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1
+  \label{eq:bollerslev:intro}
+\end{equation}
 
 \section{GARCH models}
 Introduced by Bollerslev \cite{bollerslev:1986} in 1986,
@@ -314,9 +384,11 @@ While GARCH models have been very successful for modelling financial
 time series, it does have its drawbacks. For example, the tail
 index is very sensitive to the model parameters $\{\alpha_i\}_{i=1}^p$ and
 $\{\beta_i\}_{i=1}^q$. In applications, these parameters need to be
-estimated from a sample and are all ways uncertain to an extent, there
-can be a significant discrepancy between the tail index implied by
-\eqref{eq:grgbg} and the Hill estimate \eqref{eq:fhhty}.
+estimated from a sample and are all ways uncertain to some extent. For
+this reason, there can be a significant discrepancy between the tail
+index obtained via \eqref{eq:grgbg} with the model parameters
+substituted for their sample estimates and the Hill estimate
+\eqref{eq:fhhty}.
 
 There exist various extensions of the univariate GARCH
 model to the multivariate case. The most notable one is perhaps the
@@ -367,8 +439,9 @@ Writing
 \earr\right)\,,
 \eeao
 \end{small}
-we see that we are again in the framework of a stochastic recurrence equation\ 
-but this time for vector-valued $\bfB_t$ and matrix-valued $\bfA_t$:
+we see that we are again in the framework of a stochastic recurrence
+equation but this time for vector-valued $\bfB_t$ and matrix-valued
+$\bfA_t$:
 \beam\label{eq:jan6b:mikosch}
 \bfY_t=\bfA_t\,\bfY_{t-1}+\bfB_t\,,\qquad t\in\bbz\,.
 \eeam
@@ -429,7 +502,39 @@ for a linear relationship between all squared volatilities on a given
 day.
 
 \section{Stochastic Volatility models}
+With the availability of high-frequency data, a different approach
+than that of GARCH has been popularized for modelling volatility of
+financial time series and has led to greatly improved accuracy of
+prediction. This is the approach of stochastic volatility models.
 
+In the pioneering work of Clark \cite{clark:1973}, the author modelled
+the logarithmic price $X_t$ as a subordinated stochastic process:
+$X_t = V_{\tau_t}$, where $V_i$ is a normally distributed random
+variable with mean 0, variance $\sigma^2 i$ and independent
+increments. $\tau_t$ is a real-valued, non-negative, non-decreasing
+sequence with $\tau_0 = 0$. It models a time change. As pointed out by
+Shepard and Andersen \cite{Shephard:Andersen:2009}, the log-price
+process $X_t$ is serially uncorrelated although potentially dependent,
+provided that $V_t$ and $\tau_t$ are independent.
+
+Later authors, e.g. Back \cite{back:1991} chose to model the log-price
+process as a semimartingale, with increments of the Martingale
+component modelled as a product process:
+\begin{eqnarray*}
+  Y_t &=& Y_0 + A_t + M_t \\
+  M_t - M_{t-1} &=& X_t = \sigma_t Z_t
+\end{eqnarray*}
+where $M_t$ is a semimartingale, $A_t$ is a finite variation process
+and $M_t$ is a Martingale. $\sigma_t$ is non-negative and $Z_t$ is an
+iid process with 0 mean and unit variance. A convenient choice of
+$\sigma_t$ is
+\[
+\log\sigma_t = \sum_{l \in \mathbb Z} \psi_l \eta_{t-l}
+\]
+where $\psi_l$ is a sequence of non-negative numbers with at least one
+positive element and $0 \leq \psi_l \leq 1$.
+
+Clearly, if either 
 
 \section{Contribution of this thesis}\label{sec:contr}
 
