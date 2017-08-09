@@ -20,7 +20,8 @@ $f$ can be written in the form $f(x) = {L(x) \over x^\alpha}$, where
 $L(x)$ is a slowly varying function, i.e.
 $\lim_{x \to \infty} {L(c x) \over L(x)} = 1$, $\forall c > 0$.
 We call a random variable $X$ regularly varying with index
-$\alpha \geq 0$ if it satisfies the tail balance condition
+$\alpha \geq 0$ if it satisfies the tail balance condition in the
+limit $x \to \infty$.
 \[
 \P(X > x) \sim p_+ {L(x) \over x^\alpha},\quad
 \P(X < -x) \sim p_- {L(x) \over x^\alpha}, \quad
@@ -35,18 +36,19 @@ variation is better described in terms of vague convergence to a
 spectral measure $\mu_\alpha$: if a random vector $V$ satisfies
 \[
 {
-  \P(V/|V| \in \cdot, |V| > c x)
+  \P(X/|X| \in \cdot, |X| > c x)
   \over
-  \P(|V| > x)
+  \P(|X| > x)
 }
-\overset{v}{\to} c^{-\alpha} \mu_\alpha(\cdot)
+\overset{v}{\to} c^{-\alpha} \mu_\alpha(\cdot),
 \quad
 x \to \infty, \forall c > 0,
 \]
-then we say $V$ is regularly varying with index $\alpha$. Here
+then we say $X$ is regularly varying with index $\alpha$. Here
 $\mu_\alpha$ is a probability measure on the unit sphere
-\cite{buraczewski:damek:mikosch:2016}. Clearly, if $V$
-is regularly varying with index $\alpha$, then each component
+\cite{buraczewski:damek:mikosch:2016}. It is called the spectral 
+measure of $X$ and $\alpha$ is again the tail index.
+If $X$ is regularly varying with index $\alpha$, then each component
 and each linear combination of its components are regularly
 varying with the same index $\alpha$. This follows from Feller
 \cite{feller}, p. 278. Cf. also Jessen and Mikosch
@@ -64,7 +66,7 @@ standard method proposed for this purpose is due to Hill
     {1 \over k} \sum_{i=1}^k \log \left(
       X_{(i)} \over X_{(k+1)}
     \right)
-  \right]^{-1}
+  \right]^{-1},
 \end{equation}
 where $X_1, X_2, \dots, X_n$ is a sample whose tail index is the
 subject of estimation, and $X_{(i)}$ is the $i$-th upper order
@@ -83,13 +85,13 @@ as $n \to \infty$.
 
 Figure \ref{fig:thjyuj} shows the Hill estimates of the tail indices
 of daily stock return series from 3 sectors of the
-{\em Standard \& Poor 500} index \footnote{An American stock index
-  comprising 500 or so companies.}. The 2.5\% and 97.5\% quantiles of
+{\em Standard \& Poor's 500} index \footnote{An American stock index
+  comprising around 500 companies.}. The 2.5\% and 97.5\% quantiles of
 the asymptotic normal distribution of the estimates are also
 given. One can see the confidence bands are fairly large compared with
 the estimated values. This certainly raises the question of how
 similar they really are and if/how their variations can be explained by
-economical arguments. We explore this topic in chapter
+economic arguments. We explore this topic in chapter
 \ref{ch:TailParameters}.
 
 \begin{figure}[htb!]
@@ -136,7 +138,7 @@ $X_{i,t}$, $i=1,2,\dots, p; t=1,\dots,n$.
 Suppose each of these series is a linear combination of $K$ factors
 $Y_{j,t}$, $j=1,2,\dots,K$, the $j$-th of which is regularly varying
 with index $\alpha_j$. Then by the summation property, each and every
-$X_i$ is regularly varying with index $\min_{1 \leq j \leq K} \alpha_j$.
+$\{X_i\}$ is regularly varying with index $\min_{1 \leq j \leq K} \alpha_j$.
 In practice a factor $Y_{i,t}$ is estimated as
 $\hat Y_{j,t} = \sum_{i=1}^p a_{j, i} X_{i,t}$, where
 $(a_{j, 1}, a_{j, 2}, \dots, a_{j, p})^\top$ is the $j$-th eigenvector
@@ -147,10 +149,10 @@ For this reason, it is important to understand the eigensystem of the
 sample covariance matrix of $\{X_{i,t}\}$. This topic is addressed in
 chapters \ref{ch:bernoulli} and \ref{ch:extremes} of this thesis.
 
-When a product of positive random variables, say $X_1 X_2$, involves
-one with regularly varying tails, a useful result is that of
-Breiman \cite{breiman:1965}: assume $X_1$ is regularly varying with
-index $\alpha$ and there exists $\epsilon > 0$ such that
+When a product of independent positive random variables, say $X_1
+X_2$, involves one with regularly varying tails, a useful result is
+that of Breiman \cite{breiman:1965}: assume $X_1$ is regularly varying
+with index $\alpha$ and there exists $\epsilon > 0$ such that
 $\E X_2^{\alpha + \epsilon} < \infty$.
 Then $\P(X_1 X_2 > x) \sim \E X_2^{\alpha} \P(X_1 > x)$.
 More generally, if $X_1, X_2$ are regularly varying with the same tail
@@ -259,9 +261,9 @@ relation \eqref{eq:garchpq_sre}. Alsmeyer and Mentemeier
 distribution has a density. Let $M(d, \reals)$ denote the space of
 $d \times d$ matrices with real entries that are invertible with
 probability 1. They replaced Kesten's condition
-$\E (\|A\|^\xi \log^+\|A\|) < \infty$ with a stronger
+$\E (\|A\|^\alpha \log^+\|A\|) < \infty$ with a stronger
 counterpart
-$\E [\|A\|^\xi (\log^+\|A\| + \log \|A^{-1} \|)] < \infty$,
+$\E [\|A\|^\alpha (\log^+\|A\| + \log \|A^{-1} \|)] < \infty$,
 and lifted the condition (A). In addition, they assumed
 \begin{enumerate}
   \item The Markov chain $X_n$ on $\sphere^{d-1}$, namely
@@ -277,19 +279,19 @@ and lifted the condition (A). In addition, they assumed
 These assumptions are termed conditions (id). Furthermore, they assumed
 that there was no point in $\reals^d$ such that the recurrence
 equation \eqref{eq:garchpq_sre} was stuck at this point with probability 1: 
-$\P(A X + B = X) < 1$ for all $X \in \reals^d$ and all $A \in M(d, \reals)$.
-With these assumptions, they showed
+$\P(A X + B = X) < 1$ for all $X \in \reals^d$. With these
+assumptions, they showed
 \[
-\lim_{u \to \infty} u^\xi \P(\inn{x, V} > u) = e_\xi(x)
+\lim_{u \to \infty} u^\alpha \P(\inn{x, V} > u) = e_\alpha(x)
 \]
-where $x \in \sphere^{d - 1}$ and $e_\xi(\cdot)$ is a continuous
-function $\sphere^{d-1} \to \reals_+$.
+where $x \in \sphere^{d - 1}$ and $e_\alpha(\cdot)$ is a continuous
+function on $\sphere^{d-1}$.
 
 The second of the (id) conditions, which is satisfied when the
 distribution of $A$ has a Lebesgue density, can actually be lifted if
 stronger moment conditions are imposed on $A$ and $B$, and in
 addition, a proximity condition is satisfied by the support of
-$A$. This is the result of Guivarc'h and Le Page, et al.
+$A$. This is the result of Guivarc'h and Le Page.
 \cite{guivarc:page:2016}. Let $G_A$ denote the semi-group generated
 by $\{\Pi_n: \Pi_n = A_n \cdots A_1, A_i \in M(d, \reals)\}$. The
 authors assumed
@@ -303,19 +305,16 @@ These two assumptions are termed (ip) conditions. Replacing the (id)
 conditions of Alsmeyer and Mentemeier with (ip) and the moment
 conditions of the former with
 \[
-\E \|A\|^{\xi + \delta} < \infty, \quad
-\E (\|A\|^{\xi} \|A^{-1}\|^{\delta}) < \infty, \quad
-\E (|B|^{\xi + \delta} < \infty),\quad
+\E \|A\|^{\alpha + \delta} < \infty, \quad
+\E (\|A\|^{\alpha} \|A^{-1}\|^{\delta}) < \infty, \quad
+\E (|B|^{\alpha + \delta} < \infty),\quad
 \text{ for some }\delta > 0
 \]
-Guivarc'h and Le Page et al. proved the same vague convergence result
-of \eqref{eq:jorg}.
+Guivarc'h and Le Page proved the vague convergence result of \eqref{eq:jorg}.
 
-In the special case of GARCH($p, q$) processes, which are discussed in
-more details in the next section, Bollerslev \cite{bollerslev:1986}
-showed that the fixed-point equation $X \overset{d}{=} A X + B$ has a
-unique, strictly stationary solution $X$ with finite variance if and
-only if
+Bollerslev \cite{bollerslev:1986} showed that the fixed-point equation
+$Y \overset{d}{=} A Y + B$ has a unique, strictly stationary solution
+$Y$ with finite variance if and only if
 \begin{equation}
   \sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1
   \label{eq:bollerslev:intro}
@@ -334,15 +333,15 @@ $\{X_t\}_{t \in \mathbb Z}$satisfying
   \sum_{j=1}^q \beta_j \sigma_{t-j}^2
 \end{eqnarray*}
 where $\{X_t\}$ is a return series, e.g. stock returns, foreign exchange
-rates, interest rates, etc; $\{Z_t\}$ is a iid, mean 0, unit-variance
-sequence; and $\sigma_t^2$ is the variance of the
-distribution of $X_t$ conditional on $\{(X_i,
-\sigma_i^2)\}_{i=0}^{t-1}$; $\omega, \{\alpha_i\}_{i=1}^p,
-\{\beta_i\}_{i=1}^q$ are non-negative parameters of the
-model. The GARCH($p,q$) recurrence equation is of the form of
-\eqref{eq:rhjyu}. With appropriate conditions, $\sigma_t^2$ is
-shown to be a positive Harris recurrent Markov chain (cf. Bollerslev
-\cite{bollerslev:1986} and Buraczewski et al.
+rates, interest rates, etc; $\{Z_t\}$ is an iid, mean 0, unit-variance
+sequence, $\sigma_t^2$ is the variance of the distribution of $X_t$
+conditional on
+$\{(X_i, \sigma_i^2)\}_{i=0}^{t-1}$; $\omega, \{\alpha_i\}_{i=1}^p,
+\{\beta_i\}_{i=1}^q$
+are non-negative parameters of the model. The GARCH($p,q$) recurrence
+equation is of the form of \eqref{eq:rhjyu}. With appropriate
+conditions, $\sigma_t^2$ is shown to be a positive Harris recurrent
+Markov chain (cf. Bollerslev \cite{bollerslev:1986} and Buraczewski et al.
 \cite{buraczewski:damek:mikosch:2016}), whose stationary distribution
 has regularly varying tails. The tail index $\alpha$, is given by
 \begin{equation}
@@ -384,7 +383,7 @@ While GARCH models have been very successful for modelling financial
 time series, it does have its drawbacks. For example, the tail
 index is very sensitive to the model parameters $\{\alpha_i\}_{i=1}^p$ and
 $\{\beta_i\}_{i=1}^q$. In applications, these parameters need to be
-estimated from a sample and are all ways uncertain to some extent. For
+estimated from a sample and are always uncertain to some extent. For
 this reason, there can be a significant discrepancy between the tail
 index obtained via \eqref{eq:grgbg} with the model parameters
 substituted for their sample estimates and the Hill estimate
@@ -508,13 +507,13 @@ financial time series and has led to greatly improved accuracy of
 prediction. This is the approach of stochastic volatility models.
 
 In the pioneering work of Clark \cite{clark:1973}, the author modelled
-the logarithmic price $X_t$ as a subordinated stochastic process:
-$X_t = V_{\tau_t}$, where $V_i$ is a normally distributed random
+the logarithmic price $Y_t$ as a subordinated stochastic process:
+$Y_t = V_{\tau_t}$, where $V_i$ is a normally distributed random
 variable with mean 0, variance $\sigma^2 i$ and independent
 increments. $\tau_t$ is a real-valued, non-negative, non-decreasing
 sequence with $\tau_0 = 0$. It models a time change. As pointed out by
 Shepard and Andersen \cite{Shephard:Andersen:2009}, the log-price
-process $X_t$ is serially uncorrelated although potentially dependent,
+process $Y_t$ is serially uncorrelated although potentially dependent,
 provided that $V_t$ and $\tau_t$ are independent.
 
 Later authors, e.g. Back \cite{back:1991} chose to model the log-price
@@ -524,17 +523,15 @@ component modelled as a product process:
   Y_t &=& Y_0 + A_t + M_t \\
   M_t - M_{t-1} &=& X_t = \sigma_t Z_t
 \end{eqnarray*}
-where $M_t$ is a semimartingale, $A_t$ is a finite variation process
-and $M_t$ is a Martingale. $\sigma_t$ is non-negative and $Z_t$ is an
-iid process with 0 mean and unit variance. A convenient choice of
-$\sigma_t$ is
+where $A_t$ is a finite variation process and $M_t$ is a Martingale
+and hence $Y_t$ is a semimartingale . $\sigma_t$ is non-negative and
+$Z_t$ is an iid process with 0 mean and unit variance. A convenient
+choice of $\sigma_t$ is
 \[
 \log\sigma_t = \sum_{l \in \mathbb Z} \psi_l \eta_{t-l}
 \]
 where $\psi_l$ is a sequence of non-negative numbers with at least one
 positive element and $0 \leq \psi_l \leq 1$.
-
-Clearly, if either 
 
 \section{Contribution of this thesis}\label{sec:contr}
 

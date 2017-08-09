@@ -104,7 +104,7 @@ Garch21::Garch21(const vector<double> &alpha,
     random_device randev;
     chi_squared_distribution<double> chi2;
     // Prepare the ppol
-    pool.resize(1000u);
+    pool.resize(300u);
     A_matrices.resize(pool.size());
     
 #pragma omp parallel for
@@ -126,7 +126,7 @@ double Garch21::quantile(double u, double angle) const
     vec x = {cos(angle), sin(angle)};
     
 #pragma omp parallel for
-    for (unsigned int i = 0; i < pool.size(); ++i) {
+    for (unsigned int i = 0; i < pool.size(); i++) {
 	vec y = A_matrices[i] * x;
 	double len = norm(y);
 	double theta = acos(y[0]/len);
@@ -218,7 +218,6 @@ pair<double, size_t> Garch21::sample_estimator(const vec &V0, double u)
 	    X /= l;
 	    S += log(l);
 	}
-	n++;
 	double normv = norm(V);
 	if (!u_exceeded && normv <= M) {
 //	    n = 0;
