@@ -1,0 +1,73 @@
+# 100 sample paths
+Prob(|V| > 6.00) = 1.970388e-02 (1.985578e+01)
+# 1000 sample paths
+Prob(|V| > 6.00) = 2.138288e-02 (1.751237e+01)
+# 1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 6.00) = 2.125147e-02 (1.685931e+01)
+# 2000 sample paths
+Prob(|V| > 6.00) = 2.119572e-02 (1.626889e+01)
+# 4000 sample paths
+Prob(|V| > 6.00) = 2.164903e-02 (1.768518e+01)
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 7.00) = 1.061265e-02 (1.695139e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 8.00) = 6.368023e-03 (1.655323e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 9.00) = 4.055572e-03 (1.863400e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 10.00) = 2.954799e-03 (1.837835e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 11.00) = 2.044962e-03 (1.797358e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 12.00) = 1.550944e-03 (1.832866e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 13.00) = 9.927092e-04 (1.790972e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 14.00) = 7.944094e-04 (1.782173e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 15.00) = 6.241316e-04 (1.791689e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 16.00) = 5.092066e-04 (1.905912e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 17.00) = 4.038384e-04 (1.825584e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 18.00) = 3.254970e-04 (1.785727e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 19.00) = 2.416842e-04 (1.789868e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 20.00) = 2.088970e-04 (1.832997e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 50.00) = 4.780110e-06 (1.735695e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 51.00) = 4.431687e-06 (1.813899e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 52.00) = 3.652013e-06 (1.881725e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 53.00) = 3.960486e-06 (1.762174e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 53.00) = 3.774974e-06 (1.840526e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 54.00) = 3.420358e-06 (1.915803e+01)
+
+1000 sample paths. M=4.65054, tail index = 4.1193
+Prob(|V| > 55.00) = 3.051073e-06 (1.813903e+01)
+

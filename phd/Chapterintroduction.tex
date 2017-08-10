@@ -7,7 +7,7 @@ finance. The last application is indeed the focus of this thesis. To
 discuss the phenomena in precise terms, we introduce the concept of
 regular variation.
 
-\section{Regular Variation}
+\section{Regular Variation}\label{sec:intro_regvar}
 The concept of regular variation is defined by the following scaling
 property: if a function $f$ on $(0, \infty)$ satisfies
 \[
@@ -159,6 +159,19 @@ More generally, if $X_1, X_2$ are regularly varying with the same tail
 index $\alpha$ or if $\P(X_2 > x) = o(\P(X_1 > x))$, then $X_1 X_2$ is
 regularly varying with index $\alpha$.
 
+In addition to Breiman's result, the following is also well-known,
+assuming $X_1, X_2$ are positive independent random variables and
+$X_1$ is regularly varying with index $\alpha$:
+\begin{enumerate}
+\item if $X_2$ is regularly varying with index $\alpha$ or
+  $\lim_{x \to \infty} {P(X_2 > x) \over \P(X_1 > x)} = 0$, then $X_1
+  X_2$ is regularly varying with index $\alpha$.
+\item if $X_1, X_2$ are iid and $\E X_1^\alpha = \infty$, then
+  ${\P(X_1 X_2 > x) \over \P(X_1 > x)} \to \infty$
+\item if $X_1, X_2$ are iid and $\E X_1^\alpha < \infty$, then the
+  only possible limit of ${\P(X_1 X_2 > x) \over \P(X_1 > x)}$ is
+  $2 \E X_1^\alpha$.
+\end{enumerate}
 For an extensive summary of the regular variation properties of
 functions of regularly varying random variables, see Mikosch and
 Jessen \cite{JessenMikosch2006}.
@@ -527,11 +540,51 @@ where $A_t$ is a finite variation process and $M_t$ is a martingale
 and hence $Y_t$ is a semimartingale. $\sigma_t$ is non-negative and
 $Z_t$ is an iid process with 0 mean and unit variance. A convenient
 choice of $\sigma_t$ is
-\[
-\log\sigma_t = \sum_{l \in \mathbb Z} \psi_l \eta_{t-l}
-\]
+\begin{equation}
+  \label{eq:rfht}
+  \log\sigma_t = \sum_{l \in \mathbb Z} \psi_l \eta_{t-l}  
+\end{equation}
 where $-1 \leq \{\psi_l\}_{l \in \mathbb Z} \leq 1$
-is a sequence of real numbers with at least one non-zero element.
+is a sequence of real numbers with at least one non-zero element,
+$\{\eta_t\}$ is a iid sequence of random variables. By Kolmogorov's
+3-series theorem, the infinite series above converges if and only if
+$\sum_{l \in \mathbb Z} \psi_l^2 < \infty$.
+In particular, if $\{\eta_i\}$ is normally distributed with mean 0,
+$\{\sigma_t\}$ is stationary and its marginal distributions are
+log-normal.
+
+If, however, the sequence $\{Z_t\}$ or $\{\sigma_t\}$ is regularly
+varying with index $\alpha$ and some additional conditions are
+satisfied, $X_t$ is also regularly varying with the same
+index. Specifically, if $Z_t$ is regularly varying and $\sigma_t$ has
+a lighter tail, the conclusion follows from Breiman's lemma. See
+\S\ref{sec:case1} of Jan\ss en et al. i.e. chapter \ref{ch:bernoulli}
+of this thesis for more details.
+
+If, instead, $\sigma_t$ has a heavier tail than $Z_t$, $X_{i,t}$ is
+regularly varying assuming the following conditions:
+\begin{itemize}
+\item $e^\eta$ is regularly varying with index $\alpha$, where $\eta$
+  is a generic element of the iid sequence $\{\eta_t\}$, and
+  \begin{equation}
+    \label{eq:dfhty}
+    \E e^{\alpha \eta} = \infty, \quad\text{ or }
+    {\P(\eta_1 + \eta_2 > x) \over \P(\eta_1 > x)} \to c \in (0, \infty)
+  \end{equation}
+    where $\eta, \eta_1$ and $\eta_2$ are generic elements of the
+    iid sequence $\{\eta_t\}$.
+\end{itemize}
+Note the only finite limit for
+${\P(\eta_1 + \eta_2 > x) \over \P(\eta_1 > x)}$ in $(0, \infty)$ is
+$\E e^{\alpha \eta}$. Hence the two conditions of \eqref{eq:dfhty}
+are mutually exclusive. In chapter \ref{ch:bernoulli} we will see that
+these two conditions lead to rather different behavior for
+eigenvalues of the sample covariance matrix of stochastic volatility
+processes of the form \eqref{eq:rfht}.
+
+There are a few advantages in using stochastic volatility models. For
+one thing, they are among the simplest models allowing for conditional
+heteroscedasticity; for another thing,
 
 \section{Contribution of this thesis}\label{sec:contr}
 

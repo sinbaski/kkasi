@@ -107,13 +107,13 @@ Garch21::Garch21(const vector<double> &alpha,
     pool.resize(300u);
     A_matrices.resize(pool.size());
     
-#pragma omp parallel for
-    for (size_t i = 0; i < pool.size(); ++i) {
-	pool[i] = chi2(randev);
-	A_matrices[i].resize(2, 2);
-	gen_rand_matrix(pool[i], A_matrices[i]);
-    }
-    sort(pool.begin(), pool.end());
+// #pragma omp parallel for
+//     for (size_t i = 0; i < pool.size(); ++i) {
+// 	pool[i] = chi2(randev);
+// 	A_matrices[i].resize(2, 2);
+// 	gen_rand_matrix(pool[i], A_matrices[i]);
+//     }
+//     sort(pool.begin(), pool.end());
 
     r_xi.resize(100);
     right_eigenfunction(tail_index, r_xi);
@@ -125,7 +125,7 @@ double Garch21::quantile(double u, double angle) const
     vector<double> ecdf(pool.size());
     vec x = {cos(angle), sin(angle)};
     
-#pragma omp parallel for
+//#pragma omp parallel for
     for (unsigned int i = 0; i < pool.size(); i++) {
 	vec y = A_matrices[i] * x;
 	double len = norm(y);
@@ -171,9 +171,38 @@ double Garch21::draw_z2(void) const
  */
 double Garch21::draw_z2(double angle) const
 {
-    random_device randev;
-    uniform_real_distribution<double> unif(0, 1);
-    return quantile(unif(randev), angle);
+/**
+ * Sample by computing empirical quantile function
+ */    
+    // random_device randev;
+    // uniform_real_distribution<double> unif(0, 1);
+    // return quantile(unif(randev), angle);
+
+/**
+ * Sample by resampling
+ */
+    size_t K = 1000;
+    chi_squared_distribution<double> chi2;
+    vector<mat> As(K);
+    vector<double> weights(K);
+    vec x = {cos(angle), sin(angle)};
+#pragma omp parallel for
+    for (size_t i = 0; i < K; i++) {
+	knuth_b randev;
+	double z2 = chi2(randev);
+	As[i].resize(2,2);
+	gen_rand_matrix(z2, As[i]);
+	vec y = As[i] * x;
+	double len = norm(y);
+	double theta = acos(y[0]/len);
+	weights[i] =
+	    pow(len, tail_index) *
+	    interpolate_fun(theta, r_xi) /
+	    interpolate_fun(angle, r_xi);
+    }
+    discrete_distribution<size_t> dist(weights.begin(), weights.end());
+    knuth_b randev;
+    return As[dist(randev)](1, 0);
 }
 
 void Garch21::simulate_path(vector<vec> &path) const
@@ -416,6 +445,8 @@ int main(int argc, char *argv[])
     sscanf(argv[1], "%lf", &u);
     sscanf(argv[2], "%lu", &nbr_paths);
     array<double, 2> result = model.estimate_prob(u, nbr_paths);
-    printf("Prob(|V| > %.2f) = %e (%e)\n", u, result[0], result[1]);
+    cout << nbr_paths << " sample paths. " << "M=" << model.M
+	 << ", tail index = " << model.tail_index << endl;
+    printf("Prob(|V| > %.2f) = %e (%e)\n\n", u, result[0], result[1]);
     return 0;
 }
