@@ -517,21 +517,21 @@ process $Y_t$ is serially uncorrelated although potentially dependent,
 provided that $V_t$ and $\tau_t$ are independent.
 
 Later authors, e.g. Back \cite{back:1991} chose to model the log-price
-process as a semimartingale, with increments of the Martingale
+process as a semimartingale, with increments of the martingale
 component modelled as a product process:
 \begin{eqnarray*}
   Y_t &=& Y_0 + A_t + M_t \\
   M_t - M_{t-1} &=& X_t = \sigma_t Z_t
 \end{eqnarray*}
-where $A_t$ is a finite variation process and $M_t$ is a Martingale
-and hence $Y_t$ is a semimartingale . $\sigma_t$ is non-negative and
+where $A_t$ is a finite variation process and $M_t$ is a martingale
+and hence $Y_t$ is a semimartingale. $\sigma_t$ is non-negative and
 $Z_t$ is an iid process with 0 mean and unit variance. A convenient
 choice of $\sigma_t$ is
 \[
 \log\sigma_t = \sum_{l \in \mathbb Z} \psi_l \eta_{t-l}
 \]
-where $\psi_l$ is a sequence of non-negative numbers with at least one
-positive element and $0 \leq \psi_l \leq 1$.
+where $-1 \leq \{\psi_l\}_{l \in \mathbb Z} \leq 1$
+is a sequence of real numbers with at least one non-zero element.
 
 \section{Contribution of this thesis}\label{sec:contr}
 
