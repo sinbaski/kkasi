@@ -356,7 +356,7 @@ equation is of the form of \eqref{eq:rhjyu}. With appropriate
 conditions, $\sigma_t^2$ is shown to be a positive Harris recurrent
 Markov chain (cf. Bollerslev \cite{bollerslev:1986} and Buraczewski et al.
 \cite{buraczewski:damek:mikosch:2016}), whose stationary distribution
-has regularly varying tails. The tail index $\alpha$, is given by
+has regularly varying tails. The tail index $\alpha$ is given by
 \begin{equation}
   \label{eq:grgbg}
   \lim_{n \to \infty} {1 \over n}\log\E\|A_n \cdots A_1\|^\alpha = 0,
@@ -532,10 +532,11 @@ provided that $V_t$ and $\tau_t$ are independent.
 Later authors, e.g. Back \cite{back:1991} chose to model the log-price
 process as a semimartingale, with increments of the martingale
 component modelled as a product process:
-\begin{eqnarray*}
-  Y_t &=& Y_0 + A_t + M_t \\
+\begin{eqnarray}
+  Y_t &=& Y_0 + A_t + M_t \nonumber \\
   M_t - M_{t-1} &=& X_t = \sigma_t Z_t
-\end{eqnarray*}
+  \label{eq:rtght}
+\end{eqnarray}
 where $A_t$ is a finite variation process and $M_t$ is a martingale
 and hence $Y_t$ is a semimartingale. $\sigma_t$ is non-negative and
 $Z_t$ is an iid process with 0 mean and unit variance. A convenient
@@ -546,36 +547,37 @@ choice of $\sigma_t$ is
 \end{equation}
 where $-1 \leq \{\psi_l\}_{l \in \mathbb Z} \leq 1$
 is a sequence of real numbers with at least one non-zero element,
-$\{\eta_t\}$ is a iid sequence of random variables. By Kolmogorov's
-3-series theorem, the infinite series above converges if and only if
-$\sum_{l \in \mathbb Z} \psi_l^2 < \infty$.
-In particular, if $\{\eta_i\}$ is normally distributed with mean 0,
-$\{\sigma_t\}$ is stationary and its marginal distributions are
-log-normal.
+$\{\eta_t\}_{t \in \mathbb Z}$ is a iid sequence of random
+variables. By Kolmogorov's 3-series theorem, the infinite series above
+converges if and only if $\sum_{l \in \mathbb Z} \psi_l^2 < \infty$.
+In particular, if $\{\eta_i\}_{i \in \mathbb Z}$ is normally
+distributed with 0 mean, $\{\sigma_t\}_{t \in \mathbb Z}$ is
+stationary and its marginal distributions are log-normal.
 
-If, however, the sequence $\{Z_t\}$ or $\{\sigma_t\}$ is regularly
-varying with index $\alpha$ and some additional conditions are
-satisfied, $X_t$ is also regularly varying with the same
-index. Specifically, if $Z_t$ is regularly varying and $\sigma_t$ has
-a lighter tail, the conclusion follows from Breiman's lemma. See
-\S\ref{sec:case1} of Jan\ss en et al. i.e. chapter \ref{ch:bernoulli}
-of this thesis for more details.
+If, however, the sequence $\{Z_t\}_{t \in \mathbb Z}$ or
+$\{\sigma_t\}_{t \in \mathbb Z}$ is regularly varying with index
+$\alpha$ and some additional conditions are satisfied, $X_t$ is also
+regularly varying with the same index. Specifically, if $Z_t$ is
+regularly varying and $\sigma_t$ has a lighter tail, the conclusion
+follows from Breiman's lemma. See \S\ref{sec:case1} of Jan\ss en et
+al. i.e. chapter \ref{ch:bernoulli} of this thesis for more details.
 
-If, instead, $\sigma_t$ has a heavier tail than $Z_t$, $X_{i,t}$ is
-regularly varying assuming the following conditions:
+If, instead, $\sigma_t$ has a heavier tail than $Z_t$, then $X_{i,t}$
+is regularly varying assuming the following conditions:
 \begin{itemize}
 \item $e^\eta$ is regularly varying with index $\alpha$, where $\eta$
-  is a generic element of the iid sequence $\{\eta_t\}$, and
+  is a generic element of the iid sequence
+  $\{\eta_t\}_{t \in \mathbb Z}$, and
   \begin{equation}
     \label{eq:dfhty}
     \E e^{\alpha \eta} = \infty, \quad\text{ or }
     {\P(\eta_1 + \eta_2 > x) \over \P(\eta_1 > x)} \to c \in (0, \infty)
   \end{equation}
     where $\eta, \eta_1$ and $\eta_2$ are generic elements of the
-    iid sequence $\{\eta_t\}$.
+    iid sequence $\{\eta_t\}_{t \in \mathbb Z}$.
 \end{itemize}
 Note the only finite limit for
-${\P(\eta_1 + \eta_2 > x) \over \P(\eta_1 > x)}$ in $(0, \infty)$ is
+${\P(\eta_1 + \eta_2 > x) \over \P(\eta_1 > x)}$ is
 $\E e^{\alpha \eta}$. Hence the two conditions of \eqref{eq:dfhty}
 are mutually exclusive. In chapter \ref{ch:bernoulli} we will see that
 these two conditions lead to rather different behavior for
@@ -584,7 +586,49 @@ processes of the form \eqref{eq:rfht}.
 
 There are a few advantages in using stochastic volatility models. For
 one thing, they are among the simplest models allowing for conditional
-heteroscedasticity; for another thing,
+heteroscedasticity (cf. Andersen et
+al. \cite{andersen:davis:kreiss:mikosch:2009}); for another thing,
+they greatly improve the accuracy of predicting future volatilities
+by taking advantage of high frequency data. Specifically, for the
+semimartingale $Y_t$ we have
+\begin{equation}
+  \label{eq:jieg}
+  [Y_{\delta}]_t
+  =
+  \sum_{j=1}^{\floor{t/\delta}}
+  (Y_{j \delta} - Y_{(j-1)\delta})^2
+  \overset{P}{\to} [Y]_t,
+  \quad
+  \delta \to 0.
+\end{equation}
+The object $[Y_\delta]_t$ is called the realized quadratic variation
+in time series literature.
+The convergence in probability follows directly from the definition of
+quadratic variation.
+%% When $\E Z_t = 0$, $[Y]_t = [M]_t$ 
+Furthermore, Jacod \cite{jacod:1994} and
+Barndorff-Nielsen and Shephard \cite{barndorff:shephard:2002} proved a
+central limit theorem:
+\[
+  {[Y_\delta]_t - [Y]_t \over \sqrt{2 \delta \int_0^t \sigma_s^2 ds}}
+  \overset{d}{\to} N(0, 1),
+  \quad \delta \to 0
+\]
+Moreover, the structure $X_t = M_{t} - M_{t-1} = \sigma_t Z_t$ gives
+$[Y_\delta]_t \overset{P}{\to} \int_0^t \sigma_s^2 ds$. Meanwhile,
+It\^o's formula gives, for semimartingale $Y_t$,
+\begin{eqnarray}
+  Y_t^2 &=& [Y]_t + 2 \int_0^t Y_s d Y_s \nonumber \\
+  &=& [Y]_t + 2 \int_0^t Y_s dA_s + 2 \int_0^t Y_s dM_s \nonumber \\
+  \E Y_t^2 &=& \E [Y]_t + 2 \E \left( \int_0^t Y_s dA_s \right) \nonumber\\
+  &\approx& \E [Y]_t, \quad \text{when $t$ is small} \label{eq:hytre}
+\end{eqnarray}
+\eqref{eq:hytre} and \eqref{eq:jieg} shows $\E Y_t^2$, or in other
+words, the forecast of future squared return can be obtained as
+$\E [Y_\delta]_t$, i.e. the forecast of future realized quadratic
+variation. Since past realized quadratic variations are observable,
+forcast of future $[Y_\delta]_t$ can be obtained using e.g. an ARFIMA
+model.
 
 \section{Contribution of this thesis}\label{sec:contr}
 
