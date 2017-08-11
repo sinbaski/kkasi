@@ -229,7 +229,7 @@ conditions of the former with
 \E (|B|^{\xi + \delta} < \infty),\quad
 \text{ for some }\delta > 0
 \]
-Guivarc'h and Le Page et al proved the same vague convergence result
+Guivarc'h and Le Page et al.proved the same vague convergence result
 of \eqref{eq:kesten}.
 
 In the special case of GARCH($p, q$),
@@ -246,12 +246,12 @@ $\pi$ denote this unique stationary probability measure and let
 $V \sim \pi$, $Z \sim \mu_Z$. More generally we write $\mu_U$ for the
 probability measure of $U$, no matter what type of object $U$ may be.
 
-Buraczewski et al \cite{buraczewski:damek:mikosch:2016} (proposition
+Buraczewski et al.\cite{buraczewski:damek:mikosch:2016} (proposition
 4.3.1) derived the support of $\pi$ assuming the condition of
 Bollerslev \ref{eq:bollerslev}. We omit the formula here and refer to it as
 $\chi$ hereafter.
 
-%% According to Buraczewski et al 
+%% According to Buraczewski et al.
 %% \cite{buraczewski:damek:mikosch:2016}, proposition 4.3.1, the support
 %% of $\pi$ is
 %% \[
@@ -312,7 +312,7 @@ distributions.
   \item That $\vec 0 \notin \chi$ and $A_n$ has a Lebesgue density
     implies the stationary distribution $\pi$ is absolutely continuous with
     respect to Lebesgue measure. This immediately follows from lemma
-    4.2.2 of Buraczewski et al \cite{buraczewski:damek:mikosch:2016}.
+    4.2.2 of Buraczewski et al.\cite{buraczewski:damek:mikosch:2016}.
 
   \item Condition (III) ensures that, with probability 1, every row and
     column of the matrix $A_n$ has at least one postive component.
@@ -391,7 +391,7 @@ paper.
 
 When $p = q = 1$, $V_n$ reduces to a scalar. An importance sampling
 estimator was proposed and shown to be efficient in the sense of
-bounded relative error by Collamore et al \cite{collamore2014}. We
+bounded relative error by Collamore et al.\cite{collamore2014}. We
 consider our work as a multivariate extension to theirs.
 
 \section{Statement of Results}
@@ -410,71 +410,72 @@ S_t &=& \log |A_t \cdots A_1 \tilde V_0| \label{eq:S_def}\\
 where $\tilde v = v/|v|$  for a vector $v$. From the GARCH($p, q$)
 recurrence relation
 \begin{tiny}
-  \begin{equation*}
-      \begin{pmatrix}
-        \sigma_{t}^2 \\
-        \sigma_{t-1}^2 \\
-        \vdots \\
-        \sigma_{t-q+2}^2 \\
-        \sigma_{t-q+1}^2 \\
-        R_{t-1}^2 \\
-        R_{t-2}^2 \\
-        \vdots \\
-        R_{t-p+2}^2 \\
-        R_{t-p+1}^2
-      \end{pmatrix}
-      =
-      \begin{pmatrix}
-        \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
-        \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 &
-        \cdots & \alpha_{p-1} & \alpha_p\\
-        1 & 0 & \cdots & 
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        \vdots & \vdots & \ddots & 
-        \vdots & \vdots & \vdots & \vdots &
-        \ddots & \vdots & \vdots \\
-        0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        0 & 0 & \cdots &
-        1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        Z_{t-1}^2 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        0 & 0 & \cdots &
-        0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
-        \vdots & \vdots & \ddots &
-        \vdots & \vdots & \vdots & \vdots &
-        \ddots & \vdots & \vdots \\
-        0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
-        0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
-      \end{pmatrix}
-      \begin{pmatrix}
-        \sigma_{t-1}^2 \\
-        \sigma_{t-2}^2 \\
-        \vdots \\
-        \sigma_{t-q+1}^2 \\
-        \sigma_{t-q}^2 \\
-        R_{t-2}^2 \\
-        R_{t-3}^2 \\
-        \vdots \\
-        R_{t-p+1}^2 \\
-        R_{t-p}^2
-      \end{pmatrix}
-      +
-      \begin{pmatrix}
-        \omega \\
-        0 \\
-        \vdots \\
-        0 \\
-        0 \\
-        0 \\
-        0 \\
-        \vdots \\
-        0 \\
-        0 \\
-      \end{pmatrix}
-  \end{equation*}
+  \begin{equation}
+    \label{eq:jopger}
+    \begin{pmatrix}
+      \sigma_{t}^2 \\
+      \sigma_{t-1}^2 \\
+      \vdots \\
+      \sigma_{t-q+2}^2 \\
+      \sigma_{t-q+1}^2 \\
+      R_{t-1}^2 \\
+      R_{t-2}^2 \\
+      \vdots \\
+      R_{t-p+2}^2 \\
+      R_{t-p+1}^2
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
+      \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 &
+      \cdots & \alpha_{p-1} & \alpha_p\\
+      1 & 0 & \cdots & 
+      0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+      \vdots & \vdots & \ddots & 
+      \vdots & \vdots & \vdots & \vdots &
+      \ddots & \vdots & \vdots \\
+      0 & 0 & \cdots &
+      0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+      0 & 0 & \cdots &
+      1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+      Z_{t-1}^2 & 0 & \cdots &
+      0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+      0 & 0 & \cdots &
+      0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
+      \vdots & \vdots & \ddots &
+      \vdots & \vdots & \vdots & \vdots &
+      \ddots & \vdots & \vdots \\
+      0 & 0 & \cdots &
+      0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
+      0 & 0 & \cdots &
+      0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
+    \end{pmatrix}
+    \begin{pmatrix}
+      \sigma_{t-1}^2 \\
+      \sigma_{t-2}^2 \\
+      \vdots \\
+      \sigma_{t-q+1}^2 \\
+      \sigma_{t-q}^2 \\
+      R_{t-2}^2 \\
+      R_{t-3}^2 \\
+      \vdots \\
+      R_{t-p+1}^2 \\
+      R_{t-p}^2
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+      \omega \\
+      0 \\
+      \vdots \\
+      0 \\
+      0 \\
+      0 \\
+      0 \\
+      \vdots \\
+      0 \\
+      0 \\
+    \end{pmatrix}
+  \end{equation}
 \end{tiny}
 it is obvious that, by define mapping
 \[
@@ -783,7 +784,7 @@ Then in \S\ref{sec:consistency} we prove theorem
   $\lambda(\cdot)$ is a convex continuous function (cf. Buraczewski et
   al \cite{buraczewski:damek:mikosch:2016}, \S 4.4.3), so
   $\lambda(0) = 1 = \lambda(\xi)$ implies $\lambda(\theta) < 1$.
-  By Buraczewski et al \cite{buraczewski:damek:guivarch:mentemeier:2014} 
+  By Buraczewski et al.\cite{buraczewski:damek:guivarch:mentemeier:2014} 
   Proposition 3.1, an eigenfunction $r_\theta(\cdot)$ and an
   eigenmeasure $\ell_\theta(\cdot)$ exist for the operator
   $\mathscr P^\theta$. 
@@ -1474,7 +1475,7 @@ That is,
     \right]
   \end{eqnarray*}
 Since $\| \Pi_{n+m,n+1} \| \to 0$ a.s. as $m \to \infty$
-(cf. Buraczewski et al \cite{buraczewski:damek:mikosch:2016},
+(cf. Buraczewski et al.\cite{buraczewski:damek:mikosch:2016},
 theorem 4.1.3), it is useful to consider the family of sets
 $S_1(\epsilon)$ for each $\epsilon > 0$:
 \begin{equation}

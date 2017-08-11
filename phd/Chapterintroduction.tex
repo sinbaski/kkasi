@@ -138,7 +138,7 @@ $X_{i,t}$, $i=1,2,\dots, p; t=1,\dots,n$.
 Suppose each of these series is a linear combination of $K$ factors
 $Y_{j,t}$, $j=1,2,\dots,K$, the $j$-th of which is regularly varying
 with index $\alpha_j$. Then by the summation property, each and every
-$\{X_i\}$ is regularly varying with index $\min_{1 \leq j \leq K} \alpha_j$.
+$\{X_{i,t}\}$ is regularly varying with index $\min_{1 \leq j \leq K} \alpha_j$.
 In practice a factor $Y_{i,t}$ is estimated as
 $\hat Y_{j,t} = \sum_{i=1}^p a_{j, i} X_{i,t}$, where
 $(a_{j, 1}, a_{j, 2}, \dots, a_{j, p})^\top$ is the $j$-th eigenvector
@@ -217,14 +217,14 @@ Jessen \cite{JessenMikosch2006}.
 
 \section{Stochastic Recurrence Equation}
 One of the most important dynamical mechanisms that lead to regularly
-varying r.v. is stochastic recursion of the following form:
+varying random variables is a stochastic recursion of the following form:
 \begin{equation}
   \label{eq:rhjyu}
   X_t = A_t X_{t-1} + B_t, \quad t \in \mathbb Z
 \end{equation}
 where $X_t$ is a $d$-dimensional random vector, $A_t$ is a $d\times d$
 random matrix and $B_t$ is a $d$-dimensional vector, random or
-deterministic. The sequence $\{(A_t, B_t)\}_{t \in \mathbb Z}$ are
+deterministic. The sequence $\{(A_t, B_t)\}_{t \in \mathbb Z}$ is
 iid. The stationary solution to \eqref{eq:rhjyu} satisfies the fixed-point
 equation $X \overset{d}{=} A X + B$, where $X$ and $(A, B)$ are
 generic elements of the $\{X_t\}_{t \in \mathbb Z}$ and
@@ -261,11 +261,11 @@ $\alpha$, assuming the following conditions (M) and (A):
 Upon these conditions, Kesten's theorem gives
 \begin{equation}
   \label{eq:jorg}
-  u^\alpha \P(u^{-1} V \in \cdot) \overset{v}{\to} \nu_\alpha(\cdot)
+  u^\alpha \P(u^{-1} X \in \cdot) \overset{v}{\to} \nu_\alpha(\cdot)
 \end{equation}
 where $\nu_\alpha$ is a non-null Radon measure on
 $\reals^d_+ \setminus \{0\}$ with the property
-$\nu_\alpha(a A) = a^{-\alpha} \nu_\alpha(A)$.
+$\forall a > 0, \nu_\alpha(a A) = a^{-\alpha} \nu_\alpha(A)$.
 
 In addition to non-negative matrices, two other classes of random
 matrices have been shown to lead to power-law tails via the recurrence
@@ -279,10 +279,14 @@ counterpart
 $\E [\|A\|^\alpha (\log^+\|A\| + \log \|A^{-1} \|)] < \infty$,
 and lifted the condition (A). In addition, they assumed
 \begin{enumerate}
-  \item The Markov chain $X_n$ on $\sphere^{d-1}$, namely
-    $X_n = A_n X_{n-1} / |A_n X_{n-1}|$, is irreducible, i.e. for any open
-    set $U \subset \sphere^{d-1}$ and any $u \in \sphere^{d-1}$, 
-    $\exists n \geq 1$ such that $\P(X_n u \in U) > 0$.
+  \item For any open set $U \subset \sphere^{d-1}$ and any
+    $u \in \sphere^{d-1}$,  $\exists n \geq 1$ such that
+    \[
+    \P\left({\prod_{i=1} A_i u
+        \over
+        \left|\prod_{i=1} A_i u\right|}\in U
+    \right) > 0.
+    \]
   \item There exist $N \geq 1$, $c, \epsilon > 0$ and an invertible
     matrix $\bar A \in M(d, \reals)$ such that for any set
     $C \subset M(d, \reals)$, it holds true
@@ -295,7 +299,7 @@ equation \eqref{eq:garchpq_sre} was stuck at this point with probability 1:
 $\P(A X + B = X) < 1$ for all $X \in \reals^d$. With these
 assumptions, they showed
 \[
-\lim_{u \to \infty} u^\alpha \P(\inn{x, V} > u) = e_\alpha(x)
+\lim_{u \to \infty} u^\alpha \P(\inn{x, X} > u) = e_\alpha(x)
 \]
 where $x \in \sphere^{d - 1}$ and $e_\alpha(\cdot)$ is a continuous
 function on $\sphere^{d-1}$.
@@ -325,13 +329,13 @@ conditions of the former with
 \]
 Guivarc'h and Le Page proved the vague convergence result of \eqref{eq:jorg}.
 
-Bollerslev \cite{bollerslev:1986} showed that the fixed-point equation
-$Y \overset{d}{=} A Y + B$ has a unique, strictly stationary solution
-$Y$ with finite variance if and only if
-\begin{equation}
-  \sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1
-  \label{eq:bollerslev:intro}
-\end{equation}
+% Bollerslev \cite{bollerslev:1986} showed that the fixed-point equation
+% $Y \overset{d}{=} A Y + B$ has a unique, strictly stationary solution
+% $Y$ with finite variance if and only if
+% \begin{equation}
+%   \sum_{i=1}^p \alpha_i + \sum_{j=1}^q \beta_j < 1
+%   \label{eq:bollerslev:intro}
+% \end{equation}
 
 \section{GARCH models}
 Introduced by Bollerslev \cite{bollerslev:1986} in 1986,
@@ -350,11 +354,13 @@ rates, interest rates, etc; $\{Z_t\}$ is an iid, mean 0, unit-variance
 sequence, $\sigma_t^2$ is the variance of the distribution of $X_t$
 conditional on
 $\{(X_i, \sigma_i^2)\}_{i=0}^{t-1}$; $\omega, \{\alpha_i\}_{i=1}^p,
-\{\beta_i\}_{i=1}^q$
-are non-negative parameters of the model. The GARCH($p,q$) recurrence
-equation is of the form of \eqref{eq:rhjyu}. With appropriate
-conditions, $\sigma_t^2$ is shown to be a positive Harris recurrent
-Markov chain (cf. Bollerslev \cite{bollerslev:1986} and Buraczewski et al.
+\{\beta_i\}_{i=1}^q$ are non-negative parameters of the model.
+Written in matrix form, as shown in \eqref{eq:jopger}, the
+GARCH($p,q$) recurrence  equation is of the form of
+\eqref{eq:rhjyu}. With appropriate conditions,
+$(\sigma_t^2, \dots, \sigma_{t-q+1}^2, X_{t-1}^2, \dots, X_{t - p
+  +1}^2)^\top$ is shown to be a positive Harris recurrent Markov chain
+(cf. Bollerslev \cite{bollerslev:1986} and Buraczewski et al.
 \cite{buraczewski:damek:mikosch:2016}), whose stationary distribution
 has regularly varying tails. The tail index $\alpha$ is given by
 \begin{equation}
@@ -521,9 +527,8 @@ prediction. This is the approach of stochastic volatility models.
 
 In the pioneering work of Clark \cite{clark:1973}, the author modelled
 the logarithmic price $Y_t$ as a subordinated stochastic process:
-$Y_t = V_{\tau_t}$, where $V_i$ is a normally distributed random
-variable with mean 0, variance $\sigma^2 i$ and independent
-increments. $\tau_t$ is a real-valued, non-negative, non-decreasing
+$Y_t = V_{\tau_t}$, where $V_i/\sigma^2$ is a standard Brownian
+motion. $\tau_t$ is a real-valued, non-negative, non-decreasing
 sequence with $\tau_0 = 0$. It models a time change. As pointed out by
 Shepard and Andersen \cite{Shephard:Andersen:2009}, the log-price
 process $Y_t$ is serially uncorrelated although potentially dependent,
@@ -545,44 +550,45 @@ choice of $\sigma_t$ is
   \label{eq:rfht}
   \log\sigma_t = \sum_{l \in \mathbb Z} \psi_l \eta_{t-l}  
 \end{equation}
-where $-1 \leq \{\psi_l\}_{l \in \mathbb Z} \leq 1$
-is a sequence of real numbers with at least one non-zero element,
-$\{\eta_t\}_{t \in \mathbb Z}$ is a iid sequence of random
+where $\{\psi_l\}_{l \in \mathbb Z}$ is a sequence of real numbers
+with at least one non-zero element,
+$\{\eta_t\}_{t \in \mathbb Z}$ is an iid sequence of random
 variables. By Kolmogorov's 3-series theorem, the infinite series above
-converges if and only if $\sum_{l \in \mathbb Z} \psi_l^2 < \infty$.
+converges if and only if $\sum_{l \in \mathbb Z} \psi_l^2 < \infty$,
+and in this case $\{\sigma_{t}\}$ is stationary.
 In particular, if $\{\eta_i\}_{i \in \mathbb Z}$ is normally
-distributed with 0 mean, $\{\sigma_t\}_{t \in \mathbb Z}$ is
-stationary and its marginal distributions are log-normal.
+distributed with zero mean, $\{\sigma_t\}_{t \in \mathbb Z}$ has
+log-normal marginal distributions.
 
-If, however, the sequence $\{Z_t\}_{t \in \mathbb Z}$ or
-$\{\sigma_t\}_{t \in \mathbb Z}$ is regularly varying with index
+If, however, the sequences $\{Z_t\}_{t \in \mathbb Z}$ or
+$\{\sigma_t\}_{t \in \mathbb Z}$ are regularly varying with index
 $\alpha$ and some additional conditions are satisfied, $X_t$ is also
 regularly varying with the same index. Specifically, if $Z_t$ is
 regularly varying and $\sigma_t$ has a lighter tail, the conclusion
 follows from Breiman's lemma. See \S\ref{sec:case1} of Jan\ss en et
 al. i.e. chapter \ref{ch:bernoulli} of this thesis for more details.
 
-If, instead, $\sigma_t$ has a heavier tail than $Z_t$, then $X_{i,t}$
-is regularly varying assuming the following conditions:
-\begin{itemize}
-\item $e^\eta$ is regularly varying with index $\alpha$, where $\eta$
-  is a generic element of the iid sequence
-  $\{\eta_t\}_{t \in \mathbb Z}$, and
-  \begin{equation}
-    \label{eq:dfhty}
-    \E e^{\alpha \eta} = \infty, \quad\text{ or }
-    {\P(\eta_1 + \eta_2 > x) \over \P(\eta_1 > x)} \to c \in (0, \infty)
-  \end{equation}
-    where $\eta, \eta_1$ and $\eta_2$ are generic elements of the
-    iid sequence $\{\eta_t\}_{t \in \mathbb Z}$.
-\end{itemize}
-Note the only finite limit for
-${\P(\eta_1 + \eta_2 > x) \over \P(\eta_1 > x)}$ is
-$\E e^{\alpha \eta}$. Hence the two conditions of \eqref{eq:dfhty}
-are mutually exclusive. In chapter \ref{ch:bernoulli} we will see that
-these two conditions lead to rather different behavior for
-eigenvalues of the sample covariance matrix of stochastic volatility
-processes of the form \eqref{eq:rfht}.
+% If, instead, $\sigma_t$ has a heavier tail than $Z_t$, then $X_{i,t}$
+% is regularly varying assuming the following conditions:
+% \begin{itemize}
+% \item $e^\eta$ is regularly varying with index $\alpha$, where $\eta$
+%   is a generic element of the iid sequence
+%   $\{\eta_t\}_{t \in \mathbb Z}$, and
+%   \begin{equation}
+%     \label{eq:dfhty}
+%     \E e^{\alpha \eta} = \infty, \quad\text{ or }
+%     {\P(\eta_1 + \eta_2 > x) \over \P(\eta_1 > x)} \to c \in (0, \infty)
+%   \end{equation}
+%     where $\eta, \eta_1$ and $\eta_2$ are generic elements of the
+%     iid sequence $\{\eta_t\}_{t \in \mathbb Z}$.
+% \end{itemize}
+% Note the only finite limit for
+% ${\P(\eta_1 + \eta_2 > x) \over \P(\eta_1 > x)}$ is
+% $\E e^{\alpha \eta}$. Hence the two conditions of \eqref{eq:dfhty}
+% are mutually exclusive. In chapter \ref{ch:bernoulli} we will see that
+% these two conditions lead to rather different behavior for
+% eigenvalues of the sample covariance matrix of stochastic volatility
+% processes of the form \eqref{eq:rfht}.
 
 There are a few advantages in using stochastic volatility models. For
 one thing, they are among the simplest models allowing for conditional
@@ -623,12 +629,27 @@ It\^o's formula gives, for semimartingale $Y_t$,
   \E Y_t^2 &=& \E [Y]_t + 2 \E \left( \int_0^t Y_s dA_s \right) \nonumber\\
   &\approx& \E [Y]_t, \quad \text{when $t$ is small} \label{eq:hytre}
 \end{eqnarray}
-\eqref{eq:hytre} and \eqref{eq:jieg} shows $\E Y_t^2$, or in other
+\eqref{eq:hytre} and \eqref{eq:jieg} show that $\E Y_t^2$, or in other
 words, the forecast of future squared return can be obtained as
 $\E [Y_\delta]_t$, i.e. the forecast of future realized quadratic
-variation. Since past realized quadratic variations are observable,
-forcast of future $[Y_\delta]_t$ can be obtained using e.g. an ARFIMA
-model.
+variation.
+
+So far we have been discussing univariate stochastic volatility
+models. In a multivariate context, we may model a $p$-variate process
+as
+\begin{eqnarray*}
+  X_{i,t} &=& \sigma_{i,t} Z_{i,t}, \quad i = 1,2,\dots,p\\
+  \log \sigma_{i, t}
+  &=&
+  \sum_{k,l \in \mathbb Z} \psi_{k,l} \eta_{i-k, t-l}
+\end{eqnarray*}
+where $Z_{i,t}$ is an iid field of random variables, and the
+coefficients $\{\psi_{k,l}\}$ are real and satisfy
+$\sum_{k, l \in \mathbb Z} |\psi_{k,l}| < \infty$.
+% Since past realized quadratic variations are observable,
+% forcast of future $[Y_\delta]_t$ can be obtained using e.g. an ARFIMA
+% model.
+
 
 \section{Contribution of this thesis}\label{sec:contr}
 
@@ -652,7 +673,7 @@ On the other hand, we have also seen that, when the left and the right
 tails have the same indices, investor preference over the equity has
 more sophisticated variations in the parameters' space including the
 tail parameters of the equity, the interest rate, the investor's risk
-apetite as captured by his utility function, and his threshold of
+appetite as captured by his utility function, and his threshold of
 disappointment.
 
 We also acknowledge that our model of the market and the investor is a
