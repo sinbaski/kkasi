@@ -6,10 +6,13 @@ distributions. We argue that when a market is dominated by rational
 investors of this kind, the return distributions of equities that are
 actively traded in this market may have nearly equal tail-indices due
 to monotonicity of the GDA preference with respect to the tail index.
+We give conditions upon which the GDA preference is monotone and hence
+suggests an equal tail index for all actively traded stocks.
 
-We estimate tail indices and scale parameters of S\&P 500 stocks and
+We also estimate tail indices and scale parameters of S\&P 500 stocks and
 test the hypothesis that two given stock return series have the same
-tail index.
+tail index. The results vary across different sectors of the index.
+
 % We also show, in contrast, the scale parameters of the return
 %distributions may differ hugely from one another.
 %On the other hand, whether or not all equities in a multivariate model
@@ -25,36 +28,42 @@ tail index.
 \section{Introduction}\setcounter{equation}{0}
 It is one of the stylized facts of financial econometrics that 
 returns of speculative prices are {\em heavy-tailed.} There is no agreement
-in the literature about how heavy these tails really are. For example, Barndorff-Nielsen and Shephard
-\cite{barndorff:shephard:2001} and Eberlein \cite{eberlein:2001} favor ``semi-heavy'' tails
+in the literature about how heavy these tails really are. For example,
+Barndorff-Nielsen and Shephard \cite{barndorff:shephard:2001} and
+Eberlein \cite{eberlein:2001} favor ``semi-heavy'' tails
 which are comparable with those of a gamma \ds . On the other
 hand, tails of returns have been studied in great detail 
 in the extreme value community. Among extreme value specialists
 there is general agreement that returns $X_t$ have tails of power-law-type, i.e.,
 \beam\label{eq:1}
-\P(X_t>x)\sim c_+ \,x^{-\alpha_{\rm up}}\quad\mbox{and}\quad \P(X_t<-x)\sim c_-\,x^{-\alpha_{\rm low}}\,,\quad\xto\,,
+\P(X_t>x)\sim c_+ \,x^{-\alpha_{\rm up}}\quad\mbox{and}\quad
+\P(X_t<-x)\sim c_-\,x^{-\alpha_{\rm low}}\,,\quad\xto\,,
 \eeam  
-where $c_{\pm}$, $\alpha_{\rm up}$ and $\alpha_{\rm low}$ are positive constants.\footnote{Here and in what
-  follows, $f(x)\sim g(x)$ for positive \fct s $f$ and $g$ means 
-that $f(x)/g(x)\to 1$ as $\xto$.} See for example, Embrechts et
+where $c_{\pm}$, $\alpha_{\rm up}$ and $\alpha_{\rm low}$ are positive
+constants.\footnote{Here and in what follows, $f(x)\sim g(x)$ for
+  positive \fct s $f$ and $g$ means that $f(x)/g(x)\to 1$ as $\xto$.}
+See for example, Embrechts et
 al. \cite{embrechts:klueppelberg:mikosch:1997}, Jansen and de Vries
-\cite{jansen1991frequency}, Mikosch \cite{mikosch:2003}, Resnick
-\cite{resnick:2007}.  
-In the extreme value literature it is common to replace the constants $c_\pm$ by suitable
-{\em slowly varying} \fct s; cf. Embrechts et
-al. \cite{embrechts:klueppelberg:mikosch:1997}, Chapter 3. In this
-paper, for the  
-sake of argument, we stick to the condition \eqref{eq:1}.
+\cite{jansen1991frequency}, Mikosch \cite{mikosch:2003}, Resnick 
+\cite{resnick:2007}. In the extreme value literature it is common to
+replace the constants $c_\pm$ by suitable {\em slowly varying} \fct s;
+cf. Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997},
+Chapter 3. In this paper, for the sake of argument, we stick to the condition \eqref{eq:1}.
 \par
-There are some good theoretical reasons for the appearance of power-law tails in situations where certain moments 
+There are some good theoretical reasons for the appearance of
+power-law tails in situations where certain moments 
 of data are believed to be infinite. Tails of type \eqref{eq:1}
 describe the maximum domain of attraction of the  
-Fr\'echet \ds\ $\Phi_{\alpha_{\rm up}}(x)=\exp(-x^{-\alpha_{\rm up}})$ for $x>0$, i.e., scaled maxima of an iid \seq\ $(X_t)$ with
+Fr\'echet \ds\ $\Phi_{\alpha_{\rm up}}(x)=\exp(-x^{-\alpha_{\rm up}})$
+for $x>0$, i.e., scaled maxima of an iid \seq\ $(X_t)$ with
 upper tail described in \eqref{eq:1} converge in \ds\ to $\Phi_{\alpha_{\rm up}}$.
 Equivalently, power-law tails are prescribed by the 
-generalized Pareto \ds\ which is the limit \ds\ of the excesses of $X_t$ above high thresholds, i.e., for a suitable positive scaling \fct\ $a(u)$,
+generalized Pareto \ds\ which is the limit \ds\ of the excesses of
+$X_t$ above high thresholds, i.e., for a suitable positive scaling
+\fct\ $a(u)$,
 \beao
-\P((X_t-u)/a(u)>x \mid X_t>x) \to (1+ x/\alpha_{\rm up})^{-\alpha_{\rm up}}\,,\qquad u\to\infty\,.
+\P((X_t-u)/a(u)>x \mid X_t>x) \to (1+ x/\alpha_{\rm up})^{-\alpha_{\rm
+    up}}\,,\qquad u\to\infty\,.
 \eeao
 The aforementioned results 
 are considered very natural for iid and weakly dependent strictly stationary \seq s of random variables $(X_t)$; 

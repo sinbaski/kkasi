@@ -660,3 +660,66 @@ simple one, not accoounting for the dependence between equities, nor
 the categorization of investors and their interactions. These are
 potential topics of future work.
 
+\subsection{Importance sampling estimator of GARCH(p,q) rare event probability}
+  We propose an efficient importance sampling estimator for the rare
+  event probability $\P(|V| > u)$ where $V$ is a vector following the
+  stationary distribution of a GARCH($p, q$) process. Recall
+  $V_t = A_t V_{t-1} + B$ is the matrix recurrence equation of a
+  GARCH($p, q$) process. We emanate the process $\{V_t\}$ from a set
+  $\mathcal C = \{V: |V| \leq M\}$ for some predefined positive
+  constant $M$, and then we introduce a dual change of measure for the
+  originally iid matrices $\{A_t\}$: for
+  $t < T_u = \min\{i > 0: |V_i| > u\}$, we exponentially tilt the
+  distribution of $A_t | X_{t-1}$, where $X_0 = V_0$ and
+  $X_t = \prod_{i=1}^t X_0/|\prod_{i=1}^t X_0|$, so that
+  $|A_t X_{t-1}|^\xi$ is more likely to take on large values and hence
+  $|V_t|$ is more likely to exceed $u$. Once the exeedance has
+  happened, we change the
+  distribution of $\{A_t\}$ back to the original and continue the
+  process until $V_t$ returns to the set $\mathcal C$. Along each
+  simulated path emenating from $\mathcal C$ and ending in
+  $\mathcal C$ we compute $N_u = \sum_{i=1}^K \1{|V_i| > u}$, where
+  $K = \min\{i > 0: |V_i| \leq M\}$.
+
+  The pursuit estimate of $P(|V|>u)$ is then a weighted average of
+  $N_u$ computed along each path. The weight depends on the path.
+
+\subsection{Eigenvalues of the sample covariance matrix of a   
+stochastic volatility model}
+We consider a multivariate heavy-tailed stochastic volatility model
+and analyze the large-sample behavior of its sample covariance
+matrix. We study the limiting behavior of its entries in the
+infinite-variance case and derive results for the ordered eigenvalues
+and corresponding eigenvectors. Essentially, we consider two different
+cases where the tail behavior either stems from the iid\ innovations
+of the process or from its volatility sequence. In both cases, we make
+use of a large deviations technique for regularly varying time series
+to derive multivariate $\alpha$-stable limit distributions of the
+sample covariance matrix. While we show that in the case of
+heavy-tailed innovations the limiting behavior resembles that of
+completely independent observations, we also derive that in the case
+of a heavy-tailed volatility sequence the possible limiting behavior
+is more diverse, i.e.\ allowing for dependencies in the limiting
+distributions which are determined by the structure of the underlying
+volatility sequence.
+
+\subsection{Extreme value analysis for the sample autocovariance
+  matrices of time series}
+We  provide some  asymptotic theory for the largest eigenvalues of a
+sample covariance matrix of a $p$-dimensional \ts\ where the dimension
+$p=p_n$ converges to infinity when the sample size $n$ increases. 
+We give a short overview of the literature on the topic both in the
+light- and heavy-tailed cases when the data have finite (infinite)
+fourth moment, respectively. Our main focus is on the heavy-tailed
+case. In this case, one has a theory for the \pp\ of the normalized
+eigenvalues of the sample covariance matrix in the iid case but also
+when rows and columns of the data are linearly dependent. We provide
+limit results for the weak \con\ of these \pp es to Poisson or cluster
+Poisson processes. Based on this \con\ we can also derive the limit
+laws of various \fct als of the ordered eigenvalues such as the 
+joint \con\ of a finite number of the largest order statistics, the
+joint limit law of the largest eigenvalue and the trace, limit laws
+for successive ratios of ordered eigenvalues, etc. We also develop
+some limit theory for the singular values of the sample autocovariance
+matrices and their sums of squares. The theory is illustrated for
+simulated data and for the components of the S\&P 500 stock index. 
