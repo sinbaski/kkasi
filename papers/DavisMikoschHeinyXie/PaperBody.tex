@@ -968,20 +968,20 @@ Using the fact that $U=\Gamma_1/\Gamma_2$ has a uniform \ds\ on $(0,1)$ we calcu
 In particular, we have for the normalized spectral gap
 \begin{equation*}
 a_{np}^{-2} \big(\la_{(1)}-\la_{(2)}\big)\cid
-6 \,\Gamma_1^{-2/\alpha} \1_{\{\Gamma_1 4^{\alpha/2 }<\Gamma_2\}}+
+6 \,\Gamma_1^{-2/\alpha} \I_{\{\Gamma_1 4^{\alpha/2 }<\Gamma_2\}}+
 8\,
-\big(\Gamma_1^{-2/\alpha}-\Gamma_2^{-2/\alpha}\big)\1_{\{\Gamma_14^{\alpha/2
+\big(\Gamma_1^{-2/\alpha}-\Gamma_2^{-2/\alpha}\big)\I_{\{\Gamma_14^{\alpha/2
   }> \Gamma_2\}}
 \end{equation*}
 and for the self-normalized spectral gap (see also Example~\ref{exam:spectralgap} for a detailed analysis)
 \begin{equation*}
 \begin{split}
 \dfrac{\la_{(1)}-\la_{(2)}}{\la_{(1)}}&\cid
-\dfrac{6}{8} \, \1_{\{\Gamma_1 2^{\alpha }<\Gamma_2\}}+
-\big(1-(\Gamma_1/\Gamma_2)^{2/\alpha}\big)\1_{\{\Gamma_12^{\alpha
+\dfrac{6}{8} \, \I_{\{\Gamma_1 2^{\alpha }<\Gamma_2\}}+
+\big(1-(\Gamma_1/\Gamma_2)^{2/\alpha}\big)\I_{\{\Gamma_12^{\alpha
   }> \Gamma_2\}}\\
-& =\dfrac{3}{4}\,  \1_{\{U 2^{\alpha }<1\}}+
-\big(1-U^{2/\alpha}\big)\1_{\{U2^{\alpha
+& =\dfrac{3}{4}\,  \I_{\{U 2^{\alpha }<1\}}+
+\big(1-U^{2/\alpha}\big)\I_{\{U2^{\alpha
   }> 1\}}=Y\,.
 \end{split}
 \end{equation*}
@@ -996,7 +996,7 @@ with $F$ for $\alpha=0.6$; the atom at $3/4$ is clearly visible.
 Along the same lines, we also have
 \begin{equation*}
 (a_{np}^{-2}\lambda_{(1)},\lambda_{(2)}/\lambda_{(1)}) \cid(
-8\,\Gamma_1^{-2/\alpha},\frac{1}{4}\,\1_{\{U<2^{-\alpha}\}}+U^{2/\alpha}\,\1_{\{U\ge
+8\,\Gamma_1^{-2/\alpha},\frac{1}{4}\,\I_{\{U<2^{-\alpha}\}}+U^{2/\alpha}\,\I_{\{U\ge
   2^{-\alpha}\}})\,
 \end{equation*}
 and hence the limit distribution of $\lambda_{(2)}/\lambda_{(1)}$ is supported on $[1/4,1)$ with  mass of $2^{-\alpha}$ at $1/4$.  The histogram of the ratio $\left(\lambda_{(2)}/\lambda_{(1)}\right)^{2/\alpha}$ based on 1000 replications from the model \eqref{ex:4.6} with noise given by a $t$-distribution with $\alpha=1.5$ degrees of freedom, $n=1000$ and $p=200$ is displayed in Figure \ref{fig:Davis1}.
@@ -1008,7 +1008,7 @@ and hence the limit distribution of $\lambda_{(2)}/\lambda_{(1)}$ is supported o
 \label{fig:Davis1}
 \end{figure} Observing that $2^{-\alpha}=0.3536\ldots$,
 the histogram is remarkably close to what one would expect from a sample from the truncated
-uniform \ds , $2^{-\alpha}\, \1_{\{U<2^{-\alpha}\}}+U\, \1_{\{U\ge 2^{-\alpha} \}}$.
+uniform \ds , $2^{-\alpha}\, \I_{\{U<2^{-\alpha}\}}+U\, \I_{\{U\ge 2^{-\alpha} \}}$.
 The mass of the limiting discrete component of the ratio can be much
 larger if one conditions on $a_{np}^{-2}\lambda_{(1)}$ being large.
 Specifically, for any $\epsilon\in (0,1/4)$ and $x>0$,
@@ -1038,12 +1038,12 @@ when the rank $r$ of the matrix $\M$ is larger than one.
 We have in general
 \begin{equation*}
 \dfrac{\lambda_{(2)}}{\lambda_{(1)}}\cid
-\frac{v_2}{v_1}\,\1_{\{U<(v_2/v_1)^{\alpha/2}\}}+U^{2/\alpha}\,\1_{\{U\ge (v_2/v_1)^{\alpha/2}\}}\,.
+\frac{v_2}{v_1}\,\I_{\{U<(v_2/v_1)^{\alpha/2}\}}+U^{2/\alpha}\,\I_{\{U\ge (v_2/v_1)^{\alpha/2}\}}\,.
 \end{equation*}
 In particular, the limiting
 {\em self-normalized spectral gap} has \rep
 \beao
-\dfrac{\la_{(1)}-\la_{(2)}}{\la_{(1)}} \cid \dfrac{v_1-v_2}{v_1}\,\1_{\{U<(v_2/v_1)^{\alpha/2}\}}+(1-U^{2/\alpha})\,\1_{\{U\ge (v_2/v_1)^{\alpha/2}\}}\,.
+\dfrac{\la_{(1)}-\la_{(2)}}{\la_{(1)}} \cid \dfrac{v_1-v_2}{v_1}\,\I_{\{U<(v_2/v_1)^{\alpha/2}\}}+(1-U^{2/\alpha})\,\I_{\{U\ge (v_2/v_1)^{\alpha/2}\}}\,.
 \eeao
 The limiting variable assumes values in $(0,1-v_2/v_1]$  and has an atom at the right end-point.
 This is in contrast to the iid case
@@ -1096,7 +1096,7 @@ Given a $p\times n$ matrix $(R_{it})_{i = 1, \cdots, p;t=1,\cdots, n}$,
 we construct a matrix $\X$ via the rank transforms
 \begin{equation*}
   X_{it} = -\Big[
-    \log \Big(\frac{1}{n+1} \sum_{\tau=1}^n \1_{\{R_{i\tau} \leq R_{it}\}} \Big)
+    \log \Big(\frac{1}{n+1} \sum_{\tau=1}^n \I_{\{R_{i\tau} \leq R_{it}\}} \Big)
   \Big]^{-1} \,,\qquad i=1,\ldots,p;t=1,\ldots,n\,.
 \end{equation*}
 \begin{figure}[htb!]
@@ -1385,7 +1385,7 @@ on the iid sequence $(Z_t)$ and the normalizing sequence $(a_n)$. Then the limit
 $N_n\cid N$ holds in the space of point measures on $\overline{\R}_0$
 equipped with the vague topology (see
 \cite{resnick:1987,resnick:2007})
-for a  Poisson random measure $N$ with state space $\overline{\R}_0$ and intensity measure $\mu_\alpha(dx)=\alpha |x|^{-\alpha-1} (p_+ \1_{\{x>0\}}+ p_- \1_{\{x<0\}}) dx$.
+for a  Poisson random measure $N$ with state space $\overline{\R}_0$ and intensity measure $\mu_\alpha(dx)=\alpha |x|^{-\alpha-1} (p_+ \I_{\{x>0\}}+ p_- \I_{\{x<0\}}) dx$.
 \end{lemma}
 \begin{proof}
 According to Resnick \cite{resnick:1987}, Proposition 3.21, we need to

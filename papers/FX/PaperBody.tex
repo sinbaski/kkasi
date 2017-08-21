@@ -505,14 +505,16 @@ extreme quantiles change as well. We will test for a change of tail-index or sca
 The null hypothesis of the test in \cite{hoga:2016} is that there is no change of the extreme quantiles $F^{-1}(1-p)$ 
 for $p=p_n\to 0$ in any subsample with indices
 $t\in (n\,t_0,n(1-t_0))$ where $t_0$ is a fixed number in $(0,0.5)$. Writing $\hat x_p(a,b)$ for an estimator of the extreme $(1-p)$-quantile 
-based on the subsample with indices $t\in (na,nb)$, the test statistic is given by
-\beam\label{eq:4}
-T_n = \sup_{s \in [t_0, 1 - t_0]}
+based on the subsample with indices $t\in (na,nb)$, the test statistic
+is given by
+\begin{small}
+  \beam\label{eq:4}
+  T_n = \sup_{s \in [t_0, 1 - t_0]}
   \dfrac{  \big[s (1 - s) \log \big(\hat x_p(0, s)/\hat x_p(s, 1)\big)
-    \big]^2}{
+      \big]^2}{
     \int_{t_0}^s\big[r \log \big( \hat x_p(0, r)/\hat x_p(0, s)
       \big)
-    \big]^2 dr
+      \big]^2 dr
     +
     \int_{s}^{1 - t_0}
     \big[
@@ -520,8 +522,9 @@ T_n = \sup_{s \in [t_0, 1 - t_0]}
       \hat x_p(r, 1)/
       \hat x_p(s, 1)
       \big)
-    \big]^2 dr}\nonumber\\
-\eeam
+      \big]^2 dr}\nonumber\\
+  \eeam
+\end{small}
 Under the null hypothesis, $(T_n)$ converges to a complicated \fct al
 of Brownian motion\ on $[0,1]$; the \asy\ quantiles need to be
 evaluated by simulation.
@@ -930,20 +933,21 @@ $\alpha, \beta > 0$, $K,K' > 0$, $0 < p < 1$.
 We also write $f_X$ for the density function of $F_X$.
 \par
 We have
-\beam\label{eq:xxie1.0}
- \wt u(F_X, \phi)\nonumber
+  \beam\label{eq:xxie1.0}
+  \wt u(F_X, \phi)\nonumber
   &=&
   \alpha\, K^\alpha\,  p\,
   \int_{-\infty}^0
   u\big( (1 - \phi) \ex^r + \phi \ex^x \big)\,
   {1 + b \over (K - x)^{\alpha + 1}} \,dx\\
-    &&+
+  &&+
   \beta \,(K')^\beta\, (1 - p)
   \int_{0}^\infty
   u\big( (1 - \phi) \ex^r + \phi\, \ex^x \big)\,
-  {1 + b \1(x <  q) \over (K' + x)^{\beta + 1}} \,dx 
-  - b \,u(\delta v) \,F_X(q) \,.\label{eq:pp}
-\eeam
+  {1 + b \1(x <  q) \over (K' + x)^{\beta + 1}} \,dx
+  \nonumber \\
+  && -b \,u(\delta v) \,F_X(q) \,.\label{eq:pp}
+  \eeam
 \par
 We observe the following property 
 whose proof is given in Appendix~\ref{sec:thrmI_proof}. 
@@ -982,8 +986,8 @@ Then \eqref{eq:pareto} turns into
     + u(C(-x))
     \over
     (K + x)^{\alpha + 1}
-  } dx
-  - b u(\delta v) F_X(q)\,.\nonumber\\
+  } dx \nonumber \\
+  && - b u(\delta v) F_X(q)\,.
   \label{eq:ipf}
 \end{eqnarray} 
 This situation is not covered by Lemma~\ref{thrm:I}:

@@ -405,7 +405,7 @@ X_t &=& {
         |A_t A_{t-1} \cdots A_1 \tilde V_0|
       }, \quad X_0 = \tilde V_0 \label{eq:X_def}\\
 S_t &=& \log |A_t \cdots A_1 \tilde V_0| \label{eq:S_def}\\
-\l_t &=& S_t - S_{t-1} = \log |A_t X_{t-1}| \label{l_def}
+l_t &=& S_t - S_{t-1} = \log |A_t X_{t-1}| \label{l_def}
 \end{eqnarray}
 where $\tilde v = v/|v|$  for a vector $v$. From the GARCH($p, q$)
 recurrence relation
@@ -1260,7 +1260,7 @@ In this section we prove theorem \ref{thrm:consistency}.
   is a positive Harris chain. Moreover
   \[
   \E \left(
-    \sum_{j=K_{i-1}}^{K_i-1}\1{|V_i| > u}
+    \sum_{j=K_{i-1}}^{K_i-1}\1{|V_j| > u}
   \right)
   \leq
   \E (K_i - K_{i-1}) < \sum_{n=1}^\infty n b_0^n \rho_0 < \infty
@@ -1271,6 +1271,8 @@ In this section we prove theorem \ref{thrm:consistency}.
     \sum_{j=K_{i-1}}^{K_i-1}\1{|V_i| > u}
     &\overset{a.s.}{\to}& \pi(\mathcal C) \E_\eta N_u
   \end{eqnarray*}
+  Hence
+  ${1 \over n} \sum_{i=1}^n \1{|V_i| > u} \overset{a.s.}{\to} \pi(\mathcal C) \E_\eta N_u$.
   On the other hand, by the very definition of $N_u$,
   $\E_\eta N_u = \E_\eta \left( N_u \1{T_u < K_1}\right)$. We have
   \begin{small}
