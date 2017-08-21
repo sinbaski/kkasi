@@ -856,11 +856,12 @@ Then in \S\ref{sec:consistency} we prove theorem
   \end{eqnarray*}
   Then we have
   \begin{eqnarray*}
+    &&
     \E
     \left[
       |V_n|^\theta r_{\theta}(\tilde V_n)
       \1{|V_{n-1}| > M_{\theta}} | \mathcal F_{n-1}
-    \right]
+    \right] \\
     &\leq&
     |V_{n-1}|^\theta
     r_\theta(\tilde V_{n-1})
@@ -963,11 +964,12 @@ Then in \S\ref{sec:consistency} we prove theorem
   \end{eqnarray*}
   Thus, as in the previous case, we have
   \begin{eqnarray*}
+    &&
     \E
     \left[
       |V_n|^\theta r_{\theta}(\tilde V_n)
       \1{|V_{n-1}| > M_{\theta}} | \mathcal F_{n-1}
-      \right]
+      \right] \\
     &\leq&
     |V_{n-1}|^\theta
     r_\theta(\tilde V_{n-1})
@@ -1071,7 +1073,7 @@ $\M$ is a postive constant. This is the next lemma.
       \right| \mathcal F_{K_j + 1}
       \right]
     &\leq&
-    b_{\theta}^{n-1} |V_{K_j + 1}|^\theta \bar r_{\theta}
+    b_{\theta}^{n-1} |V_{K_j + 1}|^\theta \bar r_{\theta},
     \nonumber \\
     \E \left[
       |V_{K_j + n}|^\theta \underline r_{\theta}
@@ -1107,9 +1109,9 @@ $\M$ is a postive constant. This is the next lemma.
     &\leq&
     (\E |A_{K+1} V_K|^\theta)^{1/\theta} + |B|
     \leq
-    M (\E |A_{K+1} \tilde V_{K}|^\theta)^{1/\theta} + |B|
-    \leq
-    M (\E \|A\|^\theta)^{1/\theta} + |B| \\
+    M (\E |A_{K+1} \tilde V_{K}|^\theta)^{1/\theta} + |B| \\
+    &\leq&
+    M (\E \|A\|^\theta)^{1/\theta} + |B|, \\
     \E |V_{K+1}|^\theta
     &\leq&
     \left[

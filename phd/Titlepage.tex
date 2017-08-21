@@ -1,8 +1,236 @@
+% \begin{pspicture}(0,0)(29.7,42)
+%   \definecolor{lines}{RGB}{144,26,30}
+% %  \definecolor{lines}{cmyk}{0.87,0,0.6,0.65}
+%   \definecolor{header}{rgb}{0.310,0.333,0.337}
+% %  \definecolor{nat}{rgb}{0.2,0.369,0.212}
+%   \definecolor{KUred}{RGB}{144,26,30}
+% %  \definecolor{green1}{rgb}{0.596,0.824,0.416} % Additional colours
+%                                                % might be defined HERE
+% %  \definecolor{blue2}{rgb}{0.502,0.612,0.788}
+%   \definecolor{phd}{rgb}{0.541,0.576,0.588}
+%   \psset{unit=0.1cm}
+%   \newlength{\ryg}
+%   \newlength{\halvryg}
+%   \newlength{\halvfarvet}
+%   \newlength{\Ax}
+%   \newlength{\Ay}
+%   \newlength{\Ar}
+%   \newlength{\Bx}
+%   \newlength{\By}
+%   \newlength{\Br}
+%   \newlength{\Cx}
+%   \newlength{\Cy}
+%   \newlength{\Cr}
+%   \newlength{\Dx}
+%   \newlength{\Dy}
+%   \newlength{\Ddr}
+%   \newlength{\Aay}
+%   \newlength{\AAy}
+%   \newlength{\aay}
+%   \newlength{\aAy}
+%   \newlength{\aax}
+%   \newlength{\aAx}
+%   \newlength{\Ey}
+%   \newlength{\Ew}
+%   \newlength{\Fx}
+%   \newlength{\Fy}
+%   \newlength{\Gx}
+%   \newlength{\Gy}
+%   \newlength{\Fay}
+%   \newlength{\FAy}
+%   \newlength{\Ffx}
+%   \newlength{\Ffy}
+%   \newlength{\Ggx}
+%   \newlength{\Ggy}
+%   \newlength{\FFx}
+%   \newlength{\FFy}
+%   \newlength{\GGx}
+%   \newlength{\GGy}
+%   \newlength{\Hx}
+%   \newlength{\Hy}
+%   \newlength{\Ix}
+%   \newlength{\Iy}
+%   \newlength{\Jx}
+%   \newlength{\Jy}
+%   \newlength{\Kx}
+%   \newlength{\Ky}
+%   \newlength{\Lx}
+
+%   \pssetlength{\ryg}{6.24mm} % HERE you enter the number of pages in the
+%                            % book divided by 17 which gives the
+%                            % thickness of the book measured in mm.
+
+%   \pssetlength{\halvryg}{0.5\ryg}
+%   \pssetlength{\halvfarvet}{0.5\ryg}
+%   \psaddtolength{\halvfarvet}{8mm}
+
+%   \pssetlength{\Ax}{300.037mm}
+%   \pssetlength{\Ay}{229.429mm}
+%   \pssetlength{\Ar}{71.5mm}
+%   \pssetlength{\Bx}{131.190mm}
+%   \pssetlength{\By}{284.226mm}
+%   \pssetlength{\Br}{17.7mm}
+%   \pssetlength{\Cx}{227.347mm}
+%   \pssetlength{\Cy}{344.803mm}
+%   \pssetlength{\Cr}{34mm}
+%   \pssetlength{\Dx}{215.611mm}
+%   \pssetlength{\Dy}{256.823mm}
+%   \pssetlength{\Ddr}{88.759mm}
+%   \pssetlength{\Aay}{210mm}
+%   \pssetlength{\AAy}{210mm}
+%   \pssetlength{\Fay}{210mm}
+%   \pssetlength{\FAy}{210mm}
+%   \pssetlength{\Ey}{221.47mm}
+%   \pssetlength{\Ew}{162mm}
+%   \pssetlength{\Fx}{25.509mm}
+%   \pssetlength{\Fy}{34mm}
+%   \pssetlength{\Gx}{275.509mm}
+%   \pssetlength{\Gy}{386mm}
+%   \pssetlength{\Hx}{34mm}
+%   \pssetlength{\Hy}{220mm}
+%   \pssetlength{\Ix}{257mm}
+%   \pssetlength{\Iy}{50mm}
+%   \pssetlength{\Jx}{99mm}
+%   \pssetlength{\Jy}{39mm}
+%   \pssetlength{\Kx}{93.263mm}
+%   \pssetlength{\Ky}{339.568mm}
+%   \pssetlength{\Lx}{90.5mm}
+
+%   \psaddtolength{\Aay}{-\halvfarvet}
+%   \psaddtolength{\AAy}{\halvfarvet}
+%   \psaddtolength{\Ay}{\halvryg}
+%   \psaddtolength{\By}{\halvryg}
+%   \psaddtolength{\Cy}{\halvryg}
+%   \psaddtolength{\Dy}{\halvryg}
+%   \psaddtolength{\Ey}{\halvryg}
+%   \psaddtolength{\Ew}{-\halvryg}
+%   \psaddtolength{\Fy}{-\halvryg}
+%   \psaddtolength{\Fay}{-\halvryg}
+%   \psaddtolength{\FAy}{\halvryg}
+%   \psaddtolength{\Gy}{\halvryg}
+%   \psaddtolength{\Hy}{\halvryg}
+%   \psaddtolength{\Iy}{-\halvryg}
+
+%   \pssetlength{\aay}{\Ay}
+%   \pssetlength{\aAy}{\Ay}
+%   \pssetlength{\aax}{\Ax}
+%   \pssetlength{\aAx}{\Ax}
+%   \psaddtolength{\aax}{-\Ar}
+%   \psaddtolength{\aAx}{\Ar}
+%   \psaddtolength{\aay}{-\Ar}
+%   \psaddtolength{\aAy}{\Ar}
+
+%   \pssetlength{\Ffx}{\Fx}
+%   \pssetlength{\FFx}{\Fx}
+%   \pssetlength{\Ggx}{\Gx}
+%   \pssetlength{\GGx}{\Gx}
+%   \pssetlength{\Ffy}{\Fy}
+%   \pssetlength{\FFy}{\Fy}
+%   \pssetlength{\Ggy}{\Gy}
+%   \pssetlength{\GGy}{\Gy}
+%   \psaddtolength{\Ffx}{-15mm}
+%   \psaddtolength{\FFx}{-5mm}
+%   \psaddtolength{\Ggx}{5mm}
+%   \psaddtolength{\GGx}{15mm}
+%   \psaddtolength{\Ffy}{-15mm}
+%   \psaddtolength{\FFy}{-5mm}
+%   \psaddtolength{\Ggy}{5mm}
+%   \psaddtolength{\GGy}{15mm}
+
+%   \pscircle[linewidth=0.36pt,linecolor=lines,fillcolor=KUred,fillstyle=solid](\Ax,\Ay){\Ar} % HERE you might change phd to the name of another defined color.
+%   \psframe[linecolor=white,fillcolor=white,fillstyle=solid](\aax,\aay)(\aAx,\Aay)
+%   \psframe[linecolor=white,fillcolor=white,fillstyle=solid](\aax,\AAy)(\aAx,\aAy)
+%   \pscircle[linewidth=0.36pt,linecolor=lines](\Ax,\Ay){\Ar}
+
+%   \pscircle[linewidth=0.36pt,linecolor=lines](\Bx,\By){\Br}
+%   \pscircle[linewidth=0.36pt,linecolor=lines](\Cx,\Cy){\Cr}
+%   \pscircle[linewidth=0.36pt,linecolor=lines](\Dx,\Dy){\Ddr}
+%   \psline[linewidth=0.36pt,linecolor=lines](\Ax,\Ay)(\Bx,\By)
+%   \psline[linewidth=0.36pt,linecolor=lines](\Ax,\Ay)(\Cx,\Cy)
+%   \psline[linewidth=0.36pt,linecolor=lines](\Bx,\By)(\Cx,\Cy)
+
+%    \rput[Bl]{90}(166.5,\Ey){%
+%      \begin{minipage}[t]{\Ew}
+%        \sffamily\fontsize{14pt}{28pt}\selectfont
+%        % HERE you enter the name of the author.
+%        First Last
+%      \end{minipage}}
+
+%    \rput[Bl]{90}(196.5,\Ey){%
+%      \begin{minipage}[t]{\Ew}
+%        \sffamily\bfseries\fontsize{24pt}{36pt}\selectfont\raggedright
+%        % HERE you enter the title of the book
+%        Title
+%        \\[4cm]
+%        \mdseries\sffamily\fontsize{14pt}{28pt}\selectfont
+%      \end{minipage}}
+
+%    \rput[Bl]{90}(251.5,\Ey){%
+%      \begin{minipage}[t]{\Ew}
+%        \sffamily\fontsize{14pt}{28pt}\selectfont
+%        % HERE you enter the type of the book, eg. ``PhD Thesis''.
+%        PhD Thesis
+%      \end{minipage}}
+
+%    \rput[l](33.33,210){\parbox[c]{190mm}{%
+%        \sffamily\fontsize{12pt}{28pt}\selectfont
+%        % HERE you enter the author and the title of the book.
+%        First Last:
+%        \bfseries
+%       Title
+%      }
+%    }
+
+%    \rput[l](212.5,210){\parbox[c]{5cm}{%
+%        \sffamily\fontsize{12pt}{28pt}\selectfont\raggedleft
+%        % HERE you enter the type of the book once more.
+%        PhD Thesis
+%      }
+%    }
+
+%    % HERE you include either imf-en.eps or imf-dk.eps depending on the
+%    % language of the book.
+%    \rput[tl]{90}(\Hx,\Hy){\includegraphics{images/imf-en.eps}}
+
+%    \rput{90}(\Ix,\Iy){
+%      % HERE you write the first twelve digits of the ISBN. The last
+%      % control digit will be computed automatically. If you have been
+%      % assigned a 10-digit ISBN, you write 978- followed by the 9
+%      % first digits; the last digit (control digit) will be computed
+%      % automatically.
+%      \psbarcode{000-00-00000-00}{includetext}{isbn}
+%    }
+
+%    % HERE you include either imf-en-addr.eps or imf-dk-adr.eps
+%    % depending on the language of the book. 
+%    \rput[tl]{90}(\Jx,\Jy){\includegraphics{images/imf-en-addr.eps}}
+
+%   \psline[linecolor=KUred,linewidth=0.6pt](\Lx,\Ffy)(\Lx,\Ggy)
+%   \rput[bl]{90}(\Kx,\Ky){\includegraphics[width=31.691mm]{images/ku-logo.eps}}
+
+%   \psline(\Ffx,\Fy)(\FFx,\Fy)
+%   \psline(\Ffx,\Gy)(\FFx,\Gy)
+%   \psline(\Ggx,\Fy)(\GGx,\Fy)
+%   \psline(\Ggx,\Gy)(\GGx,\Gy)
+
+%   \psline(\Fx,\Ffy)(\Fx,\FFy)
+%   \psline(\Gx,\Ffy)(\Gx,\FFy)
+%   \psline(\Fx,\Ggy)(\Fx,\GGy)
+%   \psline(\Gx,\Ggy)(\Gx,\GGy)
+  
+%   \psline(\Ffx,\Fay)(\FFx,\Fay)
+%   \psline(\Ffx,\FAy)(\FFx,\FAy)
+%   \psline(\Ggx,\Fay)(\GGx,\Fay)
+%   \psline(\Ggx,\FAy)(\GGx,\FAy)
+
+% \end{pspicture}
 
 
 \title{\textbf{\HUGE Analysis of Heavy-Tailed Time Series\ \\ \vspace{1.5em}}}	
 \author{\Huge \textsc{Xiaolei Xie}}
 \date{}
+
+
 \maketitle
 \thispagestyle{empty}
 \begin{center}
@@ -15,7 +243,7 @@ This thesis has been submitted to the PhD School of the Faculty of Science, Univ
 
 \vspace{2em}
 
-Augest 21, 2017
+August 21, 2017
 
 \vspace{2em}
 

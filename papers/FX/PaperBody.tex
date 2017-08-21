@@ -755,25 +755,27 @@ Thus both return components $X_{i,t}$ have the form of a univariate
 stochastic volatility model $X_{i,t}=\sigma_{i,t}Z_{i,t}$ 
 with non-negative volatility $\sigma_{i,t}$ and an iid bivariate noise \seq\ $(\bfZ_t)$ with zero mean and unit variance components.
 We also have the specification
-\beam\label{eq:8}
-\bfY_t=\left(\barr{l}\sigma^2_{1,t}  \\  
-\sigma^2_{2,t}\earr
-\right)
-&=& \left(
-\barr{l}\alpha_{01}  \\\alpha_{02}   \earr\right)
-+\left(\barr{cc}\alpha_{11} & \alpha_{12}  \\
-      \alpha_{21} & \alpha_{22}\earr \right)\, 
-\left(\barr{l}X_{1,t-1}^2  \\X_{2,t-1}^2   \earr\right)
- + \left(\barr{cc}\beta_{11} & \beta_{12}  \\\beta_{21} & \beta_{22} \earr
- \right)\,\left(\barr{c}\sigma^2_{1,t-1}  \\\sigma^2_{2,t-1}\earr
+\begin{small}
+  \beam\label{eq:8}
+  \bfY_t=\left(\barr{l}\sigma^2_{1,t}  \\  
+    \sigma^2_{2,t}\earr
+  \right)
+  &=& \left(
+    \barr{l}\alpha_{01}  \\\alpha_{02}   \earr\right)
+  +\left(\barr{cc}\alpha_{11} & \alpha_{12}  \\
+    \alpha_{21} & \alpha_{22}\earr \right)\, 
+  \left(\barr{l}X_{1,t-1}^2  \\X_{2,t-1}^2   \earr\right)
+  + \left(\barr{cc}\beta_{11} & \beta_{12}  \\\beta_{21} & \beta_{22} \earr
+  \right)\,\left(\barr{c}\sigma^2_{1,t-1}  \\\sigma^2_{2,t-1}\earr
   \right)\nonumber\\
-&=& \left(
-\barr{l}\alpha_{01}  \\\alpha_{02}   \earr\right)+\left(\barr{cc}\alpha_{11}Z_{1,t-1}^2+\beta_{11}&\alpha_{12}Z_{2,t-1}^2+
-\beta_{12}\\
-\alpha_{21}Z_{1,t-1}^2+\beta_{21}& \alpha_{22}Z_{2,t-1}^2+\beta_{22}
-\earr\right)\,\left(\barr{l}\sigma_{1,t-1}^2\\\sigma_{2,t-1}^2\earr
-\right)\,,
-\eeam
+  &=& \left(
+    \barr{l}\alpha_{01}  \\\alpha_{02}   \earr\right)+\left(\barr{cc}\alpha_{11}Z_{1,t-1}^2+\beta_{11}&\alpha_{12}Z_{2,t-1}^2+
+    \beta_{12}\\
+    \alpha_{21}Z_{1,t-1}^2+\beta_{21}& \alpha_{22}Z_{2,t-1}^2+\beta_{22}
+    \earr\right)\,\left(\barr{l}\sigma_{1,t-1}^2\\\sigma_{2,t-1}^2\earr
+  \right)\,,
+  \eeam
+\end{small}
 for positive $\alpha_{0i}$ and suitable non-negative 
 $\alpha_{ij},\beta_{ij}$, $i,j=1,2$.
 Writing
@@ -1343,8 +1345,8 @@ as
       + u(C(-x))
       \right\}
     }_{U_{\text{all}}}
-    f(x, \alpha) dx - b u(\delta v) F_X(q)
-    \label{eq:t1}
+    f(x, \alpha) dx \nonumber \\
+    && - b u(\delta v) F_X(q) \label{eq:t1}
   \end{eqnarray}
 \end{small}
 where $C(\cdot)$ is defined in \eqref{eq:xxie1}. As shown in lemma
@@ -1512,18 +1514,20 @@ value of $b$ indicates a conservative, risk-averse investor.
   \[
   \Psi(x) = {d \log[\Gamma(x)] \over d x}
   \]
-  \begin{minipage}{0.48\textwidth}
+  \begin{minipage}{0.44\textwidth}
     $\Psi(x)$ \linebreak
     \includegraphics[width=\textwidth]{digamma.png}
   \end{minipage}\hfill
-  \begin{minipage}{0.5\textwidth}
+  \begin{minipage}{0.55\textwidth}
     As shown in the figure to the left, $\Psi(x)$ is increasing
     for $x > 0$. This immediately follows from the series
     representation
+    \begin{small}
     \[
     \Psi(x + 1) = -\gamma + \sum_{n=1}^\infty {x \over n(n + x)}
-    \quad x \neq -1, -2, -3,\dots
+    \quad x \neq -1, -2, -3,\ldots
     \]
+    \end{small}
     which gives
     \[
     {\pd \Psi(x + 1) \over \pd x}

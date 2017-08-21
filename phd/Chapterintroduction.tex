@@ -1,5 +1,5 @@
 \chapter{Introduction}\label{ch:intr}
-The phenomena of heavy-tailedness is widely observed in many
+The phenomenon of heavy-tailedness is widely observed in many
 disciplines of science, for example, phase transition of matter and
 black body radiation as studied in physics, neuronal avalanches in
 biology, claim sizes of insurance mathematics and stock returns in
@@ -25,7 +25,7 @@ limit $x \to \infty$.
 \[
 \P(X > x) \sim p_+ {L(x) \over x^\alpha},\quad
 \P(X < -x) \sim p_- {L(x) \over x^\alpha}, \quad
-\text{for some } p_+, p_- > 0,\; p_+ + p_- = 1
+\text{for some } p_+, p_- \geq 0,\; p_+ + p_- = 1
 \]
 
 % Distribution functions, say $F(\cdot)$, whose survival function
@@ -73,7 +73,7 @@ subject of estimation, and $X_{(i)}$ is the $i$-th upper order
 statistic of the sample. Several authors have contributed to showing
 the weak consistency and asymptotic normality of the estimator
 $\hat \alpha_H$, under the assumptions $k \to \infty, k/n \to 0$
-as $n \to \infty$. See theorem 6.4.6 of Embrechts et. al.
+as $n \to \infty$. See Theorem 6.4.6 of Embrechts et. al.
 \cite{embrechts:klueppelberg:mikosch:1997} for details.
 
 %% Mason \cite{mason:1982} first proved that the estimator
@@ -128,8 +128,8 @@ economic arguments.
 \end{figure}
 
 Random variables with regularly varying tails have some very nice
-features: if $X_1$ and $X_2$ are both regularly varying with indices
-$\alpha_1$ and $\alpha_2$, respectively, then $a_1 X_1 + a_2 X_2$,
+features: if $X_1$ and $X_2$ are both positive and regularly varying
+with indices $\alpha_1$ and $\alpha_2$, respectively, then $a_1 X_1 + a_2 X_2$,
 for $a_1, a_2 > 0$, is regularly varying with index
 $\min\{\alpha_1, \alpha_2\}$ (cf. Mikosch and Jessen
 \cite{JessenMikosch2006}). Moreover, if $X_1, X_2$ are iid,
@@ -143,11 +143,11 @@ with index $\alpha_j$. Then by the summation property, each and every
 $\{X_{i,t}\}$ is regularly varying with index $\min_{1 \leq j \leq K} \alpha_j$.
 In practice a factor $Y_{i,t}$ is estimated as
 $\hat Y_{j,t} = \sum_{i=1}^p a_{j, i} X_{i,t}$, where
-$(a_{j, 1}, a_{j, 2}, \dots, a_{j, p})^\top$ is the $j$-th eigenvector
+$(a_{j, 1}, a_{j, 2}, \dots, a_{j, p})'$ is the $j$-th eigenvector
 of the sample covariance matrix of
 $\{X_{i,t}\}, i=1,\dots,p; t=1,\dots,n$, i.e. the eigenvector
 associated with the $j$-th largest eigenvalue. 
-For this reason, it is important to understand the eigensystem of the
+For this reason, it is important to understand the eigen system of the
 sample covariance matrix of $\{X_{i,t}\}$. This topic is addressed in
 chapters \ref{ch:bernoulli} and \ref{ch:extremes} of this thesis.
 
@@ -182,7 +182,7 @@ The notion of a regularly varying strictly stationary process is also of
 interest. Originally introduced by Davis and Hsing
 \cite{davis:hsing:1995} for univariate processes, the concept was
 extended to multivariate processes by Davis and Mikosch
-\cite{davis:mikosch:2009b}: An $\reals^d$-valued strictly stationary
+\cite{davis:mikosch:2009b}: an $\reals^d$-valued strictly stationary
 process $X_t$ is said to be regularly varying with index $\alpha$, if
 for each $h \geq 0$, 
 \[
@@ -190,31 +190,31 @@ for each $h \geq 0$,
     \P\left[x^{-1}(X_0, X_1, \dots, X_h) \in \cdot \right]
     \over
     \P(|X_0| > x)
-  } \overset{v}{\to} \nu_\alpha(\cdot),
+  } \overset{v}{\to} \nu^{(h)}_\alpha(\cdot),
   \quad x \to \infty
 \]
-where $\nu_\alpha$ a non-null Radon measure on
+where $\nu_\alpha^{(h)}$ a non-null Radon measure on
 $\reals^{d(h+1)} \setminus \{0\}$ that
 is homogeneous of order $-\alpha$, i.e.
-$\forall c > 0, \forall S \subset \reals^{d(h+1)}\setminus\{0\}, \nu_\alpha(c S) = c^{-\alpha} \nu_\alpha(S)$. $|\cdot|$ could be any given vector norm.
+$\forall c > 0, \forall S \subset \reals^{d(h+1)}\setminus\{0\}, \nu_\alpha^{(h)}(c S) = c^{-\alpha} \nu_\alpha^{(h)}(S)$. $|\cdot|$ could be any given vector norm.
 
 Basrak and Segers \cite{basrak:segers:2009} proved an equivalence
 condition for regular variation of
 a strictly stationary process: an $\reals^d$-valued strictly stationary
-process $\{X_t\}$ is regularly varying with index $\alpha$ if 
+process $\{X_t\}$ is regularly varying with index $\alpha$ if and only if
 there exists an $\reals^d$-valued sequence $\{\Theta_i\}_{i = 0,1,\ldots}$
 and a Pareto($\alpha$) random variable $Z$, i.e.
 $\P(Z > x) = x^{-\alpha}, \forall x \geq 1$, independent of
 $\{\Theta_i\}$
 \[
 \P\left[\left.
-  x^{-1}(X_0, X_1, \ldots) \in \cdot
+  x^{-1}(X_0, X_1, \ldots, X_h) \in \cdot
   \right| |X_0| > x
   \right]
   \overset{w}{\to}
-  \P(Z(\Theta_1, \Theta_2, \ldots) \in \cdot),
+  \P(Z(\Theta_1, \ldots, \Theta_h) \in \cdot),
   \quad
-  x \to \infty.
+  x \to \infty, \forall h \geq 0
 \]
 The sequences $\{\Theta_i\}_{i = 0,1,\ldots}$ and
 $\{Z \Theta_i\}_{i = 0,1,\ldots}$ are called the spectral tail process
@@ -243,7 +243,7 @@ and
 \beam\label{eq:acl:intro}
 \lim_{l\to\infty} \limsup_{\nto} \P\big(\max_{t=l,\ldots,m_n} |Y_t|>\delta a_n\mid |Y_0|>\delta a_n\big)=0\,,\qquad \delta>0\,
 \eeam
-for the same sequence $(m_n)$ as in (2).
+for the same sequence $(m_n)$ as in 2.
 \item If $\alpha\in (1,2)$, in addition $\E[Y]=0$ and the vanishing small values condition holds: 
 \beam\label{eq:vansm:intro}
 \lim_{\vep\downarrow 0}\limsup_{\nto} \P\big(a_n^{-1} |\ov S_n-\E [\ov S_n]|>\delta \big)=0\,,\qquad \delta>0\,
@@ -351,7 +351,7 @@ $\alpha$, assuming the following conditions (M) and (A):
   \item $\E (\|A_1\|^\alpha \log^+\|A_1\|) < \infty$
   \item $\E |B_1|^\alpha < \infty$
   \end{enumerate}
-\item Condition (A) : The group generated by
+\item Condition (A) : the group generated by
   \[
   \{\log\rho(s): s = A_n \cdots A_1 \text{ for some } n \geq 1\}
   \]
@@ -361,17 +361,17 @@ $\alpha$, assuming the following conditions (M) and (A):
 Upon these conditions, Kesten's theorem gives
 \begin{equation}
   \label{eq:jorg}
-  u^\alpha \P(u^{-1} X \in \cdot) \overset{v}{\to} \nu_\alpha(\cdot)
+  u^\alpha \P(u^{-1} X \in \cdot) \overset{v}{\to} \nu_\alpha^{(h)}(\cdot)
 \end{equation}
-where $\nu_\alpha$ is a non-null Radon measure on
+where $\nu_\alpha^{(h)}$ is a non-null Radon measure on
 $\reals^d_+ \setminus \{0\}$ with the property
-$\forall a > 0, \nu_\alpha(a A) = a^{-\alpha} \nu_\alpha(A)$.
+$\forall a > 0, \nu_\alpha^{(h)}(a A) = a^{-\alpha} \nu_\alpha^{(h)}(A)$.
 
 In addition to non-negative matrices, two other classes of random
 matrices have been shown to lead to power-law tails via the recurrence
 relation \eqref{eq:garchpq_sre}. Alsmeyer and Mentemeier
 \cite{alsmeyer:mentemeier:2012} considered invertible matrices whose
-distribution has a density. Let $M(d, \reals)$ denote the space of
+distribution has a density. Let $M(d, \reals)$ denote a metric space of
 $d \times d$ matrices with real entries that are invertible with
 probability 1. They replaced Kesten's condition
 $\E (\|A\|^\alpha \log^+\|A\|) < \infty$ with a stronger
@@ -391,7 +391,9 @@ and lifted the condition (A). In addition, they assumed
     matrix $\bar A \in M(d, \reals)$ such that for any set
     $C \subset M(d, \reals)$, it holds true
     $\P(A_N \cdots A_1 \in C) \geq c |B_\epsilon(\bar A) \cap C|$,
-    where $|\cdot|$ denotes the Lebesgue measure.
+    where $|\cdot|$ denotes the Lebesgue measure and
+    $B_\epsilon(\bar A)$ is the ball with radius $\epsilon$ centered
+    at $\bar A$.
 \end{enumerate}
 These assumptions are termed conditions (id). Furthermore, they assumed
 that there was no point in $\reals^d$ such that the recurrence
@@ -413,7 +415,7 @@ $A$. This is the result of Guivarc'h and Le Page
 by $\{\Pi_n: \Pi_n = A_n \cdots A_1, A_i \in M(d, \reals)\}$. The
 authors assumed
 \begin{enumerate}
-  \item There is no finite union $W$ of proper subspaces of $\reals^d$
+  \item There is no finite union $W$ of proper sub-spaces of $\reals^d$
     that satisfies $\forall a \in G_A, a W = W$.
   \item $G_A$ contains a proximal element, i.e. an element $a$ whose
     largest singular value is an algebraically simple eigenvalue of $a$.
@@ -442,15 +444,15 @@ Guivarc'h and Le Page proved the vague convergence result of
 \label{sec:garch:intro}
 Introduced by Bollerslev \cite{bollerslev:1986} in 1986,
 {\em Generalized Autoregressive Conditional Heteroscedasticity}
-(GARCH) models have been hugely popular for modelling volatility of
+(GARCH) models have been hugely popular for modeling volatility of
 financial time series and have inspired numerous variants.
 A GARCH($p, q$) model is a stationary process
 $\{X_t\}_{t \in \integers}$ satisfying
 \begin{eqnarray}
   \label{eq:garch:intro}
-  X_t &=& \sigma_t Z_t \\
+  X_t &=& \sigma_t Z_t, \\
   \sigma_t^2 &=& \omega + \sum_{i=1}^p \alpha_i X_{t-i}^2 +
-  \sum_{j=1}^q \beta_j \sigma_{t-j}^2
+  \sum_{j=1}^q \beta_j \sigma_{t-j}^2,
 \end{eqnarray}
 where $\{X_t\}$ is a model for return series of stock prices,
 foreign exchange rates, interest rates, etc; $\{Z_t\}$ is an iid,
@@ -461,7 +463,9 @@ $\{(X_i, \sigma_i^2)\}_{i < t}$; $\omega, \{\alpha_i\}_{i=1}^p,
 Written in matrix form, as shown in \eqref{eq:jopger}, the
 GARCH($p,q$) recurrence  equation is of the form of
 \eqref{eq:rhjyu}. With appropriate conditions,
-$(\sigma_t^2, \dots, \sigma_{t-q+1}^2, X_{t-1}^2, \dots, X_{t - p +1}^2)$
+\[
+(\sigma_t^2, \dots, \sigma_{t-q+1}^2, X_{t-1}^2, \dots, X_{t - p +1}^2)
+\]
 is shown to be a positive Harris recurrent Markov chain
 (cf. Bollerslev \cite{bollerslev:1986} and Buraczewski et al.
 \cite{buraczewski:damek:mikosch:2016}), whose stationary distribution
@@ -502,7 +506,7 @@ $\{Z_t^2\}$:
     0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
   \end{pmatrix}
 \end{equation}
-While GARCH models have been very successful for modelling financial
+While GARCH models have been very successful for modeling financial
 time series, they do have their drawbacks. For example, the tail
 index is very sensitive to the model parameters $\{\alpha_i\}_{i=1}^p$ and
 $\{\beta_i\}_{i=1}^q$. In applications, these parameters need to be
@@ -626,13 +630,13 @@ day.
 \section{Stochastic volatility models}
 \label{sec:SV:intro}
 With the availability of high-frequency data, a different approach
-than that of GARCH has been popularized for modelling volatility of
+than that of GARCH has been popularized for modeling volatility of
 financial time series and has led to greatly improved accuracy of
 prediction. This is the approach of stochastic volatility models.
 
-In the pioneering work of Clark \cite{clark:1973}, the author modelled
+In the pioneering work of Clark \cite{clark:1973}, the author modeled
 the logarithmic price $Y_t$ as a subordinated stochastic process:
-$Y_t = V_{\tau_t}$, where $V_i$ is a Brownian motion.
+$Y_t = V_{\tau_t}, t\geq 0$, where $V_i$ is a Brownian motion.
 $\tau_t$ is a real-valued, non-negative, non-decreasing
 sequence with $\tau_0 = 0$. It models a time change. As pointed out by
 Shephard and Andersen \cite{Shephard:Andersen:2009}, the log-price
@@ -640,17 +644,24 @@ process $\{Y_t\}$ is serially uncorrelated although potentially dependent,
 provided that $V_t$ and $\tau_t$ are independent.
 
 Later authors, e.g. Back \cite{back:1991} chose to model the log-price
-process as a semimartingale, with increments of the martingale
-component modelled as a product process:
-\begin{eqnarray}
-  Y_t &=& Y_0 + A_t + M_t \nonumber \\
-  M_t - M_{t-1} &=& X_t = \sigma_t Z_t
-  \label{eq:rtght}
-\end{eqnarray}
+process as a semi-martingale, with increments of the martingale
+component modeled as a product process:
+\begin{eqnarray*}
+  Y_t &=& Y_0 + A_t + M_t,
+\end{eqnarray*}
 where $\{A_t\}$ is a finite-variation process and $\{M_t\}$ is a
-martingale and hence $\{Y_t\}$ is a semimartingale.
-$\{\sigma_t\}$ is non-negative and $Z_t$ is an iid process with zero mean
-and unit variance. A convenient choice of $\sigma_t$ is
+martingale and hence $\{Y_t\}$ is a semi-martingale.
+$\{\sigma_t\}$ is non-negative and $\{Z_t\}$ is an iid process with
+zero mean and unit variance. $\{\sigma_t\}$ and $\{Z_t\}$ are
+independent of each other.
+
+For discrete time models, Taylor \cite{taylor:1982} was the first to
+propose a product process for modeling the martingale part $M_t$ of
+$Y_t$:
+\[
+M_t - M_{t-1}= \sigma_t Z_t, \quad t \in \integers
+\]
+A convenient choice of $\sigma_t$ is
 \begin{equation}
   \label{eq:rfht}
   \log\sigma_t = \sum_{l \in \integers} \psi_l \eta_{t-l}
@@ -660,7 +671,8 @@ and unit variance. A convenient choice of $\sigma_t$ is
 where $\{\psi_l\}_{l \in \integers}$ is a sequence of real numbers
 with at least one non-zero element,
 $\{\eta_t\}_{t \in \integers}$ is an iid sequence of random
-variables. By Kolmogorov's 3-series theorem, the infinite series above
+variables with zero-mean and finite variance.
+By Kolmogorov's 3-series theorem, the infinite series above
 converges if and only if $\sum_{l \in \integers} \psi_l^2 < \infty$,
 and in this case $\{\sigma_{t}\}$ is stationary.
 In particular, if $\{\eta_i\}_{i \in \integers}$ is normally
@@ -673,7 +685,8 @@ $\alpha$ and some additional conditions are satisfied, $\{X_t\}$
 is also regularly varying with the same index. Specifically,
 if $\{Z_t\}$ is regularly varying and $\{\sigma_t\}$ has a lighter
 tail, the conclusion follows from Breiman's lemma \cite{breiman:1965}.
-See \S\ref{sec:case1} of Jan\ss en et al. i.e. chapter
+See \S\ref{sec:case1} of Jan\ss en et
+al. \cite{janssen:mikosch:rezapour:xie:2016}, i.e. chapter
 \ref{ch:bernoulli} of this thesis for more details. 
 
 % If, instead, $\sigma_t$ has a heavier tail than $Z_t$, then $X_{i,t}$
@@ -704,7 +717,7 @@ heteroscedasticity (cf. Andersen et al.
 \cite{andersen:davis:kreiss:mikosch:2009}); nevertheless,
 they greatly improve the accuracy of predicting future volatilities
 by taking advantage of high frequency data. Specifically, for the
-semimartingale $Y_t$ we have
+semi-martingale $\{Y_t\}$ we have
 \begin{equation}
   \label{eq:jieg}
   [Y_{\delta}]_t
@@ -718,7 +731,12 @@ semimartingale $Y_t$ we have
 The object $[Y_\delta]_t$ is called the realized quadratic variation
 in time series literature.
 The convergence in probability follows directly from the definition of
-quadratic variation.
+quadratic variation $[Y]_t$:
+\[
+[Y]_t = \lim_{\Delta t \to 0} \sum_{i=1}^{n} (Y_{t_i} - Y_{t_{i-1}})^2
+\]
+where $0 = t_0 < t_1 < t_2 < \cdots < t_n = t$ and
+$\Delta t = \sup_{1\leq i \leq n} (t_i - t_{i-1})$.
 %% When $\E Z_t = 0$, $[Y]_t = [M]_t$ 
 Furthermore, Jacod \cite{jacod:1994} and
 Barndorff-Nielsen and Shephard \cite{barndorff:shephard:2002} proved a
@@ -728,9 +746,10 @@ central limit theorem:
   \overset{d}{\to} N(0, 1),
   \quad \delta \to 0.
 \]
-Moreover, the structure $X_t = M_{t} - M_{t-1} = \sigma_t Z_t$ gives
+If the process of expected return has continuous sample path and $M_t$
+is a stochastic volatility process, it has been shown $[Y]_t = [M]_t$ and
 $[Y_\delta]_t \overset{P}{\to} \int_0^t \sigma_s^2 ds$. Meanwhile,
-It\^o's formula gives, for semimartingale $Y_t$,
+It\^o's formula gives, for semi-martingale $Y_t$,
 \begin{eqnarray}
   Y_t^2 &=& [Y]_t + 2 \int_0^t Y_s d Y_s \nonumber \\
   &=& [Y]_t + 2 \int_0^t Y_s dA_s + 2 \int_0^t Y_s dM_s, \nonumber \\
@@ -754,8 +773,8 @@ In this section we summarize our results from the research papers.
 In chapter \ref{ch:TailParameters} we consider a
 minimal market where a riskless bond and an equity are the only assets
 available to investors. We model the investor's preference of the
-equity with {\em Generalized Disappoint Aversion (GDA)}, an idea envisaged
-by Gul \cite{gul:1991} and generalized by Routledge and Zin
+equity with {\em Generalized Disappointment Aversion (GDA)}, an idea
+envisaged by Gul \cite{gul:1991} and generalized by Routledge and Zin
 \cite{routledge2010generalized}. Specifically, in the GDA theory a
 rational investor's behavior is characterized by his attempt to
 maximize the GDA functional $U(F)$:
@@ -764,12 +783,12 @@ U(F) = \E_F[u(C)] - b \E_F[u(\delta) - u(C)\1{C < \delta}]
 \]
 where $C$ is the investor's wealth evaluated at a fixed date, $\delta$
 is the level of disappointment -- if $C$ falls below $\delta$, the
-investor becomes disappointed. $b$ parameterizes the growth of his
+investor becomes disappointed. $b$ parametrizes the growth of his
 disappointment. $F$ is the distribution function of the return of the
 investor's portfolio. In the aforementioned minimal market,
 $F$ is the distribution function of the equity's return. The subscript
 $F$ of $\E_F$ reminds us that the expectation is taken with respect to
-the distribution funciton $F$.
+the distribution function $F$.
 
 We have established that, in the case of an equity return series with
 two-sided, functionally independent Pareto tails, GDA preference
@@ -825,22 +844,27 @@ the estimate too big to be of any use. A method to overcome this
 difficulty is importance sampling: we introduce a Markov additive
 process $\{(Y_t, S_t)\}_{t \geq 0}, |Y_t| = 1$ on the unit sphere:
 \begin{eqnarray*}
-  B &=& (\omega, 0, \cdots, 0) \\
+  B &=& (\omega, 0, \cdots, 0)', \\
   V_t &=& (\sigma_t^2, \sigma_{t-1}^2, \cdots, \sigma_{t-q+1}^2,
-  X_{t-1}^2, \cdots, X_{t-p+1}^2) = A_t V_{t-1} + B\\
+  X_{t-1}^2, \cdots, X_{t-p+1}^2)' = A_t V_{t-1} + B,\\
   Y_t &=& {A_t \cdots A_1 V_0 \over |A_t \cdots A_1 V_0|}
-  = {A_t Y_{t-1} \over |A_t Y_{t-1}|} = A_t \cdot Y_{t-1}\\
-  l_t &=& \log |A_t Y_{t-1}| \\
-  S_t &=& \log |A_t \cdots A_1 V_0| - \log |V_0|
-  = \sum_{i=1}^t l_i
+  = {A_t Y_{t-1} \over |A_t Y_{t-1}|},\\
+  l_t &=& \log |A_t Y_{t-1}|, \\
+  S_t &=& \log |A_t \cdots A_1 V_0|
+  = \sum_{i=1}^t l_i + \log |V_0|,
 \end{eqnarray*}
-where $X_t = \sigma_t Z_t$ (see \eqref{eq:garch:intro}). The matrices
-$\{A_t\}_{t \geq 1}$ is defined by \eqref{eq:A_matrix:intro}.
-For more details, see \S\ref{sec:IS_Results}.
-$V_t$, our main object of interest, is a function of the path
+where $X_t = \sigma_t Z_t$ (see \eqref{eq:garch:intro}). For
+convergence we also use the notation 
+\[
+A_t \cdot Y_{t-1} := {A_t Y_{t-1} \over |A_t Y_{t-1}|}.
+\]
+The matrices $\{A_t\}_{t \geq 1}$ are defined by
+\eqref{eq:A_matrix:intro}. For more details, see
+\S\ref{sec:IS_Results}.
+$V_t$, our object of main interest, is a function of the path
 $\{(Y_i, l_i)\}_{1 \leq i \leq t}$. To increase the chance of
 observing $\{|V_t| > x\}$, we adopt a dual change of the transition
-kernle of $\{(Y_t, l_t)\}_{t \geq 0}$. Before the first occurence of
+kernel of $\{(Y_t, l_t)\}_{t \geq 0}$. Before the first occurrence of
 $\{|V_t| > x\}$ we simulate $(Y_t, l_t)$ according to a shifted
 transition kernel, whose induced probability measure is denoted
 $\P^\alpha$:
@@ -853,7 +877,7 @@ $\P^\alpha$:
   e^{\alpha l} {r_\alpha(y) \over r_\alpha(w)}
   \P\left[
     (Y_t, l_t) \in dy \times dl | Y_{t-1} = w
-    \right] \label{eq:pgrtgpd}
+    \right], \label{eq:pgrtgpd}
 \end{eqnarray}
 where $\P$ denotes the probability with respect to the probability
 measure $\pi$, the stationary probability measure of $\{V_t\}$.
@@ -888,16 +912,16 @@ counterpart with respect to $\P$ via
   \label{eq:pkjrkpo}
   \E [g(Y_t, l_t)] = \E^\alpha \left[
     g(Y_t, l_t) e^{-\alpha l_t} {r_\alpha(Y_{t-1}) \over r_\alpha(Y_t)}
-    \right]
+    \right].
 \end{equation}
-Let's define $T_x = \min\{t \geq 1: |V_t| > x\}$. 
+Let us define $T_x = \min\{t \geq 1: |V_t| > x\}$. 
 Once the first excursion of $|V_t|$ above $x$ has occurred, i.e.
 $t > T_x$, we change the transition kernel back to the original and
 continue the simulation until the process returns to a designated set
 $\mathcal C = \{v: |v| \leq M\}$, where
 the positive number $M$ is chosen in accordance with the function
 $\Lambda$. We denote the successive times of $\{V_t\}$ returning to the
-set $\mathcal C$ as $0 = K_0  < K_1 < K_2 < \ldots$. It can be shown that
+set $\mathcal C$ as $0 = K_0  < K_1 < K_2 < \cdots$. It can be shown that
 $\{(V_{K_{m+1}}, \sum_{i=K_m}^{K_{m+1} - 1} \1{|V_i| > x})\}_{m \geq 0}$
 is a positive Harris recurrent Markov chain for all $x \geq 0$.
 Let $N_x = \sum_{i=0}^{K_1 - 1} \1{|V_i| > x}$. We show by the law of large
@@ -910,18 +934,9 @@ $\forall S \subseteq \mathcal C, \eta(S) = \pi(S)/\pi(\mathcal C)$.
 $\E_\eta$ means the expectation is taken only on condition
 $V_0 \sim \eta$. Finally by \eqref{eq:pkjrkpo},
 \[
-\P(|V| > x) = \pi(\mathcal C) \E_\eta^{\mathcal D} \left[
-  N_x |A_{T_x} \cdots A_1 V_0|^{-\alpha}
-  {r_\alpha(Y_0) \over r_\alpha(Y_{T_x})}
-  \1{T_x < K_1}
-  \right]
-  =
-  \E_\eta^{\alpha} \mathcal E_x
+\P(|V| > x) = \pi(\mathcal C) \E_\eta N_x = \E_\eta^{\alpha} \mathcal E_x
 \]
-where $\E_\eta^{\mathcal D}$, $\mathcal D$ for ``dual'', is to remind us
-that the expectation is taken with respect to the shifted transition kernel
-as given by \eqref{eq:pkjrkpo}, and then with the original transition kernel.
-Here
+where
 \[
 \mathcal E_x
 =
@@ -930,7 +945,11 @@ N_x |A_{T_x} \cdots A_1 V_0|^{-\alpha}
 {r_\alpha(Y_0) \over r_\alpha(Y_{T_x})}
 \1{T_x < K_1}
 \]
-is our importance sampling estimator. In \S\ref{sec:efficiency} we show
+is our importance sampling estimator. $\E_\eta^{\mathcal D}$,
+$\mathcal D$ for ``dual'', is to remind us that the expectation is
+taken with respect to the shifted transition kernel as given by
+\eqref{eq:pkjrkpo}, and then with respect to the original transition
+kernel. In \S\ref{sec:efficiency} we show
 \[
 \limsup_{x \to \infty} {
   \E_\eta^{\mathcal D} \mathcal E_x^2
@@ -938,8 +957,12 @@ is our importance sampling estimator. In \S\ref{sec:efficiency} we show
   [\P(|V| > x)]^2
 } < \infty
 \]
-In plain words, the estimator $\mathcal E_x$ has bounded relative error.
-
+In plain words, the estimator $\mathcal E_x$ has bounded relative
+error. See Asmussen and Glynn \cite{opac-b1123521}, \S 1 for
+definition of {\em bounded relative error}.
+The method presented in this paper is a multivariate generalization of
+Collamore et al. \cite{collamore2014}. The reader is referred to it
+for the treatment of the one-dimensional problem.
 %% We propose an efficient importance sampling estimator for the rare
 %%   event probability $\P(|V| > u)$ where $V$ is a vector following the
 %%   stationary distribution of a GARCH($p, q$) process. Recall
@@ -981,8 +1004,9 @@ chapter \ref{ch:bernoulli} we adopt the following multivariate model:
   t \in \integers,
 \end{eqnarray*}
 where $\{Z_{i,t}\}$ and $\{\eta_{i,t}\}$ are iid fields of random
-variables. The distribution of $\eta$, a generic element of
-$\{\eta_{i,t}\}$, satisfies $\P(e^\eta > x) \sim x^{-\alpha} L(x)$,
+variables. They are independent of each other. The distribution of
+$\eta$, a generic element of $\{\eta_{i,t}\}$, satisfies
+$\P(e^\eta > x) \sim x^{-\alpha} L(x)$,
 where $\alpha > 0$ and $L(x)$ is a slowly varying function. The
 coefficients $\{\psi_{k,l}\}$ are real and satisfy
 $\sum_{k, l \in \integers} |\psi_{k,l}| < \infty$.
@@ -990,7 +1014,7 @@ $\sum_{k, l \in \integers} |\psi_{k,l}| < \infty$.
 Depending on the tails of $\{\sigma_{i,t}\}$ and $\{Z_{i,t}\}$,
 two situations can arise. When $\{Z_{i,t}\}_{t \in \integers}$
 is a regularly varying sequence with index $\alpha \in (0, 4)$
-and dominates the tail, we show that each of the sequence
+and dominates the tail, we show that each of the sequences
 $\{X_{i,t}\}_{t \in \integers}, 1 \leq i \leq p$ and each of
 $\{X_{i,t} X_{j,t}\}_{t \in \integers}, 1\leq i,j \leq p$
 are regularly varying with index $\alpha$, assuming suitable
@@ -1014,6 +1038,12 @@ a_n^{-2} \left(
 \right)_{1 \leq i \leq p}
 \overset{d}{\to}
 (\xi_{i, \alpha/2})_{1 \leq i \leq p}
+\]
+and
+\[
+a_n^{-2} \sum_{t=1}^n X_{i,t} X_{j,t} \overset{P}{\to} 0
+\quad
+\text{for } i \neq j.
 \]
 where $\{a_n\}_{n\geq 1}$ is such that $n\P(|X| > a_n) \to 1$
 as $n \to \infty$,
@@ -1066,11 +1096,12 @@ values on its off-diagonal entries in the limit
 $n \to \infty$, implying its eigenvalues in this limit may not be
 solely determined by its diagonal entries.
 
-\subsection{Extreme value analysis for the sample autocovariance matrices of time series}
+\subsection{Extreme value analysis for the sample auto-covariance
+  matrices of time series}
 Jan\ss en et al. \cite{janssen:mikosch:rezapour:xie:2016} investigated
-the sample covariance matrix
-$\mathbf X = \{\sum_{t=1}^n X_{i,t} X_{j,t}\}_{1 \leq i,j \leq p}$ of
-multivariate {\em stochastic volatility models} assuming the dimension
+the sample covariance matrix of the time series
+$\{X_{i,t}\}_{t \in \integers}$, $1 \leq i \leq p$ for
+{\em stochastic volatility models} assuming the dimension
 of the matrix $p$ is fixed. It is also of interest to look into the
 sample covariance and the sample auto-covariance matrix when the dimension
 $p$ tends to infinity at some rate as the number of observations $n$ tends
@@ -1078,14 +1109,14 @@ to infinity. This is the subject of Davis et al.
 \cite{davis:mikosch:heiny:xie:2015} which we summarize in this section.
 
 We are interested in the model
-\begin{eqnarray*}
+\begin{eqnarray}
   X_{i,t} &=& \sum_{k,l \in \integers} h_{k,l} Z_{i-k, t-l},
   \quad i,t \in \integers \label{eq:tyhjuj}
-\end{eqnarray*}
+\end{eqnarray}
 where $\{Z_{i,t}\}_{i,t \in \integers}$ is a field of iid random
 variables and $h_{k,l}$ is an array of real coefficients. We
-assume $\{Z_{i,t}\}$ is regularly varying with index $\alpha$
-and
+assume $\{Z_{i,t}\}$ is regularly varying with index
+$\alpha \in (0, 4)$ and
 \[
 \sum_{k,l \in \integers} |h_{k,l}|^\delta < \infty
 \]
@@ -1100,13 +1131,17 @@ Define matrices
 \[
 \mathbf X(s) = \left\{X_{i, t+s}\right\}_{1 \leq i \leq p;\; 1 \leq t \leq n}
 \quad
-s \geq 0;\;
-{p \over n^\beta \ell(n)} \to \infty, n \to \infty
+s \geq 0,
+\]
+and assume that
+\[
+{p \over n^\beta \ell(n)} \to \infty, n \to \infty,
 \]
 where $\beta \geq 0$ and $\ell$ is a slowly varying function.
 If $\beta = 0$, we assume in addition $\ell(n) \to \infty, n\to\infty$.
 We intend to understand the behavior of the singular values of the
-matrix $\mathbf X(0) \mathbf X(s)$, i.e. the eigenvalues of
+matrix $\mathbf X(0) \mathbf X(s)$, i.e. the square roots of the
+eigenvalues of
 $\mathbf X(0) \mathbf X(s) \mathbf X'(s) \mathbf X'(0)$.
 
 Corresponding to the time-lagged matrices $\mathbf X(s)$, we also introduce
@@ -1126,13 +1161,71 @@ upon appropriate conditions (see theorem \ref{cor:1} of chapter
 \sum_{i=1}^\infty \sum_{j=1}^\infty
 \varepsilon_{\Gamma_i^{-2/\alpha}(v_j(0), \ldots, v_j(s))}.
 \]
-Here $\varepsilon_{x}$ is the Dirac measure with unit mass at $x$ and
+where ${a_{np}}_{n,p \in \integers}$ is a sequence of positive real
+numbers such that $\P(Z > a_{np}) = \ell(np) (np)^{-\alpha}$.
+$\varepsilon_{x}$ is the Dirac measure with unit mass at $x$ and
 $\Gamma_i = \sum_{k=1}^i E_k$, where $\{E_k\}_{1 \leq k \leq i}$ is
 an iid sequence of Exp($1$) random variables. In particular, we see
 $a_{np}^{-2}\lambda_{(1)}(0) \overset{d}{\to} E_1^{-2/\alpha} v_1(0)$, i.e.
-asymptotically $a_{np}^{-2}\lambda_{(1)}(0)$ has scaled
+asymptotically $a_{np}^{-2}\lambda_{(1)}(0)$ has a scaled
 Fréchet($\alpha/2$) distribution.
 
+These results extend and generalize previous work by Soshnikov
+\cite{soshnikov:2004} and Auffinger et
+al. \cite{auffinger:arous:peche:2009} who deal with the case of iid
+$X_{i,t}$, assuming regular variation with $\alpha \in (0, 4)$. This
+work also generalizes Davis, Pfaffel and Stelzer
+\cite{davis:pfaffel:stelzer:2014} as well as Davis, Mikosch and
+Pfaffel \cite{davis:mikosch:oliver:2016} who deal with the linear
+model \eqref{eq:tyhjuj} under suboptimal conditions on the growth rate
+of $p \to \infty$.
+
+In this paper, large deviation results for sums of regularly varying
+random variables are consequently used; see Nagaev
+\cite{nagaev1979}. This is in contrast to the papers by Soshnikov
+\cite{soshnikov:2004}  and Auffinger et
+al. \cite{auffinger:arous:peche:2009} who only deal with the case when
+$p/n \to \gamma \in (0, \infty)$. The large deviation approach allows
+one to determine the dominating parts of the sample covariance matrix
+$\mathbf {XX'}$ and the sample auto-covariance matrices. Typically
+these parts are given by functionals of $\{Z_{i,t}^2\}$.
+
+In the case of a finite 4th moment of $\{X_{i,t}\}$, the theory
+changes completely. A typical result in this case is proved by
+Johnstone \cite{johnstone:2001}: if $p/n \to \gamma \in (0, \infty)$,
+then
+\[
+{\lambda_{(1)} - \mu_{np} \over \sigma_{np}}
+\overset{d}{\to}
+W_1 \sim F_1,
+\]
+where the constants $\mu_{np}$ and $\sigma_{np}$ are given by
+\begin{eqnarray*}
+  \mu_{np} &=& (\sqrt{n-1} + \sqrt p)^2, \\
+  \sigma_{np} &=& (\sqrt{n-1} + \sqrt p)
+  \left(
+    {1 \over \sqrt{n - 1}} + {1 \over \sqrt p}
+  \right)^{1/3}.
+\end{eqnarray*}
+$W_1$ is a Tracy-Widom random variable with distribution
+function $F_1$ defined by
+\[
+F_1(s) = \exp \left\{
+  -{1 \over 2} \int_s^\infty
+  [q(x) + (x - s) q^2(x)] dx
+\right\}.
+\]
+$q$ is defined as the solution to the Painlevé II differential
+equation
+\begin{eqnarray*}
+  q''(x) &=& x q(x) + 2 q^3(x), \\
+q(x) &\sim& \text{Ai}(x)
+\quad \text{as } x \to \infty.
+\end{eqnarray*}
+where $\text{Ai}(x)$ is the Airy function.
+In the heavy-tailed case considered in this thesis, asymptotic results
+about the eigenvalues are easier to derive than in the light-tailed
+case, i.e. when 4th moments are finite.
 
 
 %% We  provide some  asymptotic theory for the largest eigenvalues of a
