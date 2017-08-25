@@ -7,7 +7,7 @@ finance. The last application is indeed the focus of this thesis. To
 discuss the phenomena in precise terms, we introduce the concept of
 regular variation.
 
-\section{Regular Variation}\label{sec:intro_regvar}
+\section{Regular variation}\label{sec:intro_regvar}
 The concept of regular variation is defined by the following scaling
 property: if a function $f$ on $(0, \infty)$ satisfies
 \[
@@ -52,7 +52,7 @@ If $X$ is regularly varying with index $\alpha$, then each component
 and each linear combination of its components are regularly
 varying with the same index $\alpha$. This follows from Feller
 \cite{feller}, p. 278. Cf. also Jessen and Mikosch
-\cite{JessenMikosch2006}, lemma 3.1, and Embrechts et. al.
+\cite{jessen:mikosch:2006}, lemma 3.1, and Embrechts et. al.
 \cite{embrechts:klueppelberg:mikosch:1997}, lemma 1.3.1.
 
 Clearly, estimating the tail index $\alpha$ of a sequence
@@ -132,7 +132,7 @@ features: if $X_1$ and $X_2$ are both positive and regularly varying
 with indices $\alpha_1$ and $\alpha_2$, respectively, then $a_1 X_1 + a_2 X_2$,
 for $a_1, a_2 > 0$, is regularly varying with index
 $\min\{\alpha_1, \alpha_2\}$ (cf. Mikosch and Jessen
-\cite{JessenMikosch2006}). Moreover, if $X_1, X_2$ are iid,
+\cite{jessen:mikosch:2006}). Moreover, if $X_1, X_2$ are iid,
 $\P(a_1 X_1 + a_2 X_2 > u) \sim \P(a_1 X_1 > u) + \P(a_2 X_2 > u)$.
 
 Now consider $p$ return series
@@ -176,7 +176,7 @@ $X_1$ is regularly varying with index $\alpha$:
 \end{enumerate}
 For an extensive summary of the regular variation properties of
 functions of regularly varying random variables, see Mikosch and
-Jessen \cite{JessenMikosch2006}.
+Jessen \cite{jessen:mikosch:2006}.
 
 The notion of a regularly varying strictly stationary process is also of
 interest. Originally introduced by Davis and Hsing
@@ -313,7 +313,7 @@ a sample covariance matrix of stochastic volatility processes (see
 % estimator. Therefore we stick to Hill's estimator in the empirical
 % work included in this thesis.
 
-\section{Stochastic Recurrence Equation}
+\section{Stochastic recurrence equation}
 \label{sec:tyhyjyt}
 One of the most important dynamical mechanisms that lead to regularly
 varying random vectors is a stochastic recursion of the following form:
@@ -664,9 +664,9 @@ M_t - M_{t-1}= \sigma_t Z_t, \quad t \in \integers
 A convenient choice of $\sigma_t$ is
 \begin{equation}
   \label{eq:rfht}
-  \log\sigma_t = \sum_{l \in \integers} \psi_l \eta_{t-l}
+  \log\sigma_t = \sum_{l \in \integers} \psi_l \eta_{t-l},
   \quad
-  t \in \integers,
+  t \in \integers
 \end{equation}
 where $\{\psi_l\}_{l \in \integers}$ is a sequence of real numbers
 with at least one non-zero element,
@@ -747,9 +747,10 @@ central limit theorem:
   \quad \delta \to 0.
 \]
 If the process of expected return has continuous sample path and $M_t$
-is a stochastic volatility process, it has been shown $[Y]_t = [M]_t$ and
-$[Y_\delta]_t \overset{P}{\to} \int_0^t \sigma_s^2 ds$. Meanwhile,
-It\^o's formula gives, for semi-martingale $Y_t$,
+is a stochastic volatility process, it has been shown that
+$[Y]_t = [M]_t$ and
+$[Y_\delta]_t \overset{P}{\to} \int_0^t \sigma_s^2 ds$.
+Meanwhile, It\^o's formula gives, for a semi-martingale $\{Y_t\}$,
 \begin{eqnarray}
   Y_t^2 &=& [Y]_t + 2 \int_0^t Y_s d Y_s \nonumber \\
   &=& [Y]_t + 2 \int_0^t Y_s dA_s + 2 \int_0^t Y_s dM_s, \nonumber \\
@@ -935,7 +936,7 @@ $\E_\eta$ means the expectation is taken only on condition
 $V_0 \sim \eta$. Finally by \eqref{eq:pkjrkpo},
 \[
 \P(|V| > x) = \pi(\mathcal C) \E_\eta N_x
-= \E_\eta^{\mathcal D} \mathcal E_x
+= \E_\eta^{\mathcal D} \mathcal E_x,
 \]
 where
 \[
@@ -989,7 +990,7 @@ for the treatment of the one-dimensional problem.
 \subsection{Eigenvalues of the sample covariance matrix of a   
   stochastic volatility model}
 In \S\ref{sec:SV:intro} we have introduced stochastic volatility
-models as well as their connection to realized quadratic
+models and discussed their connection to realized quadratic
 variation and their improved predictive power derived thereby. But
 there we have only discussed univariate models. In fact, the
 generalization to multivariate models is rather straightforward. In
@@ -1017,7 +1018,7 @@ two situations can arise. When $\{Z_{i,t}\}_{t \in \integers}$
 is a regularly varying sequence with index $\alpha \in (0, 4)$
 and dominates the tail, we show that each of the sequences
 $\{X_{i,t}\}_{t \in \integers}, 1 \leq i \leq p$ and each of
-$\{X_{i,t} X_{j,t}\}_{t \in \integers}, 1\leq i,j \leq p$
+$\{X_{i,t} X_{j,t}\}_{t \in \integers}, 1\leq i < j \leq p$
 are regularly varying with index $\alpha$, assuming suitable
 conditions on $\{\sigma_{i,t}\}$.
 
@@ -1121,7 +1122,7 @@ $\alpha \in (0, 4)$ and
 \[
 \sum_{k,l \in \integers} |h_{k,l}|^\delta < \infty
 \]
-for some $\delta \in (0, \min\{\alpha/2, 1\})$. This conditions ensures
+for some $\delta \in (0, \min\{\alpha/2, 1\})$. This condition ensures
 that the infinite series in \eqref{eq:tyhjuj} is almost surely
 absolutely convergent. Since each $\{X_{i,t}\}_{t \in \integers}$
 is a linear combination of the sequences $\{Z_{i,t}\}_{t \in \integers}$
@@ -1158,12 +1159,12 @@ upon appropriate conditions (see theorem \ref{cor:1} of chapter
 \ref{ch:extremes}):
 \[
 \sum_{i=1}^p \varepsilon_{a_{np}^{-2}(\lambda_{(i)}(0), \ldots, \lambda_{(i)}(s))}
-\overset{v}{\to}
+\overset{d}{\to}
 \sum_{i=1}^\infty \sum_{j=1}^\infty
 \varepsilon_{\Gamma_i^{-2/\alpha}(v_j(0), \ldots, v_j(s))}.
 \]
-where ${a_{np}}_{n,p \in \integers}$ is a sequence of positive real
-numbers such that $\P(Z > a_{np}) = \ell(np) (np)^{-\alpha}$.
+where $\{a_{np}\}_{n,p \in \integers}$ is a sequence of positive real
+numbers such that $n p \P(Z > a_{np}) \to 1, n \to \infty$.
 $\varepsilon_{x}$ is the Dirac measure with unit mass at $x$ and
 $\Gamma_i = \sum_{k=1}^i E_k$, where $\{E_k\}_{1 \leq k \leq i}$ is
 an iid sequence of Exp($1$) random variables. In particular, we see
@@ -1175,15 +1176,14 @@ These results extend and generalize previous work by Soshnikov
 \cite{soshnikov:2004} and Auffinger et
 al. \cite{auffinger:arous:peche:2009} who deal with the case of iid
 $X_{i,t}$, assuming regular variation with $\alpha \in (0, 4)$. This
-work also generalizes Davis, Pfaffel and Stelzer
-\cite{davis:pfaffel:stelzer:2014} as well as Davis, Mikosch and
-Pfaffel \cite{davis:mikosch:oliver:2016} who deal with the linear
-model \eqref{eq:tyhjuj} under suboptimal conditions on the growth rate
-of $p \to \infty$.
+work also generalizes Davis et al. \cite{davis:pfaffel:stelzer:2014}
+as well as Davis et al. \cite{davis:mikosch:pfaffel:2016} who deal with
+the linear model \eqref{eq:tyhjuj} under suboptimal conditions on the
+growth rate of $p \to \infty$.
 
 In this paper, large deviation results for sums of regularly varying
 random variables are consequently used; see Nagaev
-\cite{nagaev1979}. This is in contrast to the papers by Soshnikov
+\cite{nagaev:1979}. This is in contrast to the papers by Soshnikov
 \cite{soshnikov:2004}  and Auffinger et
 al. \cite{auffinger:arous:peche:2009} who only deal with the case when
 $p/n \to \gamma \in (0, \infty)$. The large deviation approach allows

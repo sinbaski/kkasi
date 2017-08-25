@@ -3,6 +3,10 @@ ifeq ($(cygwin), 1)
 endif
 
 
+.PHONY: clean
+clean:
+	rm *.aux
+
 .PHONY: first
 first:
 	$(prefix)pdflatex MyThesis.tex

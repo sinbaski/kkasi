@@ -46,7 +46,7 @@ observations are regularly varying with index $\alpha<4$ which implies
 that fourth moments do not exist. In this case, we would expect the
 largest eigenvalues of the sample covariance matrix to inherit
 heavy-tailed behavior as well; see for example Ben Arous and Guionnet
-\cite{benarous:guionnet:2007}, 
+\cite{arous:guionnet:2008}, 
 Auffinger et al. \cite{auffinger:arous:peche:2009}, Soshnikov
 \cite{soshnikov:2004,soshnikov:2006}, Davis et
 al. \cite{davis:mikosch:heiny:xie:2015}, Heiny and Mikosch
@@ -197,7 +197,8 @@ understand our analysis as a first step in this direction.
 
 
 
-\section{The model}\label{sec:model:anja}\setcounter{equation}{0}
+\section{The model}\label{sec:model:anja}
+% \setcounter{equation}{0}
 We consider a stochastic volatility model
 \beam\label{eq:1a:anja}
 X_{it}=\sigma_{it}\,Z_{it}\,,\qquad i,t\in\bbz\,,
@@ -328,7 +329,8 @@ properties (i.e.,\ \eqref{eq:multvtsvague} and \eqref{eq:basseg}) of a
 \regvary\ \seq.
 
 
-\section{Case (1): $Z$ dominates the tail}\label{sec:case1}\setcounter{equation}{0}
+\section{Case (1): $Z$ dominates the tail}\label{sec:case1}
+% \setcounter{equation}{0}
 \subsection{Regular variation of the stochastic volatility model and
   its product processes}\label{subsec:regvar}
 \begin{proposition}\label{prop:regvarsv}
@@ -937,7 +939,8 @@ Then by Weyl's inequality
 \eeao
 \end{proof}
 
-\section{Case (2): $\sigma$ dominates the tail}\label{Sec:case2}\setcounter{equation}{0}
+\section{Case (2): $\sigma$ dominates the tail}\label{Sec:case2}
+% \setcounter{equation}{0}
 In this section we assume the conditions of Case (2); see Section \ref{subsec:Case:2}. Our goal is to derive results analogous to Case (1): \regvar\ 
 of $(X_{it})$, infinite variance limits for $S_{ij}$ and limit theory for the eigenvalues of the corresponding sample 
 covariance matrices. It turns out that this case offers a wider spectrum of possible limit behaviors and that we have to further distinguish our assumptions about the distribution of $\eta$. So, in addition to \eqref{Eq:tail:eta} we assume that either
@@ -1259,10 +1262,16 @@ Therefore, by writing
 \eeao 
 we get from \eqref{Eq:theta:law} that
 \begin{eqnarray*}
-\lefteqn{P\big((Y \Theta^{ij}_t)_{t=0,\ldots,n} \in B\big)}\\&=&\frac{\mu^{\bfX^{ij}}_n(\tilde{B})}{\mu^{\bfX^{ij}}_n(
+\lefteqn{\P\big((Y \Theta^{ij}_t)_{t=0,\ldots,n} \in B\big)}\\
+&=&
+\frac{\mu^{\bfX^{ij}}_n(\tilde{B})}{\mu^{\bfX^{ij}}_n(
 ([-\infty,\infty]\backslash [-1,1])\times [-\infty,\infty]^n)}\\
-&=& \frac{\sum\limits_{(u,v) \in \Lambda_{i,j}^{(0)}}\E\left[\int_1^\infty \I\left(\left(\I((u,v) \in \Lambda_{i,j}^{(t)})y \frac{X_{it}X_{jt}}{|X_{i0}X_{j0}|}\right)_{t=0, \ldots, n} \in B\right)|X_{i0}X_{j0}|^{\alpha/\psi^{ij}}\ex^{-\alpha \eta_{u,v}}\nu_{\frac{\alpha}{\psi^{ij}}}(dy)\right]}{\sum\limits_{(u,v) \in \Lambda_{i,j}^{(0)}}\E\left[|X_{i0}X_{j0}|^{\alpha/\psi^{ij}}\ex^{-\alpha \eta_{u,v}}\right]} \\
-&=& \sum\limits_{(u,v) \in \Lambda_{i,j}^{(0)}}\frac{1}{| \Lambda_{i,j}^{(0)}|}\frac{\E\left[\I\left(\left(\I((u,v) \in \Lambda_{i,j}^{(t)})Y \frac{X_{it}X_{jt}}{|X_{i0}X_{j0}|}\right)_{t=0, \ldots, n} \in B\right)|X_{i0}X_{j0}|^{\alpha/\psi^{ij}}\right]}{\E\left[|X_{i0}X_{j0}|^{\alpha/\psi^{ij}}\right]},
+&=&
+\frac{\sum\limits_{(u,v) \in \Lambda_{i,j}^{(0)}}\E\left[\int_1^\infty
+\I_B\left(y \frac{X_{it}X_{jt}}{|X_{i0}X_{j0}|}\I_{\Lambda_{i,j}^{(t)}}(u,v)\right)_{t=0, \ldots, n}|X_{i0}X_{j0}|^{\alpha/\psi^{ij}}\ex^{-\alpha \eta_{u,v}}\nu_{\frac{\alpha}{\psi^{ij}}}(dy)\right]}{\sum\limits_{(u,v) \in \Lambda_{i,j}^{(0)}}\E\left[|X_{i0}X_{j0}|^{\alpha/\psi^{ij}}\ex^{-\alpha \eta_{u,v}}\right]} \\
+&=&
+\sum\limits_{(u,v) \in \Lambda_{i,j}^{(0)}}\frac{1}{| \Lambda_{i,j}^{(0)}|}\frac{\E\left[
+\I_B\left(y \frac{X_{it}X_{jt}}{|X_{i0}X_{j0}|}\I_{\Lambda_{i,j}^{(t)}}(u,v)\right)_{t=0, \ldots, n}|X_{i0}X_{j0}|^{\alpha/\psi^{ij}}\right]}{\E\left[|X_{i0}X_{j0}|^{\alpha/\psi^{ij}}\right]},
 \end{eqnarray*}
 where $Y$ is a Pareto($\alpha/\psi^{ij}$) random variable, independent of all other random variables in the expression. For the last equation, we expanded both numerator and denominator by multiplying with $\E(e^{\alpha \eta_{u,v}})$, noting that for $(u,v) \in \Lambda_{i,j}^{(0)}$ the random variable $e^{\alpha \eta_{u,v}}$ is independent both of the indicator function and of $|X_{i0}X_{j0}|^{\alpha/\psi^{ij}}e^{-\alpha \eta_{u,v}}$. From the law of the tail process $(Y \Theta_t^{ij})$ we can now see that the law of the spectral tail process $(\Theta_t^{ij})$ satisfies \eqref{Eq:theta:law:2}.
 \end{proof}
@@ -1579,7 +1588,8 @@ at least two sub-diagonals of $\bfX^n(\bfX^n)'$ have non-degenerate $\alpha/2$-l
 with the diagonal determine the \asy\ behavior of the eigenspectrum. The limiting diagonal elements are dependent
 in contrast to Case (1). This fact and the presence of sub-diagonals are challenges if one wants to calculate
 the limit \ds s of the eigenvalues and eigenvectors.
-\section{Simulations and data example}\label{sec:simulation}\setcounter{equation}{0}
+\section{Simulations and data example}\label{sec:simulation}
+% \setcounter{equation}{0}
 In this section we illustrate the behavior of sample covariance matrices for moderate sample sizes
 for the models discussed in Sections~\ref{sec:case1} and \ref{Sec:case2} 
 and we compare them with a real-life data example. These data consist of
@@ -1723,7 +1733,9 @@ therefore non-negligible dependence between components as seen in the data.
 \section*{Acknowledgements}
 Thomas Mikosch's and Xiaolei Xie's research is partly supported by the Danish Research Council Grant DFF-4002-00435 ``Large random matrices with heavy tails and dependence''. Parts of the paper were written when Mohsen Rezapour visited the Department of Mathematics at the University of Copenhagen December 2015--January 2016. He would like to thank the Department of Mathematics for hospitality.
 
-\section{Some $\alpha$-stable limit theory}\setcounter{equation}{0}\label{App:A}
+\section{Some $\alpha$-stable limit theory}
+\label{App:A}
+% \setcounter{equation}{0}
 In this paper, we make frequently use of
 Theorem 4.3 in Mikosch and Wintenberger \cite{mikosch:wintenberger:2016} which we quote for convenience:
 \begin{theorem}\label{thm:mikwin}
@@ -1840,9 +1852,14 @@ On the other hand, we have
 \end{eqnarray*}
 where we applied Breiman's lemma in the second step to the bounded random variable $\min(s^{-1},$ $v^{-1}\prod_{k\neq j}Y_k^{a_k})$, and the monotone convergence theorem in the penultimate step. This proves \eqref{Eq:lemma:prod:1}. To prove \eqref{Eq:lemma:prod:2} note that 
 for $s>0$,
-\begin{eqnarray*}  \frac{\P(\prod_{i=1}^pY_i^{a_i}>vt) }{\P(Y_1^{a_{\max}}>t)}  &\geq& \frac{\P(\prod_{i=1}^pY_i^{a_i}>vt, \max_{j=1, \ldots, p}Y_j^{a_{\max}}\leq st) }{\P(Y_1^{a_{\max}}>t)} \\
-&& + \sum_{j:a_j =a_{\max}} \frac{\P(\prod_{i=1}^pY_i^{a_i}>vt, Y_j^{a_{\max}}>st) }{\P(Y_1^{a_{\max}}>t)}\\
-&& -\frac{\P(\prod_{i=1}^pY_i^{a_i}>vt, Y_{j_1}^{a_{\max}}>st, Y_{j_2}^{a_{\max}}>st \mbox{ for some } j_1\neq j_2) }{\P(Y_1^{a_{\max}}>t)}, \;\; s>0.
+\begin{eqnarray*}
+  && \frac{\P(\prod_{i=1}^pY_i^{a_i}>vt) }{\P(Y_1^{a_{\max}}>t)}  \\
+  &\geq&
+  \frac{\P(\prod_{i=1}^pY_i^{a_i}>vt, \max_{j=1, \ldots, p}Y_j^{a_{\max}}\leq st) }{\P(Y_1^{a_{\max}}>t)} \\
+&&
++ \sum_{j:a_j =a_{\max}} \frac{\P(\prod_{i=1}^pY_i^{a_i}>vt, Y_j^{a_{\max}}>st) }{\P(Y_1^{a_{\max}}>t)}\\
+&&
+-\frac{\P(\prod_{i=1}^pY_i^{a_i}>vt, Y_{j_1}^{a_{\max}}>st, Y_{j_2}^{a_{\max}}>st \mbox{ for some } j_1\neq j_2) }{\P(Y_1^{a_{\max}}>t)}, \;\; s>0.
 \end{eqnarray*} 
 The last summand on the \rhs\  
 converges to 0 as $t \to \infty$ by independence of the $Y_j's$. Moreover,  the left-hand term and the second term 
@@ -1889,15 +1906,23 @@ for any Borel set $B \in [0,\infty]^n$ bounded away from $\mathbf{0}$,
 Since $B$ is bounded away from $\mathbf{0}$, there exists $v>0$ and $1 \leq i \leq n$ such that $B \subset \{(x_1, \ldots, x_n) \in [0,\infty]^n: x_i>v\}$. From Lemma \ref{Lem:splitup}, \eqref{Eq:lemma:prod:2} the first summand in \eqref{Eq:three:summands} therefore tends to 0 by first $t \to \infty$ and then $s \to 0$. Furthermore, the third summand converges to zero as $t \to \infty$ by independence of the $Y_j's$. We are thus left to show
 $$ \lim_{s \searrow 0}\lim_{t \to \infty} \frac{\P(\mathbf{Y} \in tB, Y_j^{a_{\max}}>st)}{\P(Y_1^{a_{\max}}>t)}=\mu_j(B), \;\;\; 1 \leq j \leq p, $$
 with $\mu_j$ as in \eqref{Eq:RV:prod:1}. For $s>0$ write
-\begin{eqnarray*} && \lim_{t \to \infty}\frac{\P(\mathbf{Y} \in tB, Y_j^{a_{\max}}>st)}{\P(Y_1^{a_{\max}}>t)}\\
-&=& s^{-\alpha/{a_{\max}}} \lim_{t\to \infty} \P(\mathbf{Y} \in tB \mid Y_j^{a_{\max}}>st) \\
-&=& s^{-\alpha/{a_{\max}}} \lim_{t \to \infty} \P\left(\left(\left(\frac{Y_j^{a_{\max}}}{st}\right)^{\frac{a_{ij}}{a_{\max}}}s^{\frac{a_{ij}}{a_{\max}}}t^{\frac{a_{ij}}{a_{\max}}-1}\prod_{k\neq j} Y_k^{a_{ik}}\right)_{1\leq i \leq n} \in B \; \bigg| \; Y_j^{a_{\max}}>st \right)\\
-&=& s^{-\alpha/{a_{\max}}} \int_1^\infty \P\left(\left(\I(a_{ij}=a_{\max})sy\prod_{k \neq j}Y_k^{a_{ik}}\right)_{1 \leq i \leq n} \in B\right)\nu_{\alpha/a_{\max}}(dy).
-\end{eqnarray*}
-Substituting $sy$ by $z$ in the integral finally gives
 \begin{small}
-$$ \lim_{s \searrow 0}\lim_{t \to \infty} \frac{\P(\mathbf{Y} \in tB, Y_j^{a_{\max}}>st)}{\P(Y_1^{a_{\max}}>t)}=\int_0^\infty \P\left(\left(\I(a_{ij}=a_{\max})z^{a_{\max}}\prod_{k \neq j}Y_k^{a_{ik}}\right)_{1 \leq i \leq n} \in B\right)\nu_{\alpha}(dz). $$
+  \begin{eqnarray*}
+    &&
+    \lim_{t \to \infty}\frac{\P(\mathbf{Y} \in tB, Y_j^{a_{\max}}>st)}{\P(Y_1^{a_{\max}}>t)}\\
+    &=& s^{-\alpha/{a_{\max}}} \lim_{t\to \infty} \P(\mathbf{Y} \in tB \mid Y_j^{a_{\max}}>st) \\
+    &=& s^{-\alpha/{a_{\max}}} \lim_{t \to \infty} \P\left(\left(\left(\frac{Y_j^{a_{\max}}}{st}\right)^{\frac{a_{ij}}{a_{\max}}}s^{\frac{a_{ij}}{a_{\max}}}t^{\frac{a_{ij}}{a_{\max}}-1}\prod_{k\neq j} Y_k^{a_{ik}}\right)_{1\leq i \leq n} \in B \; \bigg| \; Y_j^{a_{\max}}>st \right)\\
+    &=& s^{-\alpha/{a_{\max}}} \int_1^\infty \P\left(\left(\I(a_{ij}=a_{\max})sy\prod_{k \neq j}Y_k^{a_{ik}}\right)_{1 \leq i \leq n} \in B\right)\nu_{\alpha/a_{\max}}(dy).
+  \end{eqnarray*}
 \end{small}
+Substituting $sy$ by $z$ in the integral finally gives
+\begin{eqnarray*}
+&&
+\lim_{s \searrow 0}\lim_{t \to \infty} \frac{\P(\mathbf{Y} \in tB, Y_j^{a_{\max}}>st)}{\P(Y_1^{a_{\max}}>t)} \\
+&=&
+\int_0^\infty \P\left(\left(\I(a_{ij}=a_{\max})z^{a_{\max}}\prod_{k \neq j}Y_k^{a_{ik}}\right)_{1 \leq i \leq n} \in B\right)
+\nu_{\alpha}(dz).   
+\end{eqnarray*}
 (ii) Note first that under our assumptions for any $1\leq n_1 < n_2 \leq p$,
 \begin{eqnarray}\nonumber \lim_{t \to \infty}\frac{\P(\prod_{j=1}^{n_2} Y_j>t)}{\P(\prod_{j=1}^{n_1} Y_j>t)}
 \label{Eq:non:conv:equiv} &=& \lim_{t \to \infty} \int_0^\infty \frac{\P(\prod_{j=1}^{n_1} Y_j>t/y)}{\P(\prod_{j=1}^{n_1} Y_j>t)}P^{\prod_{j=n_1+1}^{n_2}Y_j}(dy)\\

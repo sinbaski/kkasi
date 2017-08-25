@@ -231,7 +231,7 @@ under the additional assumption that the entries are centered.
 Both Soshnikov \cite{soshnikov:2004,soshnikov:2006}
 and Auffinger et al.~\cite{auffinger:arous:peche:2009} proved convergence of the point processes of normalized eigenvalues, 
 from which one can easily infer the joint limiting distribution of the $k$ largest eigenvalues.  
-Davis et al.~\cite{davis:mikosch:pfaffel:2015,davis:pfaffel:stelzer:2014} 
+Davis et al.~\cite{davis:mikosch:pfaffel:2016,davis:pfaffel:stelzer:2014} 
 extended these results allowing for more general growth of $p$ 
 than dictated by \eqref{eq:gamma} and a linear dependence structure between the rows and columns of $\z$; see also Chakrabarty et al.~\cite{chakrabarty:hazra:roy:20013} and the overview
 paper Davis et al.~\cite{davis:mikosch:heiny:xie:2015}. {\em The study of eigenvectors of heavy-tailed sample covariance matrices is a fresh topic, which has not been explored in the literature listed here.}
@@ -276,16 +276,16 @@ The employed techniques originate from extreme value analysis and large deviatio
 in the aforementioned literature. 
 The same techniques can be applied when the entries of $\bfZ$ 
 are heavy-tailed and allow for dependence through the rows and across the columns; see 
-Davis et al.~\cite{davis:mikosch:pfaffel:2015,davis:pfaffel:stelzer:2014} for some recent attempts 
+Davis et al.~\cite{davis:mikosch:pfaffel:2016,davis:pfaffel:stelzer:2014} for some recent attempts 
 when the entries satisfy some linear dependence conditions. In the iid case, these results are covered by the present paper
-and we also show that they remain valid under much more general growth conditions than in \cite{davis:mikosch:pfaffel:2015,davis:pfaffel:stelzer:2014}. In particular, we make clear that centering of the sample covariance matrix (as assumed in 
-\cite{davis:mikosch:pfaffel:2015,davis:pfaffel:stelzer:2014} when $Z$ has a finite second moment) is not needed. Thus, our techniques are applicable under rather general dependence structures. We refer to the recent work by Janssen et al.~\cite{janssen:mikosch:rezapour:xie:2016} on eigenvalues of stochastic volatility matrix models, where non-linear dependence was allowed.
+and we also show that they remain valid under much more general growth conditions than in \cite{davis:mikosch:pfaffel:2016,davis:pfaffel:stelzer:2014}. In particular, we make clear that centering of the sample covariance matrix (as assumed in 
+\cite{davis:mikosch:pfaffel:2016,davis:pfaffel:stelzer:2014} when $Z$ has a finite second moment) is not needed. Thus, our techniques are applicable under rather general dependence structures. We refer to the recent work by Janssen et al.~\cite{janssen:mikosch:rezapour:xie:2016} on eigenvalues of stochastic volatility matrix models, where non-linear dependence was allowed.
 % provided the rate of $p$ is sufficiently fast.
 
 The convergence of the point processes of the properly normalized eigenvalues in Section~\ref{sec:ppconvergence} yields a multitude of useful findings connected to the joint distribution of the eigenvalues. As an application, the structure of the eigenvectors of $\z\z'$ is explored in Section~\ref{sec:eigenvectors}.
 Technical proofs are collected in Section~\ref{sec:proofs}.
 Section~\ref{sec:autocov} is devoted to an extension of the results to the singular values of the 
-{\em sample autocovariance matrices}  which are a generalization of the traditional autocovariance function for time series to high-dimensional matrices. In applications, the analysis of sample autocovariance matrices for different lags might help to detect dependencies in the data; see Lam and Yao \cite{lam:yao} for related work.
+{\em sample autocovariance matrices}  which are a generalization of the traditional autocovariance function for time series to high-dimensional matrices. In applications, the analysis of sample autocovariance matrices for different lags might help to detect dependencies in the data; see Lam and Yao \cite{lam:yao:2012} for related work.
  We conclude with Appendix~\ref{appendix:A} which contains useful facts about regular variation and point processes.
 
 
@@ -302,7 +302,7 @@ satisfied.
 The aforementioned results of Soshnikov~\cite{soshnikov:2004,soshnikov:2006} and Auffinger et al.~\cite{auffinger:arous:peche:2009} already show that the value $\gamma$ in the growth
 rate~\eqref{eq:gamma} does not appear in the \ds al limits. 
 This observation is in contrast to the light-tailed case; see \eqref{eq:MP} 
-and \eqref{eq:geman}.  Davis et al.~\cite{davis:mikosch:pfaffel:2015,davis:pfaffel:stelzer:2014} allowed for more general rates for
+and \eqref{eq:geman}.  Davis et al.~\cite{davis:mikosch:pfaffel:2016,davis:pfaffel:stelzer:2014} allowed for more general rates for
 $p_n\to\infty$ than linear growth in $n$. {\em However, they could not completely solve the technical difficulties arising with general growth rates of~$p$.}
 %Recall that $p=p_n\to\infty$ is the number of rows in the
 %matrix $\z_n$. 
@@ -315,7 +315,7 @@ p=p_n=n^\beta \ell(n), \qquad n\ge1,\tag{$C_p(\beta)$}
 \end{equation}
 where $\ell$ is a slowly varying function and $\beta\ge 0$. If $\beta =0$, we also assume $\ell(n) \to \infty$. 
 Condition~\ref{eq:p} is more general than the growth conditions in the literature; see 
-\cite{auffinger:arous:peche:2009,davis:mikosch:pfaffel:2015,davis:pfaffel:stelzer:2014}. 
+\cite{auffinger:arous:peche:2009,davis:mikosch:pfaffel:2016,davis:pfaffel:stelzer:2014}. 
 
 \subsection{Notation}\label{sec:section2.2}
 Recall that $\z=\z_n= (Z_{it})_{i=1,\ldots,p;t=1,\ldots,n}$ is a $p\times n$ matrix with iid entries satisfying the regular variation 
@@ -474,7 +474,7 @@ for entries $Z_{it}$ with density \eqref{eq:distrsim}, $\alpha=1.6$, $\beta=1$, 
 \par 
 The proof of Theorem~\ref{thm:iidmain} will be given in Section~\ref{sec:proofs}. A main step in the proof is provided by the following
 result whose proof will also be given in Section~\ref{sec:proofs};
-a version of this theorem was proved in Davis et al.~\cite{davis:mikosch:pfaffel:2015} 
+a version of this theorem was proved in Davis et al.~\cite{davis:mikosch:pfaffel:2016} 
 under more restrictive conditions on the growth rate of $(p_n)$.
 
 \begin{theorem}\label{prop:offdiagonal}
@@ -584,7 +584,7 @@ The weak \con\ of the \pp es holds in the space of
 point \ms s with state space $(0,\infty)$ equipped with the vague topology; see Resnick \cite{resnick:2007}.
 \end{lemma}
 \begin{remark} \rm
-Similar results were used in the proofs of Davis et al.~\cite{davis:mikosch:heiny:xie:2015,davis:mikosch:pfaffel:2015}.
+Similar results were used in the proofs of Davis et al.~\cite{davis:mikosch:heiny:xie:2015,davis:mikosch:pfaffel:2016}.
 We also mention that the centering $c_n$ in the finite variance case can be avoided if $n/a_{np}^2\to 0$. 
 The latter condition is satisfied if $\beta>\alpha/2-1$.
 \end{remark}
@@ -597,7 +597,7 @@ see e.g. Resnick~\cite{resnick:1987}, Proposition 3.21. On the other hand, $a_{n
 \eqref{eq:gp} yields part (2).
 \end{proof}
 
-Theorem~\ref{thm:iidmain}  and arguments similar to the proofs in Davis et al.~\cite{davis:mikosch:heiny:xie:2015,davis:mikosch:pfaffel:2015}
+Theorem~\ref{thm:iidmain}  and arguments similar to the proofs in Davis et al.~\cite{davis:mikosch:heiny:xie:2015,davis:mikosch:pfaffel:2016}
 enable one to derive the weak \con\ of
 the point processes of the normalized eigenvalues. 
 %\begin{equation}\label{eq:ppdef}
@@ -640,7 +640,7 @@ $\alpha\in (0,2)$ under the conditions of Theorem~\ref{cor:1} that
 \beao
 \dfrac{\la_{(1)}}{\la_1+\cdots +\la_p} \std \dfrac{\Gamma_1^{-2/\alpha}}{\Gamma_1^{-2/\alpha}+\Gamma_2^{-2/\alpha}+\cdots}\,.
 \eeao 
-We refer to Davis et al.~\cite{davis:mikosch:pfaffel:2015} for details on the proofs and more examples.
+We refer to Davis et al.~\cite{davis:mikosch:pfaffel:2016} for details on the proofs and more examples.
 
 In the next subsection we will show how the above results on the joint convergence of eigenvalues can be applied to approximate the eigenvectors of $\z\z'$.
 

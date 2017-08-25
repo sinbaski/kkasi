@@ -25,7 +25,8 @@ tail index. The results vary across different sectors of the index.
 %with respect to the confidence bands of estimation.
 \end{abstract}
 
-\section{Introduction}\setcounter{equation}{0}
+\section{Introduction}
+% \setcounter{equation}{0}
 It is one of the stylized facts of financial econometrics that 
 returns of speculative prices are {\em heavy-tailed.} There is no agreement
 in the literature about how heavy these tails really are. For example,
@@ -124,7 +125,8 @@ is an extension of the concept of Disappointment Aversion (DA) of Gul \cite{gul:
 In Section~\ref{sec:4} we summarize the discussion of the previous
 sections. 
 
-\section{Power-law tails of return series: some empirical results}\label{sec:1}\setcounter{equation}{0}
+\section{Power-law tails of return series: some empirical results}\label{sec:1}
+% \setcounter{equation}{0}
 In this section, we assume the model \eqref{eq:1} for the tails of the marginal
 \ds\ of a univariate return series $(X_t)$. For the sake of argument, we assume
 that this series constitutes a strictly stationary \seq . In what follows, we focus
@@ -151,7 +153,7 @@ used for model building of the equities in the market such as the GARCH model; s
 Various estimators of the tail-index $\alpha$  in the model
 \eqref{eq:1a} have been proposed in the literature;
 see Embrechts et al. \cite{embrechts:klueppelberg:mikosch:1997}, de
-Haan and Ferreira \cite{haan:ferreira:2006}, Resnick
+Haan and Ferreira \cite{dehaan:ferreira:2006}, Resnick
 \cite{resnick:2007}. The most popular among them was introduced  by
 Hill \cite{hill1975simple}.
 Given a sample $-X_1,\ldots,-X_n$ whose marginal \ds\ satisfies  \eqref{eq:1a}, calculate
@@ -175,7 +177,7 @@ $K$. The estimator has ``good'' theoretical properties such as
 \asy\ consistency and \asy\ normality. These properties hold under
 strict stationarity assumptions on the data; Drees and Rootz\'en 
 \cite{drees:rootzen:2010} give perhaps most general conditions for
-dependent \seq s and de Haan and Ferreira \cite{haan:ferreira:2006} provide
+dependent \seq s and de Haan and Ferreira \cite{dehaan:ferreira:2006} provide
 a complete \asy\ theory in the iid case.
 \par
 A major problem for Hill estimation is the choice of the number $k$ of
@@ -286,7 +288,7 @@ It is given by
 \hat K_k = \left({k \over n}\right)^{1/\hat\alpha_k} X_{(n-k)}\,.
 \eeao
 Using the asymptotic normality property of upper order statistics
-(cf. de Haan and Ferreira~\cite{haan:ferreira:2006}, Theorem 2.2.1), one can show
+(cf. de Haan and Ferreira~\cite{dehaan:ferreira:2006}, Theorem 2.2.1), one can show
 \beao
   \sqrt{k}\, (\hat K_k - K) &\std& N\big(
     0, (K /\alpha)^2\big)\quad\mbox{and}\quad
@@ -693,7 +695,9 @@ and therefore a test based on $T_n$ may be misleading.
 
 
 \newpage
-\section{Some theoretical arguments for equality of tail-indices}\setcounter{equation}{0}\label{sec:2}
+\section{Some theoretical arguments for equality of tail-indices}
+\label{sec:2}
+% \setcounter{equation}{0}
 \subsection{Multivariate GARCH models whose components have  equal tail-indices}\label{subsec:garch}
 Among the models for returns the generalized autoregressive conditionally heteroscedastic (GARCH) model
 is certainly most popular because it is parsimonious, captures various of the stylized facts of real return data
@@ -983,7 +987,7 @@ Then \eqref{eq:pareto} turns into
   \wt u(F_X, \phi) &=& {\alpha \over 2} K^\alpha (1 + b)
   \int_{0}^\infty {
     u(C(x)) \left[
-      1 - {b \over 1 + b}\1_{\{x \ge q\}}
+      1 - {b \over 1 + b}\1{x \ge q}
       \right]
     + u(C(-x))
     \over
@@ -1197,7 +1201,7 @@ potential topics of future work.
 \fi
 
 \section{A monotonicity lemma}
-\setcounter{equation}{0}
+% \setcounter{equation}{0}
 \begin{lemma} \label{lemma:I}
   Assume distribution function $F(x, \theta)$ parameterized by 
   $\theta \in \Theta \subseteq \mathbb R$ has support
@@ -1311,7 +1315,7 @@ potential topics of future work.
 \end{proof}
 
 \section{When equity returns follow Student's t-distribution}
-\setcounter{equation}{0}
+% \setcounter{equation}{0}
 It is a common practice to use Student's t-distribution to model the
 stationary distribution of equity returns. So it is of interest to
 find out what implications this distribution has when it is combined
@@ -1340,7 +1344,7 @@ as
     \underbrace{
       \left\{
       u(C(x)) \left[
-        1 - {b \over 1 + b}\1_{\{x \ge q\}}
+        1 - {b \over 1 + b}\1{x \ge q}
         \right]
       + u(C(-x))
       \right\}
@@ -1621,7 +1625,7 @@ value of $b$ indicates a conservative, risk-averse investor.
 \end{proof}
 
 \section{Proof of Lemma~\ref{thrm:I}}
-\setcounter{equation}{0}
+% \setcounter{equation}{0}
 \label{sec:thrmI_proof}
 \begin{proof}
   Let
@@ -1652,7 +1656,7 @@ value of $b$ indicates a conservative, risk-averse investor.
   the first term is positive. From \eqref{eq:xxie1.0}, it follows
   \begin{eqnarray*}
     {\pd \wt u(\alpha, \phi) \over \pd \alpha}
-    = {\partial \over \partial \alpha}\E[u((1 - \phi) e^r + \phi e^x) \1_{\{X < 0\}}]
+    = {\partial \over \partial \alpha}\E[u((1 - \phi) e^r + \phi e^x) \1{X < 0}]
   \end{eqnarray*}
   The function $u((1 - \phi) e^r + \phi e^x)$ is obviously
   increasing with $x$. It follows
@@ -1673,8 +1677,8 @@ value of $b$ indicates a conservative, risk-averse investor.
   {\alpha K^\alpha \over (K - x)^{\alpha + 1}}
   \left\{
     \begin{array}{ll}
-      > 0 & \text{ when } x < K(1 - e^{1/\alpha}) < 0 \\
-      < 0 & \text{ when } K(1 - e^{1/\alpha}) < x < 0
+      < 0 & \text{ when } x < K(1 - e^{1/\alpha}) < 0 \\
+      > 0 & \text{ when } K(1 - e^{1/\alpha}) < x < 0
     \end{array}
   \right.
   \]
@@ -1694,7 +1698,7 @@ value of $b$ indicates a conservative, risk-averse investor.
   \[
   {\pd \wt u(K, \phi) \over \pd K}
   = {\partial \over \partial K} \E \left[
-    u((1 - \phi) e^r + \phi e^x) \1_{\{X < 0\}}
+    u((1 - \phi) e^r + \phi e^x) \1{X < 0}
   \right] 
   \]
   and
@@ -1730,7 +1734,7 @@ value of $b$ indicates a conservative, risk-averse investor.
 \end{proof}
 
 \section{Lemma~\ref{lemma:III}}
-\setcounter{equation}{0}
+% \setcounter{equation}{0}
 \begin{lemma}\label{lemma:III}
 Let $u(\cdot)$  and $C(\cdot)$ be defined as in \eqref{eq:hjyr} and
 \eqref{eq:xxie1} respectively. Define
