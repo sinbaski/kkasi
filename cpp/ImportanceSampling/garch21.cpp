@@ -273,7 +273,7 @@ pair<double, size_t> Garch21::sample_estimator(const vec &V0, double u)
     return results;
 }
 
-array<double, 2> Garch21::estimate_prob(double u, size_t nbr_paths)
+vector<double> Garch21::estimate_prob(double u, size_t nbr_paths)
 {
     vector<vec> path(1000);
     simulate_path(path);
@@ -306,14 +306,26 @@ array<double, 2> Garch21::estimate_prob(double u, size_t nbr_paths)
 	n += twisted.second;
     }
     double c_size = ((double)eta_samples.size())/path.size();
+    sort(ensemble.begin(), ensemble.end());
+    vector<double> stat(4, 0);
+    size_t m = n - ensemble.size();
+    if (m >= n * 0.05) stat[2] = 0;
+    else {
+	stat[2] = ensemble[static_cast<size_t>(n * 0.05) - m];
+    }
+    stat[3] = ensemble[static_cast<size_t>(n * 0.95) - m];
+    /* mean, sd/mean, 5% quantile, 95% quantile */
+
     double mean = 0;
     double var = 0;
     for (unsigned i = 0; i < ensemble.size(); i++) {
-	mean += ensemble[i]/n;
-	var += ensemble[i] * ensemble[i] /n;
+	stat[0] += ensemble[i]/n;
+	stat[1] += ensemble[i] * ensemble[i] /n;
     }
-    var = var - mean * mean;
-    return array<double, 2>({mean * c_size, sqrt(var)/mean});
+    stat[1] -= stat[0] * stat[0];
+    stat[1] = sqrt(stat[1])/stat[0];
+    stat[0] *= c_size;
+    return stat;
 }
 
 double Garch21::right_eigenfunction
@@ -444,9 +456,10 @@ int main(int argc, char *argv[])
     size_t nbr_paths;
     sscanf(argv[1], "%lf", &u);
     sscanf(argv[2], "%lu", &nbr_paths);
-    array<double, 2> result = model.estimate_prob(u, nbr_paths);
+    vector<double> result = model.estimate_prob(u, nbr_paths);
+    double C = pow(u, model.tail_index) * result[0];
     cout << nbr_paths << " sample paths. " << "M=" << model.M
 	 << ", tail index = " << model.tail_index << endl;
-    printf("Prob(|V| > %.2f) = %e (%e)\n\n", u, result[0], result[1]);
+    printf("%10e\t%10e\t%10e\t%10e\t%10e\t%10e\n", u, C, result[0], result[1], result[2], result[3]);
     return 0;
 }

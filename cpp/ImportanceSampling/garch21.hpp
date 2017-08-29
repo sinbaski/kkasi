@@ -41,7 +41,7 @@ public:
     double draw_z2(double) const;
     void simulate_path(vector<vec> &path) const;
     pair<double, size_t> sample_estimator(const vec &V0, double u);
-    array<double,2> estimate_prob(double u, size_t);
+    vector<double> estimate_prob(double u, size_t);
 
     double Lyapunov(size_t n, size_t iterations);
 
