@@ -173,7 +173,7 @@ int main(int argc, char* argv[])
      */
     double coef[] = {
 	// 1.0e-7, 0.11, 0.88
-	5.641683e-06, 1.611969e-01, 7.287080e-01 
+	7.408194e-06, 1.505639e-01, 7.206679e-01 
     };
     Garch1D<double> garch11(coef[0], coef[1], coef[2], stol(argv[1]));
     printf("Lambda(%.4f) = %.4f\n",
