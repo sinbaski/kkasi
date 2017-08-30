@@ -278,34 +278,39 @@ vector<double> Garch21::estimate_prob(double u, size_t nbr_paths)
     vector<vec> path(1000);
     simulate_path(path);
     // discard the first 20% of the path.
-    path.erase(path.begin(),
-	       next(path.begin(),
-		    ceil(path.size() * 0.2)
-		   ));
-    vector<vec> eta_samples;
+    path.erase(path.begin(), next(path.begin(), ceil(path.size() * 0.2)));
     auto i = path.begin();
-    do {
-	i = find_if(i, path.end(),
-		    [this](const vec &v) {
-			return norm(v) <= M;
-		    });
-	if (i != path.end()) eta_samples.push_back(*i++);
-	else break;
-    } while (true);
+    while((i = find_if(path.begin(), path.end(),
+			    [this](const vec &v) {
+				return norm(v) > M;
+			    })) != path.end()) {
+	path.erase(i);
+    }
+    double c_size = static_cast<double>(path.size())/1000;
+    // vector<vec> eta_samples;
+    // auto i = path.begin();
+    // do {
+    // 	i = find_if(i, path.end(),
+    // 		    [this](const vec &v) {
+    // 			return norm(v) <= M;
+    // 		    });
+    // 	if (i != path.end()) eta_samples.push_back(*i++);
+    // 	else break;
+    // } while (true);
     
     vector<double> ensemble(nbr_paths);
     size_t n = 0;
     for (size_t i = 0; i < ensemble.size(); i++) {
 	uniform_real_distribution<double>
-	    unif(0, eta_samples.size());
+	    unif(0, path.size());
 	random_device randev;
 	size_t k = (size_t)floor(unif(randev));
 	pair<double, size_t> twisted = 
-	    sample_estimator(eta_samples[k], u);
+	    sample_estimator(path[k], u);
 	ensemble[i] = twisted.first;
 	n += twisted.second;
     }
-    double c_size = ((double)eta_samples.size())/path.size();
+
     sort(ensemble.begin(), ensemble.end());
     vector<double> stat(4, 0);
     size_t m = n - ensemble.size();
@@ -316,8 +321,6 @@ vector<double> Garch21::estimate_prob(double u, size_t nbr_paths)
     stat[3] = ensemble[static_cast<size_t>(n * 0.95) - m];
     /* mean, sd/mean, 5% quantile, 95% quantile */
 
-    double mean = 0;
-    double var = 0;
     for (unsigned i = 0; i < ensemble.size(); i++) {
 	stat[0] += ensemble[i]/n;
 	stat[1] += ensemble[i] * ensemble[i] /n;
