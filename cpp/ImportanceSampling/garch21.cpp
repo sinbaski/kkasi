@@ -207,12 +207,13 @@ double Garch21::draw_z2(double angle) const
 
 void Garch21::simulate_path(vector<vec> &path) const
 {
-    double sigma_min = alpha[0]/(1 - beta[0]);
+//    double sigma_min = alpha[0]/(1 - beta[0]);
     random_device randev;
     chi_squared_distribution<double> chi2;
     size_t n = path.size();
     mat A(2, 2);
-    vec V({sigma_min, 0});
+    // sample variance of DJIA
+    vec V({4.74835e-05, 0});
     vec B({alpha[0], 0});
     path[0] = V;
     for (size_t i = 1; i < n; i++) {
@@ -279,6 +280,9 @@ vector<double> Garch21::estimate_prob(double u, size_t nbr_paths)
     simulate_path(path);
     // discard the first 20% of the path.
     path.erase(path.begin(), next(path.begin(), ceil(path.size() * 0.2)));
+    for(auto i = path.begin(); i < path.end(); i++) {
+	printf("%e\t%e\n", i->at(0), i->at(1));
+    }
     auto i = path.begin();
     while((i = find_if(path.begin(), path.end(),
 			    [this](const vec &v) {

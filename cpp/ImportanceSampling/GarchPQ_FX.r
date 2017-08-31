@@ -76,7 +76,7 @@ source("../../r/libxxie.r");
 ##     coef[i, ] <- garch21@fit$coef[-1];
 ## }
 
-X <- getAssetReturns("2012-01-01", "2015-01-01", "SP500", 1, "closing", "localhost");
+X <- getAssetReturns("2012-01-01", "2015-01-01", "DJIA", 1, "closing", "localhost");
 M21 <- garchFit(~garch(2, 1), data=X, trace=FALSE);
 M11 <- garchFit(~garch(1, 1), data=X, trace=FALSE);
 sum(M21@fit$coef[c(3,4,5)])
