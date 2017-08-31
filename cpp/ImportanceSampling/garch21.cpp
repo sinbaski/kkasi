@@ -207,12 +207,13 @@ double Garch21::draw_z2(double angle) const
 
 void Garch21::simulate_path(vector<vec> &path) const
 {
-    double sigma_min = alpha[0]/(1 - beta[0]);
+//    double sigma_min = alpha[0]/(1 - beta[0]);
     random_device randev;
     chi_squared_distribution<double> chi2;
     size_t n = path.size();
     mat A(2, 2);
-    vec V({sigma_min, 0});
+    // sample variance of DJIA
+    vec V({4.74835e-05, 0});
     vec B({alpha[0], 0});
     path[0] = V;
     for (size_t i = 1; i < n; i++) {
@@ -278,34 +279,42 @@ vector<double> Garch21::estimate_prob(double u, size_t nbr_paths)
     vector<vec> path(1000);
     simulate_path(path);
     // discard the first 20% of the path.
-    path.erase(path.begin(),
-	       next(path.begin(),
-		    ceil(path.size() * 0.2)
-		   ));
-    vector<vec> eta_samples;
+    path.erase(path.begin(), next(path.begin(), ceil(path.size() * 0.2)));
+    for(auto i = path.begin(); i < path.end(); i++) {
+	printf("%e\t%e\n", i->at(0), i->at(1));
+    }
     auto i = path.begin();
-    do {
-	i = find_if(i, path.end(),
-		    [this](const vec &v) {
-			return norm(v) <= M;
-		    });
-	if (i != path.end()) eta_samples.push_back(*i++);
-	else break;
-    } while (true);
+    while((i = find_if(path.begin(), path.end(),
+			    [this](const vec &v) {
+				return norm(v) > M;
+			    })) != path.end()) {
+	path.erase(i);
+    }
+    double c_size = static_cast<double>(path.size())/1000;
+    // vector<vec> eta_samples;
+    // auto i = path.begin();
+    // do {
+    // 	i = find_if(i, path.end(),
+    // 		    [this](const vec &v) {
+    // 			return norm(v) <= M;
+    // 		    });
+    // 	if (i != path.end()) eta_samples.push_back(*i++);
+    // 	else break;
+    // } while (true);
     
     vector<double> ensemble(nbr_paths);
     size_t n = 0;
     for (size_t i = 0; i < ensemble.size(); i++) {
 	uniform_real_distribution<double>
-	    unif(0, eta_samples.size());
+	    unif(0, path.size());
 	random_device randev;
 	size_t k = (size_t)floor(unif(randev));
 	pair<double, size_t> twisted = 
-	    sample_estimator(eta_samples[k], u);
+	    sample_estimator(path[k], u);
 	ensemble[i] = twisted.first;
 	n += twisted.second;
     }
-    double c_size = ((double)eta_samples.size())/path.size();
+
     sort(ensemble.begin(), ensemble.end());
     vector<double> stat(4, 0);
     size_t m = n - ensemble.size();
