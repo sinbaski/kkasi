@@ -316,8 +316,6 @@ vector<double> Garch21::estimate_prob(double u, size_t nbr_paths)
     stat[3] = ensemble[static_cast<size_t>(n * 0.95) - m];
     /* mean, sd/mean, 5% quantile, 95% quantile */
 
-    double mean = 0;
-    double var = 0;
     for (unsigned i = 0; i < ensemble.size(); i++) {
 	stat[0] += ensemble[i]/n;
 	stat[1] += ensemble[i] * ensemble[i] /n;
