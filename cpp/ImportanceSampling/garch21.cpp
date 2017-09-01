@@ -116,7 +116,8 @@ Garch21::Garch21(const vector<double> &alpha,
 //     sort(pool.begin(), pool.end());
 
     r_xi.resize(100);
-    right_eigenfunction(tail_index, r_xi);
+    double lambda = right_eigenfunction(tail_index, r_xi);
+    printf("lambda(xi) = %.4f\n", lambda);
 }
 
 double Garch21::quantile(double u, double angle) const
@@ -280,9 +281,9 @@ vector<double> Garch21::estimate_prob(double u, size_t nbr_paths)
     simulate_path(path);
     // discard the first 20% of the path.
     path.erase(path.begin(), next(path.begin(), ceil(path.size() * 0.2)));
-    for(auto i = path.begin(); i < path.end(); i++) {
-	printf("%e\t%e\n", i->at(0), i->at(1));
-    }
+    // for(auto i = path.begin(); i < path.end(); i++) {
+    // 	printf("%e\t%e\n", i->at(0), i->at(1));
+    // }
     auto i = path.begin();
     while((i = find_if(path.begin(), path.end(),
 			    [this](const vec &v) {

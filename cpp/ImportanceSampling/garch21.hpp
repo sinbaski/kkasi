@@ -32,7 +32,8 @@ public:
 	    double tail_index_sup = 5.0);
     ~Garch21(void);
 
-    const double tail_index;
+    // const double tail_index;
+    double tail_index;
     const double M;
     vector<funval> r_xi;
     
