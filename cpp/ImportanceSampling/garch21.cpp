@@ -116,8 +116,13 @@ Garch21::Garch21(const vector<double> &alpha,
 //     sort(pool.begin(), pool.end());
 
     r_xi.resize(100);
-    double lambda = right_eigenfunction(tail_index, r_xi);
-    printf("lambda(xi) = %.4f\n", lambda);
+    right_eigenfunction(tail_index, r_xi);
+    printf("right eigenfunction:\n");
+    for_each(r_xi.begin(), r_xi.end(),
+	     [](const funval &fv) {
+		 printf("%e\t%e\n", fv[0], fv[1]);
+	     });
+    printf("\n");
 }
 
 double Garch21::quantile(double u, double angle) const
@@ -189,7 +194,7 @@ double Garch21::draw_z2(double angle) const
     vec x = {cos(angle), sin(angle)};
 #pragma omp parallel for
     for (size_t i = 0; i < K; i++) {
-	knuth_b randev;
+	random_device randev;
 	double z2 = chi2(randev);
 	As[i].resize(2,2);
 	gen_rand_matrix(z2, As[i]);
@@ -202,7 +207,7 @@ double Garch21::draw_z2(double angle) const
 	    interpolate_fun(angle, r_xi);
     }
     discrete_distribution<size_t> dist(weights.begin(), weights.end());
-    knuth_b randev;
+    random_device randev;
     return As[dist(randev)](1, 0);
 }
 
@@ -266,11 +271,11 @@ pair<double, size_t> Garch21::sample_estimator(const vec &V0, double u)
 	    Nu++;
 	}
     } while(true);
+    double a = interpolate_fun(ang0, r_xi);
+    double b = interpolate_fun(atan(X[1]/X[0]), r_xi);
+    printf("%ld\t%ld\t%e\t%e\t%e\n", Nu, nbr_null_path, S, a, b);
     pair<double, size_t> results;
-    results.first = 
-	((double)Nu) * exp(-S * tail_index) *
-	interpolate_fun(ang0, r_xi) /
-	interpolate_fun(atan(X[1]/X[0]), r_xi);
+    results.first = ((double)Nu) * exp(-S * tail_index) * a / b;
     results.second = nbr_null_path + 1;
     return results;
 }
