@@ -1478,18 +1478,21 @@ That is,
       \1{T_u = m}
     \right]
   \end{eqnarray*}
-Since $\| \Pi_{n+m,n+1} \| \to 0$ a.s. as $m \to \infty$
+Since $\| \Pi_{n+k,n+1} \| \to 0$ a.s. as $k \to \infty$ for all $n \geq 0$
 (cf. Buraczewski et al.\cite{buraczewski:damek:mikosch:2016},
 theorem 4.1.3), it is useful to consider the family of sets
 $S_1(\epsilon)$ for each $\epsilon > 0$:
 \begin{equation}
   \label{eq:S1}
   S_1(\epsilon) = \left\{
-    \exists N_1 \geq 1, \text{ such that } \forall m \geq N_1,
-    \| \Pi_{n+m,n+1} \| < \epsilon
+    \omega \in \Omega:
+    \exists N_1(\epsilon) \geq 1,
+    \text{ such that } \forall k \geq N_1(\epsilon),
+    \forall n \geq 0,
+    \| \Pi_{n+k, n+1}(\omega) \| < \epsilon
   \right\}
 \end{equation}
-Note
+Note $\forall \epsilon > 0$
 \[
 \P(S_1(\epsilon)) = 1
 \]
@@ -1526,8 +1529,51 @@ Thus we have
   \end{eqnarray*}
   where $\Pi_{n, 1}(i, j)$ refers to the $(i, j)$-th component of
   matrix $\Pi_{n, 1}$ and $X_0(j)$ to the $j$-th component of $X_0$.
-  By theorem 2 of Hennion \cite{hennion:1997}, for every
+  Now define
+  \[
+  T = \inf\{n \geq 1: \forall i, j = 1,2,\ldots,d, \Pi_{n, 1}(i, j) > 0\}.
+  \]
+  By theorem 2 of Hennion\footnotemark \cite{hennion:1997}, for every
   $\epsilon > 0$:
+  \footnotetext{
+    We quote part of Hennion's theorem 2 here in our notation: Assume
+    \[
+    \P\left(
+      \bigcup_{n \geq 1} \{
+      \Pi_{n, 1} > 0
+      \}
+      \right) > 0,
+    \]
+    and
+    \[
+    \E \left(
+      \left| \log \| A'\|\right|
+      \right)
+      +
+      \E \left[
+        \left|
+          \log \left(
+            \inf\left\{
+              \|A' x\|:  1 \leq \forall i \leq d, x(i) \geq 0, |x| = 1
+            \right\}
+            \right)
+        \right|
+      \right]
+    \]
+    where $x(i)$ denotes the $i$-th component of vector $x$ and $|\cdot|$ denotes the 1-norm. Then
+    $\gamma > -\infty$ and, almost surely,
+    \begin{eqnarray*}
+      \limsup_{n \to \infty}
+      \left\{
+        \left|
+          {1 \over n} \1{n \geq T} \log \inn{y \Pi_{n, 1} x} - \gamma
+        \right|:
+        1 \leq \forall i \leq d, x(i), y(i) \geq 0, |x| = 1, |y| = 1
+      \right\} &=& 0
+    \end{eqnarray*}
+    The indicator that appears in Hennion's original paper is $\1{T \geq n}$. We believe this is
+    a type error and should be $\1{n \geq T}$.
+  }
   \begin{eqnarray*}
     &&
     \P \left(
@@ -1557,9 +1603,10 @@ Thus we have
   $S_2(\epsilon)$:
   \[
   S_2(\epsilon) = \left\{
-  \exists N_2 > T \text{ such that }
-    \forall n \geq N_2,\;
-    |\Pi_{n, 1} X_0| > c \cdot d \cdot e^{(\gamma - \epsilon) n}
+    \omega \in \Omega:
+    \exists N_2(\epsilon) > T \text{ such that }
+    \forall n \geq N_2(\epsilon),\;
+    |\Pi_{n, 1}(\omega) X_0(\omega)| > c \cdot d \cdot e^{(\gamma - \epsilon) n}
   \right\}
   \]
   where $c > 0$ is a constant. With $S_2(\epsilon)$ defined as such,
@@ -1600,8 +1647,12 @@ Thus we have
       N_u^2
       \1{m < K_1} \1{T_u = m} \1{S_1(\epsilon) \cap S_2(\epsilon)} 
       \right] \nonumber \\
-    &=& \mathscr D_1 + \mathscr D_2 + \mathscr D_3 + \mathscr D_4
+    &=& \mathscr D_1 + \mathscr D_2 + \mathscr D_3 + \mathscr D_4.
   \end{eqnarray*}
+  In the equation above we have written $N_1, N_2$
+  as short-hand notations for $N_1(\epsilon), N_2(\epsilon)$. It is
+  important to bear in mind that $N_1$ and $N_2$ are fixed numbers
+  dependent only on $\epsilon$.
   To show $\mathscr D < \infty$, it suffices to show
   $\mathscr D_i < \infty$ for each $i = 1, 2, 3, 4$.
   $\mathscr D_1$ sums only finitely many terms, so it
@@ -1619,11 +1670,21 @@ Thus we have
       \right] < \infty
   \end{equation}
   Firstly, we observe $|\Pi_{n, 1} X_0 |$ is bounded from below by a positive
-  constant for any $n < \infty$
+  constant for any $n < N_2$. To see this, notice
   \[
-  |\Pi_{n, 1} X_0|_2 > d^{-1/2} \min_l X_0(l) \|\Pi_{n,1}\|_2 > 0
+  \inn{\vec e_1 \Pi_{n, 1} \vec e_1} \geq \beta_1^n, \quad
+  \text{and} \quad
+  \inn{\vec e_1 X_0} \geq \sigma_\m^2 > 0
   \]
-  The first inequality is due to Kesten \cite{kesten:1973}.
+  So we have
+  \[
+  |\Pi_{n, 1} X_0 | \geq \beta_1^n \sigma_\m^2 > 0
+  \]
+  
+  % \[
+  % |\Pi_{n, 1} X_0|_2 > d^{-1/2} \min_l X_0(l) \|\Pi_{n,1}\|_2 > 0
+  % \]
+  % The first inequality is due to Kesten \cite{kesten:1973}.
   Thus \eqref{eq:ceh} is implied by
   \[
     \E \left[
