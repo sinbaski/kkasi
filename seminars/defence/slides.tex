@@ -100,7 +100,7 @@
   Xiaolei Xie\\
   \medskip
   %5 \vskip 4cm \\
-  {\scriptsize {\bf Supervised by:}  Prof.~Mikosch, Prof.~Collamore and Prof.~Poulsen}
+  {\scriptsize {\bf Supervised by:}  Thomas Mikosch, Jeffrey Collamore and  Rolf Poulsen}
 } % Your name
 \institute[UCPH] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
 {
@@ -148,7 +148,7 @@ University of Copenhagen \\ % Your institution for the title page
 %------------------------------------------------
 %% \section{Do return series have power-law tails with the same
 %% index?}
-\section{Chapter 1}
+\section{Tail Parameters}
 \begin{frame}
   \frametitle{Questions that we want to answer}
   \textcolor[HTML]{990033}{\bf We know}
@@ -275,8 +275,8 @@ University of Copenhagen \\ % Your institution for the title page
       \caption{\tiny Hill estimates daily return series in
         sectors of the S\&P 500 index. The data span  from 1 January
         2010 to 31 December 2014 and comprise $n=1304$ observations.
-        The graphs from top to bottom correspond to the ``Energy'',
-        ``Consumer Staples'' and ``Information Technology'' sectors.
+        The graphs from top to bottom correspond to the {\bf ``Energy'',
+        ``Consumer Staples'' and ``Information Technology''} sectors.
       }\label{fig:1}
     \end{figure}
   \end{minipage}\hfill
@@ -290,6 +290,18 @@ University of Copenhagen \\ % Your institution for the title page
         the tail indices.
     \end{itemize}
   \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hill Estimator}
+  Given a weakly dependent sequence $\{X_{i}\}_{i=1}^n$, the tail
+  index($\alpha$) can be estimated using the Hill estimator:
+  \[
+  \hat \alpha = \left(
+    {1 \over k} \sum_{i=1}^k \log{X_{(i)} \over X_{(k+1)}}
+  \right)^{-1}
+  \]
+  where $X_{(i)}$ is the $i$-th upper-order statistic of the sequence.
 \end{frame}
 
 \begin{frame}
@@ -709,7 +721,7 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 %% \section{Rare event simulation for GARCH(p,q) processes}
-\section{Chapter 2}
+\section{GARCH($p, q$) Importance Sampling}
 \begin{frame}
   \frametitle{Importance Sampling Estimator}
   \underline{\scriptsize{Assume $X$ has prob. density function $f$. Want to estimate $\P(X
@@ -996,7 +1008,7 @@ University of Copenhagen \\ % Your institution for the title page
     \]
     By Kesten-Goldie theorem:
     \[
-    \lim_{u \to \infty} u^{\alpha} P(\inn{x, V_t} > u) = C \quad x \in \mathbb S^{d-1}
+    \lim_{u \to \infty} u^{\alpha} P(\inn{x, V_t} > u) = C_\alpha \quad x \in \mathbb S^{d-1}
     \]
     where $d = p + q -1$
 \end{frame}
@@ -1308,7 +1320,9 @@ University of Copenhagen \\ % Your institution for the title page
   \end{itemize}
 \end{frame}
 
-\section{Chapter 3}
+\section{Eig. Val. of SV Smpl Cov. Mat.}
+
+\section{Eig. Val. of Smpl Cov. Mat. of Lnr. Mdl.}
 
 \begin{frame}
   \frametitle{Motivation}
