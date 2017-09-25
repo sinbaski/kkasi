@@ -1,0 +1,1257 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+% \usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+% \usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+% \usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer
+%line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation
+%symbols from the bottom of all slides uncomment this line
+}
+%% \usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule
+                      % in tables
+%% \usepackage{color}
+\usepackage[utf8x]{inputenc}
+\usepackage{lmodern,textcomp}
+
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\graphicspath{{../../papers/FX/}}
+\input{../../physics_common}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+\title{Analysis of Heavy-Tailed Time Series}
+% The short title appears at the bottom of
+% every slide, the full title is only
+% on the title page
+
+\author{
+  Xiaolei Xie\\
+  \medskip
+  %5 \vskip 4cm \\
+  {\scriptsize {\bf Supervised by:}  Prof.~Mikosch, Prof.~Collamore and Prof.~Poulsen}
+} % Your name
+\institute[UCPH] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+University of Copenhagen \\ % Your institution for the title page
+\medskip
+\textit{xie@math.ku.dk} % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+
+%% \begin{frame}
+%%   \frametitle{Agenda}
+%%   \begin{itemize}
+%%   \item A Multivariate GARCH Model with Correlated Innovations (Joint
+%%     work with Prof. Mikosch and Prof. Wintenberger)
+%%     \begin{enumerate}
+%%     \item Empirical eigen structure fitted to financial data
+%%     \item Theory of the eigen structure.
+%%     \end{enumerate}
+%%   \item Stochastic Recurrence Equations, e.g. GARCH(p,q): Monte Carlo
+%%     estimation of probabilities of large exceedances (joint work with
+%%     Prof. Collamore).
+%%     \begin{enumerate}
+%%     \item Importance sampling estimator in 1D
+%%     \item Extension to multi-dimensions
+%%     \end{enumerate}
+%%   \end{itemize}
+%% \end{frame}
+
+\begin{frame}
+\frametitle{Overview}
+\tableofcontents
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% \section{Simple dependence models}
+%------------------------------------------------
+\section{Do return series have power-law tails with the same index?}
+\begin{frame}
+  \frametitle{Questions that we want to answer}
+  \textcolor[HTML]{990033}{\bf We know}
+
+  If assumed stationary, equity return series are often seen to be
+  heavy-tailed -- a stylized fact of econometrics.
+  
+  \textcolor[HTML]{990033}{\bf But}
+  \begin{itemize}
+    \item Given the wide confidence bands of estimated tail indices,
+      are they actually the same?
+    \item Are tail parameters of different equity return series in the same
+      market related to each other?
+    \item How are investors' preferences over an equity affected by
+      tail parameters?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Motivation}
+  \begin{itemize}
+  \item Curiosity
+    \item Many multivariate GARCH processes have a stationary
+      distribution with power-law tails:
+      \begin{enumerate}
+        \item CCC-GARCH of Bollerslev \cite{bollerslev:1990} and
+          Jeantheau \cite{jeantheau:1998}.
+        \item Orthogonal GARCH of
+          Alexander and Chibumba \cite{alexander:chibumba:1996},
+        \item GO-GARCH by van der Weide \cite{Weide2002} which
+          generalizes Orthogonal GARCH.
+        \item Full Factor GARCH of Vrontos et
+          al. \cite{vrontos2003full}
+        \item Generalized Orthogonal Factor GARCH of Lanne and
+          Saikkonen  \cite{lanne2007modelling}
+      \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{CCC-GARCH, Kesten's theorem \& power-law tail}
+  A 2D CCC-GARCH model reads
+  \begin{eqnarray*}
+    \begin{pmatrix}
+      \sigma_{1, t}^2 \\
+      \sigma_{2, t}^2
+    \end{pmatrix}
+    &=&
+    \begin{pmatrix}
+      \alpha_{1, 1} & \alpha_{1, 2} \\
+      \alpha_{2, 1} & \alpha_{2, 2} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+      X_{1, t-1}^2 \\
+      X_{2, t-1}^2
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+      \beta_{1, 1} & \beta_{1, 2} \\
+      \beta_{2, 1} & \beta_{2, 2} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+      \sigma_{1,t-1}^2 \\
+      \sigma_{2,t-1}^2 \\
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+      \omega_1 \\
+      \omega_2
+    \end{pmatrix} \\
+    &=&
+    \underbrace{
+      \begin{pmatrix}
+        \alpha_{1,1} Z_{1,t-1}^2 + \beta_{1,1} & \alpha_{1,2} Z_{2,t-1}^2 + \beta_{1,2} \\
+        \alpha_{2,1} Z_{1,t-1}^2 + \beta_{2,1} & \alpha_{2,2} Z_{2,t-1}^2 + \beta_{2,2}
+      \end{pmatrix}
+    }_{A_t}
+    \underbrace{
+      \begin{pmatrix}
+        \sigma_{1,t-1}^2 \\
+        \sigma_{2,t-1}^2
+      \end{pmatrix}
+    }_{Y_{t-1}}
+    +
+    \underbrace{
+      \begin{pmatrix}
+        \omega_1 \\
+        \omega_2
+      \end{pmatrix}
+    }_{B}
+  \end{eqnarray*}
+  \begin{small}
+    where $X_{1, t}, X_{2, t}$ are return series, whose conditional
+    variances are $\sigma_{1, t}^2, \sigma_{2, t}^2$.
+    When $\forall i,j, \alpha_{i, j} > 0, \beta_{i,j} > 0$ and certain
+    conditions are satisfied, Kesten's theory \cite{kesten:1973} gives
+    \[
+    \lim_{u \to \infty} u^{\alpha}
+    \P(\inn{\vec v, Y} > u) = e_\alpha(\vec v)
+    \]
+    where $e_\alpha(\cdot): \sphere^{1} \to \reals_+$.
+    {\bf Each component of $Y_t$ shares the same tail index $\alpha$}.
+  \end{small}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Heavy-tailedness of equity returns}
+  \begin{minipage}[t]{0.5\linewidth}
+    \begin{figure}[htb!]
+      \begin{minipage}{1.0\linewidth}
+        \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
+                        {Energy_lower.pdf}
+      \end{minipage}
+      \begin{minipage}{1.0\linewidth}
+        \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
+                        {Consumer_Staples_lower.pdf}
+      \end{minipage}
+      \begin{minipage}{1.0\linewidth}
+        \includegraphics[width=\textwidth, trim={0, 0.8cm, 0, 2cm}, clip]
+                        {Information_Technology_lower.pdf}
+      \end{minipage}
+      \caption{\tiny Hill estimates daily return series in
+        sectors of the S\&P 500 index. The data span  from 1 January
+        2010 to 31 December 2014 and comprise $n=1304$ observations.
+        The graphs from top to bottom correspond to the ``Energy'',
+        ``Consumer Staples'' and ``Information Technology'' sectors.
+      }\label{fig:1}
+    \end{figure}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.5\linewidth}
+    \textcolor[HTML]{990033}{\bf Interesting observations}
+    \begin{itemize}
+      \item Hill estimates of equity tail indices are often found
+        between 2.5 $\sim$ 4.5
+      \item The estimates are contained within each other's confidence bands
+      \item Different sectors have different levels of variability in
+        the tail indices.
+    \end{itemize}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Test for equal tail index: using Hill estimator}
+  \begin{itemize}
+    \item   Two return series $X_1, X_2, \dots, X_n$ and
+      $Y_1, Y_2, \dots, Y_n$, with lower-tail indices
+      $\alpha_X$ and $\alpha_Y$.
+    \item We want to test the null hypothesis $H_0: \alpha_X = \alpha_Y$.
+  \end{itemize}
+  Under $H_0$, we have
+  \[
+  \sqrt k [\hat \alpha_X(k) - \hat \alpha_Y(k)] \overset{d}{\to}
+  N(0, \alpha_X^2 + \alpha_Y^2)
+  \]
+  $\hat \alpha_X(k)$: Hill estimate of $\alpha_X$ using $k$ upper
+  order statistics.
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Test for equal tail index: testing for a
+    changed extreme quantile}
+  Given a series $X_1, X_2, \dots, X_n$ where $X_i \sim F_i$, Hoga
+  \cite{hoga:2016} proposed a test for the hypothesis $H_0$:
+  $1 < \exists k < n$ such that
+  \begin{itemize}
+    \item $F_i^{-1}(1 - p) = F_j^{-1}(1 - p)$, for all $1 \leq i < j < k$
+    \item $F_{k-1}^{-1}(1 - p) \neq F_k^{-1}(1 - p)$ and
+      $F_i^{-1}(1-p) = F_k^{-1}(1-p)$ for all $i \geq k$.
+  \end{itemize}
+  where $p = p_n \to 0$ as $n \to \infty$. The test statistic is
+  \begin{tiny}
+  \[
+  T_n = \sup_{s \in [t_0, 1 - t_0]}
+  \dfrac{  \big[s (1 - s) \log \big(\hat x_p(0, s)/\hat x_p(s, 1)\big)
+      \big]^2}{
+    \int_{t_0}^s\big[r \log \big( \hat x_p(0, r)/\hat x_p(0, s)
+      \big)
+      \big]^2 dr
+    +
+    \int_{s}^{1 - t_0}
+    \big[
+      (1 - r) \log \big(
+      \hat x_p(r, 1)/
+      \hat x_p(s, 1)
+      \big)
+      \big]^2 dr}
+  \]
+  \end{tiny}
+  where
+  \begin{small}
+  \[
+  \hat x_p(s, t) = X_{k, s, t}
+  \left({n p \over k}\right)^{-1/{\hat \alpha}}
+  \]
+  \begin{itemize}
+    \item $X_{k, s, t}$ is the $k$-th largest value among
+      $X_{\floor{n s} + 1}, \dots, X_{\floor{n t}}$.
+    \item   The {\bf asymptotic distribution of $T_n$ under $H_0$ is not
+      available} explicitly, but given as the distribution of a
+      function of a standard Brownian motion -- Computed by simulation.
+  \end{itemize}
+  \end{small}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results of the tests on S\&P 500 sectors}
+\begin{figure}[htb!]
+  \begin{minipage}{0.31\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{HillTest_Energy.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.31\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{HillTest_CS.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.31\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{HillTest_IT.pdf}
+  \end{minipage}
+  \begin{minipage}{0.31\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{Hoga_Energy_pair.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.31\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{Hoga_CS_pair.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.31\linewidth}
+    \includegraphics[
+      width=\textwidth,
+      trim={0.3cm, 0.8cm, 1cm, 0.6cm}, clip
+    ]{Hoga_IT_pair.pdf}
+  \end{minipage}
+  \caption{\tiny
+    {\em Top row}: Hill-based test.
+    %% The test statistic in $\hat\alpha_X-\hat \alpha_Y$ is based
+    %% on Hill estimates 
+    %% of $\alpha_X$ and $\alpha_Y$. 
+    The green, blue and red points correspond to pairs of stock in a sector
+    when the test statistic is outside the intervals $[q_{0.075},q_{0.925}]$,
+    $[q_{0.05},q_{0.95}]$,  $[q_{0.025},q_{0.975}]$
+    %% $q_p$ is the $p$-quantile of the limiting 
+    %% $N(0,\alpha_X^2+\alpha_Y^2)$-\ds\ of the test statistic in
+    %% \eqref{eq:x1}. Grey points stand for pairs for which the test
+    %% statistic is inside $[q_{0.075},q_{0.925}]$. 
+    {\em Bottom row:} Hoga's test.
+    The green, blue and red points correspond to pairs of stock in a sector 
+    when the test statistic $T_n$ exceeds the $85\%$-, $90\%$-,
+    $95\%$-quantile of the limit distribution .
+  %% Grey points stand for pairs for which the test statistic is below
+  %% the \asy\ $85\%$-quantile. Black points represent 
+  %%   pairs for which the computation of $T_n$ fails for given precision  
+  %%   requirements and time limits.
+    The same number (50) of upper order statistics is used for both tests.}
+  \label{fig:PairTest} 
+\end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The scale parameter}
+  Assume the equity return $X_t$ is stationary and follows Pareto
+  distribution when $X < -K$:
+  \[
+  \P(X_t < -x) = {
+    K^\alpha
+    \over
+    x^\alpha
+  }, \quad x > K
+  \]
+  Hill's \cite{hill1975simple} maximum likelihood estimator for $K$ is
+  \[
+  \hat K_k = \left(
+  {k \over n}
+  \right)^{1/\hat \alpha_k} X_{(k)}
+  \]
+  where
+  \begin{itemize}
+  \item $n$ is the sample size
+  \item $\hat \alpha_k$ is Hill's estimator of the tail index of $k$
+    upper order statistics.
+  \item $X_{(k)}$ is the $k$-th upper order statistic in the sample
+  \end{itemize}
+  By asymptotic normality of upper order statistics,
+  \[
+  \sqrt k (\hat K_k - K) \overset{d}{\to} N(0, K^2/\alpha^2)
+  \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hill estimates of the scale parameter for S\&P 500
+    sectors}
+  {\scriptsize
+  S\&P 500: Standard \& Poor's stock index. A weighted average of
+  prices of 500 or so stocks listed on NYSE and NASDAQ. Stocks are
+  grouped into 10 sectors. The \textcolor[HTML]{990033}{\bf Energy,
+    Consumer Staples, IT} sectors are shown here.}
+  \begin{minipage}{0.65\linewidth}
+  \begin{figure}[htb!]
+    \centering
+    \begin{minipage}{0.33\linewidth}
+      \includegraphics[width=\textwidth]
+                      {Energy_K.pdf}
+    \end{minipage}\hfill
+    \begin{minipage}{0.33\linewidth}
+      \includegraphics[width=\textwidth]
+                      {CS_K.pdf}
+    \end{minipage}\hfill
+    \begin{minipage}{0.33\linewidth}
+      \includegraphics[width=\textwidth]
+                      {IT_K.pdf}
+    \end{minipage}
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {Energy_scale.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {CS_scale.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.33\linewidth}
+    \includegraphics[width=\textwidth]
+    {IT_scale.pdf}
+  \end{minipage}
+    \caption{\scriptsize Estimates of $\hat K_k$ (top) and
+      $\hat K_k^{\hat \alpha}$ (bottom) on $\log_{10}$-scale.
+      The bars are the asymptotic 95\%-confidence intervals.
+    }
+    \label{fig:sectors_parameters}
+  \end{figure}
+  \end{minipage}\hfill
+  \begin{minipage}{0.35\linewidth}
+    \begin{footnotesize}
+      \begin{itemize}
+      \item Estimated tail indices ($\hat \alpha$) and scale parameters
+        $\hat K$ are positively dependent.
+      \item The positive dependence is stronger for energy and IT stocks
+        than for consumer staple's stocks.
+      \item The scale $\hat K^{\hat \alpha}$ varies much more across different
+        equities than does the tail index $\alpha$.
+      \end{itemize}
+    \end{footnotesize}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Model of the market \& equity returns}
+  \textcolor[HTML]{990033}{\bf The toy market consists of}
+  \begin{enumerate}
+  \item A riskless bond that pays $e^r$ kr annually for each krona invested,
+    $r$ is fixed.
+  \item A risky equity that pays $e^X$ kr annually for each krona invested.
+    $X$ has Pareto tails
+    \[
+    F_X(x) = \left\{
+      \begin{array}{ll}
+        p \left(
+          {K \over K - x}
+        \right)^\alpha & x \leq 0 \,,\\
+        1 - (1 - p) \left(
+          {K' \over K' + x}
+        \right)^\beta & x > 0\,,
+      \end{array}
+    \right.
+    \]
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Model of the investor}
+  \begin{enumerate}
+  \item He has 1 unit of currency for investment
+  \item His happiness is proportional to a utility function $u(C)$:
+    \begin{eqnarray*}
+      C &=& (1 - \phi)e^r + \phi e^X \\
+      u(C) &=& -C^{-\xi}/\xi, \quad \xi > 0 
+    \end{eqnarray*}
+    where
+    \begin{itemize}
+    \item $C$ is his monetary amount of consumption
+    \item $\phi$ is the portion of his asset allocated to the equity
+    \end{itemize}
+
+  \item His preference over the equity is given by {\em
+      Generalized Disappointment Aversion}:
+    \[
+    \tilde u (F_X, \phi) = \E u(C) - b \E [u(v) - u(C); C < v]
+    \]
+    where
+    \begin{itemize}
+    \item $v$ is the level of consumption below which
+      the investor will be disappointed
+    \item $b$ captures how disappointed the investor will be in case his consumption
+      falls below $v$.
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Analytic results: when $\alpha$ and  $\beta$ are independent}
+  \begin{minipage}[t]{0.5\linewidth}
+    \begin{figure}[htb!]
+      \includegraphics[width=\textwidth]{preference_pareto5e-1_A.pdf}
+      \caption{\scriptsize
+        $\tilde u_{\rm max}$ as a function of $\alpha$ and $K$
+        in the two-sided Pareto model with $K'=0.012$, $\beta = 1.4$.
+        $b = 0.01$ in all cases.
+      }
+    \end{figure}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.5\linewidth}
+    \begin{small}
+      \begin{itemize}
+      \item The investor's preference $\tilde u$ increases with $\alpha$ and
+        decreases with $K$.
+      \item Moving along a curve of equal preference, if $\alpha$
+        increases then $K$ also increases.
+      \item At market equilibrium, all actively traded stocks should
+        have nearly the same investor preference -- $\alpha$ and
+        $K$ values are expected to have positive dependence.
+        % -- \textcolor[HTML]{990033}{\bf consistent with empirical results
+        %   shown in figure \ref{fig:sectors_parameters}}.
+        -- {\bf consistent with empirical results shown in figure
+          \ref{fig:sectors_parameters}}.
+      \end{itemize}
+    \end{small}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Analytic results: when $\alpha = \beta$}
+  \begin{minipage}[t]{0.4\linewidth}
+    \begin{figure}[htb!]
+      \begin{minipage}{\linewidth}
+        \includegraphics[width=1.0\textwidth, trim={0, 0, 0, 2cm}, clip]{phi_hat_pareto5e-1.pdf}    
+      \end{minipage}\hfill
+      \begin{minipage}{\linewidth}
+        \includegraphics[width=1.0\textwidth, trim={0, 0, 0, 2cm}, clip]{preference_pareto5e-1.pdf}        
+      \end{minipage}
+    \end{figure}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.6\linewidth}
+    \begin{footnotesize}
+      \textcolor[HTML]{990033}{\bf What's on the left?}
+      \begin{itemize}
+      \item Top: $\hat \phi(\alpha, K) = \argmax_{\phi} \tilde u(\alpha, K, \phi)$:
+        optimal portion of allocation to the equity.
+      \item Bottom: $\tilde u_{\rm max}(\alpha, K) = \max_{\phi} \tilde
+        u(\alpha, K, \phi)$:
+        Investor preference with optimal equity allocation.
+      \item utility function $u(x) = -\frac{2}{\sqrt x}$
+      \end{itemize}
+      
+      \textcolor[HTML]{990033}{\bf What I see from the plots}
+      \begin{itemize}
+      \item $\hat \phi$ is not monotone w.r.t. $\alpha$ or $K$.
+      \item For a fixed $K$, $\hat \phi$ is decreasing with $\alpha$
+        when $\alpha$ is in the range 2.5 $\sim$ 4.5, typical for real
+        equity return series.
+      \item $\tilde u_{\rm max}(\alpha, K)$ decreases with $\alpha$ 
+        but is rather insensitive to $K$.
+      \end{itemize}
+    \end{footnotesize}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{When equity returns have t-distribution \& $b = 0$}
+  The GDA preference reduces to {\em expected utility}. A few cases
+  arise depending on
+  \[
+  a = {
+    (1 - \phi) e^r
+    \over
+    \phi
+  }, \quad
+  y_\pm = {
+    a^2 - \xi \pm \sqrt{(a^2 - 1) (a^2 - \xi^2)}
+    \over
+    a (\xi - 1)
+  }
+  \]
+\begin{enumerate}
+\item If $\max\{a, 1\} < \xi$, $\tilde u_{\rm max}$ is
+  monotone increasing with $\alpha$.
+\item If $a < \xi < 1$ and $(a + y_-)/(a y_- + 1) <
+  y_-^{(1-\xi)/(1+\xi)}$, $\tilde u_{\rm max}$ is monotone
+  increasing with $\alpha$.
+\item If $\xi < a < 1$, $\tilde u_{\rm max}$ is monotone
+  decreasing with $\alpha$.
+\item If $1 < \xi < a$ and $(a + y_+)/(a y_+ + 1) >
+  y_+^{(1-\xi)/(1+\xi)}$, $\tilde u_{\rm max}$ is monotone
+  decreasing with $\alpha$.
+\item In other case, $\tilde u_{\rm max}$ is not monotone
+  w.r.t. $\alpha$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{When equity returns have t-distribution \& $b > 0$}
+  \begin{minipage}[t]{0.5\linewidth}
+    \begin{figure}[htb!]
+      \begin{minipage}{0.5\linewidth}
+        \includegraphics[width=\textwidth]{phi_hat_b_t_power.pdf}
+      \end{minipage}\hfill
+      \begin{minipage}{0.5\linewidth}
+        \includegraphics[width=\textwidth]{U_b_t_power.pdf}
+      \end{minipage}
+      \begin{minipage}{0.5\linewidth}
+        \includegraphics[width=\textwidth]{phi_hat_b_t_power4.pdf}
+      \end{minipage}\hfill
+      \begin{minipage}{0.5\linewidth}
+        \includegraphics[width=\textwidth]{U_b_t_power4.pdf}
+      \end{minipage}
+      \caption{$\hat\phi$ (left) and
+        ${\partial \tilde u_{\rm max} \over \partial \alpha}$ (right).
+        {\em top:} $\xi = 1/2$. {\em bottom:} $\xi = 4$.
+      }
+      \label{fig:htfg}
+    \end{figure}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.5\linewidth}
+    \textcolor[HTML]{990033}{\bf The figure says:}
+    \begin{itemize}
+    \item  $\hat\phi$ is monotone increasing for all 4 values of $b$
+    \item $\tilde u_{\rm max}(\alpha)$ is increasing with $\alpha$
+      when $b$ is relatively large, but  decreasing with $\alpha$ when
+      $b$ is small
+    \item A sizable value of $b$ indicates a conservative, risk-averse investor.
+    \end{itemize}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Summary}
+  \begin{itemize}
+  \item The tail index varies to different extent in different
+    sectors/markets.
+  \item The scale parameter is positively dependent on the tail index.
+  \item The scale $K^{\alpha}$ varies much more across different
+    equities than does the tail index $\alpha$.
+  \item An investor's preference over $\alpha$ is dependent on the
+    riskless rate of return, his own utility function and how
+    disappointed he will be if his investment falls below
+    expectation.
+  \end{itemize}
+\end{frame}
+
+\section{Rare event simulation for GARCH(p,q) processes}
+
+\begin{frame}
+  \frametitle{Importance Sampling Estimator}
+  \underline{\scriptsize{Assume $X$ has prob. density function $f$. Want to estimate $\P(X
+  > u) = \E \1{X > u}$:}}
+
+  \begin{minipage}[t]{0.45\linewidth}
+    \textcolor[HTML]{990033}{Naive Monte Carlo}
+    \begin{scriptsize}
+      \begin{eqnarray*}
+        \E \1{X > u} &=& \int \1{X > u} f(x) dx
+      \end{eqnarray*}
+      Draw $n$ iid samples of $X$ from $f(x)$, say $x_1, ..., x_n$,
+      then estimate $\P(X > u)$ as
+      \[
+      {1 \over n} \sum_{i=1}^n \1{x_i > u}
+      \]
+    \end{scriptsize}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.5\linewidth}
+    \textcolor[HTML]{990033}{Importance Sampling}
+    \begin{tiny}
+      \begin{eqnarray*}
+        \E \1{X > u} &=& \int \lambda(\alpha)\1{X > u} e^{-\alpha x}
+                         {e^{\alpha x} f(x) \over \lambda(\alpha)} dx
+      \end{eqnarray*}
+      where
+      \[
+      \lambda(\alpha) = \int e^{\alpha x} f(x) dx < \infty
+      \]
+      So
+      \[
+      f_\alpha(x) = \frac{e^{\alpha x} f(x)}{\lambda(\alpha)}
+      \]
+      is a density function. Draw $x_1, ..., x_n$ from
+      $f_\alpha(x)$ and estimate $\P(X > u)$ as
+      \[
+      {1\over n}\sum_{i=1}^n \lambda(\alpha) \1{x_i > u} e^{-\alpha x_i}
+      \]
+      \bf{One can show $\alpha$ for which
+        $\lambda(\alpha) = 1$ minimises the relative error of the
+        estmator.}
+    \end{tiny}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{GARCH(1,1) prob. of Large Exceedance}
+  Want to estimate $\P(\sigma_t^2 > u)$ for large $u$. $\sigma_t^2
+  \sim \pi$, the stationary distribution of $\sigma_t^2$.
+  \begin{eqnarray*}
+    \sigma_t^2 &=& \alpha_1 X_{t-1}^2 + \beta_1 \sigma_{t-1}^2 + \omega \\
+               &=& (\alpha_1 Z_{t-1}^2 + \beta_1) \sigma_{t-1}^2 + \omega
+    \\
+               &=& A_t \sigma_{t-1}^2 + \omega
+  \end{eqnarray*}
+   Intuitively
+   \[
+   \P(\sigma^2_t > u) = {
+     \E_\gamma N_u
+     \over
+     \E_\gamma K
+   }
+   \]
+   where
+   \begin{footnotesize}
+     \begin{itemize}
+     \item $K$ is the typical length of a cycle: Suppose $\sigma_0^2 \in
+       (0, M]$, $K > 0$ is the first time when $\sigma_K^2 \in
+       (0, M]$. $K$ is random.
+     \item $\sigma_0^2 \in (0, M]$ and $\sigma_0^2 \sim \gamma$,
+       $\gamma(E) = \pi(E) / \pi((0, M])$, for all $E \subseteq (0,
+       M]$.
+     \item
+       \[
+       N_u = \sum_{i=0}^{K - 1} \1{\sigma^2_i > u}
+       \]
+     \item $\E_\gamma$: Start the process with $\sigma_0^2 \sim
+       \gamma$. Take the expectation w.r.t. $\pi$.
+     \end{itemize}
+   \end{footnotesize}
+   % where  and
+   % It is straight forward to show $\E K = 1/\pi(\mathcal C)$. We need to
+   % have an efficient estimator for $\E N_u$.
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{GARCH(1,1) prob. of Large Exceedance}
+   Define
+   \begin{itemize}
+   \item $K_i$: the time when $\{V_t\}$ visits $(0, M]$ for the
+     $i$-th time;
+   \item $\mathcal R_n$: Number of times that $\{V_t\}$ visits $(0, M]$
+     before time $n$.
+   \end{itemize}
+   By law of large numbers for Markov chains (LLN):
+   \[
+     {1 \over m} \sum_{t=0}^{K_m - 1} \1{V_t > 0}
+     =
+     {1 \over m} \sum_{i=1}^m
+     \sum_{t=K_{i-1}}^{K_i - 1} \1{V_t > u}
+     \overset{a.s.}{\to}
+     \E_\gamma N_u     
+   \]
+   Also by LLN,
+   \[
+     {1 \over n} \sum_{t=0}^n \1{\sigma_t^2 > u}
+     \overset{a.s.}{\to}
+     \P(\sigma_t^2 > u)
+     \]
+     Meanwhile
+   \begin{eqnarray*}
+     {1 \over n} \sum_{t=0}^n \1{\sigma_t^2 > u}
+     &=&
+     {1 \over n}
+     \left[
+       \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
+       +
+       \sum_{t=K_{\mathcal R_n}}^{n} \1{\sigma_t^2 > u}
+     \right]
+   \end{eqnarray*}
+ \end{frame}
+
+\begin{frame}
+  \frametitle{GARCH(1,1) prob. of Large Exceedance}
+  The 2nd sum tends to 0 a.s. by geometric ergodicity of
+  $\{V_n\}$. For the 1st term,
+  \[
+  {1 \over n} \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
+  = {\mathcal R_n \over n} {1 \over \mathcal R_n}
+  \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
+  \overset{a.s.}{\to} \pi((0, M]) \E_\gamma N_u
+  \]
+  $\{\omega \in \Omega: \sigma_t^2(\omega) > u\}$
+  is a rare event. We want to use importance sampling to
+  estimate $\E_\gamma N_u$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Importance Sampling for GARCH(1,1)}
+  $\sigma_{t}^2$ is a Markov chain. Define
+  \[
+  l_t = \log A_t, \quad
+  S_t = \sum_{i=1}^{t} l_i, \quad
+  T_u = \min\{t \geq 1: \sigma_t^2 > u\}
+  \]
+  $(\sigma_t^2, S_t)$ is a Markov Additive process with
+  transition kernel $P(x, dy \times dl)$. Since $N_u \1{T_u \geq
+    K} = 0$
+  \begin{footnotesize}
+    \begin{eqnarray*}
+      \E_\gamma N_u &=& \E_\gamma(N_u\1{T_u < K}) \\
+      &=&
+      \sum_{t=1}^\infty
+      \P(K=t)
+      \int_{(\reals_+ \times \reals)^t}
+      N_u \1{T_u < t}
+      \prod_{i=1}^{t} P(x_{i-1}, d x_{i} \times dl_{i})\\
+      &=&
+      \sum_{t=1}^\infty
+      \P(K=t)
+      \int_{(\reals_+ \times \reals)^t}
+      \prod_{i=1}^{T_u} \left[
+        {e^{\alpha l_i} \over \lambda(\alpha)}
+        P(x_{i-1}, d x_{i} \times dl_{i})
+        \right] \times \\
+      &&
+      \prod_{i=T_u + 1}^{t} P(x_{i-1}, dx_{i} \times dl_i)
+      \underbrace{
+        e^{-\alpha S_{T_u}} N_u\1{T_u < t} \lambda(\alpha)^{T_u}
+      }_{\text{estimator}}
+    \end{eqnarray*}
+  \end{footnotesize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Importance Sampling for GARCH(1,1) cont'd}
+  \begin{minipage}[t]{0.5\linewidth}
+    \begin{figure}
+      \centering
+      \includegraphics[width=1.0\linewidth]{pic1.png}
+      \caption{\footnotesize Dual shift of Transition kernel}
+      \label{fig:dual_measure}
+    \end{figure}
+    \begin{scriptsize}
+      Note
+      \[
+      \int_0^\infty \int_{-\infty}^{\infty}
+      e^{\alpha l_i}
+      P(x_{i-1}, d x_{i} \times dl_{i})
+      = \E A_i^\alpha = \lambda(\alpha)
+      \]
+      So
+      ${e^{\alpha l_i} \over \lambda(\alpha)}P(x_{i-1}, d x_{i} \times dl_{i})$ is a transition kernel.
+    \end{scriptsize}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \begin{footnotesize}
+      Algorithm:
+      \begin{enumerate}
+      \item Choose $\alpha$ such that $\lambda(\alpha) = 1$.
+      \item draw $\sigma_0^2$ according to $\gamma$
+      \item Simulate the Markov chain according to the shifted transition
+        kernel
+        \[
+        {e^{\alpha l_i} \over \lambda(\alpha)}
+        P(x_{i-1}, d x_{i} \times dl_{i})
+        \]
+        until $\sigma_t^2 > u$. Then set $N_u = 1$.
+      \item Continue to simulate the chain according to $P(x_{i-1}, d
+        x_{i} \times dl_{i})$ until $\sigma_t^2 \in (0, M]$. Increase $N_u$
+        each time $\sigma_t^2 > u$.
+      \end{enumerate}
+    \end{footnotesize}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \frametitle{GARCH(p,q) processes}
+  \begin{tiny}
+    \begin{equation*}
+      \begin{pmatrix}
+        \sigma_{t}^2 \\
+        \sigma_{t-1}^2 \\
+        \vdots \\
+        \sigma_{t-q+2}^2 \\
+        \sigma_{t-q+1}^2 \\
+        X_{t-1}^2 \\
+        X_{t-2}^2 \\
+        \vdots \\
+        X_{t-p+2}^2 \\
+        X_{t-p+1}^2
+      \end{pmatrix} =
+      \begin{pmatrix}
+        \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
+        \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_p & 0 \\
+        1 & 0 & \cdots & 
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots & 
+        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        0 & 0 & \cdots &
+        1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        Z_{t-1}^2 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        0 & 0 & \cdots &
+        0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots &
+        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
+      \end{pmatrix}
+      \begin{pmatrix}
+        \sigma_{t-1}^2 \\
+        \sigma_{t-2}^2 \\
+        \vdots \\
+        \sigma_{t-q+1}^2 \\
+        \sigma_{t-q}^2 \\
+        X_{t-2}^2 \\
+        X_{t-3}^2 \\
+        \vdots \\
+        X_{t-p+1}^2 \\
+        X_{t-p}^2
+      \end{pmatrix} +
+      \begin{pmatrix}
+        \omega \\
+        0 \\
+        \vdots \\
+        0 \\
+        0 \\
+        0 \\
+        0 \\
+        \vdots \\
+        0 \\
+        0 \\
+      \end{pmatrix}
+    \end{equation*}
+  \end{tiny}
+    Compactly
+    \[
+    V_t = A_t V_{t-1} + B
+    \]
+    By Kesten-Goldie theorem:
+    \[
+    \lim_{u \to \infty} u^{\alpha} P(\inn{x, V_t} > u) = C \quad x \in \mathbb S^{d-1}
+    \]
+    where $d = p + q -1$
+\end{frame}
+
+\begin{frame}
+  \frametitle{GARCH(p,q) processes}
+  \begin{scriptsize}
+    Want to simulate the rare event prob. by importance sampling
+    \[
+    \P(|V_t| > u) \quad u \to \infty  
+    \]
+    Differences from GARCH(1,1):
+    \begin{itemize}
+    \item Instead of $(0, M]$, define
+      \[
+      \mathcal C = \{\vec v \in \mathbb R_+^{p+q-1}, |\vec v| \leq M\}
+      \]
+    \item Define
+      \begin{eqnarray*}
+        \vec M_t &=& A_{t} \cdots A_1 \vec V_0 \over |A_{t} \cdots A_1 \vec V_0| \\
+        S_t &=& \log |A_t \cdots A_1 \vec V_0| \\
+        l_t &=& S_t - S_{t-1} =
+                  \log \left|A_t
+                  \underbrace{
+                  {A_{t-1} \cdots A_1 \vec V_0 \over |A_{t-1} \cdots A_1 \vec V_0|}
+                  }_{M_{t-1}}
+                  \right|
+      \end{eqnarray*}
+      $(\vec M_t, S_t)$ is a Markov Additive process.
+    \end{itemize}
+  \end{scriptsize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{GARCH(p,q) processes}
+  As in the GARCH(1,1) case,
+  \begin{eqnarray*}
+    \P(|V_t| > u) &=& \pi(\mathcal C) \E_\gamma(N_u) \\
+    N_u &=& \sum_{i=1}^{K-1} \1{|\vec V_t| > u}
+  \end{eqnarray*}
+  \begin{itemize}
+  \item Knowing $\vec V_{t-1}$, $\vec V_t$ is a function of $A_t$
+  \item $A_t$ is determined by $\vec M_t$, $l_t$ and $\vec M_{t-1}$ via
+    \begin{eqnarray*}
+      e^{l_t} \vec M_t &=& A_t \vec M_{t-1}
+    \end{eqnarray*}
+    Observe $A_t$ is determined by $Z_{t-1}^2$, which is given by
+    \[
+    Z_{t-1}^2 = {
+      \inn{\vec e_{q+1}, e^{l_t} \vec M_{t}}
+      \over
+      \inn{\vec e_{1}, \vec M_{t-1}}
+    }
+    \]
+  \end{itemize}
+  \underline{$\vec V_t$ is a function of $\vec M_t$, $l_t$ and $\vec M_{t-1}$}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Importance Sampling for GARCH(p,q)}
+  \begin{itemize}
+  \item Define operator $T$ on a function $f \in \mathscr C_b(\mathbb
+    S^{d-1}_+)$, i.e. continuous and bounded functions defined on the
+    positive unit sphere.
+    \[
+    T_\alpha f(\vec x) = \int |A \vec x|^\alpha
+    f\left({A \vec x \over |A \vec x|}\right) \mu(dA)
+    \]
+  \item Define right eigen function $r_\alpha \in \mathscr C_b(\mathbb
+    S^{d-1}_+)$, and eigenvalue $\lambda(\alpha)$ by
+    \[
+    (T_\alpha r_\alpha)(\vec x) = \lambda(\alpha) r(\vec x)
+    \]
+  \item $Q(\vec x_{i-1}, d\vec x_{i} \times dl_{i})$: transition kernel of
+    $(\vec M_t, S_t)$. Since $\vec x_i$ and $l_i$ denpend only on
+    $A_i$
+    \begin{scriptsize}
+      \begin{eqnarray*}
+        && \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
+        {e^{\alpha l_i} \over \lambda(\alpha)}
+        {r_\alpha(\vec x_i) \over r_\alpha(\vec x_{i-1})}
+        Q(x_{i-1}, d\vec x_{i} \times dl_{i}) \\
+        &=&
+        {1 \over \lambda(\alpha) r_\alpha(\vec x_{i-1})}
+        \int |A_i \vec M_{i-1}|^\alpha
+        r_\alpha\left(
+          { A_i \vec x_{i-1}
+            \over
+            |A_i \vec x_{i-1}|
+          }
+        \right) \mu(dA) \\
+        &=& 
+        {1 \over \lambda(\alpha) r_\alpha(\vec x_{i-1})}
+        (T_\alpha r_\alpha)(\vec x_{i-1}) \\
+        &=& 1
+      \end{eqnarray*}
+    \end{scriptsize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Importance Sampling for GARCH(p,q)}
+  The importance sampling estimator can now be found:
+  \begin{scriptsize}
+    \begin{eqnarray*}
+      && \E_\gamma (N_u \1{T_u < K}) \\
+      &=&
+      \sum_{t=1}^\infty \P(K=t)
+      \left[
+        \int_{(\sphere^{d-1} \times \reals)^{t}}
+        \underbrace{
+          N_u \1{T_u < t} e^{-\alpha S_{T_u}}
+          {r_\alpha(\vec x_{0}) \over r_\alpha(\vec x_{T_u})}
+          \lambda(\alpha)^{T_u}
+        }_{\text{estimator}}
+        \times \right.\\ 
+        && \left.\prod_{i=1}^{T_u}
+               {e^{\alpha l_i} \over \lambda(\alpha)}
+               {r_\alpha(\vec x_i) \over r_\alpha(\vec x_{i-1})}
+               Q(x_{i-1}, d\vec x_{i} \times dl_{i})
+               \prod_{i=T_u+1}^{t}
+               Q(x_{i-1}, d\vec x_{i} \times dl_{i})
+               \right] \\
+      &=&
+      \E_\gamma^{\mathcal D}
+      \left[
+        N_u \1{T_u < t} e^{-\alpha S_{T_u}}
+        {r_\alpha(\vec x_{0}) \over r_\alpha(\vec x_{T_u})}
+        \lambda(\alpha)^{T_u}
+      \right]
+    \end{eqnarray*}
+  \end{scriptsize}
+  Choose $\alpha$ such that $\lambda(\alpha) = 1$. In multidimensions,
+  \[
+  \lambda(\alpha) = \lim_{n \to \infty} (\E \|A_n \cdots A_1\|^\alpha)^{1/n}
+  \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{The function $\Lambda(\alpha)$}
+  \begin{minipage}{0.5\linewidth}
+    \begin{small}
+      \begin{itemize}
+      \item 1D:
+        \begin{eqnarray*}
+          A &=& \alpha Z^2 + \beta \\
+          Z &\sim& N(0,1) \\
+          \Lambda(\alpha) &=& \log(\lambda(\alpha)) = \log \E A^\alpha          
+        \end{eqnarray*}
+      \item multi-dimension:
+        \begin{eqnarray*}
+          \Lambda(\alpha) &=& \log(\lambda(\alpha)) \\
+          &=& \lim_{n \to \infty} {1 \over n} \log \E \|A_n \cdots A_1\|^\alpha
+        \end{eqnarray*}
+        Estimation of $\alpha$ is trickier than in 1D.
+      \end{itemize}
+    \end{small}
+  \end{minipage}\hfill
+  \begin{minipage}{0.4\linewidth}
+    \begin{figure}
+      \centering
+      \includegraphics[width=1.0\linewidth]{pic2.pdf}
+    \end{figure}
+    \begin{scriptsize}
+    The function $\Lambda(\alpha)$ is convex, passes through the origin
+    and crosses the $\alpha$-axis.
+    \end{scriptsize}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \begin{scriptsize}
+    \frametitle{Estimation of $\Lambda(\alpha)$ and its root (tail index)}
+    \begin{itemize}
+    \item Estimate $\log[\lambda (\alpha)]$ according to
+      \begin{equation}
+        %% \label{eq:Lambda}
+        \log[\lambda(\alpha)] = \lim_{n \to \infty}{1 \over n} \log \left(
+        \E |\Pi_{n, 1} X_0|^\alpha
+        \right)
+      \end{equation}
+      and then solve $\log[\lambda(\alpha)] = 0$ for $\alpha$.
+    \item Vanneste \cite{vanneste:2010} proposed a resampling algorithm:
+      \begin{itemize}
+      \item divide the estimation of $\log[\lambda(\alpha)]$ into $n$
+        steps and we simulate $K$ realizations of $A_n, \dots, A_1$
+        and $X_0, X_1, \dots, X_n$.
+      \item The estimator is then
+        \begin{equation}
+          %% \label{eq:AnandsEstimator}
+          \mathscr E_\alpha =
+                   {1 \over n}
+                   \sum_{i=1}^n \log \left(
+                       {1 \over K}\sum_{l=1}^K |A_i^l X^{w_{l, i-1}}_{i-1}|^\alpha
+                       \right)
+        \end{equation}
+        where
+        \begin{enumerate}
+          \item $A_i^l, X_I^l$: the $l$-th realization of $A_i$ and
+            $X_i$
+          \item $\{w_{l, i-1}\}$, $1 \leq i \leq n$, $1 \leq l \leq K$
+            have conditional distribution
+            \begin{eqnarray*}
+              \P(w_{l, i-1} = j | w_{1, i-2}, \dots, w_{K, i-2})
+              &=& {a^j_{i-1} \over b_{i-1}} \\
+              a_{i-1}^j = |A_{i-1}^j X_{i-2}^{w_{j, i-2}}|^\alpha,
+              &\quad&
+              b_{i-1} = \sum_{l=1}^K a_{i-1}^l
+            \end{eqnarray*}
+        \end{enumerate}
+      \end{itemize}
+    \end{itemize}
+  \end{scriptsize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Vanneste's algorithm}
+  \begin{figure}[htb!]
+    \centering
+    \includegraphics[width=0.8\linewidth, trim=2cm 16.5cm 2.5cm 2cm, clip]{AnandsEstimator.pdf}
+    \caption{A possible realization of the re-sampling procedure. $n =
+      3$, $K = 4$. A number in a parenthesis indicates the probability
+      of the unit vector above it being chosen to the next step.}
+    \label{fig:AnandsEstimator}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Evaluation of the right eigenfunction $r_\alpha$}
+  We don't have an algorithm applicable in all dimensions. For $d = 2$,
+  e.g. a GARCH($(2, 1)$) process. we have devised an algorithm:
+  \begin{itemize}
+  \item take $|\cdot|$ as the Euclidean norm.
+  \item let $\vec M_t = (\cos w, \sin w)'$,
+    $M_{t+1} = (\cos\varphi, \sin\varphi)'$,
+    $w, \varphi \in [0, \pi/2)$, then
+    \begin{eqnarray}
+      Z_t^2 &=&
+      {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
+        \over
+        \cos w (1- \alpha_1 \tan\varphi)
+      } \label{eq:rthy} \\
+      {d Z_{t}^2 \over d\varphi}
+      &=&
+      {
+        (\alpha_2 \sin w + \beta_1 \cos w) \sec^2\varphi
+        \over
+        \cos w (1 - \alpha_1 \tan\varphi)^2
+      } \nonumber
+    \end{eqnarray}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+   \frametitle{Thank you!}
+   Questions?
+ \end{frame}
+\bibliographystyle{unsrt}
+\bibliography{../../thesis/econophysics}
+\end{document} 
