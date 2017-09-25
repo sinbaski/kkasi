@@ -146,7 +146,9 @@ University of Copenhagen \\ % Your institution for the title page
 %----------------------------------------------------------------------------------------
 % \section{Simple dependence models}
 %------------------------------------------------
-\section{Do return series have power-law tails with the same index?}
+%% \section{Do return series have power-law tails with the same
+%% index?}
+\section{Chapter 1}
 \begin{frame}
   \frametitle{Questions that we want to answer}
   \textcolor[HTML]{990033}{\bf We know}
@@ -706,8 +708,8 @@ University of Copenhagen \\ % Your institution for the title page
   \end{itemize}
 \end{frame}
 
-\section{Rare event simulation for GARCH(p,q) processes}
-
+%% \section{Rare event simulation for GARCH(p,q) processes}
+\section{Chapter 2}
 \begin{frame}
   \frametitle{Importance Sampling Estimator}
   \underline{\scriptsize{Assume $X$ has prob. density function $f$. Want to estimate $\P(X
@@ -1225,29 +1227,99 @@ University of Copenhagen \\ % Your institution for the title page
 \begin{frame}
   \frametitle{Evaluation of the right eigenfunction $r_\alpha$}
   We don't have an algorithm applicable in all dimensions. For $d = 2$,
-  e.g. a GARCH($(2, 1)$) process. we have devised an algorithm:
+  e.g. a GARCH($2, 1$) process. we have devised an algorithm:
   \begin{itemize}
   \item take $|\cdot|$ as the Euclidean norm.
-  \item let $\vec M_t = (\cos w, \sin w)'$,
-    $M_{t+1} = (\cos\varphi, \sin\varphi)'$,
-    $w, \varphi \in [0, \pi/2)$, then
+  \item Estimate $r_\theta$ according to
     \begin{eqnarray}
-      Z_t^2 &=&
-      {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
-        \over
-        \cos w (1- \alpha_1 \tan\varphi)
-      } \label{eq:rthy} \\
-      {d Z_{t}^2 \over d\varphi}
+      \label{eq:trhj}
+      \E \left[
+        |A x|^\theta r_\theta(A \cdotp x)
+      \right]
       &=&
-      {
-        (\alpha_2 \sin w + \beta_1 \cos w) \sec^2\varphi
-        \over
-        \cos w (1 - \alpha_1 \tan\varphi)^2
-      } \nonumber
+      \lambda(\theta) r_\theta(x)
     \end{eqnarray}
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \begin{itemize}
+    \item let $\vec M_t = (\cos w, \sin w)'$,
+    $\vec M_{t+1} = (\cos\varphi, \sin\varphi)'$,
+    $w, \varphi \in [0, \pi/2)$, then
+    \begin{eqnarray*}
+      Z_t^2 &=&
+      {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
+        \over
+        \cos w (1- \alpha_1 \tan\varphi)
+      }
+    \end{eqnarray*}
+  \item Define
+    \[
+    h_\theta(w): w \in [0, \arctan{1 \over \alpha_1}) \to (\underline r_\theta, \bar r_\theta)
+    \ni r_\theta((\cos w, \sin w)^\top)
+    \]
+  \item Then \eqref{eq:trhj} can be rewritten as
+    \begin{tiny}
+      \begin{eqnarray}
+        \lambda(\theta) h_\theta(w)
+        &=&
+        \int_\Omega (\alpha_2^2 + \beta_1^2)^{\theta/2} {
+          \sin^\theta\left(
+            w + \arctan{\beta_1 \over \alpha_2}
+          \right)
+          \over
+          \cos^\theta\varphi (1 - \alpha_1 \tan\varphi)^\theta
+        }
+        f_{\chi^2}\left[
+          {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
+            \over
+            \cos w (1- \alpha_1 \tan\varphi)
+          } \right] \times \nonumber\\
+        &&
+        h_\theta(\varphi)
+        {
+          (\alpha_2 \sin w + \beta_1 \cos w) \sec^2\varphi
+          \over
+          \cos w (1 - \alpha_1 \tan\varphi)^2
+        }
+        d\varphi \nonumber \\
+        &=&
+        \int_\Omega H_\theta(w, \varphi) h_\theta(\varphi) d\varphi
+      \end{eqnarray}
+    \end{tiny}
+    where $f_{\chi^2}$ is the density function of the $\chi^2$ distribution.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Approximate the integral with a finite sum
+    \[
+    \lambda(\theta) h_\theta(i \Delta_n)
+    \approx
+    \Delta_n \sum_{j=0}^{n-1} H_\theta(i \Delta_n, j \Delta_n) h_\theta(j \Delta_n)
+    \]
+    where $\Delta_n = {\arctan(1/\alpha_1) \over n}$.
+  \item $\lambda(\theta)$ can be found as the spectral radius of 
+    matrix $\{\Delta_n H_\theta(i \Delta_n, j \Delta_n)\}_{i,j}$
+  \item $\{h_\theta(i \Delta_n)\}_ {i=0,1,2,\dots, n-1}$ can be found as
+    the associated eigenvector.
+  \end{itemize}
+\end{frame}
+
+\section{Chapter 3}
+
+\begin{frame}
+  \frametitle{Motivation}
+  We want to understand the eigenvalues of a sample covariance matrix
+  of heavy-tailed stochastic volatility models
+  $X_{i, t} = \sigma_{i, t} Z_{i,t}$ where
+  \begin{itemize}
+  \item 
+  \end{itemize}
+  
+\end{frame}
 \begin{frame}
    \frametitle{Thank you!}
    Questions?
