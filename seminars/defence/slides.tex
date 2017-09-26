@@ -186,6 +186,7 @@ University of Copenhagen \\ % Your institution for the title page
           Saikkonen  \cite{lanne2007modelling}
       \end{enumerate}
   \end{itemize}
+  \underline{Linear combinations of CCC-GARCH -- a common tail index is shared.}
 \end{frame}
 
 
@@ -295,13 +296,22 @@ University of Copenhagen \\ % Your institution for the title page
 \begin{frame}
   \frametitle{Hill Estimator}
   Given a weakly dependent sequence $\{X_{i}\}_{i=1}^n$, the tail
-  index($\alpha$) can be estimated using the Hill estimator:
+  index($\alpha$) can be estimated using the Hill estimator
+  \cite{embrechts:klueppelberg:mikosch:1997}:
   \[
   \hat \alpha = \left(
     {1 \over k} \sum_{i=1}^k \log{X_{(i)} \over X_{(k+1)}}
   \right)^{-1}
   \]
-  where $X_{(i)}$ is the $i$-th upper-order statistic of the sequence.
+  where
+  \begin{enumerate}
+  \item $X_{(i)}$ is the $i$-th upper-order statistic of the sequence
+  \item $k \to \infty$, $k/n \to 0$
+  \end{enumerate}
+  Moreover,
+  \[
+  \sqrt k (\hat \alpha - \alpha) \overset{d}{\to} N(0, \alpha^2)
+  \]
 \end{frame}
 
 \begin{frame}
@@ -360,9 +370,8 @@ University of Copenhagen \\ % Your institution for the title page
   \begin{itemize}
     \item $X_{k, s, t}$ is the $k$-th largest value among
       $X_{\floor{n s} + 1}, \dots, X_{\floor{n t}}$.
-    \item   The {\bf asymptotic distribution of $T_n$ under $H_0$ is not
-      available} explicitly, but given as the distribution of a
-      function of a standard Brownian motion -- Computed by simulation.
+    \item The asymptotic distribution of $T_n$ under $H_0$ has to
+      be Computed by simulation.
   \end{itemize}
   \end{small}
 \end{frame}
@@ -521,9 +530,9 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{Model of the market \& equity returns}
   \textcolor[HTML]{990033}{\bf The toy market consists of}
   \begin{enumerate}
-  \item A riskless bond that pays $e^r$ kr annually for each krona invested,
+  \item A riskless bond that pays $e^r$ kr. annually for each kr. invested,
     $r$ is fixed.
-  \item A risky equity that pays $e^X$ kr annually for each krona invested.
+  \item A risky equity that pays $e^X$ kr. annually for each kr. invested.
     $X$ has Pareto tails
     \[
     F_X(x) = \left\{
@@ -556,7 +565,7 @@ University of Copenhagen \\ % Your institution for the title page
     \end{itemize}
 
   \item His preference over the equity is given by {\em
-      Generalized Disappointment Aversion}:
+      Generalized Disappointment Aversion} \cite{routledge2010generalized}:
     \[
     \tilde u (F_X, \phi) = \E u(C) - b \E [u(v) - u(C); C < v]
     \]
@@ -724,60 +733,88 @@ University of Copenhagen \\ % Your institution for the title page
 \section{GARCH($p, q$) Importance Sampling}
 \begin{frame}
   \frametitle{Importance Sampling Estimator}
-  \underline{\scriptsize{Assume $X$ has prob. density function $f$. Want to estimate $\P(X
-  > u) = \E \1{X > u}$:}}
+  \underline{\scriptsize{
+      Want to estimate $\P(X \in S) = \E \I_S(X)$:}
+  }
 
   \begin{minipage}[t]{0.45\linewidth}
     \textcolor[HTML]{990033}{Naive Monte Carlo}
-    \begin{scriptsize}
+    \begin{small}
       \begin{eqnarray*}
         \E \1{X > u} &=& \int \1{X > u} f(x) dx
       \end{eqnarray*}
       Draw $n$ iid samples of $X$ from $f(x)$, say $x_1, ..., x_n$,
       then estimate $\P(X > u)$ as
       \[
-      {1 \over n} \sum_{i=1}^n \1{x_i > u}
+      {1 \over n} \sum_{i=1}^n \I_S(X)
       \]
-    \end{scriptsize}
+    \end{small}
   \end{minipage}\hfill
   \begin{minipage}[t]{0.5\linewidth}
     \textcolor[HTML]{990033}{Importance Sampling}
-    \begin{tiny}
-      \begin{eqnarray*}
-        \E \1{X > u} &=& \int \lambda(\alpha)\1{X > u} e^{-\alpha x}
-                         {e^{\alpha x} f(x) \over \lambda(\alpha)} dx
-      \end{eqnarray*}
-      where
+    \begin{scriptsize}
+    \begin{itemize}
+    \item Note
       \[
-      \lambda(\alpha) = \int e^{\alpha x} f(x) dx < \infty
+      \P(X > u)
+      =
+      \E^{\tilde \nu} \left[
+        \underbrace{
+          \td{\nu}{\tilde \nu}(X) \1{X > u}
+        }_{\mathcal E_u}
+      \right]
       \]
-      So
+      where $\nu$ denotes the original prob. measure while $\tilde \nu$
+      denotes the shifted prob. measure. $\td{\nu}{\tilde \nu}$ is the
+      Radon-Nikodym derivative.
+    \item The optimal choice of $\tilde \nu$:
+      Choose the $\tilde \nu$ such that the {\em relative error}
+      is bounded. Let $\P(X > u) \to 0,\; u \to \infty$. Choose
+      $\tilde \nu$ such that
       \[
-      f_\alpha(x) = \frac{e^{\alpha x} f(x)}{\lambda(\alpha)}
+      \lim_{u \to \infty} {\var({\mathcal E}_u) \over \P(X > u)^2} < \infty
       \]
-      is a density function. Draw $x_1, ..., x_n$ from
-      $f_\alpha(x)$ and estimate $\P(X > u)$ as
-      \[
-      {1\over n}\sum_{i=1}^n \lambda(\alpha) \1{x_i > u} e^{-\alpha x_i}
-      \]
-      \bf{One can show $\alpha$ for which
-        $\lambda(\alpha) = 1$ minimises the relative error of the
-        estmator.}
-    \end{tiny}
+    \end{itemize}
+    \end{scriptsize}
+    % \begin{tiny}
+    %   \begin{eqnarray*}
+    %     \E \1{X > u} &=& \int \lambda(\alpha)\1{X > u} e^{-\alpha x}
+    %                      {e^{\alpha x} f(x) \over \lambda(\alpha)} dx
+    %   \end{eqnarray*}
+    %   where
+    %   \[
+    %   \lambda(\alpha) = \int e^{\alpha x} f(x) dx < \infty
+    %   \]
+    %   So
+    %   \[
+    %   f_\alpha(x) = \frac{e^{\alpha x} f(x)}{\lambda(\alpha)}
+    %   \]
+    %   is a density function. Draw $x_1, ..., x_n$ from
+    %   $f_\alpha(x)$ and estimate $\P(X > u)$ as
+    %   \[
+    %   {1\over n}\sum_{i=1}^n \lambda(\alpha) \1{x_i > u} e^{-\alpha x_i}
+    %   \]
+    %   \bf{One can show $\alpha$ for which
+    %     $\lambda(\alpha) = 1$ minimises the relative error of the
+    %     estmator.}
+    % \end{tiny}
   \end{minipage}
 \end{frame}
 
 \begin{frame}
-  \frametitle{GARCH(1,1) prob. of Large Exceedance}
-  Want to estimate $\P(\sigma_t^2 > u)$ for large $u$. $\sigma_t^2
+  \frametitle{GARCH(1,1) Probability of Large Exceedance}
+    Want to estimate $\P(\sigma_t^2 > u)$ for large $u$. $\sigma_t^2
   \sim \pi$, the stationary distribution of $\sigma_t^2$.
   \begin{eqnarray*}
-    \sigma_t^2 &=& \alpha_1 X_{t-1}^2 + \beta_1 \sigma_{t-1}^2 + \omega \\
-               &=& (\alpha_1 Z_{t-1}^2 + \beta_1) \sigma_{t-1}^2 + \omega
-    \\
-               &=& A_t \sigma_{t-1}^2 + \omega
+    \sigma_t^2
+    &=&
+    \alpha_1 X_{t-1}^2 + \beta_1 \sigma_{t-1}^2 + \omega \\
+    &=&
+    \underbrace{
+      (\alpha_1 Z_{t-1}^2 + \beta_1)
+    }_{A_t}  \sigma_{t-1}^2 + \omega
   \end{eqnarray*}
-   Intuitively
+  It can be shown
    \[
    \P(\sigma^2_t > u) = {
      \E_\gamma N_u
@@ -788,113 +825,114 @@ University of Copenhagen \\ % Your institution for the title page
    where
    \begin{footnotesize}
      \begin{itemize}
-     \item $K$ is the typical length of a cycle: Suppose $\sigma_0^2 \in
-       (0, M]$, $K > 0$ is the first time when $\sigma_K^2 \in
-       (0, M]$. $K$ is random.
-     \item $\sigma_0^2 \in (0, M]$ and $\sigma_0^2 \sim \gamma$,
-       $\gamma(E) = \pi(E) / \pi((0, M])$, for all $E \subseteq (0,
-       M]$.
+     \item $K$ is the first time $\{\sigma_t^2\}$ returns to $\mathcal C = [\sigma_0^2, M]$.
+     \item $\sigma_0^2 \in \mathcal C$ and $\sigma_0^2 \sim \gamma$,
+       $\gamma(E) = \pi(E) / \pi(\mathcal C)$, for all
+       $E \subseteq \mathcal C$.
      \item
        \[
        N_u = \sum_{i=0}^{K - 1} \1{\sigma^2_i > u}
        \]
      \item $\E_\gamma$: Start the process with $\sigma_0^2 \sim
-       \gamma$. Take the expectation w.r.t. $\pi$.
+       \gamma$. Take the expectation w.r.t. $\pi$ (cf.  Collamore and
+       Vidyashankar \cite{Collamore20133378}).
      \end{itemize}
    \end{footnotesize}
-   % where  and
-   % It is straight forward to show $\E K = 1/\pi(\mathcal C)$. We need to
-   % have an efficient estimator for $\E N_u$.
  \end{frame}
 
- \begin{frame}
-   \frametitle{GARCH(1,1) prob. of Large Exceedance}
-   Define
-   \begin{itemize}
-   \item $K_i$: the time when $\{V_t\}$ visits $(0, M]$ for the
-     $i$-th time;
-   \item $\mathcal R_n$: Number of times that $\{V_t\}$ visits $(0, M]$
-     before time $n$.
-   \end{itemize}
-   By law of large numbers for Markov chains (LLN):
-   \[
-     {1 \over m} \sum_{t=0}^{K_m - 1} \1{V_t > 0}
-     =
-     {1 \over m} \sum_{i=1}^m
-     \sum_{t=K_{i-1}}^{K_i - 1} \1{V_t > u}
-     \overset{a.s.}{\to}
-     \E_\gamma N_u     
-   \]
-   Also by LLN,
-   \[
-     {1 \over n} \sum_{t=0}^n \1{\sigma_t^2 > u}
-     \overset{a.s.}{\to}
-     \P(\sigma_t^2 > u)
-     \]
-     Meanwhile
-   \begin{eqnarray*}
-     {1 \over n} \sum_{t=0}^n \1{\sigma_t^2 > u}
-     &=&
-     {1 \over n}
-     \left[
-       \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
-       +
-       \sum_{t=K_{\mathcal R_n}}^{n} \1{\sigma_t^2 > u}
+%  \begin{frame}
+%    \frametitle{GARCH(1,1) Probability of Large Exceedance}
+%    Define
+%    \begin{itemize}
+%    \item $K_i$: the time when $\{V_t\}$ visits $\mathcal C$ for the
+%      $i$-th time;
+%    \item $\mathcal R_n$: Number of times that $\{V_t\}$ visits $\mathcal C$
+%      before time $n$.
+%    \end{itemize}
+%    By law of large numbers for Markov chains (LLN):
+%    \[
+%      {1 \over m} \sum_{t=0}^{K_m - 1} \1{V_t > 0}
+%      =
+%      {1 \over m} \sum_{i=1}^m
+%      \sum_{t=K_{i-1}}^{K_i - 1} \1{V_t > u}
+%      \overset{a.s.}{\to}
+%      \E_\gamma N_u     
+%    \]
+%    Also by LLN,
+%    \[
+%      {1 \over n} \sum_{t=0}^n \1{\sigma_t^2 > u}
+%      \overset{a.s.}{\to}
+%      \P(\sigma_t^2 > u)
+%      \]
+%      Meanwhile
+%    \begin{eqnarray*}
+%      {1 \over n} \sum_{t=0}^n \1{\sigma_t^2 > u}
+%      &=&
+%      {1 \over n}
+%      \left[
+%        \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
+%        +
+%        \sum_{t=K_{\mathcal R_n}}^{n} \1{\sigma_t^2 > u}
+%      \right]
+%    \end{eqnarray*}
+%  \end{frame}
+
+\begin{frame}
+  \frametitle{GARCH(1,1) Probability of Large Exceedance}
+  It can be shown
+  \[
+  \P(\sigma_t^2 > u) = \pi(\mathcal C) \E_\gamma (N_u)
+  \]
+  \begin{itemize}
+  \item find an unbiased importance sampling estimator $\mathcal E_u$ for
+     $\E_\gamma (N_u)$, then $\pi(\mathcal C) \mathcal E_u$ is an unbiased estimator
+     for $\P(\sigma_t^2 > u)$.
+   \item $\pi(\mathcal C)$ also needs to be estimated, but this can be done with the original measure.
+   \item $\{A_t\}$ is an iid. sequence, so we have
+     \[
+     \E_\gamma(N_u) = \E_\gamma^{\mathcal D} \left[
+       e^{-\alpha S_{T_u}} N_u \1{T_u < K}
      \right]
-   \end{eqnarray*}
- \end{frame}
-
-\begin{frame}
-  \frametitle{GARCH(1,1) prob. of Large Exceedance}
-  The 2nd sum tends to 0 a.s. by geometric ergodicity of
-  $\{V_n\}$. For the 1st term,
-  \[
-  {1 \over n} \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
-  = {\mathcal R_n \over n} {1 \over \mathcal R_n}
-  \sum_{t=0}^{K_{\mathcal R_n} - 1} \1{\sigma_t^2 > u}
-  \overset{a.s.}{\to} \pi((0, M]) \E_\gamma N_u
-  \]
-  $\{\omega \in \Omega: \sigma_t^2(\omega) > u\}$
-  is a rare event. We want to use importance sampling to
-  estimate $\E_\gamma N_u$.
+     \]
+  \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Importance Sampling for GARCH(1,1)}
-  $\sigma_{t}^2$ is a Markov chain. Define
-  \[
-  l_t = \log A_t, \quad
-  S_t = \sum_{i=1}^{t} l_i, \quad
-  T_u = \min\{t \geq 1: \sigma_t^2 > u\}
-  \]
-  $(\sigma_t^2, S_t)$ is a Markov Additive process with
-  transition kernel $P(x, dy \times dl)$. Since $N_u \1{T_u \geq
-    K} = 0$
-  \begin{footnotesize}
-    \begin{eqnarray*}
-      \E_\gamma N_u &=& \E_\gamma(N_u\1{T_u < K}) \\
-      &=&
-      \sum_{t=1}^\infty
-      \P(K=t)
-      \int_{(\reals_+ \times \reals)^t}
-      N_u \1{T_u < t}
-      \prod_{i=1}^{t} P(x_{i-1}, d x_{i} \times dl_{i})\\
-      &=&
-      \sum_{t=1}^\infty
-      \P(K=t)
-      \int_{(\reals_+ \times \reals)^t}
-      \prod_{i=1}^{T_u} \left[
-        {e^{\alpha l_i} \over \lambda(\alpha)}
-        P(x_{i-1}, d x_{i} \times dl_{i})
-        \right] \times \\
-      &&
-      \prod_{i=T_u + 1}^{t} P(x_{i-1}, dx_{i} \times dl_i)
-      \underbrace{
-        e^{-\alpha S_{T_u}} N_u\1{T_u < t} \lambda(\alpha)^{T_u}
-      }_{\text{estimator}}
-    \end{eqnarray*}
-  \end{footnotesize}
-\end{frame}
+% \begin{frame}
+%   \frametitle{Importance Sampling for GARCH(1,1)}
+  % $\sigma_{t}^2$ is a Markov chain. Define
+  % \[
+  % l_t = \log A_t, \quad
+  % S_t = \sum_{i=1}^{t} l_i, \quad
+  % T_u = \min\{t \geq 1: \sigma_t^2 > u\}
+  % \]
+  % $(\sigma_t^2, S_t)$ is a Markov Additive process with
+  % transition kernel $P(x, dy \times dl)$. Since $N_u \1{T_u \geq
+  %   K} = 0$
+  % \begin{footnotesize}
+  %   \begin{eqnarray*}
+  %     \E_\gamma N_u &=& \E_\gamma(N_u\1{T_u < K}) \\
+  %     &=&
+  %     \sum_{t=1}^\infty
+  %     \P(K=t)
+  %     \int_{(\reals_+ \times \reals)^t}
+  %     N_u \1{T_u < t}
+  %     \prod_{i=1}^{t} P(x_{i-1}, d x_{i} \times dl_{i})\\
+  %     &=&
+  %     \sum_{t=1}^\infty
+  %     \P(K=t)
+  %     \int_{(\reals_+ \times \reals)^t}
+  %     \prod_{i=1}^{T_u} \left[
+  %       {e^{\alpha l_i} \over \lambda(\alpha)}
+  %       P(x_{i-1}, d x_{i} \times dl_{i})
+  %       \right] \times \\
+  %     &&
+  %     \prod_{i=T_u + 1}^{t} P(x_{i-1}, dx_{i} \times dl_i)
+  %     \underbrace{
+  %       e^{-\alpha S_{T_u}} N_u\1{T_u < t} \lambda(\alpha)^{T_u}
+  %     }_{\text{estimator}}
+  %   \end{eqnarray*}
+  % \end{footnotesize}
+% \end{frame}
 
 \begin{frame}
   \frametitle{Importance Sampling for GARCH(1,1) cont'd}
@@ -905,112 +943,92 @@ University of Copenhagen \\ % Your institution for the title page
       \caption{\footnotesize Dual shift of Transition kernel}
       \label{fig:dual_measure}
     \end{figure}
-    \begin{scriptsize}
-      Note
-      \[
-      \int_0^\infty \int_{-\infty}^{\infty}
-      e^{\alpha l_i}
-      P(x_{i-1}, d x_{i} \times dl_{i})
-      = \E A_i^\alpha = \lambda(\alpha)
-      \]
-      So
-      ${e^{\alpha l_i} \over \lambda(\alpha)}P(x_{i-1}, d x_{i} \times dl_{i})$ is a transition kernel.
-    \end{scriptsize}
   \end{minipage}\hfill
   \begin{minipage}[t]{0.45\linewidth}
-    \begin{footnotesize}
+    \begin{small}
       Algorithm:
       \begin{enumerate}
       \item Choose $\alpha$ such that $\lambda(\alpha) = 1$.
       \item draw $\sigma_0^2$ according to $\gamma$
-      \item Simulate the Markov chain according to the shifted transition
-        kernel
-        \[
-        {e^{\alpha l_i} \over \lambda(\alpha)}
-        P(x_{i-1}, d x_{i} \times dl_{i})
-        \]
-        until $\sigma_t^2 > u$. Then set $N_u = 1$.
-      \item Continue to simulate the chain according to $P(x_{i-1}, d
-        x_{i} \times dl_{i})$ until $\sigma_t^2 \in (0, M]$. Increase $N_u$
-        each time $\sigma_t^2 > u$.
+      \item Draw $A_t$ from the shifted distribution $\tilde \nu$ for $t < T_u$, and from
+        the original distribution for $t \geq T_u$.
+      \item Terminate the simulation when $\sigma_t^2 \in \mathcal C = [\sigma_\m^2, M]$.
       \end{enumerate}
-    \end{footnotesize}
+    \end{small}
   \end{minipage}
 \end{frame}
 
 \begin{frame}
   \frametitle{GARCH(p,q) processes}
   \begin{tiny}
-    \begin{equation*}
-      \begin{pmatrix}
-        \sigma_{t}^2 \\
-        \sigma_{t-1}^2 \\
-        \vdots \\
-        \sigma_{t-q+2}^2 \\
-        \sigma_{t-q+1}^2 \\
-        X_{t-1}^2 \\
-        X_{t-2}^2 \\
-        \vdots \\
-        X_{t-p+2}^2 \\
-        X_{t-p+1}^2
-      \end{pmatrix} =
-      \begin{pmatrix}
-        \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
-        \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_p & 0 \\
-        1 & 0 & \cdots & 
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        \vdots & \vdots & \ddots & 
-        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-        0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        0 & 0 & \cdots &
-        1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        Z_{t-1}^2 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-        0 & 0 & \cdots &
-        0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
-        \vdots & \vdots & \ddots &
-        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-        0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
-        0 & 0 & \cdots &
-        0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
-      \end{pmatrix}
-      \begin{pmatrix}
-        \sigma_{t-1}^2 \\
-        \sigma_{t-2}^2 \\
-        \vdots \\
-        \sigma_{t-q+1}^2 \\
-        \sigma_{t-q}^2 \\
-        X_{t-2}^2 \\
-        X_{t-3}^2 \\
-        \vdots \\
-        X_{t-p+1}^2 \\
-        X_{t-p}^2
-      \end{pmatrix} +
-      \begin{pmatrix}
-        \omega \\
-        0 \\
-        \vdots \\
-        0 \\
-        0 \\
-        0 \\
-        0 \\
-        \vdots \\
-        0 \\
-        0 \\
-      \end{pmatrix}
-    \end{equation*}
+    \begin{eqnarray*}
+%%      \underbrace{
+        \begin{pmatrix}
+          \sigma_{t}^2 \\
+          \sigma_{t-1}^2 \\
+          \vdots \\
+          \sigma_{t-q+2}^2 \\
+          \sigma_{t-q+1}^2 \\
+          X_{t-1}^2 \\
+          X_{t-2}^2 \\
+          \vdots \\
+          X_{t-p+2}^2 \\
+          X_{t-p+1}^2
+        \end{pmatrix}
+%%      }_{V_t}
+        =
+%%      \underbrace{
+        \begin{pmatrix}
+          \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
+          \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_{p-1} & \alpha_p \\
+          1 & 0 & \cdots & 
+          0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+          \vdots & \vdots & \ddots & 
+          \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+          0 & 0 & \cdots &
+          0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+          0 & 0 & \cdots &
+          1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+          Z_{t-1}^2 & 0 & \cdots &
+          0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+          0 & 0 & \cdots &
+          0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
+          \vdots & \vdots & \ddots &
+          \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+          0 & 0 & \cdots &
+          0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
+          0 & 0 & \cdots &
+          0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
+        \end{pmatrix}
+      % }_{A_t}
+      % \underbrace{
+        \begin{pmatrix}
+          \sigma_{t-1}^2 \\
+          \sigma_{t-2}^2 \\
+          \vdots \\
+          \sigma_{t-q+1}^2 \\
+          \sigma_{t-q}^2 \\
+          X_{t-2}^2 \\
+          X_{t-3}^2 \\
+          \vdots \\
+          X_{t-p+1}^2 \\
+          X_{t-p}^2
+        \end{pmatrix} \\
+        + B
+      % }_{V_{t-1}} \\
+    \end{eqnarray*}
   \end{tiny}
-    Compactly
+  \begin{small}
+  where $B = (\omega, 0, \dots, 0)'$. Compactly
     \[
     V_t = A_t V_{t-1} + B
     \]
-    By Kesten-Goldie theorem:
+    By Kesten's theorem \cite{kesten:1973}:
     \[
     \lim_{u \to \infty} u^{\alpha} P(\inn{x, V_t} > u) = C_\alpha \quad x \in \mathbb S^{d-1}
     \]
     where $d = p + q -1$
+  \end{small}
 \end{frame}
 
 \begin{frame}
@@ -1022,22 +1040,22 @@ University of Copenhagen \\ % Your institution for the title page
     \]
     Differences from GARCH(1,1):
     \begin{itemize}
-    \item Instead of $(0, M]$, define
+    \item Instead of $\mathcal C = (0, M]$, define
       \[
       \mathcal C = \{\vec v \in \mathbb R_+^{p+q-1}, |\vec v| \leq M\}
       \]
     \item Define
       \begin{eqnarray*}
-        \vec M_t &=& A_{t} \cdots A_1 \vec V_0 \over |A_{t} \cdots A_1 \vec V_0| \\
+        \vec X_t &=& A_{t} \cdots A_1 \vec V_0 \over |A_{t} \cdots A_1 \vec V_0| \\
         S_t &=& \log |A_t \cdots A_1 \vec V_0| \\
         l_t &=& S_t - S_{t-1} =
                   \log \left|A_t
                   \underbrace{
                   {A_{t-1} \cdots A_1 \vec V_0 \over |A_{t-1} \cdots A_1 \vec V_0|}
-                  }_{M_{t-1}}
+                  }_{X_{t-1}}
                   \right|
       \end{eqnarray*}
-      $(\vec M_t, S_t)$ is a Markov Additive process.
+      $(\vec X_t, S_t)$ is a Markov Additive process.
     \end{itemize}
   \end{scriptsize}
 \end{frame}
@@ -1051,20 +1069,20 @@ University of Copenhagen \\ % Your institution for the title page
   \end{eqnarray*}
   \begin{itemize}
   \item Knowing $\vec V_{t-1}$, $\vec V_t$ is a function of $A_t$
-  \item $A_t$ is determined by $\vec M_t$, $l_t$ and $\vec M_{t-1}$ via
+  \item $A_t$ is determined by $\vec X_t$, $l_t$ and $\vec X_{t-1}$ via
     \begin{eqnarray*}
-      e^{l_t} \vec M_t &=& A_t \vec M_{t-1}
+      e^{l_t} \vec X_t &=& A_t \vec X_{t-1}
     \end{eqnarray*}
     Observe $A_t$ is determined by $Z_{t-1}^2$, which is given by
     \[
     Z_{t-1}^2 = {
-      \inn{\vec e_{q+1}, e^{l_t} \vec M_{t}}
+      \inn{\vec e_{q+1}, e^{l_t} \vec X_{t}}
       \over
-      \inn{\vec e_{1}, \vec M_{t-1}}
+      \inn{\vec e_{1}, \vec X_{t-1}}
     }
     \]
   \end{itemize}
-  \underline{$\vec V_t$ is a function of $\vec M_t$, $l_t$ and $\vec M_{t-1}$}
+  \underline{$\vec V_t$ is a function of $\vec X_t$, $l_t$ and $\vec X_{t-1}$}
 \end{frame}
 
 \begin{frame}
@@ -1077,78 +1095,92 @@ University of Copenhagen \\ % Your institution for the title page
     T_\alpha f(\vec x) = \int |A \vec x|^\alpha
     f\left({A \vec x \over |A \vec x|}\right) \mu(dA)
     \]
-  \item Define right eigen function $r_\alpha \in \mathscr C_b(\mathbb
+  \item Define right eigenfunction $r_\alpha \in \mathscr C_b(\mathbb
     S^{d-1}_+)$, and eigenvalue $\lambda(\alpha)$ by
     \[
     (T_\alpha r_\alpha)(\vec x) = \lambda(\alpha) r(\vec x)
     \]
-  \item $Q(\vec x_{i-1}, d\vec x_{i} \times dl_{i})$: transition kernel of
-    $(\vec M_t, S_t)$. Since $\vec x_i$ and $l_i$ denpend only on
-    $A_i$
-    \begin{scriptsize}
-      \begin{eqnarray*}
-        && \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
-        {e^{\alpha l_i} \over \lambda(\alpha)}
-        {r_\alpha(\vec x_i) \over r_\alpha(\vec x_{i-1})}
-        Q(x_{i-1}, d\vec x_{i} \times dl_{i}) \\
-        &=&
-        {1 \over \lambda(\alpha) r_\alpha(\vec x_{i-1})}
-        \int |A_i \vec M_{i-1}|^\alpha
-        r_\alpha\left(
-          { A_i \vec x_{i-1}
-            \over
-            |A_i \vec x_{i-1}|
-          }
-        \right) \mu(dA) \\
-        &=& 
-        {1 \over \lambda(\alpha) r_\alpha(\vec x_{i-1})}
-        (T_\alpha r_\alpha)(\vec x_{i-1}) \\
-        &=& 1
-      \end{eqnarray*}
-    \end{scriptsize}
+  \item Define $Q(\vec x_{i-1}, d\vec x_{i} \times dl_{i})$ as the
+    shifted transition kernel of $(\vec X_t, S_t)$:
+    \[
+    Q(\vec x_{i-1}, d\vec x_{i} \times dl_{i})
+    =
+    {e^{\alpha l_i} \over \lambda(\alpha) }
+    {r_\alpha(\vec x_i) \over r_\alpha(\vec x_{i-1})}
+    P(\vec x_{i-1}, d\vec x_{i} \times dl_{i})
+    \]
+    % \begin{scriptsize}
+    %   \begin{eqnarray*}
+    %     && \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
+    %     {e^{\alpha l_i} \over \lambda(\alpha)}
+    %     {r_\alpha(\vec x_i) \over r_\alpha(\vec x_{i-1})}
+    %     Q(x_{i-1}, d\vec x_{i} \times dl_{i}) \\
+    %     &=&
+    %     {1 \over \lambda(\alpha) r_\alpha(\vec x_{i-1})}
+    %     \int |A_i \vec X_{i-1}|^\alpha
+    %     r_\alpha\left(
+    %       { A_i \vec x_{i-1}
+    %         \over
+    %         |A_i \vec x_{i-1}|
+    %       }
+    %     \right) \mu(dA) \\
+    %     &=& 
+    %     {1 \over \lambda(\alpha) r_\alpha(\vec x_{i-1})}
+    %     (T_\alpha r_\alpha)(\vec x_{i-1}) \\
+    %     &=& 1
+    %   \end{eqnarray*}
+    % \end{scriptsize}
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Importance Sampling for GARCH(p,q)}
   The importance sampling estimator can now be found:
-  \begin{scriptsize}
     \begin{eqnarray*}
       && \E_\gamma (N_u \1{T_u < K}) \\
-      &=&
-      \sum_{t=1}^\infty \P(K=t)
-      \left[
-        \int_{(\sphere^{d-1} \times \reals)^{t}}
-        \underbrace{
-          N_u \1{T_u < t} e^{-\alpha S_{T_u}}
-          {r_\alpha(\vec x_{0}) \over r_\alpha(\vec x_{T_u})}
-          \lambda(\alpha)^{T_u}
-        }_{\text{estimator}}
-        \times \right.\\ 
-        && \left.\prod_{i=1}^{T_u}
-               {e^{\alpha l_i} \over \lambda(\alpha)}
-               {r_\alpha(\vec x_i) \over r_\alpha(\vec x_{i-1})}
-               Q(x_{i-1}, d\vec x_{i} \times dl_{i})
-               \prod_{i=T_u+1}^{t}
-               Q(x_{i-1}, d\vec x_{i} \times dl_{i})
-               \right] \\
-      &=&
-      \E_\gamma^{\mathcal D}
-      \left[
-        N_u \1{T_u < t} e^{-\alpha S_{T_u}}
-        {r_\alpha(\vec x_{0}) \over r_\alpha(\vec x_{T_u})}
-        \lambda(\alpha)^{T_u}
-      \right]
+      &=& \E_\gamma^{\mathcal D} \left[
+      N_u \1{T_u < t} e^{-\alpha S_{T_u}}
+      {r_\alpha(\vec x_{0}) \over r_\alpha(\vec x_{T_u})}
+    \right]
     \end{eqnarray*}
-  \end{scriptsize}
-  Choose $\alpha$ such that $\lambda(\alpha) = 1$. In multidimensions,
+    where we have chosen $\alpha$ such that $\lambda(\alpha) = 1$.
+    Note $\lambda(\alpha)$ can be identified as
+  % \begin{scriptsize}
+  %   \begin{eqnarray*}
+  %     && \E_\gamma (N_u \1{T_u < K}) \\
+  %     &=&
+  %     \sum_{t=1}^\infty \P(K=t)
+  %     \left[
+  %       \int_{(\sphere^{d-1} \times \reals)^{t}}
+  %       \underbrace{
+  %         N_u \1{T_u < t} e^{-\alpha S_{T_u}}
+  %         {r_\alpha(\vec x_{0}) \over r_\alpha(\vec x_{T_u})}
+  %         \lambda(\alpha)^{T_u}
+  %       }_{\text{estimator}}
+  %       \times \right.\\ 
+  %       && \left.\prod_{i=1}^{T_u}
+  %              {e^{\alpha l_i} \over \lambda(\alpha)}
+  %              {r_\alpha(\vec x_i) \over r_\alpha(\vec x_{i-1})}
+  %              Q(x_{i-1}, d\vec x_{i} \times dl_{i})
+  %              \prod_{i=T_u+1}^{t}
+  %              Q(x_{i-1}, d\vec x_{i} \times dl_{i})
+  %              \right] \\
+  %     &=&
+  %     \E_\gamma^{\mathcal D}
+  %     \left[
+  %       N_u \1{T_u < t} e^{-\alpha S_{T_u}}
+  %       {r_\alpha(\vec x_{0}) \over r_\alpha(\vec x_{T_u})}
+  %       \lambda(\alpha)^{T_u}
+  %     \right]
+  %   \end{eqnarray*}
+  % \end{scriptsize}
   \[
   \lambda(\alpha) = \lim_{n \to \infty} (\E \|A_n \cdots A_1\|^\alpha)^{1/n}
   \]
 \end{frame}
 
 \begin{frame}
-  \frametitle{The function $\Lambda(\alpha)$}
+  \frametitle{The function $\log(\lambda(\alpha))$}
   \begin{minipage}{0.5\linewidth}
     \begin{small}
       \begin{itemize}
@@ -1156,12 +1188,13 @@ University of Copenhagen \\ % Your institution for the title page
         \begin{eqnarray*}
           A &=& \alpha Z^2 + \beta \\
           Z &\sim& N(0,1) \\
-          \Lambda(\alpha) &=& \log(\lambda(\alpha)) = \log \E A^\alpha          
+          \lambda(\alpha) &=& \E A^\alpha          
         \end{eqnarray*}
       \item multi-dimension:
         \begin{eqnarray*}
-          \Lambda(\alpha) &=& \log(\lambda(\alpha)) \\
-          &=& \lim_{n \to \infty} {1 \over n} \log \E \|A_n \cdots A_1\|^\alpha
+          && \log(\lambda(\alpha)) \\
+          &=&
+          \lim_{n \to \infty} {1 \over n} \log \E \|A_n \cdots A_1\|^\alpha
         \end{eqnarray*}
         Estimation of $\alpha$ is trickier than in 1D.
       \end{itemize}
@@ -1173,151 +1206,156 @@ University of Copenhagen \\ % Your institution for the title page
       \includegraphics[width=1.0\linewidth]{pic2.pdf}
     \end{figure}
     \begin{scriptsize}
-    The function $\Lambda(\alpha)$ is convex, passes through the origin
-    and crosses the $\alpha$-axis.
+      The function $\log[\lambda(\alpha)]$ is convex and passes through the origin.
+      Because $\sum_i \alpha_i + \sum_j \beta_j < 1$, it crosses the $\alpha$-axis
+      under the assumption of stationarity of $\{V_n\}$.
     \end{scriptsize}
   \end{minipage}
 \end{frame}
 
-\begin{frame}
-  \begin{scriptsize}
-    \frametitle{Estimation of $\Lambda(\alpha)$ and its root (tail index)}
-    \begin{itemize}
-    \item Estimate $\log[\lambda (\alpha)]$ according to
-      \begin{equation}
-        %% \label{eq:Lambda}
-        \log[\lambda(\alpha)] = \lim_{n \to \infty}{1 \over n} \log \left(
-        \E |\Pi_{n, 1} X_0|^\alpha
-        \right)
-      \end{equation}
-      and then solve $\log[\lambda(\alpha)] = 0$ for $\alpha$.
-    \item Vanneste \cite{vanneste:2010} proposed a resampling algorithm:
-      \begin{itemize}
-      \item divide the estimation of $\log[\lambda(\alpha)]$ into $n$
-        steps and we simulate $K$ realizations of $A_n, \dots, A_1$
-        and $X_0, X_1, \dots, X_n$.
-      \item The estimator is then
-        \begin{equation}
-          %% \label{eq:AnandsEstimator}
-          \mathscr E_\alpha =
-                   {1 \over n}
-                   \sum_{i=1}^n \log \left(
-                       {1 \over K}\sum_{l=1}^K |A_i^l X^{w_{l, i-1}}_{i-1}|^\alpha
-                       \right)
-        \end{equation}
-        where
-        \begin{enumerate}
-          \item $A_i^l, X_I^l$: the $l$-th realization of $A_i$ and
-            $X_i$
-          \item $\{w_{l, i-1}\}$, $1 \leq i \leq n$, $1 \leq l \leq K$
-            have conditional distribution
-            \begin{eqnarray*}
-              \P(w_{l, i-1} = j | w_{1, i-2}, \dots, w_{K, i-2})
-              &=& {a^j_{i-1} \over b_{i-1}} \\
-              a_{i-1}^j = |A_{i-1}^j X_{i-2}^{w_{j, i-2}}|^\alpha,
-              &\quad&
-              b_{i-1} = \sum_{l=1}^K a_{i-1}^l
-            \end{eqnarray*}
-        \end{enumerate}
-      \end{itemize}
-    \end{itemize}
-  \end{scriptsize}
-\end{frame}
+% % \begin{frame}
+% %   \begin{scriptsize}
+% %     \frametitle{Estimation of $\Lambda(\alpha)$ and its root (tail index)}
+% %     \begin{itemize}
+% %     \item Estimate $\log[\lambda (\alpha)]$ according to
+% %       \begin{equation}
+% %         %% \label{eq:Lambda}
+% %         \log[\lambda(\alpha)] = \lim_{n \to \infty}{1 \over n} \log \left(
+% %         \E |\Pi_{n, 1} X_0|^\alpha
+% %         \right)
+% %       \end{equation}
+% %       and then solve $\log[\lambda(\alpha)] = 0$ for $\alpha$.
+% %     \item Vanneste \cite{vanneste:2010} proposed a resampling algorithm:
+% %       \begin{itemize}
+% %       \item divide the estimation of $\log[\lambda(\alpha)]$ into $n$
+% %         steps and we simulate $K$ realizations of $A_n, \dots, A_1$
+% %         and $X_0, X_1, \dots, X_n$.
+% %       \item The estimator is then
+% %         \begin{equation}
+% %           %% \label{eq:AnandsEstimator}
+% %           \mathscr E_\alpha =
+% %                    {1 \over n}
+% %                    \sum_{i=1}^n \log \left(
+% %                        {1 \over K}\sum_{l=1}^K |A_i^l X^{w_{l, i-1}}_{i-1}|^\alpha
+% %                        \right)
+% %         \end{equation}
+% %         where
+% %         \begin{enumerate}
+% %           \item $A_i^l, X_I^l$: the $l$-th realization of $A_i$ and
+% %             $X_i$
+% %           \item $\{w_{l, i-1}\}$, $1 \leq i \leq n$, $1 \leq l \leq K$
+% %             have conditional distribution
+% %             \begin{eqnarray*}
+% %               \P(w_{l, i-1} = j | w_{1, i-2}, \dots, w_{K, i-2})
+% %               &=& {a^j_{i-1} \over b_{i-1}} \\
+% %               a_{i-1}^j = |A_{i-1}^j X_{i-2}^{w_{j, i-2}}|^\alpha,
+% %               &\quad&
+% %               b_{i-1} = \sum_{l=1}^K a_{i-1}^l
+% %             \end{eqnarray*}
+% %         \end{enumerate}
+% %       \end{itemize}
+% %     \end{itemize}
+% %   \end{scriptsize}
+% % \end{frame}
 
-\begin{frame}
-  \frametitle{Vanneste's algorithm}
-  \begin{figure}[htb!]
-    \centering
-    \includegraphics[width=0.8\linewidth, trim=2cm 16.5cm 2.5cm 2cm, clip]{AnandsEstimator.pdf}
-    \caption{A possible realization of the re-sampling procedure. $n =
-      3$, $K = 4$. A number in a parenthesis indicates the probability
-      of the unit vector above it being chosen to the next step.}
-    \label{fig:AnandsEstimator}
-  \end{figure}
-\end{frame}
+% % \begin{frame}
+% %   \frametitle{Vanneste's algorithm}
+% %   \begin{figure}[htb!]
+% %     \centering
+% %     \includegraphics[width=0.8\linewidth, trim=2cm 16.5cm 2.5cm 2cm, clip]{AnandsEstimator.pdf}
+% %     \caption{A possible realization of the re-sampling procedure. $n =
+% %       3$, $K = 4$. A number in a parenthesis indicates the probability
+% %       of the unit vector above it being chosen to the next step.}
+% %     \label{fig:AnandsEstimator}
+% %   \end{figure}
+% % \end{frame}
 
-\begin{frame}
-  \frametitle{Evaluation of the right eigenfunction $r_\alpha$}
-  We don't have an algorithm applicable in all dimensions. For $d = 2$,
-  e.g. a GARCH($2, 1$) process. we have devised an algorithm:
-  \begin{itemize}
-  \item take $|\cdot|$ as the Euclidean norm.
-  \item Estimate $r_\theta$ according to
-    \begin{eqnarray}
-      \label{eq:trhj}
-      \E \left[
-        |A x|^\theta r_\theta(A \cdotp x)
-      \right]
-      &=&
-      \lambda(\theta) r_\theta(x)
-    \end{eqnarray}
-  \end{itemize}
-\end{frame}
+% % \begin{frame}
+% %   \frametitle{Evaluation of the right eigenfunction $r_\alpha$}
+% %   We don't have an algorithm applicable in all dimensions. For $d = 2$,
+% %   e.g. a GARCH($2, 1$) process. we have devised an algorithm:
+% %   \begin{itemize}
+% %   \item take $|\cdot|$ as the Euclidean norm.
+% %   \item Estimate $r_\theta$ according to
+% %     \begin{eqnarray}
+% %       \label{eq:trhj}
+% %       \E \left[
+% %         |A x|^\theta r_\theta(A \cdotp x)
+% %       \right]
+% %       &=&
+% %       \lambda(\theta) r_\theta(x)
+% %     \end{eqnarray}
+% %   \end{itemize}
+% % \end{frame}
 
-\begin{frame}
-  \begin{itemize}
-    \item let $\vec M_t = (\cos w, \sin w)'$,
-    $\vec M_{t+1} = (\cos\varphi, \sin\varphi)'$,
-    $w, \varphi \in [0, \pi/2)$, then
-    \begin{eqnarray*}
-      Z_t^2 &=&
-      {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
-        \over
-        \cos w (1- \alpha_1 \tan\varphi)
-      }
-    \end{eqnarray*}
-  \item Define
-    \[
-    h_\theta(w): w \in [0, \arctan{1 \over \alpha_1}) \to (\underline r_\theta, \bar r_\theta)
-    \ni r_\theta((\cos w, \sin w)^\top)
-    \]
-  \item Then \eqref{eq:trhj} can be rewritten as
-    \begin{tiny}
-      \begin{eqnarray}
-        \lambda(\theta) h_\theta(w)
-        &=&
-        \int_\Omega (\alpha_2^2 + \beta_1^2)^{\theta/2} {
-          \sin^\theta\left(
-            w + \arctan{\beta_1 \over \alpha_2}
-          \right)
-          \over
-          \cos^\theta\varphi (1 - \alpha_1 \tan\varphi)^\theta
-        }
-        f_{\chi^2}\left[
-          {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
-            \over
-            \cos w (1- \alpha_1 \tan\varphi)
-          } \right] \times \nonumber\\
-        &&
-        h_\theta(\varphi)
-        {
-          (\alpha_2 \sin w + \beta_1 \cos w) \sec^2\varphi
-          \over
-          \cos w (1 - \alpha_1 \tan\varphi)^2
-        }
-        d\varphi \nonumber \\
-        &=&
-        \int_\Omega H_\theta(w, \varphi) h_\theta(\varphi) d\varphi
-      \end{eqnarray}
-    \end{tiny}
-    where $f_{\chi^2}$ is the density function of the $\chi^2$ distribution.
-  \end{itemize}
-\end{frame}
+% % \begin{frame}
+% %   \begin{itemize}
+% %     \item let $\vec X_t = (\cos w, \sin w)'$,
+% %     $\vec X_{t+1} = (\cos\varphi, \sin\varphi)'$,
+% %     $w, \varphi \in [0, \pi/2)$, then
+% %     \begin{eqnarray*}
+% %       Z_t^2 &=&
+% %       {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
+% %         \over
+% %         \cos w (1- \alpha_1 \tan\varphi)
+% %       }
+% %     \end{eqnarray*}
+% %   \item Define
+% %     \[
+% %     h_\theta(w): w \in [0, \arctan{1 \over \alpha_1}) \to (\underline r_\theta, \bar r_\theta)
+% %     \ni r_\theta((\cos w, \sin w)^\top)
+% %     \]
+% %   \item Then \eqref{eq:trhj} can be rewritten as
+% %     \begin{tiny}
+% %       \begin{eqnarray}
+% %         \lambda(\theta) h_\theta(w)
+% %         &=&
+% %         \int_\Omega (\alpha_2^2 + \beta_1^2)^{\theta/2} {
+% %           \sin^\theta\left(
+% %             w + \arctan{\beta_1 \over \alpha_2}
+% %           \right)
+% %           \over
+% %           \cos^\theta\varphi (1 - \alpha_1 \tan\varphi)^\theta
+% %         }
+% %         f_{\chi^2}\left[
+% %           {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
+% %             \over
+% %             \cos w (1- \alpha_1 \tan\varphi)
+% %           } \right] \times \nonumber\\
+% %         &&
+% %         h_\theta(\varphi)
+% %         {
+% %           (\alpha_2 \sin w + \beta_1 \cos w) \sec^2\varphi
+% %           \over
+% %           \cos w (1 - \alpha_1 \tan\varphi)^2
+% %         }
+% %         d\varphi \nonumber \\
+% %         &=&
+% %         \int_\Omega H_\theta(w, \varphi) h_\theta(\varphi) d\varphi
+% %       \end{eqnarray}
+% %     \end{tiny}
+% %     where $f_{\chi^2}$ is the density function of the $\chi^2$ distribution.
+% %   \end{itemize}
+% % \end{frame}
 
+% % \begin{frame}
+% %   \begin{itemize}
+% %   \item Approximate the integral with a finite sum
+% %     \[
+% %     \lambda(\theta) h_\theta(i \Delta_n)
+% %     \approx
+% %     \Delta_n \sum_{j=0}^{n-1} H_\theta(i \Delta_n, j \Delta_n) h_\theta(j \Delta_n)
+% %     \]
+% %     where $\Delta_n = {\arctan(1/\alpha_1) \over n}$.
+% %   \item $\lambda(\theta)$ can be found as the spectral radius of 
+% %     matrix $\{\Delta_n H_\theta(i \Delta_n, j \Delta_n)\}_{i,j}$
+% %   \item $\{h_\theta(i \Delta_n)\}_ {i=0,1,2,\dots, n-1}$ can be found as
+% %     the associated eigenvector.
+% %   \end{itemize}
+% % \end{frame}
 \begin{frame}
-  \begin{itemize}
-  \item Approximate the integral with a finite sum
-    \[
-    \lambda(\theta) h_\theta(i \Delta_n)
-    \approx
-    \Delta_n \sum_{j=0}^{n-1} H_\theta(i \Delta_n, j \Delta_n) h_\theta(j \Delta_n)
-    \]
-    where $\Delta_n = {\arctan(1/\alpha_1) \over n}$.
-  \item $\lambda(\theta)$ can be found as the spectral radius of 
-    matrix $\{\Delta_n H_\theta(i \Delta_n, j \Delta_n)\}_{i,j}$
-  \item $\{h_\theta(i \Delta_n)\}_ {i=0,1,2,\dots, n-1}$ can be found as
-    the associated eigenvector.
-  \end{itemize}
+  \frametitle{Summary}
+  
 \end{frame}
 
 \section{Eig. Val. of SV Smpl Cov. Mat.}
