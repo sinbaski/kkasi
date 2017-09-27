@@ -87,7 +87,6 @@
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \graphicspath{{../../papers/FX/}}
 \input{../../physics_common}
-
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -1355,23 +1354,207 @@ University of Copenhagen \\ % Your institution for the title page
 % % \end{frame}
 \begin{frame}
   \frametitle{Summary}
-  
+  \begin{enumerate}
+  \item Importance sampling estimator $\mathcal E_u$
+    \[
+    \P(|V| > u)
+    =
+    \pi(\mathcal C) \E_\gamma^{\tilde \nu} \left[
+      \underbrace{
+        N_u e^{-\alpha S_{T_u}} {r_\alpha(\vec X_0) \over r_\alpha(\vec X_{T_u})} \1{T_u < K}
+        }_{\mathcal E_u}
+    \right]
+    \]
+  \item The estimator is efficient, i.e. it has bounded relative error:
+    \[
+    \limsup_{u \to \infty} {
+      \var(\mathcal E_u)
+      \over
+      \P(|V| > u)^2
+    } < \infty
+    \]
+  \end{enumerate}
 \end{frame}
 
 \section{Eig. Val. of SV Smpl Cov. Mat.}
-
-\section{Eig. Val. of Smpl Cov. Mat. of Lnr. Mdl.}
-
 \begin{frame}
   \frametitle{Motivation}
   We want to understand the eigenvalues of a sample covariance matrix
   of heavy-tailed stochastic volatility models
   $X_{i, t} = \sigma_{i, t} Z_{i,t}$ where
   \begin{itemize}
-  \item 
+  \item $\{Z_{i,t}\}\, i,t \in \integers$: an iid. field of random variables
+  \item $\{\sigma_{i,t}\}\; i,t \in \integers$: an ergodic strictly
+    stationary field  of non-negative random variables.
+  \item $\{Z_{i,t}\}$ and $\{\sigma_{i,t}\}$ are independent.
+  \item We consider a sample of $X$, call it $\{X^n_{i, t}\}$,
+    $i = 1, \dots, p$, $t = 1, \dots, n$. Define matrix
+    $\{S_{i, j}\}_{i,j=1,\dots, p}$:
+    \[
+    S_{i,j} = \sum_{t=1}^n X^n_{i,t} X^n_{j, t}
+    \]
+    Write $S_i$ for $S_{i,i}$.
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Model}
+  \begin{scriptsize}
+    \begin{minipage}[t]{0.5\linewidth}
+      \textcolor[HTML]{990033}{\bf $Z$ dominates the tail}      
+      \begin{itemize}
+      \item $Z$ is regularly varying
+        \begin{eqnarray*}
+        \P(Z > x) &\sim& p_+ x^{-\alpha}, \\
+        \P(Z < -x) &\sim& p_- x^{-\alpha}
+        \end{eqnarray*}
+        as $x \to \infty$, where $p_\pm \geq 0$ and $p_+ + p_- = 1$.
+      \item $\sigma$ has lighter tails:
+        $\E \sigma^{\alpha + \delta} < \infty$ for some $\delta > 0$.
+      \end{itemize}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.5\linewidth}
+      \textcolor[HTML]{990033}{\bf $\sigma$ dominates the tail}      
+      \begin{itemize}
+      \item $\sigma$ is regularly varying with index $\alpha$.
+        \[
+        \P(\sigma > x) = x^{-\alpha} \ell(x)
+        \]
+        for some slowly varying function $\ell$. Moreover, we assume
+        \[
+        \sigma_{i, t} = \exp \left(
+          \sum_{k,l \in \integers}
+          \psi_{k,l} \eta_{i,k, t-l}
+        \right),
+        \quad
+        i, t \in \integers
+        \]
+        where
+          \begin{enumerate}
+          \item {\scriptsize $\psi_{k,l} \geq 0$, $\max_{k,l} \psi_{k,l} = 1$}.
+          \item {\scriptsize $\{\eta_{i,t}\}_{i, t \in \integers}$ an iid field,
+            $\P(e^\eta > x) = x^{-\alpha} L(x)$, $L$ slowly varying.}
+          \end{enumerate}
+        % where $\{\psi_{k,l}\} \geq 0$ and $\eta_{i,t}$ is an iid field
+        % satisfying $\P(e^\eta > x) = x^{-\alpha} L(x)$ for some slowly
+        % varying function $L$.
+      \item $\E |Z|^{\alpha + \delta} < \infty$ for some $\delta > 0$.
+      \item Breiman's lemma gives
+        \begin{eqnarray*}
+        \P(X > x) &\sim& \E(Z_+^\alpha) \P(\sigma > x), \\
+        \P(X < x) &\sim& \E(Z_-^\alpha) \P(\sigma > x)
+        \end{eqnarray*}
+      \end{itemize}
+    \end{minipage}
+\end{scriptsize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Main Results: When $Z$ dominates the tail}
+  \begin{scriptsize}
+    \begin{theorem}
+      Assume the following conditions:
+      \begin{enumerate}
+      \item
+        $Z$ is regularly varying with index $\alpha\in (0,4) \setminus \{2\}$.
+      \item
+        $\{(\sigma_{it})_{t=1,2,\ldots}\}_{i=1,\ldots,p}$  is strongly
+        mixing with rate function $\{\alpha_h\}$ for some $\delta>0$,
+        \begin{equation}
+          \label{eq:mixi}
+          \sum_{h=0}^\infty \alpha_h^{\delta/(2+\delta)}<\infty\,.        
+        \end{equation}
+      \item
+        The moment condition
+        \begin{equation}
+          \label{eq:moment}
+          \E[\sigma^{2\max(2+\delta,\alpha+\epsilon)} ]<\infty        
+        \end{equation}
+        holds for the same $\delta>0$ as in \eqref{eq:mixi} and some $\epsilon>0$. 
+      \end{enumerate}
+      Then 
+      \begin{equation}
+        \label{eq:feller}
+        a_n^{-2}\big(S_{1}-c_n,\ldots,S_{p}-c_n\big) \overset{d}{\to} (\xi_{1,\alpha/2},\ldots,\xi_{p,\alpha/2})\,,      
+      \end{equation}
+      where $\{\xi_{i,\alpha/2}\}$ are iid $\alpha/2$-stable random
+      variables that are totally skewed to the right,
+      \begin{equation}
+        \label{eq:6:anja}
+        c_n=\left\{\begin{array}{ll}
+            0& \alpha \in (0,2)\,,\\
+            n \,\E[X^2] &\alpha\in (2,4)\,,
+          \end{array}
+        \right.
+      \end{equation}
+      and $\{a_n\}$ satisfies $n \P(|X|>a_n)\to 1$ as $n \to 0$.
+    \end{theorem}
+  \end{scriptsize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Main Results: When $Z$ Dominates the Tail}
+  For $S_{i,j}, i \neq j$, the non-diagonal elements of the sample covariance matrix,
+  \[
+  a_n^{-2} \sum_{t=1}^n X_{i,t} X_{j,t} \overset{P}{\to} 0
+  \quad
+  \text{for } i \neq j.
+  \]
+  where $\{a_n\}_{n\geq 1}$ is such that $n\P(|X| > a_n) \to 1$
+  as $n \to \infty$. Therefore
+  \begin{equation}
+    a_n^{-2} \|\mtx{X X'} - \diag(\mtx{X X'}) \|
+    \overset{P}{\to} 0.
+  \end{equation}
+  where $\|\cdot\|$ denotes the spectral norm.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Main Results: When $\sigma$ Dominates the Tail}
+  Define
+  \begin{eqnarray*}
+    \psi^{i,j} &=& \max_{k,l}\{\psi_{k,l} + \psi_{k+i-j, l}\} \\
+    \psi^{\vec i, \vec j}
+    &=&
+    \max_{1 \leq k \leq d} \psi^{i_k, j_k}
+  \end{eqnarray*}
+  where $\vec i = (i_1, \dots, i_d)$, $\vec j = (j_1, \dots, j_d)$.
+  Note $1 \leq \psi^{i,j} \leq 2$.
+  \begin{itemize}
+  \item For each $i \in \integers$, the sequence
+    $\{\sigma_{i,t}\}_{t \in \integers}$ is reg. var. with index $\alpha$
+  \item For each $(i, j) \in \integers$, the sequence
+    $\{\sigma_{i,t} \sigma_{j,t}\}_{t \in \integers}$ is
+    reg. var. with index $\alpha/\psi^{i,j}$
+  \item For each $(\vec i, \vec j) \in \integers^d$, the $d$-variate
+    sequence
+    $\{(\sigma_{i_1,t} \sigma_{j_1,t}, \dots, \sigma_{i_d,t} \sigma_{j_d,t})\}_{t \in \integers}$ is
+    reg. var. with index $\alpha/\psi^{\vec i, \vec j}$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  It follows
+  \begin{itemize}
+  \item For each $i \in \integers$, the sequence
+    $\{X_{i,t}\}_{t \in \integers}$ is reg. var. with index $\alpha$
+  \item For each $(i, j) \in \integers$, the sequence
+    $\{X_{i,t} X_{j,t}\}_{t \in \integers}$ is
+    reg. var. with index $\alpha/\psi^{i,j}$
+  \item For each $(\vec i, \vec j) \in \integers^d$, the $d$-variate
+    sequence
+    $\{(X_{i_1,t} X_{j_1,t}, \dots, X_{i_d,t} X_{j_d,t})\}_{t \in \integers}$ is
+    reg. var. with index $\alpha/\psi^{\vec i, \vec j}$.
+  \end{itemize}
+  {\bf The non-diagonal elements} of the sample covariance
+    matrix (normalized by $a_n^{-2}$) may be {\bf non-zero}, as
+    $n \to \infty$ -- when $\psi^{i,j} = 2$ for some $i \neq j$.
   
 \end{frame}
+
+
+\section{Eig. Val. of Smpl Cov. Mat. of Lnr. Mdl.}
+
 \begin{frame}
    \frametitle{Thank you!}
    Questions?
