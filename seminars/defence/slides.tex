@@ -149,6 +149,10 @@ University of Copenhagen \\ % Your institution for the title page
 %% index?}
 \section{Tail Parameters}
 \begin{frame}
+  Do return series have power-law tails with the same index?
+\end{frame}
+
+\begin{frame}
   \frametitle{Questions that we want to answer}
   \textcolor[HTML]{990033}{\bf We know}
 
@@ -731,6 +735,10 @@ University of Copenhagen \\ % Your institution for the title page
 %% \section{Rare event simulation for GARCH(p,q) processes}
 \section{GARCH($p, q$) Importance Sampling}
 \begin{frame}
+  Rare event simulation for GARCH(p,q) processes
+\end{frame}
+
+\begin{frame}
   \frametitle{Importance Sampling Estimator}
   \underline{\scriptsize{
       Want to estimate $\P(X \in S) = \E \I_S(X)$:}
@@ -961,64 +969,64 @@ University of Copenhagen \\ % Your institution for the title page
   \frametitle{GARCH(p,q) processes}
   \begin{tiny}
     \begin{eqnarray*}
-%%      \underbrace{
-        \begin{pmatrix}
-          \sigma_{t}^2 \\
-          \sigma_{t-1}^2 \\
-          \vdots \\
-          \sigma_{t-q+2}^2 \\
-          \sigma_{t-q+1}^2 \\
-          X_{t-1}^2 \\
-          X_{t-2}^2 \\
-          \vdots \\
-          X_{t-p+2}^2 \\
-          X_{t-p+1}^2
-        \end{pmatrix}
-%%      }_{V_t}
-        =
-%%      \underbrace{
-        \begin{pmatrix}
-          \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
-          \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_{p-1} & \alpha_p \\
-          1 & 0 & \cdots & 
-          0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-          \vdots & \vdots & \ddots & 
-          \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-          0 & 0 & \cdots &
-          0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-          0 & 0 & \cdots &
-          1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-          Z_{t-1}^2 & 0 & \cdots &
-          0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
-          0 & 0 & \cdots &
-          0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
-          \vdots & \vdots & \ddots &
-          \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-          0 & 0 & \cdots &
-          0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
-          0 & 0 & \cdots &
-          0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
-        \end{pmatrix}
+      %% \underbrace{
+      \begin{pmatrix}
+        \sigma_{t}^2 \\
+        \sigma_{t-1}^2 \\
+        \vdots \\
+        \sigma_{t-q+2}^2 \\
+        \sigma_{t-q+1}^2 \\
+        X_{t-1}^2 \\
+        X_{t-2}^2 \\
+        \vdots \\
+        X_{t-p+2}^2 \\
+        X_{t-p+1}^2
+      \end{pmatrix}
+      %% }_{V_t}
+      =
+      %% \underbrace{
+      \begin{pmatrix}
+        \alpha_1 Z_{t-1}^2 + \beta_1 & \beta_2 & \cdots &
+        \beta_{q-1} & \beta_q & \alpha_2 & \alpha_3 & \cdots & \alpha_{p-1} & \alpha_p \\
+        1 & 0 & \cdots & 
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots & 
+        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        0 & 0 & \cdots &
+        1 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        Z_{t-1}^2 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\
+        0 & 0 & \cdots &
+        0 & 0 & 1 & 0 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots &
+        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 0 & 0 \\    
+        0 & 0 & \cdots &
+        0 & 0 & 0 & 0 & \cdots & 1 & 0 \\    
+      \end{pmatrix}
       % }_{A_t}
-      % \underbrace{
-        \begin{pmatrix}
-          \sigma_{t-1}^2 \\
-          \sigma_{t-2}^2 \\
-          \vdots \\
-          \sigma_{t-q+1}^2 \\
-          \sigma_{t-q}^2 \\
-          X_{t-2}^2 \\
-          X_{t-3}^2 \\
-          \vdots \\
-          X_{t-p+1}^2 \\
-          X_{t-p}^2
-        \end{pmatrix} \\
-        + B
+      %   \underbrace{
+      \begin{pmatrix}
+        \sigma_{t-1}^2 \\
+        \sigma_{t-2}^2 \\
+        \vdots \\
+        \sigma_{t-q+1}^2 \\
+        \sigma_{t-q}^2 \\
+        X_{t-2}^2 \\
+        X_{t-3}^2 \\
+        \vdots \\
+        X_{t-p+1}^2 \\
+        X_{t-p}^2
+      \end{pmatrix} \\
+      + B
       % }_{V_{t-1}} \\
     \end{eqnarray*}
   \end{tiny}
   \begin{small}
-  where $B = (\omega, 0, \dots, 0)'$. Compactly
+    where $B = (\omega, 0, \dots, 0)'$. Compactly
     \[
     V_t = A_t V_{t-1} + B
     \]
@@ -1043,16 +1051,16 @@ University of Copenhagen \\ % Your institution for the title page
       \[
       \mathcal C = \{\vec v \in \mathbb R_+^{p+q-1}, |\vec v| \leq M\}
       \]
-    \item Define
+    \item Define the Markov random walk on the unit sphere:
       \begin{eqnarray*}
         \vec X_t &=& A_{t} \cdots A_1 \vec V_0 \over |A_{t} \cdots A_1 \vec V_0| \\
         S_t &=& \log |A_t \cdots A_1 \vec V_0| \\
-        l_t &=& S_t - S_{t-1} =
-                  \log \left|A_t
-                  \underbrace{
-                  {A_{t-1} \cdots A_1 \vec V_0 \over |A_{t-1} \cdots A_1 \vec V_0|}
-                  }_{X_{t-1}}
-                  \right|
+        \xi_t &=& S_t - S_{t-1} =
+        \log \left|A_t
+          \underbrace{
+            {A_{t-1} \cdots A_1 \vec V_0 \over |A_{t-1} \cdots A_1 \vec V_0|}
+          }_{X_{t-1}}
+        \right|
       \end{eqnarray*}
       $(\vec X_t, S_t)$ is a Markov Additive process.
     \end{itemize}
@@ -1068,20 +1076,20 @@ University of Copenhagen \\ % Your institution for the title page
   \end{eqnarray*}
   \begin{itemize}
   \item Knowing $\vec V_{t-1}$, $\vec V_t$ is a function of $A_t$
-  \item $A_t$ is determined by $\vec X_t$, $l_t$ and $\vec X_{t-1}$ via
+  \item $A_t$ is determined by $\vec X_t$, $\xi_t$ and $\vec X_{t-1}$ via
     \begin{eqnarray*}
-      e^{l_t} \vec X_t &=& A_t \vec X_{t-1}
+      e^{\xi_t} \vec X_t &=& A_t \vec X_{t-1}
     \end{eqnarray*}
     Observe $A_t$ is determined by $Z_{t-1}^2$, which is given by
     \[
     Z_{t-1}^2 = {
-      \inn{\vec e_{q+1}, e^{l_t} \vec X_{t}}
+      \inn{\vec e_{q+1}, e^{\xi_t} \vec X_{t}}
       \over
       \inn{\vec e_{1}, \vec X_{t-1}}
     }
     \]
   \end{itemize}
-  \underline{$\vec V_t$ is a function of $\vec X_t$, $l_t$ and $\vec X_{t-1}$}
+  \underline{$\vec V_t$ is a function of $\vec X_t$, $\xi_t$ and $\vec X_{t-1}$}
 \end{frame}
 
 \begin{frame}
@@ -1099,36 +1107,15 @@ University of Copenhagen \\ % Your institution for the title page
     \[
     (T_\alpha r_\alpha)(\vec x) = \lambda(\alpha) r(\vec x)
     \]
-  \item Define $Q(\vec x_{i-1}, d\vec x_{i} \times dl_{i})$ as the
+  \item Define $Q(\vec x_{i-1}, d\vec x_{i} \times d\xi_{i})$ as the
     shifted transition kernel of $(\vec X_t, S_t)$:
     \[
-    Q(\vec x_{i-1}, d\vec x_{i} \times dl_{i})
+    Q(\vec x_{i-1}, d\vec x_{i} \times d\xi_{i})
     =
-    {e^{\alpha l_i} \over \lambda(\alpha) }
+    {e^{\alpha \xi_i} \over \lambda(\alpha) }
     {r_\alpha(\vec x_i) \over r_\alpha(\vec x_{i-1})}
-    P(\vec x_{i-1}, d\vec x_{i} \times dl_{i})
+    P(\vec x_{i-1}, d\vec x_{i} \times d\xi_{i})
     \]
-    % \begin{scriptsize}
-    %   \begin{eqnarray*}
-    %     && \int_{\mathbb S_+^{d-1}} \int_{-\infty}^\infty
-    %     {e^{\alpha l_i} \over \lambda(\alpha)}
-    %     {r_\alpha(\vec x_i) \over r_\alpha(\vec x_{i-1})}
-    %     Q(x_{i-1}, d\vec x_{i} \times dl_{i}) \\
-    %     &=&
-    %     {1 \over \lambda(\alpha) r_\alpha(\vec x_{i-1})}
-    %     \int |A_i \vec X_{i-1}|^\alpha
-    %     r_\alpha\left(
-    %       { A_i \vec x_{i-1}
-    %         \over
-    %         |A_i \vec x_{i-1}|
-    %       }
-    %     \right) \mu(dA) \\
-    %     &=& 
-    %     {1 \over \lambda(\alpha) r_\alpha(\vec x_{i-1})}
-    %     (T_\alpha r_\alpha)(\vec x_{i-1}) \\
-    %     &=& 1
-    %   \end{eqnarray*}
-    % \end{scriptsize}
   \end{itemize}
 \end{frame}
 
@@ -1144,38 +1131,9 @@ University of Copenhagen \\ % Your institution for the title page
     \end{eqnarray*}
     where we have chosen $\alpha$ such that $\lambda(\alpha) = 1$.
     Note $\lambda(\alpha)$ can be identified as
-  % \begin{scriptsize}
-  %   \begin{eqnarray*}
-  %     && \E_\gamma (N_u \1{T_u < K}) \\
-  %     &=&
-  %     \sum_{t=1}^\infty \P(K=t)
-  %     \left[
-  %       \int_{(\sphere^{d-1} \times \reals)^{t}}
-  %       \underbrace{
-  %         N_u \1{T_u < t} e^{-\alpha S_{T_u}}
-  %         {r_\alpha(\vec x_{0}) \over r_\alpha(\vec x_{T_u})}
-  %         \lambda(\alpha)^{T_u}
-  %       }_{\text{estimator}}
-  %       \times \right.\\ 
-  %       && \left.\prod_{i=1}^{T_u}
-  %              {e^{\alpha l_i} \over \lambda(\alpha)}
-  %              {r_\alpha(\vec x_i) \over r_\alpha(\vec x_{i-1})}
-  %              Q(x_{i-1}, d\vec x_{i} \times dl_{i})
-  %              \prod_{i=T_u+1}^{t}
-  %              Q(x_{i-1}, d\vec x_{i} \times dl_{i})
-  %              \right] \\
-  %     &=&
-  %     \E_\gamma^{\mathcal D}
-  %     \left[
-  %       N_u \1{T_u < t} e^{-\alpha S_{T_u}}
-  %       {r_\alpha(\vec x_{0}) \over r_\alpha(\vec x_{T_u})}
-  %       \lambda(\alpha)^{T_u}
-  %     \right]
-  %   \end{eqnarray*}
-  % \end{scriptsize}
-  \[
-  \lambda(\alpha) = \lim_{n \to \infty} (\E \|A_n \cdots A_1\|^\alpha)^{1/n}
-  \]
+    \[
+    \lambda(\alpha) = \lim_{n \to \infty} (\E \|A_n \cdots A_1\|^\alpha)^{1/n}
+    \]
 \end{frame}
 
 \begin{frame}
@@ -1212,171 +1170,47 @@ University of Copenhagen \\ % Your institution for the title page
   \end{minipage}
 \end{frame}
 
-% % \begin{frame}
-% %   \begin{scriptsize}
-% %     \frametitle{Estimation of $\Lambda(\alpha)$ and its root (tail index)}
-% %     \begin{itemize}
-% %     \item Estimate $\log[\lambda (\alpha)]$ according to
-% %       \begin{equation}
-% %         %% \label{eq:Lambda}
-% %         \log[\lambda(\alpha)] = \lim_{n \to \infty}{1 \over n} \log \left(
-% %         \E |\Pi_{n, 1} X_0|^\alpha
-% %         \right)
-% %       \end{equation}
-% %       and then solve $\log[\lambda(\alpha)] = 0$ for $\alpha$.
-% %     \item Vanneste \cite{vanneste:2010} proposed a resampling algorithm:
-% %       \begin{itemize}
-% %       \item divide the estimation of $\log[\lambda(\alpha)]$ into $n$
-% %         steps and we simulate $K$ realizations of $A_n, \dots, A_1$
-% %         and $X_0, X_1, \dots, X_n$.
-% %       \item The estimator is then
-% %         \begin{equation}
-% %           %% \label{eq:AnandsEstimator}
-% %           \mathscr E_\alpha =
-% %                    {1 \over n}
-% %                    \sum_{i=1}^n \log \left(
-% %                        {1 \over K}\sum_{l=1}^K |A_i^l X^{w_{l, i-1}}_{i-1}|^\alpha
-% %                        \right)
-% %         \end{equation}
-% %         where
-% %         \begin{enumerate}
-% %           \item $A_i^l, X_I^l$: the $l$-th realization of $A_i$ and
-% %             $X_i$
-% %           \item $\{w_{l, i-1}\}$, $1 \leq i \leq n$, $1 \leq l \leq K$
-% %             have conditional distribution
-% %             \begin{eqnarray*}
-% %               \P(w_{l, i-1} = j | w_{1, i-2}, \dots, w_{K, i-2})
-% %               &=& {a^j_{i-1} \over b_{i-1}} \\
-% %               a_{i-1}^j = |A_{i-1}^j X_{i-2}^{w_{j, i-2}}|^\alpha,
-% %               &\quad&
-% %               b_{i-1} = \sum_{l=1}^K a_{i-1}^l
-% %             \end{eqnarray*}
-% %         \end{enumerate}
-% %       \end{itemize}
-% %     \end{itemize}
-% %   \end{scriptsize}
-% % \end{frame}
-
-% % \begin{frame}
-% %   \frametitle{Vanneste's algorithm}
-% %   \begin{figure}[htb!]
-% %     \centering
-% %     \includegraphics[width=0.8\linewidth, trim=2cm 16.5cm 2.5cm 2cm, clip]{AnandsEstimator.pdf}
-% %     \caption{A possible realization of the re-sampling procedure. $n =
-% %       3$, $K = 4$. A number in a parenthesis indicates the probability
-% %       of the unit vector above it being chosen to the next step.}
-% %     \label{fig:AnandsEstimator}
-% %   \end{figure}
-% % \end{frame}
-
-% % \begin{frame}
-% %   \frametitle{Evaluation of the right eigenfunction $r_\alpha$}
-% %   We don't have an algorithm applicable in all dimensions. For $d = 2$,
-% %   e.g. a GARCH($2, 1$) process. we have devised an algorithm:
-% %   \begin{itemize}
-% %   \item take $|\cdot|$ as the Euclidean norm.
-% %   \item Estimate $r_\theta$ according to
-% %     \begin{eqnarray}
-% %       \label{eq:trhj}
-% %       \E \left[
-% %         |A x|^\theta r_\theta(A \cdotp x)
-% %       \right]
-% %       &=&
-% %       \lambda(\theta) r_\theta(x)
-% %     \end{eqnarray}
-% %   \end{itemize}
-% % \end{frame}
-
-% % \begin{frame}
-% %   \begin{itemize}
-% %     \item let $\vec X_t = (\cos w, \sin w)'$,
-% %     $\vec X_{t+1} = (\cos\varphi, \sin\varphi)'$,
-% %     $w, \varphi \in [0, \pi/2)$, then
-% %     \begin{eqnarray*}
-% %       Z_t^2 &=&
-% %       {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
-% %         \over
-% %         \cos w (1- \alpha_1 \tan\varphi)
-% %       }
-% %     \end{eqnarray*}
-% %   \item Define
-% %     \[
-% %     h_\theta(w): w \in [0, \arctan{1 \over \alpha_1}) \to (\underline r_\theta, \bar r_\theta)
-% %     \ni r_\theta((\cos w, \sin w)^\top)
-% %     \]
-% %   \item Then \eqref{eq:trhj} can be rewritten as
-% %     \begin{tiny}
-% %       \begin{eqnarray}
-% %         \lambda(\theta) h_\theta(w)
-% %         &=&
-% %         \int_\Omega (\alpha_2^2 + \beta_1^2)^{\theta/2} {
-% %           \sin^\theta\left(
-% %             w + \arctan{\beta_1 \over \alpha_2}
-% %           \right)
-% %           \over
-% %           \cos^\theta\varphi (1 - \alpha_1 \tan\varphi)^\theta
-% %         }
-% %         f_{\chi^2}\left[
-% %           {\tan\varphi (\alpha_2 \sin w + \beta_1 \cos w)
-% %             \over
-% %             \cos w (1- \alpha_1 \tan\varphi)
-% %           } \right] \times \nonumber\\
-% %         &&
-% %         h_\theta(\varphi)
-% %         {
-% %           (\alpha_2 \sin w + \beta_1 \cos w) \sec^2\varphi
-% %           \over
-% %           \cos w (1 - \alpha_1 \tan\varphi)^2
-% %         }
-% %         d\varphi \nonumber \\
-% %         &=&
-% %         \int_\Omega H_\theta(w, \varphi) h_\theta(\varphi) d\varphi
-% %       \end{eqnarray}
-% %     \end{tiny}
-% %     where $f_{\chi^2}$ is the density function of the $\chi^2$ distribution.
-% %   \end{itemize}
-% % \end{frame}
-
-% % \begin{frame}
-% %   \begin{itemize}
-% %   \item Approximate the integral with a finite sum
-% %     \[
-% %     \lambda(\theta) h_\theta(i \Delta_n)
-% %     \approx
-% %     \Delta_n \sum_{j=0}^{n-1} H_\theta(i \Delta_n, j \Delta_n) h_\theta(j \Delta_n)
-% %     \]
-% %     where $\Delta_n = {\arctan(1/\alpha_1) \over n}$.
-% %   \item $\lambda(\theta)$ can be found as the spectral radius of 
-% %     matrix $\{\Delta_n H_\theta(i \Delta_n, j \Delta_n)\}_{i,j}$
-% %   \item $\{h_\theta(i \Delta_n)\}_ {i=0,1,2,\dots, n-1}$ can be found as
-% %     the associated eigenvector.
-% %   \end{itemize}
-% % \end{frame}
 \begin{frame}
   \frametitle{Summary}
-  \begin{enumerate}
-  \item Importance sampling estimator $\mathcal E_u$
-    \[
-    \P(|V| > u)
-    =
-    \pi(\mathcal C) \E_\gamma^{\tilde \nu} \left[
-      \underbrace{
-        N_u e^{-\alpha S_{T_u}} {r_\alpha(\vec X_0) \over r_\alpha(\vec X_{T_u})} \1{T_u < K}
-        }_{\mathcal E_u}
-    \right]
-    \]
-  \item The estimator is efficient, i.e. it has bounded relative error:
-    \[
-    \limsup_{u \to \infty} {
-      \var(\mathcal E_u)
-      \over
-      \P(|V| > u)^2
-    } < \infty
-    \]
-  \end{enumerate}
+  \begin{minipage}[t]{0.4\linewidth}
+    \begin{figure}
+      \centering
+      \includegraphics[width=1.0\linewidth]{pic1.png}
+      \caption{\footnotesize Dual shift of Transition kernel}
+    \end{figure}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.6\linewidth}
+    \begin{scriptsize}
+      \begin{enumerate}
+      \item Importance sampling estimator $\mathcal E_u$
+        \[
+        \P(|V| > u)
+        =
+        \pi(\mathcal C) \E_\gamma^{\mathcal D} \left[
+          \underbrace{
+            N_u e^{-\alpha S_{T_u}} {r_\alpha(\vec X_0) \over r_\alpha(\vec X_{T_u})} \1{T_u < K}
+          }_{\mathcal E_u}
+        \right]
+        \]
+      \item The estimator is consistent and efficient, i.e. it has bounded relative error:
+        \[
+        \sup_{u > 0} {
+          \var(\mathcal E_u)
+          \over
+          \P(|V| > u)^2
+        } < \infty
+        \]
+      \end{enumerate}
+    \end{scriptsize}
+  \end{minipage}
 \end{frame}
 
 \section{Eig. Val. of SV Smpl Cov. Mat.}
+\begin{frame}
+  Limit theory for the singular values of the sample auto-covariance
+  matrix function of multivariate time series
+\end{frame}
+
 \begin{frame}
   \frametitle{Motivation}
   We want to understand the eigenvalues of a sample covariance matrix
@@ -1553,45 +1387,131 @@ University of Copenhagen \\ % Your institution for the title page
 
 \begin{frame}
   \frametitle{Simulation Results}
-\begin{figure}[htb]
-  \centering
-  \begin{minipage}{0.48\linewidth}
-    \includegraphics[width=1.0\linewidth]{
-      HeavyTailed_eigenvalues.pdf
-    }
-  \end{minipage}
-  \begin{minipage}{0.48\linewidth}
-    \includegraphics[width=1.0\linewidth]{
-      HeavyTailed_eigenvector1.pdf
-    }
-  \end{minipage}
-  \caption{Based on a stochastic volatility model with heavy-tailed
-    innovation sequence.}
-  \label{eigen:model1}
-\end{figure}
+  {\bf\scriptsize Eigenvalues (left) \& 1st eigenvector (right) of the sample covariance matrix}
+%%  \begin{minipage}[t]{0.7\linewidth}
+  \begin{figure}[htb]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+      \includegraphics[width=1.0\linewidth]{HeavyTailed_eigenvalues.pdf}
+    \end{minipage}\hfill
+    \begin{minipage}{0.35\linewidth}
+      \includegraphics[width=1.0\linewidth]{HeavyTailed_eigenvector1.pdf}      
+    \end{minipage}\hfill
+    \begin{minipage}{0.25\linewidth}
+      {\small Heavy-tailed innovation sequence}      
+    \end{minipage}
+    \begin{minipage}{0.35\linewidth}
+      \includegraphics[width=1.0\linewidth]{LightTailedCase2_eigenvalues.pdf}
+    \end{minipage}\hfill
+    \begin{minipage}{0.35\linewidth}
+      \includegraphics[width=1.0\linewidth]{LightTailedCase2_eigenvector1.pdf}
+    \end{minipage}\hfill
+    \begin{minipage}{0.25\linewidth}
+        {\small Heavy-tailed volatility sequence with $\psi^{i,j} = 2$, for some $i, j$.}
+    \end{minipage}
+  \end{figure}
+\end{frame}
 
-\begin{figure}[htb]
-  \centering
-  \begin{minipage}{0.48\linewidth}
-    \includegraphics[width=6.5cm]{LightTailedCase2_eigenvalues.pdf}
-  \end{minipage}
-  \begin{minipage}{0.48\linewidth}
-    \includegraphics[width=6.5cm]{LightTailedCase2_eigenvector1.pdf}
-  \end{minipage}
-  \caption{Based on a stochastic volatility model with heavy-tailed
-    volatility sequence that satisfies assumptions of Example
-    \ref{exam:2}}
-  \label{eigen:model3}
-\end{figure}
+\begin{frame}
+  \frametitle{Summary}
+  \begin{enumerate}
+  \item Diagonal elements of the sample covariance matrix converges to $\alpha/2$-stable
+    random variables.
+  \item If volatility dominates the tail and a few technical conditions are satisfied, including
+    the existance of $i \neq j \in \integers$ such that $\psi^{i,j} = 2$, then
+    \[
+    b_n^{-1} X^{n}_{i,t} X^{n}_{j,t} \overset{d}{\to} \xi_{i,j, \alpha/2}
+    \]
+    where $\{b_n\}_{n=1,2,\dots}$ satisfies
+    $\lim_{n \to \infty} n \P(|X_{i,0} X_{j,0}| > b_n) = 1$.
+    That is, the normalized non-diagonal elements do not vanish.
+  \end{enumerate}
+\end{frame}
+
+\section{Eig. Val. of Smpl Cov. Mat. of Lnr. Mdl.}
+\begin{frame}
+  Extreme value analysis for the sample auto-covariance matrices of
+  heavy-tailed multivariate time series
+\end{frame}
+
+\begin{frame}
+  \frametitle{Motivation \& Approach}
+  We want to understand the eigenvalues \& eigenvectors of the sample
+  covariance matrix of the linear model
+  \[
+  X_{i,t} = \sum_{k=1}^\infty \sum_{l=1}^\infty h_{k ,l} Z_{i-k, t-l},
+  \quad
+  X_{i,t}^{(s)} = \sum_{k=1}^\infty \sum_{l=1}^\infty h_{k ,l} Z_{i-k, t+s-l}
+  \]
+  Define
+  \begin{eqnarray*}
+    \mtx H(s) &=& \{h_{k,l+s}\}_{k,l \in \integers} \\
+    \mtx M(s) &=& \mtx H(0) \mtx H(s) \\
+    \mtx X_n &=& \{X_{i,t}\}_{i=1\dots,p; t=1,\dots,n}
+  \end{eqnarray*}
+  Let $v_1(s) > v_2(s) > \cdots$ denote the
+  singular values of $\mtx M(s)$.
+  Assume
+  \[
+  \lim_{n \to \infty} {p(n) \over n^\beta \ell(n)} = 1
+  \]
+  where $\ell(n)$ is some slowly-varying function and $\ell(n) \to \infty$
+  if $\beta = 0$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Main Results}
+  Assume
+  \begin{scriptsize}
+    \begin{enumerate}
+    \item Regular variation of $Z$:
+      \begin{equation*}
+        \P(Z>x)\sim p_+ \dfrac{L(x)}{x^{\alpha}}\quad\mbox{and}\quad  \P(Z\le -x)\sim p_-
+        \dfrac{L(x)}{x^{\alpha}}\,,\qquad x \to \infty,
+      \end{equation*}
+      for some tail index $\alpha \in (0, 4)$, constants $p_+,p_-\ge 0$ with
+      $p_++p_-=1$ and a slowly varying function $L$.
+    \item Either $\alpha \in (0,2]$, $\E[Z^2]=\infty$ and $\beta \ge 0$,
+      or $\alpha \in [2,4)$, $\E[Z^2]<\infty$ and
+      $\lim_{n \to \infty} {p(n) \over n^\beta \ell(n)} = 1$.
+    \item $\E[Z]=0$ whenever $\E |Z| <\infty$.
+    \item Summability of $\{h_{k,l}\}$
+      \begin{equation*}
+        \sum_{l \in \integers} \sum_{k\in \integers} |h_{kl}|^{\delta} <\infty
+      \end{equation*}
+      for some $\delta\in (0,\min({\alpha/2},1))$
+    \end{enumerate}
+  \end{scriptsize}
+\end{frame}
+
+\begin{frame}
+  \begin{small}
+    \begin{theorem}
+      Define
+      \begin{equation*}
+        N_n^{\lambda,s}=\sum_{i=1}^p \varepsilon_{a_{np}^{-2}(\lambda_{(i)}(0),\ldots,\lambda_{(i)}(s))} \,.
+      \end{equation*}
+      $N_n^{\lambda,s}$ converge weakly in the space of point measures
+      with state space $(0,\infty)^{s+1}$ equipped with the vague topology.
+      \begin{equation*}
+        N_n^{\lambda,s} \overset{d}{\to} N= \sum_{i=1}^\infty
+        \sum_{j=1}^{\infty} \varepsilon_{\Gamma_i^{-2/\alpha}
+          (v_j(0),\ldots,v_j(s))}, \qquad n \to \infty.
+      \end{equation*}
+      where $\Gamma_i = \sum_{k=1}^i E_k, E_k \sim
+      \text{Exp}(1)$. $\{E_i\}_{i=1,2,\dots}$ is an iid sequence. 
+    \end{theorem}
+  \end{small}
 \end{frame}
 
 
-\section{Eig. Val. of Smpl Cov. Mat. of Lnr. Mdl.}
-
 \begin{frame}
-   \frametitle{Thank you!}
-   Questions?
+  \frametitle{ }
+  \begin{centering}
+    \Large The End. Thank you for your attention!
+  \end{centering}
  \end{frame}
+
 \bibliographystyle{unsrt}
 \bibliography{../../thesis/econophysics}
 \end{document} 
