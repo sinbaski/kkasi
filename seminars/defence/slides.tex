@@ -1549,7 +1549,40 @@ University of Copenhagen \\ % Your institution for the title page
   {\bf The non-diagonal elements} of the sample covariance
     matrix (normalized by $a_n^{-2}$) may be {\bf non-zero}, as
     $n \to \infty$ -- when $\psi^{i,j} = 2$ for some $i \neq j$.
-  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Simulation Results}
+\begin{figure}[htb]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \includegraphics[width=1.0\linewidth]{
+      HeavyTailed_eigenvalues.pdf
+    }
+  \end{minipage}
+  \begin{minipage}{0.48\linewidth}
+    \includegraphics[width=1.0\linewidth]{
+      HeavyTailed_eigenvector1.pdf
+    }
+  \end{minipage}
+  \caption{Based on a stochastic volatility model with heavy-tailed
+    innovation sequence.}
+  \label{eigen:model1}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \includegraphics[width=6.5cm]{LightTailedCase2_eigenvalues.pdf}
+  \end{minipage}
+  \begin{minipage}{0.48\linewidth}
+    \includegraphics[width=6.5cm]{LightTailedCase2_eigenvector1.pdf}
+  \end{minipage}
+  \caption{Based on a stochastic volatility model with heavy-tailed
+    volatility sequence that satisfies assumptions of Example
+    \ref{exam:2}}
+  \label{eigen:model3}
+\end{figure}
 \end{frame}
 
 
