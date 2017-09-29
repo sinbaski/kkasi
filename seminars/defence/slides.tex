@@ -774,7 +774,7 @@ University of Copenhagen \\ % Your institution for the title page
       where $\nu$ denotes the original prob. measure while $\tilde \nu$
       denotes the shifted prob. measure. $\td{\nu}{\tilde \nu}$ is the
       Radon-Nikodym derivative.
-    \item The optimal choice of $\tilde \nu$:
+    \item A desirable choice of $\tilde \nu$:
       Choose the $\tilde \nu$ such that the {\em relative error}
       is bounded. Let $\P(X > u) \to 0,\; u \to \infty$. Choose
       $\tilde \nu$ such that
@@ -832,16 +832,17 @@ University of Copenhagen \\ % Your institution for the title page
    where
    \begin{footnotesize}
      \begin{itemize}
-     \item $K$ is the first time $\{\sigma_t^2\}$ returns to $\mathcal C = [\sigma_0^2, M]$.
-     \item $\sigma_0^2 \in \mathcal C$ and $\sigma_0^2 \sim \gamma$,
+     \item $K$ is the first time $\{\sigma_t^2\}$ returns to
+       $\mathcal C = [0, M]$.
+     \item $\sigma_0^2 \sim \gamma$,
        $\gamma(E) = \pi(E) / \pi(\mathcal C)$, for all
        $E \subseteq \mathcal C$.
      \item
        \[
        N_u = \sum_{i=0}^{K - 1} \1{\sigma^2_i > u}
        \]
-     \item $\E_\gamma$: Start the process with $\sigma_0^2 \sim
-       \gamma$. Take the expectation w.r.t. $\pi$ (cf.  Collamore and
+     \item $\E_\gamma$: Start the process with
+       $\sigma_0^2 \sim \gamma$. (cf.  Collamore and
        Vidyashankar \cite{Collamore20133378}).
      \end{itemize}
    \end{footnotesize}
@@ -895,10 +896,12 @@ University of Copenhagen \\ % Your institution for the title page
      $\E_\gamma (N_u)$, then $\pi(\mathcal C) \mathcal E_u$ is an unbiased estimator
      for $\P(\sigma_t^2 > u)$.
    \item $\pi(\mathcal C)$ also needs to be estimated, but this can be done with the original measure.
-   \item $\{A_t\}$ is an iid. sequence, so we have
+   \item Our importance sampling estimator $\mathcal E_u$
      \[
      \E_\gamma(N_u) = \E_\gamma^{\mathcal D} \left[
-       e^{-\alpha S_{T_u}} N_u \1{T_u < K}
+       \underbrace{
+         e^{-\alpha S_{T_u}} N_u \1{T_u < K}
+       }_{\mathcal E_u}
      \right]
      \]
   \end{itemize}
@@ -959,7 +962,8 @@ University of Copenhagen \\ % Your institution for the title page
       \item draw $\sigma_0^2$ according to $\gamma$
       \item Draw $A_t$ from the shifted distribution $\tilde \nu$ for $t < T_u$, and from
         the original distribution for $t \geq T_u$.
-      \item Terminate the simulation when $\sigma_t^2 \in \mathcal C = [\sigma_\m^2, M]$.
+      \item Terminate the simulation when
+        $\sigma_t^2 \in \mathcal C = [0, M]$.
       \end{enumerate}
     \end{small}
   \end{minipage}
@@ -1032,9 +1036,10 @@ University of Copenhagen \\ % Your institution for the title page
     \]
     By Kesten's theorem \cite{kesten:1973}:
     \[
-    \lim_{u \to \infty} u^{\alpha} P(\inn{x, V_t} > u) = C_\alpha \quad x \in \mathbb S^{d-1}
+    \lim_{u \to \infty} u^{\alpha} P(\inn{x, V_t} > u)
+    = C \quad x \in \mathbb S^{d-1}
     \]
-    where $d = p + q -1$
+    where $d = p + q -1$ and $C$ is a constant dependent on $\alpha$.
   \end{small}
 \end{frame}
 
@@ -1047,7 +1052,7 @@ University of Copenhagen \\ % Your institution for the title page
     \]
     Differences from GARCH(1,1):
     \begin{itemize}
-    \item Instead of $\mathcal C = (0, M]$, define
+    \item Instead of $\mathcal C = [0, M]$, define
       \[
       \mathcal C = \{\vec v \in \mathbb R_+^{p+q-1}, |\vec v| \leq M\}
       \]
@@ -1100,7 +1105,7 @@ University of Copenhagen \\ % Your institution for the title page
     positive unit sphere.
     \[
     T_\alpha f(\vec x) = \int |A \vec x|^\alpha
-    f\left({A \vec x \over |A \vec x|}\right) \mu(dA)
+    f\left({A \vec x \over |A \vec x|}\right) \P(A_t \in dA)
     \]
   \item Define right eigenfunction $r_\alpha \in \mathscr C_b(\mathbb
     S^{d-1}_+)$, and eigenvalue $\lambda(\alpha)$ by
@@ -1143,7 +1148,7 @@ University of Copenhagen \\ % Your institution for the title page
       \begin{itemize}
       \item 1D:
         \begin{eqnarray*}
-          A &=& \alpha Z^2 + \beta \\
+          A &=& \alpha_1 Z^2 + \beta_1 \\
           Z &\sim& N(0,1) \\
           \lambda(\alpha) &=& \E A^\alpha          
         \end{eqnarray*}
@@ -1207,8 +1212,8 @@ University of Copenhagen \\ % Your institution for the title page
 
 \section{Eig. Val. of SV Smpl Cov. Mat.}
 \begin{frame}
-  Limit theory for the singular values of the sample auto-covariance
-  matrix function of multivariate time series
+  The eigenvalues of the sample covariance matrix of a multivariate heavy-tailed 
+  stochastic volatility model  
 \end{frame}
 
 \begin{frame}
@@ -1328,9 +1333,10 @@ University of Copenhagen \\ % Your institution for the title page
 
 \begin{frame}
   \frametitle{Main Results: When $Z$ Dominates the Tail}
-  For $S_{i,j}, i \neq j$, the non-diagonal elements of the sample covariance matrix,
+  For non-diagonal elements of the sample covariance matrix, i.e.
+  $S_{i,j} = \sum_{t=1}^n X_{i,t} X_{j,t}, i \neq j$, we have
   \[
-  a_n^{-2} \sum_{t=1}^n X_{i,t} X_{j,t} \overset{P}{\to} 0
+  a_n^{-2} S_{i,j} \overset{P}{\to} 0
   \quad
   \text{for } i \neq j.
   \]
@@ -1381,8 +1387,8 @@ University of Copenhagen \\ % Your institution for the title page
     reg. var. with index $\alpha/\psi^{\vec i, \vec j}$.
   \end{itemize}
   {\bf The non-diagonal elements} of the sample covariance
-    matrix (normalized by $a_n^{-2}$) may be {\bf non-zero}, as
-    $n \to \infty$ -- when $\psi^{i,j} = 2$ for some $i \neq j$.
+    matrix (normalized by $a_n^{-2}$) may be {\bf non-zero} as
+    $n \to \infty$, when $\psi^{i,j} = 2$ for some $i \neq j$.
 \end{frame}
 
 \begin{frame}
@@ -1449,8 +1455,6 @@ University of Copenhagen \\ % Your institution for the title page
     \mtx M(s) &=& \mtx H(0) \mtx H(s) \\
     \mtx X_n &=& \{X_{i,t}\}_{i=1\dots,p; t=1,\dots,n}
   \end{eqnarray*}
-  Let $v_1(s) > v_2(s) > \cdots$ denote the
-  singular values of $\mtx M(s)$.
   Assume
   \[
   \lim_{n \to \infty} {p(n) \over n^\beta \ell(n)} = 1
@@ -1460,7 +1464,96 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \frametitle{Main Results}
+  \frametitle{Main results: approximation of the eigenvalues}
+  \begin{footnotesize}
+  For $s\ge 0$:
+  \begin{enumerate}
+  \item We consider two disjoint cases:
+    $\alpha \in (0,2)$ and $\beta\in (0,\infty)$, or
+    $\alpha\in [2,4)$ and $\beta$ satisfying
+    $\lim_{n \to \infty} {p(n) \over n^\beta \ell(n)} = 1$. Then
+    \begin{equation*}
+      a_{np}^{-2} \max_{i=1,\ldots,p}
+      |\lambda_{(i)}(s)-\delta_{(i)}(s)|
+      \overset{P}{\to} 0,
+      \quad
+      n \to \infty.
+    \end{equation*}
+  \item
+    Assume $\beta\in [0,1]$.
+    If $\alpha \in (0,2]$, $\E[Z^2]=\infty$ or $\alpha\in [2,4)$, $\E [Z^2]<\infty$ and $\beta\in (\alpha/2-1,1]$ then
+    \begin{equation*}
+    a_{np}^{-2} \max_{i=1,\ldots,p} |\lambda_{(i)}(s)-\gamma_{(i)}^\rightarrow(s)| \overset{P}{\to} 0, \quad n \to \infty.
+    \end{equation*}
+    Assume $\beta>1$. If $\alpha \in (0,2]$, $\E[Z^2]=\infty$ or $\alpha\in [2,4)$, $\E [Z^2]<\infty$ and $\beta^{-1}\in(\alpha/2-1,1]$. Then
+      \begin{equation*}
+      a_{np}^{-2} \max_{i=1,\ldots,p} |\lambda_{(i)}(s)-\gamma_{(i)}^\downarrow(s)| \overset{P}{\to} 0, \quad n \to \infty.
+      \end{equation*}
+  \end{enumerate}
+  \end{footnotesize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Main results: approximation of the eigenvalues}
+  \begin{footnotesize}
+    Notations:
+    \begin{itemize}
+    \item $\delta_{(i)}(s)$: $i$-th upper order statistic of
+      \[
+      \big\{Z_{(i),np}^2 v_j(s)\,, i=1,\ldots,p\,;j=1,2,\ldots\big\}
+      \]
+    \item $\gamma_{(i)}^\rightarrow(s)$: $i$-th upper order statistic
+      of
+      \[
+      \big\{D_{i}^\rightarrow v_j(s), i=1,\ldots,p\,;j=1,2,\ldots\big\}
+      \]
+    \item $\gamma_{(1)}^\downarrow(s)$: $i$-th upper order statistic
+      of
+      \[
+      \big\{D_{t}^\downarrow v_j(s), t=1,\ldots,n\,;j=1,2,\ldots\big\}
+      \]
+    \end{itemize}
+    where
+    \begin{itemize}
+    \item $v_1(s) > v_2(s) > \cdots$ are singular values
+      of $\mtx M(s)$.
+    \item
+      \begin{equation*}
+        D_i^\rightarrow=D_i^{(n),\rightarrow}=\sum_{t=1}^n Z_{it}^2\,, \qquad
+        i=1,\ldots,p;\quad  n=1,2,\ldots\,,
+      \end{equation*}
+      \begin{equation*}
+        D_t^\downarrow=D_t^{(n),\downarrow}= \sum_{i=1}^p
+        Z_{it}^2\,,\qquad
+        t=1,\ldots,n;\; \quad p=1,2,\ldots\,,
+      \end{equation*}
+    \end{itemize}
+  \end{footnotesize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Main results: point process convergence}
+  \begin{small}
+    \begin{theorem}
+      Define
+      \begin{equation*}
+        N_n^{\lambda,s}=\sum_{i=1}^p \varepsilon_{a_{np}^{-2}(\lambda_{(i)}(0),\ldots,\lambda_{(i)}(s))} \,.
+      \end{equation*}
+      $N_n^{\lambda,s}$ converge weakly in the space of point measures
+      with state space $(0,\infty)^{s+1}$ equipped with the vague topology.
+      \begin{equation*}
+        N_n^{\lambda,s} \overset{d}{\to} N= \sum_{i=1}^\infty
+        \sum_{j=1}^{\infty} \varepsilon_{\Gamma_i^{-2/\alpha}
+          (v_j(0),\ldots,v_j(s))}, \qquad n \to \infty.
+      \end{equation*}
+      where $\Gamma_i = \sum_{k=1}^i E_k, E_k \sim
+      \text{Exp}(1)$. $\{E_i\}_{i=1,2,\dots}$ is an iid sequence. 
+    \end{theorem}
+  \end{small}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Main Results: Assumptions}
   Assume
   \begin{scriptsize}
     \begin{enumerate}
@@ -1485,30 +1578,9 @@ University of Copenhagen \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-  \begin{small}
-    \begin{theorem}
-      Define
-      \begin{equation*}
-        N_n^{\lambda,s}=\sum_{i=1}^p \varepsilon_{a_{np}^{-2}(\lambda_{(i)}(0),\ldots,\lambda_{(i)}(s))} \,.
-      \end{equation*}
-      $N_n^{\lambda,s}$ converge weakly in the space of point measures
-      with state space $(0,\infty)^{s+1}$ equipped with the vague topology.
-      \begin{equation*}
-        N_n^{\lambda,s} \overset{d}{\to} N= \sum_{i=1}^\infty
-        \sum_{j=1}^{\infty} \varepsilon_{\Gamma_i^{-2/\alpha}
-          (v_j(0),\ldots,v_j(s))}, \qquad n \to \infty.
-      \end{equation*}
-      where $\Gamma_i = \sum_{k=1}^i E_k, E_k \sim
-      \text{Exp}(1)$. $\{E_i\}_{i=1,2,\dots}$ is an iid sequence. 
-    \end{theorem}
-  \end{small}
-\end{frame}
-
-
-\begin{frame}
   \frametitle{ }
   \begin{centering}
-    \Large The End. Thank you for your attention!
+    \Large Thank you for your attention!
   \end{centering}
  \end{frame}
 
