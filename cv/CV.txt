@@ -1,0 +1,129 @@
+Name: Xiaolei Xie
+Citizenship: UK, Sweden
+Mobile: 073801911666
+email: xie.xiaolei@gmail.com
+
+Work Experience
+
+(1) 08/2021 - present: senior quantitative modeller at London Stock
+Exchange Group (LSEG). My day-to-day responsibilities are research and
+development of the company's Yield Book product. The product offers
+the fair price as well as other analytical data of financial contracts
+including fixed-income, FX and mortgage, and my focus is on
+fixed-income and FX. The R&D projects to which I have made major
+contributions include the following:
+
+* convertible bonds: for pricing of which I implemented the Heston
+  volatility model for the underlying equities using C++ in the Linux
+  OS. The implementation uses the GNU Scientific Library (GSL) for
+  multi-dimensional minimisation, numerical integration and general
+  algebra. The implementation uses OpenMP to support
+  multi-threading. The implementation produces a stand-alone program
+  that estimates the parameters of the Heston model by matching
+  theoretical prices of European options according to the model with
+  their counterparts quoted on the market. The estimated model
+  parameters are used as input to calculate the fair price of
+  the convertible bonds.
+
+  The volatility surfaces produced by the implemented model match their
+  market-quoted counterparts considerably better than do the SSVI model
+  that was used in the production system at the time. This is especially
+  true for at-the-money volatility slices.
+
+  The model has been implemented to a good level of efficiency - the
+  calibration of a Heston model typically takes 2 to 5 seconds when run
+  on a 4-core, 2.4GHz server.
+
+* Volatility surface inference: For equities that do not have liquid
+  option trading, I developed a Python program to infer their volatility
+  surfaces using Principal Component Analysis. It is assumed that the
+  equities' relative returns have a constant correlation matrix and that
+  the weights of the principal components remain constant too. Then
+  the volatility surface of an equity, for which a Heston model can
+  not be fitted, can be constructed point by point using the Heston
+  volatility surfaces of other correlated equities. Python packages
+  including numpy, scipy and sqlite were used for the implementation.
+
+* Re-factorisation and parallelisation of legacy C code: This is a
+  project to make the company's ETF pricing capabilities usable to
+  customers who need analytics on a click-and-see basis. Some
+  fixed-income and mortgage ETFs e.g. AGG have 10000+ components and
+  take an unacceptably long time to be processed when the legacy C code
+  is used. I undertook the task to parallelise the code by spawning
+  multiple instances of the pricing server and eventually collecting the
+  results in one instance. The main difficulty is re-factorising or
+  replacing the data structures in the legacy code to make them suitable
+  for serialisation. I also took this project as an opportunity to
+  modernise the code and make it more readable and more maintainable. I
+  used C++ for the project and the cereal library for serialisation.
+
+Apart from working on the major development projects, I also
+
+* mentor new joiners of the team;
+
+* answer customer enquiries such as why the price/OAS of a particular
+  bond on a particular day is what it is;
+
+* fix bugs or enhance the code of the pricing server following
+  internal model validation or customer enquiries.
+
+(2) 10/2018 - 08/2021: quantitative analyst at Lloyds Bank. Being part
+of the model validation team, I had undertaken the following
+R&D projects:
+
+* Forecast of the UK Retail Sales Index (RSI): The index is published
+  by the Office for National Statistics (ONS) every month. I led a
+  team of 3 and, by collaborating with the economists of the bank, built
+  a time series model (linear regression + ARMA) of the index. The model
+  makes 1-month-ahead forecast of each component of the index based on
+  the weather data compiled by the UK meteorology office. The model
+  was coded in Python using numpy, scipy, statsmodels and sqlite.
+
+* Enhancement of the stress-testing framework: The project was meant
+  to provide a precise and mathematically well-founded method to
+  the stress-testing work undertaken by the risk department. The aim
+  was to assess the size of the loss that a portfolio of interest rate
+  products can sustain as a result of changes to the yield curve. I
+  proposed modelling the fluctuations of a selected set of points on
+  the yield curve using a constant copula together with
+  scenario-dependent marginal distributions. I programmed the model in
+  Python using numpy, scipy and sqlite.
+
+(3) 10/2017 - 06/2018: quantitative analyst at Atenvia Asset
+Management. My contributions included the following:
+
+* Forecast and analysis of company fundamentals: I built time series
+  models to forecast the revenue and profit of publicly traded
+  companies using the historical values of those quantities found in
+  the companies' financial reports. The models were built in Python
+  using numpy, scipy, statsmodels and MySQL.
+
+* Back-testing of algorithmic trading strategies: I developed C++
+  programs and Python scripts to simulate the data feed and order
+  execution services provided to an algorithmic order generation
+  system. I programmed in C++ to generate sample paths of Merton's
+  jump-diffusion model and the Heston model, and then stored them in a
+  MySQL database as fictitious prices. I used OpenMP to support
+  multi-threading of sample path generation.
+
+  I also developped Python scripts to analyse the evolution of the
+  portfolio maintained by an algorithmic trader. 
+
+(4) 09/2008 - 09/2011: Software Engineer at Ericsson. I was
+responsible for the development of audio device drivers in the Linux
+OS. The devices were part of the mobile phone platform used by
+e.g. Sony-Ericsson phones. I developed the device drivers following
+the devices' hardware specifications. In the course of the
+development, I designed the signalling route and the overall software
+architecture so that the software was optimised in terms of
+noise level, sound quality and electricity consumption, which
+together delivered a very pleasant user experience. I also made the
+efforts to make the code readable and easily maintainable.
+
+
+
+
+
+
+
+
