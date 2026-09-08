@@ -106,20 +106,46 @@ Management. My contributions included the following:
   MySQL database as fictitious prices. I used OpenMP to support
   multi-threading of sample path generation.
 
-  I also developped Python scripts to analyse the evolution of the
-  portfolio maintained by an algorithmic trader. 
+I also developed Python scripts to analyse the evolution of portfolios
+maintained by algorithmic traders.
 
 (4) 09/2008 - 09/2011: Software Engineer at Ericsson. I was
 responsible for the development of audio device drivers in the Linux
 OS. The devices were part of the mobile phone platform used by
-e.g. Sony-Ericsson phones. I developed the device drivers following
+e.g. Sony-Ericsson phones. I developed the device drivers according to
 the devices' hardware specifications. In the course of the
 development, I designed the signalling route and the overall software
 architecture so that the software was optimised in terms of
-noise level, sound quality and electricity consumption, which
-together delivered a very pleasant user experience. I also made the
-efforts to make the code readable and easily maintainable.
+noise level, sound quality and electricity consumption, which together
+delivered considerably improved user experience. While optimising the
+software, I also took care to make the code readable and easily
+maintainable.
 
+Education
+
+(1) 10/2014 - 10/2017: PhD student of Mathematical Statistics at
+Copenhagen University. My publications include:
+* Janssen, A.; Mikosch, T.; Rezapour, M; Xie, X. The eigenvalues of
+  the sample covariance matrix of a multivariate heavy-tailed stochastic
+  volatility model. Bernoulli 24 (2018), no. 2,
+  1351--1393. doi:10.3150/16-BEJ901. https://projecteuclid.org/euclid.bj/1505980898
+
+* Davis, R.A., Heiny, J., Mikosch, T., Xie, X. Extreme value analysis
+  for the sample auto-covariance matrices of heavy-tailed multivariate
+  time series. Extremes (2016) 19:
+  517. https://link.springer.com/article/10.1007/s10687-016-0251-7
+
+During the PhD program, I programmed extensively in Python and C++ for
+the purpose of numerical calculations and Monte Carlo simulations.
+
+(2) 09/2011 - 06/2014: Master of Mathematical Physics, Lund
+University, Sweden. GPA: 4.3/5
+
+(3) 09/2005 - 06/2008: Master of Computer Science, Aalto University,
+Helsinki, Finland. GPA: 4.17/5
+
+(4) 09/2001 - 06/2005: Bachelor of Computer Science, Beijing Institute
+of Technology, Beijing, China. GPA: 85.5/100
 
 
 
