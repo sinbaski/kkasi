@@ -1,0 +1,215 @@
+% Xiaolei Xie - London Finance CV
+% Compile with: pdflatex Xiaolei_Xie_CV_London_Finance.tex
+
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=1.45cm,bottom=1.45cm,left=1.55cm,right=1.55cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true,urlcolor=AccentBlue,linkcolor=AccentBlue]{hyperref}
+
+\definecolor{Navy}{HTML}{17365D}
+\definecolor{AccentBlue}{HTML}{1F4E79}
+\definecolor{Ink}{HTML}{20262D}
+\definecolor{Muted}{HTML}{545B63}
+
+\renewcommand{\familydefault}{\sfdefault}
+\color{Ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\tabcolsep}{0pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyfoot[R]{\footnotesize\color{Muted}Xiaolei Xie\enspace|\enspace\thepage}
+
+\titleformat{\section}
+  {\large\bfseries\color{AccentBlue}}
+  {}{0pt}{\MakeUppercase}
+\titlespacing*{\section}{0pt}{1.05ex plus 0.2ex}{0.55ex}
+
+\setlist[itemize]{
+  leftmargin=1.35em,
+  label=\textcolor{AccentBlue}{\small\textbullet},
+  itemsep=0.38ex,
+  topsep=0.35ex,
+  parsep=0pt,
+  partopsep=0pt
+}
+
+\newcommand{\job}[4]{%
+  \noindent\begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textbf{\color{Navy}#1, #2}\enspace|\enspace\textbf{#3} &
+    \textbf{\color{Muted}#4}
+  \end{tabularx}\vspace{-0.6ex}
+}
+
+\newcommand{\jobnoloc}[3]{%
+  \noindent\begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textbf{\color{Navy}#1}\enspace|\enspace\textbf{#2} &
+    \textbf{\color{Muted}#3}
+  \end{tabularx}\vspace{-0.6ex}
+}
+
+\newcommand{\education}[4]{%
+  \noindent\begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textbf{#1} & \textbf{\color{Muted}#4}\\[-0.25ex]
+    \multicolumn{2}{@{}l@{}}{\textbf{\color{Navy}#2, #3}}
+  \end{tabularx}\par\vspace{0.15ex}
+}
+
+\newcommand{\skillline}[2]{%
+  \textbf{#1:} #2\par\vspace{0.15ex}
+}
+
+\begin{document}
+
+% -----------------------------------------------------------------------------
+% Contact details
+% -----------------------------------------------------------------------------
+{\fontsize{24}{26}\selectfont\bfseries\color{Navy}XIAOLEI XIE}\par
+\vspace{0.25ex}
+{\large\bfseries\color{AccentBlue}SENIOR QUANTITATIVE MODELLER}
+\enspace|\enspace
+{\large\bfseries\color{Muted}FIXED INCOME, FX \& DERIVATIVES}\par
+\vspace{0.45ex}
+{\color{Muted}
+United Kingdom\enspace|\enspace 07380 191 166\enspace|\enspace
+\href{mailto:xie.xiaolei@gmail.com}{xie.xiaolei@gmail.com}\enspace|\enspace
+UK \& Swedish citizenship}
+
+% -----------------------------------------------------------------------------
+% Profile and expertise
+% -----------------------------------------------------------------------------
+\section{Professional Profile}
+
+Senior quantitative modeller with nearly a decade of experience across
+capital-markets analytics, model development and model validation,
+supported by doctoral research in mathematical statistics. Combines
+rigorous stochastic modelling with production-quality C++ and Python
+delivery across fixed income, FX, derivatives and risk. Experienced
+in customer-facing analysis, technical leadership and mentoring.
+
+\section{Quantitative and Technical Expertise}
+
+\skillline{Markets \& products}{Fixed income (including convertible
+bonds, fixed-income ETFs and mortgage products) and FX} \skillline{Analytics}{Pricing,
+yield-curve modelling, option-adjusted spread (OAS) analysis, stress
+testing and time-series forecasting} \skillline{Methods}{Heston
+and SSVI volatility models, PCA, Monte Carlo, ARMA, copulas and jump-diffusion}
+\skillline{Technology}{C++, C, Python, SQL, Linux, GSL, OpenMP,
+NumPy, SciPy, statsmodels, cereal, SQLite and MySQL}
+
+% -----------------------------------------------------------------------------
+% Professional experience
+% -----------------------------------------------------------------------------
+
+
+\section{Professional Experience}
+
+\job{London Stock Exchange Group (LSEG)}{London}{Senior Quantitative
+  Modeller}{Aug 2021 -- Present} 
+\begin{itemize}
+\item \textbf{Yield Book analytics:} Research and develop pricing and analytics
+  for fixed-income, FX and mortgage instruments, with primary responsibility
+  for fixed income and FX.
+\item \textbf{Equity volatility modelling:} Implemented a Heston equity-volatility
+  calibration engine in C++/Linux to supply volatility inputs for convertible-bond
+  pricing. It estimates parameters from market prices of European options
+  using GSL for multidimensional optimisation and numerical integration
+  and OpenMP for parallel execution. The resulting surfaces matched
+  market quotes materially better than the production SSVI model, particularly
+  at the money, while calibrating in 2--5 seconds on a four-core 2.4~GHz
+  server.
+\item \textbf{Illiquid-equity volatility:} Built a Python/PCA framework
+  to infer volatility surfaces for equities without liquid options from
+  correlated equities with calibrated Heston surfaces; used NumPy, SciPy
+  and SQLite.
+\item \textbf{ETF pricing performance:} Refactored and parallelised
+  legacy C pricing code for fixed-income and mortgage ETFs with
+  10,000+ constituents, using multi-process pricing servers, modern
+  C++ and cereal serialisation to support real-time analytics.
+\item \textbf{Delivery and leadership:} Mentor new joiners, answer customer
+  questions about Yield Book analytics, calculation methods and performance,
+  and deliver enhancements and fixes arising from internal model
+  validation and customer feedback.
+\end{itemize}
+\job{Lloyds Bank}{London}{Quantitative Analyst -- Model Validation}{Oct
+  2018 -- Aug 2021} 
+\begin{itemize}
+\item \textbf{Retail sales forecasting:} Led a team of three and worked
+  with bank economists to build one-month-ahead forecasts for UK Retail
+  Sales Index components using linear regression, ARMA models and Met
+  Office weather data; implemented in Python with NumPy, SciPy, statsmodels
+  and SQLite.
+\item \textbf{Interest-rate stress testing:} Designed a mathematically grounded
+  framework to quantify portfolio losses from yield-curve moves, modelling
+  selected curve points with a constant copula and scenario-dependent
+  marginal distributions. 
+\end{itemize}
+
+\newpage{}
+\section{Professional Experience - Continued}
+
+\job{Atenvia Asset Management}{London}{Quantitative Analyst}{Oct
+2017 -- Jun 2018} 
+\begin{itemize}
+\item \textbf{Fundamental forecasting:} Built time-series models in Python
+  to forecast listed-company revenue and profit from historical financial
+  statements, using NumPy, SciPy, statsmodels and MySQL.
+\item \textbf{Strategy back-testing:} Developed C++ and Python tools that
+  simulated data feeds and order execution for algorithmic strategies;
+  generated Merton jump-diffusion and Heston price paths with
+  multi-threading using OpenMP and stored them in MySQL.
+\item \textbf{Portfolio analytics:} Created Python scripts to analyse the
+  evolution and performance of algorithmic-trading portfolios. 
+\end{itemize}
+
+\jobnoloc{Ericsson}{Software Engineer}{Sep 2008 -- Sep 2011} 
+\begin{itemize}
+\item \textbf{Embedded Linux engineering:} Developed audio device drivers
+  and designed signal routing and software architecture for mobile platforms
+  used in Sony Ericsson phones, optimising for noise reduction, sound
+  quality, low power consumption and maintainability.
+\end{itemize}
+
+% -----------------------------------------------------------------------------
+% Education
+% -----------------------------------------------------------------------------
+\section{Education}
+
+\education{Doctoral Research in Mathematical Statistics}{University of Copenhagen}{Denmark}{Oct 2014 -- Oct 2017}
+Research in heavy-tailed stochastic volatility and multivariate time series; extensive
+C++ and Python numerical work and Monte Carlo simulation.\par\vspace{0.55ex}
+
+\education{Master of Mathematical Physics -- GPA 4.3/5}{Lund University}{Sweden}{Sep 2011 -- Jun 2014}
+\education{Master of Computer Science -- GPA 4.17/5}{Aalto University}{Finland}{Sep 2005 -- Jun 2008}
+\education{Bachelor of Computer Science -- GPA 85.5/100}{Beijing Institute of Technology}{China}{Sep 2001 -- Jun 2005}
+
+
+% -----------------------------------------------------------------------------
+% Publications
+% -----------------------------------------------------------------------------
+% -----------------------------------------------------------------------------
+\section{Selected Publications}
+
+\textbf{Janssen, A.; Mikosch, T.; Rezapour, M.; Xie, X.} (2018).
+The eigenvalues of the sample covariance matrix of a multivariate heavy-tailed stochastic
+volatility model. \textit{Bernoulli}, 24(2), 1351--1393.
+\href{https://doi.org/10.3150/16-BEJ901}{doi:10.3150/16-BEJ901}
+\par\vspace{0.45ex}
+
+\textbf{Davis, R.A.; Heiny, J.; Mikosch, T.; Xie, X.} (2016).
+Extreme value analysis for the sample auto-covariance matrices of heavy-tailed
+multivariate time series. \textit{Extremes}, 19, 517.
+\href{https://link.springer.com/article/10.1007/s10687-016-0251-7}{Journal article}
+
+\end{document}
