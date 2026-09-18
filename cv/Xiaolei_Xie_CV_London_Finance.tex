@@ -162,15 +162,25 @@ NumPy, SciPy, statsmodels, cereal, SQLite and MySQL}
 \job{Atenvia Asset Management}{London}{Quantitative Analyst}{Oct
 2017 -- Jun 2018} 
 \begin{itemize}
+\item \textbf{FX Local volatility surface:} Rewrote C++
+  code to construct local volatility surfaces from FX forwards,
+  options, and OIS zero-coupon curves; added code to create smooth,
+  arbitrage-free call-price surfaces before applying Dupire's
+  formula; used GSL for non-linear minimisation, numerical integration
+  and B-splines.
+
 \item \textbf{Fundamental forecasting:} Built time-series models in Python
   to forecast listed-company revenue and profit from historical financial
   statements, using NumPy, SciPy, statsmodels and MySQL.
+  
 \item \textbf{Strategy back-testing:} Developed C++ and Python tools that
   simulated data feeds and order execution for algorithmic strategies;
   generated Merton jump-diffusion and Heston price paths with
   multi-threading using OpenMP and stored them in MySQL.
+  
 \item \textbf{Portfolio analytics:} Created Python scripts to analyse the
-  evolution and performance of algorithmic-trading portfolios. 
+  evolution and performance of algorithmic-trading portfolios.
+
 \end{itemize}
 
 \jobnoloc{Ericsson}{Software Engineer}{Sep 2008 -- Sep 2011} 
